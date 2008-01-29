@@ -1,0 +1,75 @@
+[<a href="Usage.html">Usage</a>] [<b>Settings</b>]
+<hr>
+[<a href="#dermixd">DerMixD</a>]
+[<a href="#partyman">Partyman</a>]
+[<a href="#commandline">Command Line</a>]
+<hr>
+The settings screen is available via the red link on
+the about tab. It will also pop up automatically if
+the m3u file containing the database is either not set
+or not found.
+<hr><br>
+<a name="dermixd"><b>DerMixD Parameters:</b></a>
+<dl>
+ <dt>Start/Stop via Partyman:</dt>
+ <dd>Check this if you want DerMixD to be started
+ during the initiation of the connection.</dd>
+ <dt>Command:</dt>
+ <dd>The command to run DerMixD.</dd>
+ <dt>Parameters:</dt>
+ <dd>The parameters to start DerMixD with<br>
+ (Note: "-c" and "-p port" will be always added.)</dd>
+ <dt>Hostname:</dt>
+ <dd>The name of the host DerMixD runs on.</dd>
+ <dt>Port:</dt>
+ <dd>The port DerMixD listens on.</dd>
+ <dt>Log communications to stdout</dt>
+ <dd>Write the communication of Partyman and DerMixD
+ to stdout (mainly used for debugging purposes).</dd>
+</dl>
+<hr><br>
+<a name="partyman"><b>Partyman Parameters:</b></a>
+<dl>
+ <dt>Connect On Startup</dt>
+ <dd>Check this if you're too lazy to press the
+ "Connect" button.</dd>
+ <dt>Crossfade Time:</dt>
+ <dd>The number of seconds both player should play
+ at the same time.</dd>
+ <dt><a name="slat">Use SLAT UDP Communication:</a></dt>
+ <dd>Partyman is part of
+ "<a href="http://svolli.org/software/slat/">SvOlli's
+ Little Audio Thingies</a>" or
+ "<a href="http://svolli.org/software/slat/">SLAT</a>"
+ (external links) for short, which can use UDP for
+ communicating with each other. It can be also used
+ by Partyman for communicating with itself (see also
+ <a href="#commandline">Command Line Parameters</a>).
+ This switch activates this communication.</dd>
+ <dt>Normalization:</dt>
+ <dd>DerMixD, starting with svn version #399, can
+ analyse the volume of a track, either by peak or
+ by a power algorithm. Using this feature, Partyman
+ can automatically set the volume, so that each track
+ is player at the same volume level.
+ </dd>
+ <dt>External Logger:</dt>
+ <dd>Each action like playing a track, stopping, pausing
+ and skipping can be logged though an external application.
+ Here it can be specified. See the 
+ <a href="http://svolli.org/software/partyman/#external">Partyman
+ webpage</a> (external link) for a more detailed explanation.</dd>
+ <dt>Database File:</dt>
+ <dd>The m3u file used as the database of all known
+ audio tracks.</dd>
+</dl>
+<hr><br>
+<a name="commandline"><b>Command Line Parameters:</b></a>
+<dl><dt>
+If <a href="#slat">SLAT UDP communication</a> is activated,
+all parameters from the command line are added to the playlist,
+if these files exists and an instance of Partyman is already
+running.
+</dt></dl>
+<hr>
+[<a href="Usage.html">Usage</a>] [<b>Settings</b>]

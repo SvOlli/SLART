@@ -1,0 +1,16 @@
+
+- eject locked while ejecting
+- read toc clears entries first
+- select path
+- handle error on saving
+- cancel
+- lock of buttons
+- cdtext
+- implement fix entries button
+  - [] -> ()
+  - " *" -> " "
+  - First Caps
+  - append text
+- eject
+- auto read-toc
+
