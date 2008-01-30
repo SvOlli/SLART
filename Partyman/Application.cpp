@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
       MySettings settings;
       for( int i = 1; i < argc; i++ )
       {
-         settings.sendUdpMessage( QFileInfo( argv[i] ).absoluteFilePath().toLocal8Bit().prepend( "P0Q\n" ).data() );
+         settings.sendUdpMessage( QFileInfo( QString::fromLocal8Bit(argv[i]) ).absoluteFilePath().prepend( "P0Q\n" ) );
       }
       
       return 0;

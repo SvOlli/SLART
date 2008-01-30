@@ -9,6 +9,7 @@
 #define CONTROLWIDGET_HPP CONTROLWIDGET_HPP
 
 #include "PlayerWidget.hpp"
+#include "SLATCom.hpp"
 
 #include <QWidget>
 #include <QIcon>
@@ -38,7 +39,7 @@ public:
    /* add files to playlist (for unloading) */
    void addToPlaylist( const QStringList &entries );
    /* run SLATCommunication & execute external logger */
-   void log( const QByteArray &udpEvent, const QString &logEvent, const QString &data = QString() );
+   void log( const QString &udpEvent, const QString &logEvent, const QString &data = QString() );
 
 public slots:
    /* (re-)read configuration */
@@ -54,7 +55,7 @@ public slots:
    /* handle (un)pausing */
    void handlePause( bool reset = false );
    /* handle remote requests */
-   void handleUdp();
+   void handleSLAT( const QStringList &package );
    /* handle process startup */
    void handleDerMixDstartup();
    /* handle process finish */
@@ -90,7 +91,7 @@ private:
    QMenu          *mpDisconnectMenu;
    QAction        *mpPauseAction;
    QAction        *mpDisconnectAction;
-   QUdpSocket     mUdpSocket;
+   SLATCom        mSLATCom;
    QProcess       mDerMixDprocess;
    QProcess       mLoggerProcess;
    bool           mWaitForDerMixD;

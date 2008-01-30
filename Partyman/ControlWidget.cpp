@@ -28,7 +28,7 @@ ControlWidget::ControlWidget( ConfigDialog *config, QWidget *parent , Qt::Window
 , mpDisconnectMenu( new QMenu( mpConnectButton ) )
 , mpPauseAction( mpDisconnectMenu->addAction( tr("Pause" ) ) )
 , mpDisconnectAction( mpDisconnectMenu->addAction( mStopIcon, tr("Disconnect" ) ) )
-, mUdpSocket()
+, mSLATCom( this )
 , mDerMixDprocess()
 , mLoggerProcess()
 , mWaitForDerMixD( false )
@@ -73,7 +73,7 @@ ControlWidget::ControlWidget( ConfigDialog *config, QWidget *parent , Qt::Window
    connect( mpDisconnectAction, SIGNAL(triggered()), this, SLOT(initDisconnect()) );
    connect( mpSkipButton, SIGNAL(clicked()), this, SLOT(nextTrack()) );
    connect( mpConfig, SIGNAL(configChanged()), this, SLOT(readConfig()) );
-   connect( &mUdpSocket, SIGNAL(readyRead()), this, SLOT(handleUdp()) );
+   connect( &mSLATCom, SIGNAL(packageRead(QStringList)), this, SLOT(handleSLAT(QStringList)) );
 
    connect( &mDerMixDprocess, SIGNAL(readyReadStandardError()),
             this, SLOT(handleDerMixDstartup()) );
@@ -110,21 +110,7 @@ ControlWidget::~ControlWidget()
 void ControlWidget::readConfig()
 {
    MySettings settings;
-   if( mUdpSocket.isValid() )
-   {
-      mUdpSocket.abort();
-   }
-   if( settings.value( "SLATCommunication", false ).toBool() )
-   {
-      int port = settings.value( "UDPListenerPort", 24222 ).toInt();
-      bool success = mUdpSocket.bind( QHostAddress::LocalHost, port );
-      if( !success )
-      {
-         QString message( tr("Could not listen on port ") );
-         message.append( QString::number( port ) );
-         QMessageBox::critical( this, QApplication::applicationName(), message );
-      }
-   }
+   mSLATCom.resetReceiver();
    mpPlayer[0]->readConfig();
    mpPlayer[1]->readConfig();
 }
@@ -341,59 +327,41 @@ void ControlWidget::allowConnect( bool allowed )
 }
 
 
-void ControlWidget::handleUdp()
+void ControlWidget::handleSLAT( const QStringList &src )
 {
-   int i;
-   
-   while (mUdpSocket.hasPendingDatagrams())
+   if( src.at(0) == "P0Q" )
    {
-      QByteArray datagram;
-      datagram.resize( mUdpSocket.pendingDatagramSize() );
-      QHostAddress senderHost;
-      quint16 senderPort;
-      
-      mUdpSocket.readDatagram( datagram.data(), datagram.size(),
-                               &senderHost, &senderPort );
-      
-      QStringList src( QString( datagram ).remove('\r').split("\n",QString::SkipEmptyParts) );
       QStringList dest;
       
-      if( src.at(0) == "P0Q" )
+      /* convert from url to filename if necessary */
+      for( int i = 1; i < src.size(); i++ )
       {
-         /* convert from url to filename if necessary */
-         for( i = 1; i < src.size(); i++ )
+         QFileInfo qfi( src.at(i) );
+         if( qfi.isFile() )
          {
-            QFileInfo qfi( src.at(i) );
-            if( qfi.isFile() )
-            {
-               dest << qfi.absoluteFilePath();
-            }
+            dest << qfi.absoluteFilePath();
          }
-         
-         if( dest.size() > 0 )
-         {
-            emit requestAddToPlaylist( dest, false );
-         }
-
-         continue;
+      }
+      
+      if( dest.size() > 0 )
+      {
+         emit requestAddToPlaylist( dest, false );
       }
    }
 }
 
 
-void ControlWidget::log( const QByteArray &/*udpEvent*/, const QString &logEvent, const QString &data )
+void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const QString &data )
 {
    MySettings settings;
-#if 0
-   /* useless in the way it's implemented right now, wait for V0.6 */
-   QByteArray udp( udpEvent );
+
+   QString udp( udpEvent );
    if( !data.isEmpty() )
    {
       udp.append( '\n' );
-      udp.append( data.toUtf8() );
+      udp.append( data );
    }
-   settings.sendUdpMessage( udp );
-#endif
+   mSLATCom.sendNotification( udp );
    
    QString command( settings.value( "LogCmd", "" ).toString() );
    if( !command.isEmpty() )

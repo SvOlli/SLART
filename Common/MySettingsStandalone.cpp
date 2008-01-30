@@ -25,7 +25,25 @@ QVariant MySettings::globalValue( const QString &key, const QVariant &defaultVal
 }
 
 
-void MySettings::sendUdpMessage( const QByteArray &/*data*/, int /*port*/ )
+void MySettings::sendUdpMessage( const QString &/*data*/, int /*port*/ )
+{
+   /* no sending messages in standalone applications */
+}
+
+
+void MySettings::sendUdpMessage( const QString &/*data*/, const QString &/*application*/ )
+{
+   /* no sending messages in standalone applications */
+}
+
+
+void MySettings::requestNotification( const QString &/*application*/, bool /*enable*/ )
+{
+   /* no sending messages in standalone applications */
+}
+
+
+bool MySettings::listensOn( const QString &/*application*/ )
 {
    /* no sending messages in standalone applications */
 }

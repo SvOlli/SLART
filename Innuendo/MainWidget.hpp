@@ -11,6 +11,8 @@
 #include <QWidget>
 #include <QUdpSocket>
 
+#include "SLATCom.hpp"
+
 class QListWidget;
 class QLabel;
 class QSpinBox;
@@ -29,7 +31,7 @@ public:
 public slots:
    void readConfig();
    void setBufferSize( int size );
-   void handleUdp();
+   void handleSLAT( const QStringList &message );
    void handleSettings();
 
 signals:
@@ -45,7 +47,7 @@ private:
    QSpinBox     *mpBufferSize;
    ConfigDialog *mpConfig;
    int          mBufferSize;
-   QUdpSocket   mUdpSocket;
+   SLATCom      mSLATCom;
 };
 
 #endif

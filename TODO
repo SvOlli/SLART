@@ -1,3 +1,10 @@
 
+Common:
+- Change Listener List to Settings folder
+
+Partyman:
+- Crash: Randomcode not resetted on loading new database
+
+Innuendo:
 - Bad Karma: remove tracks from Partyman Database
 

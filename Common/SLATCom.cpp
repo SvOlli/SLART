@@ -15,24 +15,33 @@
 
 
 SLATCom::SLATCom( QObject *parent )
-: QUdpSocket( parent )
+: QObject( parent )
 , mpParent( parent )
+, mUdpSocket()
 {
-   connect( this, SIGNAL(readyRead()),
+   connect( &mUdpSocket, SIGNAL(readyRead()),
             this, SLOT(handleReadyRead()) );
 }
 
 
-void SLATCom::startReceiver()
+void SLATCom::resetReceiver()
 {
    MySettings settings;
    
+   if( mUdpSocket.isValid() )
+   {
+      mUdpSocket.abort();
+   }
+   
    if( settings.value( "SLATCommunication", false ).toBool() )
    {
+      QStringList listeners( settings.value( "Listeners", QStringList() ).toStringList() );
+      updateListeners( &settings, listeners );
+      
       int port = settings.value( "UDPListenerPort", 0 ).toInt();
       if( (port > 0) && (port <= 65535) )
       {
-         if( !bind( QHostAddress::LocalHost, port ) )
+         if( !mUdpSocket.bind( QHostAddress::LocalHost, port ) )
          {
             QString message( tr("Could not listen on port ") );
             message.append( QString::number( port ) );
@@ -43,25 +52,19 @@ void SLATCom::startReceiver()
 }
 
 
-void SLATCom::stopReceiver()
-{
-   close();
-}
-
-
 void SLATCom::handleReadyRead()
 {
-   while( hasPendingDatagrams() )
+   while( mUdpSocket.hasPendingDatagrams() )
    {
       QByteArray datagram;
-      datagram.resize( pendingDatagramSize() );
+      datagram.resize( mUdpSocket.pendingDatagramSize() );
       QHostAddress senderHost;
       quint16 senderPort;
       
-      readDatagram( datagram.data(), datagram.size(),
-                    &senderHost, &senderPort );
+      mUdpSocket.readDatagram( datagram.data(), datagram.size(),
+                               &senderHost, &senderPort );
       
-      QStringList src( QString( datagram ).remove('\r').split("\n",QString::SkipEmptyParts) );
+      QStringList src( QString::fromUtf8( datagram.data() ).remove('\r').split("\n",QString::SkipEmptyParts) );
       
       if( src.count() > 0 )
       {
@@ -87,6 +90,8 @@ void SLATCom::handleReadyRead()
             }
             
             updateListeners( &settings, listeners );
+            settings.sync();
+            settings.sendUdpMessage( "CFG\n", src.at(1) );
             return;
          }
          
@@ -103,6 +108,8 @@ void SLATCom::handleReadyRead()
             listeners.removeAt( listeners.indexOf( src.at(1) ) );
             
             updateListeners( &settings, listeners );
+            settings.sync();
+            settings.sendUdpMessage( "CFG\n", src.at(1) );
             return;
          }
          
@@ -114,7 +121,14 @@ void SLATCom::handleReadyRead()
 
 void SLATCom::updateListeners( MySettings *settings, const QStringList &listeners )
 {
-   settings->setValue( "Listeners", listeners );
+   if( listeners.count() )
+   {
+      settings->setValue( "Listeners", listeners );
+   }
+   else
+   {
+      settings->remove( "Listeners" );
+   }
    
    mPorts.clear();
    for( int i = 0; i < listeners.count(); i++ )
@@ -124,5 +138,20 @@ void SLATCom::updateListeners( MySettings *settings, const QStringList &listener
       {
          mPorts.append( port );
       }
+   }
+}
+
+
+void SLATCom::sendNotification( const QString &data )
+{
+#if 0
+TRACESTART(SLATCom::sendNotification)
+TRACEMSG << mPorts;
+#endif
+   MySettings settings;
+   
+   for( int i = 0; i < mPorts.count(); i++ )
+   {
+      settings.sendUdpMessage( data, mPorts.at(i) );
    }
 }

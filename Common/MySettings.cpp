@@ -59,25 +59,29 @@ QVariant MySettings::globalValue( const QString &key, const QVariant &defaultVal
 }
 
 
-void MySettings::sendUdpMessage( const QByteArray &data, int port )
+void MySettings::sendUdpMessage( const QString &data, int port )
 {
-   endGroup();
+#if 0
+TRACESTART(MySettings::sendUdpMessage)
+#endif
    bool active = value( "SLATCommunication", false ).toBool();
-   beginGroup( QApplication::applicationName() );
    if( !port )
    {
       port = value( "UDPListenerPort", 0 ).toInt();
    }
    
+#if 0
+TRACEMSG << active << port << data;
+#endif
    if( (!active) || (port < 1) || (port > 65535) )
    {
       return;
    }
-   QUdpSocket().writeDatagram( data, QHostAddress::LocalHost, port );
+   QUdpSocket().writeDatagram( data.toUtf8(), QHostAddress::LocalHost, port );
 }
 
 
-void MySettings::sendUdpMessage( const QByteArray &data, const QString &application )
+void MySettings::sendUdpMessage( const QString &data, const QString &application )
 {
    endGroup();
    beginGroup( application );
@@ -90,6 +94,28 @@ void MySettings::sendUdpMessage( const QByteArray &data, const QString &applicat
       return;
    }
    sendUdpMessage( data, port );
+}
+
+
+void MySettings::requestNotification( const QString &application, bool enable )
+{
+   QString msg("NF");
+   if( enable )
+   {
+      msg.append("1\n");
+   }
+   else
+   {
+      msg.append("0\n");
+   }
+   msg.append( QApplication::applicationName() );
+   sendUdpMessage( msg, application );
+}
+
+
+bool MySettings::listensOn( const QString &application )
+{
+   return globalValue( "Listeners", QStringList(), application ).toStringList().contains( QApplication::applicationName() );
 }
 #endif
 

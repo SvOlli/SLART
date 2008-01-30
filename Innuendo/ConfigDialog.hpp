@@ -37,9 +37,13 @@ private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
 
-   ProxyWidget    *mpProxyWidget;
-   QCheckBox      *mpSLATCommunication;
-   QSpinBox       *mpUDPListenerPort;
+   ProxyWidget  *mpProxyWidget;
+   QCheckBox    *mpSLATCommunication;
+   QSpinBox     *mpUDPListenerPort;
+   QCheckBox    *mpPartymanNotify;
+   QCheckBox    *mpStrippedNotify;
+   QCheckBox    *mpRubberbandmanNotify;
+   QCheckBox    *mpFunkytownNotify;
 };
 
 #endif

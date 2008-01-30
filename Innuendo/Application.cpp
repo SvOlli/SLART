@@ -8,7 +8,6 @@
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
 
-//#include <unistd.h>
 #include <QtGui>
 
 

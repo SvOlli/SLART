@@ -12,41 +12,44 @@ RESOURCES = qrc/Resources.qrc
 
 SOURCES += Application.cpp 
 
-HEADERS += MainWindow.hpp 
-SOURCES += MainWindow.cpp 
+HEADERS += MainWindow.hpp
+SOURCES += MainWindow.cpp
 
-HEADERS += MainWidget.hpp 
-SOURCES += MainWidget.cpp 
+HEADERS += MainWidget.hpp
+SOURCES += MainWidget.cpp
 
-HEADERS += MySettings.hpp 
-SOURCES += MySettings.cpp 
+HEADERS += MySettings.hpp
+SOURCES += MySettings.cpp
 
-HEADERS += ControlWidget.hpp 
-SOURCES += ControlWidget.cpp 
+HEADERS += SLATCom.hpp
+SOURCES += SLATCom.cpp
 
-HEADERS += AboutWidget.hpp 
-SOURCES += AboutWidget.cpp 
+HEADERS += ControlWidget.hpp
+SOURCES += ControlWidget.cpp
 
-HEADERS += ConfigDialog.hpp 
-SOURCES += ConfigDialog.cpp 
+HEADERS += AboutWidget.hpp
+SOURCES += AboutWidget.cpp
 
-HEADERS += PlaylistWidget.hpp 
-SOURCES += PlaylistWidget.cpp 
+HEADERS += ConfigDialog.hpp
+SOURCES += ConfigDialog.cpp
 
-HEADERS += PlaylistContentWidget.hpp 
-SOURCES += PlaylistContentWidget.cpp 
+HEADERS += PlaylistWidget.hpp
+SOURCES += PlaylistWidget.cpp
 
-HEADERS += PlayerWidget.hpp 
-SOURCES += PlayerWidget.cpp 
+HEADERS += PlaylistContentWidget.hpp
+SOURCES += PlaylistContentWidget.cpp
 
-HEADERS += FileSysTreeItem.hpp 
-SOURCES += FileSysTreeItem.cpp 
+HEADERS += PlayerWidget.hpp
+SOURCES += PlayerWidget.cpp
 
-HEADERS += FileSysTreeModel.hpp 
-SOURCES += FileSysTreeModel.cpp 
+HEADERS += FileSysTreeItem.hpp
+SOURCES += FileSysTreeItem.cpp
 
-HEADERS += FileSysTreeView.hpp 
-SOURCES += FileSysTreeView.cpp 
+HEADERS += FileSysTreeModel.hpp
+SOURCES += FileSysTreeModel.cpp
+
+HEADERS += FileSysTreeView.hpp
+SOURCES += FileSysTreeView.cpp
 
 HEADERS += ScrollLine.hpp
 SOURCES += ScrollLine.cpp
