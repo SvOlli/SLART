@@ -345,11 +345,11 @@ void PlaylistWidget::readM3u()
       return;
    }
    
+   mRandomList.clear();
    /* reconstruct randomlist, if possible */
    QBitArray bitset( settings.value("RandomList", QBitArray()).toBitArray() );
    if( bitset.count() == mM3uData.count() )
    {
-      mRandomList.clear();
       for( int i = 0; i < bitset.count(); i++ )
       {
          if( bitset.at(i) )

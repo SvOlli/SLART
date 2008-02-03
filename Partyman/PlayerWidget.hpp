@@ -79,13 +79,15 @@ private:
    /* enable/disable watching of track status */
    void watch( bool turnWatchOn );
    /* adjust volume for normalization */
-   void adjustVolume( const QString &data );
+   void handleScan( const QString &data );
 
    int           mPlayer;
    bool          mAutoStart;
    bool          mShortPlay;
    bool          mConsole;
    long          mTotalTime;
+   long          mFrequency;
+   long          mSamples;
    long          mHeadStart;
    enum eState   mPlayState;
    enum eDerMixD mDerMixD;

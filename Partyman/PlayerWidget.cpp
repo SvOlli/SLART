@@ -29,6 +29,8 @@ PlayerWidget::PlayerWidget( int index,
 , mAutoStart( false )
 , mShortPlay( false )
 , mTotalTime( 0 )
+, mFrequency( 44100 )
+, mSamples( 0 )
 , mHeadStart( 10 )
 , mPlayState( disconnected )
 , mUpdateSlider( true )
@@ -168,11 +170,9 @@ void PlayerWidget::setInfo( const QString &line )
    mpPlayPosition->setRange( 0, mTotalTime );
    
    /* if total time is not sane decode track */
-   if( mTotalTime == 1 )
+   if( mTotalTime < 5 )
    {
-      sendCommand( "length" );
-      sendCommand( "fullstat" );
-      return;
+      mTotalTime = mSamples / mFrequency;
    }
    
    /* if not playing set slider to start */
@@ -338,7 +338,7 @@ void PlayerWidget::handleResponse()
             }
             break;
          case inScan:
-            adjustVolume( data );
+            handleScan( data );
             break;
          case inNormal:
             break;
@@ -377,20 +377,23 @@ void PlayerWidget::handleResponse()
       
       if( data.startsWith( "[load] success" ) )
       {
-         sendCommand( "fullstat" );
-         
          /* request normalization volume */
          switch( mNormalizeMode )
          {
+            case 0:
+               sendCommand( "scan", "format length" );
+               break;
             case 1:
-               sendCommand( "scan", "peak" );
+               sendCommand( "scan", "format length peak" );
                break;
             case 2:
-               sendCommand( "scan", "power" );
+               sendCommand( "scan", "format length power" );
                break;
             default:
                break;
          }
+         
+         sendCommand( "fullstat" );
       }
       
       if( data.startsWith( "[start] success" ) )
@@ -565,7 +568,7 @@ void PlayerWidget::pause()
 }
 
 
-void PlayerWidget::adjustVolume( const QString &data )
+void PlayerWidget::handleScan( const QString &data )
 {
    QStringList token( data.split(" ") );
    bool ok;
@@ -579,12 +582,27 @@ void PlayerWidget::adjustVolume( const QString &data )
    if( token.at(1).startsWith( "level" ) )
    {
       adjust = mNormalizeValue / max;
+      sendCommand( "volume", QString::number(adjust) );
    }
    else if( token.at(1).startsWith( "peak" ) )
    {
       adjust = 1.0 / max;
+      sendCommand( "volume", QString::number(adjust) );
    }
-   sendCommand( "volume", QString::number(adjust) );
+   else if( token.at(1).startsWith( "Hz" ) )
+   {
+      mFrequency = token.at(0).toLong();
+      if( !mFrequency )
+      {
+         /* to avoid division by zero */
+         mFrequency = 1;
+      }
+   }
+   else if( token.at(1).startsWith( "samples" ) )
+   {
+      mSamples = token.at(0).toLong();
+   }
+
    if( mPlayState != playing )
    {
       setState( loaded );

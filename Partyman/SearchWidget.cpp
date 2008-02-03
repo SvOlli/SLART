@@ -100,6 +100,8 @@ void SearchWidget::selectedEntries( const QModelIndex &/*index*/, int key )
          mpPlaylist->addEntries( entries );
          break;
       case Qt::Key_Escape:
+         mpResults->clear();
+         mpFound->setHidden( true );
          mpInput->setFocus();
          mpInput->selectAll();
          break;
