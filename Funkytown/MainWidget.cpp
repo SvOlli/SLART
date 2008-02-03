@@ -145,8 +145,9 @@ void MainWidget::showSetupDialog()
 {
    mpSetupButton->setDisabled( true );
    QCoreApplication::processEvents();
+   mpSetupDialog->proxyWidget()->readSettings();
    mpSetupDialog->exec();
-   mpSetupDialog->proxyWidget()->saveSettings();
+   mpSetupDialog->proxyWidget()->writeSettings();
    mpSetupButton->setDisabled( false );
 }
 

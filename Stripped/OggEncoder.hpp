@@ -23,7 +23,7 @@ public:
    OggEncoder( QWidget *parent = 0 );
    virtual ~OggEncoder();
    void initialize( const QString &fileName );
-   void finalize( bool addToPartyman );
+   void finalize();
    void setTag( const QString &tag, const QString &value );
    void encodeCDAudio( const char* data, int size );
    const QString name;

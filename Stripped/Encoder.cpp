@@ -47,17 +47,10 @@ void Encoder::initialize( const QString &fileName, const char *extension )
 }
 
 
-void Encoder::finalize( bool addToPartyman )
+void Encoder::finalize()
 {
-   if( addToPartyman )
-   {
-      MySettings settings;
-      if( settings.globalValue( "SLATCommunication", false ).toBool() )
-      {
-         settings.sendUdpMessage( QByteArray( "P0Q\n" ) + mFileName );
-      }
-   }
-   
    ::close( mFD );
    mFD = -1;
+   
+   MySettings().sendNotification( QString("s0d\n") + mFileName );
 }

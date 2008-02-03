@@ -95,30 +95,37 @@ void MySettings::sendUdpMessage( const QString &data, const QString &application
    }
    sendUdpMessage( data, port );
 }
-
-
-void MySettings::requestNotification( const QString &application, bool enable )
-{
-   QString msg("NF");
-   if( enable )
-   {
-      msg.append("1\n");
-   }
-   else
-   {
-      msg.append("0\n");
-   }
-   msg.append( QApplication::applicationName() );
-   sendUdpMessage( msg, application );
-}
-
-
-bool MySettings::listensOn( const QString &application )
-{
-   return globalValue( "Listeners", QStringList(), application ).toStringList().contains( QApplication::applicationName() );
-}
 #endif
 
+
+void MySettings::sendNotification( const QString &data )
+{
+   int i;
+   
+   if( value( "SLATCommunication", false ).toBool() )
+   {
+      QList<int>  listenerPorts;
+      
+      endGroup();
+      beginGroup( QApplication::applicationName() + ".Listeners" );
+      QStringList listenerNames( allKeys() );
+      for( i = 0; i < listenerNames.count(); i++ )
+      {
+         int port = value( listenerNames.at(i), 0 ).toInt();
+         if( (port > 0) && (port <= 65535) )
+         {
+            listenerPorts << port;
+         }
+      }
+      endGroup();
+      beginGroup( QApplication::applicationName() );
+      
+      for( i = 0; i < listenerPorts.count(); i++ )
+      {
+         sendUdpMessage( data, listenerPorts.at(i) );
+      }
+   }
+}
 
 void MySettings::setMainWindow( QMainWindow *mainWindow )
 {

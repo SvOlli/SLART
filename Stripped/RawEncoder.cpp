@@ -44,14 +44,13 @@ void RawEncoder::initialize( const QString &fileName )
 }
 
 
-void RawEncoder::finalize( bool addToPartyman )
+void RawEncoder::finalize()
 {
-   addToPartyman = false;
-   Encoder::finalize( addToPartyman );
+   Encoder::finalize();
 }
 
 
-void RawEncoder::setTag( const QString &tag, const QString &value )
+void RawEncoder::setTag( const QString &/*tag*/, const QString &/*value*/ )
 {
 }
 

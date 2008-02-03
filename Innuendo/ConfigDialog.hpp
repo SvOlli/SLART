@@ -16,6 +16,7 @@ class QCheckBox;
 class QComboBox;
 class QDoubleSpinBox;
 class ProxyWidget;
+class ConfigNotifyWidget;
    
 
 class ConfigDialog : public QDialog
@@ -28,7 +29,6 @@ public:
 public slots:
    void readSettings();
    void writeSettings();
-   void handleUDPListen( bool checked );
 
 signals:
    void configChanged();
@@ -37,13 +37,8 @@ private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
 
-   ProxyWidget  *mpProxyWidget;
-   QCheckBox    *mpSLATCommunication;
-   QSpinBox     *mpUDPListenerPort;
-   QCheckBox    *mpPartymanNotify;
-   QCheckBox    *mpStrippedNotify;
-   QCheckBox    *mpRubberbandmanNotify;
-   QCheckBox    *mpFunkytownNotify;
+   ConfigNotifyWidget   *mpNotifyWidget;
+   ProxyWidget          *mpProxyWidget;
 };
 
 #endif

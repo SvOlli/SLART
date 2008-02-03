@@ -36,7 +36,6 @@ CDReader::CDReader( CDToc *toc, CDEdit *edit, QWidget *parent , Qt::WindowFlags 
 , mpToc( toc )
 , mpCDEdit( edit )
 , mpMessage( new QLabel( this ) )
-, mpAddToPartyman( new QCheckBox( tr("Add To Partyman Playlist"), this ) )
 , mpProgress( new QProgressBar( this ) )
 {
    gCDReader0 = this;
@@ -50,8 +49,7 @@ CDReader::CDReader( CDToc *toc, CDEdit *edit, QWidget *parent , Qt::WindowFlags 
 
    mainLayout->setColumnStretch ( 0, 1 );
    mainLayout->setColumnStretch ( 1, 0 );
-   mainLayout->addWidget( mpMessage, 0, 0 );
-   mainLayout->addWidget( mpAddToPartyman, 0, 1 );
+   mainLayout->addWidget( mpMessage, 0, 0, 1, 2 );
    mainLayout->addWidget( mpProgress, 1, 0, 1, 2 );
    
    setLayout( mainLayout );
@@ -206,7 +204,7 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
          QCoreApplication::processEvents();
       }
       
-      mpEncoder->finalize( mpAddToPartyman->isChecked() );
+      mpEncoder->finalize();
    }
    
    if( buffer )

@@ -36,7 +36,7 @@ ProxyWidget::ProxyWidget( QWidget *parent )
    mpProxyPortInput->setRange( 1, 65535 );
    mpProxyPasswordInput->setEchoMode( QLineEdit::PasswordEchoOnEdit );
 
-   loadSettings();
+   readSettings();
    
    mainLayout->addWidget( mpProxyOnLabel,        0, 0, 1, 1 );
    mainLayout->addWidget( mpProxyHostLabel,      1, 0, 1, 1 );
@@ -164,7 +164,7 @@ void ProxyWidget::setProxy( QHttp *http )
 }
 
 
-void ProxyWidget::loadSettings()
+void ProxyWidget::readSettings()
 {
    MySettings settings;
    
@@ -179,7 +179,7 @@ void ProxyWidget::loadSettings()
 }
 
 
-void ProxyWidget::saveSettings()
+void ProxyWidget::writeSettings()
 {
    MySettings settings;
    

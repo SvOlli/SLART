@@ -26,8 +26,8 @@ public:
    ProxyWidget( QWidget *parent = 0 );
    virtual ~ProxyWidget();
    void setProxy( QHttp *http );
-   void loadSettings();
-   void saveSettings();
+   void readSettings();
+   void writeSettings();
 
 public slots:
    void updateWidgets( bool disabled = false );

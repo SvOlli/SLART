@@ -8,3 +8,6 @@ all:
 	mkdir -p ../$(PLATFORM)/$(PROJECT)
 	(cd ../$(PLATFORM)/$(PROJECT) ; $(QMAKE) ../../$(PROJECT)/$(PROJECT).pro && make $<)
 
+clean:
+	rm -rf ../$(PLATFORM)/$(PROJECT)
+

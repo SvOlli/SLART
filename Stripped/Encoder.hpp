@@ -20,7 +20,7 @@ public:
    Encoder( QWidget *parent, const QString &encoderName );
    virtual ~Encoder();
    virtual void initialize( const QString &fileName) = 0;
-   virtual void finalize( bool addToPartyman );
+   virtual void finalize();
    virtual void setTag( const QString &tag, const QString &value ) = 0;
    virtual void encodeCDAudio( const char* data, int size ) = 0;
    const QString name;

@@ -51,7 +51,6 @@ private:
    CDEdit               *mpCDEdit;
    Encoder              *mpEncoder;
    QLabel               *mpMessage;
-   QCheckBox            *mpAddToPartyman;
    QProgressBar         *mpProgress;
    unsigned int         mCallbackFunction[13];
    QString              mDevice;

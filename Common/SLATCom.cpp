@@ -35,9 +35,6 @@ void SLATCom::resetReceiver()
    
    if( settings.value( "SLATCommunication", false ).toBool() )
    {
-      QStringList listeners( settings.value( "Listeners", QStringList() ).toStringList() );
-      updateListeners( &settings, listeners );
-      
       int port = settings.value( "UDPListenerPort", 0 ).toInt();
       if( (port > 0) && (port <= 65535) )
       {
@@ -74,84 +71,7 @@ void SLATCom::handleReadyRead()
             return;
          }
          
-         if( src.at(0) == "NF1" )
-         {
-            if( src.count() < 2 )
-            {
-               return;
-            }
-            
-            MySettings settings;
-            QStringList listeners( settings.value( "Listeners", QStringList() ).toStringList() );
-            
-            if( listeners.indexOf( src.at(1) ) < 0 )
-            {
-               listeners.append( src.at(1) );
-            }
-            
-            updateListeners( &settings, listeners );
-            settings.sync();
-            settings.sendUdpMessage( "CFG\n", src.at(1) );
-            return;
-         }
-         
-         if( src.at(0) == "NF0" )
-         {
-            if( src.count() < 2 )
-            {
-               return;
-            }
-            
-            MySettings settings;
-            QStringList listeners( settings.value( "Listeners", QStringList() ).toStringList() );
-            
-            listeners.removeAt( listeners.indexOf( src.at(1) ) );
-            
-            updateListeners( &settings, listeners );
-            settings.sync();
-            settings.sendUdpMessage( "CFG\n", src.at(1) );
-            return;
-         }
-         
          emit packageRead( src );
       }
-   }
-}
-
-
-void SLATCom::updateListeners( MySettings *settings, const QStringList &listeners )
-{
-   if( listeners.count() )
-   {
-      settings->setValue( "Listeners", listeners );
-   }
-   else
-   {
-      settings->remove( "Listeners" );
-   }
-   
-   mPorts.clear();
-   for( int i = 0; i < listeners.count(); i++ )
-   {
-      int port = settings->globalValue( "UDPListenerPort", 0, listeners.at(i) ).toInt();
-      if( (port > 0) && (port <= 65535) )
-      {
-         mPorts.append( port );
-      }
-   }
-}
-
-
-void SLATCom::sendNotification( const QString &data )
-{
-#if 0
-TRACESTART(SLATCom::sendNotification)
-TRACEMSG << mPorts;
-#endif
-   MySettings settings;
-   
-   for( int i = 0; i < mPorts.count(); i++ )
-   {
-      settings.sendUdpMessage( data, mPorts.at(i) );
    }
 }

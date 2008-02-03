@@ -14,6 +14,8 @@ class QMainWindow;
 class MySettings : public QSettings
 {
 public:
+   enum notificationMode { disable, enable, update };
+   
    MySettings();
 
    /* set a value that's shared between all applications or from another application */
@@ -34,8 +36,8 @@ public:
    void sendUdpMessage( const QString &data, int port = 0 );
    /* send a message to another application idenfied by application name */
    void sendUdpMessage( const QString &data, const QString &application );
-   /* request notification from another application */
-   void requestNotification( const QString &application, bool enable );
+   /* send notification to all it may concern */
+   void sendNotification( const QString &data );
 };
 
 #endif

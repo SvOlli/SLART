@@ -24,8 +24,6 @@ public:
 
    /* bind or release the port according to settings */
    void resetReceiver();
-   /* send a message to all notified applications */
-   void sendNotification( const QString &data );
 
 public slots:
    /* handle new incoming udp packet */
@@ -42,7 +40,6 @@ private:
 
    QObject     *mpParent;
    QUdpSocket  mUdpSocket;
-   QList<int>  mPorts;
 };
 
 #endif

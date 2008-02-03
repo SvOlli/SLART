@@ -9,6 +9,7 @@
 
 #include <QString>
 #include <QFileInfo>
+#include <QDir>
 #include "MySettings.hpp"
 
 
@@ -39,6 +40,9 @@ void PostDownloadHandlerMP3::run( const QString &url, const QString &filename, b
       
       unsigned int count = settings.value( "Files", 0 ).toUInt()+1;
       settings.setValue( "Files", count );
+      
+      settings.sendNotification( QString("f0d\n") + 
+                                 QDir::currentPath() + '/' + filename );
    }
    
    if( !success && url.indexOf( full_ ) >= 0 )

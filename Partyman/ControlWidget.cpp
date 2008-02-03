@@ -329,7 +329,7 @@ void ControlWidget::allowConnect( bool allowed )
 
 void ControlWidget::handleSLAT( const QStringList &src )
 {
-   if( src.at(0) == "P0Q" )
+   if( (src.at(0) == "P0Q") || (src.at(0) == "s0d") || (src.at(0) == "f0d") )
    {
       QStringList dest;
       
@@ -361,7 +361,7 @@ void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const
       udp.append( '\n' );
       udp.append( data );
    }
-   mSLATCom.sendNotification( udp );
+   settings.sendNotification( udp );
    
    QString command( settings.value( "LogCmd", "" ).toString() );
    if( !command.isEmpty() )
