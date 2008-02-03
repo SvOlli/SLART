@@ -254,6 +254,7 @@ TRACEMSG << mPlayer << strState[mPlayState] << "->" << strState[state];
          break;
       case loading:
          mpStatusDisplay->setText( tr("loading") );
+         sendCommand( "preread", parameter );
          sendCommand( "load", parameter );
          mpPlayPosition->setDisabled( true );
          break;
@@ -507,8 +508,11 @@ void PlayerWidget::sendCommand( const QString &command, const QString &parameter
    if( mpSocket->state() == QAbstractSocket::ConnectedState )
    {
       QString cmd( command );
-      cmd.append( ' ' );
-      cmd.append( '0' + mPlayer );
+      if(command != "preread")
+      {
+         cmd.append( ' ' );
+         cmd.append( '0' + mPlayer );
+      }
       if( !parameter.isEmpty() )
       {
          cmd.append( ' ' );
