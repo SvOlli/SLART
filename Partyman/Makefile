@@ -1,7 +1,7 @@
 
 PROJECT = $(shell basename $$PWD)
 
-QMAKE ?= $(shell type -p qmake-qt4 || type -p qmake)
+QMAKE ?= $(shell which qmake-qt4 || which qmake)
 PLATFORM = $(shell uname -s -m|tr ' ' _)
 
 all:
