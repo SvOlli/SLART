@@ -1,10 +1,11 @@
 
-Common:
-- Change Listener List to Settings folder
-
 Partyman:
-- Crash: Randomcode not resetted on loading new database
+- implement Skip via UDP for bad karma tracks
 
-Innuendo:
-- Bad Karma: remove tracks from Partyman Database
+Innuendo or Rubberbandman:
+- Karma: use several playlists
+  - full contains all tracks
+  - bad contains bad karma tracks
+  - good contains only good karma tracks
+  - base contains all minus bad karma tracks
 
