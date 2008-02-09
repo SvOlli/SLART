@@ -129,7 +129,7 @@ void DownloadHandler::run( const QString &url,
    }
    else
    {
-      mURLs.append( QString("http://myspace.com/")+url );
+      mURLs.append( QString("http://www.myspace.com/")+url );
    }
    mFileNames.append( filename );
    mPostDownloadHandlers.append( postDownloadHandler );
