@@ -290,7 +290,11 @@ void ControlWidget::reportState( int player, PlayerWidget::eState state )
    
    if( state == PlayerWidget::unloaded )
    {
-      loadNext( player );
+      /* evil hack for quick startup part 1 */
+      if( player == 0 )
+      {
+         loadNext( player );
+      }
    }
    
    if( state == PlayerWidget::loading )
@@ -301,6 +305,12 @@ void ControlWidget::reportState( int player, PlayerWidget::eState state )
    if( state == PlayerWidget::loaded )
    {
       mpSkipButton->setDisabled( false );
+      /* evil hack for quick startup part 2 */
+      if( (player == 0) && 
+          (mpPlayer[1]->getState() == PlayerWidget::unloaded) )
+      {
+         loadNext(1);
+      }
    }
    
    if( state == PlayerWidget::stopped )
