@@ -74,7 +74,7 @@ void MainWidget::handleSettings()
 
 void MainWidget::handleSLAT( const QStringList &message )
 {
-   mpMessageBuffer->addItem( ">" );
+   mpMessageBuffer->addItem( "> "+QDateTime::currentDateTime().toString() );
 
    for( int i = 0; i < message.size(); i++ )
    {
