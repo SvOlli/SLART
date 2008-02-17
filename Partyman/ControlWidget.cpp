@@ -358,6 +358,11 @@ void ControlWidget::handleSLAT( const QStringList &src )
          emit requestAddToPlaylist( dest, false );
       }
    }
+   
+   if( src.at(0) == "P0N" )
+   {
+      nextTrack();
+   }
 }
 
 
