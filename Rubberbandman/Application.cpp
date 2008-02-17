@@ -23,7 +23,6 @@ int main(int argc, char *argv[])
    MainWindow window;
    window.show();
    retval = app.exec();
-   window.shutdown();
    
    return retval;
 }

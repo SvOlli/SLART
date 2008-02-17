@@ -31,7 +31,6 @@ private:
 
    FileSysBrowser *mpFileSysBrowser;
    InfoEdit       *mpInfoEdit;
-   QPushButton    *mpSetButton;
 };
 
 #endif

@@ -33,3 +33,9 @@ SOURCES += InfoEdit.cpp
 HEADERS += MainWindow.hpp 
 SOURCES += MainWindow.cpp 
 
+HEADERS += MainWidget.hpp 
+SOURCES += MainWidget.cpp 
+
+HEADERS += MySettings.hpp 
+SOURCES += MySettings.cpp 
+
