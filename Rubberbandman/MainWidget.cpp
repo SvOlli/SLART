@@ -9,17 +9,20 @@
 #include "MainWidget.hpp"
 
 #include "BrowseWidget.hpp"
+#include "SLATComWidget.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpBrowseWidget( new BrowseWidget( this ) )
+, mpSLATComWidget( new SLATComWidget( this ) )
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    
    mpTabs = new QTabWidget( this );
 
    mpTabs->addTab( mpBrowseWidget,   tr("Browse") );
+   mpTabs->addTab( mpSLATComWidget,  tr("SLATCom") );
    
    QLabel *mpLogo = new QLabel( this );
    mpLogo->setText( QApplication::applicationName() );

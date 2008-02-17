@@ -18,6 +18,12 @@ SOURCES += Application.cpp
 HEADERS += BrowseWidget.hpp 
 SOURCES += BrowseWidget.cpp 
 
+HEADERS += SLATComWidget.hpp 
+SOURCES += SLATComWidget.cpp 
+
+HEADERS += SLATCom.hpp 
+SOURCES += SLATCom.cpp 
+
 HEADERS += FileSysBrowser.hpp 
 SOURCES += FileSysBrowser.cpp 
 
