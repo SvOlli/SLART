@@ -42,7 +42,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    QHBoxLayout *buttonLayout = new QHBoxLayout();
    
    QLabel *mpLogo = new QLabel( this );
-   mpLogo->setText( tr("Stripped") );
+   mpLogo->setText( QApplication::applicationName() );
    mpLogo->setAlignment( Qt::AlignCenter );
    mpLogo->setFrameShadow( QFrame::Raised );
    mpLogo->setFrameShape( QFrame::Box );
