@@ -7,6 +7,7 @@
 
 #include "OggEncoder.hpp"
 #include "MySettings.hpp"
+#include "TagList.hpp"
 
 #include "Trace.hpp"
 
@@ -19,7 +20,6 @@ extern "C"
 };
 
 #include <QtGui>
-
 
 OggEncoder::OggEncoder( QWidget *parent )
 : Encoder( parent, tr("ogg") )
@@ -121,9 +121,17 @@ void OggEncoder::oggInit()
 }
 
 
-void OggEncoder::setTag( const QString &tag, const QString &value )
+void OggEncoder::setTags( const TagList &tagList )
 {
-   ::vorbis_comment_add_tag( &mVC, tag.toUpper().toUtf8().data(), value.toUtf8().data() );
+   for( int i = 0; i < tagList.count(); i++ )
+   {
+      if( !tagList.valueAt(i).isEmpty() )
+      {
+         ::vorbis_comment_add_tag( &mVC, 
+                                   tagList.tagAt(i).toUtf8().data(),
+                                   tagList.valueAt(i).toUtf8().data() );
+      }
+   }
 }
 
 

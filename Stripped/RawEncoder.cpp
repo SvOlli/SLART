@@ -6,6 +6,7 @@
  */
 
 #include "RawEncoder.hpp"
+#include "TagList.hpp"
 
 #include "Trace.hpp"
 
@@ -50,7 +51,7 @@ void RawEncoder::finalize()
 }
 
 
-void RawEncoder::setTag( const QString &/*tag*/, const QString &/*value*/ )
+void RawEncoder::setTags( const TagList &/*tagList*/ )
 {
 }
 

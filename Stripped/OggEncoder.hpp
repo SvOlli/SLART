@@ -24,7 +24,7 @@ public:
    virtual ~OggEncoder();
    void initialize( const QString &fileName );
    void finalize();
-   void setTag( const QString &tag, const QString &value );
+   void setTags( const TagList &tagList );
    void encodeCDAudio( const char* data, int size );
    const QString name;
 

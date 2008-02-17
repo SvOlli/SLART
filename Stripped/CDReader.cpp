@@ -12,6 +12,8 @@
 #include <QtGui>
 #include "Trace.hpp"
 #include "Encoder.hpp"
+#include "TagList.hpp"
+
 
 static CDReader *gCDReader0;
 
@@ -159,41 +161,25 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
          continue;
       }
       
+      TagList tagList;
+      tagList.set( "ALBUMARTIST", albumartist );
+      tagList.set( "ALBUM",       albumtitle  );
+      tagList.set( "ARTIST",      artist      );
+      tagList.set( "TITLE",       title       );
+      tagList.set( "TRACKNUMBER", QString::number(i) );
+      tagList.set( "GENRE",       genre );
+      if( year > 0 )
+      tagList.set( "DATE",        QString::number(year) );
+      
       int firstSector = mpToc->firstSector( i );
       int lastSector  = mpToc->lastSector( i );
-      QString fileName; //( "/media/share/Media/Music/!BPM/" );
-      fileName.append( albumartist.replace('/','_') );
-      fileName.append( '/' );
-      fileName.append( albumtitle.replace('/','_') );
-      fileName.append( "/(" );
-      if( i < 10 )
-      {
-         fileName.append( '0' );
-      }
-      fileName.append( QString::number(i) );
-      fileName.append( ')' );
-      fileName.append( artist.replace('/','_') );
-      fileName.append( " - " );
-      fileName.append( title.replace('/','_') );
-      
-      fileName.remove( QRegExp("[:?]") );
-      fileName.replace( QRegExp("[\\*]"), "_" );
+      QString fileName( tagList.fileName( "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ) );
       
       mpEncoder->initialize( fileName );
       
       mpMessage->setText( fileName.mid( fileName.lastIndexOf('/')+1 ) );
-      mpEncoder->setTag( "TITLE",       title );
-      mpEncoder->setTag( "ARTIST",      artist );
-      mpEncoder->setTag( "ALBUM",       albumtitle );
-      mpEncoder->setTag( "TRACKNUMBER", QString::number(i) );
-      if( genre.size() > 0 )
-      {
-         mpEncoder->setTag( "GENRE",  genre );
-      }
-      if( year > 0 )
-      {
-         mpEncoder->setTag( "DATE", QString::number(year) );
-      }
+      tagList.set( "ALBUMARTIST" );
+      mpEncoder->setTags( tagList );
       ::cdio_paranoia_seek( mpParanoia, firstSector, SEEK_SET );
       mpProgress->setRange( firstSector, lastSector );
       for( sector = firstSector; sector <= lastSector; sector++ )

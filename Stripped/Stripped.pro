@@ -45,3 +45,6 @@ SOURCES += RawEncoder.cpp
 HEADERS += OggEncoder.hpp 
 SOURCES += OggEncoder.cpp 
 
+HEADERS += TagList.hpp 
+SOURCES += TagList.cpp 
+

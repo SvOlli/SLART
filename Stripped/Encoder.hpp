@@ -12,6 +12,8 @@
 #include <QWidget>
 #include <QByteArray>
 
+class TagList;
+
 class Encoder : public QWidget
 {
 Q_OBJECT
@@ -21,7 +23,7 @@ public:
    virtual ~Encoder();
    virtual void initialize( const QString &fileName) = 0;
    virtual void finalize();
-   virtual void setTag( const QString &tag, const QString &value ) = 0;
+   virtual void setTags( const TagList &tagList ) = 0;
    virtual void encodeCDAudio( const char* data, int size ) = 0;
    const QString name;
 
