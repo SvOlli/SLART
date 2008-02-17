@@ -45,7 +45,7 @@ MainWidget::MainWidget( QWidget *parent )
    mpSetupButton->setAcceptDrops( false );
    mpDownloadHandler->setAcceptDrops( false );
    
-   mpSetupDialog->logMessage( QString( tr("This is MySpace Hack v0.5 release") ) );
+   mpSetupDialog->logMessage( QString( tr("This is Version 0.5 release") ) );
 
    // connect the dots
    mpPostDownloadHandlerHTML->setHandlers( mpDownloadHandler, mpPostDownloadHandlerXML );
