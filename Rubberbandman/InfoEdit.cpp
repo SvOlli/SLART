@@ -33,8 +33,8 @@ InfoEdit::InfoEdit( QWidget *parent )
 , mpLabelTrackNr     ( new QLabel( tr("TrackNr:") ) )
 , mpLabelYear        ( new QLabel( tr("Year:") ) )
 , mpLabelGenre       ( new QLabel( tr("Genre:") ) )
-, mpShowPathName     ( new QLabel )
-, mpShowFileName     ( new QLabel )
+, mpShowPathName     ( new QLineEdit )
+, mpShowFileName     ( new QLineEdit )
 , mpEditArtist       ( new QLineEdit )
 , mpEditTitle        ( new QLineEdit )
 , mpEditAlbum        ( new QLineEdit )
@@ -54,6 +54,8 @@ InfoEdit::InfoEdit( QWidget *parent )
 #endif
    mpEditTrackNr->setMaxLength( 2 );
    mpEditYear->setMaxLength( 4 );
+   mpShowPathName->setReadOnly( true );
+   mpShowFileName->setReadOnly( true );
    
 #if 0
    mpLabelArtist->setAlignment( Qt::AlignRight | Qt::AlignVCenter );

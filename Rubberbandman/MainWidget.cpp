@@ -22,7 +22,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpTabs = new QTabWidget( this );
 
    mpTabs->addTab( mpBrowseWidget,   tr("Browse") );
-   mpTabs->addTab( mpSLATComWidget,  tr("SLATCom") );
+   mpTabs->addTab( mpSLATComWidget,  tr("Partyman") );
    
    QLabel *mpLogo = new QLabel( this );
    mpLogo->setText( QApplication::applicationName() );

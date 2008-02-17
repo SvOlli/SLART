@@ -56,8 +56,8 @@ private:
    QLabel *mpLabelYear;
    QLabel *mpLabelGenre;
    
-   QLabel *mpShowPathName;
-   QLabel *mpShowFileName;
+   QLineEdit *mpShowPathName;
+   QLineEdit *mpShowFileName;
    QLineEdit *mpEditArtist;
    QLineEdit *mpEditTitle;
    QLineEdit *mpEditAlbum;

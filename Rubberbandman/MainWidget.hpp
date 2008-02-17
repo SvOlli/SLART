@@ -23,6 +23,9 @@ public:
    bool shutdown();
 
 public slots:
+   
+signals:
+   void requestChangeTitle(const QIcon &icon, const QString &title );
 
 private:
    MainWidget( const MainWidget &other );
