@@ -1,6 +1,10 @@
 
 Partyman:
 - implement Skip via UDP for bad karma tracks
+- unload tracks to playlist when disconnecting
+- reimplement players for better control
+- display title during loading
+- do not prevent reload of playlist if the current one is empty
 
 Innuendo or Rubberbandman:
 - Karma: use several playlists
@@ -8,4 +12,7 @@ Innuendo or Rubberbandman:
   - bad contains bad karma tracks
   - good contains only good karma tracks
   - base contains all minus bad karma tracks
+
+Rubberbandman:
+- add editing of track currently played by Partyman
 
