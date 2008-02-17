@@ -18,13 +18,6 @@ public:
    
    MySettings();
 
-   /* set a value that's shared between all applications or from another application */
-   void setGlobalValue( const QString &key, const QVariant &value,
-                        const QString &application = QString() );
-   /* get a value that's shared between all applications or from another application */
-   QVariant globalValue( const QString &key, const QVariant &defaultValue = QVariant(),
-                         const QString &application = QString() );
-
    /* save main window settings */
    void saveMainWindow( QMainWindow *mainWindow );
    /* restore main window settings */

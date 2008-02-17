@@ -67,13 +67,11 @@ void ConfigNotifyApplicationWidget::allowNotify( int index, bool allow )
 
 void ConfigNotifyApplicationWidget::readSettings()
 {
-   QSettings settings( QApplication::organizationName(), "SLAT" );
-   settings.beginGroup( mApplications.at( mIndex ) );
+   QSettings settings( QApplication::organizationName(), mApplications.at( mIndex ) );
    mpSLATCommunication->setChecked( settings.value( "SLATCommunication", false ).toBool() );
    mpUDPListenerPort->setValue( settings.value( "UDPListenerPort", 24221+mIndex ).toInt() );
-   settings.endGroup();
    
-   settings.beginGroup( mApplications.at( mIndex )+".Listeners" );
+   settings.beginGroup( "Listeners" );
    for( int i = 0; i < mApplications.count(); i++ )
    {
       mpSendsTo[i]->setChecked( settings.value( mApplications.at(i), 0 ).toInt() != 0 );
@@ -84,13 +82,11 @@ void ConfigNotifyApplicationWidget::readSettings()
 
 void ConfigNotifyApplicationWidget::writeSettings()
 {
-   QSettings settings( QApplication::organizationName(), "SLAT" );
-   settings.beginGroup( mApplications.at( mIndex ) );
+   QSettings settings( QApplication::organizationName(), mApplications.at( mIndex ) );
    settings.setValue( "SLATCommunication", mpSLATCommunication->isChecked() );
    settings.setValue( "UDPListenerPort",   mpUDPListenerPort->value() );
-   settings.endGroup();
    
-   settings.beginGroup( mApplications.at( mIndex )+".Listeners" );
+   settings.beginGroup( "Listeners" );
    for( int i = 0; i < mApplications.count(); i++ )
    {
       if( mpSendsTo[i]->isChecked() )

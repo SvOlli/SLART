@@ -12,50 +12,10 @@
 
 #include "Trace.hpp"
 
-#ifdef STANDALONE
-/* include the version of settings for standalone applications */
-#include "MySettingsStandalone.cpp"
-#else
 
 MySettings::MySettings()
-: QSettings( QApplication::organizationName(), "SLAT" )
+: QSettings()
 {
-   beginGroup( QApplication::applicationName() );
-}
-
-
-void MySettings::setGlobalValue( const QString &key, const QVariant &value,
-                                 const QString &application )
-{
-   endGroup();
-   if( !application.isEmpty() )
-   {
-      beginGroup( application );
-   }
-   setValue( key, value );
-   if( !application.isEmpty() )
-   {
-      endGroup();
-   }
-   beginGroup( QApplication::applicationName() );
-}
-
-
-QVariant MySettings::globalValue( const QString &key, const QVariant &defaultValue,
-                                  const QString &application )
-{
-   endGroup();
-   if( !application.isEmpty() )
-   {
-      beginGroup( application );
-   }
-   QVariant retval( value( key, defaultValue ) );
-   if( !application.isEmpty() )
-   {
-      endGroup();
-   }
-   beginGroup( QApplication::applicationName() );
-   return retval;
 }
 
 
@@ -83,11 +43,8 @@ TRACEMSG << active << port << data;
 
 void MySettings::sendUdpMessage( const QString &data, const QString &application )
 {
-   endGroup();
-   beginGroup( application );
-   int port = value( "UDPListenerPort", 0 ).toInt();
-   endGroup();
-   beginGroup( QApplication::applicationName() );
+   int port = QSettings( QApplication::organizationName(), application )
+                        .value( "UDPListenerPort", 0 ).toInt();
    
    if( (port < 1) || (port > 65535) )
    {
@@ -95,7 +52,6 @@ void MySettings::sendUdpMessage( const QString &data, const QString &application
    }
    sendUdpMessage( data, port );
 }
-#endif
 
 
 void MySettings::sendNotification( const QString &data )
@@ -106,8 +62,7 @@ void MySettings::sendNotification( const QString &data )
    {
       QList<int>  listenerPorts;
       
-      endGroup();
-      beginGroup( QApplication::applicationName() + ".Listeners" );
+      beginGroup( "Listeners" );
       QStringList listenerNames( allKeys() );
       for( i = 0; i < listenerNames.count(); i++ )
       {
@@ -118,7 +73,6 @@ void MySettings::sendNotification( const QString &data )
          }
       }
       endGroup();
-      beginGroup( QApplication::applicationName() );
       
       for( i = 0; i < listenerPorts.count(); i++ )
       {

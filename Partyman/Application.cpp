@@ -17,9 +17,9 @@ int main(int argc, char *argv[])
    int retval = 0;
    
    QApplication app(argc, argv);
-   QApplication::setOrganizationName("SvOlli");
-   QApplication::setOrganizationDomain("svolli.org");
-   QApplication::setApplicationName("Partyman");
+   app.setOrganizationName("SLAT");
+   app.setOrganizationDomain("svolli.org");
+   app.setApplicationName("Partyman");
    
    if( argc > 1 )
    {

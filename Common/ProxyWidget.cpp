@@ -15,8 +15,8 @@
 ProxyWidget::ProxyWidget( QWidget *parent )
 : QGroupBox( parent )
 , mpProxyOnLabel( new QLabel( tr("Enable Proxy"), this ) )
-, mpProxyHostLabel( new QLabel( tr("HTTPProxy Host"), this ) )
-, mpProxyPortLabel( new QLabel( tr("HTTPProxy Port"), this ) )
+, mpProxyHostLabel( new QLabel( tr(" Host"), this ) )
+, mpProxyPortLabel( new QLabel( tr(" Port"), this ) )
 , mpProxyAuthLabel( new QLabel( tr("Authenication"), this ) )
 , mpProxyLoginLabel( new QLabel( tr("Login"), this ) )
 , mpProxyPasswordLabel( new QLabel( tr("Password"), this ) )
@@ -29,7 +29,7 @@ ProxyWidget::ProxyWidget( QWidget *parent )
 {
    MySettings settings;
    QGridLayout *mainLayout = new QGridLayout( this );
-   setTitle( tr("HTTPProxy Settings:") );
+   setTitle( tr(" Settings:") );
    
    mpProxyOnButton->setCheckable( true );
    mpProxyAuthButton->setCheckable( true );
@@ -166,14 +166,15 @@ void ProxyWidget::setProxy( QHttp *http )
 
 void ProxyWidget::readSettings()
 {
-   MySettings settings;
-   
-   mpProxyOnButton->setChecked( settings.globalValue("HTTPProxyEnable", false).toBool() );
-   mpProxyHostInput->setText( settings.globalValue("HTTPProxyHost", QString( tr("proxy") )).toString() );
-   mpProxyPortInput->setValue( settings.globalValue("HTTPProxyPort", 8080).toInt() );
-   mpProxyAuthButton->setChecked( settings.globalValue("HTTPProxyAuth", false).toBool() );
-   mpProxyLoginInput->setText( settings.globalValue("HTTPProxyLogin", QString( tr("login") )).toString() );
-   mpProxyPasswordInput->setText( settings.globalValue("HTTPProxyPassword", QString( tr("password") )).toString() );
+   QSettings settings( QApplication::organizationName(), "Global" );
+
+   settings.beginGroup( "HTTPProxy" );
+   mpProxyOnButton->setChecked(   settings.value("Enable",   false).toBool() );
+   mpProxyHostInput->setText(     settings.value("Host",     QString( tr("proxy") )).toString() );
+   mpProxyPortInput->setValue(    settings.value("Port",     8080).toInt() );
+   mpProxyAuthButton->setChecked( settings.value("Auth",     false).toBool() );
+   mpProxyLoginInput->setText(    settings.value("Login",    QString( tr("login") )).toString() );
+   mpProxyPasswordInput->setText( settings.value("Password", QString( tr("password") )).toString() );
    
    updateWidgets();
 }
@@ -181,14 +182,16 @@ void ProxyWidget::readSettings()
 
 void ProxyWidget::writeSettings()
 {
-   MySettings settings;
+   QSettings settings( QApplication::organizationName(), "Global" );
    
-   settings.setGlobalValue( "HTTPProxyEnable",   mpProxyOnButton->isChecked() );
-   settings.setGlobalValue( "HTTPProxyHost",     mpProxyHostInput->text() );
-   settings.setGlobalValue( "HTTPProxyPort",     mpProxyPortInput->value() );
-   settings.setGlobalValue( "HTTPProxyAuth",     mpProxyAuthButton->isChecked() );
-   settings.setGlobalValue( "HTTPProxyLogin",    mpProxyLoginInput->text() );
-   settings.setGlobalValue( "HTTPProxyPassword", mpProxyPasswordInput->text() );
+   settings.beginGroup( "HTTPProxy" );
+   settings.setValue( "Enable",   mpProxyOnButton->isChecked() );
+   settings.setValue( "Host",     mpProxyHostInput->text() );
+   settings.setValue( "Port",     mpProxyPortInput->value() );
+   settings.setValue( "Auth",     mpProxyAuthButton->isChecked() );
+   settings.setValue( "Login",    mpProxyLoginInput->text() );
+   settings.setValue( "Password", mpProxyPasswordInput->text() );
+   settings.sync();
    
-   settings.sendUdpMessage( "CFG\n" );
+   MySettings().sendUdpMessage( "CFG\n" );
 }

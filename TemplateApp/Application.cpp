@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
    int retval = 0;
 
    QApplication app(argc, argv);
-   app.setOrganizationName("SvOlli");
+   app.setOrganizationName("SLAT");
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("TemplateApp");
 
