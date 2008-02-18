@@ -40,7 +40,7 @@ void SLATComWidget::handleSLAT( const QStringList &message )
 {
 TRACESTART(SLATComWidget::handleSLAT)
 TRACEMSG << message;
-   if( (message.at(0) == "p0p") )
+   if( (message.at(0) == "p0p") && (message.size() > 1) )
    {
       mpInfoEdit->load( message.at(1) );
    }
