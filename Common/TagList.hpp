@@ -19,6 +19,7 @@ class TagList
 public:
    TagList();
    int count() const { return mTags.count(); };
+   void clear();
    QString tagAt( int i ) const { return mTags.at(i); };
    QString valueAt( int i ) const { return mValues.at(i); };
    void set( const QString &tag, const QString &value = QString() );

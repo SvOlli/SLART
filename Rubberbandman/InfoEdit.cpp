@@ -189,8 +189,6 @@ void InfoEdit::normalize( QLineEdit *lineEdit )
 {
    QString tag( lineEdit->text() );
    QString newtag;
-TRACESTART(InfoEdit::normalize)
-TRACEMSG << tag;
    tag.replace( "\"", "''" );
    
    bool nextUpper = true;
@@ -224,8 +222,10 @@ TRACEMSG << tag;
 
 void InfoEdit::load( const QString &fullpath )
 {
+#if 0
 TRACESTART(InfoEdit::load)
 TRACEMSG << fullpath;
+#endif
    mIsValid  = false;
    mIsFile   = false;
    mFileName = fullpath;
@@ -239,7 +239,7 @@ TRACEMSG << fullpath;
       mIsValid = true;
       mIsFile  = true;
       
-TRACEMSG << "creating file handle";
+      mTagList.clear();
       TagLib::FileRef f( fullpath.toLocal8Bit().data() );
       if( f.file() )
       {
@@ -247,7 +247,6 @@ TRACEMSG << "creating file handle";
          mpShowPathName->setText( fullpath.left(fileNameStart) );
          mpShowFileName->setText( fullpath.mid(fileNameStart) );
          
-TRACEMSG << "reading tags";
          QString artist = QString::fromUtf8( f.tag()->artist().toCString( true ) );
          QString title  = QString::fromUtf8( f.tag()->title().toCString( true ) );
          QString album  = QString::fromUtf8( f.tag()->album().toCString( true ) );
@@ -255,7 +254,6 @@ TRACEMSG << "reading tags";
          uint year      = f.tag()->year();
          QString genre  = QString::fromUtf8( f.tag()->genre().toCString( true ) );
          
-TRACEMSG << "done";
          mpEditArtist->setText( artist );
          mpEditTitle->setText( title );
          mpEditAlbum->setText( album );
@@ -263,6 +261,12 @@ TRACEMSG << "done";
          mpEditYear->setText( QString::number(year) );
          mpEditGenre->setText( genre );
          
+         mTagList.set( "ARTIST", artist );
+         mTagList.set( "TITLE", title );
+         mTagList.set( "ALBUM", album );
+         mTagList.set( "TRACKNUMBER", QString::number(tracknr) );
+         mTagList.set( "DATE", QString::number(year) );
+         mTagList.set( "GENRE", genre );
       }
       else
       {
@@ -303,13 +307,17 @@ TRACEMSG << "done";
    {
       mpButtonSet->setText( tr("Set Recursive") );
    }
+#if 0
 TRACEMSG << "mIsValid" << mIsValid << "mIsFile" << mIsFile;
+#endif
 }
 
 void InfoEdit::setSave()
 {
+#if 0
 TRACESTART(InfoEdit::setSave)
 TRACEMSG << mIsValid << mIsFile;
+#endif
    if( mIsValid )
    {
       if( mIsFile )
@@ -326,8 +334,10 @@ TRACEMSG << mIsValid << mIsFile;
 
 void InfoEdit::saveFile()
 {
+#if 0
 TRACESTART(InfoEdit::saveFile)
 TRACEMSG << mFileName;
+#endif
    
    if( mFileName.isEmpty() ) return;
    if( mpEditArtist->text().isEmpty() ) return;
@@ -349,27 +359,27 @@ TRACEMSG << mFileName;
    f.tag()->setGenre( genre );
    f.save();
 
-#if 0
-   QFile qf( fullname );
+   mTagList.set( "ARTIST",      mpEditArtist->text() );
+   mTagList.set( "TITLE",       mpEditTitle->text() );
+   mTagList.set( "ALBUM",       mpEditAlbum->text() );
+   mTagList.set( "TRACKNUMBER", mpEditTrackNr->text() );
+   mTagList.set( "DATE",        mpEditYear->text() );
+   mTagList.set( "GENRE",       mpEditGenre->text() );
+
+#if 1
+   QFile qf( mFileName );
    QFileInfo qfi( qf );
-   QString newname( "(" );
-   if(tracknr < 10)
+   QString newname;
+   if( mpEditTrackNr->text().isEmpty() )
    {
-      newname.append("0");
+      newname = mTagList.fileName( "|$ARTIST| - |$TITLE|" );
    }
-   newname.append( QString::number( tracknr ) );
-   newname.append( ")" );
-   newname.append( mpEditArtist->text() );
-   newname.append( " - " );
-   newname.append( mpEditTitle->text() );
-   newname.append( "." );
-   newname.append( qfi.suffix() );
-   newname.replace( "/", "-" );
-   newname.replace( "\"", "''" );
-   newname.replace( "?", "");
-   newname.replace( "*", "");
+   else
+   {
+      newname = mTagList.fileName( "(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" );
+   }
    
-   QString newpath = qfi.absolutePath() + "/" + newname;
+   QString newpath( qfi.absolutePath() + "/" + newname );
    if( qf.rename( newpath ) )
    {
 //      mpLabelFilename->setText( mpConfigWidget->fullToShortPath( newpath ) );
@@ -377,3 +387,8 @@ TRACEMSG << mFileName;
 #endif
 }
 
+
+QString InfoEdit::tagsFileName( const QString &pattern )
+{
+   return mTagList.fileName( pattern );
+}

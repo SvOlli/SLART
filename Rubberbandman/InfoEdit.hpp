@@ -10,6 +10,7 @@
 
 #include <QWidget>
 #include <QString>
+#include "TagList.hpp"
    
 class QGroupBox;
 class QLabel;
@@ -24,6 +25,7 @@ Q_OBJECT
 
 public:
    InfoEdit( QWidget *parent = 0 );
+   QString tagsFileName( const QString &pattern );
 
 public slots:
    void load( const QString &fullpath = QString() );
@@ -71,6 +73,7 @@ private:
    bool    mIsValid;
    bool    mIsFile;
    QString mFileName;
+   TagList mTagList;
 };
 
 #endif

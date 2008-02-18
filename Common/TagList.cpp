@@ -44,6 +44,13 @@ void TagList::set( const QString &tag, const QString &value )
 }
 
 
+void TagList::clear()
+{
+   mTags.clear();
+   mValues.clear();
+}
+
+
 QString TagList::fileName( const QString &pattern )
 {
    QStringList parts( pattern.split( "|" ) );

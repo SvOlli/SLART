@@ -19,12 +19,16 @@
 SLATComWidget::SLATComWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpInfoEdit( new InfoEdit() )
+, mpNowPlaying( new QPushButton( tr("NP: to clipboard"), this ) )
 , mSLATCom()
 {
-TRACESTART(SLATComWidget::SLATComWidget)
-   QVBoxLayout *layout = new QVBoxLayout;
-   layout->addWidget( mpInfoEdit );
-   setLayout(layout);
+   QVBoxLayout *mainLayout = new QVBoxLayout( this );
+   QHBoxLayout *buttonLayout = new QHBoxLayout;
+   
+   buttonLayout->addWidget( mpNowPlaying );
+   mainLayout->addWidget( mpInfoEdit );
+   mainLayout->addLayout( buttonLayout );
+   setLayout(mainLayout);
    
    connect( &mSLATCom, SIGNAL(packageRead(QStringList)),
             this, SLOT(handleSLAT(QStringList)) );
@@ -32,18 +36,26 @@ TRACESTART(SLATComWidget::SLATComWidget)
    connect( &mSLATCom, SIGNAL(updateConfig()),
             this, SLOT(readConfig()) );
 
+   connect( mpNowPlaying, SIGNAL(clicked()),
+            this, SLOT(handleNowPlaying()) );
+   
    readConfig();
 }
 
 
 void SLATComWidget::handleSLAT( const QStringList &message )
 {
-TRACESTART(SLATComWidget::handleSLAT)
-TRACEMSG << message;
    if( (message.at(0) == "p0p") && (message.size() > 1) )
    {
       mpInfoEdit->load( message.at(1) );
    }
+}
+
+
+void SLATComWidget::handleNowPlaying()
+{
+   QApplication::clipboard()->setText( mpInfoEdit->tagsFileName( "NP: |$ARTIST| - |$TITLE|" ),
+                                       QClipboard::Selection );
 }
 
 

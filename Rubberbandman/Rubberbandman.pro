@@ -45,3 +45,6 @@ SOURCES += MainWidget.cpp
 HEADERS += MySettings.hpp 
 SOURCES += MySettings.cpp 
 
+HEADERS += TagList.hpp 
+SOURCES += TagList.cpp 
+

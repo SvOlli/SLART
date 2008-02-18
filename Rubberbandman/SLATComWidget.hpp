@@ -26,6 +26,7 @@ public:
 
 public slots:
    void handleSLAT( const QStringList &message );
+   void handleNowPlaying();
    void readConfig();
 
 private:
@@ -33,6 +34,7 @@ private:
    SLATComWidget &operator=( const SLATComWidget &other );
 
    InfoEdit       *mpInfoEdit;
+   QPushButton    *mpNowPlaying;
    SLATCom        mSLATCom;
 };
 
