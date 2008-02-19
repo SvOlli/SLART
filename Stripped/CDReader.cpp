@@ -24,7 +24,7 @@ static void callback0( long inpos, ::paranoia_cb_mode_t function )
 }
 
 
-void CDReader::callback( long inpos, ::paranoia_cb_mode_t function )
+void CDReader::callback( long /*inpos*/, ::paranoia_cb_mode_t function )
 {
    mCallbackFunction[(int)function]++;
 //   qDebug() << "callback:" << "inpos:" << inpos << "function:" << function << mCallbackFunction[function];

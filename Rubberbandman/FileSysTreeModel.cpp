@@ -153,7 +153,7 @@ QString FileSysTreeModel::getPath( const QModelIndex & index )
 
 
 void FileSysTreeModel::currentChanged( const QModelIndex & current,
-                                       const QModelIndex & previous )
+                                       const QModelIndex & /*previous*/ )
 {
    emit activated(current);
 }

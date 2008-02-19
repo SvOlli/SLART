@@ -81,7 +81,7 @@ void CDDB::read( const QString &querystring )
 }
 
 
-void CDDB::httpRequestFinished( int requestId, bool error )
+void CDDB::httpRequestFinished( int requestId, bool /*error*/ )
 {
    int i;
    

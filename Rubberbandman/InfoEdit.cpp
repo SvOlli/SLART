@@ -392,3 +392,9 @@ QString InfoEdit::tagsFileName( const QString &pattern )
 {
    return mTagList.fileName( pattern );
 }
+
+
+QString InfoEdit::fileName()
+{
+   return mFileName;
+}
