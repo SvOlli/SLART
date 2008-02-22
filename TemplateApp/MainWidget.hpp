@@ -10,6 +10,9 @@
 
 #include <QWidget>
 
+class QIcon;
+class QString;
+
 
 class MainWidget : public QWidget
 {
@@ -21,7 +24,7 @@ public:
 public slots:
 
 signals:
-   void requestChangeTitle( const &QIcon ,const &QString );
+   void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
    MainWidget( const MainWidget &other );
