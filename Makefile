@@ -1,7 +1,7 @@
 
 PLATFORM = $(shell uname -s -m|tr ' ' _)
 
-SUBDIRS = taglib Funkytown Partyman Stripped Rubberbandman Innuendo
+SUBDIRS = taglib Funkytown Partyman Stripped Rubberbandman Karmadrome Innuendo
 
 all:
 	for dir in $(SUBDIRS); do [ ! -d $$dir ] || make -C $$dir $@ ; done
