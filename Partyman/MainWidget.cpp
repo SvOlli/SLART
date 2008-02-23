@@ -18,8 +18,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpParent( parent )
 , mpConfig( new ConfigDialog( this ) )
-, mpControl( new ControlWidget( mpConfig, this ) )
 , mpPlaylist( new PlaylistWidget( mpConfig, this ) )
+, mpControl( new ControlWidget( mpConfig, mpPlaylist, this ) )
 {
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
    
@@ -36,7 +36,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    setLayout( mainLayout );
    
-   connect( mpControl, SIGNAL(requestNextTrack(int)), this, SLOT(getNextTrack(int)) );
    connect( mpControl, SIGNAL(requestAddToPlaylist(QStringList,bool)), 
             mpPlaylist, SLOT(addEntries(QStringList,bool)) );
    connect( mpControl, SIGNAL(requestChangeTitle(QIcon,QString)),
@@ -49,12 +48,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 void MainWidget::changeTitle( const QIcon &icon, const QString &title )
 {
    emit requestChangeTitle( icon, title );
-}
-
-
-void MainWidget::getNextTrack( int player )
-{
-   mpControl->setFileName( player, mpPlaylist->nextTrackName() );
 }
 
 

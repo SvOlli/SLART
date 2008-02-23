@@ -12,6 +12,8 @@
 #include <QMutex>
 #include <QTcpSocket>
 
+
+
 class QTcpSocket;
 class QLineEdit;
 class QLabel;
@@ -19,34 +21,48 @@ class QScrollArea;
 class QSlider;
 class ControlWidget;
 class ScrollLine;
+#include "PlayerFSM.hpp"
+
 
 class PlayerWidget : public QWidget
 {
 Q_OBJECT
 
-public:
-   enum eState { disconnected, unloaded, loading, loaded, playing, ending, 
-                 stopped, seeking, skipping, paused, endingpaused };
+   friend class PlayerFSMDisconnected;
+   friend class PlayerFSMSearching;
+   friend class PlayerFSMLoading;
+   friend class PlayerFSMReady;
+   friend class PlayerFSMPlaying;
+   friend class PlayerFSMEnding;
+   friend class PlayerFSMSeeking;
+   friend class PlayerFSMPaused;
+   friend class PlayerFSMEndingPaused;
    
+public:
    PlayerWidget( int index, ControlWidget *controlWidget, Qt::WindowFlags flags = 0 );
+   virtual ~PlayerWidget();
+   /*  */
+   void getNextTrack( bool armed = true );
+   /* update the time display */
+   void updateTime( const QString &msg = QString() );
    /* set the track info like filename */
    void setInfo( const QString &line );
    /* updating the time played */
    void setPlayingStatus( const QString &line );
    /* set playing state */
-   void setState( eState state, const QString &parameter = QString() );
+   void setState( PlayerFSM::tState state );
    /* connect to DerMixD */
    void connectTo( const QString &hostname, int port );
    /* disconnect from DerMixD */
    void disconnect();
    /* skip current track */
    void skip();
-   /* get filename of current Track */
-   QString getFileName();
    /* report playing state */
-   eState getState() { return mPlayState; };
+   PlayerFSM::tState getState() { return mpFSM->getState(); };
    /* toggle pause */
    void pause();
+   /* toggle pause */
+   void disablePlayPosition( bool disable );
    /* (re-)read configuration */
    void readConfig();
 
@@ -71,7 +87,8 @@ private:
    
    PlayerWidget( const PlayerWidget &other );
    PlayerWidget &operator=( const PlayerWidget &other );
-
+   
+   
    /* convert seconds to a 0:00 timecode */
    static QString sec2minsec( const QString &seconds );
    /* send a command to DerMixD */
@@ -82,25 +99,22 @@ private:
    void handleScan( const QString &data );
 
    int           mPlayer;
-   bool          mAutoStart;
-   bool          mShortPlay;
-   bool          mConsole;
-   long          mTotalTime;
-   long          mFrequency;
-   long          mSamples;
-   long          mHeadStart;
-   enum eState   mPlayState;
-   enum eDerMixD mDerMixD;
-   bool          mUpdateSlider;
-   bool          mWatching;
-   int           mNormalizeMode;
-   double        mNormalizeValue;
    ControlWidget *mpControlWidget;
    ScrollLine    *mpScrollLine;
    QLabel        *mpStatusDisplay;
    QLabel        *mpTimeDisplay;
    QSlider       *mpPlayPosition;
    QTcpSocket    *mpSocket;
+   PlayerFSM     *mpFSM;
+   bool          mAutoStart;
+   bool          mConsole;
+   long          mTotalTime;
+   long          mFrequency;
+   long          mSamples;
+   long          mHeadStart;
+   bool          mUpdateSlider;
+   int           mNormalizeMode;
+   double        mNormalizeValue;
 };
 
 #endif

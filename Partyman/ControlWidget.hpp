@@ -17,6 +17,7 @@
 #include <QProcess>
 class PlayerWidget;
 class ConfigDialog;
+class PlaylistWidget;
 class QPushButton;
 class QMenu;
 class QAction;
@@ -28,16 +29,17 @@ Q_OBJECT
 public:
    enum eErrorCode { noError, noConnection, connectionLost, wrongVersion };
    
-   ControlWidget( ConfigDialog *config, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   ControlWidget( ConfigDialog *config, PlaylistWidget *playlist, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    virtual ~ControlWidget();
+   
    /* callback for player to request next track */
-   void loadNext( int player );
-   /* set the filename to load */
-   void setFileName( int player, const QString &fileName );
-   /* callback for player to report its state */
-   void reportState( int player, PlayerWidget::eState state );
+   void getNextTrack( QString *fileName );
+   /* change the FSM state of the other player */
+   void changeOtherState( int player, PlayerFSM::tState state );
    /* add files to playlist (for unloading) */
    void addToPlaylist( const QStringList &entries );
+   /* (de)activate Skip/Next button and time sliders */
+   void allowInteractive( bool allow );
    /* run SLATCommunication & execute external logger */
    void log( const QString &udpEvent, const QString &logEvent, const QString &data = QString() );
 
@@ -51,7 +53,7 @@ public slots:
    /* handle disconnect from DerMixD */
    void initDisconnect( eErrorCode errorCode = noError );
    /* skip to next track */
-   void nextTrack();
+   void handleSkipTrack();
    /* handle (un)pausing */
    void handlePause( bool reset = false );
    /* handle remote requests */
@@ -64,12 +66,10 @@ public slots:
    void handleDerMixDerror( QProcess::ProcessError error );
 
 signals:
-   /* request next filename */
-   void requestNextTrack( int player );
-   /* request for adding file to playlist (used for unload) */
-   void requestAddToPlaylist( const QStringList &entries, bool atStart );
    /* request a new icon and title */
    void requestChangeTitle( const QIcon &icon, const QString &title );
+   /* request for adding file to playlist (used for unload) */
+   void requestAddToPlaylist( const QStringList &entries, bool atStart );
    /* signal if a connection has been established or cut off */
    void signalConnected( bool connected );
 
@@ -78,7 +78,7 @@ private:
    ControlWidget &operator=( const ControlWidget &other );
 
    ConfigDialog   *mpConfig;
-   int            mLastLoad;
+   PlaylistWidget *mpPlaylist;
    QLabel         *mpLogo;
    QPushButton    *mpConnectButton;
    QPushButton    *mpSkipButton;

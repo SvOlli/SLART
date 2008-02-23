@@ -47,11 +47,10 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    mpNormalizeMode->addItems( modes );
    
    mpNormalizeValue->setSingleStep( 0.01 );
-   mpNormalizeValue->setMinimum( 0.0 );
-   mpNormalizeValue->setMaximum( 1.0 );
+   mpNormalizeValue->setRange( 0.0, 1.0 );
    mpUDPListenerPort->setRange( 1, 65535 );
    mpDerMixDport->setRange( 1, 65535 );
-   mpCrossfadeTime->setRange( 2, 30 );
+   mpCrossfadeTime->setRange( 0, 30 );
    readSettings();
    
    QGroupBox   *dmdGroup  = new QGroupBox( tr("DerMixD Parameters:"), this );

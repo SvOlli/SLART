@@ -26,8 +26,6 @@ public:
    void startUp();
 
 public slots:
-   /* handle call for next track from control widget */
-   void getNextTrack( int player );
    /* handle request for new icon and title */
    void changeTitle( const QIcon &icon, const QString &title );
 
@@ -41,8 +39,8 @@ private:
 
    QWidget         *mpParent;
    ConfigDialog    *mpConfig;
-   ControlWidget   *mpControl;
    PlaylistWidget  *mpPlaylist;
+   ControlWidget   *mpControl;
 };
 
 #endif

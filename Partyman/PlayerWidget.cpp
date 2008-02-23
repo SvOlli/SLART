@@ -15,31 +15,26 @@
 
 #include "Trace.hpp"
 #include "ScrollLine.hpp"
+#include "PlayerFSM.hpp"
 
-#if 0
-static const char *strState[] = { "disconnected", "unloaded", "loading", "loaded", 
-                                  "playing", "ending", "stopped", "seeking", "skipping",
-                                  "paused", "pausedending" };
-#endif
 
 PlayerWidget::PlayerWidget( int index, 
                             ControlWidget *controlWidget, Qt::WindowFlags flags )
 : QWidget( controlWidget, flags )
 , mPlayer( index )
-, mAutoStart( false )
-, mShortPlay( false )
-, mTotalTime( 0 )
-, mFrequency( 44100 )
-, mSamples( 0 )
-, mHeadStart( 10 )
-, mPlayState( disconnected )
-, mUpdateSlider( true )
 , mpControlWidget( controlWidget )
 , mpScrollLine( new ScrollLine( this ) )
 , mpStatusDisplay( new QLabel( this ) )
 , mpTimeDisplay( new QLabel( this ) )
 , mpPlayPosition( new QSlider( Qt::Horizontal, this ) )
 , mpSocket( new QTcpSocket( this ) )
+, mpFSM( new PlayerFSM( this ) )
+, mAutoStart( false )
+, mTotalTime( 0 )
+, mFrequency( 44100 )
+, mSamples( 0 )
+, mHeadStart( 10 )
+, mUpdateSlider( true )
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    
@@ -60,8 +55,6 @@ PlayerWidget::PlayerWidget( int index,
    mpStatusDisplay->setContextMenuPolicy( Qt::CustomContextMenu );
    mpTimeDisplay->setAlignment( Qt::AlignRight );
    mpTimeDisplay->setFrameShape( QFrame::Box );
-   setInfo("");
-   setPlayingStatus("");
    
    connect( mpSocket, SIGNAL(connected()), this, SLOT(handleConnect()) );
    connect( mpSocket, SIGNAL(disconnected()), this, SLOT(handleDisconnect()) );
@@ -73,6 +66,38 @@ PlayerWidget::PlayerWidget( int index,
    connect( mpPlayPosition, SIGNAL(sliderReleased()), this, SLOT(seek()) );
    connect( mpStatusDisplay, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(unload(QPoint)) );
+   
+   mpFSM->changeState( PlayerFSM::disconnected );
+}
+
+
+PlayerWidget::~PlayerWidget()
+{
+   if( mpFSM ) delete mpFSM;
+}
+
+
+void PlayerWidget::getNextTrack( bool armed )
+{
+   QString fileName;
+   
+   if( armed )
+   {
+      mpControlWidget->getNextTrack( &fileName );
+   }
+   if( fileName.isEmpty() )
+   {
+      mpScrollLine->setText( tr("no file loaded") );
+      mpScrollLine->setToolTip( fileName );
+   }
+   else
+   {
+      int lastSlash = fileName.lastIndexOf( '/' );
+      int lastDot   = fileName.lastIndexOf( '.' );
+      mpScrollLine->setText( fileName.mid( lastSlash+1, lastDot-lastSlash-1 ) );
+      mpScrollLine->setToolTip( fileName );
+   }
+   sendCommand( "preread", fileName );
 }
 
 
@@ -100,11 +125,10 @@ void PlayerWidget::seek()
 
 void PlayerWidget::unload( const QPoint &/*pos*/ )
 {
-   if( mPlayState == loaded )
+   if( mpFSM->getState() == PlayerFSM::ready )
    {
       QString actual( mpScrollLine->toolTip() );
-      /* a bit of a hack: simulate track already played to get new one */
-      mpControlWidget->reportState( mPlayer, stopped );
+      mpFSM->changeState( PlayerFSM::searching );
       mpControlWidget->addToPlaylist( QStringList( actual ) );
    }
 }
@@ -131,179 +155,57 @@ QString PlayerWidget::sec2minsec( const QString &seconds )
 }
 
 
-void PlayerWidget::setInfo( const QString &line )
+void PlayerWidget::updateTime( const QString &msg )
 {
-   int indexFile = line.indexOf( "file:" );
-   int indexTime = line.indexOf( "/" ) + 1;
-   int indexDot  = line.indexOf( ".", indexTime );
-   int indexSec  = line.indexOf( "s", indexTime );
-   int lengthTime;
-   
-   /* set filename */
-   if( indexFile > 0 )
-   {
-      int lastSlash = line.lastIndexOf( '/' );
-      int lastDot   = line.lastIndexOf( '.' );
-      mpScrollLine->setText( line.mid( lastSlash+1, lastDot-lastSlash-1 ) );
-      mpScrollLine->setToolTip( line.mid( indexFile + 6 ) );
-   }
-   else
-   {
-      setState( mPlayState == disconnected ? disconnected : unloaded );
-   }
-
-   if( line.indexOf( "loading" ) >= 0 )
-   {
-      setState( loading );
-   }
-   
-   /* calculate total time */
-   if( (indexDot > 0) && (indexDot < indexSec) )
-   {
-      lengthTime = indexDot - indexTime;
-   }
-   else
-   {
-      lengthTime = indexSec - indexTime;
-   }
-   mTotalTime = line.mid( indexTime, lengthTime ).toLong();
-   mpPlayPosition->setRange( 0, mTotalTime );
-   
-   /* if total time is not sane decode track */
-   if( mTotalTime < 5 )
-   {
-      mTotalTime = mSamples / mFrequency;
-   }
-   
-   /* if not playing set slider to start */
-   if( line.indexOf( "playing" ) < 0 )
-   {
-      mpTimeDisplay->setText( sec2minsec( "0" ) + "/" + sec2minsec( QString::number( mTotalTime ) ) );
-      mpPlayPosition->setValue( 0 );
-   }
-   
-   /* if playing a short track */
-   if( mShortPlay && line.indexOf( "paused" ) > 0 )
-   {
-      setState( playing );
-   }
-   
-   /* test if playing a short track */
-   if( mTotalTime > 0 )
-   {
-      mShortPlay = mTotalTime <= mHeadStart;
-   }
-   
-   if( (mPlayState == loading) && (mNormalizeMode == 0) )
-   {
-      setState( loaded );
-   }
-}
-
-
-void PlayerWidget::setPlayingStatus( const QString &line )
-{
-   int colon;
-   colon = line.indexOf(',');
+   int colon = msg.indexOf(',');
    long playPosition = mpPlayPosition->value();
 
-   if( (colon > 0) && (line.at(colon-1) == 's') )
+   if( msg.isEmpty() )
    {
-      mpTimeDisplay->setText( sec2minsec( line.left(colon-1) ) + "/" + sec2minsec( QString::number( mTotalTime ) ) );
-      playPosition = line.left(colon-1).toLong();
-      if( mUpdateSlider )
+      mpTimeDisplay->setText( sec2minsec( "0" ) + "/" + sec2minsec( QString::number( mTotalTime ) ) );
+      playPosition = 0;
+   }
+   else
+   {
+      if( (colon > 0) && (msg.at(colon-1) == 's') )
       {
-         mpPlayPosition->setValue( playPosition );
+         mpTimeDisplay->setText( sec2minsec( msg.left(colon-1) ) + "/" + sec2minsec( QString::number( mTotalTime ) ) );
+         playPosition = msg.left(colon-1).toLong();
       }
    }
    
-   if( (mPlayState == playing) && (mTotalTime > 0) && !mShortPlay &&
-        ((mTotalTime - playPosition) <= mHeadStart) )
+   if( mUpdateSlider )
    {
-      setState( ending );
+      mpPlayPosition->setValue( playPosition );
    }
    
-   if( line.indexOf( "stopped" ) > 0 )
+   if( (mpFSM->getState() == PlayerFSM::playing) &&
+       (playPosition >= mTotalTime - mHeadStart) )
    {
-      if( mPlayState == loading )
-      {
-         setState( loaded );
-      }
-      else
-      {
-         setState( stopped );
-      }
+      mpFSM->changeState( PlayerFSM::ending );
    }
 }
 
 
-void PlayerWidget::setState( eState state, const QString &parameter )
+void PlayerWidget::setState( PlayerFSM::tState state )
 {
-#if 0
-TRACESTART(PlayerWidget::setState)
-TRACEMSG << mPlayer << strState[mPlayState] << "->" << strState[state];
-#endif
-   switch( state )
-   {
-      case disconnected:
-      case unloaded:
-         mpStatusDisplay->setText( tr("unloaded") );
-         mpScrollLine->setText( "no file loaded" );
-         mpScrollLine->setToolTip( QString() );
-         mTotalTime = 0;
-         break;
-      case loading:
-         mpStatusDisplay->setText( tr("loading") );
-         sendCommand( "preread", parameter );
-         sendCommand( "load", parameter );
-         mpPlayPosition->setDisabled( true );
-         break;
-      case loaded:
-         mpStatusDisplay->setText( tr("ready") );
-         mUpdateSlider = true;
-         /* a bit of an ugly way to get things running */
-         if( mAutoStart )
-         {
-            mpControlWidget->reportState( mPlayer, loaded );
-            state = playing;
-            mAutoStart = false;
-         }
-         else
-         {
-            break;
-         }
-      case playing:
-         mpPlayPosition->setDisabled( false );
-         sendCommand( "start" );
-         break;
-      case ending:
-         mpPlayPosition->setDisabled( true );
-         mpStatusDisplay->setText( tr("ending") );
-         break;
-      case stopped:
-         mpStatusDisplay->setText( tr("stopped") );
-         watch( false );
-         break;
-      case skipping:
-         sendCommand( "stop" );
-         break;
-      case paused:
-      case endingpaused:
-         break;
-      default:
-         break;
-   }
-
-   mPlayState = state;
-   mpControlWidget->reportState( mPlayer, mPlayState );
+   mpFSM->changeState( state );
 }
 
 
 void PlayerWidget::skip()
 {
-   if( (mPlayState == playing) || (mPlayState == paused) )
+   switch( mpFSM->getState() )
    {
-      setState( skipping );
+      case PlayerFSM::playing:
+      case PlayerFSM::paused:
+         setState( PlayerFSM::searching );
+         break;
+      case PlayerFSM::ready:
+         setState( PlayerFSM::playing );
+         break;
+      default:
+         break;
    }
 }
 
@@ -323,106 +225,11 @@ void PlayerWidget::handleResponse()
       {
          std::cout << mPlayer << '<' << data.toLocal8Bit().data() << '\n';
       }
-
-      if( data.startsWith( "[ch" ) /*&& data.at(4) = ']'*/ ) /* from "[ch0]" */
-      {
-         setPlayingStatus( data.mid( 6 ) );
-      }
       
-      switch( mDerMixD )
-      {
-         case inFullstat:
-            if( data.startsWith( QString("in ")+QChar('0'+mPlayer) ) ) /* from "in 0:" */
-            {
-               setInfo( data.mid( 5 ) );
-            }
-            break;
-         case inScan:
-            handleScan( data );
-            break;
-         case inNormal:
-            break;
-         default:
-            break;
-      }
-      
-      if( data.startsWith( "[scan]" ) )
-      {
-         if( data.endsWith( "+begin" ) )
-         {
-            mDerMixD = inScan;
-         }
-         if( data.endsWith( "-end" ) )
-         {
-            mDerMixD = inNormal;
-         }
-      }
-      
-      if( data.startsWith( "[fullstat]" ) )
-      {
-         if( data.endsWith( "+begin" ) )
-         {
-            mDerMixD = inFullstat;
-         }
-         if( data.endsWith( "-end" ) )
-         {
-            mDerMixD = inNormal;
-         }
-      }
-      
-      if( data.startsWith( "[load] error" ))
-      {
-         mpControlWidget->loadNext( mPlayer );
-      }
-      
-      if( data.startsWith( "[load] success" ) )
-      {
-         /* request normalization volume */
-         switch( mNormalizeMode )
-         {
-            case 0:
-               sendCommand( "scan", "format length" );
-               break;
-            case 1:
-               sendCommand( "scan", "format length peak" );
-               break;
-            case 2:
-               sendCommand( "scan", "format length power" );
-               break;
-            default:
-               break;
-         }
-         
-         sendCommand( "fullstat" );
-      }
-      
-      if( data.startsWith( "[start] success" ) )
-      {
-         watch( true );
-         if( mPlayState == ending )
-         {
-            mpStatusDisplay->setText( tr("ending") );
-         }
-         else
-         {
-            mpStatusDisplay->setText( tr("playing") );
-         }
-      }
-      
-      if( data.startsWith( "[pause] success" ) )
-      {
-         mpStatusDisplay->setText( tr("paused") );
-      }
-      
-      if( data.startsWith( "[seek] success" ) )
-      {
-         mUpdateSlider = true;
-      }
+      mpFSM->handleDerMixD( data );
       
       if( data.startsWith( "[connect]" ) )
       {
-         setState( unloaded );
-         
          /* check for version */
          int vpos = data.lastIndexOf(" v", -1, Qt::CaseInsensitive);
          int dotpos = data.indexOf(".",vpos);
@@ -430,7 +237,7 @@ void PlayerWidget::handleResponse()
          long  major = data.mid(vpos+2,dotpos-vpos-2).toLong();
          float minor = data.mid(dotpos+1).toFloat();
          bool  ok = false;
-         if( (major == 1) && (minor > 2.999) )
+         if( (major == 1) && (minor > 4.999) )
          {
             ok = true;
          }
@@ -440,27 +247,13 @@ void PlayerWidget::handleResponse()
             mpControlWidget->initDisconnect( ControlWidget::wrongVersion );
          }
       }
-   }
-}
-
-
-void PlayerWidget::watch( bool turnWatchOn )
-{
-   if( mWatching )
-   {
-      if( !turnWatchOn )
+      
+      if( data.startsWith( "[seek] success" ) )
       {
-         sendCommand( "unwatch" );
+         mUpdateSlider = true;
+         updateTime( QString::number(mpPlayPosition->value()) + "s," );
       }
    }
-   else
-   {
-      if( turnWatchOn )
-      {
-         sendCommand( "watch" );
-      }
-   }
-   mWatching = turnWatchOn;
 }
 
 
@@ -474,28 +267,29 @@ void PlayerWidget::disconnect()
 {
    sendCommand( "stop" );
    mpSocket->disconnectFromHost();
-   setState( disconnected );
+   setState( PlayerFSM::disconnected );
 }
 
 
 void PlayerWidget::handleConnect()
 {
    mAutoStart = (mPlayer == 0);
-   mWatching = false;
-   mDerMixD = inNormal;
+   if( mAutoStart )
+   {
+      setState( PlayerFSM::searching );
+   }
 }
 
 
 void PlayerWidget::handleDisconnect()
 {
-   setState( disconnected );
-   setInfo("");
+   setState( PlayerFSM::disconnected );
 }
 
 
 void PlayerWidget::handleError( QAbstractSocket::SocketError /*socketError*/ )
 {
-   if( mPlayState != disconnected )
+   if( mpFSM->getState() != PlayerFSM::disconnected )
    {
       mpControlWidget->initDisconnect( ControlWidget::connectionLost );
    }
@@ -536,34 +330,22 @@ void PlayerWidget::sendCommand( const QString &command, const QString &parameter
 
 void PlayerWidget::pause()
 {
-   if( mPlayState == playing )
+   switch( mpFSM->getState() )
    {
-      mPlayState = paused;
-      sendCommand( "pause" );
-      mpControlWidget->reportState( mPlayer, mPlayState );
-      return;
-   }
-   
-   if( mPlayState == ending )
-   {
-      mPlayState = endingpaused;
-      sendCommand( "pause" );
-      return;
-   }
-   
-   if( mPlayState == paused )
-   {
-      mPlayState = playing;
-      sendCommand( "start" );
-      mpControlWidget->reportState( mPlayer, mPlayState );
-      return;
-   }
-   
-   if( mPlayState == endingpaused )
-   {
-      mPlayState = ending;
-      sendCommand( "start" );
-      return;
+      case PlayerFSM::playing:
+         mpFSM->changeState( PlayerFSM::paused );
+         break;
+      case PlayerFSM::paused:
+         mpFSM->changeState( PlayerFSM::playing );
+         break;
+      case PlayerFSM::ending:
+         mpFSM->changeState( PlayerFSM::endingpaused );
+         break;
+      case PlayerFSM::endingpaused:
+         mpFSM->changeState( PlayerFSM::ending );
+         break;
+      default:
+         break;
    }
 }
 
@@ -595,22 +377,22 @@ void PlayerWidget::handleScan( const QString &data )
       if( !mFrequency )
       {
          /* to avoid division by zero */
-         mFrequency = 1;
+         mFrequency = 44100;
       }
    }
    else if( token.at(1).startsWith( "samples" ) )
    {
       mSamples = token.at(0).toLong();
    }
-
-   if( mPlayState != playing )
-   {
-      setState( loaded );
-   }
+   mTotalTime = mSamples / mFrequency;
+   
+   mpPlayPosition->setRange( 0, mTotalTime );
+   updateTime();
 }
 
 
-QString PlayerWidget::getFileName()
+void PlayerWidget::disablePlayPosition( bool disable )
 {
-   return mpScrollLine->toolTip();
+   mpPlayPosition->setDisabled( disable );
 }
+

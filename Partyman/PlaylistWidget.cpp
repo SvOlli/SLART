@@ -157,16 +157,15 @@ void PlaylistWidget::addEntries( const QStringList &entries, bool atStart )
 }
 
 
-QString PlaylistWidget::nextTrackName()
+void PlaylistWidget::getNextTrack( QString *fileName )
 {
-   QString trackName;
    int i;
    
    if( mpPlaylistContent->count() > 0 )
    {
       QListWidgetItem *qlwi = mpPlaylistContent->takeItem(0);
       mpPlaylistContent->setToolTip( QModelIndex() );
-      trackName = qlwi->text();
+      *fileName = qlwi->text();
       delete qlwi;
    }
    else
@@ -180,10 +179,8 @@ QString PlaylistWidget::nextTrackName()
       }
       i = qrand() % mRandomList.size();
       
-      trackName = mM3uData.at( mRandomList.takeAt(i) );
+      *fileName = mM3uData.at( mRandomList.takeAt(i) );
    }
-   
-   return trackName;
 }
 
 
@@ -259,7 +256,7 @@ void PlaylistWidget::readM3u()
    MySettings settings;
    int i, size;
    QString listfilename( settings.value( "DatabaseFilename", QString() ).toString() );
-   if( mM3uFileName == listfilename )
+   if( (mM3uFileName == listfilename) && (mM3uData.size() > 0) )
    {
       return;
    }
@@ -271,6 +268,7 @@ void PlaylistWidget::readM3u()
       emit playlistIsValid( false );
       return;
    }
+   
    QProgressDialog progress( tr("<center><img src=':/PartymanSmile.gif'>&nbsp;"
                              "&nbsp;<img src=':/PartymanWriting.gif'><br>"
                              "Loading Playlist...</center>"),

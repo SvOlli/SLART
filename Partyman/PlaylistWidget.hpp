@@ -33,7 +33,7 @@ public:
    virtual ~PlaylistWidget();
 
    /* get name of next track either from playlist */
-   QString nextTrackName();
+   void getNextTrack( QString *fileName );
    /* search entries */
    QStringList search( const QRegExp &rx ) const;
 
@@ -56,7 +56,9 @@ public slots:
    void handleTabChange( int tabNr );
    
 signals:
+   /* unfold a node */
    void expand( const QModelIndex &qmi );
+   /* tell if the current playlist is valid */
    void playlistIsValid( bool isValid );
 
 private:

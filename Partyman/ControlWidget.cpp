@@ -6,6 +6,7 @@
  */
 
 #include "ControlWidget.hpp"
+#include "PlaylistWidget.hpp"
 #include "ConfigDialog.hpp"
 #include "MySettings.hpp"
 
@@ -14,12 +15,13 @@
 #include "Trace.hpp"
 
 
-ControlWidget::ControlWidget( ConfigDialog *config, QWidget *parent , Qt::WindowFlags flags )
+ControlWidget::ControlWidget( ConfigDialog *config, PlaylistWidget *playlist, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpConfig( config )
+, mpPlaylist( playlist )
 , mpLogo( new QLabel( this ) )
-, mpConnectButton( new QPushButton( this ) )
-, mpSkipButton( new QPushButton( this ) )
+, mpConnectButton( new QPushButton( tr("Connect"), this ) )
+, mpSkipButton( new QPushButton( tr("Next"), this ) )
 , mConnected( false )
 , mPaused( false )
 , mStopIcon( QIcon(":/Stop.gif") )
@@ -61,17 +63,15 @@ ControlWidget::ControlWidget( ConfigDialog *config, QWidget *parent , Qt::Window
    mpLogo->setFrameShadow( QFrame::Raised );
    mpLogo->setFrameShape( QFrame::Box );
    
-   mpConnectButton->setText( tr("Connect") );
    mpConnectButton->setCheckable( true );
    mpConnectButton->setDisabled( true );
 
-   mpSkipButton->setText( tr("Next") );
    mpSkipButton->setDisabled( true );
    
    connect( mpConnectButton, SIGNAL(clicked()), this, SLOT(initConnect()) );
    connect( mpPauseAction, SIGNAL(triggered()), this, SLOT(handlePause()) );
    connect( mpDisconnectAction, SIGNAL(triggered()), this, SLOT(initDisconnect()) );
-   connect( mpSkipButton, SIGNAL(clicked()), this, SLOT(nextTrack()) );
+   connect( mpSkipButton, SIGNAL(clicked()), this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()), this, SLOT(readConfig()) );
    connect( &mSLATCom, SIGNAL(packageRead(QStringList)), this, SLOT(handleSLAT(QStringList)) );
 
@@ -124,9 +124,6 @@ void ControlWidget::addToPlaylist( const QStringList &entries )
 
 void ControlWidget::initConnect()
 {
-#if 0
-TRACESTART(ControlWidget::initConnect)
-#endif
    MySettings settings;
    
    if( !mConnected )
@@ -145,9 +142,6 @@ TRACESTART(ControlWidget::initConnect)
             args << params.split(' ');
          }
          /* TODO: configure path to dermixd */
-#if 0
-TRACEMSG << "dermixd" << args;
-#endif
          mDerMixDprocess.start( settings.value("DerMixDcmd", "dermixd").toString(), args );
          /* block until dermixd is up an running */
          for( mWaitForDerMixD = true; mWaitForDerMixD; )
@@ -159,9 +153,6 @@ TRACEMSG << "dermixd" << args;
             QMessageBox::critical( this, QApplication::applicationName(),
                                    QString(tr("Could not start DerMixD")) );
          }
-#if 0
-TRACEMSG << "started";
-#endif
       }
       else
       {
@@ -238,8 +229,8 @@ void ControlWidget::handlePause( bool reset )
       mpPauseAction->setText( tr( "Resume" ) );
       mPaused = true;
    }
-   if( (mpPlayer[0]->getState() != PlayerWidget::ending) &&
-       (mpPlayer[1]->getState() != PlayerWidget::ending) )
+   if( (mpPlayer[0]->getState() != PlayerFSM::ending) &&
+       (mpPlayer[1]->getState() != PlayerFSM::ending) )
    {
       mpSkipButton->setDisabled( mPaused );
    }
@@ -247,87 +238,19 @@ void ControlWidget::handlePause( bool reset )
 }
 
 
-void ControlWidget::nextTrack()
+void ControlWidget::handleSkipTrack()
 {
    mpSkipButton->clearFocus();
-   mpSkipButton->setDisabled( true );
+   allowInteractive( false );
    mpPlayer[0]->skip();
    mpPlayer[1]->skip();
    log( "p0n", "skip" );
 }
 
 
-void ControlWidget::loadNext( int player )
+void ControlWidget::getNextTrack( QString *fileName )
 {
-   mLastLoad = player;
-   emit requestNextTrack( player );
-}
-
-
-void ControlWidget::setFileName( int player, const QString &fileName )
-{
-   mpPlayer[player]->setState( PlayerWidget::loading, fileName );
-}
-
-
-void ControlWidget::reportState( int player, PlayerWidget::eState state )
-{
-   if( state == PlayerWidget::playing )
-   {
-      log( "p0p", "play", mpPlayer[player]->getFileName() );
-   }
-
-   if( state == PlayerWidget::paused )
-   {
-      log( "p0a", "pause" );
-   }
-
-   if( state == PlayerWidget::ending )
-   {
-      mpSkipButton->setDisabled( true );
-      mpPlayer[1-player]->setState( PlayerWidget::playing );
-   }
-   
-   if( state == PlayerWidget::unloaded )
-   {
-      /* evil hack for quick startup part 1 */
-      if( player == 0 )
-      {
-         loadNext( player );
-      }
-   }
-   
-   if( state == PlayerWidget::loading )
-   {
-      mpSkipButton->setDisabled( true );
-   }
-   
-   if( state == PlayerWidget::loaded )
-   {
-      mpSkipButton->setDisabled( false );
-      /* evil hack for quick startup part 2 */
-      if( (player == 0) && 
-          (mpPlayer[1]->getState() == PlayerWidget::unloaded) )
-      {
-         loadNext(1);
-      }
-   }
-   
-   if( state == PlayerWidget::stopped )
-   {
-      loadNext( player );
-      switch( mpPlayer[1-player]->getState() )
-      {
-         case PlayerWidget::ending:
-            mpPlayer[player]->setState( PlayerWidget::playing );
-            break;
-         case PlayerWidget::loaded:
-            mpPlayer[1-player]->setState( PlayerWidget::playing );
-            break;
-         default:
-            break;
-      }
-   }
+   mpPlaylist->getNextTrack( fileName );
 }
 
 
@@ -359,9 +282,14 @@ void ControlWidget::handleSLAT( const QStringList &src )
       }
    }
    
+   if( src.at(0) == "P0A" )
+   {
+      handlePause();
+   }
+   
    if( src.at(0) == "P0N" )
    {
-      nextTrack();
+      handleSkipTrack();
    }
 }
 
@@ -394,21 +322,12 @@ void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const
 
 void ControlWidget::handleDerMixDstartup()
 {
-#if 0
-TRACESTART(ControlWidget::handleDerMixDstartup)
-#endif
    QStringList data( QString::fromLocal8Bit( mDerMixDprocess.readAllStandardError() ).split('\n') );
-#if 0
-TRACEMSG << data;
-#endif
 
    for( int i = 0; i < data.size(); i++ )
    {
       if( data.at(i).startsWith( "[port_watcher] online" ) )
       {
-#if 0
-TRACEMSG << "unlock";
-#endif
          mDerMixDstarted = true;
          mWaitForDerMixD = false;
       }
@@ -428,4 +347,18 @@ void ControlWidget::handleDerMixDerror( QProcess::ProcessError /*error*/ )
 {
    mDerMixDstarted = false;
    mWaitForDerMixD = false;
+}
+
+
+void ControlWidget::changeOtherState( int player, PlayerFSM::tState state )
+{
+   mpPlayer[1-player]->setState( state );
+}
+
+
+void ControlWidget::allowInteractive( bool allow )
+{
+   mpSkipButton->setDisabled( !allow );
+   mpPlayer[0]->disablePlayPosition( !allow );
+   mpPlayer[1]->disablePlayPosition( !allow );
 }

@@ -57,3 +57,33 @@ SOURCES += ScrollLine.cpp
 HEADERS += SearchWidget.hpp
 SOURCES += SearchWidget.cpp
 
+HEADERS += PlayerFSM.hpp
+SOURCES += PlayerFSM.cpp
+
+HEADERS += PlayerFSMBase.hpp
+SOURCES += PlayerFSMBase.cpp
+
+HEADERS += PlayerFSMDisconnected.hpp
+SOURCES += PlayerFSMDisconnected.cpp
+
+HEADERS += PlayerFSMEnding.hpp
+SOURCES += PlayerFSMEnding.cpp
+
+HEADERS += PlayerFSMEndingPaused.hpp
+SOURCES += PlayerFSMEndingPaused.cpp
+
+HEADERS += PlayerFSMLoading.hpp
+SOURCES += PlayerFSMLoading.cpp
+
+HEADERS += PlayerFSMPaused.hpp
+SOURCES += PlayerFSMPaused.cpp
+
+HEADERS += PlayerFSMPlaying.hpp
+SOURCES += PlayerFSMPlaying.cpp
+
+HEADERS += PlayerFSMReady.hpp
+SOURCES += PlayerFSMReady.cpp
+
+HEADERS += PlayerFSMSearching.hpp
+SOURCES += PlayerFSMSearching.cpp
+
