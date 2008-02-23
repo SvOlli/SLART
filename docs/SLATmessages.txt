@@ -1,0 +1,19 @@
+
+Partyman
+- commands
+  - P0Q: enQueue track
+  - P0N: skip to Next track
+- status messages
+  - p0p: playing track
+  - p0s: stopped
+  - p0n: skipping to next
+  - p0a: paused
+
+Stripped
+- status messages
+  - s0d: done with ripping track
+
+Funkytown
+- status messages
+  - f0d: done with downloading track
+

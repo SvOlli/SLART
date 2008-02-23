@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rawentries="COPYING Makefile Global.pri Common";
+rawentries="docs/COPYING Makefile Global.pri Common";
 
 mode="$1"
 if [ -z "$mode" ]; then
