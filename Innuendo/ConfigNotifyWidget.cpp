@@ -18,13 +18,12 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
 //, mpTabBar( new QTabBar( this ) )
 , mpTabWidget( new QTabWidget( this ) )
 , mpTabs( 0 )
-, mpSelectAllBox( new QCheckBox( tr("Enable Full Communication"), this ) )
 {
-
    int i;
    
-   QGroupBox   *groupBox   = new QGroupBox( this );
-   QVBoxLayout *mainLayout = new QVBoxLayout( this );
+   QVBoxLayout *mainLayout   = new QVBoxLayout( this );
+   QGroupBox   *groupBox     = new QGroupBox;
+   QHBoxLayout *buttonLayout = new QHBoxLayout;
 
    mpTabWidget->setUsesScrollButtons( true );
    mApplications << "Innuendo" << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome";
@@ -42,9 +41,11 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
 #if QT_VERSION < 0x040300
    gridLayout->setMargin( 0 );
    mainLayout->setMargin( 0 );
+   buttonLayout->setMargin( 0 );
 #else
    gridLayout->setContentsMargins( 0, 0, 0, 0 );
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
+   buttonLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
    
 //   mainLayout->addWidget( mpTabBar, 0, 0, mApplications.count() + 1, 1 );
@@ -65,12 +66,19 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
    mpTabs[mApplications.indexOf("Rubberbandman")]->allowNotify(mApplications.indexOf("Innuendo"));
    
    mpTabs[mApplications.indexOf("Karmadrome")]->allowNotify(mApplications.indexOf("Innuendo"));
- 
+   
+   QPushButton *allOnButton  = new QPushButton( tr("Enable Full Communication"), this );
+   QPushButton *allOffButton = new QPushButton( tr("Disable Full Communication"), this );
+   buttonLayout->addWidget( allOnButton );
+   buttonLayout->addWidget( allOffButton );
    
    groupBox->setLayout( gridLayout );
    
    mainLayout->addWidget( groupBox );
-   mainLayout->addWidget( mpSelectAllBox );
+   mainLayout->addLayout( buttonLayout );
+   
+   connect( allOnButton,  SIGNAL(clicked()), this, SLOT(enableFullCommunication()) );
+   connect( allOffButton, SIGNAL(clicked()), this, SLOT(disableFullCommunication()) );
    
    setLayout( mainLayout );
 }
@@ -108,5 +116,26 @@ int ConfigNotifyWidget::getUDPListenerPort( int index )
    else
    {
       return 0;
+   }
+}
+
+
+void ConfigNotifyWidget::enableFullCommunication()
+{
+   setAllAtOnce( true );
+}
+
+
+void ConfigNotifyWidget::disableFullCommunication()
+{
+   setAllAtOnce( false );
+}
+
+
+void ConfigNotifyWidget::setAllAtOnce( bool enable )
+{
+   for( int i = 0; i < mApplications.count(); i++ )
+   {
+      mpTabs[i]->setAllAtOnce( enable );
    }
 }

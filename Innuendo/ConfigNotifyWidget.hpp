@@ -30,17 +30,19 @@ public:
    ConfigNotifyWidget( QWidget *parent = 0 );
    virtual ~ConfigNotifyWidget();
    int getUDPListenerPort( int index );
+   void setAllAtOnce( bool enable );
 
 public slots:
    void readSettings();
    void writeSettings();
+   void enableFullCommunication();
+   void disableFullCommunication();
 
 signals:
 
 private:
    QTabWidget   *mpTabWidget;
    ConfigNotifyApplicationWidget **mpTabs;
-   QCheckBox    *mpSelectAllBox;
    QStringList  mApplications;
 };
 

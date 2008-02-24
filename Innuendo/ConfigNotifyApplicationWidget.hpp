@@ -32,6 +32,7 @@ public:
 
    void allowNotify( int index, bool allow = true );
    int getUDPListenerPort();
+   void setAllAtOnce( bool enable );
 
 public slots:
    void readSettings();

@@ -102,10 +102,33 @@ void ConfigNotifyApplicationWidget::writeSettings()
 void ConfigNotifyApplicationWidget::handleUDPListen( bool checked )
 {
    mpUDPListenerPort->setDisabled( !checked );
+   mpUDPListenerPortLabel->setDisabled( !checked );
+   for( int i = 0; i < mApplications.count(); i++ )
+   {
+      if( !mpSendsTo[i]->isHidden() )
+      {
+         mpSendsTo[i]->setDisabled( !checked );
+      }
+   }
 }
 
 
 int ConfigNotifyApplicationWidget::getUDPListenerPort()
 {
    return mpUDPListenerPort->value();
+}
+
+
+void ConfigNotifyApplicationWidget::setAllAtOnce( bool enable )
+{
+   mpSLATCommunication->setChecked( enable );
+   
+   for( int i = 0; i < mApplications.count(); i++ )
+   {
+      if( !mpSendsTo[i]->isHidden() )
+      {
+         mpSendsTo[i]->setChecked( enable );
+      }
+   }
+   handleUDPListen( enable );
 }
