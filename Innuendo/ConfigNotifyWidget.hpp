@@ -8,7 +8,7 @@
 #ifndef CONFIGNOTIFYWIDGET_HPP
 #define CONFIGNOTIFYWIDGET_HPP CONFIGNOTIFYWIDGET_HPP
 
-#include <QGroupBox>
+#include <QWidget>
 #include <QStringList>
 
 class QGridLayout;
@@ -19,9 +19,10 @@ class QListWidget;
 class QSpinBox;
 class QHttp;
 class ConfigNotifyApplicationWidget;
+class QCheckBox;
 class QTabWidget;
 
-class ConfigNotifyWidget : public QGroupBox
+class ConfigNotifyWidget : public QWidget
 {
 Q_OBJECT
    
@@ -39,6 +40,7 @@ signals:
 private:
    QTabWidget   *mpTabWidget;
    ConfigNotifyApplicationWidget **mpTabs;
+   QCheckBox    *mpSelectAllBox;
    QStringList  mApplications;
 };
 

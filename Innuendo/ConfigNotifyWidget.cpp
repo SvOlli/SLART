@@ -14,13 +14,21 @@
 
 
 ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
-: QGroupBox( parent )
+: QWidget( parent )
 //, mpTabBar( new QTabBar( this ) )
 , mpTabWidget( new QTabWidget( this ) )
 , mpTabs( 0 )
+, mpSelectAllBox( new QCheckBox( tr("Enable Full Communication"), this ) )
 {
+
    int i;
-   mApplications << "Innuendo" << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman";
+   
+   QGroupBox   *groupBox   = new QGroupBox( this );
+   QVBoxLayout *mainLayout = new QVBoxLayout( this );
+   
+   
+   mpTabWidget->setUsesScrollButtons( true );
+   mApplications << "Innuendo" << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome";
    mpTabs = new ConfigNotifyApplicationWidget*[mApplications.count()];
    for( i = 0; i < mApplications.count(); i++ )
    {
@@ -29,14 +37,25 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
    }
    
    MySettings settings;
-   QGridLayout *mainLayout = new QGridLayout( this );
-   setTitle( tr("Notification Settings:") );
+   QGridLayout *gridLayout = new QGridLayout;
+   groupBox->setTitle( tr("Notification Settings:") );
+   
+#if QT_VERSION < 0x040300
+   gridLayout->setMargin( 0 );
+   mainLayout->setMargin( 0 );
+#else
+   gridLayout->setContentsMargins( 0, 0, 0, 0 );
+   mainLayout->setContentsMargins( 0, 0, 0, 0 );
+#endif
    
 //   mainLayout->addWidget( mpTabBar, 0, 0, mApplications.count() + 1, 1 );
-   mainLayout->addWidget( mpTabWidget, 0, 0, mApplications.count() + 1, 1 );
+   gridLayout->addWidget( mpTabWidget, 0, 0, mApplications.count() + 1, 1 );
    
+   /* all communication has been disabled by default,
+      now turn those back on which could be useful */
    mpTabs[mApplications.indexOf("Partyman")]->allowNotify(mApplications.indexOf("Innuendo"));
    mpTabs[mApplications.indexOf("Partyman")]->allowNotify(mApplications.indexOf("Rubberbandman"));
+   mpTabs[mApplications.indexOf("Partyman")]->allowNotify(mApplications.indexOf("Karmadrome"));
    
    mpTabs[mApplications.indexOf("Stripped")]->allowNotify(mApplications.indexOf("Innuendo"));
    mpTabs[mApplications.indexOf("Stripped")]->allowNotify(mApplications.indexOf("Partyman"));
@@ -45,7 +64,14 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
    mpTabs[mApplications.indexOf("Funkytown")]->allowNotify(mApplications.indexOf("Partyman"));
    
    mpTabs[mApplications.indexOf("Rubberbandman")]->allowNotify(mApplications.indexOf("Innuendo"));
+   
+   mpTabs[mApplications.indexOf("Karmadrome")]->allowNotify(mApplications.indexOf("Innuendo"));
  
+   
+   groupBox->setLayout( gridLayout );
+   
+   mainLayout->addWidget( groupBox );
+   mainLayout->addWidget( mpSelectAllBox );
    
    setLayout( mainLayout );
 }
