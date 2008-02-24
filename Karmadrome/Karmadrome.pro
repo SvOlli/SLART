@@ -5,7 +5,7 @@
 include ( ../Global.pri )
 
 TEMPLATE = app
-TARGET = TemplateApp
+TARGET = Karmadrome
 
 # Input
 #RESOURCES = Resources.qrc
