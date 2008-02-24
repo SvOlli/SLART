@@ -29,7 +29,7 @@ ProxyWidget::ProxyWidget( QWidget *parent )
 {
    MySettings settings;
    QGridLayout *mainLayout = new QGridLayout( this );
-   setTitle( tr(" Settings:") );
+   setTitle( tr("Proxy Settings:") );
    
    mpProxyOnButton->setCheckable( true );
    mpProxyAuthButton->setCheckable( true );

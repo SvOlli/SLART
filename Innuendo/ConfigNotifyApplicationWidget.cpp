@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ConfigNotifyApplicationWidget.cpp
  * written by Sven Oliver Moll
  * 

@@ -18,6 +18,8 @@
 #include "MySettings.hpp"
 #include "Trace.hpp"
 
+#include "Version.hpp"
+
 
 MainWidget::MainWidget( QWidget *parent )
 : QWidget( parent )
@@ -45,8 +47,6 @@ MainWidget::MainWidget( QWidget *parent )
    mpSetupButton->setAcceptDrops( false );
    mpDownloadHandler->setAcceptDrops( false );
    
-   mpSetupDialog->logMessage( QString( tr("This is Version 0.5 release") ) );
-
    // connect the dots
    mpPostDownloadHandlerHTML->setHandlers( mpDownloadHandler, mpPostDownloadHandlerXML );
    mpPostDownloadHandlerXML->setHandlers( mpDownloadHandler, mpPostDownloadHandlerMP3 );

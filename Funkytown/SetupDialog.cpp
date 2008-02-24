@@ -8,6 +8,7 @@
 #include "SetupDialog.hpp"
 #include "MySettings.hpp"
 #include "ProxyWidget.hpp"
+#include "Version.hpp"
 
 #include <QtGui>
 
@@ -22,15 +23,20 @@ SetupDialog::SetupDialog( QWidget *parent )
 {
    MySettings settings;
    
+   QLabel *aboutText = new QLabel( tr("Funkytown Version " SLAT_VERSION
+   " written by Sven Oliver Moll as a part of <a href='http://svolli.org/software/slat'>SLAT</a>.<br>"
+   "Distributed unter the terms of the <a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>."), this );
+   aboutText->setOpenExternalLinks( true );
    mpLayout->addWidget( mpProxyWidget,   0, 0, 1, 2 );
    mpLayout->addWidget( mpLogList,       1, 0, 1, 2 );
-   mpLayout->addWidget( mpAboutQtButton, 2, 0, 1, 1 );
-   mpLayout->addWidget( mpCloseButton,   2, 1, 1, 1 );
+   mpLayout->addWidget( aboutText,       2, 0, 1, 2 );
+   mpLayout->addWidget( mpAboutQtButton, 3, 0, 1, 1 );
+   mpLayout->addWidget( mpCloseButton,   3, 1, 1, 1 );
    
    setLayout( mpLayout );
    
-   connect( mpCloseButton,     SIGNAL(clicked()), this, SLOT(reject()) );
-   connect( mpAboutQtButton,   SIGNAL(clicked()), qApp, SLOT(aboutQt()) );
+   connect( mpCloseButton, SIGNAL(clicked()), this, SLOT(reject()) );
+   connect( mpAboutQtButton, SIGNAL(clicked()), qApp, SLOT(aboutQt()) );
 }
 
 
