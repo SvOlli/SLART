@@ -24,13 +24,18 @@ bool PlayerFSMReady::enter()
    mpPlayerWidget->updateTime();
    mpPlayerWidget->mpControlWidget->allowInteractive( true );
 
-   if( mpPlayerWidget->mAutoStart )
+   if( mpPlayerWidget->mAutoPlay )
    {
-      mpPlayerWidget->mAutoStart = false;
-      mpPlayerWidget->mpControlWidget->changeOtherState( mpPlayerWidget->mPlayer, PlayerFSM::searching );
+      mpPlayerWidget->mAutoPlay = false;
       mpPlayerWidget->mpFSM->changeState( PlayerFSM::playing );
    }
 
+   if( mpPlayerWidget->mStartOther )
+   {
+      mpPlayerWidget->mStartOther = false;
+      mpPlayerWidget->mpControlWidget->changeOtherState( mpPlayerWidget->mPlayer, PlayerFSM::searching );
+   }
+   
    return true;
 }
 

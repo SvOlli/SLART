@@ -29,7 +29,8 @@ PlayerWidget::PlayerWidget( int index,
 , mpPlayPosition( new QSlider( Qt::Horizontal, this ) )
 , mpSocket( new QTcpSocket( this ) )
 , mpFSM( new PlayerFSM( this ) )
-, mAutoStart( false )
+, mStartOther( false )
+, mAutoPlay( false )
 , mTotalTime( 0 )
 , mFrequency( 44100 )
 , mSamples( 0 )
@@ -189,6 +190,19 @@ void PlayerWidget::updateTime( const QString &msg )
 
 void PlayerWidget::setState( PlayerFSM::tState state )
 {
+   switch( mpFSM->getState() )
+   {
+      case PlayerFSM::searching:
+      case PlayerFSM::loading:
+         if( state == PlayerFSM::playing )
+         {
+            mAutoPlay = true;
+            return;
+         }
+         /* slip through */
+      default:
+         break;
+   }
    mpFSM->changeState( state );
 }
 
@@ -273,10 +287,16 @@ void PlayerWidget::disconnect()
 
 void PlayerWidget::handleConnect()
 {
-   mAutoStart = (mPlayer == 0);
-   if( mAutoStart )
+   if( mPlayer == 0 )
    {
+      mStartOther = true;
+      mAutoPlay   = true;
       setState( PlayerFSM::searching );
+   }
+   else
+   {
+      mStartOther = false;
+      mAutoPlay   = false;
    }
 }
 

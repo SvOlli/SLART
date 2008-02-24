@@ -106,7 +106,8 @@ private:
    QSlider       *mpPlayPosition;
    QTcpSocket    *mpSocket;
    PlayerFSM     *mpFSM;
-   bool          mAutoStart;
+   bool          mStartOther;
+   bool          mAutoPlay;
    bool          mConsole;
    long          mTotalTime;
    long          mFrequency;
