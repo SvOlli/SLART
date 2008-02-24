@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ConfigNotifyApplicationWidget.cpp
  * written by Sven Oliver Moll
  * 
@@ -30,7 +30,6 @@ ConfigNotifyApplicationWidget::ConfigNotifyApplicationWidget( int index, const Q
    connect( mpSLATCommunication, SIGNAL(clicked(bool)),
             this, SLOT(handleUDPListen(bool)) );
    
-   mpUDPListenerPort->setRange( 1, 65535 );
    mpUDPListenerPort->setRange( 1, 65535 );
    
    mainLayout->addWidget( mpSLATCommunication );
