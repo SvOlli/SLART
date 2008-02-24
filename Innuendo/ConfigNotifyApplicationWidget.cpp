@@ -42,12 +42,9 @@ ConfigNotifyApplicationWidget::ConfigNotifyApplicationWidget( int index, const Q
    {
       mpSendsTo[i] = new QCheckBox( QString(tr("Send Notifications To "))+apps.at(i), this );
       mainLayout->addWidget( mpSendsTo[i] );
-      if( i == mIndex )
-      {
-         mpSendsTo[i]->setHidden( true );
-      }
-      mpSendsTo[i]->setDisabled( true );
+      mpSendsTo[i]->setHidden( true );
    }
+   mainLayout->addWidget( new QWidget() );
    
    setLayout( mainLayout );
 }
@@ -61,7 +58,7 @@ ConfigNotifyApplicationWidget::~ConfigNotifyApplicationWidget()
 
 void ConfigNotifyApplicationWidget::allowNotify( int index, bool allow )
 {
-   mpSendsTo[index]->setDisabled( !allow );
+   mpSendsTo[index]->setHidden( !allow );
 }
 
 

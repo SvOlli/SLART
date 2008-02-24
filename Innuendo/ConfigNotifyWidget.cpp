@@ -20,7 +20,8 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
 , mpTabs( 0 )
 {
    int i;
-   mApplications << "Innuendo" << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman";
+   mpTabWidget->setUsesScrollButtons( true );
+   mApplications << "Innuendo" << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome";
    mpTabs = new ConfigNotifyApplicationWidget*[mApplications.count()];
    for( i = 0; i < mApplications.count(); i++ )
    {
@@ -35,8 +36,11 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
 //   mainLayout->addWidget( mpTabBar, 0, 0, mApplications.count() + 1, 1 );
    mainLayout->addWidget( mpTabWidget, 0, 0, mApplications.count() + 1, 1 );
    
+   /* all communication has been disabled by default,
+      now turn those back on which could be useful */
    mpTabs[mApplications.indexOf("Partyman")]->allowNotify(mApplications.indexOf("Innuendo"));
    mpTabs[mApplications.indexOf("Partyman")]->allowNotify(mApplications.indexOf("Rubberbandman"));
+   mpTabs[mApplications.indexOf("Partyman")]->allowNotify(mApplications.indexOf("Karmadrome"));
    
    mpTabs[mApplications.indexOf("Stripped")]->allowNotify(mApplications.indexOf("Innuendo"));
    mpTabs[mApplications.indexOf("Stripped")]->allowNotify(mApplications.indexOf("Partyman"));
@@ -45,6 +49,8 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
    mpTabs[mApplications.indexOf("Funkytown")]->allowNotify(mApplications.indexOf("Partyman"));
    
    mpTabs[mApplications.indexOf("Rubberbandman")]->allowNotify(mApplications.indexOf("Innuendo"));
+   
+   mpTabs[mApplications.indexOf("Karmadrome")]->allowNotify(mApplications.indexOf("Innuendo"));
  
    
    setLayout( mainLayout );
