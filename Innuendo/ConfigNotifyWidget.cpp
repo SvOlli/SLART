@@ -25,8 +25,7 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
    
    QGroupBox   *groupBox   = new QGroupBox( this );
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
-   
-   
+
    mpTabWidget->setUsesScrollButtons( true );
    mApplications << "Innuendo" << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome";
    mpTabs = new ConfigNotifyApplicationWidget*[mApplications.count()];
