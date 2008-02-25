@@ -29,10 +29,17 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpBufferSizeLabel->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
    mpBufferSize->setRange( 50, 50000 );
    
-   mainLayout->addWidget( mpMessageBuffer,   0, 0, 1, 3 );
-   mainLayout->addWidget( mpSettingsButton,  1, 0 );
-   mainLayout->addWidget( mpBufferSizeLabel, 1, 1 );
-   mainLayout->addWidget( mpBufferSize,      1, 2 );
+   QLabel *mpLogo = new QLabel( this );
+   mpLogo->setText( QApplication::applicationName() );
+   mpLogo->setAlignment( Qt::AlignCenter );
+   mpLogo->setFrameShadow( QFrame::Raised );
+   mpLogo->setFrameShape( QFrame::Box );
+
+   mainLayout->addWidget( mpLogo,            0, 0, 1, 3 );
+   mainLayout->addWidget( mpMessageBuffer,   1, 0, 1, 3 );
+   mainLayout->addWidget( mpSettingsButton,  2, 0 );
+   mainLayout->addWidget( mpBufferSizeLabel, 2, 1 );
+   mainLayout->addWidget( mpBufferSize,      2, 2 );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             this, SLOT(handleSettings()) );

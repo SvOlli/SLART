@@ -18,8 +18,6 @@
 #include "MySettings.hpp"
 #include "Trace.hpp"
 
-#include "Version.hpp"
-
 
 MainWidget::MainWidget( QWidget *parent )
 : QWidget( parent )

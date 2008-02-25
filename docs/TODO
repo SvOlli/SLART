@@ -12,3 +12,14 @@ Karmadrome: (new application)
   - good contains only good karma tracks
   - base contains all minus bad karma tracks
 
+Funkytown:
+- download flv-files from YouTube
+
+Innuendo:
+- external event handler
+
+Stripped:
+- lock buttons against wrong usage
+- check cddbid-calc of multisession discs
+- cancel button
+
