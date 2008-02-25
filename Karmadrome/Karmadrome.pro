@@ -21,3 +21,9 @@ SOURCES += MainWindow.cpp
 HEADERS += MainWidget.hpp 
 SOURCES += MainWidget.cpp 
 
+HEADERS += ButtonsWidget.hpp 
+SOURCES += ButtonsWidget.cpp 
+
+HEADERS += SLATCom.hpp 
+SOURCES += SLATCom.cpp 
+
