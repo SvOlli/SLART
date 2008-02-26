@@ -167,16 +167,25 @@ void MainWidget::updateLists()
 
 void MainWidget::handleAdd()
 {
+   int i;
    QFileDialog fileDialog( this );
 
    fileDialog.setFileMode( QFileDialog::AnyFile );
+   fileDialog.setAcceptMode( QFileDialog::AcceptSave );
+   fileDialog.setConfirmOverwrite( false );
+   fileDialog.setDefaultSuffix( "m3u" );
 //   fileDialog.setDirectory( QDir( mpM3uFileName->text() ).absolutePath() );
+   fileDialog.setWindowTitle( tr("Select Karma Playlist") );
    fileDialog.setFilter( "Playlist (*.m3u)" );
-   fileDialog.setReadOnly( true );
+   fileDialog.setReadOnly( false );
 
    if( fileDialog.exec() )
    {
-      mPlaylists << fileDialog.selectedFiles();
+      for( i = 0; i < fileDialog.selectedFiles().count() ; i++ )
+      {
+         if( mPlaylists.indexOf( fileDialog.selectedFiles().at(i) ) < 0 )
+         mPlaylists.append( fileDialog.selectedFiles().at(i) );
+      }
       mPlaylists.sort();
       MySettings().setValue( "Playlists", mPlaylists );
       
