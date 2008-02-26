@@ -242,9 +242,9 @@ void ControlWidget::handleSkipTrack()
 {
    mpSkipButton->clearFocus();
    allowInteractive( false );
+   log( "p0n", "skip" );
    mpPlayer[0]->skip();
    mpPlayer[1]->skip();
-   log( "p0n", "skip" );
 }
 
 

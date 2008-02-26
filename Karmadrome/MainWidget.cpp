@@ -17,11 +17,14 @@
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpFileName( new QLineEdit( this ) )
-, mpListButtons( new ButtonsWidget( this ) )
+, mpListButtons( new ButtonsWidget( tr("Karma Lists"), this ) )
+, mpSettingsButton( new QPushButton( tr("Settings"), this ) )
+, mpAddButton( new QPushButton( tr("Add"), this ) )
+, mpRemoveButton( new QPushButton( tr("Remove"), this ) )
+, mpRemoveMenu( new QMenu( this ) )
 , mSLATCom()
+, mPlaylists( MySettings().value( "Playlists", QStringList() ).toStringList() )
 {
-   MySettings settings;
-   
    QGridLayout *mainLayout   = new QGridLayout( this );
    
 #if QT_VERSION < 0x040300
@@ -37,19 +40,20 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpLogo->setFrameShape( QFrame::Box );
    
    mpFileName->setReadOnly( true );
-   
-   QPushButton *settingsButton = new QPushButton( tr("Settings"), this );
+   mpRemoveButton->setMenu( mpRemoveMenu );
 
-   mainLayout->addWidget( mpLogo,         0, 0, 1, 3 );
-   mainLayout->addWidget( mpFileName,     1, 0, 1, 3 );
-   mainLayout->addWidget( mpListButtons,  2, 0, 1, 3 );
-   mainLayout->addWidget( settingsButton, 3, 0, 1, 1 );
+   mainLayout->addWidget( mpLogo,           0, 0, 1, 3 );
+   mainLayout->addWidget( mpFileName,       1, 0, 1, 3 );
+   mainLayout->addWidget( mpListButtons,    2, 0, 1, 3 );
+   mainLayout->addWidget( mpSettingsButton, 3, 0, 1, 1 );
+   mainLayout->addWidget( mpAddButton,      3, 1, 1, 1 );
+   mainLayout->addWidget( mpRemoveButton,   3, 2, 1, 1 );
    
    setLayout( mainLayout );
    
-   mpListButtons->updateButtons( settings.value( "Playlists", QStringList() ).toStringList() );
+   updateLists();
 
-   connect( settingsButton, SIGNAL(clicked()),
+   connect( mpSettingsButton, SIGNAL(clicked()),
             this, SLOT(handleSettings()) );
    connect( &mSLATCom, SIGNAL(packageRead(QStringList)),
             this, SLOT(handleSLAT(QStringList)) );
@@ -60,6 +64,10 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    
    connect( mpListButtons, SIGNAL(clicked(const QString &)),
             this, SLOT(addToList(const QString &)) );
+   connect( mpAddButton, SIGNAL(clicked()),
+            this, SLOT(handleAdd()) );
+   connect( mpRemoveMenu, SIGNAL(triggered(QAction *)),
+            this, SLOT(handleRemove(QAction *)) );
    
    mSLATCom.resetReceiver();
 }
@@ -70,6 +78,11 @@ void MainWidget::addToList( const QString &listfilename )
    int i;
    QFile m3uFile( listfilename );
    QStringList list( mpFileName->text() );
+   
+   if( list.at(0).isEmpty() )
+   {
+      return;
+   }
    
    m3uFile.open( QIODevice::ReadOnly | QIODevice::Text );
    while (!m3uFile.atEnd())
@@ -130,4 +143,52 @@ void MainWidget::handleSLAT( const QStringList &message )
          mpFileName->setCursorPosition( message.at(1).size() );
       }
    }
+}
+
+
+void MainWidget::updateLists()
+{
+   int i;
+   mPlaylists.sort();
+   
+   mpListButtons->updateButtons( mPlaylists );
+   mpRemoveMenu->clear();
+   for( i = 0; i < mPlaylists.count(); i++ )
+   {
+      int lastSlash = mPlaylists.at(i).lastIndexOf( '/' );
+      int lastDot   = mPlaylists.at(i).lastIndexOf( '.' );
+      QString label( mPlaylists.at(i).mid( lastSlash+1, lastDot-lastSlash-1 ) );
+      
+      QAction *action = mpRemoveMenu->addAction( label );
+      action->setToolTip( mPlaylists.at(i) );
+   }
+}
+
+
+void MainWidget::handleAdd()
+{
+   QFileDialog fileDialog( this );
+
+   fileDialog.setFileMode( QFileDialog::AnyFile );
+//   fileDialog.setDirectory( QDir( mpM3uFileName->text() ).absolutePath() );
+   fileDialog.setFilter( "Playlist (*.m3u)" );
+   fileDialog.setReadOnly( true );
+
+   if( fileDialog.exec() )
+   {
+      mPlaylists << fileDialog.selectedFiles();
+      mPlaylists.sort();
+      MySettings().setValue( "Playlists", mPlaylists );
+      
+      updateLists();
+   }
+}
+
+
+void MainWidget::handleRemove( QAction *action )
+{
+   mPlaylists.removeAll( action->toolTip() );
+   
+   MySettings().setValue( "Playlists", mPlaylists );
+   updateLists();
 }

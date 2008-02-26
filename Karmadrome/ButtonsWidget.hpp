@@ -8,19 +8,20 @@
 #ifndef BUTTONSWIDGET_HPP
 #define BUTTONSWIDGET_HPP BUTTONSWIDGET_HPP
 
-#include <QWidget>
+#include <QGroupBox>
 #include <QList>
 
 class QGridLayout;
 class QPushButton;
 class QSignalMapper;
 
-class ButtonsWidget : public QWidget
+class ButtonsWidget : public QGroupBox
 {
 Q_OBJECT
 
 public:
-   ButtonsWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   ButtonsWidget( QWidget *parent = 0 );
+   ButtonsWidget( const QString &title, QWidget *parent = 0 );
 
    void updateButtons( const QStringList &list );
 

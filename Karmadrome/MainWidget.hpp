@@ -14,8 +14,11 @@
 
 class QIcon;
 class QString;
-class ButtonsWidget;
+class QPushButton;
+class QMenu;
 class QLineEdit;
+class QAction;
+class ButtonsWidget;
 
 
 class MainWidget : public QWidget
@@ -25,9 +28,13 @@ Q_OBJECT
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
+   void updateLists();
+
 public slots:
    void addToList( const QString &msg );
    void handleSLAT( const QStringList &message );
+   void handleAdd();
+   void handleRemove( QAction *action );
    void handleSettings();
 
 signals:
@@ -40,7 +47,13 @@ private:
    QLineEdit      *mpFileName;
    ButtonsWidget  *mpListButtons;
 
-   SLATCom      mSLATCom;
+   QPushButton    *mpSettingsButton;
+   QPushButton    *mpAddButton;
+   QPushButton    *mpRemoveButton;
+   QMenu          *mpRemoveMenu;
+
+   SLATCom        mSLATCom;
+   QStringList    mPlaylists;
 };
 
 #endif

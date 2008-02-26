@@ -11,20 +11,41 @@
 #include <QtGui>
 
 
-ButtonsWidget::ButtonsWidget( QWidget *parent , Qt::WindowFlags flags )
-: QWidget( parent, flags )
+ButtonsWidget::ButtonsWidget( QWidget *parent )
+: QGroupBox( parent )
 , mpMainLayout( new QGridLayout( this ) )
 , mpSignalMapper( new QSignalMapper( this ) )
 , mButtonList()
 {
 #if QT_VERSION < 0x040300
-   mpMainLayout->setMargin( 0 );
+   mpMainLayout->setMargin( 3 );
 #else
-   mpMainLayout->setContentsMargins( 0, 0, 0, 0 );
+   mpMainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
    
    connect(mpSignalMapper, SIGNAL(mapped(const QString &)),
            this, SIGNAL(clicked(const QString &)));
+   
+   setLayout( mpMainLayout );
+}
+
+
+ButtonsWidget::ButtonsWidget( const QString &title, QWidget *parent )
+: QGroupBox( title, parent )
+, mpMainLayout( new QGridLayout( this ) )
+, mpSignalMapper( new QSignalMapper( this ) )
+, mButtonList()
+{
+#if QT_VERSION < 0x040300
+   mpMainLayout->setMargin( 3 );
+#else
+   mpMainLayout->setContentsMargins( 3, 3, 3, 3 );
+#endif
+   
+   connect(mpSignalMapper, SIGNAL(mapped(const QString &)),
+           this, SIGNAL(clicked(const QString &)));
+   
+   setLayout( mpMainLayout );
 }
 
 
