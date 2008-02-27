@@ -120,7 +120,7 @@ void ConfigDialog::readSettings()
    mpDerMixDhost->setText( settings.value("DerMixDhost", "localhost").toString() );
    mpDerMixDport->setValue( settings.value("DerMixDport", 8888).toInt() );
    mpDerMixDlog->setChecked( settings.value("DerMixDlog", false).toBool() );
-   mpDerMixDrun->setChecked( settings.value("DerMixDrun", false).toBool() );
+   mpDerMixDrun->setChecked( settings.value("DerMixDrun", true).toBool() );
    mpDerMixDcmd->setText( settings.value("DerMixDcmd", "dermixd").toString() );
    mpDerMixDparams->setText( settings.value("DerMixDparams", "").toString() );
    mpAutoConnect->setChecked( settings.value("AutoConnect", false).toBool() );

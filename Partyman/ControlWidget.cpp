@@ -284,7 +284,14 @@ void ControlWidget::handleSLAT( const QStringList &src )
    
    if( src.at(0) == "P0A" )
    {
-      handlePause();
+      if( mConnected )
+      {
+         handlePause();
+      }
+      else
+      {
+         initConnect();
+      }
    }
    
    if( src.at(0) == "P0N" )
