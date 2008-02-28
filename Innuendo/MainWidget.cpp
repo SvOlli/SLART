@@ -49,6 +49,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(handleSLAT(QStringList)) );
    connect( &mSLATCom, SIGNAL(updateConfig()),
             mpConfig, SLOT(readSettings()) );
+   connect( mpMessageBuffer, SIGNAL(itemClicked(QListWidgetItem*)),
+            this, SLOT(listWidgetItemToClipboard(QListWidgetItem*)) );
 
    readConfig();
    
@@ -99,3 +101,12 @@ void MainWidget::handleSLAT( const QStringList &message )
    
    mpMessageBuffer->scrollToBottom();
 }
+
+
+void MainWidget::listWidgetItemToClipboard( QListWidgetItem *item )
+{
+   QClipboard *clipboard = QApplication::clipboard();
+   clipboard->setText( item->text(), QClipboard::Clipboard );
+   clipboard->setText( item->text(), QClipboard::Selection );
+}
+

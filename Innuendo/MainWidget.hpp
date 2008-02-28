@@ -19,6 +19,7 @@ class QSpinBox;
 class QIcon;
 class QString;
 class QPushButton;
+class QListWidgetItem;
 class ConfigDialog;
 
 class MainWidget : public QWidget
@@ -33,6 +34,7 @@ public slots:
    void setBufferSize( int size );
    void handleSLAT( const QStringList &message );
    void handleSettings();
+   void listWidgetItemToClipboard( QListWidgetItem *item );
 
 signals:
    void requestChangeTitle( const QIcon& ,const QString& );

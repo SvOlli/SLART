@@ -84,6 +84,12 @@ void MainWidget::addToList( const QString &listfilename )
       return;
    }
    
+   QString msg( "k0a\n" );
+   msg.append( listfilename );
+   msg.append( '\n' );
+   msg.append( mpFileName->text() );
+   MySettings().sendUdpMessage( msg, QString("Innuendo") );
+   
    m3uFile.open( QIODevice::ReadOnly | QIODevice::Text );
    while (!m3uFile.atEnd())
    {

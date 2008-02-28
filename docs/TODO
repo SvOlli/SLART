@@ -1,9 +1,8 @@
 
 Partyman:
 - check all error handling
-- implement Skip via UDP for bad karma tracks
 - unload tracks to playlist when disconnecting
-- do not prevent reload of playlist if the current one is empty
+- signal handler for clear shutdown
 
 Karmadrome: (new application)
 - Karma: use several playlists
