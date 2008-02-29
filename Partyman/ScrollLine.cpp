@@ -57,7 +57,7 @@ void ScrollLine::focusInEvent( QFocusEvent *event )
 {
    if( event->gotFocus() )
    {
-      QApplication::clipboard()->setText( QLineEdit::text(), QClipboard::Selection );
+      QApplication::clipboard()->setText( QLineEdit::toolTip(), QClipboard::Selection );
    }
    event->ignore();
 }
