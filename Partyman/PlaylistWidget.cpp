@@ -75,8 +75,9 @@ PlaylistWidget::~PlaylistWidget()
    
    for( i = 0; i < mpPlaylistContent->count(); i++ )
    {
-      playlist << mpPlaylistContent->item(i)->data(Qt::DisplayRole).toString();
+      playlist.append( mpPlaylistContent->item(i)->data(Qt::DisplayRole).toString() );
    }
+   
    if( playlist.count() > 0 )
    {
       settings.setValue( "Playlist", playlist );

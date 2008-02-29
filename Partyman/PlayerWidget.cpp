@@ -89,16 +89,21 @@ void PlayerWidget::getNextTrack( bool armed )
    if( fileName.isEmpty() )
    {
       mpScrollLine->setText( tr("no file loaded") );
-      mpScrollLine->setToolTip( fileName );
    }
    else
    {
       int lastSlash = fileName.lastIndexOf( '/' );
       int lastDot   = fileName.lastIndexOf( '.' );
       mpScrollLine->setText( fileName.mid( lastSlash+1, lastDot-lastSlash-1 ) );
-      mpScrollLine->setToolTip( fileName );
    }
+   mpScrollLine->setToolTip( fileName );
    sendCommand( "preread", fileName );
+}
+
+
+QString PlayerWidget::getCurrentTrack() const
+{
+   return mpScrollLine->toolTip();
 }
 
 

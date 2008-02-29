@@ -41,8 +41,11 @@ Q_OBJECT
 public:
    PlayerWidget( int index, ControlWidget *controlWidget, Qt::WindowFlags flags = 0 );
    virtual ~PlayerWidget();
-   /*  */
+
+   /* get a new track from playlist */
    void getNextTrack( bool armed = true );
+   /* get name of the currently loaded track */
+   QString getCurrentTrack() const;
    /* update the time display */
    void updateTime( const QString &msg = QString() );
    /* set the track info like filename */

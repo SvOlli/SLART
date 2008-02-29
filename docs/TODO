@@ -1,8 +1,6 @@
 
 Partyman:
 - check all error handling
-- unload tracks to playlist when disconnecting
-- signal handler for clear shutdown
 
 Karmadrome: (new application)
 - Karma: use several playlists

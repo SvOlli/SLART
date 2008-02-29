@@ -13,6 +13,19 @@
 
 #include <QtGui>
 
+#include <signal.h>
+
+
+static MainWidget *mpMainWidget;
+
+
+static void signalHandler( int signum )
+{
+   if( mpMainWidget ) delete mpMainWidget;
+   
+   raise( signum );
+}
+
 
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
@@ -21,6 +34,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpPlaylist( new PlaylistWidget( mpConfig, this ) )
 , mpControl( new ControlWidget( mpConfig, mpPlaylist, this ) )
 {
+   mpMainWidget = this;
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
    
 #if QT_VERSION < 0x040300
@@ -33,8 +47,16 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpParent->setAttribute( Qt::WA_AlwaysShowToolTips, true );
    mpParent->setWindowIcon( QIcon( ":/PartymanSmile.gif" ) );
 
-
    setLayout( mainLayout );
+   
+   ::signal( SIGHUP,  signalHandler );
+   ::signal( SIGINT,  signalHandler );
+   ::signal( SIGQUIT, signalHandler );
+   ::signal( SIGILL,  signalHandler );
+   ::signal( SIGABRT, signalHandler );
+   ::signal( SIGSEGV, signalHandler );
+   ::signal( SIGPIPE, signalHandler );
+   ::signal( SIGTERM, signalHandler );
    
    connect( mpControl, SIGNAL(requestAddToPlaylist(QStringList,bool)), 
             mpPlaylist, SLOT(addEntries(QStringList,bool)) );
@@ -44,6 +66,24 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpConfig, SIGNAL(configChanged()), mpPlaylist, SLOT(readM3u()) );
 }
 
+
+MainWidget::~MainWidget()
+{
+   mpMainWidget = 0;
+   ::signal( SIGHUP,  SIG_DFL );
+   ::signal( SIGINT,  SIG_DFL );
+   ::signal( SIGQUIT, SIG_DFL );
+   ::signal( SIGILL,  SIG_DFL );
+   ::signal( SIGABRT, SIG_DFL );
+   ::signal( SIGSEGV, SIG_DFL );
+   ::signal( SIGPIPE, SIG_DFL );
+   ::signal( SIGTERM, SIG_DFL );
+
+   delete mpControl;
+   mpControl = 0;
+   delete mpPlaylist;
+   mpPlaylist = 0;
+}
 
 void MainWidget::changeTitle( const QIcon &icon, const QString &title )
 {

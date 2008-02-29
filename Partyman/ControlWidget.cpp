@@ -91,6 +91,7 @@ ControlWidget::ControlWidget( ConfigDialog *config, PlaylistWidget *playlist, QW
 
 ControlWidget::~ControlWidget()
 {
+   saveTracks();
    mpPlayer[0]->disconnect();
    mpPlayer[1]->disconnect();
    
@@ -103,6 +104,41 @@ ControlWidget::~ControlWidget()
    {
       mDerMixDprocess.kill();
       QCoreApplication::processEvents();
+   }
+}
+
+
+void ControlWidget::saveTracks()
+{
+   int i;
+   QString current;
+   QString next;
+   
+   for( i = 0; i < 2; i++ )
+   {
+      switch( mpPlayer[i]->getState() )
+      {
+         case PlayerFSM::searching:
+         case PlayerFSM::loading:
+         case PlayerFSM::ready:
+            next = mpPlayer[i]->getCurrentTrack();
+            break;
+         case PlayerFSM::playing:
+         case PlayerFSM::paused:
+            current = mpPlayer[i]->getCurrentTrack();
+            break;
+         default:
+            break;
+      }
+   }
+   
+   if( !next.isEmpty() )
+   {
+      mpPlaylist->addEntries( QStringList( next ), true );
+   }
+   if( !current.isEmpty() )
+   {
+      mpPlaylist->addEntries( QStringList( current ), true );
    }
 }
 
@@ -177,6 +213,7 @@ void ControlWidget::initDisconnect( eErrorCode errorcode )
    {
       mConnected = false;
       QString errorText;
+      saveTracks();
       mpPlayer[0]->disconnect();
       mpPlayer[1]->disconnect();
       mpSkipButton->setDisabled( true );

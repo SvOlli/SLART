@@ -42,6 +42,9 @@ public:
    void allowInteractive( bool allow );
    /* run SLATCommunication & execute external logger */
    void log( const QString &udpEvent, const QString &logEvent, const QString &data = QString() );
+   
+private:
+   void saveTracks();
 
 public slots:
    /* (re-)read configuration */
