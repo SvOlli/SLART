@@ -42,10 +42,12 @@ void PostDownloadHandlerHTML::run( const QString &/*url*/, const QString &filena
    QString videoID;
    QString t;
    QString title;
+   QString embed;
    QFile file( filename );
    QString line;
    QString mySpace("DisplayFriendId\":");
    QString youTube("fullscreenUrl");
+   QString param("http://www.youtube.com/v/");
    QString colon(",");
    int pos;
    int endPos;
@@ -91,6 +93,14 @@ void PostDownloadHandlerHTML::run( const QString &/*url*/, const QString &filena
             }
          }
       }
+      pos = line.indexOf( param, 0, Qt::CaseInsensitive );
+      if( pos > 0 )
+      {
+         embed = line;
+         embed.replace( QRegExp(".*\"http://"), "http://" );
+         embed.remove( QRegExp("&.*") );
+         embed.replace( "/v/", "/watch?v=" );
+      }
    }
    file.remove();
    file.close();
@@ -108,5 +118,9 @@ void PostDownloadHandlerHTML::run( const QString &/*url*/, const QString &filena
       mpDownloadHandler->run( QString("http://youtube.com/get_video?")+videoID+"&"+t,
                               title+QString(".flv"),
                               mpPostDownloadHandlerFLV );
+   }
+   else if( !embed.isEmpty() )
+   {
+      mpDownloadHandler->run( embed, "youtube.html", this );
    }
 }
