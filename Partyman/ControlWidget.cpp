@@ -335,6 +335,11 @@ void ControlWidget::handleSLAT( const QStringList &src )
    {
       handleSkipTrack();
    }
+   
+   if( src.at(0) == "P0S" )
+   {
+      initDisconnect();
+   }
 }
 
 
