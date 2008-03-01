@@ -30,6 +30,7 @@ public:
 public slots:
    void httpRequestFinished( int requestId, bool error );
    void read( const QString &querystring );
+   void cancel();
 
 signals:
    void tocUpdated();
@@ -41,6 +42,7 @@ private:
    void genericrequest( const QString &cmd );
 
    bool         mRequestIsQuery;
+   bool         mCancel;
    CDToc        *mpToc;
    QLabel       *mpCount;
    QComboBox    *mpHits;

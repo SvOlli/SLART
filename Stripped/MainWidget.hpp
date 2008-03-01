@@ -16,7 +16,9 @@ class CDToc;
 class CDDB;
 class CDEdit;
 class Encoder;
+class QComboBox;
 class QPushButton;
+class QHBoxLayout;
 
 
 class MainWidget : public QWidget
@@ -30,6 +32,8 @@ public slots:
    void changeEncoder( int id );
    void setDownloadDir();
    void eject();
+   void working( bool allowCancel = true );
+   void finished();
 
 signals:
    /* request a new icon and title */
@@ -44,7 +48,13 @@ private:
    CDDB            *mpCDDB;
    CDEdit          *mpCDEdit;
    CDReader        *mpCDReader;
+   QPushButton     *mpCancelButton;
+   QHBoxLayout     *mpButtonLayout;
+   QComboBox       *mpDevicesBox;
+   QPushButton     *mpTocButton;
+   QPushButton     *mpRipButton;
    QPushButton     *mpEjectButton;
+   QComboBox       *mpEncodersBox;
    QList<Encoder*> mEncoders;
 };
 

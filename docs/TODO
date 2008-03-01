@@ -15,9 +15,17 @@ Funkytown:
 
 Innuendo:
 - external event handler
+- start buttons for applications
 
 Stripped:
-- lock buttons against wrong usage
 - check cddbid-calc of multisession discs
-- cancel button
-
+- read toc clears entries first
+- select path / filename creation
+- handle error on saving
+- cdtext
+- implement fix entries button
+  - [] -> ()
+  - " *" -> " "
+  - First Caps
+  - append text
+- auto read-toc

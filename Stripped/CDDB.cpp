@@ -182,6 +182,7 @@ TRACEMSG << response.at(i);
 
 void CDDB::genericrequest( const QString &cmd )
 {
+   if( mCancel ) return;
    QString request( "/~cddb/cddb.cgi?cmd=" );
    request.append( cmd );
    request.append( "&hello=svolli svolli.de Stripped prototype&proto=6" );
@@ -189,4 +190,11 @@ void CDDB::genericrequest( const QString &cmd )
    
    mpFile->open( QIODevice::WriteOnly );
    mHttpGetId = mpHttp->get( request, mpFile );
+}
+
+
+void CDDB::cancel()
+{
+   mCancel = true;
+   mpHttp->abort();
 }

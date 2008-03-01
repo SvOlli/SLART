@@ -27,7 +27,13 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpCDDB( new CDDB( mpToc, this ) )
 , mpCDEdit( new CDEdit( mpToc, mpCDDB, this ) )
 , mpCDReader( new CDReader( mpToc, mpCDEdit, this ) )
+, mpCancelButton( new QPushButton( tr("Cancel"), this ) )
+, mpButtonLayout( new QHBoxLayout() )
+, mpDevicesBox( new QComboBox( this ) )
+, mpTocButton( new QPushButton( tr("Read Toc"), this ) )
+, mpRipButton( new QPushButton( tr("Rip Tracks"), this ) )
 , mpEjectButton( new QPushButton( tr("Eject"), this ) )
+, mpEncodersBox( new QComboBox( this ) )
 , mEncoders()
 {
    int i;
@@ -39,7 +45,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
    QHBoxLayout *pathLayout   = new QHBoxLayout();
-   QHBoxLayout *buttonLayout = new QHBoxLayout();
    
    QLabel *mpLogo = new QLabel( this );
    mpLogo->setText( QApplication::applicationName() );
@@ -55,42 +60,54 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    QVariant targetDir( getcwd(&cwd[0], PATH_MAX) );
    mpDirButton->setText( settings.value("Directory", targetDir).toString() );
    chdir( mpDirButton->text().toLocal8Bit().constData() );
-   
-   QComboBox   *devicesBox  = new QComboBox( this );
-   QPushButton *tocButton   = new QPushButton( tr("Read Toc"), this );
-   QPushButton *ripButton   = new QPushButton( tr("Rip Tracks"), this );
-   QComboBox   *encodersBox = new QComboBox( this );
-   
-   connect( devicesBox, SIGNAL(currentIndexChanged(QString)),
+
+   connect( mpDevicesBox, SIGNAL(currentIndexChanged(QString)),
             mpCDReader, SLOT(setDevice(QString)) );
-   connect( encodersBox, SIGNAL(currentIndexChanged(int)),
+   connect( mpEncodersBox, SIGNAL(currentIndexChanged(int)),
             this, SLOT(changeEncoder(int)) );
-   buttonLayout->addWidget( devicesBox );
-   buttonLayout->addWidget( tocButton );
-   buttonLayout->addWidget( ripButton );
-   buttonLayout->addWidget( mpEjectButton );
-   buttonLayout->addWidget( encodersBox );
+   mpCancelButton->setDisabled( true );
+   mpButtonLayout->addWidget( mpCancelButton );
+   mpButtonLayout->addWidget( mpDevicesBox );
+   mpButtonLayout->addWidget( mpTocButton );
+   mpButtonLayout->addWidget( mpRipButton );
+   mpButtonLayout->addWidget( mpEjectButton );
+   mpButtonLayout->addWidget( mpEncodersBox );
    for( i = 0; i < mEncoders.size(); i++ )
    {
-      buttonLayout->addWidget( mEncoders.at(i) );
-      encodersBox->addItem( mEncoders.at(i)->name );
+      mpButtonLayout->addWidget( mEncoders.at(i) );
+      mpEncodersBox->addItem( mEncoders.at(i)->name );
    }
-   mpCDReader->getDevices( devicesBox );
+   mpCDReader->getDevices( mpDevicesBox );
    
    mainLayout->addWidget( mpLogo );
    mainLayout->addLayout( pathLayout );
    mainLayout->addWidget( mpCDDB );
    mainLayout->addWidget( mpCDEdit );
    mainLayout->addWidget( mpCDReader );
-   mainLayout->addLayout( buttonLayout );
+   mainLayout->addLayout( mpButtonLayout );
    
    setLayout( mainLayout );
 
-   connect( tocButton, SIGNAL(pressed()), mpCDReader, SLOT(readToc()) );
-   connect( ripButton, SIGNAL(pressed()), mpCDReader, SLOT(readTracks()) );
-   connect( mpEjectButton, SIGNAL(pressed()), this, SLOT(eject()) );
-   connect( mpCDDB, SIGNAL(tocUpdated()), mpCDEdit,   SLOT(updateCDDB()) );
-   connect( mpDirButton, SIGNAL(clicked()), this,     SLOT(setDownloadDir()) );
+   connect( mpTocButton, SIGNAL(pressed()),
+            mpCDReader, SLOT(readToc()) );
+   connect( mpRipButton, SIGNAL(pressed()),
+            mpCDReader, SLOT(readTracks()) );
+   connect( mpEjectButton, SIGNAL(pressed()),
+            this, SLOT(eject()) );
+   connect( mpCDDB, SIGNAL(tocUpdated()),
+            mpCDEdit, SLOT(updateCDDB()) );
+   connect( mpDirButton, SIGNAL(clicked()),
+            this, SLOT(setDownloadDir()) );
+   
+   connect( mpCancelButton, SIGNAL(clicked()),
+            mpCDReader, SLOT(cancel()) );
+   connect( mpCancelButton, SIGNAL(clicked()),
+            mpCDDB, SLOT(cancel()) );
+   
+   connect( mpCDReader, SIGNAL(starting()),
+            this, SLOT(working()) );
+   connect( mpCDReader, SIGNAL(stopping()),
+            this, SLOT(finished()) );
 }
 
 
@@ -126,11 +143,44 @@ void MainWidget::setDownloadDir()
 
 void MainWidget::eject()
 {
-TRACESTART(MainWidget::eject)
+   working( false );
    mpEjectButton->setCheckable( true );
    mpEjectButton->setChecked( true );
    QCoreApplication::processEvents();
    mpCDReader->eject();
    mpEjectButton->setChecked( false );
    mpEjectButton->setCheckable( false );
+   finished();
+}
+
+
+void MainWidget::working( bool allowCancel )
+{
+   int i;
+   mpCancelButton->setDisabled( !allowCancel );
+   mpDevicesBox->setDisabled( true );
+   mpTocButton->setDisabled( true );
+   mpRipButton->setDisabled( true );
+   mpEjectButton->setDisabled( allowCancel );
+   mpEncodersBox->setDisabled( true );
+   for( i = 0; i < mEncoders.size(); i++ )
+   {
+      mEncoders.at(i)->setDisabled( true );
+   }
+}
+
+
+void MainWidget::finished()
+{
+   int i;
+   mpCancelButton->setDisabled( true );
+   mpDevicesBox->setDisabled( false );
+   mpTocButton->setDisabled( false );
+   mpRipButton->setDisabled( false );
+   mpEjectButton->setDisabled( false );
+   mpEncodersBox->setDisabled( false );
+   for( i = 0; i < mEncoders.size(); i++ )
+   {
+      mEncoders.at(i)->setDisabled( false );
+   }
 }

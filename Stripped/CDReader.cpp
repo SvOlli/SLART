@@ -80,6 +80,11 @@ void CDReader::getDevices( QComboBox *comboBox )
 
 void CDReader::readToc()
 {
+   mCancel = false;
+   emit starting();
+   QCoreApplication::processEvents();
+   QCoreApplication::processEvents();
+   
 //   mpDrive = ::cdio_cddap_find_a_cdrom( CDDA_MESSAGE_PRINTIT, NULL );
    mpDrive = ::cdio_cddap_identify( mDevice.toLocal8Bit() ,CDDA_MESSAGE_PRINTIT, NULL );
    
@@ -119,7 +124,7 @@ void CDReader::readToc()
    
    mpCDEdit->update();
    
-//   mpToc->dump();
+   emit stopping();
 }
 
 
@@ -133,6 +138,7 @@ void CDReader::readTracks()
    int i;
    int sector;
    char *buffer = 0;
+   mCancel = false;
    
    QString artist, title, albumartist, albumtitle, genre;
    bool dorip;
@@ -149,6 +155,10 @@ void CDReader::readTracks()
 TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
    }
 #endif
+   emit starting();
+   QCoreApplication::processEvents();
+   QCoreApplication::processEvents();
+   
    mpParanoia = ::cdio_paranoia_init( mpDrive );
    ::cdio_paranoia_modeset( mpParanoia, PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP );
 
@@ -188,9 +198,11 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
          mpEncoder->encodeCDAudio( buffer, 2352 );
          mpProgress->setValue( sector );
          QCoreApplication::processEvents();
+         if( mCancel ) break;
       }
       
       mpEncoder->finalize();
+      if( mCancel ) break;
    }
    
    if( buffer )
@@ -200,6 +212,8 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
    mpMessage->setText( tr("Done.") );
    mpProgress->setValue( 0 );
    mpProgress->setRange( 0, 1 );
+   
+   emit stopping();
 }
 
 
@@ -213,4 +227,10 @@ void CDReader::eject()
 {
    mpDrive = ::cdio_cddap_identify( mDevice.toLocal8Bit() ,CDDA_MESSAGE_PRINTIT, NULL );
    ::cdio_eject_media( &(mpDrive->p_cdio) );
+}
+
+
+void CDReader::cancel()
+{
+   mCancel = true;
 }

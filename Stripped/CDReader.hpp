@@ -40,6 +40,11 @@ public slots:
    void readTracks();
    void setDevice( const QString &device );
    void eject();
+   void cancel();
+
+signals:
+   void starting();
+   void stopping();
 
 private:
    CDReader( const CDReader &other );
@@ -54,6 +59,7 @@ private:
    QProgressBar         *mpProgress;
    unsigned int         mCallbackFunction[13];
    QString              mDevice;
+   bool                 mCancel;
 };
 
 #endif
