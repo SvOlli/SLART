@@ -110,3 +110,40 @@ void MainWidget::listWidgetItemToClipboard( QListWidgetItem *item )
    clipboard->setText( item->text(), QClipboard::Selection );
 }
 
+
+void MainWidget::keyPressEvent( QKeyEvent *event )
+{
+   MySettings settings;
+   QStringList msg( QString("key event: ")+QString::number(event->nativeScanCode()) );
+   handleSLAT( msg );
+   
+   if( event->nativeScanCode() )
+   {
+      settings.beginGroup( "Keys" );
+      const quint32 next( settings.value( "Next", 0 ).toUInt() );
+      const quint32 play( settings.value( "Play", 0 ).toUInt() );
+      const quint32 stop( settings.value( "Stop", 0 ).toUInt() );
+      settings.endGroup();
+      
+      if( event->nativeScanCode() == next )
+      {
+         settings.sendUdpMessage( "P0N\n", "Partyman" );
+      }
+      else if( event->nativeScanCode() == play )
+      {
+         settings.sendUdpMessage( "P0A\n", "Partyman" );
+      }
+      else if( event->nativeScanCode() == stop )
+      {
+         settings.sendUdpMessage( "P0S\n", "Partyman" );
+      }
+   }
+   
+   event->ignore();
+}
+
+
+void MainWidget::keyReleaseEvent( QKeyEvent *event )
+{
+   event->ignore();
+}

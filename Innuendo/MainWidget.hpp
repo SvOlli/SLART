@@ -21,6 +21,7 @@ class QString;
 class QPushButton;
 class QListWidgetItem;
 class ConfigDialog;
+class QKeyEvent;
 
 class MainWidget : public QWidget
 {
@@ -38,6 +39,10 @@ public slots:
 
 signals:
    void requestChangeTitle( const QIcon& ,const QString& );
+
+protected:
+   virtual void keyPressEvent( QKeyEvent *event );
+   virtual void keyReleaseEvent( QKeyEvent *event );
 
 private:
    MainWidget( const MainWidget &other );
