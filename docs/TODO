@@ -10,7 +10,8 @@ Karmadrome: (new application)
   - base contains all minus bad karma tracks
 
 Funkytown:
-- download flv-files from YouTube
+- close Setup/Log on closing application
+- improve url detecting
 
 Innuendo:
 - external event handler

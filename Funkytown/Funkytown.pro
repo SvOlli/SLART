@@ -34,6 +34,9 @@ SOURCES += PostDownloadHandlerXML.cpp
 HEADERS += PostDownloadHandlerMP3.hpp
 SOURCES += PostDownloadHandlerMP3.cpp
 
+HEADERS += PostDownloadHandlerFLV.hpp
+SOURCES += PostDownloadHandlerFLV.cpp
+
 HEADERS += SetupDialog.hpp
 SOURCES += SetupDialog.cpp
 

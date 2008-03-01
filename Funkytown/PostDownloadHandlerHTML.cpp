@@ -10,6 +10,8 @@
 #include <QString>
 #include <QFile>
 
+#include "Trace.hpp"
+
 
 PostDownloadHandlerHTML::PostDownloadHandlerHTML()
 : PostDownloadHandler()
@@ -20,7 +22,16 @@ PostDownloadHandlerHTML::~PostDownloadHandlerHTML()
 {
 }
 
-void PostDownloadHandlerHTML::run( const QString &url, const QString &filename, bool success )
+void PostDownloadHandlerHTML::setHandlers( DownloadHandler     *downloadHandler,
+                                           PostDownloadHandler *postDownloadHandler,
+                                           PostDownloadHandler *postDownloadHandlerFLV )
+{
+   mpDownloadHandler        = downloadHandler;
+   mpPostDownloadHandler    = postDownloadHandler;
+   mpPostDownloadHandlerFLV = postDownloadHandlerFLV;
+}
+
+void PostDownloadHandlerHTML::run( const QString &/*url*/, const QString &filename, bool success )
 {
    if( !success )
    {
@@ -28,9 +39,13 @@ void PostDownloadHandlerHTML::run( const QString &url, const QString &filename, 
    }
    
    QString friendID;
+   QString videoID;
+   QString t;
+   QString title;
    QFile file( filename );
-   QString line( url ); // url just to keep the compiler warning-free
-   QString searchFor("DisplayFriendId\":");
+   QString line;
+   QString mySpace("DisplayFriendId\":");
+   QString youTube("fullscreenUrl");
    QString colon(",");
    int pos;
    int endPos;
@@ -43,15 +58,37 @@ void PostDownloadHandlerHTML::run( const QString &url, const QString &filename, 
    while( !file.atEnd() )
    {
       line = QString::fromUtf8( file.readLine() );
-      pos = line.indexOf( searchFor, 0, Qt::CaseInsensitive );
+      pos = line.indexOf( mySpace, 0, Qt::CaseInsensitive );
       if( pos >= 0 )
       {
-         pos += searchFor.size();
+         pos += mySpace.size();
          endPos = line.indexOf( colon, pos );
          if( endPos >= 0 )
          {
             friendID = line.mid( pos, endPos-pos );
             break;
+         }
+      }
+      pos = line.indexOf( youTube, 0, Qt::CaseInsensitive );
+      if( pos >= 0 )
+      {
+         QStringList parts( line.split( "&" ) );
+         for( pos = 0; pos < parts.count(); pos++ )
+         {
+            if( parts.at(pos).startsWith( "t=" ) )
+            {
+               t=parts.at(pos);
+            }
+            
+            if( parts.at(pos).startsWith( "video_id=" ) )
+            {
+               videoID=parts.at(pos);
+            }
+            
+            if( parts.at(pos).startsWith( "title=" ) )
+            {
+               title=parts.at(pos).left(parts.at(pos).lastIndexOf("'")).mid(6);
+            }
          }
       }
    }
@@ -64,5 +101,12 @@ void PostDownloadHandlerHTML::run( const QString &url, const QString &filename, 
                                      +friendID,
                               friendID+QString(".xml"),
                               mpPostDownloadHandler );
+   }
+   
+   if( !videoID.isEmpty() && !t.isEmpty() && !title.isEmpty() )
+   {
+      mpDownloadHandler->run( QString("http://youtube.com/get_video?")+videoID+"&"+t,
+                              title+QString(".flv"),
+                              mpPostDownloadHandlerFLV );
    }
 }

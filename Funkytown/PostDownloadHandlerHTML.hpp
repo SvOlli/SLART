@@ -16,6 +16,12 @@ public:
    PostDownloadHandlerHTML();
    virtual ~PostDownloadHandlerHTML();
    void run( const QString &url, const QString &filename, bool success );
+   void setHandlers( DownloadHandler     *downloadHandler,
+                     PostDownloadHandler *postDownloadHandler,
+                     PostDownloadHandler *postDownloadHandlerFLV );
+
+protected:
+   PostDownloadHandler *mpPostDownloadHandlerFLV;
 
 private:
    PostDownloadHandlerHTML( const PostDownloadHandlerHTML &other );

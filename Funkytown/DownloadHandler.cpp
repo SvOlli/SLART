@@ -110,7 +110,12 @@ void DownloadHandler::updateDataReadProgress( int bytesRead, int totalBytes )
 
 void DownloadHandler::readResponseHeader( const QHttpResponseHeader &responseHeader )
 {
-   if (responseHeader.statusCode() != 200)
+   if( (responseHeader.statusCode() >= 300) && (responseHeader.statusCode() < 400) )
+   {
+      run( responseHeader.value("location"), mFileName, mPostDownloadHandler );
+   }
+   
+   if( responseHeader.statusCode() != 200 )
    {
       errorMessage( mURL+QString(":")+QString::number( responseHeader.statusCode() )+
                     QString(" ")+responseHeader.reasonPhrase() );
@@ -165,7 +170,7 @@ void DownloadHandler::startDownload()
       mpFile = 0;
       return;
    }
-   
+
    if( url.startsWith( "http://" ) )
    {
       url = url.mid( 7 );

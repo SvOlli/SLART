@@ -44,6 +44,8 @@ signals:
    void errorMessage( const QString &message );
 
 private:
+   DownloadHandler( const DownloadHandler &other );
+   DownloadHandler &operator=( const DownloadHandler &other );
 
    bool                         mDownloading;
    int                          mHttpGetId;

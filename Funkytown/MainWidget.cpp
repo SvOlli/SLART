@@ -14,6 +14,7 @@
 #include "PostDownloadHandlerHTML.hpp"
 #include "PostDownloadHandlerXML.hpp"
 #include "PostDownloadHandlerMP3.hpp"
+#include "PostDownloadHandlerFLV.hpp"
 #include "SetupDialog.hpp"
 #include "MySettings.hpp"
 #include "Trace.hpp"
@@ -32,6 +33,7 @@ MainWidget::MainWidget( QWidget *parent )
 , mpPostDownloadHandlerHTML( new PostDownloadHandlerHTML )
 , mpPostDownloadHandlerXML( new PostDownloadHandlerXML )
 , mpPostDownloadHandlerMP3( new PostDownloadHandlerMP3 )
+, mpPostDownloadHandlerFLV( new PostDownloadHandlerFLV )
 , mpSetupDialog( new SetupDialog( this ) )
 {
    char cwd[PATH_MAX];
@@ -52,7 +54,7 @@ MainWidget::MainWidget( QWidget *parent )
    mpDownloadHandler->setAcceptDrops( false );
    
    // connect the dots
-   mpPostDownloadHandlerHTML->setHandlers( mpDownloadHandler, mpPostDownloadHandlerXML );
+   mpPostDownloadHandlerHTML->setHandlers( mpDownloadHandler, mpPostDownloadHandlerXML, mpPostDownloadHandlerFLV );
    mpPostDownloadHandlerXML->setHandlers( mpDownloadHandler, mpPostDownloadHandlerMP3 );
    mpPostDownloadHandlerMP3->setHandlers( mpDownloadHandler, mpPostDownloadHandlerMP3 );
    

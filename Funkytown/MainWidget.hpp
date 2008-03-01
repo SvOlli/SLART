@@ -15,6 +15,7 @@ class PostDownloadHandler;
 class PostDownloadHandlerHTML;
 class PostDownloadHandlerXML;
 class PostDownloadHandlerMP3;
+class PostDownloadHandlerFLV;
 
 class QDropEvent;
 class QFile;
@@ -69,6 +70,7 @@ private:
    PostDownloadHandlerHTML *mpPostDownloadHandlerHTML;
    PostDownloadHandlerXML  *mpPostDownloadHandlerXML;
    PostDownloadHandlerMP3  *mpPostDownloadHandlerMP3;
+   PostDownloadHandlerFLV  *mpPostDownloadHandlerFLV;
    SetupDialog             *mpSetupDialog;
 
 };
