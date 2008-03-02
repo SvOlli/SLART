@@ -25,8 +25,10 @@ public slots:
    void moveItem( QListWidgetItem *item, QListWidgetItem *pos );
    /* set the tool tip to full entry */
    void setToolTip( const QModelIndex &index );
+   /* handle single click */
+   void handleClick( QListWidgetItem *item );
    /* handle double click */
-   void doubleClick( QListWidgetItem *item );
+   void handleDoubleClick( QListWidgetItem *item );
 
 protected:
    /* catch right mouse button */

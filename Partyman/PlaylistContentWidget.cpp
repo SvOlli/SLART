@@ -7,6 +7,8 @@
 
 #include <QContextMenuEvent>
 #include <QScrollBar>
+#include <QApplication>
+#include <QClipboard>
 
 #include "PlaylistContentWidget.hpp"
 
@@ -27,12 +29,24 @@ PlaylistContentWidget::PlaylistContentWidget( bool allowResort, QWidget *parent 
                this, SLOT(moveItem(QListWidgetItem*,QListWidgetItem*)));
    }
    connect( this, SIGNAL(entered(QModelIndex)), this, SLOT(setToolTip(QModelIndex)) );
+   connect( this, SIGNAL(itemClicked(QListWidgetItem *)),
+            this, SLOT(handleClick(QListWidgetItem *)) );
    connect( this, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
-            this, SLOT(doubleClick(QListWidgetItem *)) );
+            this, SLOT(handleDoubleClick(QListWidgetItem *)) );
 }
 
 
-void PlaylistContentWidget::doubleClick( QListWidgetItem *item )
+void PlaylistContentWidget::handleClick( QListWidgetItem *item )
+{
+   QClipboard *clipboard = QApplication::clipboard();
+   clipboard->setText( item->text(), QClipboard::Selection );
+#if 0
+   clipboard->setText( item->text(), QClipboard::Clipboard );
+#endif
+}
+
+
+void PlaylistContentWidget::handleDoubleClick( QListWidgetItem *item )
 {
    emit context( indexFromItem( item ), 0 );
 }
