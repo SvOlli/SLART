@@ -15,6 +15,7 @@ class QLineEdit;
 class QCheckBox;
 class QComboBox;
 class QDoubleSpinBox;
+class MyClipboard;
 
 
 class ConfigDialog : public QDialog
@@ -57,6 +58,7 @@ private:
    QSpinBox       *mpUDPListenerPort;
    QComboBox      *mpNormalizeMode;
    QDoubleSpinBox *mpNormalizeValue;
+   MyClipboard    *mpClipboard;
    QLineEdit      *mpLogCmd;
    QPushButton    *mpM3uFileName;
 };

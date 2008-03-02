@@ -18,6 +18,9 @@ SOURCES += MainWindow.cpp
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
 
+HEADERS += MyClipboard.hpp
+SOURCES += MyClipboard.cpp
+
 HEADERS += MySettings.hpp
 SOURCES += MySettings.cpp
 

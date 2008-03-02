@@ -8,6 +8,7 @@ Karmadrome: (new application)
   - bad contains bad karma tracks
   - good contains only good karma tracks
   - base contains all minus bad karma tracks
+- copy trackname from selection/clipboard
 
 Funkytown:
 - close Setup/Log on closing application

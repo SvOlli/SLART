@@ -9,6 +9,7 @@
 #include "MySettings.hpp"
 #include "ProxyWidget.hpp"
 #include "ConfigNotifyWidget.hpp"
+#include "MyClipboard.hpp"
 
 
 #include <QtGui>
@@ -18,6 +19,7 @@
 ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpNotifyWidget( new ConfigNotifyWidget( this ) )
+, mpClipboardWidget( new MyClipboard( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
@@ -35,14 +37,16 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    
    if( QApplication::desktop()->screenGeometry().height() < 600 )
    {
-      QHBoxLayout *interimLayout = new QHBoxLayout;
-      interimLayout->addWidget( mpNotifyWidget );
-      interimLayout->addWidget( mpProxyWidget );
+      QGridLayout *interimLayout = new QGridLayout;
+      interimLayout->addWidget( mpNotifyWidget, 0, 0, 2, 1 );
+      interimLayout->addWidget( mpClipboardWidget, 0, 1 );
+      interimLayout->addWidget( mpProxyWidget, 1, 1 );
       mainLayout->addLayout( interimLayout );
    }
    else
    {
       mainLayout->addWidget( mpNotifyWidget );
+      mainLayout->addWidget( mpClipboardWidget );
       mainLayout->addWidget( mpProxyWidget );
    }
    mainLayout->addLayout( buttonLayout );
@@ -59,6 +63,7 @@ void ConfigDialog::readSettings()
    MySettings settings;
    
    mpNotifyWidget->readSettings();
+   mpClipboardWidget->readSettings();
    mpProxyWidget->readSettings();
    
    emit configChanged();
@@ -70,6 +75,7 @@ void ConfigDialog::writeSettings()
    MySettings settings;
 
    mpNotifyWidget->writeSettings();
+   mpClipboardWidget->writeSettings();
    mpProxyWidget->writeSettings();
 
    emit configChanged();

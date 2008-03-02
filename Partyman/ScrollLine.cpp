@@ -6,6 +6,7 @@
  */
 
 #include "ScrollLine.hpp"
+#include "MyClipboard.hpp"
 
 #include <QtGui>
 
@@ -57,7 +58,7 @@ void ScrollLine::focusInEvent( QFocusEvent *event )
 {
    if( event->gotFocus() )
    {
-      QApplication::clipboard()->setText( QLineEdit::toolTip(), QClipboard::Selection );
+      MyClipboard::set( QLineEdit::toolTip() );
    }
    event->ignore();
 }

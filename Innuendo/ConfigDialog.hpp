@@ -17,6 +17,7 @@ class QComboBox;
 class QDoubleSpinBox;
 class ProxyWidget;
 class ConfigNotifyWidget;
+class MyClipboard;
    
 
 class ConfigDialog : public QDialog
@@ -38,6 +39,7 @@ private:
    ConfigDialog &operator=( const ConfigDialog &other );
 
    ConfigNotifyWidget   *mpNotifyWidget;
+   MyClipboard          *mpClipboardWidget;
    ProxyWidget          *mpProxyWidget;
 };
 

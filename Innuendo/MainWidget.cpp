@@ -10,6 +10,7 @@
 #include <QtGui>
 #include "MySettings.hpp"
 #include "ConfigDialog.hpp"
+#include "MyClipboard.hpp"
 
 #include "Trace.hpp"
 
@@ -105,9 +106,7 @@ void MainWidget::handleSLAT( const QStringList &message )
 
 void MainWidget::listWidgetItemToClipboard( QListWidgetItem *item )
 {
-   QClipboard *clipboard = QApplication::clipboard();
-   clipboard->setText( item->text(), QClipboard::Clipboard );
-   clipboard->setText( item->text(), QClipboard::Selection );
+   MyClipboard::set( item->text() );
 }
 
 
@@ -117,7 +116,7 @@ void MainWidget::keyPressEvent( QKeyEvent *event )
    QStringList msg( QString("key event: ")+QString::number(event->nativeScanCode()) );
    handleSLAT( msg );
    
-   if( event->nativeScanCode() )
+   if( (event->nativeScanCode() != 0) && !event->isAutoRepeat() )
    {
       settings.beginGroup( "Keys" );
       const quint32 next( settings.value( "Next", 0 ).toUInt() );

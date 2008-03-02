@@ -27,7 +27,6 @@ ProxyWidget::ProxyWidget( QWidget *parent )
 , mpProxyLoginInput( new QLineEdit )
 , mpProxyPasswordInput( new QLineEdit )
 {
-   MySettings settings;
    QGridLayout *mainLayout = new QGridLayout( this );
    setTitle( tr("Proxy Settings:") );
    

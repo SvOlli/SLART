@@ -7,6 +7,7 @@
 
 #include "ConfigDialog.hpp"
 #include "MySettings.hpp"
+#include "MyClipboard.hpp"
 
 #include <QtGui>
 
@@ -29,6 +30,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpUDPListenerPort( new QSpinBox( this ) )
 , mpNormalizeMode( new QComboBox( this ) )
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
+, mpClipboard( new MyClipboard( this, false ) )
 , mpLogCmd( new QLineEdit( this ) )
 , mpM3uFileName( new QPushButton( this ) )
 {
@@ -76,10 +78,12 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    pmLayout->addWidget( mpUDPListenerPort, 2, 1 );
    pmLayout->addWidget( mpNormalizeMode, 3, 0 );
    pmLayout->addWidget( mpNormalizeValue, 3, 1 );
-   pmLayout->addWidget( new QLabel( tr("External Logger:") ), 4, 0 );
-   pmLayout->addWidget( mpLogCmd, 4, 1 );
-   pmLayout->addWidget( new QLabel( tr("Database File:") ), 5, 0, 1, 2 );
-   pmLayout->addWidget( mpM3uFileName, 6, 0, 1, 2 );
+   pmLayout->addWidget( mpClipboard->label(), 4, 0 );
+   pmLayout->addWidget( mpClipboard->comboBox(), 4, 1 );
+   pmLayout->addWidget( new QLabel( tr("External Logger:") ), 5, 0 );
+   pmLayout->addWidget( mpLogCmd, 5, 1 );
+   pmLayout->addWidget( new QLabel( tr("Database File:") ), 6, 0, 1, 2 );
+   pmLayout->addWidget( mpM3uFileName, 7, 0, 1, 2 );
    pmGroup->setLayout( pmLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -131,6 +135,7 @@ void ConfigDialog::readSettings()
    mpNormalizeValue->setValue( settings.value("NormalizeValue", 0.4).toDouble() );
    mpLogCmd->setText( settings.value("LogCmd", "").toString() );
    mpM3uFileName->setText( settings.value("DatabaseFilename", QString() ).toString() );
+   mpClipboard->readSettings();
    handleUDPListen( mpSLATCommunication->isChecked() );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    
@@ -174,6 +179,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "NormalizeValue", mpNormalizeValue->value() );
    settings.setValue( "LogCmd", mpLogCmd->text() );
    settings.setValue( "DatabaseFilename", mpM3uFileName->text().replace('\\','/') );
+   mpClipboard->writeSettings();
 
    emit configChanged();
 }

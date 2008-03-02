@@ -11,6 +11,7 @@
 #include <QClipboard>
 
 #include "PlaylistContentWidget.hpp"
+#include "MyClipboard.hpp"
 
 #include "Trace.hpp"
 
@@ -38,11 +39,7 @@ PlaylistContentWidget::PlaylistContentWidget( bool allowResort, QWidget *parent 
 
 void PlaylistContentWidget::handleClick( QListWidgetItem *item )
 {
-   QClipboard *clipboard = QApplication::clipboard();
-   clipboard->setText( item->text(), QClipboard::Selection );
-#if 0
-   clipboard->setText( item->text(), QClipboard::Clipboard );
-#endif
+   MyClipboard::set( item->text() );
 }
 
 
