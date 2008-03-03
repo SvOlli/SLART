@@ -30,3 +30,11 @@ Stripped:
   - First Caps
   - append text
 - auto read-toc
+
+Rubberbandman:
+- DerMixD skips currently played track if saved
+- implement fix entries button
+  - [] -> ()
+  - " *" -> " "
+  - First Caps
+

@@ -13,12 +13,24 @@
 #include <QtGui>
 
 
+class MyLineEdit : public QLineEdit
+{
+public:
+   MyLineEdit( QWidget *parent ) : QLineEdit( parent ) {};
+protected:
+   virtual void keyPressEvent( QKeyEvent *event )
+   {
+      if( event->key() == Qt::Key_Escape ) clear();
+      QLineEdit::keyPressEvent( event );
+   };
+};
+
 
 SearchWidget::SearchWidget( PlaylistWidget *parent )
 : QWidget( parent )
 , mpPlaylist( parent )
 , mpResults( new PlaylistContentWidget( false, this ) )
-, mpInput( new QLineEdit( this ) )
+, mpInput( new MyLineEdit( this ) )
 , mpFound( new QLabel( this ) )
 {
    MySettings settings;
@@ -110,10 +122,12 @@ void SearchWidget::selectedEntries( const QModelIndex &/*index*/, int key )
    }
 }
 
+
 QLineEdit *SearchWidget::getLineEdit()
 {
    return mpInput;
 }
+
 
 void SearchWidget::setFocus()
 {
