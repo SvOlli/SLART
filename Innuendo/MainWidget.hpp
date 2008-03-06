@@ -38,7 +38,7 @@ public slots:
    void listWidgetItemToClipboard( QListWidgetItem *item );
 
 signals:
-   void requestChangeTitle( const QIcon& ,const QString& );
+   void requestChangeTitle( const QIcon&, const QString& );
 
 protected:
    virtual void keyPressEvent( QKeyEvent *event );

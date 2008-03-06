@@ -11,11 +11,12 @@
 #include "MySettings.hpp"
 #include "ConfigDialog.hpp"
 #include "MyClipboard.hpp"
+#include "ExecButton.hpp"
 
 #include "Trace.hpp"
 
 
-MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
+MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpMessageBuffer( new QListWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
@@ -27,6 +28,9 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
 
+   QStringList applications;
+   applications << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome";
+   
    mpBufferSizeLabel->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
    mpBufferSize->setRange( 50, 50000 );
    
@@ -36,11 +40,15 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpLogo->setFrameShadow( QFrame::Raised );
    mpLogo->setFrameShape( QFrame::Box );
 
-   mainLayout->addWidget( mpLogo,            0, 0, 1, 3 );
-   mainLayout->addWidget( mpMessageBuffer,   1, 0, 1, 3 );
-   mainLayout->addWidget( mpSettingsButton,  2, 0 );
-   mainLayout->addWidget( mpBufferSizeLabel, 2, 1 );
-   mainLayout->addWidget( mpBufferSize,      2, 2 );
+   mainLayout->addWidget( mpLogo,            0, 0, 1, applications.count() );
+   mainLayout->addWidget( mpMessageBuffer,   1, 0, 1, applications.count() );
+   for( int i = 0; i < applications.count(); i++ )
+   {
+      mainLayout->addWidget( new ExecButton( applications.at(i), this ), 2, i );
+   }
+   mainLayout->addWidget( mpSettingsButton,  3, 0 );
+   mainLayout->addWidget( mpBufferSizeLabel, 3, applications.count() - 2 );
+   mainLayout->addWidget( mpBufferSize,      3, applications.count() - 1 );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             this, SLOT(handleSettings()) );
