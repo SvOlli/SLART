@@ -13,16 +13,38 @@
 #include <QtGui>
 
 
-class MyLineEdit : public QLineEdit
+class SearchLineEdit : public QLineEdit
 {
 public:
-   MyLineEdit( QWidget *parent ) : QLineEdit( parent ) {};
+   SearchLineEdit( SearchWidget *parent );
 protected:
-   virtual void keyPressEvent( QKeyEvent *event )
+   virtual void keyPressEvent( QKeyEvent *event );
+private:
+   SearchWidget *mpSearchWidget;
+};
+
+
+SearchLineEdit::SearchLineEdit( SearchWidget *parent )
+: QLineEdit( parent )
+, mpSearchWidget( parent )
+{
+}
+
+
+void SearchLineEdit::keyPressEvent( QKeyEvent *event )
+{
+   if( event->key() == Qt::Key_Escape )
    {
-      if( event->key() == Qt::Key_Escape ) clear();
-      QLineEdit::keyPressEvent( event );
-   };
+      if( text().count() > 0 )
+      {
+         clear();
+      }
+      else
+      {
+         mpSearchWidget->selectedEntries( QModelIndex(), Qt::Key_Escape );
+      }
+   }
+   QLineEdit::keyPressEvent( event );
 };
 
 
@@ -30,7 +52,7 @@ SearchWidget::SearchWidget( PlaylistWidget *parent )
 : QWidget( parent )
 , mpPlaylist( parent )
 , mpResults( new PlaylistContentWidget( false, this ) )
-, mpInput( new MyLineEdit( this ) )
+, mpInput( new SearchLineEdit( this ) )
 , mpFound( new QLabel( this ) )
 {
    MySettings settings;
