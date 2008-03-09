@@ -31,6 +31,8 @@ Stripped:
 - auto read-toc
 
 Rubberbandman:
+- save tab last used
+- set base directory for browse
 - DerMixD skips currently played track if saved
 - implement fix entries button
   - [] -> ()

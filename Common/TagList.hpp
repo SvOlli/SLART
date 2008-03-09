@@ -23,7 +23,7 @@ public:
    QString tagAt( int i ) const { return mTags.at(i); };
    QString valueAt( int i ) const { return mValues.at(i); };
    void set( const QString &tag, const QString &value = QString() );
-   QString fileName( const QString &pattern );
+   QString fileName( const QString &pattern, bool filterPath = true );
    
 private:
    TagList( const TagList &other );

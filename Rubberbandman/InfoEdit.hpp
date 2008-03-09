@@ -25,7 +25,7 @@ Q_OBJECT
 
 public:
    InfoEdit( QWidget *parent = 0 );
-   QString tagsFileName( const QString &pattern );
+   QString tagsFileName( const QString &pattern, bool filterPath = true );
    QString fileName();
 
 public slots:

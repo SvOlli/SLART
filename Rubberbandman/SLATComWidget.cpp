@@ -27,6 +27,7 @@ SLATComWidget::SLATComWidget( QWidget *parent, Qt::WindowFlags flags )
    
    buttonLayout->addWidget( mpNowPlaying );
    mainLayout->addWidget( mpInfoEdit );
+   mainLayout->addStretch();
    mainLayout->addLayout( buttonLayout );
    setLayout(mainLayout);
    
@@ -54,7 +55,7 @@ void SLATComWidget::handleSLAT( const QStringList &message )
 
 void SLATComWidget::handleNowPlaying()
 {
-   QApplication::clipboard()->setText( mpInfoEdit->tagsFileName( "NP: |$ARTIST| - |$TITLE|" ),
+   QApplication::clipboard()->setText( mpInfoEdit->tagsFileName( "NP: |$ARTIST| - |$TITLE|", false ),
                                        QClipboard::Selection );
 }
 

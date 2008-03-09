@@ -388,9 +388,9 @@ TRACEMSG << mFileName;
 }
 
 
-QString InfoEdit::tagsFileName( const QString &pattern )
+QString InfoEdit::tagsFileName( const QString &pattern, bool filterPath )
 {
-   return mTagList.fileName( pattern );
+   return mTagList.fileName( pattern, filterPath );
 }
 
 

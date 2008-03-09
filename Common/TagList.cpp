@@ -51,7 +51,7 @@ void TagList::clear()
 }
 
 
-QString TagList::fileName( const QString &pattern )
+QString TagList::fileName( const QString &pattern, bool filterPath )
 {
    QStringList parts( pattern.split( "|" ) );
    QString filename;
@@ -71,8 +71,11 @@ QString TagList::fileName( const QString &pattern )
             if( j >= 0 )
             {
                QString value( mValues.at(j) );
-               value.remove( QRegExp("[:?]") );
-               value.replace( QRegExp("[\\/*]"), "_" );
+               if( filterPath )
+               {
+                  value.remove( QRegExp("[:?]") );
+                  value.replace( QRegExp("[\\/*]"), "_" );
+               }
                
                filename.append( value );
             }
