@@ -42,15 +42,18 @@ void Encoder::initialize( const QString &fileName, const char *extension )
       dir.mkpath( dir.absolutePath() );
    }
 
-   mFileName = qfi.absoluteFilePath().toLocal8Bit();
-   mFD = ::open( mFileName.data(), O_WRONLY | O_CREAT | O_TRUNC, 0644 );
+   mFileName = qfi.absoluteFilePath();
+   mFD = ::open( mFileName.toLocal8Bit().data(), O_WRONLY | O_CREAT | O_TRUNC, 0644 );
 }
 
 
-void Encoder::finalize()
+void Encoder::finalize( bool enqueue )
 {
    ::close( mFD );
    mFD = -1;
    
-   MySettings().sendNotification( QString("s0d\n") + mFileName );
+   if( enqueue )
+   {
+      MySettings().sendNotification( QString("s0d\n") + mFileName );
+   }
 }

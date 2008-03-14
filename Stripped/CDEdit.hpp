@@ -27,11 +27,12 @@ Q_OBJECT
 public:
    CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
-   void trackInfo( int tracknr, bool *dorip, QString *artist, QString *title,
+   void trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *artist, QString *title,
                    QString *albumartist, QString *albumtitle, QString *genre, int *year );
 
 public slots:
    void handleTrackNr();
+   void handleEnqueueTrack();
    void handleTrackArtist();
    void handleTrackYear();
    void setTrackHidden( int track, bool hide );
@@ -57,18 +58,21 @@ private:
    QLabel       *mpLabelDiscID;
    QLabel       *mpDiscID;
    QLabel       *mpLabelTrackNr;
+   QLabel       *mpLabelEnqueueTrack;
    QLabel       *mpLabelTrackArtist;
    QLabel       *mpLabelTrackTitle;
    QLabel       *mpLabelTrackYear;
    QLabel       *mpLabelTrackPlaytime;
    QCheckBox    **mpTrackNr;
+   QCheckBox    **mpEnqueueTrack;
    QLineEdit    **mpTrackArtist;
    QLineEdit    **mpTrackTitle;
    QLineEdit    **mpTrackYear;
    QLabel       **mpTrackPlaytime;
    QComboBox    *mpSplitMode;
    QPushButton  *mpSplitButton;
-   QPushButton  *mpToggleAllButton;
+   QPushButton  *mpToggleRipButton;
+   QPushButton  *mpToggleEnqueueButton;
    QPushButton  *mpCopyArtistButton;
    QPushButton  *mpCopyYearButton;
 };

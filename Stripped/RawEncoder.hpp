@@ -19,7 +19,7 @@ public:
    RawEncoder( QWidget *parent = 0 );
    virtual ~RawEncoder();
    void initialize( const QString &fileName );
-   void finalize();
+   void finalize( bool enqueue );
    void setTags( const TagList &tagList );
    void encodeCDAudio( const char* data, int size );
 

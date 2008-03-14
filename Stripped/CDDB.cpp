@@ -53,6 +53,7 @@ CDDB::CDDB( CDToc *toc, QWidget *parent , Qt::WindowFlags flags )
 
 void CDDB::query( const QString &querystring )
 {
+   mCancel = false;
    mMutex.lock();
    mRequestIsQuery = true;
    mpHits->clear();

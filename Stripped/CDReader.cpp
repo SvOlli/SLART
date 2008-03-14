@@ -71,6 +71,8 @@ void CDReader::getDevices( QComboBox *comboBox )
    comboBox->clear();
    
    drives = ::cdio_get_devices( DRIVER_UNKNOWN );
+   if( !drives ) return;
+   
    for( d = drives; *d; d++ )
    {
       comboBox->addItem( QString(*d) );
@@ -141,7 +143,7 @@ void CDReader::readTracks()
    mCancel = false;
    
    QString artist, title, albumartist, albumtitle, genre;
-   bool dorip;
+   bool dorip, doenqueue;
    int year;
    
    for( i = 0; i < 13; i++ )
@@ -164,7 +166,7 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
 
    for( i = 0; i < 100; i++ )
    {
-      mpCDEdit->trackInfo( i, &dorip, &artist, &title, 
+      mpCDEdit->trackInfo( i, &dorip, &doenqueue, &artist, &title, 
                            &albumartist, &albumtitle, &genre, &year );
       if( !dorip ) 
       {
@@ -201,7 +203,7 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
          if( mCancel ) break;
       }
       
-      mpEncoder->finalize();
+      mpEncoder->finalize( doenqueue );
       if( mCancel ) break;
    }
    

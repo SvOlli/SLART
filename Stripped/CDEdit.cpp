@@ -30,13 +30,15 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
 , mpLabelDiscID( new QLabel( tr("DiscID"), this ) )
 , mpDiscID( new QLabel( this ) )
 , mpLabelTrackNr( new QLabel( tr("Nr"), this ) )
+, mpLabelEnqueueTrack( new QLabel( tr("NQ"), this ) )
 , mpLabelTrackArtist( new QLabel( tr("Artist"), this ) )
 , mpLabelTrackTitle( new QLabel( tr("Title"), this ) )
 , mpLabelTrackYear( new QLabel( tr("Year"), this ) )
 , mpLabelTrackPlaytime( new QLabel( tr("Playtime"), this ) )
 , mpSplitMode( new QComboBox( this ) )
 , mpSplitButton( new QPushButton( tr("Split Titles"), this ) )
-, mpToggleAllButton( new QPushButton( tr("Toggle All"), this ) )
+, mpToggleRipButton( new QPushButton( tr("Toggle Rip"), this ) )
+, mpToggleEnqueueButton( new QPushButton( tr("Toggle Enqueue"), this ) )
 , mpCopyArtistButton( new QPushButton( tr("Copy Artist"), this ) )
 , mpCopyYearButton( new QPushButton( tr("Copy Year"), this ) )
 {
@@ -62,37 +64,40 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
 #endif
    mpLabelDiscID->setFrameShape( QFrame::Box );
    mpLabelTrackNr->setFrameShape( QFrame::Box );
+   mpLabelEnqueueTrack->setFrameShape( QFrame::Box );
    mpLabelTrackArtist->setFrameShape( QFrame::Box );
    mpLabelTrackTitle->setFrameShape( QFrame::Box );
    mpLabelTrackYear->setFrameShape( QFrame::Box );
    mpLabelTrackPlaytime->setFrameShape( QFrame::Box );
 
    mpTrackNr       = new QCheckBox*[100];
+   mpEnqueueTrack  = new QCheckBox*[100];
    mpTrackArtist   = new QLineEdit*[100];
    mpTrackTitle    = new QLineEdit*[100];
    mpTrackYear     = new QLineEdit*[100];
    mpTrackPlaytime = new QLabel*[100];
    
    mpMainLayout->setSpacing( 1 );
-   mpMainLayout->setColumnStretch( 1, 1 );
    mpMainLayout->setColumnStretch( 2, 1 );
+   mpMainLayout->setColumnStretch( 3, 1 );
    mpDiscArtist->setText( tr("DiscArtist" ) );
    mpDiscTitle->setText( tr("DiscTitle" ) );
    
    mpMainLayout->addWidget( mpLabelDiscArtist, 0, 0 );
-   mpMainLayout->addWidget( mpDiscArtist,      0, 1, 1, 3 );
+   mpMainLayout->addWidget( mpDiscArtist,      0, 1, 1, 4 );
    mpMainLayout->addWidget( mpLabelDiscTitle,  1, 0 );
-   mpMainLayout->addWidget( mpDiscTitle,       1, 1, 1, 3 );
+   mpMainLayout->addWidget( mpDiscTitle,       1, 1, 1, 4 );
    mpMainLayout->addWidget( mpLabelGenre,      2, 0 );
-   mpMainLayout->addWidget( mpGenre,           2, 1, 1, 3 );
-   mpMainLayout->addWidget( mpLabelDiscID,     0, 4 );
-   mpMainLayout->addWidget( mpDiscID,          1, 4 );
+   mpMainLayout->addWidget( mpGenre,           2, 1, 1, 4 );
+   mpMainLayout->addWidget( mpLabelDiscID,     0, 5 );
+   mpMainLayout->addWidget( mpDiscID,          1, 5 );
    
    mpMainLayout->addWidget( mpLabelTrackNr,       3, 0 );
-   mpMainLayout->addWidget( mpLabelTrackArtist,   3, 1 );
-   mpMainLayout->addWidget( mpLabelTrackTitle,    3, 2 );
-   mpMainLayout->addWidget( mpLabelTrackYear,     3, 3 );
-   mpMainLayout->addWidget( mpLabelTrackPlaytime, 3, 4 );
+   mpMainLayout->addWidget( mpLabelEnqueueTrack,  3, 1 );
+   mpMainLayout->addWidget( mpLabelTrackArtist,   3, 2 );
+   mpMainLayout->addWidget( mpLabelTrackTitle,    3, 3 );
+   mpMainLayout->addWidget( mpLabelTrackYear,     3, 4 );
+   mpMainLayout->addWidget( mpLabelTrackPlaytime, 3, 5 );
    
    for( int i = 0; i < 100; i++ )
    {
@@ -104,6 +109,7 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
       {
          mpTrackNr[i]       = new QCheckBox( QString::number(i), this );
       }
+      mpEnqueueTrack[i]  = new QCheckBox( this );
       mpTrackArtist[i]   = new QLineEdit( this );
       mpTrackTitle[i]    = new QLineEdit( this );
       mpTrackYear[i]     = new QLineEdit( this );
@@ -111,10 +117,11 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
       mpTrackPlaytime[i]->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
       
       mpMainLayout->addWidget( mpTrackNr[i],       4+i, 0 );
-      mpMainLayout->addWidget( mpTrackArtist[i],   4+i, 1 );
-      mpMainLayout->addWidget( mpTrackTitle[i],    4+i, 2 );
-      mpMainLayout->addWidget( mpTrackYear[i],     4+i, 3 );
-      mpMainLayout->addWidget( mpTrackPlaytime[i], 4+i, 4 );
+      mpMainLayout->addWidget( mpEnqueueTrack[i]  ,4+i, 1 );
+      mpMainLayout->addWidget( mpTrackArtist[i],   4+i, 2 );
+      mpMainLayout->addWidget( mpTrackTitle[i],    4+i, 3 );
+      mpMainLayout->addWidget( mpTrackYear[i],     4+i, 4 );
+      mpMainLayout->addWidget( mpTrackPlaytime[i], 4+i, 5 );
       if(i > 0)
       {
          mpTrackNr[i]->setCheckState( Qt::Checked );
@@ -129,7 +136,8 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    mpSplitMode->addItem("-");
    buttonLayout->addWidget( mpSplitMode );
    buttonLayout->addWidget( mpSplitButton );
-   buttonLayout->addWidget( mpToggleAllButton );
+   buttonLayout->addWidget( mpToggleRipButton );
+   buttonLayout->addWidget( mpToggleEnqueueButton );
    buttonLayout->addWidget( mpCopyArtistButton );
    buttonLayout->addWidget( mpCopyYearButton );
    mpSplitMode->setMinimumHeight( mpSplitButton->minimumHeight() );
@@ -140,10 +148,11 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    outerLayout->addWidget( mpScrollArea );
    outerLayout->addLayout( buttonLayout );
    
-   connect( mpToggleAllButton,  SIGNAL(clicked()), this, SLOT(handleTrackNr()) );
-   connect( mpCopyArtistButton, SIGNAL(clicked()), this, SLOT(handleTrackArtist()) );
-   connect( mpCopyYearButton,   SIGNAL(clicked()), this, SLOT(handleTrackYear()) );
-   connect( mpSplitButton,      SIGNAL(clicked()), this, SLOT(splitTitles()) );
+   connect( mpToggleRipButton,     SIGNAL(clicked()), this, SLOT(handleTrackNr()) );
+   connect( mpToggleEnqueueButton, SIGNAL(clicked()), this, SLOT(handleEnqueueTrack()) );
+   connect( mpCopyArtistButton,    SIGNAL(clicked()), this, SLOT(handleTrackArtist()) );
+   connect( mpCopyYearButton,      SIGNAL(clicked()), this, SLOT(handleTrackYear()) );
+   connect( mpSplitButton,         SIGNAL(clicked()), this, SLOT(splitTitles()) );
    
    setLayout( outerLayout );
 }
@@ -160,6 +169,22 @@ void CDEdit::handleTrackNr()
       else
       {
          mpTrackNr[i]->setCheckState( Qt::Unchecked );
+      }
+   }
+}
+
+
+void CDEdit::handleEnqueueTrack()
+{
+   for( int i = 1; i < 100; i++ )
+   {
+      if( mpEnqueueTrack[i]->checkState() == Qt::Unchecked )
+      {
+         mpEnqueueTrack[i]->setCheckState( Qt::Checked );
+      }
+      else
+      {
+         mpEnqueueTrack[i]->setCheckState( Qt::Unchecked );
       }
    }
 }
@@ -198,6 +223,7 @@ void CDEdit::handleTrackYear()
 void CDEdit::setTrackHidden( int track, bool hide )
 {
    mpTrackNr[track]->setHidden( hide );
+   mpEnqueueTrack[track]->setHidden( hide );
    mpTrackArtist[track]->setHidden( hide );
    mpTrackTitle[track]->setHidden( hide );
    mpTrackYear[track]->setHidden( hide );
@@ -278,13 +304,14 @@ void CDEdit::splitTitles()
 }
 
 
-void CDEdit::trackInfo( int tracknr, bool *dorip, QString *artist, QString *title,
+void CDEdit::trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *artist, QString *title,
                         QString *albumartist, QString *albumtitle, QString *genre, int *year )
 {
    if( mpTrackNr[tracknr]->isHidden() ||
        (mpTrackNr[tracknr]->checkState() == Qt::Unchecked) )
    {
       *dorip = false;
+      *doenqueue = false;
       artist->clear();
       title->clear();
       albumartist->clear();
@@ -295,6 +322,7 @@ void CDEdit::trackInfo( int tracknr, bool *dorip, QString *artist, QString *titl
    else
    {
       *dorip        = true;
+      *doenqueue    = mpEnqueueTrack[tracknr]->isChecked();
       *artist       = mpTrackArtist[tracknr]->text();
       *title        = mpTrackTitle[tracknr]->text();
       *albumartist  = mpDiscArtist->text();
