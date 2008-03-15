@@ -9,9 +9,6 @@ TARGET = Creep
 QT -= gui
 LIBS += -llirc_client
 
-
 # Input
-#RESOURCES = Resources.qrc
-
 SOURCES += Application.cpp 
 
