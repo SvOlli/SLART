@@ -40,10 +40,6 @@ public slots:
 signals:
    void requestChangeTitle( const QIcon&, const QString& );
 
-protected:
-   virtual void keyPressEvent( QKeyEvent *event );
-   virtual void keyReleaseEvent( QKeyEvent *event );
-
 private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
