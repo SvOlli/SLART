@@ -1,0 +1,24 @@
+
+begin
+   remote = ati_remote_wonder_rf
+   prog   = Creep
+   button = play
+   repeat = 0
+   config = Partyman P0A
+end
+
+begin
+   remote = ati_remote_wonder_rf
+   prog   = Creep
+   button = stop
+   repeat = 0
+   config = Partyman P0S
+end
+
+begin
+   remote = ati_remote_wonder_rf
+   prog   = Creep
+   button = fforward
+   repeat = 0
+   config = Partyman P0N
+end
