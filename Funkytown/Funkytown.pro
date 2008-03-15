@@ -19,6 +19,9 @@ SOURCES += MainWidget.cpp
 HEADERS += MySettings.hpp
 SOURCES += MySettings.cpp
 
+HEADERS += GlobalHandlers.hpp
+SOURCES += GlobalHandlers.cpp
+
 HEADERS += DownloadHandler.hpp
 SOURCES += DownloadHandler.cpp
 

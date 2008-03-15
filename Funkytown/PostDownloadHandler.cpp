@@ -9,18 +9,9 @@
 
 
 PostDownloadHandler::PostDownloadHandler()
-: mpDownloadHandler( 0 )
-, mpPostDownloadHandler( 0 )
 {
 }
 
 PostDownloadHandler::~PostDownloadHandler()
 {
-}
-
-void PostDownloadHandler::setHandlers( DownloadHandler *downloadHandler,
-                                       PostDownloadHandler *postDownloadHandler )
-{
-   mpDownloadHandler     = downloadHandler;
-   mpPostDownloadHandler = postDownloadHandler;
 }

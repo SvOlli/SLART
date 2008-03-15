@@ -6,10 +6,13 @@
  */
 
 #include "PostDownloadHandlerXML.hpp"
+#include "GlobalHandlers.hpp"
 
 #include <QFile>
 #include <QStringList>
 #include <QRegExp>
+
+#include "Trace.hpp"
 
 
 PostDownloadHandlerXML::PostDownloadHandlerXML()
@@ -113,7 +116,7 @@ void PostDownloadHandlerXML::run( const QString &url, const QString &filename, b
       {
          QString filename( xmlName+QString(" - ")+xmlTitle+QString(".mp3") );
          filename.replace( QRegExp("[:/\\*\\?\\\\]"), "_" );
-         mpDownloadHandler->run( xmlUrl, filename, mpPostDownloadHandler );
+         gpDownloadHandler->run( xmlUrl, filename, gpPostDownloadHandlerMP3 );
          xmlTitle = "";
          xmlUrl   = "";
       }

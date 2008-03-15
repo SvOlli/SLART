@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#ifndef _POSTDOWNLOADHANDLERMP3_
-#define _POSTDOWNLOADHANDLERMP3_ _POSTDOWNLOADHANDLERMP3_
+#ifndef _POSTDOWNLOADHANDLERMP3_HPP_
+#define _POSTDOWNLOADHANDLERMP3_HPP_ _POSTDOWNLOADHANDLERMP3_HPP_
 
 #include "PostDownloadHandler.hpp"
 

@@ -12,6 +12,8 @@
 #include <QDir>
 #include "MySettings.hpp"
 
+#include "Trace.hpp"
+
 
 PostDownloadHandlerFLV::PostDownloadHandlerFLV()
 : PostDownloadHandler()

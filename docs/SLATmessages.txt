@@ -2,18 +2,20 @@
 Partyman
 - commands
   - P0Q: enQueue track
+  - P0A: plAy / pAuse
+  - P0S: Stop
   - P0N: skip to Next track
 - status messages
-  - p0p: playing track
+  - p0p: playing track (parameter: complete filename)
   - p0s: stopped
   - p0n: skipping to next
   - p0a: paused
 
 Stripped
 - status messages
-  - s0d: done with ripping track
+  - s0d: done with ripping track (parameter: complete filename)
 
 Funkytown
 - status messages
-  - f0d: done with downloading track
+  - f0d: done with downloading track (parameter: complete filename)
 

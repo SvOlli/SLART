@@ -13,6 +13,7 @@
 
 #include "Trace.hpp"
 
+
 DownloadHandler::DownloadHandler( QWidget *parent )
 : QWidget( parent )
 , mDownloading( false )
@@ -128,16 +129,15 @@ void DownloadHandler::run( const QString &url,
                            const QString &filename,
                            PostDownloadHandler *postDownloadHandler )
 {
-   if( url.startsWith("http://") )
+   if( !url.startsWith("http://") )
    {
-      mURLs.append( url );
+      return;
    }
-   else
-   {
-      mURLs.append( QString("http://www.myspace.com/")+url );
-   }
+   
+   mURLs.append( url );
    mFileNames.append( filename );
    mPostDownloadHandlers.append( postDownloadHandler );
+   
    mpQueue->addItem( filename + QString( " <- " ) + url );
 }
 

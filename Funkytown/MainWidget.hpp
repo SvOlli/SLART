@@ -64,13 +64,7 @@ private:
    QLabel                  *mpNameText;
    QLineEdit               *mpNameInput;
    QPushButton             *mpGoButton;
-   DownloadHandler         *mpDownloadHandler;
    QPushButton             *mpSetupButton;
-   PostDownloadHandler     *mpPostDownloadHandler;
-   PostDownloadHandlerHTML *mpPostDownloadHandlerHTML;
-   PostDownloadHandlerXML  *mpPostDownloadHandlerXML;
-   PostDownloadHandlerMP3  *mpPostDownloadHandlerMP3;
-   PostDownloadHandlerFLV  *mpPostDownloadHandlerFLV;
    SetupDialog             *mpSetupDialog;
 
 };

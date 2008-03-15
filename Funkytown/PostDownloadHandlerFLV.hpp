@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#ifndef _POSTDOWNLOADHANDLERFLV_
-#define _POSTDOWNLOADHANDLERFLV_ _POSTDOWNLOADHANDLERFLV_
+#ifndef _POSTDOWNLOADHANDLERFLV_HPP_
+#define _POSTDOWNLOADHANDLERFLV_HPP_ _POSTDOWNLOADHANDLERFLV_HPP_
 
 #include "PostDownloadHandler.hpp"
 

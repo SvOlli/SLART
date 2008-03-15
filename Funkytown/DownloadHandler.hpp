@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#ifndef _DOWNLOADHANDLER_
-#define _DOWNLOADHANDLER_ _DOWNLOADHANDLER_
+#ifndef _DOWNLOADHANDLER_HPP_
+#define _DOWNLOADHANDLER_HPP_ _DOWNLOADHANDLER_HPP_
 
 #include <QWidget>
 #include <QStringList>

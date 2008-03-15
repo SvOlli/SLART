@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
  
-#ifndef _POSTDOWNLOADHANDLERHTML_
-#define _POSTDOWNLOADHANDLERHTML_ _POSTDOWNLOADHANDLERHTML_
+#ifndef _POSTDOWNLOADHANDLERHTML_HPP_
+#define _POSTDOWNLOADHANDLERHTML_HPP_ _POSTDOWNLOADHANDLERHTML_HPP_
 
 #include "PostDownloadHandler.hpp"
 
@@ -16,16 +16,14 @@ public:
    PostDownloadHandlerHTML();
    virtual ~PostDownloadHandlerHTML();
    void run( const QString &url, const QString &filename, bool success );
-   void setHandlers( DownloadHandler     *downloadHandler,
-                     PostDownloadHandler *postDownloadHandler,
-                     PostDownloadHandler *postDownloadHandlerFLV );
-
-protected:
-   PostDownloadHandler *mpPostDownloadHandlerFLV;
 
 private:
    PostDownloadHandlerHTML( const PostDownloadHandlerHTML &other );
    PostDownloadHandlerHTML &operator=( const PostDownloadHandlerHTML &other );
+
+   void runGeneric( const QString &url, const QString &filename );
+   void runMySpace( const QString &url, const QString &filename );
+   void runYouTube( const QString &url, const QString &filename );
 };
 
 #endif

@@ -10,34 +10,36 @@
 #include <QtGui>
 #include <QtNetwork>
 #include "MainWidget.hpp"
+#include "SetupDialog.hpp"
+#include "MySettings.hpp"
 #include "DownloadHandler.hpp"
 #include "PostDownloadHandlerHTML.hpp"
 #include "PostDownloadHandlerXML.hpp"
 #include "PostDownloadHandlerMP3.hpp"
 #include "PostDownloadHandlerFLV.hpp"
-#include "SetupDialog.hpp"
-#include "MySettings.hpp"
-#include "Trace.hpp"
+#include "GlobalHandlers.hpp"
 
+#include "Trace.hpp"
 
 MainWidget::MainWidget( QWidget *parent )
 : QWidget( parent )
-, mpLayout( new QGridLayout )
-, mpDirText( new QLabel )
-, mpDirButton( new QPushButton )
-, mpNameText( new QLabel )
-, mpNameInput( new QLineEdit )
-, mpGoButton( new QPushButton )
-, mpDownloadHandler( new DownloadHandler )
-, mpSetupButton( new QPushButton )
-, mpPostDownloadHandlerHTML( new PostDownloadHandlerHTML )
-, mpPostDownloadHandlerXML( new PostDownloadHandlerXML )
-, mpPostDownloadHandlerMP3( new PostDownloadHandlerMP3 )
-, mpPostDownloadHandlerFLV( new PostDownloadHandlerFLV )
+, mpLayout( new QGridLayout( this ) )
+, mpDirText( new QLabel( tr("Target Dir:"), this ) )
+, mpDirButton( new QPushButton( this ) )
+, mpNameText( new QLabel( tr("URL:"), this ) )
+, mpNameInput( new QLineEdit( this ) )
+, mpGoButton( new QPushButton( this ) )
+, mpSetupButton( new QPushButton( tr("Setup / Log"), this ) )
 , mpSetupDialog( new SetupDialog( this ) )
 {
    char cwd[PATH_MAX];
    MySettings settings;
+   
+   gpDownloadHandler         = new DownloadHandler();
+   gpPostDownloadHandlerHTML = new PostDownloadHandlerHTML();
+   gpPostDownloadHandlerXML  = new PostDownloadHandlerXML();
+   gpPostDownloadHandlerMP3  = new PostDownloadHandlerMP3();
+   gpPostDownloadHandlerFLV  = new PostDownloadHandlerFLV();
    
    QLabel *mpLogo = new QLabel( this );
    mpLogo->setText( QApplication::applicationName() );
@@ -51,22 +53,13 @@ MainWidget::MainWidget( QWidget *parent )
    mpNameInput->setAcceptDrops( false );
    mpGoButton->setAcceptDrops( false );
    mpSetupButton->setAcceptDrops( false );
-   mpDownloadHandler->setAcceptDrops( false );
-   
-   // connect the dots
-   mpPostDownloadHandlerHTML->setHandlers( mpDownloadHandler, mpPostDownloadHandlerXML, mpPostDownloadHandlerFLV );
-   mpPostDownloadHandlerXML->setHandlers( mpDownloadHandler, mpPostDownloadHandlerMP3 );
-   mpPostDownloadHandlerMP3->setHandlers( mpDownloadHandler, mpPostDownloadHandlerMP3 );
+   gpDownloadHandler->setAcceptDrops( false );
    
    QVariant targetDir( getcwd(&cwd[0], PATH_MAX) );
-   mpDirText->setText( tr("Target Dir:") );
    mpDirButton->setText( settings.value("Directory", targetDir).toString() );
    chdir( mpDirButton->text().toLocal8Bit().constData() );
    
-   mpNameText->setText( tr("MySpace Name/URL:") );
-//   mpNameInput->setText( tr("") );
    downloadActive( false );
-   mpSetupButton->setText( tr("Setup / Log") );
    
    mpLayout->addWidget( mpLogo,              0, 0, 1, 2 );
    
@@ -77,7 +70,7 @@ MainWidget::MainWidget( QWidget *parent )
    mpLayout->addWidget( mpNameInput,         2, 1 );
    
    mpLayout->addWidget( mpGoButton,          3, 0, 1, 2 );
-   mpLayout->addWidget( mpDownloadHandler,   4, 0, 1, 2 );
+   mpLayout->addWidget( gpDownloadHandler,   4, 0, 1, 2 );
    mpLayout->addWidget( mpSetupButton,       5, 0, 1, 2 );
    
    setLayout( mpLayout );
@@ -86,8 +79,8 @@ MainWidget::MainWidget( QWidget *parent )
    connect( mpGoButton,  SIGNAL(clicked()), this, SLOT(downloadUserPage()) );
    connect( mpNameInput, SIGNAL(returnPressed()), this, SLOT(downloadUserPage()) );
    connect( mpSetupButton, SIGNAL(clicked()), this, SLOT(showSetupDialog()) );
-   connect( mpDownloadHandler, SIGNAL(downloadActive(bool)), this, SLOT(downloadActive(bool)) );
-   connect( mpDownloadHandler, SIGNAL(errorMessage(const QString&)), mpSetupDialog, SLOT(logMessage(const QString&)) );
+   connect( gpDownloadHandler, SIGNAL(downloadActive(bool)), this, SLOT(downloadActive(bool)) );
+   connect( gpDownloadHandler, SIGNAL(errorMessage(const QString&)), mpSetupDialog, SLOT(logMessage(const QString&)) );
 //   if( parent )
 //   {
 //      connect( parent, SIGNAL(aboutToQuit()), mpSetupDialog, SLOT(gotCloseSignal()) );
@@ -133,17 +126,25 @@ void MainWidget::downloadUserPage( const QString &name )
    {
       mpNameInput->setText( name );
    }
+   QString url( mpNameInput->text() );
    
-   if( mpNameInput->text().size() == 0 )
+   if( url.size() == 0 )
       return;
 
    downloadActive( true );
-   mpDownloadHandler->setProxy( mpSetupDialog->proxyWidget() );
+   gpDownloadHandler->setProxy( mpSetupDialog->proxyWidget() );
    
-   mpDownloadHandler->run( mpNameInput->text(),
-//                           mpNameInput->text().replace(QRegExp("^.*/"),"")+QString(".html"),
-                           QString("webpage.html"),
-                           mpPostDownloadHandlerHTML );
+   if( url.endsWith( ".mp3", Qt::CaseInsensitive ) )
+   {
+      QString fileName( url.mid( url.lastIndexOf( '/' ) + 1 ) );
+      gpDownloadHandler->run( url, fileName, gpPostDownloadHandlerMP3 );
+   }
+   else
+   {
+      gpDownloadHandler->run( url,
+                              QString("webpage.html"),
+                              gpPostDownloadHandlerHTML );
+   }
    
    mpNameInput->setText("");
 }

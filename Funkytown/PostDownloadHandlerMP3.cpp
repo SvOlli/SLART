@@ -6,11 +6,14 @@
  */
 
 #include "PostDownloadHandlerMP3.hpp"
+#include "MySettings.hpp"
+#include "GlobalHandlers.hpp"
 
 #include <QString>
 #include <QFileInfo>
 #include <QDir>
-#include "MySettings.hpp"
+
+#include "Trace.hpp"
 
 
 PostDownloadHandlerMP3::PostDownloadHandlerMP3()
@@ -50,6 +53,6 @@ void PostDownloadHandlerMP3::run( const QString &url, const QString &filename, b
       QString newurl(url);
       QString std_("/std_");
       newurl.replace( full_, std_ );
-      mpDownloadHandler->run( newurl, filename, mpPostDownloadHandler );
+      gpDownloadHandler->run( newurl, filename, gpPostDownloadHandlerMP3 );
    }
 }
