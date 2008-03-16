@@ -15,14 +15,14 @@
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpBrowseWidget( new BrowseWidget( this ) )
-, mpSLATComWidget( new SLATComWidget( this ) )
+, mpSLARTComWidget( new SLARTComWidget( this ) )
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    
    mpTabs = new QTabWidget( this );
 
    mpTabs->addTab( mpBrowseWidget,   tr("Browse") );
-   mpTabs->addTab( mpSLATComWidget,  tr("Partyman") );
+   mpTabs->addTab( mpSLARTComWidget, tr("Partyman") );
    
    QLabel *mpLogo = new QLabel( this );
    mpLogo->setText( QApplication::applicationName() );
