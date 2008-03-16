@@ -15,7 +15,7 @@
 ConfigNotifyApplicationWidget::ConfigNotifyApplicationWidget( int index, const QStringList &apps, ConfigNotifyWidget *parent )
 : QWidget( parent )
 , mpNotifyWidget( parent )
-, mpSLATCommunication( new QCheckBox( tr("Use SLAT UDP Communication"), this ) )
+, mpSLARTCommunication( new QCheckBox( tr("Use SLART UDP Communication"), this ) )
 , mpUDPListenerPortLabel( new QLabel( tr("Use UDP Port"), this ) )
 , mpUDPListenerPort( new QSpinBox( this ) )
 , mpSendsTo( new QCheckBox*[apps.count()] )
@@ -27,12 +27,12 @@ ConfigNotifyApplicationWidget::ConfigNotifyApplicationWidget( int index, const Q
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    QHBoxLayout *portLayout = new QHBoxLayout;
    
-   connect( mpSLATCommunication, SIGNAL(clicked(bool)),
+   connect( mpSLARTCommunication, SIGNAL(clicked(bool)),
             this, SLOT(handleUDPListen(bool)) );
    
    mpUDPListenerPort->setRange( 1, 65535 );
    
-   mainLayout->addWidget( mpSLATCommunication );
+   mainLayout->addWidget( mpSLARTCommunication );
    portLayout->addWidget( mpUDPListenerPortLabel );
    portLayout->addWidget( mpUDPListenerPort );
    mainLayout->addLayout( portLayout );
@@ -64,7 +64,7 @@ void ConfigNotifyApplicationWidget::allowNotify( int index, bool allow )
 void ConfigNotifyApplicationWidget::readSettings()
 {
    QSettings settings( QApplication::organizationName(), mApplications.at( mIndex ) );
-   mpSLATCommunication->setChecked( settings.value( "SLATCommunication", false ).toBool() );
+   mpSLARTCommunication->setChecked( settings.value( "SLARTCommunication", false ).toBool() );
    mpUDPListenerPort->setValue( settings.value( "UDPListenerPort", 24221+mIndex ).toInt() );
    
    settings.beginGroup( "Listeners" );
@@ -79,7 +79,7 @@ void ConfigNotifyApplicationWidget::readSettings()
 void ConfigNotifyApplicationWidget::writeSettings()
 {
    QSettings settings( QApplication::organizationName(), mApplications.at( mIndex ) );
-   settings.setValue( "SLATCommunication", mpSLATCommunication->isChecked() );
+   settings.setValue( "SLARTCommunication", mpSLARTCommunication->isChecked() );
    settings.setValue( "UDPListenerPort",   mpUDPListenerPort->value() );
    
    settings.beginGroup( "Listeners" );
@@ -120,7 +120,7 @@ int ConfigNotifyApplicationWidget::getUDPListenerPort()
 
 void ConfigNotifyApplicationWidget::setAllAtOnce( bool enable )
 {
-   mpSLATCommunication->setChecked( enable );
+   mpSLARTCommunication->setChecked( enable );
    
    for( int i = 0; i < mApplications.count(); i++ )
    {

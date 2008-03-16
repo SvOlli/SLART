@@ -12,7 +12,7 @@
 
 class QTabWidget;
 class BrowseWidget;
-class SLATComWidget;
+class SLARTComWidget;
 
 class MainWidget : public QWidget
 {
@@ -32,7 +32,7 @@ private:
    MainWidget &operator=( const MainWidget &other );
    
    BrowseWidget   *mpBrowseWidget;
-   SLATComWidget  *mpSLATComWidget;
+   SLARTComWidget *mpSLARTComWidget;
    QTabWidget     *mpTabs;
 };
 

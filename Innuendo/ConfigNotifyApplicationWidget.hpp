@@ -43,7 +43,7 @@ signals:
 
 private:
    ConfigNotifyWidget   *mpNotifyWidget;
-   QCheckBox            *mpSLATCommunication;
+   QCheckBox            *mpSLARTCommunication;
    QLabel               *mpUDPListenerPortLabel;
    QSpinBox             *mpUDPListenerPort;
    QCheckBox            **mpSendsTo;

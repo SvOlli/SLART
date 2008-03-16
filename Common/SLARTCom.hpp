@@ -1,26 +1,26 @@
 /**
- * SLATCom.hpp
+ * SLARTCom.hpp
  * written by Sven Oliver Moll
  * 
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#ifndef SLATCom_HPP
-#define SLATCom_HPP SLATCom_HPP
+#ifndef SLARTCOM_HPP
+#define SLARTCOM_HPP SLARTCOM_HPP
 
 #include <QUdpSocket>
 class MySettings;
 class QStringList;
 
 
-/* sending of SLATCom messages is handle by the MySettings class */
+/* sending of SLARTCom messages is handle by the MySettings class */
 
-class SLATCom : public QObject
+class SLARTCom : public QObject
 {
 Q_OBJECT
 
 public:
-   SLATCom( QObject *parent = 0 );
+   SLARTCom( QObject *parent = 0 );
 
    /* bind or release the port according to settings */
    void resetReceiver();
@@ -30,9 +30,9 @@ public slots:
    void handleReadyRead();
    
 signals:
-   /* got SLAT message to reread config */
+   /* got SLART message to reread config */
    void updateConfig();
-   /* send the processed SLAT message */
+   /* send the processed SLART message */
    void packageRead( const QStringList &data );
    
 private:

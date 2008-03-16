@@ -54,7 +54,7 @@ private:
    QLineEdit      *mpDerMixDparams;
    QCheckBox      *mpAutoConnect;
    QSpinBox       *mpCrossfadeTime;
-   QCheckBox      *mpSLATCommunication;
+   QCheckBox      *mpSLARTCommunication;
    QSpinBox       *mpUDPListenerPort;
    QComboBox      *mpNormalizeMode;
    QDoubleSpinBox *mpNormalizeValue;

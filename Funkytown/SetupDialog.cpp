@@ -23,8 +23,8 @@ SetupDialog::SetupDialog( QWidget *parent )
 {
    MySettings settings;
    
-   QLabel *aboutText = new QLabel( tr("Funkytown Version " SLAT_VERSION
-   " written by Sven Oliver Moll as a part of <a href='http://svolli.org/software/slat'>SLAT</a>.<br>"
+   QLabel *aboutText = new QLabel( tr("Funkytown Version " SLART_VERSION
+   " written by Sven Oliver Moll as a part of <a href='http://svolli.org/software/slart'>SLART</a>.<br>"
    "Distributed unter the terms of the <a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>."), this );
    aboutText->setOpenExternalLinks( true );
    mpLayout->addWidget( mpProxyWidget,   0, 0, 1, 2 );

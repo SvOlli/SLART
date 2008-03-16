@@ -10,7 +10,7 @@
 
 #include <QWidget>
 
-#include "SLATCom.hpp"
+#include "SLARTCom.hpp"
 
 class QIcon;
 class QString;
@@ -32,7 +32,7 @@ public:
 
 public slots:
    void addToList( const QString &msg );
-   void handleSLAT( const QStringList &message );
+   void handleSLART( const QStringList &message );
    void handleAdd();
    void handleRemove( QAction *action );
    void handleSettings();
@@ -52,7 +52,7 @@ private:
    QPushButton    *mpRemoveButton;
    QMenu          *mpRemoveMenu;
 
-   SLATCom        mSLATCom;
+   SLARTCom       mSLARTCom;
    QStringList    mPlaylists;
 };
 

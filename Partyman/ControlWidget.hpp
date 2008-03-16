@@ -9,7 +9,7 @@
 #define CONTROLWIDGET_HPP CONTROLWIDGET_HPP
 
 #include "PlayerWidget.hpp"
-#include "SLATCom.hpp"
+#include "SLARTCom.hpp"
 
 #include <QWidget>
 #include <QIcon>
@@ -40,7 +40,7 @@ public:
    void addToPlaylist( const QStringList &entries );
    /* (de)activate Skip/Next button and time sliders */
    void allowInteractive( bool allow );
-   /* run SLATCommunication & execute external logger */
+   /* run SLARTCommunication & execute external logger */
    void log( const QString &udpEvent, const QString &logEvent, const QString &data = QString() );
    
 private:
@@ -60,7 +60,7 @@ public slots:
    /* handle (un)pausing */
    void handlePause( bool reset = false );
    /* handle remote requests */
-   void handleSLAT( const QStringList &package );
+   void handleSLART( const QStringList &package );
    /* handle process startup */
    void handleDerMixDstartup();
    /* handle process finish */
@@ -94,7 +94,7 @@ private:
    QMenu          *mpDisconnectMenu;
    QAction        *mpPauseAction;
    QAction        *mpDisconnectAction;
-   SLATCom        mSLATCom;
+   SLARTCom       mSLARTCom;
    QProcess       mDerMixDprocess;
    QProcess       mLoggerProcess;
    bool           mWaitForDerMixD;

@@ -39,6 +39,6 @@ SOURCES += ProxyWidget.cpp
 HEADERS += MyClipboard.hpp 
 SOURCES += MyClipboard.cpp 
 
-HEADERS += SLATCom.hpp
-SOURCES += SLATCom.cpp
+HEADERS += SLARTCom.hpp
+SOURCES += SLARTCom.cpp
 

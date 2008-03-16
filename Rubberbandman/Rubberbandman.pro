@@ -18,11 +18,11 @@ SOURCES += Application.cpp
 HEADERS += BrowseWidget.hpp 
 SOURCES += BrowseWidget.cpp 
 
-HEADERS += SLATComWidget.hpp 
-SOURCES += SLATComWidget.cpp 
+HEADERS += SLARTComWidget.hpp 
+SOURCES += SLARTComWidget.cpp 
 
-HEADERS += SLATCom.hpp 
-SOURCES += SLATCom.cpp 
+HEADERS += SLARTCom.hpp 
+SOURCES += SLARTCom.cpp 
 
 HEADERS += FileSysBrowser.hpp 
 SOURCES += FileSysBrowser.cpp 

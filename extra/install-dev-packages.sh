@@ -7,7 +7,10 @@ fi
 
 # Debian based systems
 if [ -x /usr/bin/apt-get ]; then
-  /usr/bin/apt-get install liblircclient-dev libvorbis-dev libcdio-paranoia-dev
+  /usr/bin/apt-get install \
+    libqt4-dev \
+    libvorbis-dev libcdio-paranoia-dev \
+    liblircclient-dev
   install=yes
 fi
 

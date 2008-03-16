@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
    app.setOrganizationDomain("myspace.com");
    app.setApplicationName("Hack");
 #else
-   app.setOrganizationName("SLAT");
+   app.setOrganizationName("SLART");
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("Funkytown");
 #endif

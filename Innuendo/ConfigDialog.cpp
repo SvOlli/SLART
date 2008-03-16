@@ -13,7 +13,7 @@
 
 
 #include <QtGui>
-#include "SLATCom.hpp"
+#include "SLARTCom.hpp"
 
 
 ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )

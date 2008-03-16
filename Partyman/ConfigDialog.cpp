@@ -26,7 +26,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpDerMixDparams( new QLineEdit( this ) )
 , mpAutoConnect( new QCheckBox( tr("Connect On Startup"), this ) )
 , mpCrossfadeTime( new QSpinBox( this ) )
-, mpSLATCommunication( new QCheckBox( tr("Use SLAT UDP Communication"), this ) )
+, mpSLARTCommunication( new QCheckBox( tr("Use SLART UDP Communication"), this ) )
 , mpUDPListenerPort( new QSpinBox( this ) )
 , mpNormalizeMode( new QComboBox( this ) )
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
@@ -39,7 +39,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handleNormalizeMode(int)) );
    connect( mpDerMixDrun, SIGNAL(clicked(bool)),
             this, SLOT(handleDerMixDrun(bool)) );
-   connect( mpSLATCommunication, SIGNAL(clicked(bool)),
+   connect( mpSLARTCommunication, SIGNAL(clicked(bool)),
             this, SLOT(handleUDPListen(bool)) );
    
    QStringList modes;
@@ -74,7 +74,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    pmLayout->addWidget( mpAutoConnect, 0, 0, 1, 2 );
    pmLayout->addWidget( new QLabel( tr("Crossfade Time:") ), 1, 0 );
    pmLayout->addWidget( mpCrossfadeTime, 1, 1 );
-   pmLayout->addWidget( mpSLATCommunication, 2, 0 );
+   pmLayout->addWidget( mpSLARTCommunication, 2, 0 );
    pmLayout->addWidget( mpUDPListenerPort, 2, 1 );
    pmLayout->addWidget( mpNormalizeMode, 3, 0 );
    pmLayout->addWidget( mpNormalizeValue, 3, 1 );
@@ -129,14 +129,14 @@ void ConfigDialog::readSettings()
    mpDerMixDparams->setText( settings.value("DerMixDparams", "").toString() );
    mpAutoConnect->setChecked( settings.value("AutoConnect", false).toBool() );
    mpCrossfadeTime->setValue( settings.value("CrossfadeTime", 10).toInt() );
-   mpSLATCommunication->setChecked( settings.value("SLATCommunication", false).toBool() );
+   mpSLARTCommunication->setChecked( settings.value("SLARTCommunication", false).toBool() );
    mpUDPListenerPort->setValue(settings.value("UDPListenerPort", 24222).toInt() );
    mpNormalizeMode->setCurrentIndex( settings.value("NormalizeMode", 0).toInt() );
    mpNormalizeValue->setValue( settings.value("NormalizeValue", 0.4).toDouble() );
    mpLogCmd->setText( settings.value("LogCmd", "").toString() );
    mpM3uFileName->setText( settings.value("DatabaseFilename", QString() ).toString() );
    mpClipboard->readSettings();
-   handleUDPListen( mpSLATCommunication->isChecked() );
+   handleUDPListen( mpSLARTCommunication->isChecked() );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    
    emit configChanged();
@@ -173,7 +173,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "DerMixDparams", mpDerMixDparams->text() );
    settings.setValue( "AutoConnect", mpAutoConnect->isChecked() );
    settings.setValue( "CrossfadeTime", mpCrossfadeTime->value() );
-   settings.setValue( "SLATCommunication", mpSLATCommunication->isChecked() );
+   settings.setValue( "SLARTCommunication", mpSLARTCommunication->isChecked() );
    settings.setValue( "UDPListenerPort", mpUDPListenerPort->value() );
    settings.setValue( "NormalizeMode", mpNormalizeMode->currentIndex() );
    settings.setValue( "NormalizeValue", mpNormalizeValue->value() );

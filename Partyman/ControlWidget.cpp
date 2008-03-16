@@ -30,7 +30,7 @@ ControlWidget::ControlWidget( ConfigDialog *config, PlaylistWidget *playlist, QW
 , mpDisconnectMenu( new QMenu( mpConnectButton ) )
 , mpPauseAction( mpDisconnectMenu->addAction( tr("Pause" ) ) )
 , mpDisconnectAction( mpDisconnectMenu->addAction( mStopIcon, tr("Disconnect" ) ) )
-, mSLATCom( this )
+, mSLARTCom( this )
 , mDerMixDprocess()
 , mLoggerProcess()
 , mWaitForDerMixD( false )
@@ -73,7 +73,7 @@ ControlWidget::ControlWidget( ConfigDialog *config, PlaylistWidget *playlist, QW
    connect( mpDisconnectAction, SIGNAL(triggered()), this, SLOT(initDisconnect()) );
    connect( mpSkipButton, SIGNAL(clicked()), this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()), this, SLOT(readConfig()) );
-   connect( &mSLATCom, SIGNAL(packageRead(QStringList)), this, SLOT(handleSLAT(QStringList)) );
+   connect( &mSLARTCom, SIGNAL(packageRead(QStringList)), this, SLOT(handleSLART(QStringList)) );
 
    connect( &mDerMixDprocess, SIGNAL(readyReadStandardError()),
             this, SLOT(handleDerMixDstartup()) );
@@ -146,7 +146,7 @@ void ControlWidget::saveTracks()
 void ControlWidget::readConfig()
 {
    MySettings settings;
-   mSLATCom.resetReceiver();
+   mSLARTCom.resetReceiver();
    mpPlayer[0]->readConfig();
    mpPlayer[1]->readConfig();
 }
@@ -297,7 +297,7 @@ void ControlWidget::allowConnect( bool allowed )
 }
 
 
-void ControlWidget::handleSLAT( const QStringList &src )
+void ControlWidget::handleSLART( const QStringList &src )
 {
    if( (src.at(0) == "P0Q") || (src.at(0) == "s0d") || (src.at(0) == "f0d") )
    {

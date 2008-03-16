@@ -1,11 +1,11 @@
 /**
- * SLATComWidget.cpp
+ * SLARTComWidget.cpp
  * written by Sven Oliver Moll
  * 
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#include "SLATComWidget.hpp"
+#include "SLARTComWidget.hpp"
 
 #include <QtGui>
 #include <QString>
@@ -16,11 +16,11 @@
 #include "Trace.hpp"
 
 
-SLATComWidget::SLATComWidget( QWidget *parent, Qt::WindowFlags flags )
+SLARTComWidget::SLARTComWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpInfoEdit( new InfoEdit() )
 , mpNowPlaying( new QPushButton( tr("NP: to clipboard"), this ) )
-, mSLATCom()
+, mSLARTCom()
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    QHBoxLayout *buttonLayout = new QHBoxLayout;
@@ -31,10 +31,10 @@ SLATComWidget::SLATComWidget( QWidget *parent, Qt::WindowFlags flags )
    mainLayout->addLayout( buttonLayout );
    setLayout(mainLayout);
    
-   connect( &mSLATCom, SIGNAL(packageRead(QStringList)),
-            this, SLOT(handleSLAT(QStringList)) );
+   connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
+            this, SLOT(handleSLART(QStringList)) );
 
-   connect( &mSLATCom, SIGNAL(updateConfig()),
+   connect( &mSLARTCom, SIGNAL(updateConfig()),
             this, SLOT(readConfig()) );
 
    connect( mpNowPlaying, SIGNAL(clicked()),
@@ -44,7 +44,7 @@ SLATComWidget::SLATComWidget( QWidget *parent, Qt::WindowFlags flags )
 }
 
 
-void SLATComWidget::handleSLAT( const QStringList &message )
+void SLARTComWidget::handleSLART( const QStringList &message )
 {
    if( (message.at(0) == "p0p") && (message.size() > 1) )
    {
@@ -53,14 +53,14 @@ void SLATComWidget::handleSLAT( const QStringList &message )
 }
 
 
-void SLATComWidget::handleNowPlaying()
+void SLARTComWidget::handleNowPlaying()
 {
    QApplication::clipboard()->setText( mpInfoEdit->tagsFileName( "NP: |$ARTIST| - |$TITLE|", false ),
                                        QClipboard::Selection );
 }
 
 
-void SLATComWidget::readConfig()
+void SLARTComWidget::readConfig()
 {
-   mSLATCom.resetReceiver();
+   mSLARTCom.resetReceiver();
 }

@@ -24,8 +24,8 @@ SOURCES += MyClipboard.cpp
 HEADERS += MySettings.hpp
 SOURCES += MySettings.cpp
 
-HEADERS += SLATCom.hpp
-SOURCES += SLATCom.cpp
+HEADERS += SLARTCom.hpp
+SOURCES += SLARTCom.cpp
 
 HEADERS += ControlWidget.hpp
 SOURCES += ControlWidget.cpp

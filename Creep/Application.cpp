@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
             }
             
             /* copy'n'paste from MySettings.cpp */
-            int port = QSettings( "SLAT", application )
+            int port = QSettings( "SLART", application )
                                  .value( "UDPListenerPort", 0 ).toInt();
             
             if( (port < 1) || (port > 65535) )

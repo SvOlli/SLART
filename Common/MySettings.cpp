@@ -24,7 +24,7 @@ void MySettings::sendUdpMessage( const QString &data, int port )
 #if 0
 TRACESTART(MySettings::sendUdpMessage)
 #endif
-   bool active = value( "SLATCommunication", false ).toBool();
+   bool active = value( "SLARTCommunication", false ).toBool();
    if( !port )
    {
       port = value( "UDPListenerPort", 0 ).toInt();
@@ -58,7 +58,7 @@ void MySettings::sendNotification( const QString &data )
 {
    int i;
    
-   if( value( "SLATCommunication", false ).toBool() )
+   if( value( "SLARTCommunication", false ).toBool() )
    {
       QList<int>  listenerPorts;
       

@@ -1,11 +1,11 @@
 /**
- * SLATCom.cpp
+ * SLARTCom.cpp
  * written by Sven Oliver Moll
  * 
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#include "SLATCom.hpp"
+#include "SLARTCom.hpp"
 #include "MySettings.hpp"
 
 #include "Trace.hpp"
@@ -14,7 +14,7 @@
 #include <QApplication>
 
 
-SLATCom::SLATCom( QObject *parent )
+SLARTCom::SLARTCom( QObject *parent )
 : QObject( parent )
 , mpParent( parent )
 , mUdpSocket()
@@ -24,7 +24,7 @@ SLATCom::SLATCom( QObject *parent )
 }
 
 
-void SLATCom::resetReceiver()
+void SLARTCom::resetReceiver()
 {
    MySettings settings;
    
@@ -33,7 +33,7 @@ void SLATCom::resetReceiver()
       mUdpSocket.abort();
    }
    
-   if( settings.value( "SLATCommunication", false ).toBool() )
+   if( settings.value( "SLARTCommunication", false ).toBool() )
    {
       int port = settings.value( "UDPListenerPort", 0 ).toInt();
       if( (port > 0) && (port <= 65535) )
@@ -49,7 +49,7 @@ void SLATCom::resetReceiver()
 }
 
 
-void SLATCom::handleReadyRead()
+void SLARTCom::handleReadyRead()
 {
    while( mUdpSocket.hasPendingDatagrams() )
    {

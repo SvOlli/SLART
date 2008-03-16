@@ -9,7 +9,7 @@
 #include "MainWidget.hpp"
 
 #include "BrowseWidget.hpp"
-#include "SLATComWidget.hpp"
+#include "SLARTComWidget.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )

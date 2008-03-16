@@ -22,7 +22,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpAddButton( new QPushButton( tr("Add"), this ) )
 , mpRemoveButton( new QPushButton( tr("Remove"), this ) )
 , mpRemoveMenu( new QMenu( this ) )
-, mSLATCom()
+, mSLARTCom()
 , mPlaylists( MySettings().value( "Playlists", QStringList() ).toStringList() )
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
@@ -55,10 +55,10 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             this, SLOT(handleSettings()) );
-   connect( &mSLATCom, SIGNAL(packageRead(QStringList)),
-            this, SLOT(handleSLAT(QStringList)) );
+   connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
+            this, SLOT(handleSLART(QStringList)) );
 #if 0
-   connect( &mSLATCom, SIGNAL(updateConfig()),
+   connect( &mSLARTCom, SIGNAL(updateConfig()),
             mpConfig, SLOT(readSettings()) );
 #endif
    
@@ -69,7 +69,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpRemoveMenu, SIGNAL(triggered(QAction *)),
             this, SLOT(handleRemove(QAction *)) );
    
-   mSLATCom.resetReceiver();
+   mSLARTCom.resetReceiver();
 }
 
 
@@ -138,7 +138,7 @@ void MainWidget::handleSettings()
 }
 
 
-void MainWidget::handleSLAT( const QStringList &message )
+void MainWidget::handleSLART( const QStringList &message )
 {
    if( message.count() > 1 )
    {

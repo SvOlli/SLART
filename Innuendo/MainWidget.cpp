@@ -24,7 +24,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpBufferSize( new QSpinBox( this ) )
 , mpConfig( new ConfigDialog( this ) )
 , mBufferSize(500)
-, mSLATCom()
+, mSLARTCom()
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
 
@@ -54,9 +54,9 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handleSettings()) );
    connect( mpBufferSize, SIGNAL(valueChanged(int)),
             this, SLOT(setBufferSize(int)) );
-   connect( &mSLATCom, SIGNAL(packageRead(QStringList)),
-            this, SLOT(handleSLAT(QStringList)) );
-   connect( &mSLATCom, SIGNAL(updateConfig()),
+   connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
+            this, SLOT(handleSLART(QStringList)) );
+   connect( &mSLARTCom, SIGNAL(updateConfig()),
             mpConfig, SLOT(readSettings()) );
    connect( mpMessageBuffer, SIGNAL(itemClicked(QListWidgetItem*)),
             this, SLOT(listWidgetItemToClipboard(QListWidgetItem*)) );
@@ -71,7 +71,7 @@ void MainWidget::readConfig()
 {
    MySettings settings;
 
-   mSLATCom.resetReceiver();
+   mSLARTCom.resetReceiver();
 
    mpBufferSize->setValue( mBufferSize );
 }
@@ -90,7 +90,7 @@ void MainWidget::handleSettings()
 }
 
 
-void MainWidget::handleSLAT( const QStringList &message )
+void MainWidget::handleSLART( const QStringList &message )
 {
    mpMessageBuffer->addItem( "> "+QDateTime::currentDateTime().toString() );
 
