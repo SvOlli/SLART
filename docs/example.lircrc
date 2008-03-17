@@ -1,6 +1,33 @@
 
 begin
-   remote = ati_remote_wonder_rf
+   prog   = Creep
+   button = mute
+   repeat = 0
+   config = System amixer -q set Front togglemute
+end
+
+begin
+   prog   = Creep
+   button = voldown
+   repeat = 3
+   config = System amixer -q set Front 2dB-
+end
+
+begin
+   prog   = Creep
+   button = volup
+   repeat = 3
+   config = System amixer -q set Front 2dB+
+end
+
+begin
+   prog   = Creep
+   button = power
+   repeat = 0
+   config = system echo Power
+end
+
+begin
    prog   = Creep
    button = play
    repeat = 0
@@ -8,7 +35,6 @@ begin
 end
 
 begin
-   remote = ati_remote_wonder_rf
    prog   = Creep
    button = stop
    repeat = 0
@@ -16,7 +42,6 @@ begin
 end
 
 begin
-   remote = ati_remote_wonder_rf
    prog   = Creep
    button = fforward
    repeat = 0
