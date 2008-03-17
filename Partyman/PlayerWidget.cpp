@@ -220,6 +220,8 @@ void PlayerWidget::skip()
       case PlayerFSM::paused:
          setState( PlayerFSM::searching );
          break;
+      case PlayerFSM::searching:
+      case PlayerFSM::loading:
       case PlayerFSM::ready:
          setState( PlayerFSM::playing );
          break;

@@ -266,11 +266,6 @@ void ControlWidget::handlePause( bool reset )
       mpPauseAction->setText( tr( "Resume" ) );
       mPaused = true;
    }
-   if( (mpPlayer[0]->getState() != PlayerFSM::ending) &&
-       (mpPlayer[1]->getState() != PlayerFSM::ending) )
-   {
-      mpSkipButton->setDisabled( mPaused );
-   }
    mpConnectButton->setMenu( mpDisconnectMenu );
 }
 
@@ -280,6 +275,10 @@ void ControlWidget::handleSkipTrack()
    mpSkipButton->clearFocus();
    allowInteractive( false );
    log( "p0n", "skip" );
+   if( mPaused )
+   {
+      handlePause( true );
+   }
    mpPlayer[0]->skip();
    mpPlayer[1]->skip();
 }
