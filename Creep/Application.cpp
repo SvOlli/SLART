@@ -21,26 +21,34 @@ int main(int argc, char *argv[])
 {
    struct lirc_config *config;
 
-   if(argc>2)
+   if( argc > 2 )
    {
-      fprintf(stderr,"Usage: %s <config file>\n",argv[0]);
-      exit(EXIT_FAILURE);
+      fprintf( stderr, "Usage: %s <config file>\n", argv[0] );
+      exit( EXIT_FAILURE );
    }
-   if(lirc_init(PROGNAME,1)==-1) exit(EXIT_FAILURE);
+   
+   if( lirc_init( PROGNAME , 1 ) == -1)
+   {
+      exit( EXIT_FAILURE );
+   }
 
-   if(lirc_readconfig(argc==2 ? argv[1]:NULL,&config,NULL)==0)
+   if( lirc_readconfig( argc > 1 ? argv[1] : NULL, &config, NULL ) == 0 )
    {
       char *code;
       char *c;
       int ret;
 
-      while(lirc_nextcode(&code)==0)
+      while( lirc_nextcode( &code ) == 0 )
       {
-         if(code==NULL) continue;
-         while((ret=lirc_code2char(config,code,&c))==0 && c!=NULL)
+         if( code == NULL )
          {
-            QString confline(c);
-            int pos = confline.indexOf(' ');
+            continue;
+         }
+         
+         while( (( ret = lirc_code2char( config, code, &c ) ) == 0) && (c != NULL) )
+         {
+            QString confline( c );
+            int pos = confline.indexOf( ' ' );
             
             QString application( confline.left( pos ) );
             QString data( confline.mid( pos + 1 ) );
@@ -62,12 +70,17 @@ int main(int argc, char *argv[])
             
             QUdpSocket().writeDatagram( data.toUtf8(), QHostAddress::LocalHost, port );
          }
-         free(code);
-         if(ret==-1) break;
+         
+         free( code );
+         
+         if( ret == -1 ) 
+         {
+            break;
+         }
       }
-      lirc_freeconfig(config);
+      lirc_freeconfig( config );
    }
 
    lirc_deinit();
-   exit(EXIT_SUCCESS);
+   exit( EXIT_SUCCESS );
 }
