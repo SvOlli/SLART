@@ -16,6 +16,8 @@ class QDirModel;
 class QLineEdit;
 class QPushButton;
 class QModelIndex;
+class QTimer;
+
 
 class FileSysBrowser : public QWidget
 {
@@ -27,6 +29,7 @@ public:
 public slots:
    void entryClicked( const QModelIndex &index );
    void handleRootDir();
+   void handleTimer();
 
 signals:
    void clicked( const QString &path );
@@ -36,10 +39,11 @@ private:
    FileSysBrowser( const FileSysBrowser &other );
    FileSysBrowser &operator=( const FileSysBrowser &other );
 
-   QLineEdit        *mpRootDir;
-   QPushButton      *mpSetButton;
-   QTreeView        *mpView;
-   QDirModel        *mpModel;
+   QLineEdit    *mpRootDir;
+   QPushButton  *mpSetButton;
+   QTimer       *mpTimer;
+   QTreeView    *mpView;
+   QDirModel    *mpModel;
 };
 
 #endif

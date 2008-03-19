@@ -18,6 +18,7 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpRootDir( new QLineEdit( this ) )
 , mpSetButton( new QPushButton( tr("Set"), this ) )
+, mpTimer( new QTimer( this ) )
 , mpView( new QTreeView( this ) )
 , mpModel( new QDirModel( this ) )
 {
@@ -46,6 +47,9 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
    mpView->setColumnHidden( 2, true );
    mpView->setColumnHidden( 3, true );
    
+   mpTimer->setSingleShot( true );
+   mpTimer->setInterval( 4000 );
+   
    mpRootDir->setText( settings.value( "RootDirectory", QString("/") ).toString() );
    mpView->setRootIndex( mpModel->index( mpRootDir->text() ) );
    mpView->setAnimated( true );
@@ -57,6 +61,8 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handleRootDir()) );
    connect( mpSetButton, SIGNAL(clicked()),
             this, SLOT(handleRootDir()) );
+   connect( mpTimer, SIGNAL(timeout()),
+            this, SLOT(handleTimer()) );
 }
 
 
@@ -67,6 +73,7 @@ void FileSysBrowser::entryClicked( const QModelIndex &index )
    if( QFileInfo( path ).isDir() )
    {
       emit clickedDir( path );
+      mpTimer->start();
    }
    emit clicked( path );
 }
@@ -75,5 +82,13 @@ void FileSysBrowser::entryClicked( const QModelIndex &index )
 void FileSysBrowser::handleRootDir()
 {
    MySettings().setValue( "RootDirectory", mpRootDir->text() );
-   mpView->setRootIndex( mpModel->index( mpRootDir->text() ) );
+   QModelIndex qmi( mpModel->index( mpRootDir->text() ) );
+   mpModel->refresh( qmi );
+   mpView->setRootIndex( qmi );
+}
+
+
+void FileSysBrowser::handleTimer()
+{
+   mpRootDir->setText( MySettings().value( "RootDirectory", QString("/") ).toString() );
 }
