@@ -302,10 +302,12 @@ TRACEMSG << fullpath;
    if( mIsFile )
    {
       mpButtonSet->setText( tr("Save Tags") );
+      mpShowFileName->setDisabled( false );
    }
    else
    {
       mpButtonSet->setText( tr("Set Recursive") );
+      mpShowFileName->setDisabled( true );
    }
 #if 0
 TRACEMSG << "mIsValid" << mIsValid << "mIsFile" << mIsFile;

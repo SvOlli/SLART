@@ -15,8 +15,8 @@
 
 BrowseWidget::BrowseWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpFileSysBrowser( new FileSysBrowser( tr("/media/share/Media/Music") ) )
-, mpInfoEdit( new InfoEdit() )
+, mpFileSysBrowser( new FileSysBrowser( this ) )
+, mpInfoEdit( new InfoEdit( this ) )
 {
    QVBoxLayout *layout = new QVBoxLayout;
    layout->addWidget( mpFileSysBrowser );

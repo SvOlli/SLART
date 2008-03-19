@@ -27,12 +27,6 @@ SOURCES += SLARTCom.cpp
 HEADERS += FileSysBrowser.hpp 
 SOURCES += FileSysBrowser.cpp 
 
-HEADERS += FileSysTreeItem.hpp 
-SOURCES += FileSysTreeItem.cpp 
-
-HEADERS += FileSysTreeModel.hpp 
-SOURCES += FileSysTreeModel.cpp 
-
 HEADERS += InfoEdit.hpp 
 SOURCES += InfoEdit.cpp 
 
