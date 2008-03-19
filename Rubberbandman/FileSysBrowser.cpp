@@ -81,10 +81,17 @@ void FileSysBrowser::entryClicked( const QModelIndex &index )
 
 void FileSysBrowser::handleRootDir()
 {
-   MySettings().setValue( "RootDirectory", mpRootDir->text() );
    QModelIndex qmi( mpModel->index( mpRootDir->text() ) );
-   mpModel->refresh( qmi );
-   mpView->setRootIndex( qmi );
+   if( qmi.isValid() )
+   {
+      MySettings().setValue( "RootDirectory", mpRootDir->text() );
+      mpModel->refresh( qmi );
+      mpView->setRootIndex( qmi );
+   }
+   else
+   {
+      mpTimer->start();
+   }
 }
 
 
