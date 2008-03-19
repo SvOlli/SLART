@@ -332,7 +332,10 @@ void ControlWidget::handleSLART( const QStringList &src )
    
    if( src.at(0) == "P0N" )
    {
-      handleSkipTrack();
+      if( mpSkipButton->enabled() )
+      {
+         handleSkipTrack();
+      }
    }
    
    if( src.at(0) == "P0S" )
