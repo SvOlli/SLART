@@ -54,6 +54,8 @@ PlaylistWidget::PlaylistWidget( ConfigDialog *config, QWidget *parent, Qt::Windo
    layout->addWidget( splitter );
    layout->setMargin( 2 );
    
+   connect( mpTreeView, SIGNAL(context(QModelIndex)), this, SLOT(addEntries(QModelIndex)) );
+   connect( this, SIGNAL(expand(QModelIndex)), mpTreeView, SLOT(expand(QModelIndex)) );
    connect( mpPlaylistContent, SIGNAL(context(QModelIndex,int)),
             this, SLOT(deleteEntry(QModelIndex,int)) );
    connect( mpTabs, SIGNAL(currentChanged(int)), this, SLOT(handleTabChange(int)) );
@@ -318,6 +320,7 @@ void PlaylistWidget::readM3u()
    }
    m3uFile.close();
    
+#if 0
    /* evil hack! don't know how to reset the model data inside a view
     */
    {
@@ -333,6 +336,12 @@ void PlaylistWidget::readM3u()
       mpTabs->setCurrentIndex( currentTab );
       handleTabChange( currentTab );
    }
+#else
+   QModelIndex root, qmi;
+   mpTreeView->setModel( mpTreeModel );
+   mpTreeView->setRootIndex( root );
+#endif
+   
    
    if( mM3uData.count() > 0 )
    {
@@ -358,9 +367,8 @@ void PlaylistWidget::readM3u()
       }
    }
    
+   QCoreApplication::processEvents();
    /* expand the obivous */
-   QModelIndex root, qmi;
-   
    for(i = 0; ; i++)
    {
       qmi = mpTreeModel->index( i, 0, root );
