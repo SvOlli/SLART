@@ -31,6 +31,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpButtonLayout( new QHBoxLayout() )
 , mpDevicesBox( new QComboBox( this ) )
 , mpTocButton( new QPushButton( tr("Read Toc"), this ) )
+, mpCDTextButton( new QPushButton( tr("Read CDText"), this ) )
 , mpRipButton( new QPushButton( tr("Rip Tracks"), this ) )
 , mpEjectButton( new QPushButton( tr("Eject"), this ) )
 , mpEncodersBox( new QComboBox( this ) )
@@ -69,6 +70,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpButtonLayout->addWidget( mpCancelButton );
    mpButtonLayout->addWidget( mpDevicesBox );
    mpButtonLayout->addWidget( mpTocButton );
+   mpButtonLayout->addWidget( mpCDTextButton );
    mpButtonLayout->addWidget( mpRipButton );
    mpButtonLayout->addWidget( mpEjectButton );
    mpButtonLayout->addWidget( mpEncodersBox );
@@ -90,6 +92,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    connect( mpTocButton, SIGNAL(pressed()),
             mpCDReader, SLOT(readToc()) );
+   connect( mpCDTextButton, SIGNAL(pressed()),
+            mpCDReader, SLOT(readCDText()) );
    connect( mpRipButton, SIGNAL(pressed()),
             mpCDReader, SLOT(readTracks()) );
    connect( mpEjectButton, SIGNAL(pressed()),
@@ -160,6 +164,7 @@ void MainWidget::working( bool allowCancel )
    mpCancelButton->setDisabled( !allowCancel );
    mpDevicesBox->setDisabled( true );
    mpTocButton->setDisabled( true );
+   mpCDTextButton->setDisabled( true );
    mpRipButton->setDisabled( true );
    mpEjectButton->setDisabled( allowCancel );
    mpEncodersBox->setDisabled( true );
@@ -176,6 +181,7 @@ void MainWidget::finished()
    mpCancelButton->setDisabled( true );
    mpDevicesBox->setDisabled( false );
    mpTocButton->setDisabled( false );
+   mpCDTextButton->setDisabled( false );
    mpRipButton->setDisabled( false );
    mpEjectButton->setDisabled( false );
    mpEncodersBox->setDisabled( false );

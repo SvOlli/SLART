@@ -33,6 +33,7 @@ void CDReader::callback( long /*inpos*/, ::paranoia_cb_mode_t function )
 
 CDReader::CDReader( CDToc *toc, CDEdit *edit, QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
+, mpCdIo( 0 )
 , mpDrive( 0 )
 , mpParanoia( 0 )
 , mpToc( toc )
@@ -55,6 +56,10 @@ CDReader::CDReader( CDToc *toc, CDEdit *edit, QWidget *parent , Qt::WindowFlags 
    mainLayout->addWidget( mpProgress, 1, 0, 1, 2 );
    
    setLayout( mainLayout );
+   if( !::cdio_init() )
+   {
+      fprintf( stderr, "cdio_init() failed\n" );
+   }
 }
 
 
@@ -88,7 +93,8 @@ void CDReader::readToc()
    QCoreApplication::processEvents();
    
 //   mpDrive = ::cdio_cddap_find_a_cdrom( CDDA_MESSAGE_PRINTIT, NULL );
-   mpDrive = ::cdio_cddap_identify( mDevice.toLocal8Bit() ,CDDA_MESSAGE_PRINTIT, NULL );
+   mpCdIo  = ::cdio_open( mDevice.toLocal8Bit(), DRIVER_UNKNOWN );
+   mpDrive = ::cdio_cddap_identify_cdio( mpCdIo, CDDA_MESSAGE_PRINTIT, NULL );
    
    switch( ::cdio_cddap_open(mpDrive) )
    {
@@ -129,9 +135,36 @@ void CDReader::readToc()
    emit stopping();
 }
 
+#define TRACETEXT(x) TRACEMSG << cdtext_field2str( x ) << cdtext_get( x, cdtext )
 
-void CDReader::updateCDDisplay()
+void CDReader::readCDText()
 {
+   emit starting();
+   QCoreApplication::processEvents();
+   QCoreApplication::processEvents();
+   
+   cdtext_t *cdtext;
+   track_t track, first, last;
+   
+   first = cdio_get_first_track_num( mpCdIo );
+   last  = cdio_get_last_track_num( mpCdIo );
+   
+   cdtext = cdio_get_cdtext( mpCdIo, 0 );
+   mpCDEdit->updateCDText( 0, 
+                         QString( cdtext_get( CDTEXT_PERFORMER, cdtext ) ),
+                         QString( cdtext_get( CDTEXT_TITLE, cdtext ) ) );
+   cdtext_destroy( cdtext );
+   
+   for( track = first; track <= last; track++ )
+   {
+      cdtext = cdio_get_cdtext( mpCdIo, track );
+      mpCDEdit->updateCDText( track, 
+                            QString( cdtext_get( CDTEXT_PERFORMER, cdtext ) ),
+                            QString( cdtext_get( CDTEXT_TITLE, cdtext ) ) );
+      cdtext_destroy( cdtext );
+   }
+   
+   emit stopping();
 }
 
 
@@ -214,8 +247,17 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
    mpMessage->setText( tr("Done.") );
    mpProgress->setValue( 0 );
    mpProgress->setRange( 0, 1 );
+   if( !mCancel )
+   {
+      eject();
+   }
    
    emit stopping();
+}
+
+
+void CDReader::updateCDDisplay()
+{
 }
 
 
@@ -227,8 +269,8 @@ void CDReader::setEncoder( Encoder *encoder )
 
 void CDReader::eject()
 {
-   mpDrive = ::cdio_cddap_identify( mDevice.toLocal8Bit() ,CDDA_MESSAGE_PRINTIT, NULL );
-   ::cdio_eject_media( &(mpDrive->p_cdio) );
+   mpCdIo  = ::cdio_open( mDevice.toLocal8Bit(), DRIVER_UNKNOWN );
+   ::cdio_eject_media( &mpCdIo );
 }
 
 

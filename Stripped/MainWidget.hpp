@@ -52,6 +52,7 @@ private:
    QHBoxLayout     *mpButtonLayout;
    QComboBox       *mpDevicesBox;
    QPushButton     *mpTocButton;
+   QPushButton     *mpCDTextButton;
    QPushButton     *mpRipButton;
    QPushButton     *mpEjectButton;
    QComboBox       *mpEncodersBox;

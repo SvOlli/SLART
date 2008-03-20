@@ -37,6 +37,7 @@ public:
 
 public slots:
    void readToc();
+   void readCDText();
    void readTracks();
    void setDevice( const QString &device );
    void eject();
@@ -50,6 +51,7 @@ private:
    CDReader( const CDReader &other );
    CDReader &operator=( const CDReader &other );
    
+   ::CdIo_t             *mpCdIo;
    ::cdrom_drive_t      *mpDrive;
    ::cdrom_paranoia_t   *mpParanoia;
    CDToc                *mpToc;

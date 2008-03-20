@@ -255,6 +255,21 @@ void CDEdit::update()
 }
 
 
+void CDEdit::updateCDText( int track, const QString &artist, const QString &title )
+{
+   if( !track )
+   {
+      mpDiscArtist->setText( artist );
+      mpDiscTitle->setText( title );
+   }
+   else
+   {
+      mpTrackArtist[track]->setText( artist );
+      mpTrackTitle[track]->setText( title );
+   }
+}
+
+
 void CDEdit::updateCDDB()
 {
    int i;

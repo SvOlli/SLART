@@ -30,6 +30,8 @@ public:
    void trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *artist, QString *title,
                    QString *albumartist, QString *albumtitle, QString *genre, int *year );
 
+   void updateCDText( int track, const QString &artist, const QString &title );
+
 public slots:
    void handleTrackNr();
    void handleEnqueueTrack();
