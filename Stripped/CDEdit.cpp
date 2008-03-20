@@ -231,6 +231,17 @@ void CDEdit::setTrackHidden( int track, bool hide )
 }
 
 
+void CDEdit::setTrackDisabled( int track, bool disable )
+{
+   mpTrackNr[track]->setDisabled( disable );
+   mpEnqueueTrack[track]->setDisabled( disable );
+   mpTrackArtist[track]->setDisabled( disable );
+   mpTrackTitle[track]->setDisabled( disable );
+   mpTrackYear[track]->setDisabled( disable );
+   mpTrackPlaytime[track]->setDisabled( disable );
+}
+
+
 void CDEdit::update()
 {
    int i, count = 4;
@@ -242,6 +253,7 @@ void CDEdit::update()
    {
       length = mpToc->length( i );
       mpTrackPlaytime[i]->setText( length );
+      mpEnqueueTrack[i]->setChecked( false );
       bool empty = length.isEmpty();
       setTrackHidden( i, empty );
       if( !empty )

@@ -141,8 +141,6 @@ TRACEMSG << response.at(i);
          default:
             break;
       }
-      
-      mpCount->setText( QString::number( mpHits->count() ) + ":" );
    }
    else
    {
@@ -178,6 +176,7 @@ TRACEMSG << response.at(i);
       }
       emit tocUpdated();
    }
+   mpCount->setText( QString::number( mpHits->count() ) + ":" );
 }
 
 

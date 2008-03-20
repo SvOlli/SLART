@@ -201,6 +201,7 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
    {
       mpCDEdit->trackInfo( i, &dorip, &doenqueue, &artist, &title, 
                            &albumartist, &albumtitle, &genre, &year );
+      mpCDEdit->setTrackDisabled( i, true );
       if( !dorip ) 
       {
          continue;
@@ -251,7 +252,10 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
    {
       eject();
    }
-   
+   for( i = 0; i < 100; i++ )
+   {
+      mpCDEdit->setTrackDisabled( i, false );
+   }   
    emit stopping();
 }
 

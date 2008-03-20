@@ -38,6 +38,7 @@ public slots:
    void handleTrackArtist();
    void handleTrackYear();
    void setTrackHidden( int track, bool hide );
+   void setTrackDisabled( int track, bool disabled );
    void update();
    void updateCDDB();
    void splitTitles();
