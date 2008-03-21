@@ -61,6 +61,7 @@ private:
    MyClipboard    *mpClipboard;
    QLineEdit      *mpLogCmd;
    QPushButton    *mpM3uFileName;
+   QCheckBox      *mpAnimateViews;
 };
 
 #endif

@@ -54,6 +54,8 @@ public slots:
    void addEntries( const QStringList &entries, bool atStart = false );
    /* save current tab for restart */
    void handleTabChange( int tabNr );
+   /* re-read config parameters */
+   void readConfig();
    
 signals:
    /* unfold a node */

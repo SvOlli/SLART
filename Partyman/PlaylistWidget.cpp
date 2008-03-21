@@ -54,12 +54,18 @@ PlaylistWidget::PlaylistWidget( ConfigDialog *config, QWidget *parent, Qt::Windo
    layout->addWidget( splitter );
    layout->setMargin( 2 );
    
-   connect( mpTreeView, SIGNAL(context(QModelIndex)), this, SLOT(addEntries(QModelIndex)) );
-   connect( this, SIGNAL(expand(QModelIndex)), mpTreeView, SLOT(expand(QModelIndex)) );
+   connect( mpTreeView, SIGNAL(context(QModelIndex)),
+            this, SLOT(addEntries(QModelIndex)) );
+   connect( this, SIGNAL(expand(QModelIndex)),
+            mpTreeView, SLOT(expand(QModelIndex)) );
    connect( mpPlaylistContent, SIGNAL(context(QModelIndex,int)),
             this, SLOT(deleteEntry(QModelIndex,int)) );
-   connect( mpTabs, SIGNAL(currentChanged(int)), this, SLOT(handleTabChange(int)) );
+   connect( mpTabs, SIGNAL(currentChanged(int)),
+            this, SLOT(handleTabChange(int)) );
+   connect( mpConfig, SIGNAL(configChanged()),
+            this, SLOT(readConfig()) );
    mpTabs->setCurrentIndex( settings.value("CurrentTab", mpTabs->count()-1).toInt() );
+   readConfig();
 
    mpHelpText->setOpenExternalLinks( true );
    mpHelpText->setSource( QUrl("qrc:/Usage.html") );
@@ -227,6 +233,13 @@ void PlaylistWidget::dropEvent( QDropEvent *event )
          addEntries( dest );
       }
    }
+}
+
+
+void PlaylistWidget::readConfig()
+{
+   QSettings settings( QApplication::organizationName(), "Global" );
+   mpTreeView->setAnimated( settings.value( "AnimateViews", true ).toBool() );
 }
 
 

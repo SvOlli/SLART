@@ -33,6 +33,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpClipboard( new MyClipboard( this, false ) )
 , mpLogCmd( new QLineEdit( this ) )
 , mpM3uFileName( new QPushButton( this ) )
+, mpAnimateViews( new QCheckBox( tr("AnimateViews"), this ) )
 {
    setWindowTitle( tr("Partyman Settings") );
    connect( mpNormalizeMode, SIGNAL(currentIndexChanged(int)), 
@@ -86,6 +87,11 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    pmLayout->addWidget( mpM3uFileName, 7, 0, 1, 2 );
    pmGroup->setLayout( pmLayout );
    
+   QGroupBox   *globGroup  = new QGroupBox( tr("Global Parameters:"), this );
+   QGridLayout *globLayout = new QGridLayout( globGroup );
+   globLayout->addWidget( mpAnimateViews, 0, 0, 1, 2 );
+   globGroup->setLayout( globLayout );
+   
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
 
@@ -93,21 +99,30 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
 
-   QVBoxLayout *mainLayout = new QVBoxLayout;
+   QBoxLayout *mainLayout;
    
    if( QApplication::desktop()->screenGeometry().height() < 600 )
    {
-      QHBoxLayout *interimLayout = new QHBoxLayout;
-      interimLayout->addWidget( dmdGroup );
-      interimLayout->addWidget( pmGroup );
-      mainLayout->addLayout( interimLayout );
+      mainLayout = new QHBoxLayout( this );
+      QVBoxLayout *tmpLayout1 = new QVBoxLayout;
+      QVBoxLayout *tmpLayout2 = new QVBoxLayout;
+      tmpLayout1->addWidget( dmdGroup );
+      tmpLayout2->addWidget( pmGroup );
+      tmpLayout1->addWidget( globGroup );
+      tmpLayout1->addStretch();
+      tmpLayout2->addStretch();
+      tmpLayout2->addLayout( buttonLayout );
+      mainLayout->addLayout( tmpLayout1 );
+      mainLayout->addLayout( tmpLayout2 );
    }
    else
    {
+      mainLayout = new QVBoxLayout( this );
       mainLayout->addWidget( dmdGroup );
       mainLayout->addWidget( pmGroup );
+      mainLayout->addWidget( globGroup );
+      mainLayout->addLayout( buttonLayout );
    }
-   mainLayout->addLayout( buttonLayout );
    setLayout( mainLayout );
 
    connect( mpM3uFileName, SIGNAL(clicked()), this, SLOT(setM3uFileName()) );
@@ -120,6 +135,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 void ConfigDialog::readSettings()
 {
    MySettings settings;
+   QSettings globalSettings( QApplication::organizationName(), "Global" );
    
    mpDerMixDhost->setText( settings.value("DerMixDhost", "localhost").toString() );
    mpDerMixDport->setValue( settings.value("DerMixDport", 8888).toInt() );
@@ -135,6 +151,7 @@ void ConfigDialog::readSettings()
    mpNormalizeValue->setValue( settings.value("NormalizeValue", 0.4).toDouble() );
    mpLogCmd->setText( settings.value("LogCmd", "").toString() );
    mpM3uFileName->setText( settings.value("DatabaseFilename", QString() ).toString() );
+   mpAnimateViews->setChecked( globalSettings.value("AnimateViews", false).toBool() );
    mpClipboard->readSettings();
    handleUDPListen( mpSLARTCommunication->isChecked() );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
@@ -164,6 +181,7 @@ void ConfigDialog::handleConnected( bool connected )
 void ConfigDialog::writeSettings()
 {
    MySettings settings;
+   QSettings globalSettings( QApplication::organizationName(), "Global" );
 
    settings.setValue( "DerMixDhost", mpDerMixDhost->text() );
    settings.setValue( "DerMixDport", mpDerMixDport->value() );
@@ -179,6 +197,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "NormalizeValue", mpNormalizeValue->value() );
    settings.setValue( "LogCmd", mpLogCmd->text() );
    settings.setValue( "DatabaseFilename", mpM3uFileName->text().replace('\\','/') );
+   globalSettings.setValue( "AnimateViews", mpSLARTCommunication->isChecked() );
    mpClipboard->writeSettings();
 
    emit configChanged();
