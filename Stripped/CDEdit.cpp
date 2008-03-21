@@ -8,7 +8,7 @@
 #include "CDEdit.hpp"
 #include "CDToc.hpp"
 #include "CDDB.hpp"
-
+#include "TagList.hpp"
 
 #include <QtGui>
 #include "Trace.hpp"
@@ -40,6 +40,7 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
 , mpToggleRipButton( new QPushButton( tr("Toggle Rip"), this ) )
 , mpToggleEnqueueButton( new QPushButton( tr("Toggle Enqueue"), this ) )
 , mpCopyArtistButton( new QPushButton( tr("Copy Artist"), this ) )
+, mpNormalizeTitleButton( new QPushButton( tr("Norm. Title"), this ) )
 , mpCopyYearButton( new QPushButton( tr("Copy Year"), this ) )
 {
    QVBoxLayout *outerLayout  = new QVBoxLayout( this );
@@ -139,6 +140,7 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    buttonLayout->addWidget( mpToggleRipButton );
    buttonLayout->addWidget( mpToggleEnqueueButton );
    buttonLayout->addWidget( mpCopyArtistButton );
+   buttonLayout->addWidget( mpNormalizeTitleButton );
    buttonLayout->addWidget( mpCopyYearButton );
    mpSplitMode->setMinimumHeight( mpSplitButton->minimumHeight() );
 
@@ -148,11 +150,12 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    outerLayout->addWidget( mpScrollArea );
    outerLayout->addLayout( buttonLayout );
    
-   connect( mpToggleRipButton,     SIGNAL(clicked()), this, SLOT(handleTrackNr()) );
-   connect( mpToggleEnqueueButton, SIGNAL(clicked()), this, SLOT(handleEnqueueTrack()) );
-   connect( mpCopyArtistButton,    SIGNAL(clicked()), this, SLOT(handleTrackArtist()) );
-   connect( mpCopyYearButton,      SIGNAL(clicked()), this, SLOT(handleTrackYear()) );
-   connect( mpSplitButton,         SIGNAL(clicked()), this, SLOT(splitTitles()) );
+   connect( mpToggleRipButton,      SIGNAL(clicked()), this, SLOT(handleTrackNr()) );
+   connect( mpToggleEnqueueButton,  SIGNAL(clicked()), this, SLOT(handleEnqueueTrack()) );
+   connect( mpCopyArtistButton,     SIGNAL(clicked()), this, SLOT(handleTrackArtist()) );
+   connect( mpNormalizeTitleButton, SIGNAL(clicked()), this, SLOT(handleNormalizeTitle()) );
+   connect( mpCopyYearButton,       SIGNAL(clicked()), this, SLOT(handleTrackYear()) );
+   connect( mpSplitButton,          SIGNAL(clicked()), this, SLOT(splitTitles()) );
    
    setLayout( outerLayout );
 }
@@ -197,6 +200,16 @@ void CDEdit::handleTrackArtist()
    for( int i = 0; i < 100; i++ )
    {
       mpTrackArtist[i]->setText( artist );
+   }
+}
+
+
+void CDEdit::handleNormalizeTitle()
+{
+   mpDiscTitle->setText( TagList::normalizeString( mpDiscTitle->text() ) );
+   for( int i = 0; i < 100; i++ )
+   {
+      mpTrackTitle[i]->setText( TagList::normalizeString( mpTrackTitle[i]->text() ) );
    }
 }
 
@@ -358,3 +371,4 @@ void CDEdit::trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *arti
       *year         = mpTrackYear[tracknr]->text().toLong();
    }
 }
+

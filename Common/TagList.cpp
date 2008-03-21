@@ -7,6 +7,9 @@
 
 #include "TagList.hpp"
 
+#include <QSettings>
+#include <QApplication>
+
 #include "Trace.hpp"
 
 
@@ -103,4 +106,68 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
    return filename;
 }
 
-// (|*Tracknumber*|)|*Artist*| - |*Title*|
+
+QString TagList::normalizeString( const QString &string )
+{
+   QString newString;
+   QSettings settings( QApplication::organizationName(), "Global" );
+   
+   if( settings.value( "NormalizeCase", false ).toBool() )
+   {
+      bool nextUpper = true;
+      
+      for( int i = 0; i < string.size(); i++ )
+      {
+         if( nextUpper )
+         {
+            newString.append(string.at(i).toUpper());
+         }
+         else
+         {
+            newString.append(string.at(i).toLower());
+         }
+         
+         switch( newString.at(i).toAscii() )
+         {
+            case ' ':
+               nextUpper = true;
+               break;
+            case '(':
+            case ')':
+               break;
+            default:
+               nextUpper = false;
+               break;
+         }
+      }
+   }
+   else
+   {
+      newString = string;
+   }
+   
+   newString.replace( "\"", "''" );
+   if( settings.value( "NormalizeSpaces", false ).toBool() )
+   {
+      newString.replace( QRegExp( " +" ), " " );
+   }
+   
+   return newString;
+}
+
+
+QString TagList::normalizeTag( const QString &tag )
+{
+   int id = mTags.indexOf( tag.toUpper() );
+   
+   if( id < 0 )
+   {
+      return QString();
+   }
+   
+   QString value( normalizeString(mValues.at(id)) );
+   
+   mValues.replace( id, value );
+   
+   return value;
+}

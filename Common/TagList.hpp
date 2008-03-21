@@ -24,6 +24,8 @@ public:
    QString valueAt( int i ) const { return mValues.at(i); };
    void set( const QString &tag, const QString &value = QString() );
    QString fileName( const QString &pattern, bool filterPath = true );
+   static QString normalizeString( const QString &string );
+   QString normalizeTag( const QString &tag );
    
 private:
    TagList( const TagList &other );

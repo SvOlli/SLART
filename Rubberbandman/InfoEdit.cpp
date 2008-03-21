@@ -187,36 +187,7 @@ void InfoEdit::normalizeTitle()
 
 void InfoEdit::normalize( QLineEdit *lineEdit )
 {
-   QString tag( lineEdit->text() );
-   QString newtag;
-   tag.replace( "\"", "''" );
-   
-   bool nextUpper = true;
-   for( int i = 0; i < tag.size(); i++ )
-   {
-      if( nextUpper )
-      {
-         newtag.append(tag.at(i).toUpper());
-      }
-      else
-      {
-         newtag.append(tag.at(i).toLower());
-      }
-      
-      switch( newtag.at(i).toAscii() )
-      {
-         case ' ':
-            nextUpper = true;
-            break;
-         case '(':
-         case ')':
-            break;
-         default:
-            nextUpper = false;
-            break;
-      }
-   }
-   lineEdit->setText( newtag );
+   lineEdit->setText( TagList::normalizeString( lineEdit->text() ) );
 }
 
 

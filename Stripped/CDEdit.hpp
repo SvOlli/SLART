@@ -36,6 +36,7 @@ public slots:
    void handleTrackNr();
    void handleEnqueueTrack();
    void handleTrackArtist();
+   void handleNormalizeTitle();
    void handleTrackYear();
    void setTrackHidden( int track, bool hide );
    void setTrackDisabled( int track, bool disabled );
@@ -77,6 +78,7 @@ private:
    QPushButton  *mpToggleRipButton;
    QPushButton  *mpToggleEnqueueButton;
    QPushButton  *mpCopyArtistButton;
+   QPushButton  *mpNormalizeTitleButton;
    QPushButton  *mpCopyYearButton;
 };
 
