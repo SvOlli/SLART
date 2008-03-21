@@ -149,6 +149,16 @@ void ControlWidget::readConfig()
    mSLARTCom.resetReceiver();
    mpPlayer[0]->readConfig();
    mpPlayer[1]->readConfig();
+   if( settings.value("DerMixDrun", true).toBool() )
+   {
+      mpConnectButton->setText("Start");
+      mpDisconnectAction->setText("Stop");
+   }
+   else
+   {
+      mpConnectButton->setText("Connect");
+      mpDisconnectAction->setText("Disconnect");
+   }
 }
 
 
@@ -332,7 +342,7 @@ void ControlWidget::handleSLART( const QStringList &src )
    
    if( src.at(0) == "P0N" )
    {
-      if( mpSkipButton->enabled() )
+      if( mpSkipButton->isEnabled() )
       {
          handleSkipTrack();
       }
