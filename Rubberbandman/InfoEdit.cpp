@@ -345,33 +345,17 @@ TRACEMSG << mFileName;
    if( mpEditArtist->text().isEmpty() ) return;
    if( mpEditTitle->text().isEmpty() ) return;
    
-   TagLib::String artist( mpEditArtist->text().toUtf8().data(), TagLib::String::UTF8 );
-   TagLib::String title( mpEditTitle->text().toUtf8().data(), TagLib::String::UTF8 );
-   TagLib::String album( mpEditAlbum->text().toUtf8().data(), TagLib::String::UTF8 );
-   int tracknr = mpEditTrackNr->text().toInt();
-   int year    = mpEditYear->text().toInt();
-   TagLib::String genre( mpEditGenre->text().toUtf8().data(), TagLib::String::UTF8 );
+   QFile qf( mFileName );
+   QFileInfo qfi( qf );
+   QString newname;
    
-   TagLib::FileRef f( mFileName.toLocal8Bit().data() );
-   f.tag()->setArtist( artist );
-   f.tag()->setTitle( title );
-   f.tag()->setAlbum( album );
-   f.tag()->setTrack( tracknr );
-   f.tag()->setYear( year );
-   f.tag()->setGenre( genre );
-   f.save();
-
    mTagList.set( "ARTIST",      mpEditArtist->text() );
    mTagList.set( "TITLE",       mpEditTitle->text() );
    mTagList.set( "ALBUM",       mpEditAlbum->text() );
    mTagList.set( "TRACKNUMBER", mpEditTrackNr->text() );
    mTagList.set( "DATE",        mpEditYear->text() );
    mTagList.set( "GENRE",       mpEditGenre->text() );
-
-#if 1
-   QFile qf( mFileName );
-   QFileInfo qfi( qf );
-   QString newname;
+   
    if( mpEditTrackNr->text().isEmpty() )
    {
       newname = mTagList.fileName( "|$ARTIST| - |$TITLE|" );
@@ -381,12 +365,29 @@ TRACEMSG << mFileName;
       newname = mTagList.fileName( "(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" );
    }
    
-   QString newpath( qfi.absolutePath() + "/" + newname );
-   if( qf.rename( newpath ) )
+   QString newpath( qfi.absolutePath() + "/" + newname + "." + qfi.suffix().toLower() );
+   QString tmppath( qfi.absolutePath() + "/" + newname + ".rbm." + qfi.suffix().toLower() );
+   
+   if( qf.copy( tmppath ) )
    {
-//      mpLabelFilename->setText( mpConfigWidget->fullToShortPath( newpath ) );
+      TagLib::String artist( mpEditArtist->text().toUtf8().data(), TagLib::String::UTF8 );
+      TagLib::String title( mpEditTitle->text().toUtf8().data(), TagLib::String::UTF8 );
+      TagLib::String album( mpEditAlbum->text().toUtf8().data(), TagLib::String::UTF8 );
+      int tracknr = mpEditTrackNr->text().toInt();
+      int year    = mpEditYear->text().toInt();
+      TagLib::String genre( mpEditGenre->text().toUtf8().data(), TagLib::String::UTF8 );
+      
+      TagLib::FileRef f( tmppath.toLocal8Bit().data() );
+      f.tag()->setArtist( artist );
+      f.tag()->setTitle( title );
+      f.tag()->setAlbum( album );
+      f.tag()->setTrack( tracknr );
+      f.tag()->setYear( year );
+      f.tag()->setGenre( genre );
+      f.save();
+      ::unlink( mFileName.toLocal8Bit().data() );
+      ::rename( tmppath.toLocal8Bit().data(), newpath.toLocal8Bit().data() );
    }
-#endif
 }
 
 
