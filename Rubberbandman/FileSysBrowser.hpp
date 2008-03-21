@@ -17,6 +17,7 @@ class QLineEdit;
 class QPushButton;
 class QModelIndex;
 class QTimer;
+class QShowEvent;
 
 
 class FileSysBrowser : public QWidget
@@ -29,6 +30,7 @@ public:
 public slots:
    void entryClicked( const QModelIndex &index );
    void handleRootDir();
+   void handleDotButton();
    void handleTimer();
 
 signals:
@@ -41,6 +43,7 @@ private:
 
    QLineEdit    *mpRootDir;
    QPushButton  *mpSetButton;
+   QPushButton  *mpDotButton;
    QTimer       *mpTimer;
    QTreeView    *mpView;
    QDirModel    *mpModel;

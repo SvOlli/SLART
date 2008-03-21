@@ -26,9 +26,9 @@ SLARTComWidget::SLARTComWidget( QWidget *parent, Qt::WindowFlags flags )
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    
    buttonLayout->addWidget( mpNowPlaying );
-   mainLayout->addWidget( mpInfoEdit );
    mainLayout->addStretch();
    mainLayout->addLayout( buttonLayout );
+   mainLayout->addWidget( mpInfoEdit );
    setLayout(mainLayout);
    
    connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),

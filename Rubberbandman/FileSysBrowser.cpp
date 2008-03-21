@@ -18,6 +18,7 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpRootDir( new QLineEdit( this ) )
 , mpSetButton( new QPushButton( tr("Set"), this ) )
+, mpDotButton( new QPushButton( tr(".."), this ) )
 , mpTimer( new QTimer( this ) )
 , mpView( new QTreeView( this ) )
 , mpModel( new QDirModel( this ) )
@@ -33,12 +34,17 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
    mpView->setModel( mpModel );
    
 //   connect(mpView, SIGNAL(context(QModelIndex)), this, SLOT(addEntries(QModelIndex)));
-   QGridLayout *layout = new QGridLayout( this );
-   layout->addWidget( new QLabel(tr("Root:")), 0, 0 );
-   layout->addWidget( mpRootDir,               0, 1 );
-   layout->addWidget( mpSetButton,             0, 2 );
-   layout->addWidget( mpView,                  1, 0, 1, 3 );
-   layout->setColumnStretch( 1, 1 );
+   QVBoxLayout *layout = new QVBoxLayout( this );
+   QHBoxLayout *topLayout = new QHBoxLayout;
+   
+   topLayout->addWidget( new QLabel(tr("Root:")) );
+   topLayout->addWidget( mpRootDir );
+   topLayout->addWidget( mpSetButton );
+   topLayout->addWidget( mpDotButton );
+   topLayout->setMargin( 0 );
+   
+   layout->addLayout( topLayout );
+   layout->addWidget( mpView );
    layout->setMargin( 2 );
    setLayout(layout);
    
@@ -49,6 +55,10 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
    
    mpTimer->setSingleShot( true );
    mpTimer->setInterval( 4000 );
+   
+   /* evil hack */
+   mpSetButton->setMaximumWidth( mpSetButton->width() / 2 );
+   mpDotButton->setMaximumWidth( mpDotButton->width() / 2 );
    
    mpRootDir->setText( settings.value( "RootDirectory", QString("/") ).toString() );
    mpView->setRootIndex( mpModel->index( mpRootDir->text() ) );
@@ -61,6 +71,8 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handleRootDir()) );
    connect( mpSetButton, SIGNAL(clicked()),
             this, SLOT(handleRootDir()) );
+   connect( mpDotButton, SIGNAL(clicked()),
+            this, SLOT(handleDotButton()) );
    connect( mpTimer, SIGNAL(timeout()),
             this, SLOT(handleTimer()) );
 }
@@ -76,6 +88,15 @@ void FileSysBrowser::entryClicked( const QModelIndex &index )
       mpTimer->start();
    }
    emit clicked( path );
+}
+
+
+void FileSysBrowser::handleDotButton()
+{
+TRACESTART(FileSysBrowser::handleDotButton)
+   QDir dir( mpRootDir->text() + "/.." );
+   mpRootDir->setText( dir.absolutePath() );
+   handleRootDir();
 }
 
 
