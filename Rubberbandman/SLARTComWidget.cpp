@@ -28,6 +28,7 @@ SLARTComWidget::SLARTComWidget( QWidget *parent, Qt::WindowFlags flags )
    buttonLayout->addWidget( mpNowPlaying );
    mainLayout->addStretch();
    mainLayout->addLayout( buttonLayout );
+   mainLayout->addStretch();
    mainLayout->addWidget( mpInfoEdit );
    setLayout(mainLayout);
    

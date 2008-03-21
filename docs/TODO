@@ -1,4 +1,7 @@
 
+Next Big Thing(tm) after 0.6 release:
+- SQLite database backend
+
 Partyman:
 - check all error handling
 
@@ -11,7 +14,6 @@ Karmadrome: (new application)
 - copy trackname from selection/clipboard
 
 Funkytown:
-- close Setup/Log on closing application
 - improve url detecting
 
 Innuendo:
@@ -23,19 +25,8 @@ Stripped:
 - select path / filename creation
 - handle error on saving
 - cdtext
-- implement fix entries button
-  - [] -> ()
-  - " *" -> " "
-  - First Caps
-  - append text
 - auto read-toc
 
 Rubberbandman:
 - save tab last used
-- set base directory for browse
-- DerMixD skips currently played track if saved
-- implement fix entries button
-  - [] -> ()
-  - " *" -> " "
-  - First Caps
 
