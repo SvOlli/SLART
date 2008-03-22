@@ -36,8 +36,8 @@ SOURCES += ConfigNotifyApplicationWidget.cpp
 HEADERS += ProxyWidget.hpp 
 SOURCES += ProxyWidget.cpp 
 
-HEADERS += MyClipboard.hpp 
-SOURCES += MyClipboard.cpp 
+HEADERS += GlobalConfigWidget.hpp 
+SOURCES += GlobalConfigWidget.cpp 
 
 HEADERS += SLARTCom.hpp
 SOURCES += SLARTCom.cpp

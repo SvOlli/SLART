@@ -6,7 +6,7 @@
  */
 
 #include "ScrollLine.hpp"
-#include "MyClipboard.hpp"
+#include "GlobalConfigWidget.hpp"
 
 #include <QtGui>
 
@@ -58,7 +58,7 @@ void ScrollLine::focusInEvent( QFocusEvent *event )
 {
    if( event->gotFocus() )
    {
-      MyClipboard::set( QLineEdit::toolTip() );
+      GlobalConfigWidget::setClipboard( QLineEdit::toolTip() );
    }
    event->ignore();
 }

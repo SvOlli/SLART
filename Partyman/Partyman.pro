@@ -18,9 +18,6 @@ SOURCES += MainWindow.cpp
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
 
-HEADERS += MyClipboard.hpp
-SOURCES += MyClipboard.cpp
-
 HEADERS += MySettings.hpp
 SOURCES += MySettings.cpp
 
@@ -35,6 +32,9 @@ SOURCES += AboutWidget.cpp
 
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp
+
+HEADERS += GlobalConfigWidget.hpp
+SOURCES += GlobalConfigWidget.cpp
 
 HEADERS += PlaylistWidget.hpp
 SOURCES += PlaylistWidget.cpp

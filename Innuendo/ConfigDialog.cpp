@@ -9,7 +9,7 @@
 #include "MySettings.hpp"
 #include "ProxyWidget.hpp"
 #include "ConfigNotifyWidget.hpp"
-#include "MyClipboard.hpp"
+#include "GlobalConfigWidget.hpp"
 
 
 #include <QtGui>
@@ -19,10 +19,12 @@
 ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpNotifyWidget( new ConfigNotifyWidget( this ) )
-, mpClipboardWidget( new MyClipboard( this ) )
+, mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   
+   mpGlobalConfigWidget->showClipboard();
    
    readSettings();
    
@@ -39,14 +41,14 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    {
       QGridLayout *interimLayout = new QGridLayout;
       interimLayout->addWidget( mpNotifyWidget, 0, 0, 2, 1 );
-      interimLayout->addWidget( mpClipboardWidget, 0, 1 );
+      interimLayout->addWidget( mpGlobalConfigWidget, 0, 1 );
       interimLayout->addWidget( mpProxyWidget, 1, 1 );
       mainLayout->addLayout( interimLayout );
    }
    else
    {
       mainLayout->addWidget( mpNotifyWidget );
-      mainLayout->addWidget( mpClipboardWidget );
+      mainLayout->addWidget( mpGlobalConfigWidget );
       mainLayout->addWidget( mpProxyWidget );
    }
    mainLayout->addLayout( buttonLayout );
@@ -63,7 +65,7 @@ void ConfigDialog::readSettings()
    MySettings settings;
    
    mpNotifyWidget->readSettings();
-   mpClipboardWidget->readSettings();
+   mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
    
    emit configChanged();
@@ -75,7 +77,7 @@ void ConfigDialog::writeSettings()
    MySettings settings;
 
    mpNotifyWidget->writeSettings();
-   mpClipboardWidget->writeSettings();
+   mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
 
    emit configChanged();

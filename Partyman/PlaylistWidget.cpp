@@ -239,7 +239,7 @@ void PlaylistWidget::dropEvent( QDropEvent *event )
 void PlaylistWidget::readConfig()
 {
    QSettings settings( QApplication::organizationName(), "Global" );
-   mpTreeView->setAnimated( settings.value( "AnimateViews", true ).toBool() );
+   mpTreeView->setAnimated( settings.value( "AnimateViews", false ).toBool() );
 }
 
 

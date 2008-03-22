@@ -10,7 +10,6 @@
 #include <QtGui>
 #include "MySettings.hpp"
 #include "ConfigDialog.hpp"
-#include "MyClipboard.hpp"
 
 #include "Trace.hpp"
 

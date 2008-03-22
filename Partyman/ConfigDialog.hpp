@@ -16,6 +16,7 @@ class QCheckBox;
 class QComboBox;
 class QDoubleSpinBox;
 class MyClipboard;
+class GlobalConfigWidget;
 
 
 class ConfigDialog : public QDialog
@@ -42,26 +43,26 @@ private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
 
-   QLabel         *mpDerMixDhostLabel;
-   QLineEdit      *mpDerMixDhost;
-   QLabel         *mpDerMixDportLabel;
-   QSpinBox       *mpDerMixDport;
-   QCheckBox      *mpDerMixDlog;
-   QCheckBox      *mpDerMixDrun;
-   QLabel         *mpDerMixDcmdLabel;
-   QLineEdit      *mpDerMixDcmd;
-   QLabel         *mpDerMixDparamsLabel;
-   QLineEdit      *mpDerMixDparams;
-   QCheckBox      *mpAutoConnect;
-   QSpinBox       *mpCrossfadeTime;
-   QCheckBox      *mpSLARTCommunication;
-   QSpinBox       *mpUDPListenerPort;
-   QComboBox      *mpNormalizeMode;
-   QDoubleSpinBox *mpNormalizeValue;
-   MyClipboard    *mpClipboard;
-   QLineEdit      *mpLogCmd;
-   QPushButton    *mpM3uFileName;
-   QCheckBox      *mpAnimateViews;
+   QLabel               *mpDerMixDhostLabel;
+   QLineEdit            *mpDerMixDhost;
+   QLabel               *mpDerMixDportLabel;
+   QSpinBox             *mpDerMixDport;
+   QCheckBox            *mpDerMixDlog;
+   QCheckBox            *mpDerMixDrun;
+   QLabel               *mpDerMixDcmdLabel;
+   QLineEdit            *mpDerMixDcmd;
+   QLabel               *mpDerMixDparamsLabel;
+   QLineEdit            *mpDerMixDparams;
+   QCheckBox            *mpAutoConnect;
+   QSpinBox             *mpCrossfadeTime;
+   QCheckBox            *mpSLARTCommunication;
+   QSpinBox             *mpUDPListenerPort;
+   QComboBox            *mpNormalizeMode;
+   QDoubleSpinBox       *mpNormalizeValue;
+   MyClipboard          *mpClipboard;
+   QLineEdit            *mpLogCmd;
+   QPushButton          *mpM3uFileName;
+   GlobalConfigWidget   *mpGlobalSettings;
 };
 
 #endif

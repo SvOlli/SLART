@@ -11,7 +11,7 @@
 #include <QClipboard>
 
 #include "PlaylistContentWidget.hpp"
-#include "MyClipboard.hpp"
+#include "GlobalConfigWidget.hpp"
 
 #include "Trace.hpp"
 
@@ -39,7 +39,7 @@ PlaylistContentWidget::PlaylistContentWidget( bool allowResort, QWidget *parent 
 
 void PlaylistContentWidget::handleClick( QListWidgetItem *item )
 {
-   MyClipboard::set( item->text() );
+   GlobalConfigWidget::setClipboard( item->text() );
 }
 
 

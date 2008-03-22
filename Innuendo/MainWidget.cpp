@@ -10,7 +10,7 @@
 #include <QtGui>
 #include "MySettings.hpp"
 #include "ConfigDialog.hpp"
-#include "MyClipboard.hpp"
+#include "GlobalConfigWidget.hpp"
 #include "ExecButton.hpp"
 
 #include "Trace.hpp"
@@ -114,6 +114,6 @@ void MainWidget::handleSLART( const QStringList &message )
 
 void MainWidget::listWidgetItemToClipboard( QListWidgetItem *item )
 {
-   MyClipboard::set( item->text() );
+   GlobalConfigWidget::setClipboard( item->text() );
 }
 
