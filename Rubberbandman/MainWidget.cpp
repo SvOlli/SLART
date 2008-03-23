@@ -21,7 +21,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    
    mpTabs = new QTabWidget( this );
 
-   mpTabs->addTab( mpBrowseWidget,   tr("Browse") );
+   mpTabs->addTab( mpBrowseWidget,   tr("Filesystem") );
    mpTabs->addTab( mpSLARTComWidget, tr("Partyman") );
    
    QLabel *mpLogo = new QLabel( this );
@@ -32,6 +32,11 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 
    mainLayout->addWidget( mpLogo );
    mainLayout->addWidget( mpTabs );
+   
+   connect( mpSLARTComWidget, SIGNAL( showInFilesystem(const QString&) ),
+            mpBrowseWidget, SLOT(scrollTo(const QString&)) );
+   
+   setLayout( mainLayout );
 }
 
 

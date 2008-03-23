@@ -27,7 +27,11 @@ public:
 public slots:
    void handleSLART( const QStringList &message );
    void handleNowPlaying();
+   void handleShowInFilesystem();
    void readConfig();
+
+signals:
+   void showInFilesystem( const QString &path );
 
 private:
    SLARTComWidget( const SLARTComWidget &other );
@@ -35,6 +39,7 @@ private:
 
    InfoEdit       *mpInfoEdit;
    QPushButton    *mpNowPlaying;
+   QPushButton    *mpShowInFilesystem;
    SLARTCom       mSLARTCom;
 };
 

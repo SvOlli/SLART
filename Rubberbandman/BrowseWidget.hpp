@@ -24,6 +24,7 @@ public:
    BrowseWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
+   void scrollTo( const QString &fileName );
 
 private:
    BrowseWidget( const BrowseWidget &other );

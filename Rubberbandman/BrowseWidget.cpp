@@ -23,5 +23,12 @@ BrowseWidget::BrowseWidget( QWidget *parent, Qt::WindowFlags flags )
    layout->addWidget( mpInfoEdit );
    setLayout(layout);
    
-   connect( mpFileSysBrowser, SIGNAL(clicked(const QString &)), mpInfoEdit, SLOT(load(const QString &)) );
+   connect( mpFileSysBrowser, SIGNAL(clicked(const QString&)),
+            mpInfoEdit, SLOT(load(const QString&)) );
+}
+
+
+void BrowseWidget::scrollTo( const QString &fileName )
+{
+   mpFileSysBrowser->scrollTo( fileName );
 }

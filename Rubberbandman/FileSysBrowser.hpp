@@ -32,6 +32,7 @@ public slots:
    void handleRootDir();
    void handleDotButton();
    void handleTimer();
+   void scrollTo( const QString &fileName );
 
 signals:
    void clicked( const QString &path );

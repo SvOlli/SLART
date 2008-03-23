@@ -42,3 +42,6 @@ SOURCES += MySettings.cpp
 HEADERS += TagList.hpp 
 SOURCES += TagList.cpp 
 
+HEADERS += GlobalConfigWidget.hpp 
+SOURCES += GlobalConfigWidget.cpp 
+

@@ -109,9 +109,12 @@ InfoEdit::InfoEdit( QWidget *parent )
    setMaximumHeight( vlayout->minimumSize().height() );
    load(QString());
    
-   connect( mpButtonSet, SIGNAL(clicked()), this, SLOT(setSave()) );
-   connect( mpButtonNormArtist, SIGNAL(clicked()), this, SLOT(normalizeArtist()) );
-   connect( mpButtonNormTitle,  SIGNAL(clicked()), this, SLOT(normalizeTitle()) );
+   connect( mpButtonSet, SIGNAL(clicked()),
+            this, SLOT(setSave()) );
+   connect( mpButtonNormArtist, SIGNAL(clicked()),
+            this, SLOT(normalizeArtist()) );
+   connect( mpButtonNormTitle,  SIGNAL(clicked()),
+            this, SLOT(normalizeTitle()) );
 }
 
 
@@ -140,11 +143,13 @@ void InfoEdit::recurse( const QDir &dir )
             case MODE_NORM_ARTIST:
                load( files.at(i).absoluteFilePath() );
                normalize( mpEditArtist );
+               QCoreApplication::processEvents();
                saveFile();
                break;
             case MODE_NORM_TITLE:
                load( files.at(i).absoluteFilePath() );
                normalize( mpEditTitle );
+               QCoreApplication::processEvents();
                saveFile();
                break;
             default:
@@ -273,11 +278,15 @@ TRACEMSG << fullpath;
    if( mIsFile )
    {
       mpButtonSet->setText( tr("Save Tags") );
+      /* recurse not implemented yet */
+      mpButtonSet->setDisabled( false );
       mpShowFileName->setDisabled( false );
    }
    else
    {
       mpButtonSet->setText( tr("Set Recursive") );
+      /* recurse not implemented yet */
+      mpButtonSet->setDisabled( true );
       mpShowFileName->setDisabled( true );
    }
 #if 0

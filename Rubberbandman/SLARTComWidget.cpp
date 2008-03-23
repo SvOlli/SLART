@@ -12,6 +12,7 @@
 
 #include "FileSysBrowser.hpp"
 #include "InfoEdit.hpp"
+#include "GlobalConfigWidget.hpp"
 
 #include "Trace.hpp"
 
@@ -19,13 +20,15 @@
 SLARTComWidget::SLARTComWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpInfoEdit( new InfoEdit() )
-, mpNowPlaying( new QPushButton( tr("NP: to clipboard"), this ) )
+, mpNowPlaying( new QPushButton( tr("NP: To Clipboard"), this ) )
+, mpShowInFilesystem( new QPushButton( tr("Show In Filesystem"), this ) )
 , mSLARTCom()
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    
    buttonLayout->addWidget( mpNowPlaying );
+   buttonLayout->addWidget( mpShowInFilesystem );
    mainLayout->addStretch();
    mainLayout->addLayout( buttonLayout );
    mainLayout->addStretch();
@@ -34,12 +37,12 @@ SLARTComWidget::SLARTComWidget( QWidget *parent, Qt::WindowFlags flags )
    
    connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
             this, SLOT(handleSLART(QStringList)) );
-
    connect( &mSLARTCom, SIGNAL(updateConfig()),
             this, SLOT(readConfig()) );
-
    connect( mpNowPlaying, SIGNAL(clicked()),
             this, SLOT(handleNowPlaying()) );
+   connect( mpShowInFilesystem, SIGNAL(clicked()),
+            this, SLOT(handleShowInFilesystem()) );
    
    readConfig();
 }
@@ -56,8 +59,13 @@ void SLARTComWidget::handleSLART( const QStringList &message )
 
 void SLARTComWidget::handleNowPlaying()
 {
-   QApplication::clipboard()->setText( mpInfoEdit->tagsFileName( "NP: |$ARTIST| - |$TITLE|", false ),
-                                       QClipboard::Selection );
+   GlobalConfigWidget::setClipboard( mpInfoEdit->tagsFileName( "NP: |$ARTIST| - |$TITLE|", false ) );
+}
+
+
+void SLARTComWidget::handleShowInFilesystem()
+{
+   emit showInFilesystem( mpInfoEdit->fileName() );
 }
 
 

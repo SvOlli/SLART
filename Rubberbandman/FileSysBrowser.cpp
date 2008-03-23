@@ -120,3 +120,12 @@ void FileSysBrowser::handleTimer()
 {
    mpRootDir->setText( MySettings().value( "RootDirectory", QString("/") ).toString() );
 }
+
+
+void FileSysBrowser::scrollTo( const QString &fileName )
+{
+   QModelIndex qmi( mpModel->index( fileName ) );
+   mpView->scrollTo( qmi, QAbstractItemView::PositionAtCenter );
+   mpView->setCurrentIndex( qmi );
+   emit clicked( fileName );
+}
