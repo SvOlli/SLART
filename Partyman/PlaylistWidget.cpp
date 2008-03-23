@@ -44,11 +44,14 @@ PlaylistWidget::PlaylistWidget( ConfigDialog *config, QWidget *parent, Qt::Windo
    
    QHBoxLayout *layout = new QHBoxLayout;
    QSplitter *splitter = new QSplitter( Qt::Vertical, parent );
+   QPushButton *settingsButton = new QPushButton( tr("Click here to open the settings dialog"), this );
    mpTabs->setTabPosition( QTabWidget::South );
    mpTabs->addTab( mpTreeView, tr("Browser") );
    mpTabs->addTab( mpSearch, tr("Search") );
    mpTabs->addTab( mpHelpText, tr("Help") );
-   mpTabs->addTab( new AboutWidget( mpConfig, this ), tr("About") );
+   mpTabs->addTab( settingsButton, tr("Settings") );
+   mpTabs->addTab( new AboutWidget( this ), tr("About") );
+   mpTabs->setCurrentIndex( settings.value("CurrentTab", mpTabs->count()-1).toInt() );
    splitter->addWidget( mpPlaylistContent );
    splitter->addWidget( mpTabs );
    layout->addWidget( splitter );
@@ -64,7 +67,8 @@ PlaylistWidget::PlaylistWidget( ConfigDialog *config, QWidget *parent, Qt::Windo
             this, SLOT(handleTabChange(int)) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
-   mpTabs->setCurrentIndex( settings.value("CurrentTab", mpTabs->count()-1).toInt() );
+   connect( settingsButton, SIGNAL(clicked()),
+            mpConfig, SLOT(exec()) );
    readConfig();
 
    mpHelpText->setOpenExternalLinks( true );
@@ -246,7 +250,7 @@ void PlaylistWidget::readConfig()
 void PlaylistWidget::handleTabChange( int tabNr )
 {
    MySettings settings;
-   settings.setValue( "CurrentTab", tabNr );
+   
    switch( tabNr )
    {
       case 0:
@@ -261,9 +265,12 @@ void PlaylistWidget::handleTabChange( int tabNr )
          /* help */
          mpHelpText->setFocus();
          break;
+      break;
       default:
          break;
    }
+   
+   settings.setValue( "CurrentTab", tabNr );
 }
 
 

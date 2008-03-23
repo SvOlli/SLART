@@ -15,9 +15,8 @@
 #include "Version.hpp"
 
 
-AboutWidget::AboutWidget( ConfigDialog *config, QWidget *parent )
+AboutWidget::AboutWidget( QWidget *parent )
 : QWidget( parent )
-, mpConfig( config )
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
 #if QT_VERSION < 0x040300
@@ -31,8 +30,8 @@ AboutWidget::AboutWidget( ConfigDialog *config, QWidget *parent )
    "&nbsp;<a href='http://svolli.org/software/partyman/'><img src=':/PartymanWriting.gif'></a></td></tr>"
    "<tr><td align='center'>Version " SLART_VERSION " written by Sven Oliver Moll.</td></tr>"
    "<tr><td align='center'>Distributed unter the terms of the <a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>.<br>"
-   "This is a frontend for <a href='http://dermixd.de/'>DerMixD</a> using <a href='about:qt'>Qt</a>.<br>"
-   "<b>[<a href='about:settings'><font color='#ff0000'>Settings</font></a>]</b></td></tr></table>" ), this );
+   "This is a frontend for <a href='http://dermixd.de/'>DerMixD</a> using <a href='about:qt'>Qt</a>."
+   "</td></tr></table>" ), this );
    connect( aboutText, SIGNAL(linkActivated(QString)), this, SLOT(handleLink(QString)) );
 
    mainLayout->addWidget( aboutText );
@@ -53,10 +52,6 @@ void AboutWidget::handleLink( const QString &link )
       if( link.endsWith( ":qt" ) )
       {
          QMessageBox::aboutQt( this, QApplication::applicationName() );
-      }
-      if( link.endsWith( ":settings" ) )
-      {
-         mpConfig->exec();
       }
    }
    else

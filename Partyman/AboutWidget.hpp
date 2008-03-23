@@ -10,14 +10,13 @@
 
 #include <QWidget>
 class QUrl;
-class ConfigDialog;
 
 class AboutWidget : public QWidget
 {
 Q_OBJECT
 
 public:
-   AboutWidget( ConfigDialog *config, QWidget *parent );
+   AboutWidget( QWidget *parent );
 
 public slots:
    /* handle links from about tab (wrapper) */
@@ -30,8 +29,6 @@ signals:
 private:
    AboutWidget( const AboutWidget &other );
    AboutWidget &operator=( const AboutWidget &other );
-
-   ConfigDialog         *mpConfig;
 };
 
 #endif
