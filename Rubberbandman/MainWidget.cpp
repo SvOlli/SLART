@@ -10,6 +10,7 @@
 
 #include "BrowseWidget.hpp"
 #include "SLARTComWidget.hpp"
+#include "MySettings.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
@@ -18,10 +19,12 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpSLARTComWidget( new SLARTComWidget( this ) )
 , mpTabs( new QTabWidget( this ) )
 {
+   MySettings settings;
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    
    mpTabs->addTab( mpBrowseWidget,   tr("Filesystem") );
    mpTabs->addTab( mpSLARTComWidget, tr("Partyman") );
+   mpTabs->setCurrentIndex( settings.value("CurrentTab", 0).toInt() );
    
    QLabel *mpLogo = new QLabel( this );
    mpLogo->setText( QApplication::applicationName() );
@@ -36,6 +39,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             mpBrowseWidget, SLOT(scrollTo(const QString&)) );
    connect( mpSLARTComWidget, SIGNAL( showInFilesystem(const QString&) ),
             this, SLOT( goToFilesystem() ) );
+   connect( mpTabs, SIGNAL(currentChanged(int)),
+            this, SLOT(handleTabChange(int)) );
    
    setLayout( mainLayout );
 }
@@ -50,4 +55,11 @@ bool MainWidget::shutdown()
 void MainWidget::goToFilesystem()
 {
    mpTabs->setCurrentWidget( mpBrowseWidget );
+}
+
+
+void MainWidget::handleTabChange( int tabNr )
+{
+   MySettings settings;
+   settings.setValue( "CurrentTab", tabNr );
 }

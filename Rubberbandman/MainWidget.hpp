@@ -24,6 +24,8 @@ public:
 
 public slots:
    void goToFilesystem();
+   /* save current tab for restart */
+   void handleTabChange( int tabNr );
 
 signals:
    void requestChangeTitle(const QIcon &icon, const QString &title );

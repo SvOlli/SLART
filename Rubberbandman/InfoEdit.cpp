@@ -21,29 +21,31 @@
 
 InfoEdit::InfoEdit( QWidget *parent )
 : QWidget( parent )
-, mpButtonSet        ( new QPushButton )
-, mpButtonNormArtist ( new QPushButton( tr("Norm. Artist") ) )
-, mpButtonNormTitle  ( new QPushButton( tr("Norm. Title") ) )
-, mpGridGroupBox     ( new QGroupBox( tr("OggVorbis Information") ) )
-, mpLabelPathName    ( new QLabel( tr("Path:") ) )
-, mpLabelFileName    ( new QLabel( tr("File:") ) )
-, mpLabelArtist      ( new QLabel( tr("Artist:") ) )
-, mpLabelTitle       ( new QLabel( tr("Title:") ) )
-, mpLabelAlbum       ( new QLabel( tr("Album:") ) )
-, mpLabelTrackNr     ( new QLabel( tr("TrackNr:") ) )
-, mpLabelYear        ( new QLabel( tr("Year:") ) )
-, mpLabelGenre       ( new QLabel( tr("Genre:") ) )
-, mpShowPathName     ( new QLineEdit )
-, mpShowFileName     ( new QLineEdit )
-, mpEditArtist       ( new QLineEdit )
-, mpEditTitle        ( new QLineEdit )
-, mpEditAlbum        ( new QLineEdit )
-, mpEditTrackNr      ( new QLineEdit )
-, mpEditYear         ( new QLineEdit )
-, mpEditGenre        ( new QLineEdit )
+, mpButtonSet        ( new QPushButton( this ) )
+, mpButtonNormArtist ( new QPushButton( tr("Norm. Artist"), this ) )
+, mpButtonNormTitle  ( new QPushButton( tr("Norm. Title"), this ) )
+, mpButtonCancel     ( new QPushButton( tr("Cancel"), this ) )
+, mpGridGroupBox     ( new QGroupBox( tr("OggVorbis Information"), this ) )
+, mpLabelPathName    ( new QLabel( tr("Path:"), this ) )
+, mpLabelFileName    ( new QLabel( tr("File:"), this ) )
+, mpLabelArtist      ( new QLabel( tr("Artist:"), this ) )
+, mpLabelTitle       ( new QLabel( tr("Title:"), this ) )
+, mpLabelAlbum       ( new QLabel( tr("Album:"), this ) )
+, mpLabelTrackNr     ( new QLabel( tr("TrackNr:"), this ) )
+, mpLabelYear        ( new QLabel( tr("Year:"), this ) )
+, mpLabelGenre       ( new QLabel( tr("Genre:"), this ) )
+, mpShowPathName     ( new QLineEdit( this ) )
+, mpShowFileName     ( new QLineEdit( this ) )
+, mpEditArtist       ( new QLineEdit( this ) )
+, mpEditTitle        ( new QLineEdit( this ) )
+, mpEditAlbum        ( new QLineEdit( this ) )
+, mpEditTrackNr      ( new QLineEdit( this ) )
+, mpEditYear         ( new QLineEdit( this ) )
+, mpEditGenre        ( new QLineEdit( this ) )
 , mRecurseMode       ( 0 )
 , mIsValid           ( false )
 , mIsFile            ( false )
+, mCancel            ( false )
 , mTagList           ( )
 , mFileName          ( )
 , mRecurseArtist     ( )
@@ -106,6 +108,8 @@ InfoEdit::InfoEdit( QWidget *parent )
    hlayout->addWidget( mpButtonSet );
    hlayout->addWidget( mpButtonNormArtist );
    hlayout->addWidget( mpButtonNormTitle );
+   hlayout->addWidget( mpButtonCancel );
+   mpButtonCancel->setDisabled( true );
    
    QVBoxLayout *vlayout = new QVBoxLayout;
    vlayout->addLayout( hlayout );
@@ -142,10 +146,16 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       mpButtonSet->setDisabled( true );
       mpButtonNormArtist->setDisabled( true );
       mpButtonNormTitle->setDisabled( true );
+      mpButtonCancel->setDisabled( false );
+      mCancel = false;
    }
    
    for( i = 0; i < files.size(); i++ )
    {
+      if( mCancel )
+      {
+         break;
+      }
       if( files.at(i).fileName().left(1) == "." )
       {
          continue;
@@ -206,6 +216,7 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       mpButtonSet->setDisabled( false );
       mpButtonNormArtist->setDisabled( false );
       mpButtonNormTitle->setDisabled( false );
+      mpButtonCancel->setDisabled( true );
          
       mpShowFileName->clear();
       mpEditArtist->clear();
@@ -328,7 +339,7 @@ TRACEMSG << fullpath;
       }
    }
    
-   if( mIsValid )
+   if( mRecurseMode == MODE_NOTHING )
    {
       mpButtonSet->setEnabled( mIsValid );
    }
@@ -444,4 +455,10 @@ QString InfoEdit::tagsFileName( const QString &pattern, bool filterPath )
 QString InfoEdit::fileName()
 {
    return mFileName;
+}
+
+
+void InfoEdit::handleCancel()
+{
+   mCancel = true;
 }

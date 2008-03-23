@@ -33,6 +33,7 @@ public slots:
    void setSave();
    void normalizeArtist();
    void normalizeTitle();
+   void handleCancel();
 
 signals:
    void fileStats( bool isValid, bool isFile );
@@ -47,6 +48,7 @@ private:
    QPushButton *mpButtonSet;
    QPushButton *mpButtonNormArtist;
    QPushButton *mpButtonNormTitle;
+   QPushButton *mpButtonCancel;
 
    QGroupBox *mpGridGroupBox;
 
@@ -73,6 +75,7 @@ private:
    int     mRecurseMode;
    bool    mIsValid;
    bool    mIsFile;
+   bool    mCancel;
    TagList mTagList;
    QString mFileName;
    QString mRecurseArtist;
