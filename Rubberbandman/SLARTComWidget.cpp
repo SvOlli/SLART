@@ -65,7 +65,10 @@ void SLARTComWidget::handleNowPlaying()
 
 void SLARTComWidget::handleShowInFilesystem()
 {
-   emit showInFilesystem( mpInfoEdit->fileName() );
+   if( !(mpInfoEdit->fileName().isEmpty()) )
+   {
+      emit showInFilesystem( mpInfoEdit->fileName() );
+   }
 }
 
 

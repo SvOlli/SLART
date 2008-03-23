@@ -23,7 +23,8 @@ public:
    bool shutdown();
 
 public slots:
-   
+   void goToFilesystem();
+
 signals:
    void requestChangeTitle(const QIcon &icon, const QString &title );
 

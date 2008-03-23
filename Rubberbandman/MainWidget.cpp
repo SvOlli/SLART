@@ -16,11 +16,10 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpBrowseWidget( new BrowseWidget( this ) )
 , mpSLARTComWidget( new SLARTComWidget( this ) )
+, mpTabs( new QTabWidget( this ) )
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    
-   mpTabs = new QTabWidget( this );
-
    mpTabs->addTab( mpBrowseWidget,   tr("Filesystem") );
    mpTabs->addTab( mpSLARTComWidget, tr("Partyman") );
    
@@ -35,6 +34,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    
    connect( mpSLARTComWidget, SIGNAL( showInFilesystem(const QString&) ),
             mpBrowseWidget, SLOT(scrollTo(const QString&)) );
+   connect( mpSLARTComWidget, SIGNAL( showInFilesystem(const QString&) ),
+            this, SLOT( goToFilesystem() ) );
    
    setLayout( mainLayout );
 }
@@ -45,3 +46,8 @@ bool MainWidget::shutdown()
    return true;
 }
 
+
+void MainWidget::goToFilesystem()
+{
+   mpTabs->setCurrentWidget( mpBrowseWidget );
+}

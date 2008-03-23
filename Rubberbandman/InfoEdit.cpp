@@ -44,6 +44,13 @@ InfoEdit::InfoEdit( QWidget *parent )
 , mRecurseMode       ( 0 )
 , mIsValid           ( false )
 , mIsFile            ( false )
+, mTagList           ( )
+, mFileName          ( )
+, mRecurseArtist     ( )
+, mRecurseTitle      ( )
+, mRecurseAlbum      ( )
+, mRecurseYear       ( )
+, mRecurseGenre      ( )
 {
    
 #if 1
@@ -118,10 +125,24 @@ InfoEdit::InfoEdit( QWidget *parent )
 }
 
 
-void InfoEdit::recurse( const QDir &dir )
+void InfoEdit::recurse( const QDir &dir, bool isBase )
 {
    QFileInfoList files(dir.entryInfoList());
    int i;
+   
+   if( isBase )
+   {
+      if( (mRecurseMode == MODE_SETTAGS) && mRecurseArtist.isEmpty() &&
+          mRecurseTitle.isEmpty() && mRecurseAlbum.isEmpty() && 
+          mRecurseYear.isEmpty() && mRecurseGenre.isEmpty() )
+      {
+         return;
+      }
+      
+      mpButtonSet->setDisabled( true );
+      mpButtonNormArtist->setDisabled( true );
+      mpButtonNormTitle->setDisabled( true );
+   }
    
    for( i = 0; i < files.size(); i++ )
    {
@@ -131,14 +152,36 @@ void InfoEdit::recurse( const QDir &dir )
       }
       if( files.at(i).isDir() )
       {
-         recurse( QDir( files.at(i).absoluteFilePath() ) );
+         recurse( QDir( files.at(i).absoluteFilePath() ), false );
       }
       if( files.at(i).isFile() )
       {
          switch( mRecurseMode )
          {
             case MODE_SETTAGS:
-               /* todo */
+               load( files.at(i).absoluteFilePath() );
+               if( !mRecurseArtist.isEmpty() )
+               {
+                  mpEditArtist->setText( mRecurseArtist );
+               }
+               if( !mRecurseTitle.isEmpty() )
+               {
+                  mpEditTitle->setText( mpEditTitle->text() + " " + mRecurseTitle );
+               }
+               if( !mRecurseAlbum.isEmpty() )
+               {
+                  mpEditAlbum->setText( mRecurseAlbum );
+               }
+               if( !mRecurseYear.isEmpty() )
+               {
+                  mpEditYear->setText( mRecurseYear );
+               }
+               if( !mRecurseGenre.isEmpty() )
+               {
+                  mpEditGenre->setText( mRecurseGenre );
+               }
+               QCoreApplication::processEvents();
+               saveFile();
                break;
             case MODE_NORM_ARTIST:
                load( files.at(i).absoluteFilePath() );
@@ -156,6 +199,21 @@ void InfoEdit::recurse( const QDir &dir )
                break;
          }
       }
+   }
+   
+   if( isBase )
+   {
+      mpButtonSet->setDisabled( false );
+      mpButtonNormArtist->setDisabled( false );
+      mpButtonNormTitle->setDisabled( false );
+         
+      mpShowFileName->clear();
+      mpEditArtist->clear();
+      mpEditTitle->clear();
+      mpEditAlbum->clear();
+      mpEditTrackNr->clear();
+      mpEditYear->clear();
+      mpEditGenre->clear();
    }
 }
 
@@ -251,13 +309,13 @@ TRACEMSG << fullpath;
    }
    else
    {
-      mpShowFileName->setText( empty );
-      mpEditArtist->setText( empty );
-      mpEditTitle->setText( empty );
-      mpEditAlbum->setText( empty );
-      mpEditTrackNr->setText( empty );
-      mpEditYear->setText( empty );
-      mpEditGenre->setText( empty );
+      mpShowFileName->clear();
+      mpEditArtist->clear();
+      mpEditTitle->clear();
+      mpEditAlbum->clear();
+      mpEditTrackNr->clear();
+      mpEditYear->clear();
+      mpEditGenre->clear();
       
       if( fileInfo.isDir() )
       {
@@ -266,7 +324,7 @@ TRACEMSG << fullpath;
       }
       else
       {
-         mpShowPathName->setText( empty );
+         mpShowPathName->clear();
       }
    }
    
@@ -278,15 +336,13 @@ TRACEMSG << fullpath;
    if( mIsFile )
    {
       mpButtonSet->setText( tr("Save Tags") );
-      /* recurse not implemented yet */
-      mpButtonSet->setDisabled( false );
+      mpEditTrackNr->setDisabled( false );
       mpShowFileName->setDisabled( false );
    }
    else
    {
       mpButtonSet->setText( tr("Set Recursive") );
-      /* recurse not implemented yet */
-      mpButtonSet->setDisabled( true );
+      mpEditTrackNr->setDisabled( true );
       mpShowFileName->setDisabled( true );
    }
 #if 0
@@ -308,7 +364,15 @@ TRACEMSG << mIsValid << mIsFile;
       }
       else
       {
-         // write function for recurse setting of tags
+         mRecurseArtist = mpEditArtist->text();
+         mRecurseTitle  = mpEditTitle->text();
+         mRecurseAlbum  = mpEditAlbum->text();
+         mRecurseYear   = mpEditYear->text();
+         mRecurseGenre  = mpEditGenre->text();
+         
+         mRecurseMode = MODE_SETTAGS;
+         recurse( mFileName );
+         mRecurseMode = MODE_NOTHING;
       }
    }
 }

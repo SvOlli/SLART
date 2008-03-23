@@ -42,7 +42,7 @@ private:
    InfoEdit &operator=( const InfoEdit &other );
    void normalize( QLineEdit *lineEdit );
    void saveFile();
-   void recurse( const QDir &dir );
+   void recurse( const QDir &dir, bool isBase = true );
 
    QPushButton *mpButtonSet;
    QPushButton *mpButtonNormArtist;
@@ -73,8 +73,13 @@ private:
    int     mRecurseMode;
    bool    mIsValid;
    bool    mIsFile;
-   QString mFileName;
    TagList mTagList;
+   QString mFileName;
+   QString mRecurseArtist;
+   QString mRecurseTitle;
+   QString mRecurseAlbum;
+   QString mRecurseYear;
+   QString mRecurseGenre;
 };
 
 #endif

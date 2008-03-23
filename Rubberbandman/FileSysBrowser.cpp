@@ -105,9 +105,12 @@ void FileSysBrowser::handleRootDir()
    QModelIndex qmi( mpModel->index( mpRootDir->text() ) );
    if( qmi.isValid() )
    {
+      QString current( mpModel->filePath( mpView->currentIndex() ) );
       MySettings().setValue( "RootDirectory", mpRootDir->text() );
       mpModel->refresh( qmi );
       mpView->setRootIndex( qmi );
+      mpView->setCurrentIndex( mpModel->index( current ) );
+      scrollTo( current );
    }
    else
    {
@@ -127,5 +130,6 @@ void FileSysBrowser::scrollTo( const QString &fileName )
    QModelIndex qmi( mpModel->index( fileName ) );
    mpView->scrollTo( qmi, QAbstractItemView::PositionAtCenter );
    mpView->setCurrentIndex( qmi );
+   /* TODO: only emit if in visible area */
    emit clicked( fileName );
 }
