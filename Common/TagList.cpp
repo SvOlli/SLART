@@ -77,7 +77,7 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
                if( filterPath )
                {
                   value.remove( QRegExp("[:?]") );
-                  value.replace( QRegExp("[\\/*]"), "_" );
+                  value.replace( QRegExp("[\\\\/\\*]"), "_" );
                }
                
                filename.append( value );
@@ -134,6 +134,10 @@ QString TagList::normalizeString( const QString &string )
                break;
             case '(':
             case ')':
+            case '[':
+            case ']':
+            case '\'':
+            case '"':
                break;
             default:
                nextUpper = false;
