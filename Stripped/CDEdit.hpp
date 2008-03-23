@@ -31,6 +31,8 @@ public:
                    QString *albumartist, QString *albumtitle, QString *genre, int *year );
 
    void updateCDText( int track, const QString &artist, const QString &title );
+   
+   void clear();
 
 public slots:
    void handleTrackNr();

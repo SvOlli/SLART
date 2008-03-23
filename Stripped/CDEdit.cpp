@@ -161,6 +161,22 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
 }
 
 
+void CDEdit::clear()
+{
+   mpDiscArtist->clear();
+   mpDiscTitle->clear();
+   mpGenre->clear();
+   
+   for( int i = 0; i < 100; i++ )
+   {
+      mpTrackArtist[i]->clear();
+      mpTrackTitle[i]->clear();
+      mpTrackYear[i]->clear();
+      setTrackHidden( i, true );
+   }
+}
+
+
 void CDEdit::handleTrackNr()
 {
    for( int i = 1; i < 100; i++ )

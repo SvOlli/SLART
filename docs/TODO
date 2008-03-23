@@ -20,11 +20,8 @@ Innuendo:
 - external event handler
 
 Stripped:
-- check cddbid-calc of multisession discs
-- read toc clears entries first
 - select path / filename creation
 - handle error on saving
-- cdtext
 - auto read-toc
 
 Rubberbandman:

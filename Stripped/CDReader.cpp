@@ -89,6 +89,7 @@ void CDReader::readToc()
 {
    mCancel = false;
    emit starting();
+   mpCDEdit->clear();
    QCoreApplication::processEvents();
    QCoreApplication::processEvents();
    
