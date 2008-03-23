@@ -189,10 +189,10 @@ QString CDToc::query()
    for( int i = 1; i <= mNumTracks; i++ )
    {
       querystring.append( " " );
-      querystring.append( QString::number( mpStartSectorTrack[i] ) );
+      querystring.append( QString::number( 150 + mpStartSectorTrack[i] ) );
    }
    querystring.append( " " );
-   querystring.append( QString::number( (mEndSectorDisc-mStartSectorDisc) / 75 ) );
+   querystring.append( QString::number( (mEndSectorDisc-mStartSectorDisc) / 75 + 2 ) );
    
    return querystring;
 }

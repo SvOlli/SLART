@@ -185,7 +185,7 @@ void CDDB::genericrequest( const QString &cmd )
    if( mCancel ) return;
    QString request( "/~cddb/cddb.cgi?cmd=" );
    request.append( cmd );
-   request.append( "&hello=svolli svolli.de Stripped prototype&proto=6" );
+   request.append( "&hello=svolli svolli.de Stripped alpha&proto=6" );
    request.replace( ' ', '+' );
    
    mpFile->open( QIODevice::WriteOnly );

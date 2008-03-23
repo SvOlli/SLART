@@ -112,7 +112,7 @@ void CDReader::readToc()
    }
 
    mpToc->setDisc( mpDrive->tracks,
-                   ::cdio_cddap_disc_firstsector( mpDrive ), ::cdio_cddap_disc_lastsector( mpDrive ) );
+                   ::cdio_cddap_disc_firstsector( mpDrive ), ::cdio_get_track_last_lsn( mpCdIo, mpDrive->tracks ) );
    
    for( int i = 1; i < 100; i++ )
    {
