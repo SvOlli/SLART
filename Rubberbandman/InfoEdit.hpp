@@ -34,6 +34,7 @@ public slots:
    void normalizeArtist();
    void normalizeTitle();
    void handleCancel();
+   void handleChange();
 
 signals:
    void fileStats( bool isValid, bool isFile );

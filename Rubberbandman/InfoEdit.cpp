@@ -109,6 +109,7 @@ InfoEdit::InfoEdit( QWidget *parent )
    hlayout->addWidget( mpButtonNormArtist );
    hlayout->addWidget( mpButtonNormTitle );
    hlayout->addWidget( mpButtonCancel );
+   mpButtonSet->setDisabled( true );
    mpButtonCancel->setDisabled( true );
    
    QVBoxLayout *vlayout = new QVBoxLayout;
@@ -126,6 +127,18 @@ InfoEdit::InfoEdit( QWidget *parent )
             this, SLOT(normalizeArtist()) );
    connect( mpButtonNormTitle,  SIGNAL(clicked()),
             this, SLOT(normalizeTitle()) );
+   connect( mpEditArtist, SIGNAL(textChanged(const QString&)),
+            this, SLOT(handleChange()) );
+   connect( mpEditTitle, SIGNAL(textChanged(const QString&)),
+            this, SLOT(handleChange()) );
+   connect( mpEditAlbum, SIGNAL(textChanged(const QString&)),
+            this, SLOT(handleChange()) );
+   connect( mpEditTrackNr, SIGNAL(textChanged(const QString&)),
+            this, SLOT(handleChange()) );
+   connect( mpEditYear, SIGNAL(textChanged(const QString&)),
+            this, SLOT(handleChange()) );
+   connect( mpEditGenre, SIGNAL(textChanged(const QString&)),
+            this, SLOT(handleChange()) );
 }
 
 
@@ -341,21 +354,21 @@ TRACEMSG << fullpath;
    
    if( mRecurseMode == MODE_NOTHING )
    {
-      mpButtonSet->setEnabled( mIsValid );
+      if( mIsFile )
+      {
+         mpButtonSet->setText( tr("Save Tags") );
+         mpEditTrackNr->setDisabled( false );
+         mpShowFileName->setDisabled( false );
+      }
+      else
+      {
+         mpButtonSet->setText( tr("Set Recursive") );
+         mpEditTrackNr->setDisabled( true );
+         mpShowFileName->setDisabled( true );
+      }
    }
    
-   if( mIsFile )
-   {
-      mpButtonSet->setText( tr("Save Tags") );
-      mpEditTrackNr->setDisabled( false );
-      mpShowFileName->setDisabled( false );
-   }
-   else
-   {
-      mpButtonSet->setText( tr("Set Recursive") );
-      mpEditTrackNr->setDisabled( true );
-      mpShowFileName->setDisabled( true );
-   }
+   mpButtonSet->setDisabled( true );
 #if 0
 TRACEMSG << "mIsValid" << mIsValid << "mIsFile" << mIsFile;
 #endif
@@ -385,6 +398,7 @@ TRACEMSG << mIsValid << mIsFile;
          recurse( mFileName );
          mRecurseMode = MODE_NOTHING;
       }
+      mpButtonSet->setDisabled( true );
    }
 }
 
@@ -461,4 +475,10 @@ QString InfoEdit::fileName()
 void InfoEdit::handleCancel()
 {
    mCancel = true;
+}
+
+
+void InfoEdit::handleChange()
+{
+   mpButtonSet->setDisabled( false );
 }

@@ -3,9 +3,12 @@ Next Big Thing(tm) after 0.6 release:
 - SQLite database backend
 
 Partyman:
+- add note about SLART
 - check all error handling
 
 Karmadrome: (new application)
+- copyright message
+- settings
 - Karma: use several playlists
   - full contains all tracks
   - bad contains bad karma tracks
@@ -17,13 +20,16 @@ Funkytown:
 - improve url detecting
 
 Innuendo:
+- copyright message
 - external event handler
 
 Stripped:
+- copyright message
 - select path / filename creation
 - handle error on saving
 - auto read-toc
 
 Rubberbandman:
+- copyright message
 - save tab last used
 
