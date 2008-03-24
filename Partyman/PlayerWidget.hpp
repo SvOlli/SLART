@@ -75,7 +75,7 @@ public slots:
    /* jump to a position in track */
    void seek();
    /* handle unload request */
-   void unload( const QPoint &/*pos*/ );
+   void unload();
    /* handle successful connection to DerMixD */
    void handleConnect();
    /* handle disconnect from DerMixD */

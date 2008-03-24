@@ -66,7 +66,7 @@ PlayerWidget::PlayerWidget( int index,
    connect( mpPlayPosition, SIGNAL(sliderPressed()), this, SLOT(lock()) );
    connect( mpPlayPosition, SIGNAL(sliderReleased()), this, SLOT(seek()) );
    connect( mpStatusDisplay, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(unload(QPoint)) );
+            this, SLOT(unload()) );
    
    mpFSM->changeState( PlayerFSM::disconnected );
 }
@@ -129,7 +129,7 @@ void PlayerWidget::seek()
 }
 
 
-void PlayerWidget::unload( const QPoint &/*pos*/ )
+void PlayerWidget::unload()
 {
    if( mpFSM->getState() == PlayerFSM::ready )
    {
