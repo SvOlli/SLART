@@ -25,7 +25,7 @@ DownloadHandler::DownloadHandler( QWidget *parent )
 , mpQueue( new QListWidget )
 , mpTimer( new QTimer(this) )
 {
- #if QT_VERSION < 0x040300
+#if QT_VERSION < 0x040300
    mpLayout->setMargin( 0 );
 #else
    mpLayout->setContentsMargins( 0, 0, 0, 0 );

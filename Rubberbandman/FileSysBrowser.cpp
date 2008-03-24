@@ -42,11 +42,19 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
    topLayout->addWidget( mpRootDir );
    topLayout->addWidget( mpSetButton );
    topLayout->addWidget( mpDotButton );
+#if QT_VERSION < 0x040300
    topLayout->setMargin( 0 );
+#else
+   topLayout->setContentsMargins( 0, 0, 0, 0 );
+#endif
    
    layout->addLayout( topLayout );
    layout->addWidget( mpView );
+#if QT_VERSION < 0x040300
    layout->setMargin( 2 );
+#else
+   layout->setContentsMargins( 2, 2, 2, 2 );
+#endif
    setLayout(layout);
    
    mpView->header()->hide();

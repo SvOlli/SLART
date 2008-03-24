@@ -65,7 +65,11 @@ PlaylistWidget::PlaylistWidget( ConfigDialog *config, QWidget *parent, Qt::Windo
    splitter->addWidget( mpPlaylistContent );
    splitter->addWidget( mpTabs );
    layout->addWidget( splitter );
+#if QT_VERSION < 0x040300
    layout->setMargin( 2 );
+#else
+   layout->setContentsMargins( 2, 2, 2, 2 );
+#endif
    
    connect( mpTreeView, SIGNAL(context(QModelIndex)),
             this, SLOT(addEntries(QModelIndex)) );
