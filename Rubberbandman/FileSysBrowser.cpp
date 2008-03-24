@@ -30,6 +30,7 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
    mpModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files );
    mpModel->setSorting( QDir::Name | QDir::DirsFirst | QDir::IgnoreCase | QDir::LocaleAware );
    mpModel->setLazyChildCount( true );
+   mpView->setContextMenuPolicy( Qt::CustomContextMenu );
    
    mpView->setModel( mpModel );
    
@@ -75,6 +76,8 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handleDotButton()) );
    connect( mpTimer, SIGNAL(timeout()),
             this, SLOT(handleTimer()) );
+   connect( mpView, SIGNAL(customContextMenuRequested(const QPoint&)),
+            this, SLOT(contextMenu(const QPoint&)) );
 }
 
 
@@ -132,4 +135,16 @@ void FileSysBrowser::scrollTo( const QString &fileName )
    mpView->setCurrentIndex( qmi );
    /* TODO: only emit if in visible area */
    emit clicked( fileName );
+}
+
+
+void FileSysBrowser::contextMenu( const QPoint &pos )
+{
+   QModelIndex qmi( mpView->indexAt( pos ) );
+   if( !mpModel->isDir( qmi ) )
+   {
+      QString msg( mpModel->filePath( qmi ) );
+      msg.prepend( "P0Q\n" );
+      MySettings().sendUdpMessage( msg, "Partyman" );
+   }
 }

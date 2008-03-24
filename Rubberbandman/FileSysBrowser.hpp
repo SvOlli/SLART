@@ -33,6 +33,7 @@ public slots:
    void handleDotButton();
    void handleTimer();
    void scrollTo( const QString &fileName );
+   void contextMenu( const QPoint &pos );
 
 signals:
    void clicked( const QString &path );
