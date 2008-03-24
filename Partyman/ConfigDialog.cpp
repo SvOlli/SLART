@@ -167,24 +167,6 @@ void ConfigDialog::readSettings()
 }
 
 
-void ConfigDialog::handleConnected( bool connected )
-{
-   mpDerMixDhostLabel->setDisabled( connected );
-   mpDerMixDhost->setDisabled( connected );
-   mpDerMixDportLabel->setDisabled( connected );
-   mpDerMixDport->setDisabled( connected );
-   mpDerMixDrun->setDisabled( connected );
-   mpDerMixDcmdLabel->setDisabled( connected );
-   mpDerMixDcmd->setDisabled( connected );
-   mpDerMixDparamsLabel->setDisabled( connected );
-   mpDerMixDparams->setDisabled( connected );
-   if( !connected )
-   {
-      handleDerMixDrun( mpDerMixDrun->isChecked() );
-   }
-}
-
-
 void ConfigDialog::writeSettings()
 {
    MySettings settings;

@@ -25,17 +25,22 @@ Q_OBJECT
 
 public:
    ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   bool execWithDialog();
 
 public slots:
+   /* execute the dialog */
    void exec();
+   /* read settings from storage */
    void readSettings();
+   /* write settings to storage */
    void writeSettings();
+   /* run m3u filename requester */
    void setM3uFileName();
+   /* handle "start DerMixD" checkbox */
    void handleDerMixDrun( bool checked );
+   /* handle "SLARTCom" checkbox */
    void handleUDPListen( bool checked );
+   /* handle "Nomalize" combobox */
    void handleNormalizeMode( int mode );
-   void handleConnected( bool connected );
 
 signals:
    void configChanged();

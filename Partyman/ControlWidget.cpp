@@ -82,9 +82,6 @@ ControlWidget::ControlWidget( ConfigDialog *config, PlaylistWidget *playlist, QW
    connect( &mDerMixDprocess, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(handleDerMixDerror(QProcess::ProcessError)) );
 
-   connect( this, SIGNAL(signalConnected(bool)),
-            mpConfig, SLOT(handleConnected(bool)) );
-
    setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
 }
 
