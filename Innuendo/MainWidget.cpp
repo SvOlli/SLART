@@ -51,7 +51,9 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mainLayout->addWidget( mpBufferSize,      3, applications.count() - 1 );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
-            this, SLOT(handleSettings()) );
+            mpConfig, SLOT(exec()) );
+   connect( mpConfig, SIGNAL(configChanged()),
+            this, SLOT(readConfig()) );
    connect( mpBufferSize, SIGNAL(valueChanged(int)),
             this, SLOT(setBufferSize(int)) );
    connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
@@ -80,13 +82,6 @@ void MainWidget::readConfig()
 void MainWidget::setBufferSize( int size )
 {
    mBufferSize = size;
-}
-
-
-void MainWidget::handleSettings()
-{
-   mpConfig->readSettings();
-   mpConfig->exec();
 }
 
 

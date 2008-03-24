@@ -31,10 +31,13 @@ public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
+   /* re-read config */
    void readConfig();
+   /* handle input of buffer size */
    void setBufferSize( int size );
+   /* handle SLART message */
    void handleSLART( const QStringList &message );
-   void handleSettings();
+   /* copy clicked line of message buffer to clipboard */
    void listWidgetItemToClipboard( QListWidgetItem *item );
 
 signals:

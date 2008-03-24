@@ -19,7 +19,6 @@ class QLineEdit;
 class QListWidget;
 class QSpinBox;
 class QHttp;
-//class QTabBar;
 class QTabWidget;
 
 class ConfigNotifyApplicationWidget : public QWidget
@@ -30,13 +29,19 @@ public:
    ConfigNotifyApplicationWidget( int index, const QStringList &apps, ConfigNotifyWidget *parent );
    virtual ~ConfigNotifyApplicationWidget();
 
+   /* allow setting of a notification to another application */
    void allowNotify( int index, bool allow = true );
+   /* get the SLART UDP listener port for config'ed application */
    int getUDPListenerPort();
+   /* set all notifications at once */
    void setAllAtOnce( bool enable );
 
 public slots:
+   /* read settings from storage */
    void readSettings();
+   /* write settings to storage */
    void writeSettings();
+   /* handle UDP listen checkbox */
    void handleUDPListen( bool checked );
 
 signals:

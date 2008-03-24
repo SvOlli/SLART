@@ -28,22 +28,26 @@ Q_OBJECT
    
 public:
    ConfigNotifyWidget( QWidget *parent = 0 );
-   virtual ~ConfigNotifyWidget();
+
+   /* get the SLART UDP listener port for application */
    int getUDPListenerPort( int index );
+   /* set all notifications at once */
    void setAllAtOnce( bool enable );
 
 public slots:
+   /* read settings from storage */
    void readSettings();
+   /* write settings to storage */
    void writeSettings();
+   /* handle "Full Communication" button */
    void enableFullCommunication();
+   /* handle "No Communication" button */
    void disableFullCommunication();
 
-signals:
-
 private:
-   QTabWidget   *mpTabWidget;
+   QTabWidget                    *mpTabWidget;
    ConfigNotifyApplicationWidget **mpTabs;
-   QStringList  mApplications;
+   QStringList                   mApplications;
 };
 
 #endif

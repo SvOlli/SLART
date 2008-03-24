@@ -84,11 +84,6 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
 }
 
 
-ConfigNotifyWidget::~ConfigNotifyWidget()
-{
-}
-
-
 void ConfigNotifyWidget::readSettings()
 {
    for( int i = 0; i < mApplications.count(); i++ )

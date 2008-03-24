@@ -21,8 +21,11 @@ public:
    ExecButton( const QString &name, QWidget *parent = 0 );
 
 private slots:
+   /* handle click on button */
    void handleClick();
+   /* callback for QProcess */
    void handleError( QProcess::ProcessError error );
+   /* callback for QProcess */
    void handleFinished( int exitCode, QProcess::ExitStatus exitStatus );
 
 private:
