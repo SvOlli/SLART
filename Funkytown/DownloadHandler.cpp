@@ -46,11 +46,6 @@ DownloadHandler::DownloadHandler( QWidget *parent )
 }
 
 
-DownloadHandler::~DownloadHandler()
-{
-}
-
-
 void DownloadHandler::httpRequestFinished( int requestId, bool error )
 {
    QListWidgetItem *qlwi;

@@ -14,7 +14,8 @@ class PostDownloadHandlerMP3 : public PostDownloadHandler
 {
 public:
    PostDownloadHandlerMP3();
-   virtual ~PostDownloadHandlerMP3();
+
+   /* analyse downloaded file */
    void run( const QString &url, const QString &filename, bool success );
 
 private:

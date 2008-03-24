@@ -22,18 +22,24 @@ Q_OBJECT
    
 public:
    ConfigDialog( QWidget *parent = 0 );
+
+   /* grant direct access to proxy settings */
    ProxyWidget *proxyWidget();
 
 public slots:
+   /* execute the dialog */
    void exec();
+   /* read settings from storage */
    void readSettings();
+   /* write settings to storage */
    void writeSettings();
+   /* send a message to log widget */
    void logMessage( const QString &message );
 
-signals:
-   void closing( bool closing );
-
 private:
+   ConfigDialog( const ConfigDialog &other );
+   ConfigDialog &operator=( const ConfigDialog &other );
+
    QGridLayout  *mpLayout;
    ProxyWidget  *mpProxyWidget;
    QListWidget  *mpLogList;

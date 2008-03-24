@@ -20,9 +20,6 @@ PostDownloadHandlerXML::PostDownloadHandlerXML()
 {
 }
 
-PostDownloadHandlerXML::~PostDownloadHandlerXML()
-{
-}
 
 void PostDownloadHandlerXML::run( const QString &url, const QString &filename, bool success )
 {

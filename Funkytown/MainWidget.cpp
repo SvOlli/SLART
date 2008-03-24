@@ -75,29 +75,21 @@ MainWidget::MainWidget( QWidget *parent )
    
    setLayout( mpLayout );
    
-   connect( mpDirButton, SIGNAL(clicked()), this, SLOT(setDownloadDir()) );
-   connect( mpGoButton,  SIGNAL(clicked()), this, SLOT(downloadUserPage()) );
-   connect( mpNameInput, SIGNAL(returnPressed()), this, SLOT(downloadUserPage()) );
-   connect( mpSetupButton, SIGNAL(clicked()), this, SLOT(showConfigDialog()) );
-   connect( gpDownloadHandler, SIGNAL(downloadActive(bool)), this, SLOT(downloadActive(bool)) );
-   connect( gpDownloadHandler, SIGNAL(errorMessage(const QString&)), mpConfigDialog, SLOT(logMessage(const QString&)) );
-//   if( parent )
-//   {
-//      connect( parent, SIGNAL(aboutToQuit()), mpConfigDialog, SLOT(gotCloseSignal()) );
-//   }
+   connect( mpDirButton, SIGNAL(clicked()),
+            this, SLOT(setDownloadDir()) );
+   connect( mpGoButton,  SIGNAL(clicked()),
+            this, SLOT(downloadUserPage()) );
+   connect( mpNameInput, SIGNAL(returnPressed()),
+            this, SLOT(downloadUserPage()) );
+   connect( mpSetupButton, SIGNAL(clicked()),
+            mpConfigDialog, SLOT(exec()) );
+   connect( gpDownloadHandler, SIGNAL(downloadActive(bool)),
+            this, SLOT(downloadActive(bool)) );
+   connect( gpDownloadHandler, SIGNAL(errorMessage(const QString&)),
+            mpConfigDialog, SLOT(logMessage(const QString&)) );
+   
    setAcceptDrops( true );
 }
-
-
-MainWidget::~MainWidget()
-{
-}
-
-#if 0
-void MainWidget::gotCloseSignal()
-{
-}
-#endif
 
 
 void MainWidget::setDownloadDir()
@@ -147,17 +139,6 @@ void MainWidget::downloadUserPage( const QString &name )
    }
    
    mpNameInput->setText("");
-}
-
-
-void MainWidget::showConfigDialog()
-{
-   mpSetupButton->setDisabled( true );
-   QCoreApplication::processEvents();
-   mpConfigDialog->proxyWidget()->readSettings();
-   mpConfigDialog->exec();
-   mpConfigDialog->proxyWidget()->writeSettings();
-   mpSetupButton->setDisabled( false );
 }
 
 

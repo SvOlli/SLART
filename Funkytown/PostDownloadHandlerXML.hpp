@@ -14,7 +14,8 @@ class PostDownloadHandlerXML : public PostDownloadHandler
 {
 public:
    PostDownloadHandlerXML();
-   virtual ~PostDownloadHandlerXML();
+
+   /* analyse downloaded file */
    void run( const QString &url, const QString &filename, bool success );
 
 private:

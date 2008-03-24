@@ -17,6 +17,8 @@ class PostDownloadHandler
 public:
    PostDownloadHandler();
    virtual ~PostDownloadHandler();
+
+   /* analyse downloaded file */
    virtual void run( const QString &url, const QString &filename, bool success ) = 0;
 
 private:

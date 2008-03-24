@@ -16,14 +16,13 @@ class PostDownloadHandlerFLV : public PostDownloadHandler
 {
 public:
    PostDownloadHandlerFLV();
-   virtual ~PostDownloadHandlerFLV();
+
+   /* analyse downloaded file */
    void run( const QString &url, const QString &filename, bool success );
 
 private:
    PostDownloadHandlerFLV( const PostDownloadHandlerFLV &other );
    PostDownloadHandlerFLV &operator=( const PostDownloadHandlerFLV &other );
-
-   QProcess mConvProcess;
 };
 
 #endif

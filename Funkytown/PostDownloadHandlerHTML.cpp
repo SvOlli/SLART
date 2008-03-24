@@ -19,9 +19,6 @@ PostDownloadHandlerHTML::PostDownloadHandlerHTML()
 {
 }
 
-PostDownloadHandlerHTML::~PostDownloadHandlerHTML()
-{
-}
 
 void PostDownloadHandlerHTML::run( const QString &url, const QString &filename, bool success )
 {

@@ -34,29 +34,27 @@ Q_OBJECT
 
 public:
    MainWidget( QWidget *parent = 0 );
-   virtual ~MainWidget();
 
 public slots:
+   /* open download dir requester */
    void setDownloadDir();
+   /* enqueue a download */
    void downloadUserPage( const QString &name = QString() );
-   void showConfigDialog();
+   /* handle if download is active */
    void downloadActive( bool downloadActive = false );
-#if 0
-   void gotCloseSignal();
-#endif
 
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 protected:
+   /* for implementing dropping */
    void dragEnterEvent( QDragEnterEvent *event );
+   /* for implementing dropping */
    void dropEvent( QDropEvent *event );
    
 private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
-
-   void resetProgress( bool isRunning );
 
    QGridLayout             *mpLayout;
    QLabel                  *mpDirText;

@@ -17,13 +17,9 @@
 
 PostDownloadHandlerFLV::PostDownloadHandlerFLV()
 : PostDownloadHandler()
-, mConvProcess()
 {
 }
 
-PostDownloadHandlerFLV::~PostDownloadHandlerFLV()
-{
-}
 
 void PostDownloadHandlerFLV::run( const QString &/*url*/, const QString &filename, bool success )
 {
@@ -40,11 +36,5 @@ void PostDownloadHandlerFLV::run( const QString &/*url*/, const QString &filenam
       
       settings.sendNotification( QString("f0v\n") + 
                                  QDir::currentPath() + '/' + filename );
-      
-      QString flv2mpeg4( settings.value( "flv2mpeg4", QString() ).toString() );
-      QStringList args( filename );
-      args.append( QString( filename ).replace( ".flv", ".avi" ) );
-      
-      mConvProcess.start( flv2mpeg4, args );
    }
 }

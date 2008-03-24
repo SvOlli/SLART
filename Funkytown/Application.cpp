@@ -19,15 +19,9 @@ int main(int argc, char *argv[])
    int retval = 0;
    
    QApplication app(argc, argv);
-#ifdef STANDALONE
-   app.setOrganizationName("MySpace");
-   app.setOrganizationDomain("myspace.com");
-   app.setApplicationName("Hack");
-#else
    app.setOrganizationName("SLART");
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("Funkytown");
-#endif
 
    MainWindow window;
    for( retval = 1; retval < argc; retval++ )

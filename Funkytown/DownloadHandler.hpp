@@ -28,19 +28,27 @@ Q_OBJECT
 
 public:
    DownloadHandler( QWidget *parent = 0 );
-   virtual ~DownloadHandler();
+
+   /* run a download request */
    void run( const QString &url, const QString &filename,
              PostDownloadHandler *postDownloadHandler );
+   /* set the proxy configuration */
    void setProxy( ProxyWidget *proxyWidget );
 
 public slots:
+   /* callback for QHttp */
    void httpRequestFinished( int requestId, bool error );
+   /* callback for QHttp */
    void readResponseHeader( const QHttpResponseHeader &responseHeader );
+   /* update the progress bar */
    void updateDataReadProgress( int bytesRead, int totalBytes );
+   /* start the download */
    void startDownload();
 
 signals:
+   /* signalize if download active or application is idle */
    void downloadActive( bool active );
+   /* send a message if an error occured */
    void errorMessage( const QString &message );
 
 private:

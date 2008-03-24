@@ -21,9 +21,6 @@ PostDownloadHandlerMP3::PostDownloadHandlerMP3()
 {
 }
 
-PostDownloadHandlerMP3::~PostDownloadHandlerMP3()
-{
-}
 
 void PostDownloadHandlerMP3::run( const QString &url, const QString &filename, bool success )
 {
