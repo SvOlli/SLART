@@ -29,16 +29,23 @@ Q_OBJECT
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
+   /*  */
    void updateLists();
 
 public slots:
+   /* add currently played track to the list */
    void addToList( const QString &msg );
+   /* handle SLART message */
    void handleSLART( const QStringList &message );
+   /* handle adding of new playlist */
    void handleAdd();
+   /* handle removal of playlist */
    void handleRemove( QAction *action );
-   void handleSettings();
+   /* handle "Read Clipboard" button */
    void handleReadButton();
+   /* handle "Write Clipboard" button */
    void handleWriteButton();
+   /* label "Read/Write Clipboard" buttons according to settings */
    void labelReadWriteButtons();
 
 signals:

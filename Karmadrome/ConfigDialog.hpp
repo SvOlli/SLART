@@ -28,8 +28,11 @@ public:
    ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
+   /* execute the dialog */
    void exec();
+   /* read settings from storage */
    void readSettings();
+   /* write settings to storage */
    void writeSettings();
 
 signals:

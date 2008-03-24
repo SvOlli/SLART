@@ -60,13 +60,9 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    
    updateLists();
 
-   connect( mpSettingsButton, SIGNAL(clicked()),
-            this, SLOT(handleSettings()) );
    connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
             this, SLOT(handleSLART(QStringList)) );
-
-   connect( &mSLARTCom, SIGNAL(updateConfig()),
-            mpConfigDialog, SLOT(readSettings()) );
+            
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfigDialog, SLOT(exec()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
@@ -141,15 +137,6 @@ void MainWidget::addToList( const QString &listfilename )
    }
    
    m3uFile.close();
-}
-
-
-void MainWidget::handleSettings()
-{
-#if 0
-   mpConfig->readSettings();
-   mpConfig->exec();
-#endif
 }
 
 
