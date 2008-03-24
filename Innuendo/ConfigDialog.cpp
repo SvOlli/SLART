@@ -10,6 +10,7 @@
 #include "ProxyWidget.hpp"
 #include "ConfigNotifyWidget.hpp"
 #include "GlobalConfigWidget.hpp"
+#include "Version.hpp"
 
 
 #include <QtGui>
@@ -24,6 +25,10 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    
+   QLabel *aboutText = new QLabel( tr("Innuendo Version " SLART_VERSION
+   " written by Sven Oliver Moll as a part of <a href='http://svolli.org/software/slart'>SLART</a>.<br>"
+   "Distributed unter the terms of the <a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>."), this );
+   aboutText->setOpenExternalLinks( true );
    mpGlobalConfigWidget->showClipboard();
    
    readSettings();
@@ -35,23 +40,32 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
 
-   QVBoxLayout *mainLayout = new QVBoxLayout;
+   QBoxLayout *mainLayout;
    
    if( QApplication::desktop()->screenGeometry().height() < 600 )
    {
-      QGridLayout *interimLayout = new QGridLayout;
-      interimLayout->addWidget( mpNotifyWidget, 0, 0, 2, 1 );
-      interimLayout->addWidget( mpGlobalConfigWidget, 0, 1 );
-      interimLayout->addWidget( mpProxyWidget, 1, 1 );
-      mainLayout->addLayout( interimLayout );
+      mainLayout = new QHBoxLayout( this );
+      QVBoxLayout *tmp1Layout = new QVBoxLayout;
+      QVBoxLayout *tmp2Layout = new QVBoxLayout;
+      tmp1Layout->addWidget( mpNotifyWidget );
+      tmp1Layout->addStretch();
+      tmp2Layout->addWidget( mpGlobalConfigWidget );
+      tmp2Layout->addWidget( mpProxyWidget );
+      tmp2Layout->addStretch();
+      tmp2Layout->addWidget( aboutText );
+      tmp2Layout->addLayout( buttonLayout );
+      mainLayout->addLayout( tmp1Layout );
+      mainLayout->addLayout( tmp2Layout );
    }
    else
    {
+      mainLayout = new QVBoxLayout( this );
       mainLayout->addWidget( mpNotifyWidget );
       mainLayout->addWidget( mpGlobalConfigWidget );
       mainLayout->addWidget( mpProxyWidget );
+      mainLayout->addWidget( aboutText );
+      mainLayout->addLayout( buttonLayout );
    }
-   mainLayout->addLayout( buttonLayout );
    setLayout( mainLayout );
 
    connect( okButton,      SIGNAL(clicked()), this, SLOT(accept()) );

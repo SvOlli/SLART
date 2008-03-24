@@ -3,7 +3,6 @@ Next Big Thing(tm) after 0.6 release:
 - SQLite database backend
 
 Partyman:
-- add note about SLART
 - check all error handling
 
 Karmadrome: (new application)
@@ -20,7 +19,6 @@ Funkytown:
 - improve url detecting
 
 Innuendo:
-- copyright message
 - external event handler
 
 Stripped:

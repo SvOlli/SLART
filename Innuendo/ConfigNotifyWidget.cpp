@@ -67,8 +67,8 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
    
    mpTabs[mApplications.indexOf("Karmadrome")]->allowNotify(mApplications.indexOf("Innuendo"));
    
-   QPushButton *allOnButton  = new QPushButton( tr("Enable Full Communication"), this );
-   QPushButton *allOffButton = new QPushButton( tr("Disable Full Communication"), this );
+   QPushButton *allOnButton  = new QPushButton( tr("Full Communication"), this );
+   QPushButton *allOffButton = new QPushButton( tr("No Communication"), this );
    buttonLayout->addWidget( allOnButton );
    buttonLayout->addWidget( allOffButton );
    

@@ -28,7 +28,8 @@ AboutWidget::AboutWidget( QWidget *parent )
    QLabel *aboutText = new QLabel( tr("<table align='center'><tr><td align='center'>Our hail to the new king:</td></tr>"
    "<tr><td align='center'><a href='http://svolli.org/software/partyman/'><img src=':/PartymanSmile.gif'></a>&nbsp;"
    "&nbsp;<a href='http://svolli.org/software/partyman/'><img src=':/PartymanWriting.gif'></a></td></tr>"
-   "<tr><td align='center'>Version " SLART_VERSION " written by Sven Oliver Moll.</td></tr>"
+   "<tr><td align='center'>Version " SLART_VERSION " written by Sven Oliver Moll<br>"
+   "as a part of <a href='http://svolli.org/software/slart/'>SLART</a>.</td></tr>"
    "<tr><td align='center'>Distributed unter the terms of the <a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>.<br>"
    "This is a frontend for <a href='http://dermixd.de/'>DerMixD</a> using <a href='about:qt'>Qt</a>."
    "</td></tr></table>" ), this );
