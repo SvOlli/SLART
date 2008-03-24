@@ -36,7 +36,8 @@ signals:
    void packageRead( const QStringList &data );
    
 private:
-   void updateListeners( MySettings *settings, const QStringList &listeners );
+   SLARTCom( const SLARTCom &other );
+   SLARTCom &operator=( const SLARTCom &other );
 
    QObject     *mpParent;
    QUdpSocket  mUdpSocket;

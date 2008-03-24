@@ -14,8 +14,6 @@ class QMainWindow;
 class MySettings : public QSettings
 {
 public:
-   enum notificationMode { disable, enable, update };
-   
    MySettings();
 
    /* save main window settings */

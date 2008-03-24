@@ -19,6 +19,7 @@ Q_OBJECT
 
 public:
    MainWindow( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+
    /* passing through the only widget of the window */
    MainWidget *mainWidget();
    /* intercept for writing the settings */

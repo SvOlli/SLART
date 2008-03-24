@@ -24,16 +24,17 @@ Q_OBJECT
    
 public:
    ProxyWidget( QWidget *parent = 0 );
-   virtual ~ProxyWidget();
+
+   /* set proxy in QHttp class */
    void setProxy( QHttp *http );
+   /* read settings from storage */
    void readSettings();
+   /* write settings from storage */
    void writeSettings();
 
 public slots:
+   /* enable/disable widget according to settings */
    void updateWidgets( bool disabled = false );
-
-signals:
-   void closing( bool closing );
 
 private:
    QLabel       *mpProxyOnLabel;

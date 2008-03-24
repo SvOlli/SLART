@@ -58,11 +58,6 @@ ProxyWidget::ProxyWidget( QWidget *parent )
 }
 
 
-ProxyWidget::~ProxyWidget()
-{
-}
-
-
 void ProxyWidget::updateWidgets( bool disabled )
 {
    if( disabled )
