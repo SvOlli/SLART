@@ -14,6 +14,7 @@
 #include "ConfigDialog.hpp"
 #include "AboutWidget.hpp"
 #include "MySettings.hpp"
+#include "Version.hpp"
 
 #include "Trace.hpp"
 
@@ -44,13 +45,22 @@ PlaylistWidget::PlaylistWidget( ConfigDialog *config, QWidget *parent, Qt::Windo
    
    QHBoxLayout *layout = new QHBoxLayout;
    QSplitter *splitter = new QSplitter( Qt::Vertical, parent );
+   AboutWidget *about  = new AboutWidget( this,
+   tr("<table align='center'><tr><td align='center'>Our hail to the new king:</td></tr>"
+   "<tr><td align='center'><a href='http://svolli.org/software/partyman/'><img src=':/PartymanSmile.gif'></a>&nbsp;"
+   "&nbsp;<a href='http://svolli.org/software/partyman/'><img src=':/PartymanWriting.gif'></a></td></tr>"
+   "<tr><td align='center'>Version " SLART_VERSION " written by Sven Oliver Moll<br>"
+   "as a part of <a href='http://svolli.org/software/slart/'>SLART</a>.</td></tr>"
+   "<tr><td align='center'>Distributed unter the terms of the <a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>.<br>"
+   "This is a frontend for <a href='http://dermixd.de/'>DerMixD</a> using <a href='about:qt'>Qt</a>."
+   "</td></tr></table>") );
    QPushButton *settingsButton = new QPushButton( tr("Click here to open the settings dialog"), this );
    mpTabs->setTabPosition( QTabWidget::South );
    mpTabs->addTab( mpTreeView, tr("Browser") );
    mpTabs->addTab( mpSearch, tr("Search") );
    mpTabs->addTab( mpHelpText, tr("Help") );
    mpTabs->addTab( settingsButton, tr("Settings") );
-   mpTabs->addTab( new AboutWidget( this ), tr("About") );
+   mpTabs->addTab( about, tr("About") );
    mpTabs->setCurrentIndex( settings.value("CurrentTab", mpTabs->count()-1).toInt() );
    splitter->addWidget( mpPlaylistContent );
    splitter->addWidget( mpTabs );

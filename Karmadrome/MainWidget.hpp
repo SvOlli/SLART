@@ -19,6 +19,7 @@ class QMenu;
 class QLineEdit;
 class QAction;
 class ButtonsWidget;
+class ConfigDialog;
 
 
 class MainWidget : public QWidget
@@ -36,6 +37,9 @@ public slots:
    void handleAdd();
    void handleRemove( QAction *action );
    void handleSettings();
+   void handleReadButton();
+   void handleWriteButton();
+   void labelReadWriteButtons();
 
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
@@ -45,12 +49,15 @@ private:
    MainWidget &operator=( const MainWidget &other );
 
    QLineEdit      *mpFileName;
+   QPushButton    *mpReadButton;
+   QPushButton    *mpWriteButton;
    ButtonsWidget  *mpListButtons;
 
    QPushButton    *mpSettingsButton;
    QPushButton    *mpAddButton;
    QPushButton    *mpRemoveButton;
    QMenu          *mpRemoveMenu;
+   ConfigDialog   *mpConfigDialog;
 
    SLARTCom       mSLARTCom;
    QStringList    mPlaylists;

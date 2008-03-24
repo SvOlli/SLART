@@ -6,7 +6,7 @@
  */
 
 #ifndef ABOUTWIDGET_HPP
-#define ABOUTWIDGET_HPP 1
+#define ABOUTWIDGET_HPP ABOUTWIDGET_HPP
 
 #include <QWidget>
 class QUrl;
@@ -16,7 +16,7 @@ class AboutWidget : public QWidget
 Q_OBJECT
 
 public:
-   AboutWidget( QWidget *parent );
+   AboutWidget( QWidget *parent, const QString &aboutText = QString() );
 
 public slots:
    /* handle links from about tab (wrapper) */

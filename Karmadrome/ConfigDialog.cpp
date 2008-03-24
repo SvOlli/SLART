@@ -7,8 +7,6 @@
 
 #include "ConfigDialog.hpp"
 #include "MySettings.hpp"
-#include "ProxyWidget.hpp"
-#include "ConfigNotifyWidget.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "AboutWidget.hpp"
 
@@ -19,9 +17,7 @@
 
 ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
-, mpNotifyWidget( new ConfigNotifyWidget( this ) )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
-, mpProxyWidget( new ProxyWidget( this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    
@@ -35,32 +31,12 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
 
-   QBoxLayout *mainLayout;
+   QBoxLayout *mainLayout = new QVBoxLayout( this );
    
-   if( QApplication::desktop()->screenGeometry().height() < 600 )
-   {
-      mainLayout = new QHBoxLayout( this );
-      QVBoxLayout *tmp1Layout = new QVBoxLayout;
-      QVBoxLayout *tmp2Layout = new QVBoxLayout;
-      tmp1Layout->addWidget( mpNotifyWidget );
-      tmp1Layout->addStretch();
-      tmp2Layout->addWidget( mpGlobalConfigWidget );
-      tmp2Layout->addWidget( mpProxyWidget );
-      tmp2Layout->addStretch();
-      tmp2Layout->addWidget( about );
-      tmp2Layout->addLayout( buttonLayout );
-      mainLayout->addLayout( tmp1Layout );
-      mainLayout->addLayout( tmp2Layout );
-   }
-   else
-   {
-      mainLayout = new QVBoxLayout( this );
-      mainLayout->addWidget( mpNotifyWidget );
-      mainLayout->addWidget( mpGlobalConfigWidget );
-      mainLayout->addWidget( mpProxyWidget );
-      mainLayout->addWidget( about );
-      mainLayout->addLayout( buttonLayout );
-   }
+   mainLayout->addWidget( mpGlobalConfigWidget );
+   mainLayout->addWidget( about );
+   mainLayout->addLayout( buttonLayout );
+   
    setLayout( mainLayout );
 
    connect( okButton, SIGNAL(clicked()),
@@ -85,9 +61,7 @@ void ConfigDialog::exec()
 
 void ConfigDialog::readSettings()
 {
-   mpNotifyWidget->readSettings();
    mpGlobalConfigWidget->readSettings();
-   mpProxyWidget->readSettings();
    
    emit configChanged();
 }
@@ -95,9 +69,7 @@ void ConfigDialog::readSettings()
 
 void ConfigDialog::writeSettings()
 {
-   mpNotifyWidget->writeSettings();
    mpGlobalConfigWidget->writeSettings();
-   mpProxyWidget->writeSettings();
 
    emit configChanged();
 }

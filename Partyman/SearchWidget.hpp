@@ -6,7 +6,7 @@
  */
 
 #ifndef SEARCHWIDGET_HPP
-#define SEARCHWIDGET_HPP 1
+#define SEARCHWIDGET_HPP SEARCHWIDGET_HPP
 
 #include <QWidget>
 

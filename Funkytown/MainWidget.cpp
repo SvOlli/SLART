@@ -10,7 +10,7 @@
 #include <QtGui>
 #include <QtNetwork>
 #include "MainWidget.hpp"
-#include "SetupDialog.hpp"
+#include "ConfigDialog.hpp"
 #include "MySettings.hpp"
 #include "DownloadHandler.hpp"
 #include "PostDownloadHandlerHTML.hpp"
@@ -29,8 +29,8 @@ MainWidget::MainWidget( QWidget *parent )
 , mpNameText( new QLabel( tr("URL:"), this ) )
 , mpNameInput( new QLineEdit( this ) )
 , mpGoButton( new QPushButton( this ) )
-, mpSetupButton( new QPushButton( tr("Setup / Log"), this ) )
-, mpSetupDialog( new SetupDialog( this ) )
+, mpSetupButton( new QPushButton( tr("Settings / Log"), this ) )
+, mpConfigDialog( new ConfigDialog( this ) )
 {
    char cwd[PATH_MAX];
    MySettings settings;
@@ -78,12 +78,12 @@ MainWidget::MainWidget( QWidget *parent )
    connect( mpDirButton, SIGNAL(clicked()), this, SLOT(setDownloadDir()) );
    connect( mpGoButton,  SIGNAL(clicked()), this, SLOT(downloadUserPage()) );
    connect( mpNameInput, SIGNAL(returnPressed()), this, SLOT(downloadUserPage()) );
-   connect( mpSetupButton, SIGNAL(clicked()), this, SLOT(showSetupDialog()) );
+   connect( mpSetupButton, SIGNAL(clicked()), this, SLOT(showConfigDialog()) );
    connect( gpDownloadHandler, SIGNAL(downloadActive(bool)), this, SLOT(downloadActive(bool)) );
-   connect( gpDownloadHandler, SIGNAL(errorMessage(const QString&)), mpSetupDialog, SLOT(logMessage(const QString&)) );
+   connect( gpDownloadHandler, SIGNAL(errorMessage(const QString&)), mpConfigDialog, SLOT(logMessage(const QString&)) );
 //   if( parent )
 //   {
-//      connect( parent, SIGNAL(aboutToQuit()), mpSetupDialog, SLOT(gotCloseSignal()) );
+//      connect( parent, SIGNAL(aboutToQuit()), mpConfigDialog, SLOT(gotCloseSignal()) );
 //   }
    setAcceptDrops( true );
 }
@@ -132,7 +132,7 @@ void MainWidget::downloadUserPage( const QString &name )
       return;
 
    downloadActive( true );
-   gpDownloadHandler->setProxy( mpSetupDialog->proxyWidget() );
+   gpDownloadHandler->setProxy( mpConfigDialog->proxyWidget() );
    
    if( url.endsWith( ".mp3", Qt::CaseInsensitive ) )
    {
@@ -150,13 +150,13 @@ void MainWidget::downloadUserPage( const QString &name )
 }
 
 
-void MainWidget::showSetupDialog()
+void MainWidget::showConfigDialog()
 {
    mpSetupButton->setDisabled( true );
    QCoreApplication::processEvents();
-   mpSetupDialog->proxyWidget()->readSettings();
-   mpSetupDialog->exec();
-   mpSetupDialog->proxyWidget()->writeSettings();
+   mpConfigDialog->proxyWidget()->readSettings();
+   mpConfigDialog->exec();
+   mpConfigDialog->proxyWidget()->writeSettings();
    mpSetupButton->setDisabled( false );
 }
 
@@ -164,7 +164,7 @@ void MainWidget::showSetupDialog()
 void MainWidget::downloadActive( bool active )
 {
    mpDirButton->setDisabled( active );
-   mpSetupDialog->proxyWidget()->updateWidgets( active );
+   mpConfigDialog->proxyWidget()->updateWidgets( active );
    if( active )
    {
       mpGoButton->setText( tr("ADD!") );

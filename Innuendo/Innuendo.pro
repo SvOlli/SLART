@@ -21,6 +21,9 @@ SOURCES += MainWindow.cpp
 HEADERS += MainWidget.hpp 
 SOURCES += MainWidget.cpp 
 
+HEADERS += AboutWidget.hpp
+SOURCES += AboutWidget.cpp
+
 HEADERS += ExecButton.hpp 
 SOURCES += ExecButton.cpp 
 

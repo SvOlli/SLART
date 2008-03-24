@@ -6,7 +6,7 @@
  */
 
 #ifndef FILESYSTREEMODEL_HPP
-#define FILESYSTREEMODEL_HPP 1
+#define FILESYSTREEMODEL_HPP FILESYSTREEMODEL_HPP
 
 #include <QWidget>
 #include <QAbstractItemModel>

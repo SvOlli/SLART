@@ -6,7 +6,7 @@
  */
 
 #ifndef PLAYLISTWIDGET_HPP
-#define PLAYLISTWIDGET_HPP 1
+#define PLAYLISTWIDGET_HPP PLAYLISTWIDGET_HPP
 
 #include "FileSysTreeView.hpp"
 

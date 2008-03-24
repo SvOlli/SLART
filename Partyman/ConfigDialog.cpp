@@ -55,8 +55,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    mpNormalizeValue->setRange( 0.0, 1.0 );
    mpUDPListenerPort->setRange( 1, 65535 );
    mpDerMixDport->setRange( 1, 65535 );
-   mpCrossfadeTime->setRange( 0, 30 );
-   readSettings();
+   mpCrossfadeTime->setRange( 1, 30 );
    
    QGroupBox   *dmdGroup  = new QGroupBox( tr("DerMixD Settings:"), this );
    QGridLayout *dmdLayout = new QGridLayout( dmdGroup );
@@ -120,10 +119,25 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    }
    setLayout( mainLayout );
 
-   connect( mpM3uFileName, SIGNAL(clicked()), this, SLOT(setM3uFileName()) );
-   connect( okButton,      SIGNAL(clicked()), this, SLOT(accept()) );
-   connect( cancelButton,  SIGNAL(clicked()), this, SLOT(reject()) );
-   connect( this,         SIGNAL(accepted()), this, SLOT(writeSettings()) );
+   connect( mpM3uFileName, SIGNAL(clicked()),
+            this, SLOT(setM3uFileName()) );
+   connect( okButton, SIGNAL(clicked()),
+            this, SLOT(accept()) );
+   connect( cancelButton, SIGNAL(clicked()),
+            this, SLOT(reject()) );
+   connect( this, SIGNAL(accepted()),
+            this, SLOT(writeSettings()) );
+   connect( this, SIGNAL(rejected()),
+            this, SLOT(readSettings()) );
+   
+   readSettings();
+}
+
+
+void ConfigDialog::exec()
+{
+   readSettings();
+   QDialog::exec();
 }
 
 

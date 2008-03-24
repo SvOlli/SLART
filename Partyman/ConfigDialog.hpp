@@ -28,6 +28,7 @@ public:
    bool execWithDialog();
 
 public slots:
+   void exec();
    void readSettings();
    void writeSettings();
    void setM3uFileName();

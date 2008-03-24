@@ -26,7 +26,7 @@ class QLabel;
 class QLineEdit;
 class QListWidget;
 class QPushButton;
-class SetupDialog;
+class ConfigDialog;
 
 class MainWidget : public QWidget
 {
@@ -39,7 +39,7 @@ public:
 public slots:
    void setDownloadDir();
    void downloadUserPage( const QString &name = QString() );
-   void showSetupDialog();
+   void showConfigDialog();
    void downloadActive( bool downloadActive = false );
 #if 0
    void gotCloseSignal();
@@ -65,7 +65,7 @@ private:
    QLineEdit               *mpNameInput;
    QPushButton             *mpGoButton;
    QPushButton             *mpSetupButton;
-   SetupDialog             *mpSetupDialog;
+   ConfigDialog            *mpConfigDialog;
 
 };
 

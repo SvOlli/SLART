@@ -13,6 +13,9 @@
 class QTabWidget;
 class BrowseWidget;
 class SLARTComWidget;
+class QPushButton;
+class ConfigDialog;
+
 
 class MainWidget : public QWidget
 {
@@ -37,6 +40,8 @@ private:
    BrowseWidget   *mpBrowseWidget;
    SLARTComWidget *mpSLARTComWidget;
    QTabWidget     *mpTabs;
+   QPushButton    *mpSettingsButton;
+   ConfigDialog   *mpConfigDialog;
 };
 
 #endif

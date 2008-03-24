@@ -10,6 +10,7 @@
 
 #include "BrowseWidget.hpp"
 #include "SLARTComWidget.hpp"
+#include "ConfigDialog.hpp"
 #include "MySettings.hpp"
 
 
@@ -18,6 +19,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpBrowseWidget( new BrowseWidget( this ) )
 , mpSLARTComWidget( new SLARTComWidget( this ) )
 , mpTabs( new QTabWidget( this ) )
+, mpSettingsButton( new QPushButton( tr("Settings"), this ) )
+, mpConfigDialog( new ConfigDialog( this ) )
 {
    MySettings settings;
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
@@ -34,6 +37,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 
    mainLayout->addWidget( mpLogo );
    mainLayout->addWidget( mpTabs );
+   mainLayout->addWidget( mpSettingsButton );
    
    connect( mpSLARTComWidget, SIGNAL( showInFilesystem(const QString&) ),
             mpBrowseWidget, SLOT(scrollTo(const QString&)) );
@@ -41,6 +45,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT( goToFilesystem() ) );
    connect( mpTabs, SIGNAL(currentChanged(int)),
             this, SLOT(handleTabChange(int)) );
+   connect( mpSettingsButton, SIGNAL(clicked()),
+            mpConfigDialog, SLOT(exec()) );
    
    setLayout( mainLayout );
 }

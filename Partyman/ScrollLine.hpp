@@ -6,7 +6,7 @@
  */
 
 #ifndef SCROLLLINE_HPP
-#define SCROLLLINE_HPP 1
+#define SCROLLLINE_HPP SCROLLLINE_HPP
 
 #include <QLineEdit>
 

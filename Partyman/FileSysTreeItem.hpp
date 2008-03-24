@@ -6,7 +6,7 @@
  */
 
 #ifndef FILESYSITEM_HPP
-#define FILESYSITEM_HPP 1
+#define FILESYSITEM_HPP FILESYSITEM_HPP
 
 #include <QList>
 #include <QVariant>

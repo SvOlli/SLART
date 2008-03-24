@@ -19,6 +19,9 @@ SOURCES += MainWidget.cpp
 HEADERS += MySettings.hpp
 SOURCES += MySettings.cpp
 
+HEADERS += AboutWidget.hpp
+SOURCES += AboutWidget.cpp
+
 HEADERS += GlobalHandlers.hpp
 SOURCES += GlobalHandlers.cpp
 
@@ -40,8 +43,8 @@ SOURCES += PostDownloadHandlerMP3.cpp
 HEADERS += PostDownloadHandlerFLV.hpp
 SOURCES += PostDownloadHandlerFLV.cpp
 
-HEADERS += SetupDialog.hpp
-SOURCES += SetupDialog.cpp
+HEADERS += ConfigDialog.hpp
+SOURCES += ConfigDialog.cpp
 
 HEADERS += ProxyWidget.hpp
 SOURCES += ProxyWidget.cpp

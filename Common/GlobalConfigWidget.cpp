@@ -16,12 +16,15 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
 , mpClipboardLabel( new QLabel( tr("Use Clipboard: "), this ) )
 , mpClipboardSelection( new QComboBox( this ) )
 , mpAnimateViews( new QCheckBox( tr("Animate Views"), this ) )
+, mpNormalizeCase( new QCheckBox( tr("Normalize Case In Text"), this ) )
+, mpNormalizeSpaces( new QCheckBox( tr("Normalize Spaces In Text"), this ) )
 {
    QGridLayout *mainLayout = new QGridLayout( this );
    setTitle( tr("Global Settings:") );
    
    showClipboard( false );
    showAnimate( false );
+   showNormalize( false );
    
    QStringList comboBoxText;
    comboBoxText << tr("None") 
@@ -32,6 +35,8 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
    mainLayout->addWidget( mpClipboardLabel,     0, 0 );
    mainLayout->addWidget( mpClipboardSelection, 0, 1 );
    mainLayout->addWidget( mpAnimateViews,       1, 0, 1, 2 );
+   mainLayout->addWidget( mpNormalizeCase,      2, 0, 1, 2 );
+   mainLayout->addWidget( mpNormalizeSpaces,    3, 0, 1, 2 );
  
    readSettings();
    
@@ -49,6 +54,8 @@ void GlobalConfigWidget::readSettings()
    QSettings settings( QApplication::organizationName(), "Global" );
    mpClipboardSelection->setCurrentIndex( settings.value( "ClipboardMode", 0 ).toInt() );
    mpAnimateViews->setChecked( settings.value( "AnimateViews", false ).toBool() );
+   mpNormalizeCase->setChecked( settings.value("NormalizeCase", false).toBool() );
+   mpNormalizeSpaces->setChecked( settings.value("NormalizeSpaces", false).toBool() );
 }
 
 
@@ -57,6 +64,8 @@ void GlobalConfigWidget::writeSettings()
    QSettings settings( QApplication::organizationName(), "Global" );
    settings.setValue( "ClipboardMode", mpClipboardSelection->currentIndex() );
    settings.setValue( "AnimateViews",  mpAnimateViews->isChecked() );
+   settings.setValue( "NormalizeCase", mpNormalizeCase->isChecked() );
+   settings.setValue( "NormalizeSpaces", mpNormalizeSpaces->isChecked() );
 }
 
 
@@ -70,6 +79,13 @@ void GlobalConfigWidget::showClipboard( bool allow )
 void GlobalConfigWidget::showAnimate( bool allow )
 {
    mpAnimateViews->setHidden( !allow );
+}
+
+
+void GlobalConfigWidget::showNormalize( bool allow )
+{
+   mpNormalizeCase->setHidden( !allow );
+   mpNormalizeSpaces->setHidden( !allow );
 }
 
 

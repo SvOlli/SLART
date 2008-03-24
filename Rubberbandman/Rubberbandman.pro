@@ -39,8 +39,14 @@ SOURCES += MainWidget.cpp
 HEADERS += MySettings.hpp 
 SOURCES += MySettings.cpp 
 
+HEADERS += AboutWidget.hpp
+SOURCES += AboutWidget.cpp
+
 HEADERS += TagList.hpp 
 SOURCES += TagList.cpp 
+
+HEADERS += ConfigDialog.hpp 
+SOURCES += ConfigDialog.cpp 
 
 HEADERS += GlobalConfigWidget.hpp 
 SOURCES += GlobalConfigWidget.cpp 

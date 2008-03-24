@@ -27,6 +27,7 @@ public:
    static QString getClipboard();
    void showClipboard( bool allow = true );
    void showAnimate( bool allow = true );
+   void showNormalize( bool allow = true );
 
 public slots:
 
@@ -36,6 +37,8 @@ private:
    QLabel       *mpClipboardLabel;
    QComboBox    *mpClipboardSelection;
    QCheckBox    *mpAnimateViews;
+   QCheckBox    *mpNormalizeCase;
+   QCheckBox    *mpNormalizeSpaces;
 };
 
 #endif

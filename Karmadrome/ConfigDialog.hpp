@@ -39,9 +39,7 @@ private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
 
-   ConfigNotifyWidget   *mpNotifyWidget;
    GlobalConfigWidget   *mpGlobalConfigWidget;
-   ProxyWidget          *mpProxyWidget;
 };
 
 #endif

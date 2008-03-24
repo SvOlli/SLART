@@ -8,6 +8,8 @@
 #include "MainWidget.hpp"
 #include "ButtonsWidget.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
+#include "GlobalConfigWidget.hpp"
 
 #include <QtGui>
 
@@ -17,11 +19,14 @@
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpFileName( new QLineEdit( this ) )
-, mpListButtons( new ButtonsWidget( tr("Karma Lists"), this ) )
+, mpReadButton( new QPushButton( this ) )
+, mpWriteButton( new QPushButton( this ) )
+, mpListButtons( new ButtonsWidget( tr("Karma Lists:"), this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpAddButton( new QPushButton( tr("Add"), this ) )
 , mpRemoveButton( new QPushButton( tr("Remove"), this ) )
 , mpRemoveMenu( new QMenu( this ) )
+, mpConfigDialog( new ConfigDialog( this ) )
 , mSLARTCom()
 , mPlaylists( MySettings().value( "Playlists", QStringList() ).toStringList() )
 {
@@ -42,12 +47,14 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpFileName->setReadOnly( true );
    mpRemoveButton->setMenu( mpRemoveMenu );
 
-   mainLayout->addWidget( mpLogo,           0, 0, 1, 3 );
-   mainLayout->addWidget( mpFileName,       1, 0, 1, 3 );
-   mainLayout->addWidget( mpListButtons,    2, 0, 1, 3 );
-   mainLayout->addWidget( mpSettingsButton, 3, 0, 1, 1 );
-   mainLayout->addWidget( mpAddButton,      3, 1, 1, 1 );
-   mainLayout->addWidget( mpRemoveButton,   3, 2, 1, 1 );
+   mainLayout->addWidget( mpLogo,           0, 0, 1, 6 );
+   mainLayout->addWidget( mpFileName,       1, 0, 1, 6 );
+   mainLayout->addWidget( mpReadButton,     2, 0, 1, 3 );
+   mainLayout->addWidget( mpWriteButton,    2, 3, 1, 3 );
+   mainLayout->addWidget( mpListButtons,    3, 0, 1, 6 );
+   mainLayout->addWidget( mpSettingsButton, 4, 0, 1, 2 );
+   mainLayout->addWidget( mpAddButton,      4, 2, 1, 2 );
+   mainLayout->addWidget( mpRemoveButton,   4, 4, 1, 2 );
    
    setLayout( mainLayout );
    
@@ -57,10 +64,13 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(handleSettings()) );
    connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
             this, SLOT(handleSLART(QStringList)) );
-#if 0
+
    connect( &mSLARTCom, SIGNAL(updateConfig()),
-            mpConfig, SLOT(readSettings()) );
-#endif
+            mpConfigDialog, SLOT(readSettings()) );
+   connect( mpSettingsButton, SIGNAL(clicked()),
+            mpConfigDialog, SLOT(exec()) );
+   connect( mpConfigDialog, SIGNAL(configChanged()),
+            this, SLOT(labelReadWriteButtons()) );
    
    connect( mpListButtons, SIGNAL(clicked(const QString &)),
             this, SLOT(addToList(const QString &)) );
@@ -68,7 +78,12 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(handleAdd()) );
    connect( mpRemoveMenu, SIGNAL(triggered(QAction *)),
             this, SLOT(handleRemove(QAction *)) );
-   
+   connect( mpReadButton, SIGNAL(clicked()),
+            this, SLOT(handleReadButton()) );
+   connect( mpWriteButton, SIGNAL(clicked()),
+            this, SLOT(handleWriteButton()) );
+
+   labelReadWriteButtons();
    mSLARTCom.resetReceiver();
 }
 
@@ -206,4 +221,62 @@ void MainWidget::handleRemove( QAction *action )
    
    MySettings().setValue( "Playlists", mPlaylists );
    updateLists();
+}
+
+
+void MainWidget::handleReadButton()
+{
+   mpFileName->setText( GlobalConfigWidget::getClipboard() );
+}
+
+
+void MainWidget::handleWriteButton()
+{
+   GlobalConfigWidget::setClipboard( mpFileName->text() );
+}
+
+
+void MainWidget::labelReadWriteButtons()
+{
+   QSettings settings( QApplication::organizationName(), "Global" );
+   int mode = settings.value( "ClipboardMode", 0 ).toInt();
+
+   switch( mode )
+   {
+      case 1:
+      case 3:
+         mpReadButton->setText( tr("Read Selection") );
+         mpReadButton->setHidden( false );
+         break;
+      case 2:
+      case 4:
+         mpReadButton->setText( tr("Read Clipboard") );
+         mpReadButton->setHidden( false );
+         break;
+      default:
+         mpReadButton->setText( QString() );
+         mpReadButton->setHidden( true );
+         break;
+   }
+
+   switch( mode )
+   {
+      case 1:
+         mpWriteButton->setText( tr("Write Selection") );
+         mpWriteButton->setHidden( false );
+         break;
+      case 2:
+         mpWriteButton->setText( tr("Write Clipboard") );
+         mpWriteButton->setHidden( false );
+         break;
+      case 3:
+      case 4:
+         mpWriteButton->setText( tr("Write Both") );
+         mpWriteButton->setHidden( false );
+         break;
+      default:
+         mpWriteButton->setText( QString() );
+         mpWriteButton->setHidden( true );
+         break;
+   }
 }
