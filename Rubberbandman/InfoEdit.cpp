@@ -101,7 +101,11 @@ InfoEdit::InfoEdit( QWidget *parent )
    layout->setColumnStretch( 4,  1 );
    layout->setColumnStretch( 5, 81 );
 
+#if QT_VERSION < 0x040300
    layout->setMargin( 2 );
+#else
+   layout->setContentsMargins( 2, 2, 2, 2 );
+#endif
    mpGridGroupBox->setLayout(layout);
    
    QHBoxLayout *hlayout = new QHBoxLayout;
@@ -115,7 +119,11 @@ InfoEdit::InfoEdit( QWidget *parent )
    QVBoxLayout *vlayout = new QVBoxLayout;
    vlayout->addLayout( hlayout );
    vlayout->addWidget( mpGridGroupBox );
+#if QT_VERSION < 0x040300
    vlayout->setMargin( 2 );
+#else
+   vlayout->setContentsMargins( 2, 2, 2, 2 );
+#endif
    setLayout( vlayout );
    
    setMaximumHeight( vlayout->minimumSize().height() );
