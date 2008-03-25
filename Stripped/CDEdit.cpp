@@ -197,13 +197,16 @@ void CDEdit::handleEnqueueTrack()
 {
    for( int i = 1; i < 100; i++ )
    {
-      if( mpEnqueueTrack[i]->checkState() == Qt::Unchecked )
+      if( mpEnqueueTrack[i]->isEnabled() )
       {
-         mpEnqueueTrack[i]->setCheckState( Qt::Checked );
-      }
-      else
-      {
-         mpEnqueueTrack[i]->setCheckState( Qt::Unchecked );
+         if( mpEnqueueTrack[i]->checkState() == Qt::Unchecked )
+         {
+            mpEnqueueTrack[i]->setCheckState( Qt::Checked );
+         }
+         else
+         {
+            mpEnqueueTrack[i]->setCheckState( Qt::Unchecked );
+         }
       }
    }
 }
@@ -388,3 +391,8 @@ void CDEdit::trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *arti
    }
 }
 
+
+void CDEdit::ensureVisible( int tracknr )
+{
+   mpScrollArea->ensureWidgetVisible( mpTrackTitle[tracknr], 1, 1 );
+}

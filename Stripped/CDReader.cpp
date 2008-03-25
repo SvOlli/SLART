@@ -203,6 +203,7 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
       mpCDEdit->trackInfo( i, &dorip, &doenqueue, &artist, &title, 
                            &albumartist, &albumtitle, &genre, &year );
       mpCDEdit->setTrackDisabled( i, true );
+      mpCDEdit->ensureVisible( i );
       if( !dorip ) 
       {
          continue;

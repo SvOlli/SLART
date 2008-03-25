@@ -45,6 +45,7 @@ public slots:
    void update();
    void updateCDDB();
    void splitTitles();
+   void ensureVisible( int tracknr );
 
 private:
    CDEdit( const CDEdit &other );
