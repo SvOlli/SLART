@@ -33,6 +33,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpConfig( new ConfigDialog( this ) )
 , mpPlaylist( new PlaylistWidget( mpConfig, this ) )
 , mpControl( new ControlWidget( mpConfig, mpPlaylist, this ) )
+, mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 {
    mpMainWidget = this;
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
@@ -44,11 +45,10 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 #endif
    mainLayout->addWidget( mpControl );
    mainLayout->addWidget( mpPlaylist );
+   mainLayout->addSpacing( 4 );
    mpParent->setAttribute( Qt::WA_AlwaysShowToolTips, true );
    mpParent->setWindowIcon( QIcon( ":/PartymanSmile.gif" ) );
 
-   setLayout( mainLayout );
-   
    ::signal( SIGHUP,  signalHandler );
    ::signal( SIGINT,  signalHandler );
    ::signal( SIGQUIT, signalHandler );
@@ -62,8 +62,16 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpPlaylist, SLOT(addEntries(QStringList,bool)) );
    connect( mpControl, SIGNAL(requestChangeTitle(QIcon,QString)),
             this, SLOT(changeTitle(QIcon,QString)) );
-   connect( mpPlaylist, SIGNAL(playlistIsValid(bool)), mpControl, SLOT(allowConnect(bool)) );
-   connect( mpConfig, SIGNAL(configChanged()), mpPlaylist, SLOT(readM3u()) );
+   connect( mpSettingsButton, SIGNAL(clicked()),
+            mpConfig, SLOT(exec()) );
+   connect( mpConfig, SIGNAL(configChanged()),
+            mpPlaylist, SLOT(readM3u()) );
+   connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
+            mpControl, SLOT(allowConnect(bool)) );
+            
+   setLayout( mainLayout );
+   
+   mpSettingsButton->raise();
 }
 
 
@@ -108,4 +116,13 @@ void MainWidget::startUp()
    {
       mpControl->initDisconnect();
    }
+}
+
+
+void MainWidget::resizeEvent( QResizeEvent *event )
+{
+   QWidget::resizeEvent( event );
+   
+   mpSettingsButton->move( width()  - mpSettingsButton->width() - 3,
+                           height() - mpSettingsButton->height() );
 }

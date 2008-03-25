@@ -14,7 +14,6 @@
 #include <QStringList>
 
 
-class QPushButton;
 class QLabel;
 class QTabWidget;
 class QTextBrowser;

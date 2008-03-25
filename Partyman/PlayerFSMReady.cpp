@@ -21,7 +21,7 @@ PlayerFSMReady::PlayerFSMReady( PlayerWidget *playerWidget )
 bool PlayerFSMReady::enter()
 {
    mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("ready") );
-   mpPlayerWidget->mpStatusDisplay->setToolTip( QWidget::tr("right mousebutton to unload") );
+   mpPlayerWidget->mpStatusDisplay->setToolTip( QWidget::tr("right mouse button to unload") );
    mpPlayerWidget->updateTime();
    mpPlayerWidget->mpControlWidget->allowInteractive( true );
 

@@ -12,9 +12,7 @@
 #include "PlaylistWidget.hpp"
 #include "SearchWidget.hpp"
 #include "ConfigDialog.hpp"
-#include "AboutWidget.hpp"
 #include "MySettings.hpp"
-#include "Version.hpp"
 
 #include "Trace.hpp"
 
@@ -45,30 +43,19 @@ PlaylistWidget::PlaylistWidget( ConfigDialog *config, QWidget *parent, Qt::Windo
    
    QHBoxLayout *layout = new QHBoxLayout;
    QSplitter *splitter = new QSplitter( Qt::Vertical, parent );
-   AboutWidget *about  = new AboutWidget( this,
-   tr("<table align='center'><tr><td align='center'>Our hail to the new king:</td></tr>"
-   "<tr><td align='center'><a href='http://svolli.org/software/partyman/'><img src=':/PartymanSmile.gif'></a>&nbsp;"
-   "&nbsp;<a href='http://svolli.org/software/partyman/'><img src=':/PartymanWriting.gif'></a></td></tr>"
-   "<tr><td align='center'>Version " SLART_VERSION " written by Sven Oliver Moll<br>"
-   "as a part of <a href='http://svolli.org/software/slart/'>SLART</a>.</td></tr>"
-   "<tr><td align='center'>Distributed unter the terms of the <a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>.<br>"
-   "This is a frontend for <a href='http://dermixd.de/'>DerMixD</a> using <a href='about:qt'>Qt</a>."
-   "</td></tr></table>") );
-   QPushButton *settingsButton = new QPushButton( tr("Click here to open the settings dialog"), this );
    mpTabs->setTabPosition( QTabWidget::South );
    mpTabs->addTab( mpTreeView, tr("Browser") );
    mpTabs->addTab( mpSearch, tr("Search") );
    mpTabs->addTab( mpHelpText, tr("Help") );
-   mpTabs->addTab( settingsButton, tr("Settings") );
-   mpTabs->addTab( about, tr("About") );
    mpTabs->setCurrentIndex( settings.value("CurrentTab", mpTabs->count()-1).toInt() );
+   
    splitter->addWidget( mpPlaylistContent );
    splitter->addWidget( mpTabs );
    layout->addWidget( splitter );
 #if QT_VERSION < 0x040300
-   layout->setMargin( 2 );
+   layout->setMargin( 0 );
 #else
-   layout->setContentsMargins( 2, 2, 2, 2 );
+   layout->setContentsMargins( 0, 0, 0, 0 );
 #endif
    
    connect( mpTreeView, SIGNAL(context(QModelIndex)),
@@ -81,8 +68,6 @@ PlaylistWidget::PlaylistWidget( ConfigDialog *config, QWidget *parent, Qt::Windo
             this, SLOT(handleTabChange(int)) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
-   connect( settingsButton, SIGNAL(clicked()),
-            mpConfig, SLOT(exec()) );
    readConfig();
 
    mpHelpText->setOpenExternalLinks( true );
@@ -354,28 +339,9 @@ void PlaylistWidget::readM3u()
    }
    m3uFile.close();
    
-#if 0
-   /* evil hack! don't know how to reset the model data inside a view
-    */
-   {
-      int currentTab = mpTabs->currentIndex();
-      mpTabs->removeTab(0);
-      delete mpTreeView;
-      mpTreeView = new FileSysTreeView( this );
-      mpTreeView->header()->hide();
-      mpTabs->insertTab( 0, mpTreeView, tr("Browser") );
-      connect( mpTreeView, SIGNAL(context(QModelIndex)), this, SLOT(addEntries(QModelIndex)) );
-      connect( this, SIGNAL(expand(QModelIndex)), mpTreeView, SLOT(expand(QModelIndex)) );
-      mpTreeView->setModel( mpTreeModel );
-      mpTabs->setCurrentIndex( currentTab );
-      handleTabChange( currentTab );
-   }
-#else
    QModelIndex root, qmi;
    mpTreeView->setModel( mpTreeModel );
    mpTreeView->setRootIndex( root );
-#endif
-   
    
    if( mM3uData.count() > 0 )
    {

@@ -14,6 +14,7 @@
 class ConfigDialog;
 class ControlWidget;
 class PlaylistWidget;
+class QPushButton;
 
 
 class MainWidget : public QWidget
@@ -31,6 +32,10 @@ public slots:
    /* handle request for new icon and title */
    void changeTitle( const QIcon &icon, const QString &title );
 
+protected:
+   /* handle resize event to place settings button */
+   void resizeEvent( QResizeEvent *event );
+
 signals:
    /* request a new icon and title */
    void requestChangeTitle( const QIcon &icon, const QString &title );
@@ -43,6 +48,7 @@ private:
    ConfigDialog    *mpConfig;
    PlaylistWidget  *mpPlaylist;
    ControlWidget   *mpControl;
+   QPushButton     *mpSettingsButton;
 };
 
 #endif
