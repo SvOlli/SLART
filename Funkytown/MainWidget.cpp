@@ -35,6 +35,12 @@ MainWidget::MainWidget( QWidget *parent )
    char cwd[PATH_MAX];
    MySettings settings;
    
+#if QT_VERSION < 0x040300
+   mpLayout->setMargin( 3 );
+#else
+   mpLayout->setContentsMargins( 3, 3, 3, 3 );
+#endif
+   
    gpDownloadHandler         = new DownloadHandler();
    gpPostDownloadHandlerHTML = new PostDownloadHandlerHTML();
    gpPostDownloadHandlerXML  = new PostDownloadHandlerXML();

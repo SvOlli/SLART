@@ -27,6 +27,11 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mSLARTCom()
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
+#if QT_VERSION < 0x040300
+   mainLayout->setMargin( 3 );
+#else
+   mainLayout->setContentsMargins( 3, 3, 3, 3 );
+#endif
 
    QStringList applications;
    applications << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome";
