@@ -2,33 +2,34 @@
 <hr>
 [<a href="#dermixd">DerMixD</a>]
 [<a href="#partyman">Partyman</a>]
+[<a href="#global">Global</a>]
 [<a href="#commandline">Command Line</a>]
 <hr>
-The settings screen is available via the red link on
+<p>The settings screen is available via the red link on
 the about tab. It will also pop up automatically if
 the m3u file containing the database is either not set
-or not found.
-<hr><br>
-<a name="dermixd"><b>DerMixD Parameters:</b></a>
+or not found.</p>
+<hr>
+<p><a name="dermixd"><b>DerMixD Settings:</b></a>
 <dl>
  <dt>Start/Stop via Partyman:</dt>
  <dd>Check this if you want DerMixD to be started
  during the initiation of the connection.</dd>
  <dt>Command:</dt>
  <dd>The command to run DerMixD.</dd>
- <dt>Parameters:</dt>
+ <dt>Settings:</dt>
  <dd>The parameters to start DerMixD with<br>
  (Note: "-c" and "-p port" will be always added.)</dd>
  <dt>Hostname:</dt>
  <dd>The name of the host DerMixD runs on.</dd>
  <dt>Port:</dt>
  <dd>The port DerMixD listens on.</dd>
- <dt>Log communications to stdout</dt>
+ <dt>Log communications to stdout:</dt>
  <dd>Write the communication of Partyman and DerMixD
  to stdout (mainly used for debugging purposes).</dd>
-</dl>
-<hr><br>
-<a name="partyman"><b>Partyman Parameters:</b></a>
+</dl></p>
+<hr>
+<p><a name="partyman"><b>Partyman Settings:</b></a>
 <dl>
  <dt>Connect On Startup</dt>
  <dd>Check this if you're too lazy to press the
@@ -47,7 +48,7 @@ or not found.
  <a href="#commandline">Command Line Parameters</a>).
  This switch activates this communication.</dd>
  <dt>Normalization:</dt>
- <dd>DerMixD, starting with svn version #399, can
+ <dd>DerMixD, starting with version 1.4.0, can
  analyse the volume of a track, either by peak or
  by a power algorithm. Using this feature, Partyman
  can automatically set the volume, so that each track
@@ -62,14 +63,26 @@ or not found.
  <dt>Database File:</dt>
  <dd>The m3u file used as the database of all known
  audio tracks.</dd>
-</dl>
-<hr><br>
-<a name="commandline"><b>Command Line Parameters:</b></a>
+</dl></p>
+<hr>
+<p><a name="global"><b>Partyman Settings:</b></a>
+<dl>
+ These settings are shared between all SLART applications.
+ <dt>Use Clipboard:</dt>
+ <dd>Clicking on a track name copies the filename of the
+ track automatically to the clipboard or the selection buffer,
+ according to this setting.</dd>
+ <dt>Animate Views:</dt>
+ <dd>This activates the animation of the tree in the browse
+ window.</dd>
+</dl></p>
+<hr>
+<p><a name="commandline"><b>Command Line Settings:</b></a>
 <dl><dt>
 If <a href="#slart">SLART UDP communication</a> is activated,
 all parameters from the command line are added to the playlist,
 if these files exists and an instance of Partyman is already
 running.
-</dt></dl>
+</dt></dl></p>
 <hr>
 [<a href="Usage.html">Usage</a>] [<b>Settings</b>]
