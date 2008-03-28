@@ -98,15 +98,16 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    QBoxLayout *mainLayout;
    AboutWidget *about  = new AboutWidget( this,
    tr("<table align='center'><tr><td align='center'>Our hail to the new king:</td></tr>"
-   "<tr><td align='center'><a href='http://svolli.org/software/partyman/'><img src=':/PartymanSmile.gif'></a>&nbsp;"
-   "&nbsp;<a href='http://svolli.org/software/partyman/'><img src=':/PartymanWriting.gif'></a></td></tr>"
-   "<tr><td align='center'>Version " SLART_VERSION " written by Sven Oliver Moll "
-   "as a part of <a href='http://svolli.org/software/slart/'>SLART</a>.</td></tr>"
-   "<tr><td align='left'>Distributed unter the terms of the <a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>.</td></tr>"
-   "<tr><td align='right'>This is a frontend for <a href='http://dermixd.de/'>DerMixD</a> using <a href='about:qt'>Qt</a>."
-   "</td></tr></table>") );
+   "<tr><td align='center'><a href='http://svolli.org/software/partyman/'>"
+   "<img src=':/PartymanSmile.gif'></a>&nbsp;&nbsp;<a href='http://svolli.org/software/partyman/'>"
+   "<img src=':/PartymanWriting.gif'></a></td></tr><tr><td align='center'>Version " SLART_VERSION
+   " written by Sven Oliver Moll as a part of <a href='http://svolli.org/software/slart/'>SLART</a>"
+   ".</td></tr><tr><td align='left'>Distributed unter the terms of the "
+   "<a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>.</td></tr><tr><td align='center'>"
+   "This is a frontend for <a href='http://dermixd.de/'>DerMixD</a>.</td></tr>"
+   "<tr><td align='right'>Based upon the <a href='about:qt'>Qt</a> framework.</td></tr></table>") );
    
-   if( QApplication::desktop()->screenGeometry().height() < 600 )
+   if( QApplication::desktop()->screenGeometry().height() < 800 )
    {
       mainLayout = new QHBoxLayout( this );
       QVBoxLayout *tmpLayout1 = new QVBoxLayout;
