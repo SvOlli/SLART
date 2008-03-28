@@ -22,6 +22,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    
    AboutWidget *about = new AboutWidget( this );
+   mpGlobalConfigWidget->showClipboard();
    mpGlobalConfigWidget->showAnimate();
    mpGlobalConfigWidget->showNormalize();
    

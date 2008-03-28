@@ -28,7 +28,7 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
    filterNames << "*.mp3" << "*.ogg";
    mpModel->setNameFilters( filterNames );
    mpModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files );
-   mpModel->setSorting( QDir::Name | QDir::DirsFirst | QDir::IgnoreCase | QDir::LocaleAware );
+   mpModel->setSorting( QDir::Name | QDir::DirsFirst | QDir::IgnoreCase /*| QDir::LocaleAware*/ );
    mpModel->setLazyChildCount( true );
    mpView->setContextMenuPolicy( Qt::CustomContextMenu );
    
