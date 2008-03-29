@@ -13,6 +13,7 @@
 #include "FileSysBrowser.hpp"
 #include "InfoEdit.hpp"
 #include "GlobalConfigWidget.hpp"
+#include "MySettings.hpp"
 
 #include "Trace.hpp"
 
@@ -59,7 +60,8 @@ void SLARTComWidget::handleSLART( const QStringList &message )
 
 void SLARTComWidget::handleNowPlaying()
 {
-   GlobalConfigWidget::setClipboard( mpInfoEdit->tagsFileName( "NP: |$ARTIST| - |$TITLE|", false ) );
+   GlobalConfigWidget::setClipboard( mpInfoEdit->tagsFileName( 
+      MySettings().value("PlayingPattern", "NP: |$ARTIST| - |$TITLE|").toString(), false ) );
 }
 
 

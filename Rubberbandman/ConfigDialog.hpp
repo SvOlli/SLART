@@ -9,6 +9,7 @@
 #define CONFIGDIALOG_HPP CONFIGDIALOG_HPP
 
 #include <QDialog>
+#include "TagList.hpp"
 class QSpinBox;
 class QLabel;
 class QLineEdit;
@@ -29,6 +30,9 @@ public:
 
 public slots:
    void exec();
+   void updateWithTrackNr( const QString &text );
+   void updateWithoutTrackNr( const QString &text );
+   void updatePlayingPattern( const QString &text );
    void readSettings();
    void writeSettings();
 
@@ -40,6 +44,16 @@ private:
    ConfigDialog &operator=( const ConfigDialog &other );
 
    GlobalConfigWidget   *mpGlobalConfigWidget;
+   QLabel               *mpWithTrackNrLabel;
+   QLineEdit            *mpWithTrackNr;
+   QLabel               *mpWithTrackNrExample;
+   QLabel               *mpWithoutTrackNrLabel;
+   QLineEdit            *mpWithoutTrackNr;
+   QLabel               *mpWithoutTrackNrExample;
+   QLabel               *mpPlayingPatternLabel;
+   QLineEdit            *mpPlayingPattern;
+   QLabel               *mpPlayingPatternExample;
+   TagList              mTagList;
 };
 
 #endif

@@ -11,6 +11,7 @@
 #include <tag.h>
 
 #include "InfoEdit.hpp"
+#include "MySettings.hpp"
 #include "Trace.hpp"
 
 #define MODE_NOTHING     0
@@ -435,11 +436,11 @@ TRACEMSG << mFileName;
    
    if( mpEditTrackNr->text().isEmpty() )
    {
-      newname = mTagList.fileName( "|$ARTIST| - |$TITLE|" );
+      newname = mTagList.fileName( MySettings().value("WithoutTrackNr", "|$ARTIST| - |$TITLE|").toString() );
    }
    else
    {
-      newname = mTagList.fileName( "(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" );
+      newname = mTagList.fileName( MySettings().value("WithTrackNr", "(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|").toString() );
    }
    
    QString newpath( qfi.absolutePath() + "/" + newname + "." + qfi.suffix().toLower() );
