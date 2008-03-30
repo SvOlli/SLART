@@ -33,7 +33,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    
    mTagList.set("TRACKNUMBER","1");
    mTagList.set("ALBUMARTIST","AlbumArtist");
-   mTagList.set("ALBUMTITLE","AlbumTitle");
+   mTagList.set("ALBUM","Album");
    mTagList.set("ARTIST","Artist");
    mTagList.set("TITLE","Title");
    mTagList.set("GENRE","Genre");
