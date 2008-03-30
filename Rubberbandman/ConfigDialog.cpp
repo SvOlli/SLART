@@ -39,7 +39,6 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    mTagList.set("GENRE","Genre");
    mTagList.set("Year","1986");
    
-   
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showClipboard();
    mpGlobalConfigWidget->showAnimate();

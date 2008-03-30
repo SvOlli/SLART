@@ -29,11 +29,17 @@ public:
    QString fileName();
 
 public slots:
+   /* load tags from a file */
    void load( const QString &fullpath = QString() );
-   void setSave();
-   void normalizeArtist();
-   void normalizeTitle();
+   /* handle save button */
+   void handleSetSave();
+   /* handle norm. artist button */
+   void handleNormalizeArtist();
+   /* handle norm. title button */
+   void handleNormalizeTitle();
+   /* handle cancel button */
    void handleCancel();
+   /* enable save button */
    void handleChange();
 
 signals:
@@ -42,8 +48,12 @@ signals:
 private:
    InfoEdit( const InfoEdit &other );
    InfoEdit &operator=( const InfoEdit &other );
+
+   /* normalize a line edit field */
    void normalize( QLineEdit *lineEdit );
+   /* save the currently edited tags */
    void saveFile();
+   /* walk through the directory tree */
    void recurse( const QDir &dir, bool isBase = true );
 
    QPushButton *mpButtonSet;

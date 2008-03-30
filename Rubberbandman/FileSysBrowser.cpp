@@ -74,8 +74,6 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
    mpView->setAnimated( true );
    connect( mpView, SIGNAL(clicked(const QModelIndex&)),
             this, SLOT(entryClicked(const QModelIndex&)) );
-   connect( this, SIGNAL(clickedDir(const QString&)),
-            mpRootDir, SLOT( setText(const QString&)) );
    connect( mpRootDir, SIGNAL(returnPressed()),
             this, SLOT(handleRootDir()) );
    connect( mpSetButton, SIGNAL(clicked()),
@@ -95,7 +93,7 @@ void FileSysBrowser::entryClicked( const QModelIndex &index )
    
    if( QFileInfo( path ).isDir() )
    {
-      emit clickedDir( path );
+      mpRootDir->setText( path );
       mpTimer->start();
    }
    emit clicked( path );

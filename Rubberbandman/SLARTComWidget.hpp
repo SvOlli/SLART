@@ -25,12 +25,17 @@ public:
    SLARTComWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
+   /* handle SLART message to read tags of current track */
    void handleSLART( const QStringList &message );
+   /* handle the now playing button */
    void handleNowPlaying();
+   /* handle the show in filesystem button */
    void handleShowInFilesystem();
+   /* restart SLART receiver */
    void readConfig();
 
 signals:
+   /* emit track path from show in filesystem button */
    void showInFilesystem( const QString &path );
 
 private:

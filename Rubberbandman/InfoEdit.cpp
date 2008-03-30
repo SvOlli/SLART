@@ -131,11 +131,11 @@ InfoEdit::InfoEdit( QWidget *parent )
    load(QString());
    
    connect( mpButtonSet, SIGNAL(clicked()),
-            this, SLOT(setSave()) );
+            this, SLOT(handleSetSave()) );
    connect( mpButtonNormArtist, SIGNAL(clicked()),
-            this, SLOT(normalizeArtist()) );
+            this, SLOT(handleNormalizeArtist()) );
    connect( mpButtonNormTitle,  SIGNAL(clicked()),
-            this, SLOT(normalizeTitle()) );
+            this, SLOT(handleNormalizeTitle()) );
    connect( mpEditArtist, SIGNAL(textChanged(const QString&)),
             this, SLOT(handleChange()) );
    connect( mpEditTitle, SIGNAL(textChanged(const QString&)),
@@ -251,7 +251,7 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
 }
 
 
-void InfoEdit::normalizeArtist()
+void InfoEdit::handleNormalizeArtist()
 {
    if( mIsFile )
    {
@@ -266,7 +266,7 @@ void InfoEdit::normalizeArtist()
 }
 
 
-void InfoEdit::normalizeTitle()
+void InfoEdit::handleNormalizeTitle()
 {
    if( mIsFile )
    {
@@ -383,10 +383,10 @@ TRACEMSG << "mIsValid" << mIsValid << "mIsFile" << mIsFile;
 #endif
 }
 
-void InfoEdit::setSave()
+void InfoEdit::handleSetSave()
 {
 #if 0
-TRACESTART(InfoEdit::setSave)
+TRACESTART(InfoEdit::handleSetSave)
 TRACEMSG << mIsValid << mIsFile;
 #endif
    if( mIsValid )

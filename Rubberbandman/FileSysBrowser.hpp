@@ -28,16 +28,22 @@ public:
    FileSysBrowser( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
+   /* get the index of clicked entry */
    void entryClicked( const QModelIndex &index );
+   /* change the root dir */
    void handleRootDir();
+   /* handle dir up button */
    void handleDotButton();
+   /* handle the set-back timer */
    void handleTimer();
+   /* show a filename in browser */
    void scrollTo( const QString &fileName );
+   /* handle right mouse button (send track name to Partyman) */
    void contextMenu( const QPoint &pos );
 
 signals:
+   /* emit the path of clicked entry */
    void clicked( const QString &path );
-   void clickedDir( const QString &path );
 
 private:
    FileSysBrowser( const FileSysBrowser &other );

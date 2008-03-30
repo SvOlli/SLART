@@ -26,6 +26,7 @@ public:
    bool shutdown();
 
 public slots:
+   /* switch to filesystem tab */
    void goToFilesystem();
    /* save current tab for restart */
    void handleTabChange( int tabNr );

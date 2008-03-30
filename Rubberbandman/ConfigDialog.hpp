@@ -29,12 +29,18 @@ public:
    ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
+   /* show dialog */
    void exec();
-   void updateWithTrackNr( const QString &text );
-   void updateWithoutTrackNr( const QString &text );
-   void updatePlayingPattern( const QString &text );
+   /* read settings from storage */
    void readSettings();
+   /* write settings to storage */
    void writeSettings();
+   /* update example */
+   void updateWithTrackNr( const QString &text );
+   /* update example */
+   void updateWithoutTrackNr( const QString &text );
+   /* update example */
+   void updatePlayingPattern( const QString &text );
 
 signals:
    void configChanged();
