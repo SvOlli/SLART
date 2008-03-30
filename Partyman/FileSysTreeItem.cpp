@@ -11,10 +11,11 @@
 #include <QVariant>
 
 
-FileSysTreeItem::FileSysTreeItem(const QVariant &data, FileSysTreeItem *parent)
+FileSysTreeItem::FileSysTreeItem( const QVariant &data, FileSysTreeItem *parent )
+: mpParentItem( parent )
+, mItemData( data )
+, mChildItems()
 {
-   mpParentItem = parent;
-   mItemData = data;
 }
 
 

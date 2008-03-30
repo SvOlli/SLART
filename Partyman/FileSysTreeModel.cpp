@@ -27,7 +27,7 @@ FileSysTreeModel::~FileSysTreeModel()
 }
 
 
-QVariant FileSysTreeModel::data(const QModelIndex &index, int role) const
+QVariant FileSysTreeModel::data( const QModelIndex &index, int role ) const
 {
    if (!index.isValid())
    {
@@ -39,13 +39,13 @@ QVariant FileSysTreeModel::data(const QModelIndex &index, int role) const
       return QVariant();
    }
 
-   FileSysTreeItem *item = static_cast<FileSysTreeItem*>(index.internalPointer());
+   FileSysTreeItem *item = static_cast<FileSysTreeItem*>( index.internalPointer() );
 
    return item->data();
 }
 
 
-Qt::ItemFlags FileSysTreeModel::flags(const QModelIndex &/*index*/) const
+Qt::ItemFlags FileSysTreeModel::flags( const QModelIndex &/*index*/ ) const
 {
 #if 0
    if (!index.isValid())

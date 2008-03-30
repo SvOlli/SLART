@@ -44,6 +44,7 @@ public:
    void log( const QString &udpEvent, const QString &logEvent, const QString &data = QString() );
    
 private:
+   /* save the current tracks for restart */
    void saveTracks();
 
 public slots:

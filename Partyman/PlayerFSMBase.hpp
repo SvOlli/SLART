@@ -24,7 +24,7 @@ public:
    virtual bool enter() = 0;
    /* called when state is left */
    virtual void leave() = 0;
-   /* called when DerMixD sends some output, returns success */
+   /* called when DerMixD sends some output, returns state change request */
    virtual PlayerFSM::tState handleDerMixD( const QString &msg ) = 0;
 
 private:

@@ -25,10 +25,13 @@ protected:
    virtual void keyPressEvent( QKeyEvent *event );
 
 signals:
+   /* emit the request for enqueueing */
    void context( const QModelIndex &index );
 
 private slots:
+   /* emit add request if the index represents a file */
    void addIfFile( const QModelIndex &index );
+   /* set the tool tip if an entry is truncated */
    void setToolTip( const QModelIndex &index );
 
 private:

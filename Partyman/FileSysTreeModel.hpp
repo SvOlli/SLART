@@ -22,15 +22,25 @@ public:
    FileSysTreeModel( QObject *parent = 0 );
    virtual ~FileSysTreeModel();
 
+   /* clear the complete model */
    void clear();
-   QVariant data(const QModelIndex &index, int role) const;
+   /* return the data of an index */
+   QVariant data( const QModelIndex &index, int role ) const;
+   /* set item flags to enabled */
    Qt::ItemFlags flags(const QModelIndex &index) const;
-   QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+   /* return index of a specific point */
+   QModelIndex index( int row, int column, const QModelIndex &parent = QModelIndex() ) const;
+   /* return parent of an index */
    QModelIndex parent(const QModelIndex &index) const;
-   int rowCount(const QModelIndex &parent = QModelIndex()) const;
-   int columnCount(const QModelIndex &parent = QModelIndex()) const;
+   /* return number of rows of an index */
+   int rowCount( const QModelIndex &parent = QModelIndex() ) const;
+   /* return number of columns of an index */
+   int columnCount( const QModelIndex &parent = QModelIndex() ) const;
+   /* set the complete model data */
    void setModelData( const QStringList &filenames );
+   /* add one data */
    void addModelData( const QString &filename );
+   /* get the full path of an index */
    QString getPath( const QModelIndex &index ) const;
 
 private:

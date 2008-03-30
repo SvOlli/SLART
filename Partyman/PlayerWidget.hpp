@@ -91,7 +91,6 @@ private:
    PlayerWidget( const PlayerWidget &other );
    PlayerWidget &operator=( const PlayerWidget &other );
    
-   
    /* convert seconds to a 0:00 timecode */
    static QString sec2minsec( const QString &seconds );
    /* send a command to DerMixD */
