@@ -21,8 +21,17 @@ SOURCES += MainWindow.cpp
 HEADERS += MainWidget.hpp 
 SOURCES += MainWidget.cpp 
 
+HEADERS += ConfigDialog.hpp 
+SOURCES += ConfigDialog.cpp 
+
+HEADERS += GlobalConfigWidget.hpp 
+SOURCES += GlobalConfigWidget.cpp 
+
 HEADERS += MySettings.hpp 
 SOURCES += MySettings.cpp 
+
+HEADERS += AboutWidget.hpp
+SOURCES += AboutWidget.cpp
 
 HEADERS += CDReader.hpp 
 SOURCES += CDReader.cpp 

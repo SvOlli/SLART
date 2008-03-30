@@ -12,9 +12,8 @@
 #include "CDReader.hpp"
 #include "CDToc.hpp"
 #include "CDEdit.hpp"
-#include "OggEncoder.hpp"
-#include "RawEncoder.hpp"
 #include "CDDB.hpp"
+#include "ConfigDialog.hpp"
 #include "MySettings.hpp"
 
 #include "Trace.hpp"
@@ -27,22 +26,17 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpCDDB( new CDDB( mpToc, this ) )
 , mpCDEdit( new CDEdit( mpToc, mpCDDB, this ) )
 , mpCDReader( new CDReader( mpToc, mpCDEdit, this ) )
+, mpConfigDialog( new ConfigDialog( mpCDReader, this ) )
+, mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpCancelButton( new QPushButton( tr("Cancel"), this ) )
 , mpButtonLayout( new QHBoxLayout() )
-, mpDevicesBox( new QComboBox( this ) )
 , mpTocButton( new QPushButton( tr("Read Toc"), this ) )
 , mpCDTextButton( new QPushButton( tr("Read CDText"), this ) )
 , mpRipButton( new QPushButton( tr("Rip Tracks"), this ) )
 , mpEjectButton( new QPushButton( tr("Eject"), this ) )
-, mpEncodersBox( new QComboBox( this ) )
-, mEncoders()
 {
-   int i;
    char cwd[PATH_MAX];
    MySettings settings;
-
-   mEncoders.append( new OggEncoder( this ) );
-   mEncoders.append( new RawEncoder( this ) );
 
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
 #if QT_VERSION < 0x040300
@@ -67,25 +61,14 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpDirButton->setText( settings.value("Directory", targetDir).toString() );
    chdir( mpDirButton->text().toLocal8Bit().constData() );
 
-   connect( mpDevicesBox, SIGNAL(currentIndexChanged(QString)),
-            mpCDReader, SLOT(setDevice(QString)) );
-   connect( mpEncodersBox, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(changeEncoder(int)) );
    mpCancelButton->setDisabled( true );
+   mpButtonLayout->addWidget( mpSettingsButton );
    mpButtonLayout->addWidget( mpCancelButton );
-   mpButtonLayout->addWidget( mpDevicesBox );
    mpButtonLayout->addWidget( mpTocButton );
    mpButtonLayout->addWidget( mpCDTextButton );
    mpButtonLayout->addWidget( mpRipButton );
    mpButtonLayout->addWidget( mpEjectButton );
-   mpButtonLayout->addWidget( mpEncodersBox );
-   for( i = 0; i < mEncoders.size(); i++ )
-   {
-      mpButtonLayout->addWidget( mEncoders.at(i) );
-      mpEncodersBox->addItem( mEncoders.at(i)->name );
-   }
-   mpCDReader->getDevices( mpDevicesBox );
-   
+
    mainLayout->addWidget( mpLogo );
    mainLayout->addLayout( pathLayout );
    mainLayout->addWidget( mpCDDB );
@@ -95,6 +78,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    
    setLayout( mainLayout );
 
+   connect( mpSettingsButton, SIGNAL(pressed()),
+            mpConfigDialog, SLOT(exec()) );
    connect( mpTocButton, SIGNAL(pressed()),
             mpCDReader, SLOT(readToc()) );
    connect( mpCDTextButton, SIGNAL(pressed()),
@@ -117,16 +102,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(working()) );
    connect( mpCDReader, SIGNAL(stopping()),
             this, SLOT(finished()) );
-}
-
-
-void MainWidget::changeEncoder( int id )
-{
-   mpCDReader->setEncoder( mEncoders.at(id) );
-   for( int i = 0; i < mEncoders.size(); i++ )
-   {
-      mEncoders.at(i)->setHidden( i != id );
-   }
 }
 
 
@@ -165,33 +140,21 @@ void MainWidget::eject()
 
 void MainWidget::working( bool allowCancel )
 {
-   int i;
    mpCancelButton->setDisabled( !allowCancel );
-   mpDevicesBox->setDisabled( true );
+   mpSettingsButton->setDisabled( true );
    mpTocButton->setDisabled( true );
    mpCDTextButton->setDisabled( true );
    mpRipButton->setDisabled( true );
    mpEjectButton->setDisabled( allowCancel );
-   mpEncodersBox->setDisabled( true );
-   for( i = 0; i < mEncoders.size(); i++ )
-   {
-      mEncoders.at(i)->setDisabled( true );
-   }
 }
 
 
 void MainWidget::finished()
 {
-   int i;
    mpCancelButton->setDisabled( true );
-   mpDevicesBox->setDisabled( false );
+   mpSettingsButton->setDisabled( false );
    mpTocButton->setDisabled( false );
    mpCDTextButton->setDisabled( false );
    mpRipButton->setDisabled( false );
    mpEjectButton->setDisabled( false );
-   mpEncodersBox->setDisabled( false );
-   for( i = 0; i < mEncoders.size(); i++ )
-   {
-      mEncoders.at(i)->setDisabled( false );
-   }
 }

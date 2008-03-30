@@ -15,10 +15,10 @@ class CDReader;
 class CDToc;
 class CDDB;
 class CDEdit;
-class Encoder;
 class QComboBox;
 class QPushButton;
 class QHBoxLayout;
+class ConfigDialog;
 
 
 class MainWidget : public QWidget
@@ -29,7 +29,6 @@ public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
-   void changeEncoder( int id );
    void setDownloadDir();
    void eject();
    void working( bool allowCancel = true );
@@ -48,15 +47,14 @@ private:
    CDDB            *mpCDDB;
    CDEdit          *mpCDEdit;
    CDReader        *mpCDReader;
+   ConfigDialog    *mpConfigDialog;
+   QPushButton     *mpSettingsButton;
    QPushButton     *mpCancelButton;
    QHBoxLayout     *mpButtonLayout;
-   QComboBox       *mpDevicesBox;
    QPushButton     *mpTocButton;
    QPushButton     *mpCDTextButton;
    QPushButton     *mpRipButton;
    QPushButton     *mpEjectButton;
-   QComboBox       *mpEncodersBox;
-   QList<Encoder*> mEncoders;
 };
 
 #endif

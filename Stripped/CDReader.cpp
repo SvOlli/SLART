@@ -12,6 +12,7 @@
 #include <QtGui>
 #include "Trace.hpp"
 #include "Encoder.hpp"
+#include "MySettings.hpp"
 #include "TagList.hpp"
 
 
@@ -175,6 +176,8 @@ void CDReader::readTracks()
    int sector;
    char *buffer = 0;
    mCancel = false;
+   QString createPattern( MySettings().value("CreatePattern",
+                          "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|").toString() );
    
    QString artist, title, albumartist, albumtitle, genre;
    bool dorip, doenqueue;
@@ -221,7 +224,7 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
       
       int firstSector = mpToc->firstSector( i );
       int lastSector  = mpToc->lastSector( i );
-      QString fileName( tagList.fileName( "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ) );
+      QString fileName( tagList.fileName( createPattern ) );
       
       mpEncoder->initialize( fileName );
       
