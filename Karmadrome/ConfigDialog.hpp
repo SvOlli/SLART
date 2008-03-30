@@ -43,6 +43,8 @@ private:
    ConfigDialog &operator=( const ConfigDialog &other );
 
    GlobalConfigWidget   *mpGlobalConfigWidget;
+   QLabel               *mpNumColumnsLabel;
+   QSpinBox             *mpNumColumns;
 };
 
 #endif

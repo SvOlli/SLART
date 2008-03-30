@@ -67,6 +67,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpConfigDialog, SLOT(exec()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
             this, SLOT(labelReadWriteButtons()) );
+   connect( mpConfigDialog, SIGNAL(configChanged()),
+            this, SLOT(updateLists()) );
    
    connect( mpListButtons, SIGNAL(clicked(const QString &)),
             this, SLOT(addToList(const QString &)) );

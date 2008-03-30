@@ -52,7 +52,7 @@ ButtonsWidget::ButtonsWidget( const QString &title, QWidget *parent )
 void ButtonsWidget::updateButtons( const QStringList &fileNames )
 {
    int i;
-   int rows = MySettings().value( "ButtonRows", 3 ).toInt();
+   int rows = MySettings().value( "NumberOfColumns", 3 ).toInt();
    
    for( i = 0; i < mButtonList.count(); i++ )
    {

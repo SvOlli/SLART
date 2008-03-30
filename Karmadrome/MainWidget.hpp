@@ -29,9 +29,6 @@ Q_OBJECT
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
-   /*  */
-   void updateLists();
-
 public slots:
    /* add currently played track to the list */
    void addToList( const QString &msg );
@@ -47,6 +44,8 @@ public slots:
    void handleWriteButton();
    /* label "Read/Write Clipboard" buttons according to settings */
    void labelReadWriteButtons();
+   /* update the lists containing the playlists */
+   void updateLists();
 
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
