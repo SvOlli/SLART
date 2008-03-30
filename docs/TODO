@@ -1,33 +1,27 @@
 
-Next Big Thing(tm) after 0.6 release:
-- SQLite database backend
-
 Partyman:
 - check all error handling
 
 Karmadrome: (new application)
-- copyright message
-- settings
 - Karma: use several playlists
   - full contains all tracks
   - bad contains bad karma tracks
   - good contains only good karma tracks
   - base contains all minus bad karma tracks
-- copy trackname from selection/clipboard
 
 Funkytown:
 - improve url detecting
 
 Innuendo:
-- external event handler
+- (0.6!) external event handler
 
 Stripped:
-- copyright message
-- select path / filename creation
+- (0.6!) comment *.hpp
+- (0.6!) quit if no cd drive detected
 - handle error on saving
 - auto read-toc
 
 Rubberbandman:
-- copyright message
-- save tab last used
 
+Next Big Thing(tm) after 0.6 release:
+- SQLite database backend
