@@ -113,6 +113,7 @@ QString CDToc::cddbDiscID()
 }
 
 
+#if 0
 void CDToc::dump()
 {
 TRACESTART(CDToc::dump)
@@ -130,6 +131,7 @@ TRACEMSG << i << mpStartSectorTrack[i] << mpEndSectorTrack[i]
 }
 TRACEMSG << query();
 }
+#endif
 
 
 QString CDToc::length( int track )

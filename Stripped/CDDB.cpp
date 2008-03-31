@@ -46,8 +46,8 @@ CDDB::CDDB( CDToc *toc, QWidget *parent , Qt::WindowFlags flags )
    
    connect( mpHttp, SIGNAL(requestFinished(int, bool)),
             this, SLOT(httpRequestFinished(int, bool)) );
-   connect( mpHits, SIGNAL(currentIndexChanged(QString)),
-            this, SLOT(read(QString)) );
+   connect( mpHits, SIGNAL(currentIndexChanged(const QString&)),
+            this, SLOT(read(const QString&)) );
 }
 
 

@@ -265,11 +265,6 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
 }
 
 
-void CDReader::updateCDDisplay()
-{
-}
-
-
 void CDReader::setEncoder( Encoder *encoder )
 {
    mpEncoder = encoder;

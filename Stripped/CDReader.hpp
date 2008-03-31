@@ -30,17 +30,26 @@ Q_OBJECT
 
 public:
    CDReader( CDToc *toc, CDEdit *edit, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+
+   /* callback for paranoia */
    void callback( long inpos, ::paranoia_cb_mode_t function );
-   void updateCDDisplay();
+   /* set the encoder to use */
    void setEncoder( Encoder *encoder );
+   /* insert available devices into given combobox */
    void getDevices( QComboBox *comboBox );
 
 public slots:
+   /* read the toc */
    void readToc();
+   /* read the cdtext */
    void readCDText();
+   /* rip tracks */
    void readTracks();
+   /* set the device to use */
    void setDevice( const QString &device );
+   /* eject disc */
    void eject();
+   /* handle cancel button */
    void cancel();
 
 signals:

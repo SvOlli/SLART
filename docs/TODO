@@ -16,7 +16,6 @@ Innuendo:
 - (0.6!) external event handler
 
 Stripped:
-- (0.6!) comment *.hpp
 - handle error on saving
 - auto read-toc
 

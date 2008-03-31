@@ -91,7 +91,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpCDDB, SIGNAL(tocUpdated()),
             mpCDEdit, SLOT(updateCDDB()) );
    connect( mpDirButton, SIGNAL(clicked()),
-            this, SLOT(setDownloadDir()) );
+            this, SLOT(setRippingDir()) );
    
    connect( mpCancelButton, SIGNAL(clicked()),
             mpCDReader, SLOT(cancel()) );
@@ -105,7 +105,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 }
 
 
-void MainWidget::setDownloadDir()
+void MainWidget::setRippingDir()
 {
    QFileDialog fileDialog( this );
 

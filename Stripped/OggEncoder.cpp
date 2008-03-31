@@ -52,7 +52,6 @@ OggEncoder::~OggEncoder()
 
 void OggEncoder::setQuality( double quality )
 {
-TRACESTART(OggEncoder::changeQuality)
    MySettings settings;
    settings.setValue( "OggQuality", quality );
    mQuality = quality;

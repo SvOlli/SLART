@@ -29,9 +29,13 @@ public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
-   void setDownloadDir();
+   /* set the directory where the ripped tracks go to */
+   void setRippingDir();
+   /* handle eject button */
    void eject();
+   /* handle working state (disable buttons) */
    void working( bool allowCancel = true );
+   /* unset stuff done by settings to working state */
    void finished();
 
 signals:

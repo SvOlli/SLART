@@ -27,24 +27,36 @@ Q_OBJECT
 public:
    CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
+   /* get the track info by tracknr */
    void trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *artist, QString *title,
                    QString *albumartist, QString *albumtitle, QString *genre, int *year );
-
+   /* update function for reading of cdtext */
    void updateCDText( int track, const QString &artist, const QString &title );
-   
+   /* clear the sheet */
    void clear();
 
 public slots:
+   /* handle toggle all tracks button */
    void handleTrackNr();
+   /* handle toggle enqueue button */
    void handleEnqueueTrack();
+   /* handle copy track artist button */
    void handleTrackArtist();
+   /* handle normalize title button */
    void handleNormalizeTitle();
+   /* handle copy track year button */
    void handleTrackYear();
+   /* hide a track from sheet */
    void setTrackHidden( int track, bool hide );
+   /* disable a track on sheet (being read) */
    void setTrackDisabled( int track, bool disabled );
+   /* update sheet */
    void update();
+   /* copy info read from cddb from toc to sheet */
    void updateCDDB();
+   /* handle split titles button */
    void splitTitles();
+   /* ensure that a certain track is visible on sheet */
    void ensureVisible( int tracknr );
 
 private:

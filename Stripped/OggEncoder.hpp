@@ -22,20 +22,26 @@ Q_OBJECT
 public:
    OggEncoder( QWidget *parent = 0 );
    virtual ~OggEncoder();
+
+   /* initialize the encoder */
    void initialize( const QString &fileName );
+   /* finalize (clean up) the encoder */
    void finalize( bool enqueue );
+   /* set the tags of the encoded file */
    void setTags( const TagList &tagList );
+   /* encode raw cd audio data */
    void encodeCDAudio( const char* data, int size );
-   const QString name;
 
 public slots:
+   /* set the encoding quality */
    void setQuality( double quality );
    
 private:
    OggEncoder( const OggEncoder &other );
    OggEncoder &operator=( const OggEncoder &other );
+
+   /* ogg initialize helper function call on first encode */
    void oggInit();
-   QString mEncoderName;
 
    ::ogg_stream_state   mOS;
    ::ogg_page           mOG;

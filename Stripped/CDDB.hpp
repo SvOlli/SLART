@@ -25,11 +25,15 @@ Q_OBJECT
 public:
    CDDB( CDToc *toc, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
+   /* query freedb for possible matches */
    void query( const QString &querystring );
 
 public slots:
+   /* callback for QHttp */
    void httpRequestFinished( int requestId, bool error );
+   /* request http read for the cue sheet from freedb */
    void read( const QString &querystring );
+   /* cancel the request */
    void cancel();
 
 signals:
@@ -39,6 +43,7 @@ private:
    CDDB( const CDDB &other );
    CDDB &operator=( const CDDB &other );
 
+   /* initiate the read request for freedb */
    void genericrequest( const QString &cmd );
 
    bool         mRequestIsQuery;

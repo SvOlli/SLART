@@ -15,15 +15,26 @@ class CDToc
 public:
    CDToc();
 
+   /* set the global disc data (also resets all other data) */
    void setDisc( int tracks, int startSector, int endSector );
+   /* set the data for a track */
    void setEntry( int track, int startSector, int endSector,
                   bool isAudio, bool copyProhib, bool preEmp, bool twoChannels );
+   /* calculate the cddb discid */
    void calcCddbDiscID();
+   /* return the cddb discid */
    QString cddbDiscID();
+#if 0
+   /* debug function: dump all data */
    void dump();
+#endif
+   /* return the first sector of a track or disc if no track is given */
    int firstSector( int track = -1 );
+   /* return the last sector of a track or disc if no track is given */
    int lastSector( int track = -1 );
+   /* return the length of a track or disc if no track is given if mm:ss format */
    QString length( int track = -1 );
+   /* return the cddb query parameters */
    QString query();
 
    int          mYear;
@@ -34,6 +45,7 @@ private:
    CDToc( const CDToc &other );
    CDToc &operator=( const CDToc &other );
 
+   /* subroutine for cddb discid calculation */
    int cddbSum( int i );
 
    int          mNumTracks;

@@ -18,9 +18,14 @@ Q_OBJECT
 public:
    RawEncoder( QWidget *parent = 0 );
    virtual ~RawEncoder();
+
+   /* initialize the encoder */
    void initialize( const QString &fileName );
+   /* finalize (clean up) the encoder */
    void finalize( bool enqueue );
+   /* set the tags of the encoded file */
    void setTags( const TagList &tagList );
+   /* encode raw cd audio data */
    void encodeCDAudio( const char* data, int size );
 
 private:
