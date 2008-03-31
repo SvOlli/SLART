@@ -65,6 +65,8 @@ signals:
 private:
    PlaylistWidget( const PlaylistWidget &other );
    PlaylistWidget &operator=( const PlaylistWidget &other );
+
+   /* add entries to a stringlist */
    void addEntries( QStringList *list, const QModelIndex &qmi );
    
    QTabWidget            *mpTabs;

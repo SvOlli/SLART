@@ -204,7 +204,8 @@ QStringList PlaylistWidget::search( const QRegExp &rx ) const
 
 void PlaylistWidget::dragEnterEvent( QDragEnterEvent *event )
 {
-   if( event->mimeData()->hasFormat("text/plain") )
+   if( event->mimeData()->hasFormat("text/plain") ||
+       event->mimeData()->hasFormat("text/uri-list") )
    {
       event->acceptProposedAction();
    }
@@ -221,13 +222,53 @@ void PlaylistWidget::dropEvent( QDropEvent *event )
       QStringList src( mimeData->text().remove('\r').split("\n",QString::SkipEmptyParts) );
       QStringList dest;
       
+      QUrl qu;
+      QFileInfo qfi;
       for( i = 0; i < src.size(); i++ )
       {
-         QUrl qu( src.at(i) );
-         QFileInfo qfi( qu.toLocalFile() );
+         if( src.at(i).startsWith("/") )
+         {
+            qfi.setFile( src.at(i) );
+         }
+         else
+         {
+            qu.setUrl( src.at(i) );
+            qfi.setFile( qu.toLocalFile() );
+         }
          if( qfi.isFile() )
          {
-            dest << qfi.absoluteFilePath();
+            if( qfi.suffix().startsWith( "m3u" ) && qfi.isFile() )
+            {
+               QFile qf( qfi.canonicalFilePath() );
+               qf.open( QIODevice::ReadOnly | QIODevice::Text );
+               
+               QByteArray line;
+               QString filename;
+               QString filebase( qfi.canonicalFilePath() + "/../" );
+               while( !qf.atEnd() )
+               {
+                  line = qf.readLine();
+                  filename = QString::fromLocal8Bit( line );
+                  if( !filename.startsWith("#") )
+                  {
+                     if( filename.right(1) == QChar('\n') )
+                     {
+                        filename.chop(1);
+                     }
+                     if( !filename.startsWith( "/" ) )
+                     {
+                        qfi.setFile( filebase + filename );
+                        filename = qfi.absoluteFilePath();
+                     }
+                     dest << filename;
+                  }
+               }
+               qf.close();
+            }
+            else
+            {
+               dest << qfi.absoluteFilePath();
+            }
          }
       }
       
@@ -308,9 +349,13 @@ void PlaylistWidget::readM3u()
    
    i = 0;
    size = 0;
-   while (!m3uFile.atEnd())
+   QByteArray line;
+   QString filename;
+   QString filebase( listfilename + "/../" );
+   QFileInfo qfi;
+   while( !m3uFile.atEnd() )
    {
-      QByteArray line = m3uFile.readLine();
+      line = m3uFile.readLine();
       size += line.size();
       /* a bit of magic for not calling update too ofter */
       if( 100*size/m3uFile.size() > 0 )
@@ -320,8 +365,8 @@ void PlaylistWidget::readM3u()
          QCoreApplication::processEvents();
       }
       
-      QString filename(QString::fromLocal8Bit(line));
-      if( filename.left(1) != "#" )
+      filename = QString::fromLocal8Bit( line );
+      if( !filename.startsWith("#") )
       {
          if( filename.right(1) == QChar('\n') )
          {
@@ -331,7 +376,8 @@ void PlaylistWidget::readM3u()
          {
             /* a bit of an ugly trick, but gets the job done better than most
                other solutions */
-            filename = QFileInfo( listfilename + "/../" + filename ).absoluteFilePath();
+            qfi.setFile( filebase + filename );
+            filename = qfi.absoluteFilePath();
          }
          mM3uData << filename;
          mpTreeModel->addModelData( filename );
@@ -389,3 +435,4 @@ void PlaylistWidget::readM3u()
    mpSearch->search();
    emit playlistIsValid( true );
 }
+
