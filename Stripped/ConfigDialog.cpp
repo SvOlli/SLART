@@ -65,6 +65,11 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
       mpEncodersBox->addItem( mEncoders.at(i)->name );
    }
    mpCDReader->getDevices( mpDevicesBox );
+   if( !mpDevicesBox->count() )
+   {
+      QMessageBox::critical( 0, QApplication::applicationName(), tr("Can't find a CD or DVD drive!") );
+      exit(1);
+   }
    strGroup->setLayout( strLayout );
       
    QPushButton *okButton     = new QPushButton( tr("OK"), this );

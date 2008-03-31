@@ -17,7 +17,6 @@ Innuendo:
 
 Stripped:
 - (0.6!) comment *.hpp
-- (0.6!) quit if no cd drive detected
 - handle error on saving
 - auto read-toc
 
