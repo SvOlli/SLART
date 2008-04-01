@@ -204,8 +204,7 @@ QStringList PlaylistWidget::search( const QRegExp &rx ) const
 
 void PlaylistWidget::dragEnterEvent( QDragEnterEvent *event )
 {
-   if( event->mimeData()->hasFormat("text/plain") ||
-       event->mimeData()->hasFormat("text/uri-list") )
+   if( event->mimeData()->hasFormat("text/uri-list") )
    {
       event->acceptProposedAction();
    }
@@ -215,29 +214,21 @@ void PlaylistWidget::dragEnterEvent( QDragEnterEvent *event )
 void PlaylistWidget::dropEvent( QDropEvent *event )
 {
    const QMimeData *mimeData = event->mimeData();
-   int i;
    
-   if( mimeData->hasText() )
+   if( mimeData->hasUrls() )
    {
-      QStringList src( mimeData->text().remove('\r').split("\n",QString::SkipEmptyParts) );
-      QStringList dest;
+      int i;
       
-      QUrl qu;
+      QStringList dest;
       QFileInfo qfi;
-      for( i = 0; i < src.size(); i++ )
+      
+      for( i = 0; i < mimeData->urls().size(); i++ )
       {
-         if( src.at(i).startsWith("/") )
-         {
-            qfi.setFile( src.at(i) );
-         }
-         else
-         {
-            qu.setUrl( src.at(i) );
-            qfi.setFile( qu.toLocalFile() );
-         }
+         qfi.setFile( mimeData->urls().at(i).toLocalFile() );
+         
          if( qfi.isFile() )
          {
-            if( qfi.suffix().startsWith( "m3u" ) && qfi.isFile() )
+            if( qfi.suffix().startsWith( "m3u" ) )
             {
                QFile qf( qfi.canonicalFilePath() );
                qf.open( QIODevice::ReadOnly | QIODevice::Text );
