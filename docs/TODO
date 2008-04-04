@@ -18,8 +18,10 @@ Innuendo:
 Stripped:
 - handle error on saving
 - auto read-toc
+- encode in mp3
 
 Rubberbandman:
 
 Next Big Thing(tm) after 0.6 release:
 - SQLite database backend
+

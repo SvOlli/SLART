@@ -319,13 +319,20 @@ void CDEdit::updateCDDB()
    int i;
    mpDiscTitle->setText( mpToc->mTitle[0] );
    mpGenre->setText( mpToc->mGenre );
-   
-   mpTrackYear[0]->setText( QString::number( mpToc->mYear ) );
+
+   if( (mpToc->mYear >= 0) && (mpToc->mYear <= 9999) )
+   {
+      mpTrackYear[0]->setText( QString::number( mpToc->mYear ) );
+   }
+   else
+   {
+      mpTrackYear[0]->clear();
+   }
    
    for( i = 1; i < 100; i++ )
    {
       mpTrackTitle[i]->setText( mpToc->mTitle[i] );
-      mpTrackYear[i]->setText( QString::number( mpToc->mYear ) );
+      mpTrackYear[i]->setText( mpTrackYear[0]->text() );
    }
    
    splitTitles();

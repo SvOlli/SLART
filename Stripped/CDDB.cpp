@@ -160,7 +160,12 @@ TRACEMSG << response.at(i);
          
          if( line.startsWith( "DYEAR" ) )
          {
-            mpToc->mYear = line.mid( line.indexOf('=')+1 ).toLong();
+            bool ok;
+            mpToc->mYear = line.mid( line.indexOf('=')+1 ).toLong( &ok );
+            if( !ok )
+            {
+               mpToc->mYear = -1;
+            }
          }
          
          if( line.startsWith( "DGENRE" ) )
