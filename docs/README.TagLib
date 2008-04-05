@@ -1,0 +1,28 @@
+
+The TagLib bundled with this sourcecode is not the original one. It is based
+upon version 1.4, but the file layout has been modfied for easier integration
+into the Qt buildprocess. To accomplish this, the include paths have been
+modified. All files except for sourcecode, includes and the "COPYING" file
+have been removed. Also a compiler warning about a missing virtual has been
+fixed, as well as fix for correct file handling on windows.
+
+
+From http://developer.kde.org/~wheeler/taglib.html :
+
+***
+TagLib Audio Meta-Data Library
+
+TagLib is a library for reading and editing the meta-data of several popular
+audio formats. Currently it supports both ID3v1 and ID3v2 for MP3 files,
+Ogg Vorbis comments and ID3 tags and Vorbis comments in FLAC, MPC, Speex,
+WavPack and TrueAudio files.
+
+TagLib is distributed under the GNU Lesser General Public License (LGPL) and
+Mozilla Public License (MPL). Essentially that means that it may be used in
+proprietary applications, but if changes are made to TagLib they must be
+contributed back to the project.
+***
+
+The LGPL is available at: http://www.gnu.org/licenses/lgpl.html
+The MPL is available at: http://www.mozilla.org/MPL/MPL-1.1.html
+
