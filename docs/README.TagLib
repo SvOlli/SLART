@@ -1,10 +1,10 @@
 
 The TagLib bundled with this sourcecode is not the original one. It is based
-upon version 1.4, but the file layout has been modfied for easier integration
+upon version 1.5, but the file layout has been modfied for easier integration
 into the Qt buildprocess. To accomplish this, the include paths have been
 modified. All files except for sourcecode, includes and the "COPYING" file
-have been removed. Also a compiler warning about a missing virtual has been
-fixed, as well as fix for correct file handling on windows.
+have been removed. Also a compiler warning about a missing virtual destructor
+has been fixed.
 
 
 From http://developer.kde.org/~wheeler/taglib.html :

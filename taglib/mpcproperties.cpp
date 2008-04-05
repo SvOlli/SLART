@@ -5,7 +5,7 @@
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
- *   it  under the terms of the GNU Lesser General Public License version  *
+ *   it under the terms of the GNU Lesser General Public License version   *
  *   2.1 as published by the Free Software Foundation.                     *
  *                                                                         *
  *   This library is distributed in the hope that it will be useful, but   *
@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <tstring.h>
@@ -81,13 +85,6 @@ int MPC::Properties::sampleRate() const
   return d->sampleRate;
 }
 
-/*
-int MPC::Properties::sampleWidth() const
-{
-  return d->sampleWidth;
-}
-*/
-
 int MPC::Properties::channels() const
 {
   return d->channels;
@@ -121,18 +118,21 @@ void MPC::Properties::read()
     d->channels = 2;
   }
   else {
-    unsigned int headerData = d->data.mid(0, 4).toUInt(false);
+    uint headerData = d->data.mid(0, 4).toUInt(false);
+
     d->bitrate = (headerData >> 23) & 0x01ff;
     d->version = (headerData >> 11) & 0x03ff;
     d->sampleRate = 44100;
     d->channels = 2;
+
     if(d->version >= 5)
       frames = d->data.mid(4, 4).toUInt(false);
     else
-      frames = d->data.mid(4, 2).toUInt(false);
+      frames = d->data.mid(6, 2).toUInt(false);
   }
 
-  unsigned int samples = frames * 1152 - 576;
+  uint samples = frames * 1152 - 576;
+
   d->length = d->sampleRate > 0 ? (samples + (d->sampleRate / 2)) / d->sampleRate : 0;
 
   if(!d->bitrate)

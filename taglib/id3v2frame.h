@@ -1,11 +1,11 @@
 /***************************************************************************
-    copyright            : (C) 2002, 2003 by Scott Wheeler
+    copyright            : (C) 2002 - 2008 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
- *   it  under the terms of the GNU Lesser General Public License version  *
+ *   it under the terms of the GNU Lesser General Public License version   *
  *   2.1 as published by the Free Software Foundation.                     *
  *                                                                         *
  *   This library is distributed in the hope that it will be useful, but   *
@@ -17,15 +17,22 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_ID3V2FRAME_H
 #define TAGLIB_ID3V2FRAME_H
 
-#include <tstring.h>
-#include <tbytevector.h>
+#include "tstring.h"
+#include "tbytevector.h"
+#include "taglib_export.h"
 
 namespace TagLib {
+
+  class StringList;
 
   namespace ID3v2 {
 
@@ -43,7 +50,7 @@ namespace TagLib {
      * specific to a given frame type is handed in one of the many subclasses.
      */
 
-    class Frame
+    class TAGLIB_EXPORT Frame
     {
       friend class Tag;
       friend class FrameFactory;
@@ -179,6 +186,22 @@ namespace TagLib {
        */
       ByteVector fieldData(const ByteVector &frameData) const;
 
+      /*!
+       * Reads a String of type \a encodiong from the ByteVector \a data.  If \a
+       * position is passed in it is used both as the starting point and is
+       * updated to replect the position just after the string that has been read.
+       * This is useful for reading strings sequentially.
+       */
+      String readStringField(const ByteVector &data, String::Type encoding,
+                             int *positon = 0);
+
+      /*!
+       * Checks a the list of string values to see if they can be used with the
+       * specified encoding and returns the recommended encoding.
+       */
+      static String::Type checkEncoding(const StringList &fields,
+                                        String::Type encoding);
+
     private:
       Frame(const Frame &);
       Frame &operator=(const Frame &);
@@ -202,7 +225,7 @@ namespace TagLib {
      * the type and attaches the header.
      */
 
-    class Frame::Header
+    class TAGLIB_EXPORT Frame::Header
     {
     public:
       /*!
@@ -261,7 +284,7 @@ namespace TagLib {
 
       /*!
        * Returns the size of the frame data portion, as set when setData() was
-       * called or set explicity via setFrameSize().
+       * called or set explicitly via setFrameSize().
        */
       uint frameSize() const;
 
@@ -353,15 +376,17 @@ namespace TagLib {
        */
       bool encryption() const;
 
-      /*!
-       * Returns true if unsyncronisation is enabled for this frame.
-       *
-       * \note This flag is currently ignored internally in TagLib.
-       */
+#ifndef DO_NOT_DOCUMENT
       bool unsycronisation() const;
+#endif
 
       /*!
-       * Returns true if the flag for a data lenght indicator is set.
+       * Returns true if unsynchronisation is enabled for this frame.
+       */
+      bool unsynchronisation() const;
+
+      /*!
+       * Returns true if the flag for a data length indicator is set.
        */
       bool dataLengthIndicator() const;
 
@@ -371,7 +396,7 @@ namespace TagLib {
       ByteVector render() const;
 
       /*!
-       * @deprecated
+       * \deprecated
        */
       bool frameAlterPreservation() const;
 

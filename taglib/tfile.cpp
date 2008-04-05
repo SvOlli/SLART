@@ -1,11 +1,11 @@
 /***************************************************************************
-    copyright            : (C) 2002, 2003 by Scott Wheeler
+    copyright            : (C) 2002 - 2008 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
- *   it  under the terms of the GNU Lesser General Public License version  *
+ *   it under the terms of the GNU Lesser General Public License version   *
  *   2.1 as published by the Free Software Foundation.                     *
  *                                                                         *
  *   This library is distributed in the hope that it will be useful, but   *
@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include "tfile.h"
@@ -24,48 +28,103 @@
 #include "tdebug.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <sys/stat.h>
-#include <unistd.h>
+
+#ifdef _WIN32
+# include <wchar.h>
+# include <windows.h>
+# include <io.h>
+# define ftruncate _chsize
+#else
+# include <unistd.h>
+#endif
+
+#include <stdlib.h>
+
+#ifndef R_OK
+# define R_OK 4
+#endif
+#ifndef W_OK
+# define W_OK 2
+#endif
 
 using namespace TagLib;
+
+#ifdef _WIN32
+
+typedef FileName FileNameHandle;
+
+#else
+
+struct FileNameHandle : public std::string
+{
+  FileNameHandle(FileName name) : std::string(name) {}
+  operator FileName () const { return c_str(); }
+};
+
+#endif
 
 class File::FilePrivate
 {
 public:
-  FilePrivate(const char *fileName) :
-    file(0),
-    name(fileName),
-    readOnly(true),
-    valid(true),
-    size(0)
-    {}
-
-  ~FilePrivate()
-  {
-    free((void *)name);
-  }
+  FilePrivate(FileName fileName);
 
   FILE *file;
-  const char *name;
+
+  FileNameHandle name;
+
   bool readOnly;
   bool valid;
   ulong size;
   static const uint bufferSize = 1024;
 };
 
+File::FilePrivate::FilePrivate(FileName fileName) :
+  file(0),
+  name(fileName),
+  readOnly(true),
+  valid(true),
+  size(0)
+{
+  // First try with read / write mode, if that fails, fall back to read only.
+
+#ifdef _WIN32
+
+  if(wcslen((const wchar_t *) fileName) > 0) {
+
+    file = _wfopen(name, L"rb+");
+
+    if(file)
+      readOnly = false;
+    else
+      file = _wfopen(name, L"rb");
+
+    if(file)
+      return;
+
+  }
+
+#endif
+
+  file = fopen(name, "rb+");
+
+  if(file)
+    readOnly = false;
+  else
+    file = fopen(name, "rb");
+
+  if(!file)
+    debug("Could not open file " + String((const char *) name));
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-File::File(const char *file)
+File::File(FileName file)
 {
-  d = new FilePrivate(::strdup(file));
-
-  d->readOnly = !isWritable(file);
-  d->file = fopen(file, d->readOnly ? "rb" : "rb+");
-
-  if(!d->file)
-    debug("Could not open file " + String(file));
+  d = new FilePrivate(file);
 }
 
 File::~File()
@@ -75,7 +134,7 @@ File::~File()
   delete d;
 }
 
-const char *File::name() const
+FileName File::name() const
 {
   return d->name;
 }
@@ -86,6 +145,9 @@ ByteVector File::readBlock(ulong length)
     debug("File::readBlock() -- Invalid File");
     return ByteVector::null;
   }
+
+  if(length == 0)
+    return ByteVector::null;
 
   if(length > FilePrivate::bufferSize &&
      length > ulong(File::length()))
@@ -239,7 +301,7 @@ long File::rfind(const ByteVector &pattern, long fromOffset, const ByteVector &b
   }
   else {
     seek(fromOffset + -1 * int(d->bufferSize), Beginning);
-    bufferOffset = tell();    
+    bufferOffset = tell();
   }
 
   // See the notes in find() for an explanation of this algorithm.
@@ -304,6 +366,7 @@ void File::insert(const ByteVector &data, ulong start, ulong replace)
   // that aren't yet in memory, so this is necessary.
 
   ulong bufferLength = bufferSize();
+
   while(data.size() - replace > bufferLength)
     bufferLength += bufferSize();
 
@@ -331,10 +394,14 @@ void File::insert(const ByteVector &data, ulong start, ulong replace)
 
   buffer = aboutToOverwrite;
 
+  // In case we've already reached the end of file...
+
+  buffer.resize(bytesRead);
+
   // Ok, here's the main loop.  We want to loop until the read fails, which
   // means that we hit the end of the file.
 
-  while(bytesRead != 0) {
+  while(!buffer.isEmpty()) {
 
     // Seek to the current read position and read the data that we're about
     // to overwrite.  Appropriately increment the readPosition.
@@ -354,8 +421,8 @@ void File::insert(const ByteVector &data, ulong start, ulong replace)
     // writePosition.
 
     seek(writePosition);
-    fwrite(buffer.data(), sizeof(char), bufferLength, d->file);
-    writePosition += bufferLength;
+    fwrite(buffer.data(), sizeof(char), buffer.size(), d->file);
+    writePosition += buffer.size();
 
     // Make the current buffer the data that we read in the beginning.
 
@@ -381,12 +448,11 @@ void File::removeBlock(ulong start, ulong length)
 
   ByteVector buffer(static_cast<uint>(bufferLength));
 
-  ulong bytesRead = true;
+  ulong bytesRead = 1;
 
   while(bytesRead != 0) {
     seek(readPosition);
     bytesRead = fread(buffer.data(), sizeof(char), bufferLength, d->file);
-    buffer.resize(bytesRead);
     readPosition += bytesRead;
 
     // Check to see if we just read the last block.  We need to call clear()
@@ -414,12 +480,12 @@ bool File::isReadable(const char *file)
 
 bool File::isOpen() const
 {
-  return d->file;
+  return (d->file != NULL);
 }
 
 bool File::isValid() const
 {
-  return d->file && d->valid;
+  return isOpen() && d->valid;
 }
 
 void File::seek(long offset, Position p)
@@ -463,10 +529,10 @@ long File::length()
     return 0;
 
   long curpos = tell();
-  
+
   seek(0, End);
   long endpos = tell();
-  
+
   seek(curpos, Beginning);
 
   d->size = endpos;

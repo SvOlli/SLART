@@ -1,11 +1,11 @@
 /***************************************************************************
-    copyright            : (C) 2002, 2003 by Scott Wheeler
+    copyright            : (C) 2002 - 2008 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
- *   it  under the terms of the GNU Lesser General Public License version  *
+ *   it under the terms of the GNU Lesser General Public License version   *
  *   2.1 as published by the Free Software Foundation.                     *
  *                                                                         *
  *   This library is distributed in the hope that it will be useful, but   *
@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include "tstring.h"
@@ -24,6 +28,8 @@
 #include "tdebug.h"
 
 #include <iostream>
+
+#include <string.h>
 
 namespace TagLib {
 
@@ -241,6 +247,11 @@ std::string String::to8Bit(bool unicode) const
   return s;
 }
 
+TagLib::wstring String::toWString() const
+{
+  return d->data;
+}
+
 const char *String::toCString(bool unicode) const
 {
   delete [] d->CString;
@@ -282,6 +293,14 @@ int String::find(const String &s, int offset) const
     return -1;
 }
 
+bool String::startsWith(const String &s) const
+{
+  if(s.length() > length())
+    return false;
+
+  return substr(0, s.length()) == s;
+}
+
 String String::substr(uint position, uint n) const
 {
   if(n > position + d->data.size())
@@ -318,6 +337,11 @@ String String::upper() const
 TagLib::uint String::size() const
 {
   return d->data.size();
+}
+
+TagLib::uint String::length() const
+{
+  return size();
 }
 
 bool String::isEmpty() const
@@ -373,8 +397,8 @@ ByteVector String::data(Type t) const
       char c1 = *it >> 8;
       char c2 = *it & 0xff;
 
-      v.append(c2);
       v.append(c1);
+      v.append(c2);
     }
     break;
   }
@@ -416,8 +440,9 @@ String String::stripWhiteSpace() const
   wstring::const_iterator begin = d->data.begin();
   wstring::const_iterator end = d->data.end();
 
-  while(*begin == '\t' || *begin == '\n' || *begin == '\f' ||
-        *begin == '\r' || *begin == ' ' && begin != end)
+  while(begin != end &&
+        (*begin == '\t' || *begin == '\n' || *begin == '\f' ||
+         *begin == '\r' || *begin == ' '))
   {
     ++begin;
   }
@@ -425,7 +450,7 @@ String String::stripWhiteSpace() const
   if(begin == end)
     return null;
 
-  // There must be at least one non-whitespace charater here for us to have
+  // There must be at least one non-whitespace character here for us to have
   // gotten this far, so we should be safe not doing bounds checking.
 
   do {
@@ -434,6 +459,24 @@ String String::stripWhiteSpace() const
           *end == '\f' || *end == '\r' || *end == ' ');
 
   return String(wstring(begin, end + 1));
+}
+
+bool String::isLatin1() const
+{
+  for(wstring::const_iterator it = d->data.begin(); it != d->data.end(); it++) {
+    if(*it >= 256)
+      return false;
+  }
+  return true;
+}
+
+bool String::isAscii() const
+{
+  for(wstring::const_iterator it = d->data.begin(); it != d->data.end(); it++) {
+    if(*it >= 128)
+      return false;
+  }
+  return true;
 }
 
 String String::number(int n) // static
@@ -652,7 +695,7 @@ void String::prepare(Type t)
   switch(t) {
   case UTF16:
   {
-    if(d->data.size() > 1) {
+    if(d->data.size() >= 1 && (d->data[0] == 0xfeff || d->data[0] == 0xfffe)) {
       bool swap = d->data[0] != 0xfeff;
       d->data.erase(d->data.begin(), d->data.begin() + 1);
       if(swap) {
