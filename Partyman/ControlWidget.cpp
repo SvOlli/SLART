@@ -92,15 +92,15 @@ ControlWidget::~ControlWidget()
    mpPlayer[0]->disconnect();
    mpPlayer[1]->disconnect();
    
-   /* yeah, let's celebrate brute force */
    if( mDerMixDprocess.state() != QProcess::NotRunning )
    {
       mDerMixDprocess.terminate();
+      mDerMixDprocess.waitForFinished();
    }
-   while( mDerMixDprocess.state() != QProcess::NotRunning )
+   if( mDerMixDprocess.state() != QProcess::NotRunning )
    {
       mDerMixDprocess.kill();
-      QCoreApplication::processEvents();
+      mDerMixDprocess.waitForFinished();
    }
 }
 
