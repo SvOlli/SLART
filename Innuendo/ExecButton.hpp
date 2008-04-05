@@ -19,6 +19,7 @@ Q_OBJECT
 
 public:
    ExecButton( const QString &name, QWidget *parent = 0 );
+   virtual ~ExecButton();
 
 private slots:
    /* handle click on button */

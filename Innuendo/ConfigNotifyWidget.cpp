@@ -39,12 +39,12 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
    groupBox->setTitle( tr("Notification Settings:") );
    
 #if QT_VERSION < 0x040300
-   gridLayout->setMargin( 0 );
-   mainLayout->setMargin( 0 );
+   gridLayout->setMargin( 1 );
+   mainLayout->setMargin( 1 );
    buttonLayout->setMargin( 0 );
 #else
-   gridLayout->setContentsMargins( 0, 0, 0, 0 );
-   mainLayout->setContentsMargins( 0, 0, 0, 0 );
+   gridLayout->setContentsMargins( 1, 1, 2, 2 );
+   mainLayout->setContentsMargins( 1, 1, 1, 1 );
    buttonLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
    

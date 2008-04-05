@@ -34,6 +34,19 @@ ExecButton::ExecButton( const QString &name, QWidget *parent )
 }
 
 
+ExecButton::~ExecButton()
+{
+   disconnect( this, SIGNAL(clicked()),
+               this, SLOT(handleClick()) );
+   disconnect( &mProcess, SIGNAL(error(QProcess::ProcessError)), 
+               this, SLOT(handleError(QProcess::ProcessError)) );
+   disconnect( &mProcess, SIGNAL(finished(int,QProcess::ExitStatus)), 
+               this, SLOT(handleFinished(int,QProcess::ExitStatus)) );
+   mProcess.terminate();
+   mProcess.waitForFinished();
+}
+
+
 void ExecButton::handleClick()
 {
    if( isChecked() )
