@@ -37,6 +37,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 {
    char cwd[PATH_MAX];
    MySettings settings;
+   mpCDTextButton->setEnabled( false );
 
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
 #if QT_VERSION < 0x040300
@@ -92,6 +93,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpCDEdit, SLOT(updateCDDB()) );
    connect( mpDirButton, SIGNAL(clicked()),
             this, SLOT(setRippingDir()) );
+   connect( mpCDEdit, SIGNAL(containsData(bool)),
+            mpCDTextButton, SIGNAL(setEnabled(bool)) );
    
    connect( mpCancelButton, SIGNAL(clicked()),
             mpCDReader, SLOT(cancel()) );
@@ -135,6 +138,7 @@ void MainWidget::eject()
    mpEjectButton->setChecked( false );
    mpEjectButton->setCheckable( false );
    finished();
+   mpCDEdit->clear();
 }
 
 

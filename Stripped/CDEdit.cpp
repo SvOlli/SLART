@@ -166,6 +166,7 @@ void CDEdit::clear()
    mpDiscArtist->clear();
    mpDiscTitle->clear();
    mpGenre->clear();
+   mpDiscID->clear();
    
    for( int i = 0; i < 100; i++ )
    {
@@ -174,6 +175,8 @@ void CDEdit::clear()
       mpTrackYear[i]->clear();
       setTrackHidden( i, true );
    }
+   
+   emit containsData( false );
 }
 
 
@@ -296,6 +299,8 @@ void CDEdit::update()
 
    mpScrollWidget->resize( mpScrollArea->width() - 20, count * 24 );
    mpDiscID->setText( mpToc->cddbDiscID() );
+   
+   emit containsData( true );
 }
 
 

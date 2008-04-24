@@ -17,6 +17,8 @@
 #include "OggEncoder.hpp"
 #include "RawEncoder.hpp"
 
+#include "Trace.hpp"
+
 
 ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
@@ -124,11 +126,12 @@ void ConfigDialog::readSettings()
       mpDevicesBox->setCurrentIndex( i );
    }
    i = mpEncodersBox->findText( settings.value( "Encoder", QString() ).toString() );
-   if( i >= 0 )
+   if( i < 0 )
    {
-      mpEncodersBox->setCurrentIndex( i );
-      changeEncoder( i );
+      i = 0;
    }
+   mpEncodersBox->setCurrentIndex( i );
+   changeEncoder( i );
    mpPattern->setText( settings.value("CreatePattern",
                        "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|").toString() );
    

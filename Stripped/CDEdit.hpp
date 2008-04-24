@@ -35,6 +35,10 @@ public:
    /* clear the sheet */
    void clear();
 
+signals:
+   /* signalize if the TOC contains data */
+   void containsData( bool flag );
+
 public slots:
    /* handle toggle all tracks button */
    void handleTrackNr();
