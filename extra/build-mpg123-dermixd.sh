@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mpg123_version=1.3.1
+mpg123_version=1.4.1
 dermixd_version=1.5.1
 
 mpg123=$(type -p mpg123)
@@ -57,6 +57,7 @@ if [ -n "$build_mpg123" ]; then
   cd mpg123-$mpg123_version
   ./configure --prefix=/usr/local --disable-shared --enable-static && make
   cp src/mpg123 ../../bin
+  cp src/mpg123 ../../bin/mpg123-$mpg123_version
   cd ..
 fi
 
@@ -66,9 +67,11 @@ if [ -n "$build_dermixd" ]; then
   cd dermixd-$dermixd_version
   make VORBISFILE=yes SNDFILE=yes gnu-alsa
   cp dermixd ../../bin/dermixd-alsa
+  cp dermixd ../../bin/dermixd-alsa-$dermixd_version
   rm output.o
   make VORBISFILE=yes SNDFILE=yes gnu-oss
   cp dermixd ../../bin/dermixd-oss
+  cp dermixd ../../bin/dermixd-oss-$dermixd_version
   cd ..
 fi
 
