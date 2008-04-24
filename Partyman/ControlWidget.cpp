@@ -384,7 +384,7 @@ void ControlWidget::handleDerMixDstartup()
 
    for( int i = 0; i < data.size(); i++ )
    {
-      if( data.at(i).startsWith( "[port_watcher] online" ) )
+      if( data.at(i).indexOf( " online on port " ) > 0 )
       {
          mDerMixDstarted = true;
          mWaitForDerMixD = false;
