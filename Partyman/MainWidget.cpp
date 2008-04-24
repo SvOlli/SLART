@@ -45,7 +45,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 #endif
    mainLayout->addWidget( mpControl );
    mainLayout->addWidget( mpPlaylist );
-   mainLayout->addSpacing( 4 );
    mpParent->setAttribute( Qt::WA_AlwaysShowToolTips, true );
    mpParent->setWindowIcon( QIcon( ":/PartymanSmile.gif" ) );
 
@@ -71,6 +70,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             
    setLayout( mainLayout );
    
+   mpSettingsButton->setMaximumWidth( fontMetrics().width( mpSettingsButton->text() ) + 16 );
+   mpSettingsButton->setMaximumHeight( fontMetrics().height() + 8 );
    mpSettingsButton->raise();
 }
 
