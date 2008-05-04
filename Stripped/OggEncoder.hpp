@@ -30,7 +30,7 @@ public:
    /* set the tags of the encoded file */
    void setTags( const TagList &tagList );
    /* encode raw cd audio data */
-   void encodeCDAudio( const char* data, int size );
+   bool encodeCDAudio( const char* data, int size );
 
 public slots:
    /* set the encoding quality */
@@ -41,7 +41,7 @@ private:
    OggEncoder &operator=( const OggEncoder &other );
 
    /* ogg initialize helper function call on first encode */
-   void oggInit();
+   bool oggInit();
 
    ::ogg_stream_state   mOS;
    ::ogg_page           mOG;

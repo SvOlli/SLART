@@ -56,7 +56,11 @@ void RawEncoder::setTags( const TagList &/*tagList*/ )
 }
 
 
-void RawEncoder::encodeCDAudio( const char* data, int size )
+bool RawEncoder::encodeCDAudio( const char* data, int size )
 {
-   ::write( mFD, data, size );
+   if( ::write( mFD, data, size ) < 0 )
+   {
+      return false;
+   }
+   return true;
 }

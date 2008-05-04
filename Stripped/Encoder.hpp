@@ -29,7 +29,7 @@ public:
    /* set the tags of the encoded file */
    virtual void setTags( const TagList &tagList ) = 0;
    /* encode raw cd audio data */
-   virtual void encodeCDAudio( const char* data, int size ) = 0;
+   virtual bool encodeCDAudio( const char* data, int size ) = 0;
    /* name of the encoder */
    const QString name;
 

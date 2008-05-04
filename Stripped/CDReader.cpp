@@ -236,7 +236,10 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
       for( sector = firstSector; sector <= lastSector; sector++ )
       {
          buffer = (char*)::cdio_paranoia_read( mpParanoia, callback0 );
-         mpEncoder->encodeCDAudio( buffer, 2352 );
+         if( !mpEncoder->encodeCDAudio( buffer, 2352 ) )
+         {
+            mCancel = true;
+         }
          mpProgress->setValue( sector );
          QCoreApplication::processEvents();
          if( mCancel ) break;

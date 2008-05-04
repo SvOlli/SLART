@@ -82,7 +82,7 @@ void OggEncoder::finalize( bool enqueue )
 }
 
 
-void OggEncoder::oggInit()
+bool OggEncoder::oggInit()
 {
    int ret;
    
@@ -114,9 +114,16 @@ void OggEncoder::oggInit()
       {
          break;
       }
-      ::write( mFD, mOG.header, mOG.header_len );
-      ::write( mFD, mOG.body,   mOG.body_len );
+      if( ::write( mFD, mOG.header, mOG.header_len ) < 0 )
+      {
+         return false;
+      }
+      if( ::write( mFD, mOG.body,   mOG.body_len ) < 0 )
+      {
+         return false;
+      }
    }
+   return true;
 }
 
 
@@ -134,12 +141,15 @@ void OggEncoder::setTags( const TagList &tagList )
 }
 
 
-void OggEncoder::encodeCDAudio( const char* data, int size )
+bool OggEncoder::encodeCDAudio( const char* data, int size )
 {
    if( !mIsInit )
    {
       mIsInit = true;
-      oggInit();
+      if( !oggInit() )
+      {
+         return false;
+      }
    }
    
    int i;
@@ -167,11 +177,18 @@ void OggEncoder::encodeCDAudio( const char* data, int size )
             i = ::ogg_stream_pageout( &mOS, &mOG );
             if( i == 0 ) break;
             
-            ::write( mFD, mOG.header, mOG.header_len );
-            ::write( mFD, mOG.body,   mOG.body_len );
+            if( ::write( mFD, mOG.header, mOG.header_len ) < 0 )
+            {
+               return false;
+            }
+            if( ::write( mFD, mOG.body,   mOG.body_len ) < 0 )
+            {
+               return false;
+            }
          }
          
          if( ::ogg_page_eos( &mOG ) ) eos = true;
       }
    }
+   return true;
 }

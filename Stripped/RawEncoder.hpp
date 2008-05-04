@@ -26,7 +26,7 @@ public:
    /* set the tags of the encoded file */
    void setTags( const TagList &tagList );
    /* encode raw cd audio data */
-   void encodeCDAudio( const char* data, int size );
+   bool encodeCDAudio( const char* data, int size );
 
 private:
    RawEncoder( const RawEncoder &other );
