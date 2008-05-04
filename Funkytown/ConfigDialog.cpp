@@ -19,6 +19,8 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 , mpProxyWidget( new ProxyWidget )
 , mpLogList( new QListWidget )
 {
+   setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   
    AboutWidget *about( new AboutWidget( this ) );
    QPushButton *okButton( new QPushButton(tr("OK"), this) );
    QPushButton *cancelButton( new QPushButton(tr("Cancel"), this) );
