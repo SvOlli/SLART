@@ -1,7 +1,7 @@
 #!/bin/sh
 
 mpg123_version=1.4.1
-dermixd_version=1.5.1
+dermixd_version=1.6.2
 
 mpg123=$(type -p mpg123)
 dermixd=$(type -p dermixd)
