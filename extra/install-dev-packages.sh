@@ -8,6 +8,9 @@ fi
 # Debian based systems
 if [ -x /usr/bin/apt-get ]; then
   /usr/bin/apt-get install \
+    libvorbis-dev \
+    libsndfile1-dev \
+    g++ \
     libqt4-dev \
     libvorbis-dev libcdio-paranoia-dev \
     liblircclient-dev
