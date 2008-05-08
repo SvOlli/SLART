@@ -29,6 +29,7 @@ static void signalHandler( int signum )
 
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
+, mAllowAutostart( false )
 , mpParent( parent )
 , mpConfig( new ConfigDialog( this ) )
 , mpPlaylist( new PlaylistWidget( mpConfig, this ) )
@@ -67,6 +68,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpPlaylist, SLOT(readM3u()) );
    connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
             mpControl, SLOT(allowConnect(bool)) );
+   connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
+            this, SLOT(allowAutostart(bool)) );
             
    setLayout( mainLayout );
    
@@ -109,7 +112,7 @@ void MainWidget::startUp()
    {
       mpConfig->exec();
    }
-   if( settings.value( "AutoConnect", false ).toBool() )
+   if( settings.value( "AutoConnect", false ).toBool() && mAllowAutostart )
    {
       mpControl->initConnect();
    }
@@ -126,4 +129,10 @@ void MainWidget::resizeEvent( QResizeEvent *event )
    
    mpSettingsButton->move( width()  - mpSettingsButton->width() - 3,
                            height() - mpSettingsButton->height() );
+}
+
+
+void MainWidget::allowAutostart( bool allow )
+{
+   mAllowAutostart = allow;
 }

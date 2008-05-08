@@ -31,6 +31,8 @@ public:
 public slots:
    /* handle request for new icon and title */
    void changeTitle( const QIcon &icon, const QString &title );
+   /* don't autostart if database is empty */
+   void allowAutostart( bool allow );
 
 protected:
    /* handle resize event to place settings button */
@@ -44,6 +46,7 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
 
+   bool            mAllowAutostart;
    QWidget         *mpParent;
    ConfigDialog    *mpConfig;
    PlaylistWidget  *mpPlaylist;
