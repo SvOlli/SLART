@@ -2,7 +2,7 @@
 
 mpg123_version=1.4.1
 dermixd_version=1.6.2
-dermixd_options="VORBISFILE=yes" # SNDFILE=yes"
+dermixd_options="VORBISFILE=yes SNDFILE=yes"
 
 mpg123=$(type -p mpg123)
 dermixd=$(type -p dermixd)
