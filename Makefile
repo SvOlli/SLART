@@ -14,3 +14,11 @@ clean:
 strip: all
 	strip -R .note -R .comment $(PLATFORM)/bin/*
 
+tools:
+	(cd extra ; ./build-mpg123-dermixd.sh)
+
+toolchain:
+	(cd extra ; ./install-dev-packages.sh)
+
+everything: toolchain all tools
+
