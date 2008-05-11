@@ -74,6 +74,8 @@ public slots:
    void lock();
    /* jump to a position in track */
    void seek();
+   /* handle the change of the play position (pre-seek) */
+   void playPosChange( int action );
    /* handle unload request */
    void unload();
    /* handle successful connection to DerMixD */
@@ -111,6 +113,7 @@ private:
    bool          mStartOther;
    bool          mAutoPlay;
    bool          mConsole;
+   bool          mPlayPosMoved;
    long          mTotalTime;
    long          mFrequency;
    long          mSamples;

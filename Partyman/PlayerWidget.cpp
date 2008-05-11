@@ -18,6 +18,33 @@
 #include "PlayerFSM.hpp"
 
 
+class MySlider : public QSlider
+{
+public:
+   MySlider( Qt::Orientation orientation, QWidget *parent = 0 ) :
+   QSlider( orientation, parent )
+   {
+   };
+protected:
+   void keyPressEvent( QKeyEvent *event )
+   {
+      QSlider::keyPressEvent( event );
+      if( !event->isAutoRepeat() )
+      {
+         emit sliderPressed();
+      }
+   };
+   void keyReleaseEvent( QKeyEvent *event )
+   {
+      QSlider::keyReleaseEvent( event );
+      if( !event->isAutoRepeat() )
+      {
+         emit sliderReleased();
+      }
+   };
+};
+
+
 PlayerWidget::PlayerWidget( int index, 
                             ControlWidget *controlWidget, Qt::WindowFlags flags )
 : QWidget( controlWidget, flags )
@@ -26,7 +53,7 @@ PlayerWidget::PlayerWidget( int index,
 , mpScrollLine( new ScrollLine( this ) )
 , mpStatusDisplay( new QLabel( this ) )
 , mpTimeDisplay( new QLabel( this ) )
-, mpPlayPosition( new QSlider( Qt::Horizontal, this ) )
+, mpPlayPosition( new MySlider( Qt::Horizontal, this ) )
 , mpSocket( new QTcpSocket( this ) )
 , mpFSM( new PlayerFSM( this ) )
 , mStartOther( false )
@@ -50,21 +77,28 @@ PlayerWidget::PlayerWidget( int index,
    mainLayout->addWidget( mpStatusDisplay );
    mainLayout->addWidget( mpPlayPosition );
    setLayout( mainLayout );
-   
+
    mpStatusDisplay->setAlignment( Qt::AlignLeft );
    mpStatusDisplay->setFrameShape( QFrame::Box );
    mpStatusDisplay->setContextMenuPolicy( Qt::CustomContextMenu );
    mpTimeDisplay->setAlignment( Qt::AlignRight );
    mpTimeDisplay->setFrameShape( QFrame::Box );
    
-   connect( mpSocket, SIGNAL(connected()), this, SLOT(handleConnect()) );
-   connect( mpSocket, SIGNAL(disconnected()), this, SLOT(handleDisconnect()) );
+   connect( mpSocket, SIGNAL(connected()),
+            this, SLOT(handleConnect()) );
+   connect( mpSocket, SIGNAL(disconnected()),
+            this, SLOT(handleDisconnect()) );
    connect( mpSocket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(handleError(QAbstractSocket::SocketError)) );
-   connect( mpSocket, SIGNAL(readyRead()), this, SLOT(handleResponse()) );
+   connect( mpSocket, SIGNAL(readyRead()),
+            this, SLOT(handleResponse()) );
    
-   connect( mpPlayPosition, SIGNAL(sliderPressed()), this, SLOT(lock()) );
-   connect( mpPlayPosition, SIGNAL(sliderReleased()), this, SLOT(seek()) );
+   connect( mpPlayPosition, SIGNAL(sliderPressed()),
+            this, SLOT(lock()) );
+   connect( mpPlayPosition, SIGNAL(sliderReleased()),
+            this, SLOT(seek()) );
+   connect( mpPlayPosition, SIGNAL(actionTriggered(int)),
+            this, SLOT(playPosChange(int)) );
    connect( mpStatusDisplay, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(unload()) );
    
@@ -125,7 +159,25 @@ void PlayerWidget::lock()
 
 void PlayerWidget::seek()
 {
-   sendCommand( "seek", QString::number(mpPlayPosition->value()) );
+   if( mPlayPosMoved )
+   {
+      sendCommand( "seek", QString::number(mpPlayPosition->sliderPosition()) );
+   }
+   mPlayPosMoved = false;
+   mUpdateSlider = true;
+}
+
+
+void PlayerWidget::playPosChange( int /*action*/ )
+{
+   mPlayPosMoved = true;
+   if( mpPlayPosition->sliderPosition() >= mTotalTime - 2 * mHeadStart )
+   {
+      mpPlayPosition->setSliderPosition( mTotalTime - 2 * mHeadStart );
+   }
+   QString fakemsg( QString::number( mpPlayPosition->sliderPosition() ) );
+   fakemsg.append( "s," );
+   updateTime( fakemsg );
 }
 
 
@@ -271,7 +323,6 @@ void PlayerWidget::handleResponse()
       
       if( data.startsWith( "[seek] success" ) )
       {
-         mUpdateSlider = true;
          updateTime( QString::number(mpPlayPosition->value()) + "s," );
       }
    }
@@ -422,4 +473,3 @@ void PlayerWidget::disablePlayPosition( bool disable )
 {
    mpPlayPosition->setDisabled( disable );
 }
-
