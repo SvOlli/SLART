@@ -2,7 +2,8 @@
 
 if [ `/usr/bin/id -u` -ne 0 ]; then
   echo "this script needs to be run as root"
-  exec sudo $@
+  echo "using sudo now!"
+  exec sudo $0 $@
 fi
 
 # Debian based systems
