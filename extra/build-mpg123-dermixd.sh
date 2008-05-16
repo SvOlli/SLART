@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 mpg123_version=1.4.1
 dermixd_version=1.6.2
 dermixd_options="VORBISFILE=yes SNDFILE=yes"
 
-mpg123=$(type -p mpg123)
-dermixd=$(type -p dermixd)
+mpg123=$(type -p mpg123 2>/dev/null)
+dermixd=$(type -p dermixd 2>/dev/null)
 
 if [ "$(dirname $PWD|sed 's@^.*/@@g')" = "SLART" ]; then
 bindir=../$(uname -s -m|tr ' ' _)/bin
