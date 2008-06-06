@@ -2,9 +2,16 @@
 
 mpg123_version=1.4.1
 dermixd_version=1.6.2
+dermixd_options="VORBISFILE=yes" # SNDFILE=yes"
 
 mpg123=$(type -p mpg123)
 dermixd=$(type -p dermixd)
+
+if [ "$(dirname $PWD|sed 's@^.*/@@g')" = "SLART" ]; then
+bindir=../$(uname -s -m|tr ' ' _)/bin
+else
+bindir=bin
+fi
 
 if [ -z "$mpg123" ]; then
   echo "no mpg123 found, need to build one"
@@ -36,7 +43,8 @@ if [ -z "$build_mpg123$build_dermixd" ]; then
   fi
 fi
 
-mkdir -p src bin
+echo "will copy compiled mpg123 $mpg123_version and dermixd $dermixd_version to $bindir"
+mkdir -p src $bindir
 cd src
 
 if [ -n "$build_mpg123" ]; then
@@ -56,8 +64,8 @@ if [ -n "$build_mpg123" ]; then
   tar jxf mpg123-$mpg123_version.tar.bz2
   cd mpg123-$mpg123_version
   ./configure --prefix=/usr/local --disable-shared --enable-static && make
-  cp src/mpg123 ../../bin
-  cp src/mpg123 ../../bin/mpg123-$mpg123_version
+  cp src/mpg123 ../../$bindir/mpg123-$mpg123_version
+  ln -sf mpg123-$mpg123_version ../../$bindir/mpg123
   cd ..
 fi
 
@@ -65,17 +73,17 @@ if [ -n "$build_dermixd" ]; then
   rm -rf dermixd-$dermixd_version
   tar jxf dermixd-$dermixd_version.tar.bz2
   cd dermixd-$dermixd_version
-  make VORBISFILE=yes SNDFILE=yes gnu-alsa
-  cp dermixd ../../bin/dermixd-alsa
-  cp dermixd ../../bin/dermixd-alsa-$dermixd_version
-  rm output.o
-  make VORBISFILE=yes SNDFILE=yes gnu-oss
-  cp dermixd ../../bin/dermixd-oss
-  cp dermixd ../../bin/dermixd-oss-$dermixd_version
+  make $dermixd_options gnu-oss
+  cp dermixd ../../$bindir/dermixd-oss-$dermixd_version
+  ln -sf dermixd-oss-$dermixd_version ../../$bindir/dermixd-oss
+  rm output.o param_init.o
+  make $dermixd_options gnu-alsa
+  cp dermixd ../../$bindir/dermixd-alsa-$dermixd_version
+  ln -sf dermixd-alsa-$dermixd_version ../../$bindir/dermixd-alsa
   cd ..
 fi
 
 cd ..
-strip -R .note -R .comment bin/*
-ls -l bin/*
+strip -R .note -R .comment $bindir/{mpg123,dermixd}*
+(cd $bindir;ls -l {mpg123,dermixd}*)
 
