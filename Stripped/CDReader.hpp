@@ -39,10 +39,10 @@ public:
    void getDevices( QComboBox *comboBox );
 
 public slots:
-   /* read the toc */
-   void readToc();
-   /* read the cdtext */
-   void readCDText();
+   /* read the toc and get titles via CDDB */
+   void readTocCDDB();
+   /* read the toc and get titles via cdtext */
+   void readTocCDText();
    /* rip tracks */
    void readTracks();
    /* set the device to use */
@@ -60,6 +60,9 @@ private:
    CDReader( const CDReader &other );
    CDReader &operator=( const CDReader &other );
    
+   /* read the toc */
+   void readToc();
+
    ::CdIo_t             *mpCdIo;
    ::cdrom_drive_t      *mpDrive;
    ::cdrom_paranoia_t   *mpParanoia;

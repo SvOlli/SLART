@@ -15,6 +15,8 @@
 #include "MySettings.hpp"
 #include "TagList.hpp"
 
+//#define TRACETEXT(x) TRACEMSG << cdtext_field2str( x ) << cdtext_get( x, cdtext )
+
 
 static CDReader *gCDReader0;
 
@@ -89,7 +91,6 @@ void CDReader::getDevices( QComboBox *comboBox )
 void CDReader::readToc()
 {
    mCancel = false;
-   emit starting();
    mpCDEdit->clear();
    QCoreApplication::processEvents();
    QCoreApplication::processEvents();
@@ -131,17 +132,25 @@ void CDReader::readToc()
    }
    
    mpToc->calcCddbDiscID();
+}
+
+void CDReader::readTocCDDB()
+{
+   emit starting();
    
-   mpCDEdit->update();
+   readToc();
+   
+   mpCDEdit->update( true );
    
    emit stopping();
 }
 
-#define TRACETEXT(x) TRACEMSG << cdtext_field2str( x ) << cdtext_get( x, cdtext )
-
-void CDReader::readCDText()
+void CDReader::readTocCDText()
 {
    emit starting();
+   
+   readToc();
+   
    QCoreApplication::processEvents();
    QCoreApplication::processEvents();
    
@@ -165,6 +174,8 @@ void CDReader::readCDText()
                             QString( cdtext_get( CDTEXT_TITLE, cdtext ) ) );
       cdtext_destroy( cdtext );
    }
+   
+   mpCDEdit->update( false );
    
    emit stopping();
 }

@@ -83,6 +83,7 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    mpMainLayout->setColumnStretch( 3, 1 );
    mpDiscArtist->setText( tr("DiscArtist" ) );
    mpDiscTitle->setText( tr("DiscTitle" ) );
+   mpLabelEnqueueTrack->setToolTip( tr("enqueue track in Partyman after ripping") );
    
    mpMainLayout->addWidget( mpLabelDiscArtist, 0, 0 );
    mpMainLayout->addWidget( mpDiscArtist,      0, 1, 1, 4 );
@@ -180,17 +181,26 @@ void CDEdit::clear()
 }
 
 
+bool CDEdit::isEmpty()
+{
+   return mpTrackNr[1]->isHidden();
+}
+
+
 void CDEdit::handleTrackNr()
 {
    for( int i = 1; i < 100; i++ )
    {
-      if( mpTrackNr[i]->checkState() == Qt::Unchecked )
+      if( mpTrackNr[i]->isEnabled() )
       {
-         mpTrackNr[i]->setCheckState( Qt::Checked );
-      }
-      else
-      {
-         mpTrackNr[i]->setCheckState( Qt::Unchecked );
+         if( mpTrackNr[i]->checkState() == Qt::Unchecked )
+         {
+            mpTrackNr[i]->setCheckState( Qt::Checked );
+         }
+         else
+         {
+            mpTrackNr[i]->setCheckState( Qt::Unchecked );
+         }
       }
    }
 }
@@ -277,18 +287,22 @@ void CDEdit::setTrackDisabled( int track, bool disable )
 }
 
 
-void CDEdit::update()
+void CDEdit::update( bool useCDDB )
 {
    int i, count = 4;
    QString length;
 
-   mpCDDB->query( mpToc->query() );
+   if( useCDDB )
+   {
+      mpCDDB->query( mpToc->query() );
+   }
    
    for( i = 0; i < 100; i++ )
    {
       length = mpToc->length( i );
       mpTrackPlaytime[i]->setText( length );
       mpEnqueueTrack[i]->setChecked( false );
+      mpTrackNr[i]->setChecked( i != 0 );
       bool empty = length.isEmpty();
       setTrackHidden( i, empty );
       if( !empty )

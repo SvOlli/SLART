@@ -34,6 +34,7 @@ public:
    void updateCDText( int track, const QString &artist, const QString &title );
    /* clear the sheet */
    void clear();
+   bool isEmpty();
 
 signals:
    /* signalize if the TOC contains data */
@@ -55,7 +56,7 @@ public slots:
    /* disable a track on sheet (being read) */
    void setTrackDisabled( int track, bool disabled );
    /* update sheet */
-   void update();
+   void update( bool useCDDB );
    /* copy info read from cddb from toc to sheet */
    void updateCDDB();
    /* handle split titles button */

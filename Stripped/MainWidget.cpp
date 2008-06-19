@@ -37,8 +37,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 {
    char cwd[PATH_MAX];
    MySettings settings;
-   mpCDTextButton->setEnabled( false );
-
+   mpRipButton->setEnabled( false );
+   
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
 #if QT_VERSION < 0x040300
    mainLayout->setMargin( 3 );
@@ -82,9 +82,9 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpSettingsButton, SIGNAL(pressed()),
             mpConfigDialog, SLOT(exec()) );
    connect( mpTocButton, SIGNAL(pressed()),
-            mpCDReader, SLOT(readToc()) );
+            mpCDReader, SLOT(readTocCDDB()) );
    connect( mpCDTextButton, SIGNAL(pressed()),
-            mpCDReader, SLOT(readCDText()) );
+            mpCDReader, SLOT(readTocCDText()) );
    connect( mpRipButton, SIGNAL(pressed()),
             mpCDReader, SLOT(readTracks()) );
    connect( mpEjectButton, SIGNAL(pressed()),
@@ -94,7 +94,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpDirButton, SIGNAL(clicked()),
             this, SLOT(setRippingDir()) );
    connect( mpCDEdit, SIGNAL(containsData(bool)),
-            mpCDTextButton, SIGNAL(setEnabled(bool)) );
+            mpRipButton, SIGNAL(setEnabled(bool)) );
    
    connect( mpCancelButton, SIGNAL(clicked()),
             mpCDReader, SLOT(cancel()) );
@@ -159,6 +159,6 @@ void MainWidget::finished()
    mpSettingsButton->setDisabled( false );
    mpTocButton->setDisabled( false );
    mpCDTextButton->setDisabled( false );
-   mpRipButton->setDisabled( false );
+   mpRipButton->setDisabled( mpCDEdit->isEmpty() );
    mpEjectButton->setDisabled( false );
 }
