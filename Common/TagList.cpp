@@ -130,6 +130,8 @@ QString TagList::normalizeString( const QString &string )
          switch( newString.at(i).toAscii() )
          {
             case ' ':
+            case '.':
+            case '-':
                nextUpper = true;
                break;
             case '(':
@@ -151,6 +153,8 @@ QString TagList::normalizeString( const QString &string )
    }
    
    newString.replace( "\"", "''" );
+   newString.replace( "\xc2\xb4", "'" ); // UTF8 for "´"
+   newString.replace( "`", "'" );
    if( settings.value( "NormalizeSpaces", false ).toBool() )
    {
       newString.replace( QRegExp( " +" ), " " );
