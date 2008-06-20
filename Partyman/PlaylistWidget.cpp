@@ -133,7 +133,10 @@ void PlaylistWidget::addEntries( QStringList *list, const QModelIndex &index )
    }
    else
    {
-      (*list) << mpTreeModel->getPath( index );
+      if( index.isValid() )
+      {
+         (*list) << mpTreeModel->getPath( index );
+      }
    }
 }
 

@@ -177,7 +177,7 @@ void PlayerWidget::playPosChange( int /*action*/ )
    }
    QString fakemsg( QString::number( mpPlayPosition->sliderPosition() ) );
    fakemsg.append( "s," );
-   updateTime( fakemsg );
+   updateTime( fakemsg, true );
 }
 
 
@@ -213,22 +213,25 @@ QString PlayerWidget::sec2minsec( const QString &seconds )
 }
 
 
-void PlayerWidget::updateTime( const QString &msg )
+void PlayerWidget::updateTime( const QString &msg, bool force )
 {
    int colon = msg.indexOf(',');
    long playPosition = mpPlayPosition->value();
 
-   if( msg.isEmpty() )
+   if( mUpdateSlider || force )
    {
-      mpTimeDisplay->setText( sec2minsec( "0" ) + "/" + sec2minsec( QString::number( mTotalTime ) ) );
-      playPosition = 0;
-   }
-   else
-   {
-      if( (colon > 0) && (msg.at(colon-1) == 's') )
+      if( msg.isEmpty() )
       {
-         mpTimeDisplay->setText( sec2minsec( msg.left(colon-1) ) + "/" + sec2minsec( QString::number( mTotalTime ) ) );
-         playPosition = msg.left(colon-1).toLong();
+         mpTimeDisplay->setText( sec2minsec( "0" ) + "/" + sec2minsec( QString::number( mTotalTime ) ) );
+         playPosition = 0;
+      }
+      else
+      {
+         if( (colon > 0) && (msg.at(colon-1) == 's') )
+         {
+            mpTimeDisplay->setText( sec2minsec( msg.left(colon-1) ) + "/" + sec2minsec( QString::number( mTotalTime ) ) );
+            playPosition = msg.left(colon-1).toLong();
+         }
       }
    }
    

@@ -47,7 +47,7 @@ public:
    /* get name of the currently loaded track */
    QString getCurrentTrack() const;
    /* update the time display */
-   void updateTime( const QString &msg = QString() );
+   void updateTime( const QString &msg = QString(), bool force = false );
    /* set the track info like filename */
    void setInfo( const QString &line );
    /* updating the time played */
