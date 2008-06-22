@@ -23,32 +23,54 @@ DatabaseWidget::DatabaseWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( new Database() )
 {
-TRACESTART(DatabaseWidget::DatabaseWidget)
-   QPushButton *testButton = new QPushButton( tr("Test") );
+   QPushButton *updateButton = new QPushButton( tr("Update") );
+   QPushButton *cleanupButton = new QPushButton( tr("Clean up") );
    
-   connect( testButton, SIGNAL(pressed()), this, SLOT(runTest()) );
+   connect( updateButton, SIGNAL(pressed()), this, SLOT(handleUpdate()) );
+   connect( cleanupButton, SIGNAL(pressed()), this, SLOT(handleCleanup()) );
    
    QVBoxLayout *layout = new QVBoxLayout;
-   layout->addWidget( testButton );
+   layout->addWidget( updateButton );
+   layout->addWidget( cleanupButton );
    setLayout(layout);
 }
 
-void DatabaseWidget::runTest()
+
+void DatabaseWidget::handleUpdate()
 {
+   TrackInfoList trackInfoList;
    DirWalker walker;
    connect( &walker, SIGNAL(foundFile(const QFileInfo&)),
             this, SLOT(handleFile(const QFileInfo&)) );
    mpDatabase->beginTransaction();
-   walker.run( "/media/share/Media/Music/!BPM", true );
+   walker.run( "/media/share/Media/Music", true );
    mpDatabase->endTransaction(true);
    disconnect( &walker, SIGNAL(foundFile(const QFileInfo&)),
                this, SLOT(handleFile(const QFileInfo&)) );
 }
 
+
+void DatabaseWidget::handleCleanup()
+{
+   TrackInfoList   trackInfoList;
+   const TrackInfo *trackInfo;
+   int s = mpDatabase->getTrackInfoList( &trackInfoList );
+   
+   QFileInfo qfi;
+   for( int i = 0; i < s; i++ )
+   {
+      trackInfo = &(trackInfoList.at(i));
+      qfi.setFile( trackInfo->mDirectory + "/" + trackInfo->mFileName );
+      if( !qfi.isFile() )
+      {
+         mpDatabase->deleteTrackInfo( trackInfo );
+      }
+   }
+}
+
+
 void DatabaseWidget::handleFile( const QFileInfo &fileInfo )
 {
-TRACESTART(DatabaseWidget::handleFile)
-   
    TrackInfo *trackInfo = new TrackInfo();
    
    if( !mpDatabase->getTrackInfoByFileName( trackInfo, fileInfo.absoluteFilePath() ) )
@@ -66,7 +88,7 @@ TRACESTART(DatabaseWidget::handleFile)
    
    if( updateTrackInfoFromFile( trackInfo, fileInfo.absoluteFilePath() ) )
    {
-      mpDatabase->updateTrackInfoByFileName( trackInfo );
+      mpDatabase->updateTrackInfo( trackInfo );
    }
    
    delete trackInfo;
@@ -75,13 +97,10 @@ TRACESTART(DatabaseWidget::handleFile)
 
 bool DatabaseWidget::updateTrackInfoFromFile( TrackInfo *trackInfo, const QString &fileName )
 {   
-TRACESTART(DatabaseWidget::updateTrackInfoFromFile)
    QFileInfo fileInfo( fileName );
    
    if( fileInfo.lastModified().toTime_t() > trackInfo->mLastModified )
    {
-TRACEMSG << fileInfo.lastModified().toTime_t() << ">" << trackInfo->mLastModified ;
-   
       TagLib::FileRef f( fileName.toLocal8Bit().data() );
       if( f.file() )
       {

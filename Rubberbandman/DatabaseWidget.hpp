@@ -25,7 +25,8 @@ public:
    bool updateTrackInfoFromFile( TrackInfo *trackInfo, const QString &fileName );
 
 public slots:
-   void runTest();
+   void handleUpdate();
+   void handleCleanup();
    void handleFile( const QFileInfo &fileInfo );
 
 private:
