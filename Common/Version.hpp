@@ -1,3 +1,3 @@
 
-#define SLART_VERSION "0.6&beta;"
+#define SLART_VERSION "0.7&alpha;"
 

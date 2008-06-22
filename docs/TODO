@@ -1,6 +1,11 @@
 
+extra:
+- make install
+
 Partyman:
+- set title with current track
 - check all error handling
+- set path to Partyman as first for clients
 
 Karmadrome: (new application)
 - Karma: use several playlists
@@ -15,9 +20,9 @@ Funkytown:
 Innuendo:
 
 Stripped:
-- handle error on saving
 - auto read-toc
 - encode in mp3
+- encode in flac
 
 Rubberbandman:
 
