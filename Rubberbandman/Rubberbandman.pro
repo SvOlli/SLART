@@ -9,6 +9,7 @@ TARGET =
 
 INCLUDEPATH += ../taglib
 LIBS += -L../taglib -ltag
+QT += sql
 
 # Input
 #RESOURCES = Resources.qrc
@@ -20,6 +21,9 @@ SOURCES += BrowseWidget.cpp
 
 HEADERS += SLARTComWidget.hpp 
 SOURCES += SLARTComWidget.cpp 
+
+HEADERS += DatabaseWidget.hpp 
+SOURCES += DatabaseWidget.cpp 
 
 HEADERS += SLARTCom.hpp 
 SOURCES += SLARTCom.cpp 
@@ -50,4 +54,13 @@ SOURCES += ConfigDialog.cpp
 
 HEADERS += GlobalConfigWidget.hpp 
 SOURCES += GlobalConfigWidget.cpp 
+
+HEADERS += TrackInfo.hpp 
+SOURCES += TrackInfo.cpp 
+
+HEADERS += Database.hpp 
+SOURCES += Database.cpp 
+
+HEADERS += DirWalker.hpp 
+SOURCES += DirWalker.cpp 
 

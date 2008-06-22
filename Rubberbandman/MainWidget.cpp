@@ -10,6 +10,7 @@
 
 #include "BrowseWidget.hpp"
 #include "SLARTComWidget.hpp"
+#include "DatabaseWidget.hpp"
 #include "ConfigDialog.hpp"
 #include "MySettings.hpp"
 
@@ -18,6 +19,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpBrowseWidget( new BrowseWidget( this ) )
 , mpSLARTComWidget( new SLARTComWidget( this ) )
+, mpDatabaseWidget( new DatabaseWidget( this ) )
 , mpTabs( new QTabWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpConfigDialog( new ConfigDialog( this ) )
@@ -32,6 +34,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    
    mpTabs->addTab( mpBrowseWidget,   tr("Filesystem") );
    mpTabs->addTab( mpSLARTComWidget, tr("Partyman") );
+   mpTabs->addTab( mpDatabaseWidget, tr("Database") );
    mpTabs->setCurrentIndex( settings.value("CurrentTab", 0).toInt() );
    
    QLabel *mpLogo = new QLabel( this );

@@ -13,6 +13,7 @@
 class QTabWidget;
 class BrowseWidget;
 class SLARTComWidget;
+class DatabaseWidget;
 class QPushButton;
 class ConfigDialog;
 
@@ -40,6 +41,7 @@ private:
    
    BrowseWidget   *mpBrowseWidget;
    SLARTComWidget *mpSLARTComWidget;
+   DatabaseWidget *mpDatabaseWidget;
    QTabWidget     *mpTabs;
    QPushButton    *mpSettingsButton;
    ConfigDialog   *mpConfigDialog;
