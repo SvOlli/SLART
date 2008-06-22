@@ -27,7 +27,10 @@ public:
    bool endTransaction( bool commit ) { return commit ? mpSqlDB->commit() : mpSqlDB->rollback(); };
    
    bool getTrackInfoByFileName( TrackInfo *trackInfo, const QString &fileName );
-   void updateTrackInfoByFileName( TrackInfo *trackInfo );
+   void updateTrackInfo( const TrackInfo *trackInfo );
+   void deleteTrackInfo( const TrackInfo *trackInfo );
+   
+   unsigned int getTrackInfoList( TrackInfoList *trackInfoList );
    
 public slots:
 
