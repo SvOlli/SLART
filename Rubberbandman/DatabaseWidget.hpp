@@ -10,6 +10,7 @@
 
 #include <QWidget>
 #include <QDir>
+#include <QTableView>
 #include "Database.hpp"
 #include "TrackInfo.hpp"
 
@@ -33,7 +34,9 @@ private:
    DatabaseWidget( const DatabaseWidget &other );
    DatabaseWidget &operator=( const DatabaseWidget &other );
 
-   Database *mpDatabase;
+   Database       *mpDatabase;
+   QSqlQueryModel *mpQueryModel;
+   QTableView     *mpTableView;
 };
 
 #endif

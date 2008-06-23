@@ -22,6 +22,8 @@
 DatabaseWidget::DatabaseWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( new Database() )
+, mpQueryModel( new QSqlQueryModel() )
+, mpTableView( new QTableView() )
 {
    QPushButton *updateButton = new QPushButton( tr("Update") );
    QPushButton *cleanupButton = new QPushButton( tr("Clean up") );
@@ -29,9 +31,16 @@ DatabaseWidget::DatabaseWidget( QWidget *parent, Qt::WindowFlags flags )
    connect( updateButton, SIGNAL(pressed()), this, SLOT(handleUpdate()) );
    connect( cleanupButton, SIGNAL(pressed()), this, SLOT(handleCleanup()) );
    
+   mpQueryModel->setQuery( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
+                           "PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags FROM slart_tracks;" );
+   mpTableView->setModel( mpQueryModel );
+   
    QVBoxLayout *layout = new QVBoxLayout;
-   layout->addWidget( updateButton );
-   layout->addWidget( cleanupButton );
+   QHBoxLayout *buttonLayout = new QHBoxLayout;
+   buttonLayout->addWidget( updateButton );
+   buttonLayout->addWidget( cleanupButton );
+   layout->addWidget( mpTableView );
+   layout->addLayout( buttonLayout );
    setLayout(layout);
 }
 
