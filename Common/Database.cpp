@@ -52,6 +52,7 @@ Database::Database()
    
    if( !mVersion )
    {
+      /* create database */
       QStringList initSQL;
       initSQL 
       << "CREATE TABLE slart_config (key VARCHAR PRIMARY KEY,"
@@ -71,6 +72,7 @@ Database::Database()
                                     "LastModified INTEGER,"
                                     "TimesPlayed INTEGER,"
                                     "Volume DOUBLE,"
+                                    "Folders VARCHAR,"
                                     "Flags INTEGER);"
       << "CREATE UNIQUE INDEX slart_tracks_file ON slart_tracks(directory,filename);"
       << "CREATE INDEX slart_tracks_filename ON slart_tracks(filename);"
@@ -84,6 +86,13 @@ Database::Database()
          if(!mpQuery->exec( initSQL.at(i) ))
          {
          }
+      }
+   }
+   else
+   {
+      /* upgrade database */
+      switch(mVersion)
+      {
       }
    }
    mpQuery->clear();
@@ -108,7 +117,7 @@ bool Database::getTrackInfoByFileName( TrackInfo *trackInfo, const QString &file
    int fileNameStart = fileName.lastIndexOf('/');
    
    mpQuery->prepare( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
-                   "PlayTime,LastModified,TimesPlayed,Volume,Flags FROM slart_tracks"
+                   "PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags FROM slart_tracks"
                    " WHERE Directory = :directory AND FileName = :fileName ;" );
    mpQuery->bindValue( ":directory", fileName.left(fileNameStart)/*.replace("'","''" )*/ );
    mpQuery->bindValue( ":fileName", fileName.mid(fileNameStart+1)/*.replace("'","''" )*/ );   
@@ -131,7 +140,8 @@ bool Database::getTrackInfoByFileName( TrackInfo *trackInfo, const QString &file
       trackInfo->mLastModified = mpQuery->value(10).toUInt();
       trackInfo->mTimesPlayed  = mpQuery->value(11).toUInt();
       trackInfo->mVolume       = mpQuery->value(11).toDouble();
-      trackInfo->mFlags        = mpQuery->value(12).toUInt();
+      trackInfo->mFolders      = mpQuery->value(12).toString();
+      trackInfo->mFlags        = mpQuery->value(13).toUInt();
       
       mpQuery->clear();
       return true;
@@ -147,7 +157,7 @@ unsigned int Database::getTrackInfoList( TrackInfoList *trackInfoList )
    if( trackInfoList )
    {
       mpQuery->prepare( "SELECT Directory,FileName,Artist,Title,Album,TrackNr,Year,"
-                        "Genre,PlayTime,LastModified,TimesPlayed,Volume,Flags,id"
+                        "Genre,PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags,id"
                         " FROM slart_tracks;" );
       if( !mpQuery->exec() )
       {
@@ -168,7 +178,7 @@ unsigned int Database::getTrackInfoList( TrackInfoList *trackInfoList )
                                         mpQuery->value( 9).toUInt(),
                                         mpQuery->value(10).toUInt(),
                                         mpQuery->value(11).toDouble(),
-                                        mpQuery->value(12).toUInt(),
+                                        mpQuery->value(12).toString(),
                                         mpQuery->value(13).toUInt() );
       }
       mpQuery->clear();
@@ -194,7 +204,7 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo )
       mpQuery->prepare( "UPDATE slart_tracks SET Directory = :directory, FileName = :filename,"
                         " Artist = :artist, Title = :title, Album = :album, TrackNr = :tracknr,"
                         " Year = :year, Genre = :genre, PlayTime = :playtime, LastModified = :lastmodified,"
-                        " TimesPlayed = :timesplayed, Volume = :volume, Flags = :flags"
+                        " TimesPlayed = :timesplayed, Volume = :volume, Folders = :folders, Flags = :flags"
                         " WHERE id = :id ;" );
       mpQuery->bindValue( ":id", trackInfo->mID );
    }
@@ -203,7 +213,7 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo )
       mpQuery->prepare( "INSERT OR REPLACE INTO slart_tracks (Directory,FileName,Artist,Title,Album,"
                         "TrackNr,Year,Genre,PlayTime,LastModified,TimesPlayed,Flags) values"
                         " (:directory,:filename,:artist,:title,:album,:tracknr,:year,:genre,"
-                        ":playtime,:lastmodified,:timesplayed,:flags);" );
+                        ":playtime,:lastmodified,:timesplayed,:folders,:flags);" );
    }
    mpQuery->bindValue( ":directory",    trackInfo->mDirectory );
    mpQuery->bindValue( ":filename",     trackInfo->mFileName );
@@ -217,6 +227,7 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo )
    mpQuery->bindValue( ":lastmodified", trackInfo->mLastModified );
    mpQuery->bindValue( ":timesplayed",  trackInfo->mTimesPlayed );
    mpQuery->bindValue( ":volume",       trackInfo->mVolume );
+   mpQuery->bindValue( ":folders",      trackInfo->mFolders );
    mpQuery->bindValue( ":flags",        trackInfo->mFlags );
    if( !mpQuery->exec() )
    {

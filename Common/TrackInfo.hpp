@@ -28,6 +28,7 @@ public:
               unsigned int   lastmodified,
               unsigned int   timesplayed = 0,
               double         volume = 0.0,
+              const QString &folders = QString(),
               unsigned int   flags = 0,
               unsigned int   id = 0 );
    
@@ -44,6 +45,7 @@ public:
    unsigned int mLastModified;
    unsigned int mTimesPlayed;
    double       mVolume;
+   QString      mFolders;
    unsigned int mFlags;
 };
 
