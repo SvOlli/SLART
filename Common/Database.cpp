@@ -211,7 +211,7 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo )
    else
    {
       mpQuery->prepare( "INSERT OR REPLACE INTO slart_tracks (Directory,FileName,Artist,Title,Album,"
-                        "TrackNr,Year,Genre,PlayTime,LastModified,TimesPlayed,Flags) values"
+                        "TrackNr,Year,Genre,PlayTime,LastModified,TimesPlayed,Folders,Flags) values"
                         " (:directory,:filename,:artist,:title,:album,:tracknr,:year,:genre,"
                         ":playtime,:lastmodified,:timesplayed,:folders,:flags);" );
    }
