@@ -56,6 +56,11 @@ void DatabaseWidget::handleUpdate()
    mpDatabase->endTransaction(true);
    disconnect( &walker, SIGNAL(foundFile(const QFileInfo&)),
                this, SLOT(handleFile(const QFileInfo&)) );
+   QString query( mpQueryModel->query().lastQuery() );
+   delete mpQueryModel;
+   mpQueryModel = new QSqlQueryModel();
+   mpQueryModel->setQuery( query );
+   mpTableView->setModel( mpQueryModel );
 }
 
 
