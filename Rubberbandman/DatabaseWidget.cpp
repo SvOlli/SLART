@@ -16,6 +16,7 @@
 #include "FileSysBrowser.hpp"
 #include "InfoEdit.hpp"
 #include "DirWalker.hpp"
+#include "MySettings.hpp"
 
 #include "Trace.hpp"
 
@@ -52,7 +53,7 @@ void DatabaseWidget::handleUpdate()
    connect( &walker, SIGNAL(foundFile(const QFileInfo&)),
             this, SLOT(handleFile(const QFileInfo&)) );
    mpDatabase->beginTransaction();
-   walker.run( "/media/share/Media/Music", true );
+   walker.run( MySettings().value( "RootDirectory", QString("/") ).toString(), true );
    mpDatabase->endTransaction(true);
    disconnect( &walker, SIGNAL(foundFile(const QFileInfo&)),
                this, SLOT(handleFile(const QFileInfo&)) );
