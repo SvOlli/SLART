@@ -119,8 +119,8 @@ bool Database::getTrackInfoByFileName( TrackInfo *trackInfo, const QString &file
    mpQuery->prepare( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
                    "PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags FROM slart_tracks"
                    " WHERE Directory = :directory AND FileName = :fileName ;" );
-   mpQuery->bindValue( ":directory", fileName.left(fileNameStart)/*.replace("'","''" )*/ );
-   mpQuery->bindValue( ":fileName", fileName.mid(fileNameStart+1)/*.replace("'","''" )*/ );   
+   mpQuery->bindValue( ":directory", fileName.left(fileNameStart) );
+   mpQuery->bindValue( ":fileName", fileName.mid(fileNameStart+1) );   
    if( !mpQuery->exec() )
    {
    }
@@ -139,9 +139,9 @@ bool Database::getTrackInfoByFileName( TrackInfo *trackInfo, const QString &file
       trackInfo->mPlayTime     = mpQuery->value( 9).toUInt();
       trackInfo->mLastModified = mpQuery->value(10).toUInt();
       trackInfo->mTimesPlayed  = mpQuery->value(11).toUInt();
-      trackInfo->mVolume       = mpQuery->value(11).toDouble();
-      trackInfo->mFolders      = mpQuery->value(12).toString();
-      trackInfo->mFlags        = mpQuery->value(13).toUInt();
+      trackInfo->mVolume       = mpQuery->value(12).toDouble();
+      trackInfo->mFolders      = mpQuery->value(13).toString();
+      trackInfo->mFlags        = mpQuery->value(14).toUInt();
       
       mpQuery->clear();
       return true;
