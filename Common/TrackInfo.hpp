@@ -13,6 +13,14 @@
 class TrackInfo
 {
 public:
+   enum Flag {
+      ScannedWithPeak  = 0x00000001,
+      ScannedWithPower = 0x00000002,
+      Unwanted         = 0x00000004,
+      Favorite         = 0x00000008,
+      None             = 0x00000000
+   };
+   
    TrackInfo();
    TrackInfo( const TrackInfo &other );
    TrackInfo &operator=( const TrackInfo &other );
@@ -47,8 +55,17 @@ public:
    double       mVolume;
    QString      mFolders;
    unsigned int mFlags;
+   
+   void setFlag( Flag flag, bool set );
+   bool isFlagged( Flag flag );
+   
+   QString toString() const;
+   
+private:
+   unsigned int getFlagMask( Flag flag );
 };
 
 typedef QList<TrackInfo> TrackInfoList;
+
 
 #endif

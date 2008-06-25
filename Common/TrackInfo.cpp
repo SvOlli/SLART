@@ -6,6 +6,7 @@
  */
 
 #include "Database.hpp"
+#include "Trace.hpp"
 
 TrackInfo::TrackInfo()
 {
@@ -54,6 +55,7 @@ TrackInfo::TrackInfo( const TrackInfo &other )
 {
 }
 
+
 TrackInfo &TrackInfo::operator=( const TrackInfo &other )
 {
    mID           = other.mID;
@@ -74,3 +76,48 @@ TrackInfo &TrackInfo::operator=( const TrackInfo &other )
    
    return *this;
 }
+
+
+void TrackInfo::setFlag( Flag flag, bool set )
+{
+   mFlags &= ~getFlagMask( flag );
+   if( set )
+   {
+      mFlags |= (unsigned int)flag;
+   }
+}
+
+
+bool TrackInfo::isFlagged( Flag flag )
+{
+   return (mFlags & getFlagMask( flag )) == (unsigned int)flag;
+}
+
+
+unsigned int TrackInfo::getFlagMask( Flag flag )
+{
+   switch( flag )
+   {
+      case ScannedWithPeak:
+      case ScannedWithPower:
+         return ScannedWithPeak | ScannedWithPower;
+      case Favorite:
+      case Unwanted:
+         return Favorite | Unwanted;
+      default:
+         return 0;
+   }
+}
+
+
+QString TrackInfo::toString() const 
+{
+   return QString("id=%1,dir=%2,file=%3,artist=%4,title=%5,album=%6,trk=%7,year=%8,genre=%9,")
+                  .arg(QString::number(mID), mDirectory, mFileName, mArtist, mTitle,
+                       mAlbum, QString::number(mTrackNr), QString::number(mYear), mGenre)+
+          QString("pt=%1,lm=%2,tp=%3,vol=%4,folders=%5,flags=%6")
+                  .arg(QString::number(mPlayTime), QString::number(mLastModified),
+                       QString::number(mTimesPlayed),QString::number(mVolume), mFolders,
+                       QString::number(mFlags,16));
+}
+
