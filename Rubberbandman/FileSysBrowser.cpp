@@ -7,6 +7,7 @@
 
 #include "FileSysBrowser.hpp"
 #include "MySettings.hpp"
+#include "Database.hpp"
 
 #include <QtGui>
 #include <QString>
@@ -14,8 +15,9 @@
 #include "Trace.hpp"
 
 
-FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
+FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
+, mpDatabase( database )
 , mpRootDir( new QLineEdit( this ) )
 , mpSetButton( new QPushButton( tr("Set"), this ) )
 , mpDotButton( new QPushButton( tr(".."), this ) )
@@ -25,7 +27,7 @@ FileSysBrowser::FileSysBrowser( QWidget *parent, Qt::WindowFlags flags )
 {
    MySettings settings;
    QStringList filterNames;
-   filterNames << "*.mp3" << "*.ogg";
+   filterNames << "*.mp2" << "*.mp3" << "*.ogg";
    mpModel->setNameFilters( filterNames );
    mpModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files );
    mpModel->setSorting( QDir::Name | QDir::DirsFirst | QDir::IgnoreCase /*| QDir::LocaleAware*/ );

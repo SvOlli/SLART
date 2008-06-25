@@ -12,6 +12,7 @@
 
 #include "InfoEdit.hpp"
 #include "MySettings.hpp"
+#include "Database.hpp"
 #include "Trace.hpp"
 
 #define MODE_NOTHING     0
@@ -20,8 +21,10 @@
 #define MODE_NORM_TITLE  3
 
 
-InfoEdit::InfoEdit( QWidget *parent )
+InfoEdit::InfoEdit( Database *database, QWidget *parent )
 : QWidget( parent )
+, mpDatabase         ( database )
+, mTrackInfo         ( )
 , mpButtonSet        ( new QPushButton( this ) )
 , mpButtonNormArtist ( new QPushButton( tr("Norm. Artist"), this ) )
 , mpButtonNormTitle  ( new QPushButton( tr("Norm. Title"), this ) )
@@ -306,6 +309,7 @@ TRACEMSG << fullpath;
       mIsValid = true;
       mIsFile  = true;
       
+      mpDatabase->getTrackInfoByFileName( &mTrackInfo, fullpath );
       mTagList.clear();
       TagLib::FileRef f( fullpath.toLocal8Bit().data() );
       if( f.file() )
@@ -466,6 +470,17 @@ TRACEMSG << mFileName;
       ::unlink( mFileName.toLocal8Bit().data() );
       ::rename( tmppath.toLocal8Bit().data(), newpath.toLocal8Bit().data() );
    }
+   
+   qfi.setFile( newpath );
+   mTrackInfo.mDirectory = qfi.absolutePath();
+   mTrackInfo.mFileName  = qfi.fileName();
+   mTrackInfo.mArtist    = mpEditArtist->text();
+   mTrackInfo.mTitle     = mpEditTitle->text();
+   mTrackInfo.mAlbum     = mpEditAlbum->text();
+   mTrackInfo.mTrackNr   = mpEditTrackNr->text().toUInt();
+   mTrackInfo.mYear      = mpEditYear->text().toUInt();
+   mTrackInfo.mGenre     = mpEditGenre->text();
+   mpDatabase->updateTrackInfo( &mTrackInfo );
 }
 
 

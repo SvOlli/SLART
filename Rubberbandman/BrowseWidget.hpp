@@ -15,13 +15,14 @@ class QString;
 class FileSysBrowser;
 class InfoEdit;
 class QPushButton;
+class Database;
 
 class BrowseWidget : public QWidget
 {
 Q_OBJECT
 
 public:
-   BrowseWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   BrowseWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
    /* show a specific file in filesystem tree */

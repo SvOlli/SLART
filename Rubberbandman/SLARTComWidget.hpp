@@ -12,17 +12,20 @@
 #include <QDir>
 
 #include "SLARTCom.hpp"
+#include "TrackInfo.hpp"
 
 class QString;
 class InfoEdit;
 class QPushButton;
+class QCheckBox;
+class Database;
 
 class SLARTComWidget : public QWidget
 {
 Q_OBJECT
 
 public:
-   SLARTComWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   SLARTComWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
    /* handle SLART message to read tags of current track */
@@ -31,6 +34,10 @@ public slots:
    void handleNowPlaying();
    /* handle the show in filesystem button */
    void handleShowInFilesystem();
+   /* handle the favorite checkbox */
+   void handleFavorite();
+   /* handle the unwanted checkbox */
+   void handleUnwanted();
    /* restart SLART receiver */
    void readConfig();
 
@@ -42,10 +49,14 @@ private:
    SLARTComWidget( const SLARTComWidget &other );
    SLARTComWidget &operator=( const SLARTComWidget &other );
 
+   Database       *mpDatabase;
    InfoEdit       *mpInfoEdit;
    QPushButton    *mpNowPlaying;
    QPushButton    *mpShowInFilesystem;
+   QCheckBox      *mpFavorite;
+   QCheckBox      *mpUnwanted;
    SLARTCom       mSLARTCom;
+   TrackInfo      mTrackInfo;
 };
 
 #endif

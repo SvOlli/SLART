@@ -10,13 +10,14 @@
 #include <QtGui>
 #include <QString>
 
+#include "Database.hpp"
 #include "FileSysBrowser.hpp"
 #include "InfoEdit.hpp"
 
-BrowseWidget::BrowseWidget( QWidget *parent, Qt::WindowFlags flags )
+BrowseWidget::BrowseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpFileSysBrowser( new FileSysBrowser( this ) )
-, mpInfoEdit( new InfoEdit( this ) )
+, mpFileSysBrowser( new FileSysBrowser( database, this ) )
+, mpInfoEdit( new InfoEdit( database, this ) )
 {
    QVBoxLayout *layout = new QVBoxLayout;
    layout->addWidget( mpFileSysBrowser );

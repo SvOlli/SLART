@@ -13,6 +13,7 @@
 class QTabWidget;
 class BrowseWidget;
 class SLARTComWidget;
+class Database;
 class DatabaseWidget;
 class QPushButton;
 class ConfigDialog;
@@ -39,6 +40,7 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
    
+   Database       *mpDatabase;
    BrowseWidget   *mpBrowseWidget;
    SLARTComWidget *mpSLARTComWidget;
    DatabaseWidget *mpDatabaseWidget;

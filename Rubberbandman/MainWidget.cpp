@@ -8,6 +8,7 @@
 #include <QtGui>
 #include "MainWidget.hpp"
 
+#include "Database.hpp"
 #include "BrowseWidget.hpp"
 #include "SLARTComWidget.hpp"
 #include "DatabaseWidget.hpp"
@@ -17,9 +18,10 @@
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpBrowseWidget( new BrowseWidget( this ) )
-, mpSLARTComWidget( new SLARTComWidget( this ) )
-, mpDatabaseWidget( new DatabaseWidget( this ) )
+, mpDatabase( new Database() )
+, mpBrowseWidget( new BrowseWidget( mpDatabase, this ) )
+, mpSLARTComWidget( new SLARTComWidget( mpDatabase, this ) )
+, mpDatabaseWidget( new DatabaseWidget( mpDatabase, this ) )
 , mpTabs( new QTabWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpConfigDialog( new ConfigDialog( this ) )

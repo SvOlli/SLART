@@ -18,6 +18,7 @@ class QPushButton;
 class QModelIndex;
 class QTimer;
 class QShowEvent;
+class Database;
 
 
 class FileSysBrowser : public QWidget
@@ -25,7 +26,7 @@ class FileSysBrowser : public QWidget
 Q_OBJECT
 
 public:
-   FileSysBrowser( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   FileSysBrowser( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
    /* get the index of clicked entry */
@@ -49,6 +50,7 @@ private:
    FileSysBrowser( const FileSysBrowser &other );
    FileSysBrowser &operator=( const FileSysBrowser &other );
 
+   Database     *mpDatabase;
    QLineEdit    *mpRootDir;
    QPushButton  *mpSetButton;
    QPushButton  *mpDotButton;

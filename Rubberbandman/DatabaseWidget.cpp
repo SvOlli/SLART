@@ -9,10 +9,13 @@
 
 #include <QtGui>
 #include <QString>
+#include <QSqlQueryModel>
+#include <QTableView>
 
 #include <fileref.h>
 #include <tag.h>
 
+#include "Database.hpp"
 #include "FileSysBrowser.hpp"
 #include "InfoEdit.hpp"
 #include "DirWalker.hpp"
@@ -20,9 +23,9 @@
 
 #include "Trace.hpp"
 
-DatabaseWidget::DatabaseWidget( QWidget *parent, Qt::WindowFlags flags )
+DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpDatabase( new Database() )
+, mpDatabase( database )
 , mpQueryModel( new QSqlQueryModel() )
 , mpTableView( new QTableView() )
 {
@@ -32,9 +35,11 @@ DatabaseWidget::DatabaseWidget( QWidget *parent, Qt::WindowFlags flags )
    connect( updateButton, SIGNAL(pressed()), this, SLOT(handleUpdate()) );
    connect( cleanupButton, SIGNAL(pressed()), this, SLOT(handleCleanup()) );
    
+#if 0
    mpQueryModel->setQuery( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
                            "PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags FROM slart_tracks;" );
    mpTableView->setModel( mpQueryModel );
+#endif
    
    QVBoxLayout *layout = new QVBoxLayout;
    QHBoxLayout *buttonLayout = new QHBoxLayout;

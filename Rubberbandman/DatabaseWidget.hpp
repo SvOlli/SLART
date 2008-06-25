@@ -9,20 +9,23 @@
 #define DATABASEWIDGET_HPP DATABASEWIDGET_HPP
 
 #include <QWidget>
-#include <QDir>
-#include <QTableView>
-#include "Database.hpp"
+//#include <QDir>
+//#include <QTableView>
 #include "TrackInfo.hpp"
 
 class QPushButton;
 class QString;
+class QSqlQueryModel;
+class QFileInfo;
+class QTableView;
+class Database;
 
 class DatabaseWidget : public QWidget
 {
 Q_OBJECT
 
 public:
-   DatabaseWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   DatabaseWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    bool updateTrackInfoFromFile( TrackInfo *trackInfo, const QString &fileName );
 
 public slots:
