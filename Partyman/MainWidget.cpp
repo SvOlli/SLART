@@ -57,6 +57,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    ::signal( SIGSEGV, signalHandler );
    ::signal( SIGPIPE, signalHandler );
    ::signal( SIGTERM, signalHandler );
+   ::signal( SIGPWR,  signalHandler );
    
    connect( mpControl, SIGNAL(requestAddToPlaylist(QStringList,bool)), 
             mpPlaylist, SLOT(addEntries(QStringList,bool)) );
@@ -90,6 +91,7 @@ MainWidget::~MainWidget()
    ::signal( SIGSEGV, SIG_DFL );
    ::signal( SIGPIPE, SIG_DFL );
    ::signal( SIGTERM, SIG_DFL );
+   ::signal( SIGPWR,  SIG_DFL );
 
    delete mpControl;
    mpControl = 0;
