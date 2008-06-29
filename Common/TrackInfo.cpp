@@ -78,6 +78,26 @@ TrackInfo &TrackInfo::operator=( const TrackInfo &other )
 }
 
 
+void TrackInfo::clear()
+{
+   mID           = 0;
+   mDirectory    = QString();
+   mFileName     = QString();
+   mArtist       = QString();
+   mTitle        = QString();
+   mAlbum        = QString();
+   mTrackNr      = 0;
+   mYear         = 0;
+   mGenre        = QString();
+   mPlayTime     = 0;
+   mLastModified = 0;
+   mTimesPlayed  = 0;
+   mVolume       = 0.0;
+   mFolders      = QString();
+   mFlags        = 0;
+}
+
+
 void TrackInfo::setFlag( Flag flag, bool set )
 {
    mFlags &= ~getFlagMask( flag );
@@ -107,6 +127,31 @@ unsigned int TrackInfo::getFlagMask( Flag flag )
       default:
          return 0;
    }
+}
+
+
+void TrackInfo::setFolder( const QString &folder, bool add )
+{
+   QStringList folders( mFolders.split('|', QString::SkipEmptyParts) );
+   int i = folders.indexOf( folder );
+   if( add )
+   {
+      if( i < 0 )
+      {
+         folders.append( QString(folder).replace('|','\\') );
+         folders.sort();
+      }
+   }
+   else
+   {
+      if( i >= 0 )
+      {
+         folders.removeAt( i );
+      }
+   }
+   mFolders = folders.join( "|" );
+   mFolders.prepend( "|" );
+   mFolders.append( "|" );
 }
 
 

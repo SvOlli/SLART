@@ -56,8 +56,12 @@ public:
    QString      mFolders;
    unsigned int mFlags;
    
+   void clear();
+   
    void setFlag( Flag flag, bool set );
    bool isFlagged( Flag flag );
+   
+   void setFolder( const QString &folder, bool add );
    
    QString toString() const;
    
