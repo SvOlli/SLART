@@ -34,10 +34,6 @@ public slots:
    void handleNowPlaying();
    /* handle the show in filesystem button */
    void handleShowInFilesystem();
-   /* handle the favorite checkbox */
-   void handleFavorite();
-   /* handle the unwanted checkbox */
-   void handleUnwanted();
    /* restart SLART receiver */
    void readConfig();
 
@@ -53,8 +49,6 @@ private:
    InfoEdit       *mpInfoEdit;
    QPushButton    *mpNowPlaying;
    QPushButton    *mpShowInFilesystem;
-   QCheckBox      *mpFavorite;
-   QCheckBox      *mpUnwanted;
    SLARTCom       mSLARTCom;
    TrackInfo      mTrackInfo;
 };

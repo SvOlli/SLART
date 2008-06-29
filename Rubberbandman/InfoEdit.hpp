@@ -14,6 +14,8 @@
 #include "TrackInfo.hpp"
    
 class QGroupBox;
+class QCheckBox;
+class QComboBox;
 class QLabel;
 class QLineEdit;
 class QIntValidator;
@@ -43,6 +45,8 @@ public slots:
    void handleCancel();
    /* enable save button */
    void handleChange();
+   /* handle the favorite combobox */
+   void handleFlavor( int index );
 
 signals:
    void fileStats( bool isValid, bool isFile );
@@ -57,6 +61,8 @@ private:
    void saveFile();
    /* walk through the directory tree */
    void recurse( const QDir &dir, bool isBase = true );
+   /* add or remove the don't change option to flavor */
+   void addNoFlavorChange( bool add );
 
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;
@@ -66,7 +72,9 @@ private:
    QPushButton *mpButtonNormTitle;
    QPushButton *mpButtonCancel;
 
-   QGroupBox *mpGridGroupBox;
+   QGroupBox *mpFileGroupBox;
+   QGroupBox *mpTagGroupBox;
+   QGroupBox *mpDatabaseGroupBox;
 
    QLabel *mpLabelPathName;
    QLabel *mpLabelFileName;
@@ -79,6 +87,7 @@ private:
    
    QLineEdit *mpShowPathName;
    QLineEdit *mpShowFileName;
+   
    QLineEdit *mpEditArtist;
    QLineEdit *mpEditTitle;
    QLineEdit *mpEditAlbum;
@@ -87,6 +96,8 @@ private:
    QLineEdit *mpEditGenre;
    QIntValidator *mpValidateTrackNr;
    QIntValidator *mpValidateYear;
+   
+   QComboBox *mpSelectFlavor;
 
    int     mRecurseMode;
    bool    mIsValid;
@@ -99,6 +110,7 @@ private:
    QString mRecurseAlbum;
    QString mRecurseYear;
    QString mRecurseGenre;
+   int     mRecurseFlavor;
 };
 
 #endif

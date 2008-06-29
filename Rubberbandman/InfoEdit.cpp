@@ -23,42 +23,48 @@
 
 InfoEdit::InfoEdit( Database *database, QWidget *parent )
 : QWidget( parent )
-, mpDatabase         ( database )
-, mTrackInfo         ( )
-, mpButtonSet        ( new QPushButton( this ) )
-, mpButtonNormArtist ( new QPushButton( tr("Norm. Artist"), this ) )
-, mpButtonNormTitle  ( new QPushButton( tr("Norm. Title"), this ) )
-, mpButtonCancel     ( new QPushButton( tr("Cancel"), this ) )
-, mpGridGroupBox     ( new QGroupBox( tr("OggVorbis Information"), this ) )
-, mpLabelPathName    ( new QLabel( tr("Path:"), this ) )
-, mpLabelFileName    ( new QLabel( tr("File:"), this ) )
-, mpLabelArtist      ( new QLabel( tr("Artist:"), this ) )
-, mpLabelTitle       ( new QLabel( tr("Title:"), this ) )
-, mpLabelAlbum       ( new QLabel( tr("Album:"), this ) )
-, mpLabelTrackNr     ( new QLabel( tr("TrackNr:"), this ) )
-, mpLabelYear        ( new QLabel( tr("Year:"), this ) )
-, mpLabelGenre       ( new QLabel( tr("Genre:"), this ) )
-, mpShowPathName     ( new QLineEdit( this ) )
-, mpShowFileName     ( new QLineEdit( this ) )
-, mpEditArtist       ( new QLineEdit( this ) )
-, mpEditTitle        ( new QLineEdit( this ) )
-, mpEditAlbum        ( new QLineEdit( this ) )
-, mpEditTrackNr      ( new QLineEdit( this ) )
-, mpEditYear         ( new QLineEdit( this ) )
-, mpEditGenre        ( new QLineEdit( this ) )
-, mRecurseMode       ( 0 )
-, mIsValid           ( false )
-, mIsFile            ( false )
-, mCancel            ( false )
-, mTagList           ( )
-, mFileName          ( )
-, mRecurseArtist     ( )
-, mRecurseTitle      ( )
-, mRecurseAlbum      ( )
-, mRecurseYear       ( )
-, mRecurseGenre      ( )
+, mpDatabase( database )
+, mTrackInfo()
+, mpButtonSet( new QPushButton( this ) )
+, mpButtonNormArtist( new QPushButton( tr("Norm. Artist"), this ) )
+, mpButtonNormTitle( new QPushButton( tr("Norm. Title"), this ) )
+, mpButtonCancel( new QPushButton( tr("Cancel"), this ) )
+, mpFileGroupBox( new QGroupBox( tr("File Information"), this ) )
+, mpTagGroupBox( new QGroupBox( tr("Tag Information"), this ) )
+, mpDatabaseGroupBox( new QGroupBox( tr("Database Information"), this ) )
+, mpLabelPathName( new QLabel( tr("Path:"), this ) )
+, mpLabelFileName( new QLabel( tr("File:"), this ) )
+, mpLabelArtist( new QLabel( tr("Artist:"), this ) )
+, mpLabelTitle( new QLabel( tr("Title:"), this ) )
+, mpLabelAlbum( new QLabel( tr("Album:"), this ) )
+, mpLabelTrackNr( new QLabel( tr("TrackNr:"), this ) )
+, mpLabelYear( new QLabel( tr("Year:"), this ) )
+, mpLabelGenre( new QLabel( tr("Genre:"), this ) )
+, mpShowPathName( new QLineEdit( this ) )
+, mpShowFileName( new QLineEdit( this ) )
+, mpEditArtist( new QLineEdit( this ) )
+, mpEditTitle( new QLineEdit( this ) )
+, mpEditAlbum( new QLineEdit( this ) )
+, mpEditTrackNr( new QLineEdit( this ) )
+, mpEditYear( new QLineEdit( this ) )
+, mpEditGenre( new QLineEdit( this ) )
+, mpSelectFlavor( new QComboBox( this ) )
+, mRecurseMode( 0 )
+, mIsValid( false )
+, mIsFile( false )
+, mCancel( false )
+, mTagList()
+, mFileName()
+, mRecurseArtist()
+, mRecurseTitle()
+, mRecurseAlbum()
+, mRecurseYear()
+, mRecurseGenre()
+, mRecurseFlavor( 3 )
 {
-   
+   mpSelectFlavor->addItem( QString(tr("Normal Track")) );
+   mpSelectFlavor->addItem( QString(tr("Favorite Track")) );
+   mpSelectFlavor->addItem( QString(tr("Unwanted Track")) );
 #if 1
    mpValidateTrackNr = new QIntValidator( 0, 99, mpEditTrackNr );
    mpValidateYear    = new QIntValidator( 1900, 2100, mpEditYear );
@@ -77,40 +83,66 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    mpLabelTrackNr->setAlignment( Qt::AlignRight | Qt::AlignVCenter  );
 #endif
 
-   mpGridGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
-   QGridLayout *layout = new QGridLayout;
+   mpFileGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
+   QGridLayout *fileLayout = new QGridLayout;
    
-   layout->addWidget( mpLabelPathName, 0, 0 );
-   layout->addWidget( mpLabelFileName, 1, 0 );
-   layout->addWidget( mpLabelArtist,   2, 0 );
-   layout->addWidget( mpLabelTitle,    3, 0 );
-   layout->addWidget( mpLabelAlbum,    4, 0 );
-   layout->addWidget( mpLabelTrackNr,  5, 0 );
-   layout->addWidget( mpLabelYear,     5, 2 );
-   layout->addWidget( mpLabelGenre,    5, 4 );
+   fileLayout->addWidget( mpLabelPathName, 0, 0 );
+   fileLayout->addWidget( mpLabelFileName, 1, 0 );
    
-   layout->addWidget( mpShowPathName,  0, 1, 1, 5 );
-   layout->addWidget( mpShowFileName,  1, 1, 1, 5 );
-   layout->addWidget( mpEditArtist,    2, 1, 1, 5 );
-   layout->addWidget( mpEditTitle,     3, 1, 1, 5 );
-   layout->addWidget( mpEditAlbum,     4, 1, 1, 5 );
-   layout->addWidget( mpEditTrackNr,   5, 1 );
-   layout->addWidget( mpEditYear,      5, 3 );
-   layout->addWidget( mpEditGenre,     5, 5 );
+   fileLayout->addWidget( mpShowPathName,  0, 1, 1, 5 );
+   fileLayout->addWidget( mpShowFileName,  1, 1, 1, 5 );
+   
+   fileLayout->setColumnStretch( 0,  1 );
+   fileLayout->setColumnStretch( 1, 99 );
+   
+#if QT_VERSION < 0x040300
+   fileLayout->setMargin( 2 );
+#else
+   fileLayout->setContentsMargins( 2, 2, 2, 2 );
+#endif
+   mpFileGroupBox->setLayout( fileLayout );
+   
+   mpTagGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
+   QGridLayout *netLayout = new QGridLayout;
+   
+   netLayout->addWidget( mpLabelArtist,   0, 0 );
+   netLayout->addWidget( mpLabelTitle,    1, 0 );
+   netLayout->addWidget( mpLabelAlbum,    2, 0 );
+   netLayout->addWidget( mpLabelTrackNr,  3, 0 );
+   netLayout->addWidget( mpLabelYear,     3, 2 );
+   netLayout->addWidget( mpLabelGenre,    3, 4 );
+   
+   netLayout->addWidget( mpEditArtist,    0, 1, 1, 5 );
+   netLayout->addWidget( mpEditTitle,     1, 1, 1, 5 );
+   netLayout->addWidget( mpEditAlbum,     2, 1, 1, 5 );
+   netLayout->addWidget( mpEditTrackNr,   3, 1 );
+   netLayout->addWidget( mpEditYear,      3, 3 );
+   netLayout->addWidget( mpEditGenre,     3, 5 );
 
-   layout->setColumnStretch( 0,  1 );
-   layout->setColumnStretch( 1,  2 );
-   layout->setColumnStretch( 2,  1 );
-   layout->setColumnStretch( 3, 14 );
-   layout->setColumnStretch( 4,  1 );
-   layout->setColumnStretch( 5, 81 );
+   netLayout->setColumnStretch( 0,  1 );
+   netLayout->setColumnStretch( 1,  2 );
+   netLayout->setColumnStretch( 2,  1 );
+   netLayout->setColumnStretch( 3, 14 );
+   netLayout->setColumnStretch( 4,  1 );
+   netLayout->setColumnStretch( 5, 81 );
 
 #if QT_VERSION < 0x040300
-   layout->setMargin( 2 );
+   netLayout->setMargin( 2 );
 #else
-   layout->setContentsMargins( 2, 2, 2, 2 );
+   netLayout->setContentsMargins( 2, 2, 2, 2 );
 #endif
-   mpGridGroupBox->setLayout(layout);
+   mpTagGroupBox->setLayout( netLayout );
+   
+   mpDatabaseGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
+   QGridLayout *databaseLayout = new QGridLayout;
+   databaseLayout->addWidget( mpSelectFlavor, 0, 0 );
+   
+#if QT_VERSION < 0x040300
+   databaseLayout->setMargin( 2 );
+#else
+   databaseLayout->setContentsMargins( 2, 2, 2, 2 );
+#endif
+   mpDatabaseGroupBox->setLayout( databaseLayout );
    
    QHBoxLayout *hlayout = new QHBoxLayout;
    hlayout->addWidget( mpButtonSet );
@@ -122,7 +154,9 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    
    QVBoxLayout *vlayout = new QVBoxLayout;
    vlayout->addLayout( hlayout );
-   vlayout->addWidget( mpGridGroupBox );
+   vlayout->addWidget( mpFileGroupBox );
+   vlayout->addWidget( mpTagGroupBox );
+   vlayout->addWidget( mpDatabaseGroupBox );
 #if QT_VERSION < 0x040300
    vlayout->setMargin( 2 );
 #else
@@ -151,6 +185,9 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
             this, SLOT(handleChange()) );
    connect( mpEditGenre, SIGNAL(textChanged(const QString&)),
             this, SLOT(handleChange()) );
+            
+   connect( mpSelectFlavor, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(handleFlavor(int)) );
 }
 
 
@@ -163,7 +200,8 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
    {
       if( (mRecurseMode == MODE_SETTAGS) && mRecurseArtist.isEmpty() &&
           mRecurseTitle.isEmpty() && mRecurseAlbum.isEmpty() && 
-          mRecurseYear.isEmpty() && mRecurseGenre.isEmpty() )
+          mRecurseYear.isEmpty() && mRecurseGenre.isEmpty() && 
+          (mRecurseFlavor == 3) )
       {
          return;
       }
@@ -174,7 +212,8 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       mpButtonCancel->setDisabled( false );
       mCancel = false;
    }
-   
+ 
+   mpDatabase->beginTransaction();
    for( i = 0; i < files.size(); i++ )
    {
       if( mCancel )
@@ -215,6 +254,10 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
                {
                   mpEditGenre->setText( mRecurseGenre );
                }
+               if( mRecurseFlavor < 3 )
+               {
+                  mpSelectFlavor->setCurrentIndex( mRecurseFlavor );
+               }
                QCoreApplication::processEvents();
                saveFile();
                break;
@@ -235,6 +278,7 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
          }
       }
    }
+   mpDatabase->endTransaction( true );
    
    if( isBase )
    {
@@ -243,6 +287,7 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       mpButtonNormTitle->setDisabled( false );
       mpButtonCancel->setDisabled( true );
          
+      mpShowPathName->clear();
       mpShowFileName->clear();
       mpEditArtist->clear();
       mpEditTitle->clear();
@@ -250,6 +295,8 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       mpEditTrackNr->clear();
       mpEditYear->clear();
       mpEditGenre->clear();
+      
+      mTrackInfo.clear();
    }
 }
 
@@ -310,6 +357,19 @@ TRACEMSG << fullpath;
       mIsFile  = true;
       
       mpDatabase->getTrackInfoByFileName( &mTrackInfo, fullpath );
+      addNoFlavorChange( false );
+      
+      int flavor = 0;
+      if( mTrackInfo.isFlagged( TrackInfo::Favorite ) )
+      {
+         flavor = 1;
+      }
+      if( mTrackInfo.isFlagged( TrackInfo::Unwanted ) )
+      {
+         flavor = 2;
+      }
+      mpSelectFlavor->setCurrentIndex( flavor );
+      
       mTagList.clear();
       TagLib::FileRef f( fullpath.toLocal8Bit().data() );
       if( f.file() )
@@ -346,6 +406,7 @@ TRACEMSG << fullpath;
    }
    else
    {
+      mTrackInfo.clear();
       mpShowFileName->clear();
       mpEditArtist->clear();
       mpEditTitle->clear();
@@ -358,6 +419,7 @@ TRACEMSG << fullpath;
       {
          mIsValid = true;
          mpShowPathName->setText( fullpath );
+         addNoFlavorChange( true );
       }
       else
       {
@@ -369,7 +431,7 @@ TRACEMSG << fullpath;
    {
       if( mIsFile )
       {
-         mpButtonSet->setText( tr("Save Tags") );
+         mpButtonSet->setText( tr("Save Changes") );
          mpEditTrackNr->setDisabled( false );
          mpShowFileName->setDisabled( false );
       }
@@ -406,6 +468,7 @@ TRACEMSG << mIsValid << mIsFile;
          mRecurseAlbum  = mpEditAlbum->text();
          mRecurseYear   = mpEditYear->text();
          mRecurseGenre  = mpEditGenre->text();
+         mRecurseFlavor = mpSelectFlavor->currentIndex();
          
          mRecurseMode = MODE_SETTAGS;
          recurse( mFileName );
@@ -505,4 +568,48 @@ void InfoEdit::handleCancel()
 void InfoEdit::handleChange()
 {
    mpButtonSet->setDisabled( false );
+}
+
+
+
+
+void InfoEdit::handleFlavor( int index )
+{
+   switch( index )
+   {
+      case 0:
+         mTrackInfo.setFlag( TrackInfo::Unwanted, false );
+         break;
+      case 1:
+         mTrackInfo.setFlag( TrackInfo::Favorite, true );
+         break;
+      case 2:
+         mTrackInfo.setFlag( TrackInfo::Unwanted, true );
+         break;
+      default:
+         break;
+   }
+   
+   handleChange();
+}
+
+
+void InfoEdit::addNoFlavorChange( bool add )
+{
+   int count = mpSelectFlavor->count();
+   if( add )
+   {
+      if( count == 3 )
+      {
+         mpSelectFlavor->addItem( QString( tr("Don't Change") ) );
+         mpSelectFlavor->setCurrentIndex( 3 );
+      }
+   }
+   else
+   {
+      if( count == 4 )
+      {
+         mpSelectFlavor->removeItem( 3 );
+      }
+   }
 }
