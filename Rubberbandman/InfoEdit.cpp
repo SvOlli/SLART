@@ -48,7 +48,18 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 , mpEditTrackNr( new QLineEdit( this ) )
 , mpEditYear( new QLineEdit( this ) )
 , mpEditGenre( new QLineEdit( this ) )
-, mpSelectFlavor( new QComboBox( this ) )
+, mpButtonFlags( new QPushButton( tr("Flags"), this ) )
+, mpMenuFlags( new QMenu( this ) )
+, mpShowTimesPlayed( new QLabel( this ) )
+, mpButtonFolders( new QPushButton( tr("Folders"), this ) )
+, mpMenuFolders( new QMenu( this ) )
+, mpRecurseSetFlags( 0 )
+, mpRecurseUnsetFlags( 0 )
+, mpFavoriteTrackFlag( 0 )
+, mpUnwantedTrackFlag( 0 )
+, mpTrackScannedFlag( 0 )
+, mpRecurseSetFolders( 0 )
+, mpRecurseUnsetFolders( 0 )
 , mRecurseMode( 0 )
 , mIsValid( false )
 , mIsFile( false )
@@ -60,11 +71,18 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 , mRecurseAlbum()
 , mRecurseYear()
 , mRecurseGenre()
-, mRecurseFlavor( 3 )
+, mRecurseSetFlags( false )
+, mRecurseUnsetFlags( false )
+, mRecurseFavoriteTrackFlag( false )
+, mRecurseUnwantedTrackFlag( false )
+, mRecurseTrackScannedFlag( false )
+, mRecurseSetFolders( false )
+, mRecurseUnsetFolders( false )
 {
-   mpSelectFlavor->addItem( QString(tr("Normal Track")) );
-   mpSelectFlavor->addItem( QString(tr("Favorite Track")) );
-   mpSelectFlavor->addItem( QString(tr("Unwanted Track")) );
+   mpButtonFlags->setMenu( mpMenuFlags );
+   mpButtonFolders->setMenu( mpMenuFolders );
+   mpShowTimesPlayed->setAlignment( Qt::AlignCenter );
+   
 #if 1
    mpValidateTrackNr = new QIntValidator( 0, 99, mpEditTrackNr );
    mpValidateYear    = new QIntValidator( 1900, 2100, mpEditYear );
@@ -135,7 +153,9 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    
    mpDatabaseGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
    QGridLayout *databaseLayout = new QGridLayout;
-   databaseLayout->addWidget( mpSelectFlavor, 0, 0 );
+   databaseLayout->addWidget( mpButtonFlags,     0, 0 );
+   databaseLayout->addWidget( mpShowTimesPlayed, 0, 1 );
+   databaseLayout->addWidget( mpButtonFolders,   0, 2 );
    
 #if QT_VERSION < 0x040300
    databaseLayout->setMargin( 2 );
@@ -186,13 +206,16 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    connect( mpEditGenre, SIGNAL(textChanged(const QString&)),
             this, SLOT(handleChange()) );
             
-   connect( mpSelectFlavor, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(handleFlavor(int)) );
+   connect( mpMenuFlags, SIGNAL(triggered(QAction*)),
+            this, SLOT(handleFlagsMenu(QAction*)) );
+   connect( mpMenuFolders, SIGNAL(triggered(QAction*)),
+            this, SLOT(handleFoldersMenu(QAction*)) );
 }
 
 
 void InfoEdit::recurse( const QDir &dir, bool isBase )
 {
+TRACESTART(InfoEdit::recurse)
    QFileInfoList files(dir.entryInfoList());
    int i;
    
@@ -201,7 +224,8 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       if( (mRecurseMode == MODE_SETTAGS) && mRecurseArtist.isEmpty() &&
           mRecurseTitle.isEmpty() && mRecurseAlbum.isEmpty() && 
           mRecurseYear.isEmpty() && mRecurseGenre.isEmpty() && 
-          (mRecurseFlavor == 3) )
+          !mpRecurseSetFlags->isChecked() && !mpRecurseUnsetFlags->isChecked() && 
+          !mpRecurseSetFolders->isChecked() && !mpRecurseUnsetFolders->isChecked() )
       {
          return;
       }
@@ -254,11 +278,43 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
                {
                   mpEditGenre->setText( mRecurseGenre );
                }
-               if( mRecurseFlavor < 3 )
+               if( mRecurseSetFlags )
                {
-                  mpSelectFlavor->setCurrentIndex( mRecurseFlavor );
+TRACEMSG << "SetFlags" << mRecurseFavoriteTrackFlag << mRecurseUnwantedTrackFlag;
+                  if( mRecurseFavoriteTrackFlag )
+                  {
+                     mTrackInfo.setFlag( TrackInfo::Favorite, true );
+                  }
+                  if( mRecurseUnwantedTrackFlag )
+                  {
+                     mTrackInfo.setFlag( TrackInfo::Unwanted, true );
+                  }
+               }
+               if( mRecurseUnsetFlags )
+               {
+TRACEMSG << "UnsetFlags" << mRecurseFavoriteTrackFlag << mRecurseUnwantedTrackFlag << mRecurseTrackScannedFlag;
+                  if( mRecurseFavoriteTrackFlag && mTrackInfo.isFlagged( TrackInfo::Favorite ) )
+                  {
+                     mTrackInfo.setFlag( TrackInfo::Favorite, false );
+                  }
+                  if( mRecurseUnwantedTrackFlag && mTrackInfo.isFlagged( TrackInfo::Unwanted ) )
+                  {
+                     mTrackInfo.setFlag( TrackInfo::Unwanted, false );
+                  }
+                  if( mRecurseTrackScannedFlag )
+                  {
+                     mTrackInfo.setFlag( TrackInfo::ScannedWithPower, false );
+                  }
+               }
+               if( mRecurseSetFolders || mRecurseUnsetFolders )
+               {
+                  for( int n = 0; n < mRecurseFolders.size(); n++ )
+                  {
+                     mTrackInfo.setFolder( mRecurseFolders.at(n), mRecurseSetFolders );
+                  }
                }
                QCoreApplication::processEvents();
+TRACEMSG << mTrackInfo.toString();
                saveFile();
                break;
             case MODE_NORM_ARTIST:
@@ -351,24 +407,18 @@ TRACEMSG << fullpath;
    
    QFileInfo fileInfo( fullpath );
    
+   mpButtonFlags->setDisabled( false );
+   mpButtonFolders->setDisabled( false );
+   mpShowTimesPlayed->clear();
    if( fileInfo.isFile() )
    {
       mIsValid = true;
       mIsFile  = true;
       
-      mpDatabase->getTrackInfoByFileName( &mTrackInfo, fullpath );
-      addNoFlavorChange( false );
+      mpDatabase->getTrackInfo( &mTrackInfo, fullpath );
       
-      int flavor = 0;
-      if( mTrackInfo.isFlagged( TrackInfo::Favorite ) )
-      {
-         flavor = 1;
-      }
-      if( mTrackInfo.isFlagged( TrackInfo::Unwanted ) )
-      {
-         flavor = 2;
-      }
-      mpSelectFlavor->setCurrentIndex( flavor );
+      mpShowTimesPlayed->setText( QString::number(mTrackInfo.mTimesPlayed) + " Times Played" );
+      updateMenus( false );
       
       mTagList.clear();
       TagLib::FileRef f( fullpath.toLocal8Bit().data() );
@@ -407,6 +457,7 @@ TRACEMSG << fullpath;
    else
    {
       mTrackInfo.clear();
+      updateMenus( true );
       mpShowFileName->clear();
       mpEditArtist->clear();
       mpEditTitle->clear();
@@ -419,11 +470,12 @@ TRACEMSG << fullpath;
       {
          mIsValid = true;
          mpShowPathName->setText( fullpath );
-         addNoFlavorChange( true );
       }
       else
       {
          mpShowPathName->clear();
+         mpButtonFlags->setDisabled( true );
+         mpButtonFolders->setDisabled( true );
       }
    }
    
@@ -463,12 +515,15 @@ TRACEMSG << mIsValid << mIsFile;
       }
       else
       {
-         mRecurseArtist = mpEditArtist->text();
-         mRecurseTitle  = mpEditTitle->text();
-         mRecurseAlbum  = mpEditAlbum->text();
-         mRecurseYear   = mpEditYear->text();
-         mRecurseGenre  = mpEditGenre->text();
-         mRecurseFlavor = mpSelectFlavor->currentIndex();
+         mRecurseArtist            = mpEditArtist->text();
+         mRecurseTitle             = mpEditTitle->text();
+         mRecurseAlbum             = mpEditAlbum->text();
+         mRecurseYear              = mpEditYear->text();
+         mRecurseGenre             = mpEditGenre->text();
+         mRecurseFavoriteTrackFlag = mpFavoriteTrackFlag->isChecked();
+         mRecurseUnwantedTrackFlag = mpUnwantedTrackFlag->isChecked();
+         mRecurseTrackScannedFlag  = mpTrackScannedFlag->isChecked();
+         mRecurseFolders           = mTrackInfo.getFolders();
          
          mRecurseMode = MODE_SETTAGS;
          recurse( mFileName );
@@ -535,6 +590,7 @@ TRACEMSG << mFileName;
    }
    
    qfi.setFile( newpath );
+   
    mTrackInfo.mDirectory = qfi.absolutePath();
    mTrackInfo.mFileName  = qfi.fileName();
    mTrackInfo.mArtist    = mpEditArtist->text();
@@ -543,6 +599,23 @@ TRACEMSG << mFileName;
    mTrackInfo.mTrackNr   = mpEditTrackNr->text().toUInt();
    mTrackInfo.mYear      = mpEditYear->text().toUInt();
    mTrackInfo.mGenre     = mpEditGenre->text();
+   
+   if( mRecurseMode == MODE_NOTHING )
+   {
+      mTrackInfo.setFlag( TrackInfo::Favorite, false );
+      if( mpFavoriteTrackFlag->isChecked() )
+      {
+         mTrackInfo.setFlag( TrackInfo::Favorite, true );
+      }
+      if( mpUnwantedTrackFlag->isChecked() )
+      {
+         mTrackInfo.setFlag( TrackInfo::Unwanted, true );
+      }
+      if( !mpTrackScannedFlag->isChecked() )
+      {
+         mTrackInfo.setFlag( TrackInfo::ScannedWithPeak, false );
+      }
+   }
    mpDatabase->updateTrackInfo( &mTrackInfo );
 }
 
@@ -571,45 +644,112 @@ void InfoEdit::handleChange()
 }
 
 
-
-
-void InfoEdit::handleFlavor( int index )
+void InfoEdit::updateMenus( bool withRecurse )
 {
-   switch( index )
+   int i;
+   
+   mpMenuFlags->clear();
+   mpMenuFolders->clear();
+   QStringList folders( mpDatabase->getFolders() );
+   
+   if( withRecurse )
    {
-      case 0:
-         mTrackInfo.setFlag( TrackInfo::Unwanted, false );
-         break;
-      case 1:
-         mTrackInfo.setFlag( TrackInfo::Favorite, true );
-         break;
-      case 2:
-         mTrackInfo.setFlag( TrackInfo::Unwanted, true );
-         break;
-      default:
-         break;
+      mRecurseSetFlags    = false;
+      mpRecurseSetFlags   = mpMenuFlags->addAction( QString( tr("Set Selected Flags") ) );
+      mpRecurseSetFlags->setCheckable( true );
+      
+      mRecurseUnsetFlags  = false;
+      mpRecurseUnsetFlags = mpMenuFlags->addAction( QString( tr("Unset Selected Flags") ) );
+      mpRecurseUnsetFlags->setCheckable( true );
+      
+      mpMenuFlags->addSeparator();
+      
+      mRecurseSetFolders    = false;
+      mpRecurseSetFolders   = mpMenuFolders->addAction( QString( tr("Set Selected Folders") ) );
+      mpRecurseSetFolders->setCheckable( true );
+      
+      mRecurseUnsetFolders  = false;
+      mpRecurseUnsetFolders = mpMenuFolders->addAction( QString( tr("Unset Selected Folders") ) );
+      mpRecurseUnsetFolders->setCheckable( true );
+      
+      mpMenuFolders->addSeparator();
+   }
+   
+   mpFavoriteTrackFlag = mpMenuFlags->addAction( tr("Favorite Track") );
+   mpFavoriteTrackFlag->setCheckable( true );
+   if( mTrackInfo.isFlagged( TrackInfo::Favorite ) )
+   {
+      mpFavoriteTrackFlag->setChecked( true );
+   }
+   mpUnwantedTrackFlag = mpMenuFlags->addAction( tr("Unwanted Track") );
+   mpUnwantedTrackFlag->setCheckable( true );
+   if( mTrackInfo.isFlagged( TrackInfo::Unwanted ) )
+   {
+      mpUnwantedTrackFlag->setChecked( true );
+   }
+   mpTrackScannedFlag  = mpMenuFlags->addAction( tr("Track Is Scanned") );
+   mpTrackScannedFlag->setCheckable( true );
+   if( mTrackInfo.isFlagged( TrackInfo::ScannedWithPeak ) ||
+       mTrackInfo.isFlagged( TrackInfo::ScannedWithPower ) )
+   {
+      mpTrackScannedFlag->setChecked( true );
+   }
+   
+   for( i = 0; i < folders.size(); i++ )
+   {
+      QAction *action = mpMenuFolders->addAction( folders.at(i) );
+      action->setCheckable( true );
+      action->setChecked( mTrackInfo.isInFolder( action->text() ) );
+   }
+}
+
+
+void InfoEdit::handleFlagsMenu( QAction *action )
+{
+   if( action == mpRecurseSetFlags )
+   {
+      mRecurseSetFlags = action->isChecked();
+      mpRecurseUnsetFlags->setChecked( false );
+      return;
+   }
+   
+   if( action == mpRecurseUnsetFlags )
+   {
+      mRecurseUnsetFlags = action->isChecked();
+      mpRecurseSetFlags->setChecked( false );
+      return;
+   }
+   
+   if( action == mpFavoriteTrackFlag )
+   {
+      mpUnwantedTrackFlag->setChecked( false );
+   }
+   
+   if( action == mpUnwantedTrackFlag )
+   {
+      mpFavoriteTrackFlag->setChecked( false );
    }
    
    handleChange();
 }
 
 
-void InfoEdit::addNoFlavorChange( bool add )
+void InfoEdit::handleFoldersMenu( QAction *action )
 {
-   int count = mpSelectFlavor->count();
-   if( add )
+   if( action == mpRecurseSetFolders )
    {
-      if( count == 3 )
-      {
-         mpSelectFlavor->addItem( QString( tr("Don't Change") ) );
-         mpSelectFlavor->setCurrentIndex( 3 );
-      }
+      mRecurseSetFolders = action->isChecked();
+      mpRecurseUnsetFolders->setChecked( false );
+      return;
    }
-   else
+   
+   if( action == mpRecurseUnsetFolders )
    {
-      if( count == 4 )
-      {
-         mpSelectFlavor->removeItem( 3 );
-      }
+      mRecurseUnsetFolders = action->isChecked();
+      mpRecurseSetFolders->setChecked( false );
+      return;
    }
+   
+   mTrackInfo.setFolder( action->text(), action->isChecked() );
+   handleChange();
 }

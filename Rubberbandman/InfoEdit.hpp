@@ -9,14 +9,16 @@
 #define INFOEDIT_HPP INFOEDIT_HPP
 
 #include <QWidget>
-#include <QString>
+#include <QStringList>
 #include "TagList.hpp"
 #include "TrackInfo.hpp"
    
-class QGroupBox;
+class QAction;
 class QCheckBox;
 class QComboBox;
+class QGroupBox;
 class QLabel;
+class QMenu;
 class QLineEdit;
 class QIntValidator;
 class QPushButton;
@@ -45,8 +47,10 @@ public slots:
    void handleCancel();
    /* enable save button */
    void handleChange();
-   /* handle the favorite combobox */
-   void handleFlavor( int index );
+   /*  */
+   void handleFlagsMenu( QAction *action );
+   /*  */
+   void handleFoldersMenu( QAction *action );
 
 signals:
    void fileStats( bool isValid, bool isFile );
@@ -61,8 +65,8 @@ private:
    void saveFile();
    /* walk through the directory tree */
    void recurse( const QDir &dir, bool isBase = true );
-   /* add or remove the don't change option to flavor */
-   void addNoFlavorChange( bool add );
+   /*  */
+   void updateMenus( bool withRecurse );
 
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;
@@ -97,20 +101,38 @@ private:
    QIntValidator *mpValidateTrackNr;
    QIntValidator *mpValidateYear;
    
-   QComboBox *mpSelectFlavor;
+   QPushButton  *mpButtonFlags;
+   QMenu        *mpMenuFlags;
+   QLabel       *mpShowTimesPlayed;
+   QPushButton  *mpButtonFolders;
+   QMenu        *mpMenuFolders;
+   QAction      *mpRecurseSetFlags;
+   QAction      *mpRecurseUnsetFlags;
+   QAction      *mpFavoriteTrackFlag;
+   QAction      *mpUnwantedTrackFlag;
+   QAction      *mpTrackScannedFlag;
+   QAction      *mpRecurseSetFolders;
+   QAction      *mpRecurseUnsetFolders;
 
-   int     mRecurseMode;
-   bool    mIsValid;
-   bool    mIsFile;
-   bool    mCancel;
-   TagList mTagList;
-   QString mFileName;
-   QString mRecurseArtist;
-   QString mRecurseTitle;
-   QString mRecurseAlbum;
-   QString mRecurseYear;
-   QString mRecurseGenre;
-   int     mRecurseFlavor;
+   int          mRecurseMode;
+   bool         mIsValid;
+   bool         mIsFile;
+   bool         mCancel;
+   TagList      mTagList;
+   QString      mFileName;
+   QString      mRecurseArtist;
+   QString      mRecurseTitle;
+   QString      mRecurseAlbum;
+   QString      mRecurseYear;
+   QString      mRecurseGenre;
+   bool         mRecurseSetFlags;
+   bool         mRecurseUnsetFlags;
+   bool         mRecurseFavoriteTrackFlag;
+   bool         mRecurseUnwantedTrackFlag;
+   bool         mRecurseTrackScannedFlag;
+   bool         mRecurseSetFolders;
+   bool         mRecurseUnsetFolders;
+   QStringList  mRecurseFolders;
 };
 
 #endif
