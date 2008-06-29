@@ -16,6 +16,8 @@ Database::Database( const QString &fileName )
 , mpQuery( 0 )
 , mVersion( 0 )
 {
+   qsrand( time((time_t*)0) );
+   
    mpSqlDB = new QSqlDatabase( QSqlDatabase::addDatabase( "QSQLITE" ) );
    
    if( fileName.isEmpty() )
@@ -83,14 +85,14 @@ Database::Database( const QString &fileName )
                                     "Volume DOUBLE,"
                                     "Folders VARCHAR,"
                                     "Flags INTEGER);"
-      << "CREATE UNIQUE INDEX slart_tracks_file ON slart_tracks(Directory,FileName);"
-      << "CREATE INDEX slart_tracks_filename ON slart_tracks(FileName);"
-      << "CREATE INDEX slart_tracks_artist ON slart_tracks(Artist);"
-      << "CREATE INDEX slart_tracks_title ON slart_tracks(Title);"
+      << "CREATE UNIQUE INDEX slart_tracks_file ON slart_tracks (Directory,FileName);"
+      << "CREATE INDEX slart_tracks_filename ON slart_tracks (FileName);"
+      << "CREATE INDEX slart_tracks_artist ON slart_tracks (Artist);"
+      << "CREATE INDEX slart_tracks_title ON slart_tracks (Title);"
       
       << "CREATE TABLE slart_folders (id INTEGER PRIMARY KEY,"
                                     "Name VARCHAR);"
-      << "CREATE UNIQUE INDEX slart_folders_name ON slart_tracks(Name);"
+      << "CREATE UNIQUE INDEX slart_folders_name ON slart_folders (Name);"
       
       ;
       
@@ -125,15 +127,25 @@ Database::~Database()
 }
 
 
-bool Database::getTrackInfoByFileName( TrackInfo *trackInfo, const QString &fileName )
+bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
 {
-   int fileNameStart = fileName.lastIndexOf('/');
-   
-   mpQuery->prepare( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
-                   "PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags FROM slart_tracks"
-                   " WHERE Directory = :directory AND FileName = :fileName ;" );
-   mpQuery->bindValue( ":directory", fileName.left(fileNameStart) );
-   mpQuery->bindValue( ":fileName", fileName.mid(fileNameStart+1) );   
+   QString sql( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
+                "PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags FROM slart_tracks WHERE ");
+   if( fileName.isEmpty() )
+   {
+      sql.append( "id = :id ;" );
+      mpQuery->prepare( sql );
+      mpQuery->bindValue( ":id", trackInfo->mID );
+   }
+   else
+   {
+      int fileNameStart = fileName.lastIndexOf('/');
+      sql.append( "Directory = :directory AND FileName = :fileName ;" );
+      
+      mpQuery->prepare( sql );
+      mpQuery->bindValue( ":directory", fileName.left(fileNameStart) );
+      mpQuery->bindValue( ":fileName", fileName.mid(fileNameStart+1) );   
+   }
    if( !mpQuery->exec() )
    {
    }
@@ -308,4 +320,54 @@ void Database::deleteFolder( const QString &folder )
    if( !mpQuery->exec() )
    {
    }
+}
+
+
+bool Database::getTrack( TrackInfo *trackInfo, bool favorite, bool unplayed )
+{
+   QString sql( "SELECT id FROM slart_tracks WHERE Flags & " );
+
+   if( favorite )
+   {
+      sql.append( QString::number( (unsigned int)TrackInfo::Favorite ) );
+   }
+   else
+   {
+      sql.append( QString::number( (unsigned int)TrackInfo::Unwanted ) );
+      sql.append( " = 0" );
+   }
+   
+   if( unplayed )
+   {
+      sql.append( " AND TimesPlayed = 0" );
+   }
+   
+   sql.append( ";" );
+
+   mpQuery->prepare( sql );
+   if( !mpQuery->exec() )
+   {
+   }
+   
+   /* QSqlQuery::size() seems not to work with sqlite... :( */
+   int rows;
+   for( rows = 0; mpQuery->next(); rows++);
+   
+   if( rows )
+   {
+      int row = qrand() % rows;
+      
+      mpQuery->seek( row );
+      
+      trackInfo->mID = mpQuery->value(0).toUInt();
+      mpQuery->clear();
+      getTrackInfo( trackInfo );
+   }
+   else
+   {
+      mpQuery->clear();
+      return false;
+   }
+   
+   return true;
 }

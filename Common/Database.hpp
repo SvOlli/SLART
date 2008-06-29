@@ -26,7 +26,7 @@ public:
    bool beginTransaction() { return mpSqlDB->transaction(); };
    bool endTransaction( bool commit ) { return commit ? mpSqlDB->commit() : mpSqlDB->rollback(); };
    
-   bool getTrackInfoByFileName( TrackInfo *trackInfo, const QString &fileName );
+   bool getTrackInfo( TrackInfo *trackInfo, const QString &fileName = QString() );
    void updateTrackInfo( const TrackInfo *trackInfo );
    void deleteTrackInfo( const TrackInfo *trackInfo );
    
@@ -35,6 +35,8 @@ public:
    QStringList getFolders();
    void insertFolder( const QString &folder );
    void deleteFolder( const QString &folder );
+   
+   bool getTrack( TrackInfo *trackInfo, bool favorite, bool unplayed );
    
 public slots:
 
