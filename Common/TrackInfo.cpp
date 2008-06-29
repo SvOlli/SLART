@@ -155,6 +155,18 @@ void TrackInfo::setFolder( const QString &folder, bool add )
 }
 
 
+QStringList TrackInfo::getFolders()
+{
+   return mFolders.split('|', QString::SkipEmptyParts);
+}
+
+
+bool TrackInfo::isInFolder( const QString &folder )
+{
+   return mFolders.contains( QString("|") + folder + QString("|") );
+}
+
+
 QString TrackInfo::toString() const 
 {
    return QString("id=%1,dir=%2,file=%3,artist=%4,title=%5,album=%6,trk=%7,year=%8,genre=%9,")

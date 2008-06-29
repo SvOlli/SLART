@@ -60,13 +60,15 @@ public:
    
    void setFlag( Flag flag, bool set );
    bool isFlagged( Flag flag );
+   unsigned int getFlagMask( Flag flag );
    
    void setFolder( const QString &folder, bool add );
+   bool isInFolder( const QString &folder );
+   QStringList getFolders();
    
    QString toString() const;
    
 private:
-   unsigned int getFlagMask( Flag flag );
 };
 
 typedef QList<TrackInfo> TrackInfoList;
