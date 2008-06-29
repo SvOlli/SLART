@@ -18,7 +18,7 @@ class Database : public QObject
 Q_OBJECT
 
 public:
-   Database();
+   Database( const QString &fileName = QString() );
    virtual ~Database();
    void shutdown();
 
@@ -31,6 +31,10 @@ public:
    void deleteTrackInfo( const TrackInfo *trackInfo );
    
    unsigned int getTrackInfoList( TrackInfoList *trackInfoList );
+   
+   QStringList getFolders();
+   void insertFolder( const QString &folder );
+   void deleteFolder( const QString &folder );
    
 public slots:
 

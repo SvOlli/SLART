@@ -11,27 +11,36 @@
 
 #include <stdlib.h>
 
-Database::Database()
-: mpSqlDB(0)
-, mpQuery(0)
-, mVersion(0)
+Database::Database( const QString &fileName )
+: mpSqlDB( 0 )
+, mpQuery( 0 )
+, mVersion( 0 )
 {
    mpSqlDB = new QSqlDatabase( QSqlDatabase::addDatabase( "QSQLITE" ) );
-   char path[PATH_MAX];
-   char *home = getenv( "HOME" );
    
-   if( home )
+   if( fileName.isEmpty() )
    {
-      strcpy( path, home );
-      strcat( path, "/" );
+      char path[PATH_MAX];
+      char *home = getenv( "HOME" );
+      
+      if( home )
+      {
+         strcpy( path, home );
+         strcat( path, "/" );
+      }
+      else
+      {
+         path[0] = '\0';
+      }
+      strcat( path, ".slartdb" );
+      
+      mpSqlDB->setDatabaseName( path );
    }
    else
    {
-      path[0] = '\0';
+      mpSqlDB->setDatabaseName( fileName );
    }
-   strcat( path, ".slartdb" );
    
-   mpSqlDB->setDatabaseName( path );
    if(!mpSqlDB->open())
    {
       // todo: some error handling
@@ -74,10 +83,14 @@ Database::Database()
                                     "Volume DOUBLE,"
                                     "Folders VARCHAR,"
                                     "Flags INTEGER);"
-      << "CREATE UNIQUE INDEX slart_tracks_file ON slart_tracks(directory,filename);"
-      << "CREATE INDEX slart_tracks_filename ON slart_tracks(filename);"
-      << "CREATE INDEX slart_tracks_artist ON slart_tracks(artist);"
-      << "CREATE INDEX slart_tracks_title ON slart_tracks(title);"
+      << "CREATE UNIQUE INDEX slart_tracks_file ON slart_tracks(Directory,FileName);"
+      << "CREATE INDEX slart_tracks_filename ON slart_tracks(FileName);"
+      << "CREATE INDEX slart_tracks_artist ON slart_tracks(Artist);"
+      << "CREATE INDEX slart_tracks_title ON slart_tracks(Title);"
+      
+      << "CREATE TABLE slart_folders (id INTEGER PRIMARY KEY,"
+                                    "Name VARCHAR);"
+      << "CREATE UNIQUE INDEX slart_folders_name ON slart_tracks(Name);"
       
       ;
       
@@ -210,8 +223,12 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo )
    }
    else
    {
+      if( trackInfo->mDirectory.isEmpty() || trackInfo->mFileName.isEmpty() )
+      {
+         return;
+      }
       mpQuery->prepare( "INSERT OR REPLACE INTO slart_tracks (Directory,FileName,Artist,Title,Album,"
-                        "TrackNr,Year,Genre,PlayTime,LastModified,TimesPlayed,Folders,Flags) values"
+                        "TrackNr,Year,Genre,PlayTime,LastModified,TimesPlayed,Folders,Flags) VALUES"
                         " (:directory,:filename,:artist,:title,:album,:tracknr,:year,:genre,"
                         ":playtime,:lastmodified,:timesplayed,:folders,:flags);" );
    }
@@ -253,4 +270,42 @@ void Database::deleteTrackInfo( const TrackInfo *trackInfo )
    }
    mpQuery->exec();
    mpQuery->clear();
+}
+
+
+QStringList Database::getFolders()
+{
+   QStringList folders;
+   
+   mpQuery->prepare( "SELECT Name FROM slart_folders ORDER BY Name;" );
+   if( !mpQuery->exec() )
+   {
+   }
+   while( mpQuery->next() )
+   {
+      folders << mpQuery->value(0).toString();
+   }
+   mpQuery->clear();
+   
+   return folders;
+}
+
+
+void Database::insertFolder( const QString &folder )
+{
+   mpQuery->prepare( "INSERT OR REPLACE INTO slart_folders( Name ) VALUES ( :name );" );
+   mpQuery->bindValue( ":name", folder );
+   if( !mpQuery->exec() )
+   {
+   }
+}
+
+
+void Database::deleteFolder( const QString &folder )
+{
+   mpQuery->prepare( "DELETE FROM slart_folders WHERE Name = :name;" );
+   mpQuery->bindValue( ":name", folder );
+   if( !mpQuery->exec() )
+   {
+   }
 }
