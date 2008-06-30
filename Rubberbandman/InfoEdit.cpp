@@ -116,40 +116,42 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 #if QT_VERSION < 0x040300
    fileLayout->setMargin( 2 );
 #else
+   fileLayout->setVerticalSpacing( 0 );
    fileLayout->setContentsMargins( 2, 2, 2, 2 );
 #endif
    mpFileGroupBox->setLayout( fileLayout );
    
    mpTagGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
-   QGridLayout *netLayout = new QGridLayout;
+   QGridLayout *tagLayout = new QGridLayout;
    
-   netLayout->addWidget( mpLabelArtist,   0, 0 );
-   netLayout->addWidget( mpLabelTitle,    1, 0 );
-   netLayout->addWidget( mpLabelAlbum,    2, 0 );
-   netLayout->addWidget( mpLabelTrackNr,  3, 0 );
-   netLayout->addWidget( mpLabelYear,     3, 2 );
-   netLayout->addWidget( mpLabelGenre,    3, 4 );
+   tagLayout->addWidget( mpLabelArtist,   0, 0 );
+   tagLayout->addWidget( mpLabelTitle,    1, 0 );
+   tagLayout->addWidget( mpLabelAlbum,    2, 0 );
+   tagLayout->addWidget( mpLabelTrackNr,  3, 0 );
+   tagLayout->addWidget( mpLabelYear,     3, 2 );
+   tagLayout->addWidget( mpLabelGenre,    3, 4 );
    
-   netLayout->addWidget( mpEditArtist,    0, 1, 1, 5 );
-   netLayout->addWidget( mpEditTitle,     1, 1, 1, 5 );
-   netLayout->addWidget( mpEditAlbum,     2, 1, 1, 5 );
-   netLayout->addWidget( mpEditTrackNr,   3, 1 );
-   netLayout->addWidget( mpEditYear,      3, 3 );
-   netLayout->addWidget( mpEditGenre,     3, 5 );
+   tagLayout->addWidget( mpEditArtist,    0, 1, 1, 5 );
+   tagLayout->addWidget( mpEditTitle,     1, 1, 1, 5 );
+   tagLayout->addWidget( mpEditAlbum,     2, 1, 1, 5 );
+   tagLayout->addWidget( mpEditTrackNr,   3, 1 );
+   tagLayout->addWidget( mpEditYear,      3, 3 );
+   tagLayout->addWidget( mpEditGenre,     3, 5 );
 
-   netLayout->setColumnStretch( 0,  1 );
-   netLayout->setColumnStretch( 1,  2 );
-   netLayout->setColumnStretch( 2,  1 );
-   netLayout->setColumnStretch( 3, 14 );
-   netLayout->setColumnStretch( 4,  1 );
-   netLayout->setColumnStretch( 5, 81 );
+   tagLayout->setColumnStretch( 0,  1 );
+   tagLayout->setColumnStretch( 1,  2 );
+   tagLayout->setColumnStretch( 2,  1 );
+   tagLayout->setColumnStretch( 3, 15 );
+   tagLayout->setColumnStretch( 4,  1 );
+   tagLayout->setColumnStretch( 5, 80 );
 
 #if QT_VERSION < 0x040300
-   netLayout->setMargin( 2 );
+   tagLayout->setMargin( 2 );
 #else
-   netLayout->setContentsMargins( 2, 2, 2, 2 );
+   tagLayout->setVerticalSpacing( 0 );
+   tagLayout->setContentsMargins( 2, 2, 2, 2 );
 #endif
-   mpTagGroupBox->setLayout( netLayout );
+   mpTagGroupBox->setLayout( tagLayout );
    
    mpDatabaseGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
    QGridLayout *databaseLayout = new QGridLayout;
@@ -160,6 +162,7 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 #if QT_VERSION < 0x040300
    databaseLayout->setMargin( 2 );
 #else
+   databaseLayout->setVerticalSpacing( 0 );
    databaseLayout->setContentsMargins( 2, 2, 2, 2 );
 #endif
    mpDatabaseGroupBox->setLayout( databaseLayout );

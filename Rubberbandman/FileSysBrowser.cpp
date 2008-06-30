@@ -26,14 +26,15 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 , mpModel( new QDirModel( this ) )
 {
    MySettings settings;
+   
    QStringList filterNames;
    filterNames << "*.mp2" << "*.mp3" << "*.ogg";
    mpModel->setNameFilters( filterNames );
    mpModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files );
    mpModel->setSorting( QDir::Name | QDir::DirsFirst | QDir::IgnoreCase /*| QDir::LocaleAware*/ );
    mpModel->setLazyChildCount( true );
-   mpView->setContextMenuPolicy( Qt::CustomContextMenu );
    
+   mpView->setContextMenuPolicy( Qt::CustomContextMenu );
    mpView->setModel( mpModel );
    
 //   connect(mpView, SIGNAL(context(QModelIndex)), this, SLOT(addEntries(QModelIndex)));
@@ -59,20 +60,16 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 #endif
    setLayout(layout);
    
-   mpView->header()->hide();
-   mpView->setColumnHidden( 1, true );
-   mpView->setColumnHidden( 2, true );
-   mpView->setColumnHidden( 3, true );
-   
    mpTimer->setSingleShot( true );
-   mpTimer->setInterval( 4000 );
+   mpTimer->setInterval( 2500 );
    
    /* evil hack */
    mpSetButton->setMaximumWidth( mpSetButton->width() / 2 );
    mpDotButton->setMaximumWidth( mpDotButton->width() / 2 );
    
    mpRootDir->setText( settings.value( "RootDirectory", QString("/") ).toString() );
-   mpView->setRootIndex( mpModel->index( mpRootDir->text() ) );
+   //mpView->setRootIndex( mpModel->index( mpRootDir->text() ) );
+   handleRootDir();
    mpView->setAnimated( true );
    connect( mpView, SIGNAL(clicked(const QModelIndex&)),
             this, SLOT(entryClicked(const QModelIndex&)) );
@@ -127,6 +124,10 @@ void FileSysBrowser::handleRootDir()
    {
       mpTimer->start();
    }
+   mpView->header()->hide();
+   mpView->setColumnHidden( 1, true );
+   mpView->setColumnHidden( 2, true );
+   mpView->setColumnHidden( 3, true );
 }
 
 
