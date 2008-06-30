@@ -9,7 +9,7 @@
 
 #include <QtGui>
 #include <QString>
-#include <QSqlQueryModel>
+#include <QSqlTableModel>
 #include <QTableView>
 
 #include <fileref.h>
@@ -26,7 +26,7 @@
 DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( database )
-, mpQueryModel( new QSqlQueryModel() )
+, mpTableModel( new QSqlTableModel() )
 , mpTableView( new QTableView() )
 {
    QPushButton *updateButton = new QPushButton( tr("Update") );
@@ -36,9 +36,11 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    connect( cleanupButton, SIGNAL(pressed()), this, SLOT(handleCleanup()) );
    
 #if 0
-   mpQueryModel->setQuery( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
+   mpTableModel->setQuery( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
                            "PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags FROM slart_tracks;" );
-   mpTableView->setModel( mpQueryModel );
+   mpTableModel->setTable( "slart_tracks" );
+   mpTableView->setModel( mpTableModel );
+   mpTableModel->select();
 #endif
    
    QVBoxLayout *layout = new QVBoxLayout;
@@ -62,11 +64,14 @@ void DatabaseWidget::handleUpdate()
    mpDatabase->endTransaction(true);
    disconnect( &walker, SIGNAL(foundFile(const QFileInfo&)),
                this, SLOT(handleFile(const QFileInfo&)) );
-   QString query( mpQueryModel->query().lastQuery() );
-   delete mpQueryModel;
-   mpQueryModel = new QSqlQueryModel();
-   mpQueryModel->setQuery( query );
-   mpTableView->setModel( mpQueryModel );
+   mpTableModel->select();
+#if 0
+   QString query( mpTableModel->query().lastQuery() );
+   delete mpTableModel;
+   mpTableModel = new QSqlTableModel();
+   mpTableModel->setQuery( query );
+   mpTableView->setModel( mpTableModel );
+#endif
 }
 
 
@@ -93,7 +98,7 @@ void DatabaseWidget::handleFile( const QFileInfo &fileInfo )
 {
    TrackInfo *trackInfo = new TrackInfo();
    
-   if( !mpDatabase->getTrackInfoByFileName( trackInfo, fileInfo.absoluteFilePath() ) )
+   if( !mpDatabase->getTrackInfo( trackInfo, fileInfo.absoluteFilePath() ) )
    {
       QString fileName(fileInfo.absoluteFilePath());
       int fileNameStart = fileName.lastIndexOf('/');

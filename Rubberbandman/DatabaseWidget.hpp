@@ -15,7 +15,7 @@
 
 class QPushButton;
 class QString;
-class QSqlQueryModel;
+class QSqlTableModel;
 class QFileInfo;
 class QTableView;
 class Database;
@@ -38,7 +38,7 @@ private:
    DatabaseWidget &operator=( const DatabaseWidget &other );
 
    Database       *mpDatabase;
-   QSqlQueryModel *mpQueryModel;
+   QSqlTableModel *mpTableModel;
    QTableView     *mpTableView;
 };
 
