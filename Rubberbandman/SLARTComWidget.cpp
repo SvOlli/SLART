@@ -25,14 +25,15 @@ SLARTComWidget::SLARTComWidget( Database *database, QWidget *parent, Qt::WindowF
 , mpInfoEdit( new InfoEdit( database ) )
 , mpNowPlaying( new QPushButton( tr("NP: To Clipboard"), this ) )
 , mpShowInFilesystem( new QPushButton( tr("Show In Filesystem"), this ) )
+, mpGetRandom( new QPushButton( tr("Get Random Track"), this ) )
 , mSLARTCom()
-, mTrackInfo()
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    
    buttonLayout->addWidget( mpNowPlaying );
    buttonLayout->addWidget( mpShowInFilesystem );
+   buttonLayout->addWidget( mpGetRandom );
    mainLayout->addStretch();
    mainLayout->addLayout( buttonLayout );
    mainLayout->addStretch();
@@ -47,6 +48,8 @@ SLARTComWidget::SLARTComWidget( Database *database, QWidget *parent, Qt::WindowF
             this, SLOT(handleNowPlaying()) );
    connect( mpShowInFilesystem, SIGNAL(clicked()),
             this, SLOT(handleShowInFilesystem()) );
+   connect( mpGetRandom, SIGNAL(clicked()),
+            this, SLOT(handleGetRandom()) );
    
    readConfig();
 }
@@ -57,7 +60,6 @@ void SLARTComWidget::handleSLART( const QStringList &message )
    if( (message.at(0) == "p0p") && (message.size() > 1) )
    {
       mpInfoEdit->load( message.at(1) );
-      mpDatabase->getTrackInfoByFileName( &mTrackInfo, message.at(1) );
    }
 }
 
@@ -74,6 +76,18 @@ void SLARTComWidget::handleShowInFilesystem()
    if( !(mpInfoEdit->fileName().isEmpty()) )
    {
       emit showInFilesystem( mpInfoEdit->fileName() );
+   }
+}
+
+
+void SLARTComWidget::handleGetRandom()
+{
+TRACESTART(SLARTComWidget::handleGetRandom)
+   TrackInfo trackInfo;
+   if( mpDatabase->getTrack( &trackInfo, false, true ) )
+   {
+      mpInfoEdit->load( trackInfo.mDirectory + "/" + trackInfo.mFileName );
+TRACEMSG << trackInfo.toString();
    }
 }
 

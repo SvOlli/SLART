@@ -34,6 +34,7 @@ public slots:
    void handleNowPlaying();
    /* handle the show in filesystem button */
    void handleShowInFilesystem();
+   void handleGetRandom();
    /* restart SLART receiver */
    void readConfig();
 
@@ -49,6 +50,7 @@ private:
    InfoEdit       *mpInfoEdit;
    QPushButton    *mpNowPlaying;
    QPushButton    *mpShowInFilesystem;
+   QPushButton    *mpGetRandom;
    SLARTCom       mSLARTCom;
    TrackInfo      mTrackInfo;
 };
