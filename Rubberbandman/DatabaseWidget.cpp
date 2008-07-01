@@ -127,7 +127,7 @@ bool DatabaseWidget::updateTrackInfoFromFile( TrackInfo *trackInfo, const QStrin
    if( fileInfo.lastModified().toTime_t() > trackInfo->mLastModified )
    {
       TagLib::FileRef f( fileName.toLocal8Bit().data() );
-      if( f.file() )
+      if( f.file() && f.tag() )
       {
          trackInfo->mArtist       = QString::fromUtf8( f.tag()->artist().toCString( true ) );
          trackInfo->mTitle        = QString::fromUtf8( f.tag()->title().toCString( true ) );
@@ -135,7 +135,10 @@ bool DatabaseWidget::updateTrackInfoFromFile( TrackInfo *trackInfo, const QStrin
          trackInfo->mTrackNr      = f.tag()->track();
          trackInfo->mYear         = f.tag()->year();
          trackInfo->mGenre        = QString::fromUtf8( f.tag()->genre().toCString( true ) );
-         trackInfo->mPlayTime     = f.audioProperties()->length();
+         if( f.audioProperties() )
+         {
+            trackInfo->mPlayTime  = f.audioProperties()->length();
+         }
          trackInfo->mLastModified = fileInfo.lastModified().toTime_t();
          
          return true;
