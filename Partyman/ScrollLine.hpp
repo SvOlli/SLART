@@ -19,7 +19,8 @@ Q_OBJECT
 
 public:
    ScrollLine( QWidget *parent );
-
+   virtual ~ScrollLine();
+   
 public slots:
    /* callback for timer to scroll */
    void scrolling();
@@ -35,7 +36,7 @@ private:
    ScrollLine( const ScrollLine &other );
    ScrollLine &operator=( const ScrollLine &other );
 
-   QTimer               *mpTimer;
+   static QTimer        *mpTimer;
    int                  mDirection;
    int                  mPosition;
 };

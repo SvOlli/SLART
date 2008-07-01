@@ -12,20 +12,32 @@
 
 #include "Trace.hpp"
 
+
+QTimer *ScrollLine::mpTimer = 0;
+
 ScrollLine::ScrollLine( QWidget *parent )
 : QLineEdit( parent )
-, mpTimer( new QTimer( this ) )
 , mDirection( 1 )
 , mPosition( 0 )
 {
-   mpTimer->setSingleShot( false );
-   mpTimer->setInterval( 333 );
+   if( !mpTimer )
+   {
+      mpTimer = new QTimer;
+      mpTimer->setSingleShot( false );
+      mpTimer->setInterval( 333 );
+   }
    
    setReadOnly( true );
    setContextMenuPolicy( Qt::NoContextMenu );
    
    connect( mpTimer, SIGNAL(timeout()), this, SLOT(scrolling()) );
    mpTimer->start();
+}
+
+
+ScrollLine::~ScrollLine()
+{
+   disconnect( mpTimer, SIGNAL(timeout()), this, SLOT(scrolling()) );
 }
 
 
