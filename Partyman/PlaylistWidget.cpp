@@ -11,6 +11,7 @@
 #include "PlaylistContentWidget.hpp"
 #include "PlaylistWidget.hpp"
 #include "SearchWidget.hpp"
+#include "TrackInfoWidget.hpp"
 #include "ConfigDialog.hpp"
 #include "MySettings.hpp"
 
@@ -24,6 +25,7 @@ PlaylistWidget::PlaylistWidget( ConfigDialog *config, QWidget *parent, Qt::Windo
 , mpTreeView( new FileSysTreeView( this ) )
 , mpTreeModel( new FileSysTreeModel( this ) )
 , mpSearch( new SearchWidget( this ) )
+, mpTrackInfo( new TrackInfoWidget( this ) )
 , mpHelpText( new QTextBrowser( this ) )
 , mpConfig( config )
 {
@@ -46,6 +48,7 @@ PlaylistWidget::PlaylistWidget( ConfigDialog *config, QWidget *parent, Qt::Windo
    mpTabs->setTabPosition( QTabWidget::South );
    mpTabs->addTab( mpTreeView, tr("Browser") );
    mpTabs->addTab( mpSearch, tr("Search") );
+   mpTabs->addTab( mpTrackInfo, tr("Track Info") );
    mpTabs->addTab( mpHelpText, tr("Help") );
    mpTabs->setCurrentIndex( settings.value("CurrentTab", mpTabs->count()-1).toInt() );
    

@@ -17,9 +17,11 @@
 class QLabel;
 class QTabWidget;
 class QTextBrowser;
+   
 class FileSysTreeModel;
 class PlaylistContentWidget;
 class SearchWidget;
+class TrackInfoWidget;
 class ConfigDialog;
 
 
@@ -74,6 +76,7 @@ private:
    FileSysTreeView       *mpTreeView;
    FileSysTreeModel      *mpTreeModel;
    SearchWidget          *mpSearch;
+   TrackInfoWidget       *mpTrackInfo;
    QTextBrowser          *mpHelpText;
    ConfigDialog          *mpConfig;
    QString               mM3uFileName;

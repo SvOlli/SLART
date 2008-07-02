@@ -60,6 +60,9 @@ SOURCES += ScrollLine.cpp
 HEADERS += SearchWidget.hpp
 SOURCES += SearchWidget.cpp
 
+HEADERS += TrackInfoWidget.hpp
+SOURCES += TrackInfoWidget.cpp
+
 HEADERS += PlayerFSM.hpp
 SOURCES += PlayerFSM.cpp
 
