@@ -74,6 +74,10 @@ ControlWidget::ControlWidget( ConfigDialog *config, PlaylistWidget *playlist, QW
    connect( mpSkipButton, SIGNAL(clicked()), this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()), this, SLOT(readConfig()) );
    connect( &mSLARTCom, SIGNAL(packageRead(QStringList)), this, SLOT(handleSLART(QStringList)) );
+   connect( mpPlayer[0], SIGNAL(trackPlaying(const QString &)),
+            mpPlaylist, SLOT(getTrack(const QString &)) );
+   connect( mpPlayer[1], SIGNAL(trackPlaying(const QString &)),
+            mpPlaylist, SLOT(getTrack(const QString &)) );
 
    connect( &mDerMixDprocess, SIGNAL(readyReadStandardError()),
             this, SLOT(handleDerMixDstartup()) );

@@ -13,21 +13,24 @@
 #include "SearchWidget.hpp"
 #include "TrackInfoWidget.hpp"
 #include "ConfigDialog.hpp"
+#include "Database.hpp"
 #include "MySettings.hpp"
 
 #include "Trace.hpp"
 
 
-PlaylistWidget::PlaylistWidget( ConfigDialog *config, QWidget *parent, Qt::WindowFlags f )
+PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
+                                QWidget *parent, Qt::WindowFlags f )
 : QWidget( parent, f )
+, mpDatabase( database )
+, mpConfig( config )
 , mpTabs( new QTabWidget( this ) )
 , mpPlaylistContent( new PlaylistContentWidget( true, this ) )
 , mpTreeView( new FileSysTreeView( this ) )
 , mpTreeModel( new FileSysTreeModel( this ) )
 , mpSearch( new SearchWidget( this ) )
-, mpTrackInfo( new TrackInfoWidget( this ) )
+, mpTrackInfo( new TrackInfoWidget( database, this ) )
 , mpHelpText( new QTextBrowser( this ) )
-, mpConfig( config )
 {
    MySettings settings;
    qsrand( time((time_t*)0) );
@@ -433,3 +436,8 @@ void PlaylistWidget::readM3u()
    emit playlistIsValid( true );
 }
 
+
+void PlaylistWidget::getTrack( const QString &fileName )
+{
+   mpTrackInfo->getTrack( fileName );
+}

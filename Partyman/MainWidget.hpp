@@ -16,6 +16,7 @@ class ControlWidget;
 class PlaylistWidget;
 class QPushButton;
 
+class Database;
 
 class MainWidget : public QWidget
 {
@@ -48,6 +49,7 @@ private:
 
    bool            mAllowAutostart;
    QWidget         *mpParent;
+   Database        *mpDatabase;
    ConfigDialog    *mpConfig;
    PlaylistWidget  *mpPlaylist;
    ControlWidget   *mpControl;

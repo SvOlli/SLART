@@ -6,6 +6,7 @@
  */
 
 #include "MainWidget.hpp"
+#include "Database.hpp"
 #include "ConfigDialog.hpp"
 #include "ControlWidget.hpp"
 #include "PlaylistWidget.hpp"
@@ -31,8 +32,9 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mAllowAutostart( false )
 , mpParent( parent )
+, mpDatabase( new Database() )
 , mpConfig( new ConfigDialog( this ) )
-, mpPlaylist( new PlaylistWidget( mpConfig, this ) )
+, mpPlaylist( new PlaylistWidget( mpDatabase, mpConfig, this ) )
 , mpControl( new ControlWidget( mpConfig, mpPlaylist, this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 {

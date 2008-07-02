@@ -6,6 +6,7 @@ include( ../Global.pri )
 
 TEMPLATE = app
 TARGET = Partyman
+QT += sql
 
 # Input
 RESOURCES = qrc/Resources.qrc
@@ -20,6 +21,12 @@ SOURCES += MainWidget.cpp
 
 HEADERS += MySettings.hpp
 SOURCES += MySettings.cpp
+
+HEADERS += Database.hpp
+SOURCES += Database.cpp
+
+HEADERS += TrackInfo.hpp
+SOURCES += TrackInfo.cpp
 
 HEADERS += SLARTCom.hpp
 SOURCES += SLARTCom.cpp

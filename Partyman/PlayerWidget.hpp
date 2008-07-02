@@ -87,6 +87,9 @@ public slots:
    /* handle DerMixD connection errors */
    void handleError( QAbstractSocket::SocketError socketError );
 
+signals:
+   void trackPlaying( const QString &fileName );
+
 private:
    enum eDerMixD { inNormal, inFullstat, inScan };
    

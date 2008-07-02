@@ -7,13 +7,16 @@
 
 #include "TrackInfoWidget.hpp"
 #include "ScrollLine.hpp"
+#include "Database.hpp"
 
 #include <QtGui>
 
 #include "Trace.hpp"
 
-TrackInfoWidget::TrackInfoWidget( QWidget *parent )
+TrackInfoWidget::TrackInfoWidget( Database *database, QWidget *parent )
 : QWidget( parent )
+, mpDatabase( database )
+, mTrackInfo()
 , mpArtistLabel( new QLabel( tr("Artist:"), this ) )
 , mpTitleLabel( new QLabel( tr("Title:"), this ) )
 , mpAlbumLabel( new QLabel( tr("Album:"), this ) )
@@ -68,5 +71,24 @@ void TrackInfoWidget::handleUnwantedButton()
    if( mpUnwantedButton->isChecked() )
    {
       mpFavoriteButton->setChecked( false );
+   }
+}
+
+
+void TrackInfoWidget::getTrack( const QString &fileName )
+{
+   if( mpDatabase->getTrackInfo( &mTrackInfo, fileName ) )
+   {
+      mpArtist->setText( mTrackInfo.mArtist );
+      mpTitle->setText( mTrackInfo.mTitle );
+      mpAlbum->setText( mTrackInfo.mAlbum );
+   }
+   else
+   {
+      QString empty;
+      
+      mpArtist->setText( empty );
+      mpTitle->setText( empty );
+      mpAlbum->setText( empty );
    }
 }

@@ -23,6 +23,7 @@ class PlaylistContentWidget;
 class SearchWidget;
 class TrackInfoWidget;
 class ConfigDialog;
+class Database;
 
 
 class PlaylistWidget : public QWidget
@@ -30,7 +31,8 @@ class PlaylistWidget : public QWidget
 Q_OBJECT
 
 public:
-   PlaylistWidget( ConfigDialog *config, QWidget *parent = 0, Qt::WindowFlags f = 0 );
+   PlaylistWidget( Database *database, ConfigDialog *config,
+                   QWidget *parent = 0, Qt::WindowFlags f = 0 );
    virtual ~PlaylistWidget();
 
    /* get name of next track either from playlist */
@@ -57,6 +59,7 @@ public slots:
    void handleTabChange( int tabNr );
    /* re-read config parameters */
    void readConfig();
+   void getTrack( const QString &fileName );
    
 signals:
    /* unfold a node */
@@ -71,6 +74,8 @@ private:
    /* add entries to a stringlist */
    void addEntries( QStringList *list, const QModelIndex &qmi );
    
+   Database              *mpDatabase;
+   ConfigDialog          *mpConfig;
    QTabWidget            *mpTabs;
    PlaylistContentWidget *mpPlaylistContent;
    FileSysTreeView       *mpTreeView;
@@ -78,7 +83,6 @@ private:
    SearchWidget          *mpSearch;
    TrackInfoWidget       *mpTrackInfo;
    QTextBrowser          *mpHelpText;
-   ConfigDialog          *mpConfig;
    QString               mM3uFileName;
    QStringList           mM3uData;
    QList<int>            mRandomList;

@@ -386,7 +386,11 @@ void PlayerWidget::sendCommand( const QString &command, const QString &parameter
    if( mpSocket->state() == QAbstractSocket::ConnectedState )
    {
       QString cmd( command );
-      if(command != "preread")
+      if( command == "start" )
+      {
+         emit trackPlaying( mpScrollLine->toolTip() );
+      }
+      if( command != "preread" )
       {
          cmd.append( ' ' );
          cmd.append( '0' + mPlayer );
