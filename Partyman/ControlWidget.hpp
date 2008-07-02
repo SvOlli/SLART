@@ -21,7 +21,7 @@ class PlaylistWidget;
 class QPushButton;
 class QMenu;
 class QAction;
-
+class Database;
 
 class ControlWidget : public QWidget
 {
@@ -29,7 +29,8 @@ Q_OBJECT
 public:
    enum eErrorCode { noError, noConnection, connectionLost, wrongVersion };
    
-   ControlWidget( ConfigDialog *config, PlaylistWidget *playlist, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   ControlWidget( Database *database, ConfigDialog *config,
+                  PlaylistWidget *playlist, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    virtual ~ControlWidget();
    
    /* callback for player to request next track */

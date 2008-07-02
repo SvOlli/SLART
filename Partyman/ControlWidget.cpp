@@ -15,7 +15,8 @@
 #include "Trace.hpp"
 
 
-ControlWidget::ControlWidget( ConfigDialog *config, PlaylistWidget *playlist, QWidget *parent, Qt::WindowFlags flags )
+ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
+                              PlaylistWidget *playlist, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpConfig( config )
 , mpPlaylist( playlist )
@@ -37,8 +38,8 @@ ControlWidget::ControlWidget( ConfigDialog *config, PlaylistWidget *playlist, QW
 , mDerMixDstarted( false )
 {
    MySettings settings;
-   mpPlayer[0] = new PlayerWidget(0, this);
-   mpPlayer[1] = new PlayerWidget(1, this);
+   mpPlayer[0] = new PlayerWidget(0, database, this);
+   mpPlayer[1] = new PlayerWidget(1, database, this);
    
    QHBoxLayout *mainLayout    = new QHBoxLayout( this );
    QVBoxLayout *centralLayout = new QVBoxLayout( );
@@ -74,10 +75,10 @@ ControlWidget::ControlWidget( ConfigDialog *config, PlaylistWidget *playlist, QW
    connect( mpSkipButton, SIGNAL(clicked()), this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()), this, SLOT(readConfig()) );
    connect( &mSLARTCom, SIGNAL(packageRead(QStringList)), this, SLOT(handleSLART(QStringList)) );
-   connect( mpPlayer[0], SIGNAL(trackPlaying(const QString &)),
-            mpPlaylist, SLOT(getTrack(const QString &)) );
-   connect( mpPlayer[1], SIGNAL(trackPlaying(const QString &)),
-            mpPlaylist, SLOT(getTrack(const QString &)) );
+   connect( mpPlayer[0], SIGNAL(trackPlaying(const TrackInfo &)),
+            mpPlaylist, SLOT(getTrack(const TrackInfo &)) );
+   connect( mpPlayer[1], SIGNAL(trackPlaying(const TrackInfo &)),
+            mpPlaylist, SLOT(getTrack(const TrackInfo &)) );
 
    connect( &mDerMixDprocess, SIGNAL(readyReadStandardError()),
             this, SLOT(handleDerMixDstartup()) );

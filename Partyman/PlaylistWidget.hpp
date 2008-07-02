@@ -21,6 +21,7 @@ class QTextBrowser;
 class FileSysTreeModel;
 class PlaylistContentWidget;
 class SearchWidget;
+class TrackInfo;
 class TrackInfoWidget;
 class ConfigDialog;
 class Database;
@@ -59,7 +60,8 @@ public slots:
    void handleTabChange( int tabNr );
    /* re-read config parameters */
    void readConfig();
-   void getTrack( const QString &fileName );
+   /*  */
+   void getTrack( const TrackInfo &trackInfo );
    
 signals:
    /* unfold a node */

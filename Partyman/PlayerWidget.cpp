@@ -7,6 +7,7 @@
 
 #include "PlayerWidget.hpp"
 #include "ControlWidget.hpp"
+#include "Database.hpp"
 #include "MySettings.hpp"
 
 #include <iostream>
@@ -45,10 +46,11 @@ protected:
 };
 
 
-PlayerWidget::PlayerWidget( int index, 
+PlayerWidget::PlayerWidget( int index, Database *database,
                             ControlWidget *controlWidget, Qt::WindowFlags flags )
 : QWidget( controlWidget, flags )
 , mPlayer( index )
+, mpDatabase( database )
 , mpControlWidget( controlWidget )
 , mpScrollLine( new ScrollLine( this ) )
 , mpStatusDisplay( new QLabel( this ) )
@@ -63,6 +65,7 @@ PlayerWidget::PlayerWidget( int index,
 , mSamples( 0 )
 , mHeadStart( 10 )
 , mUpdateSlider( true )
+, mTrackInfo()
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    
@@ -388,7 +391,9 @@ void PlayerWidget::sendCommand( const QString &command, const QString &parameter
       QString cmd( command );
       if( command == "start" )
       {
-         emit trackPlaying( mpScrollLine->toolTip() );
+         ++mTrackInfo.mTimesPlayed;
+         emit trackPlaying( mTrackInfo );
+         mpDatabase->updateTrackInfo( &mTrackInfo );
       }
       if( command != "preread" )
       {
@@ -439,7 +444,6 @@ void PlayerWidget::handleScan( const QString &data )
 {
    QStringList token( data.split(" ") );
    bool ok;
-   double adjust = 1.0;
    double max = token.at(0).toDouble( &ok );
    if( !ok )
    {
@@ -448,13 +452,17 @@ void PlayerWidget::handleScan( const QString &data )
 
    if( token.at(1).startsWith( "level" ) )
    {
-      adjust = mNormalizeValue / max;
-      sendCommand( "volume", QString::number(adjust) );
+      mTrackInfo.mVolume = max;
+      mTrackInfo.setFlag( TrackInfo::ScannedWithPower, true );
+      setVolume();
+      mpDatabase->updateTrackInfo( &mTrackInfo );
    }
    else if( token.at(1).startsWith( "peak" ) )
    {
-      adjust = 1.0 / max;
-      sendCommand( "volume", QString::number(adjust) );
+      mTrackInfo.mVolume = max;
+      mTrackInfo.setFlag( TrackInfo::ScannedWithPeak, true );
+      setVolume();
+      mpDatabase->updateTrackInfo( &mTrackInfo );
    }
    else if( token.at(1).startsWith( "Hz" ) )
    {
@@ -473,6 +481,29 @@ void PlayerWidget::handleScan( const QString &data )
    
    mpPlayPosition->setRange( 0, mTotalTime );
    updateTime();
+}
+
+
+bool PlayerWidget::setVolume()
+{
+   double adjust = 1.0;
+   
+   if( mTrackInfo.mVolume > 0.0 )
+   {
+      if( mTrackInfo.isFlagged( TrackInfo::ScannedWithPower ) )
+      {
+         adjust = mNormalizeValue / mTrackInfo.mVolume;
+         sendCommand( "volume", QString::number(adjust) );
+         return true;
+      }
+      if( mTrackInfo.isFlagged( TrackInfo::ScannedWithPeak ) )
+      {
+         adjust = 1.0 / mTrackInfo.mVolume;
+         sendCommand( "volume", QString::number(adjust) );
+         return true;
+      }
+   }
+   return false;
 }
 
 

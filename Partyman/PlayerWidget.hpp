@@ -21,7 +21,9 @@ class QScrollArea;
 class QSlider;
 class ControlWidget;
 class ScrollLine;
+class Database;
 #include "PlayerFSM.hpp"
+#include "TrackInfo.hpp"
 
 
 class PlayerWidget : public QWidget
@@ -39,7 +41,8 @@ Q_OBJECT
    friend class PlayerFSMEndingPaused;
    
 public:
-   PlayerWidget( int index, ControlWidget *controlWidget, Qt::WindowFlags flags = 0 );
+   PlayerWidget( int index, Database *database, 
+                 ControlWidget *controlWidget, Qt::WindowFlags flags = 0 );
    virtual ~PlayerWidget();
 
    /* get a new track from playlist */
@@ -88,7 +91,7 @@ public slots:
    void handleError( QAbstractSocket::SocketError socketError );
 
 signals:
-   void trackPlaying( const QString &fileName );
+   void trackPlaying( const TrackInfo &trackInfo );
 
 private:
    enum eDerMixD { inNormal, inFullstat, inScan };
@@ -104,8 +107,11 @@ private:
    void watch( bool turnWatchOn );
    /* adjust volume for normalization */
    void handleScan( const QString &data );
+   /*  */
+   bool setVolume();
 
    int           mPlayer;
+   Database      *mpDatabase;
    ControlWidget *mpControlWidget;
    ScrollLine    *mpScrollLine;
    QLabel        *mpStatusDisplay;
@@ -124,6 +130,7 @@ private:
    bool          mUpdateSlider;
    int           mNormalizeMode;
    double        mNormalizeValue;
+   TrackInfo     mTrackInfo;
 };
 
 #endif

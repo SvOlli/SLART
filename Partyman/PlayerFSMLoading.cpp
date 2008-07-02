@@ -7,6 +7,8 @@
 
 #include "PlayerFSMLoading.hpp"
 #include "PlayerWidget.hpp"
+#include "ScrollLine.hpp"
+#include "Database.hpp"
 
 #include "Trace.hpp"
 
@@ -24,20 +26,28 @@ bool PlayerFSMLoading::enter()
 
    mInScan = false;
    
-   /* request normalization volume */
-   switch( mpPlayerWidget->mNormalizeMode )
+   mpPlayerWidget->mpDatabase->getTrackInfo( &(mpPlayerWidget->mTrackInfo), mpPlayerWidget->mpScrollLine->toolTip() );
+   if( mpPlayerWidget->setVolume() )
    {
-      case 0:
-         mpPlayerWidget->sendCommand( "scan", "format length" );
-         break;
-      case 1:
-         mpPlayerWidget->sendCommand( "scan", "format length peak" );
-         break;
-      case 2:
-         mpPlayerWidget->sendCommand( "scan", "format length power" );
-         break;
-      default:
-         break;
+      mpPlayerWidget->sendCommand( "scan", "format length" );
+   }
+   else
+   {
+      /* request normalization volume */
+      switch( mpPlayerWidget->mNormalizeMode )
+      {
+         case 0:
+            mpPlayerWidget->sendCommand( "scan", "format length" );
+            break;
+         case 1:
+            mpPlayerWidget->sendCommand( "scan", "format length peak" );
+            break;
+         case 2:
+            mpPlayerWidget->sendCommand( "scan", "format length power" );
+            break;
+         default:
+            break;
+      }
    }
    
    return true;
@@ -66,7 +76,7 @@ enum PlayerFSM::eState PlayerFSMLoading::handleDerMixD( const QString &msg )
       {
          mInScan = false;
          
-         if( mpPlayerWidget->mTotalTime < 2*mpPlayerWidget->mHeadStart )
+         if( mpPlayerWidget->mTotalTime < (2 * mpPlayerWidget->mHeadStart) + 1 )
          {
             return PlayerFSM::searching;
          }

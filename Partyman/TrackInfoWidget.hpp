@@ -13,7 +13,9 @@
 #include "TrackInfo.hpp"
 
 class QLabel;
+class QLineEdit;
 class QPushButton;
+class QCheckBox;
 class Database;
 
 class ScrollLine;
@@ -28,7 +30,7 @@ public:
 public slots:
    void handleFavoriteButton();
    void handleUnwantedButton();
-   void getTrack( const QString &fileName );
+   void getTrack( const TrackInfo &trackInfo );
 
 signals:
 
@@ -41,11 +43,14 @@ private:
    QLabel      *mpArtistLabel;
    QLabel      *mpTitleLabel;
    QLabel      *mpAlbumLabel;
+   QLabel      *mpTrackNrLabel;
+   QLabel      *mpTimesPlayed;
    ScrollLine  *mpArtist;
    ScrollLine  *mpTitle;
    ScrollLine  *mpAlbum;
-   QPushButton *mpFavoriteButton;
-   QPushButton *mpUnwantedButton;
+   QLineEdit   *mpTrackNr;
+   QCheckBox   *mpFavoriteButton;
+   QCheckBox   *mpUnwantedButton;
 };
 
 #endif

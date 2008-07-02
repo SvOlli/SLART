@@ -35,7 +35,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpDatabase( new Database() )
 , mpConfig( new ConfigDialog( this ) )
 , mpPlaylist( new PlaylistWidget( mpDatabase, mpConfig, this ) )
-, mpControl( new ControlWidget( mpConfig, mpPlaylist, this ) )
+, mpControl( new ControlWidget( mpDatabase, mpConfig, mpPlaylist, this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 {
    mpMainWidget = this;

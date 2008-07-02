@@ -437,7 +437,7 @@ void PlaylistWidget::readM3u()
 }
 
 
-void PlaylistWidget::getTrack( const QString &fileName )
+void PlaylistWidget::getTrack( const TrackInfo &trackInfo )
 {
-   mpTrackInfo->getTrack( fileName );
+   mpTrackInfo->getTrack( trackInfo );
 }
