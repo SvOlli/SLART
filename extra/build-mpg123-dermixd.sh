@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mpg123_version=1.4.1
+mpg123_version=1.4.3
 dermixd_version=1.6.2
 dermixd_options="VORBISFILE=yes SNDFILE=yes"
 
@@ -32,15 +32,15 @@ else
   echo "dermixd is $dermixd"
 fi
 
+if [ "$1" = "force" ]; then
+  build_mpg123=yes
+  build_dermixd=yes
+fi
+
 if [ -z "$build_mpg123$build_dermixd" ]; then
   echo tools are complete, nothing needs to be build
-  if [ "$1" = "force" ]; then
-    build_mpg123=yes
-    build_dermixd=yes
-  else
-    echo "if you want them to be build run '$0 force'"
-    exit
-  fi
+  echo "if you want them to be build run '$0 force'"
+  exit
 fi
 
 echo "will copy compiled mpg123 $mpg123_version and dermixd $dermixd_version to $bindir"
