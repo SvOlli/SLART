@@ -453,3 +453,59 @@ void PlaylistWidget::getTrack( const TrackInfo &trackInfo )
 {
    mpTrackInfo->getTrack( trackInfo );
 }
+
+
+void PlaylistWidget::databaseToBrowser()
+{
+   TrackInfoList til;
+   int i, size = 0;
+   int tracks = mpDatabase->getTrackInfoList( &til );
+   QString fileName;
+   
+   QProgressDialog progress( tr("<center><img src=':/PartymanSmile.gif'>&nbsp;"
+                             "&nbsp;<img src=':/PartymanWriting.gif'><br>"
+                             "Loading Playlist...</center>"),
+                             QString(), 0, tracks, this, Qt::Dialog | Qt::Popup );
+   progress.setWindowTitle( QApplication::applicationName() );
+   progress.setWindowIcon( QIcon(":/PartymanSmile.gif") );
+   progress.setWindowOpacity ( 0.85 );
+   progress.setModal( true );
+   progress.setValue( 0 );
+   QCoreApplication::processEvents();
+   
+   mpTreeModel->clear();
+   for( i = 0; i < tracks; i++ )
+   {
+      fileName = til.at(i).mDirectory;
+      fileName.append( "/" );
+      fileName.append( til.at(i).mFileName );
+      mpTreeModel->addModelData( fileName );
+      if( 100 * i / tracks > size )
+      {
+         progress.setValue( i );
+         size++;
+         QCoreApplication::processEvents();
+      }
+   }
+   QModelIndex root, qmi;
+   mpTreeView->setModel( mpTreeModel );
+   mpTreeView->setRootIndex( root );
+   
+   for(i = 0; ; i++)
+   {
+      qmi = mpTreeModel->index( i, 0, root );
+      if( !qmi.isValid() )
+      {
+         break;
+      }
+      
+      do
+      {
+         emit expand( qmi );
+         qmi = mpTreeModel->index( 0, 0, qmi );
+      }
+      while( mpTreeModel->rowCount( qmi ) <= 1 );
+      emit expand( qmi );
+   }
+}
+

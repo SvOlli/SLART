@@ -64,6 +64,8 @@ public slots:
    void readConfig();
    /*  */
    void getTrack( const TrackInfo &trackInfo );
+   /*  */
+   void databaseToBrowser();
    
 signals:
    /* unfold a node */

@@ -116,6 +116,8 @@ void MainWidget::startUp()
    MySettings settings;
 #if 0
    mpPlaylist->readM3u();
+#else
+   mpPlaylist->databaseToBrowser();
 #endif
    mpControl->readConfig();
    if( !QFileInfo( settings.value( "DatabaseFilename", "" ).toString() ).isFile() )
