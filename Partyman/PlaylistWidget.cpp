@@ -180,7 +180,6 @@ void PlaylistWidget::addEntries( const QStringList &entries, bool atStart )
 
 void PlaylistWidget::getNextTrack( QString *fileName )
 {
-   int i;
    
    if( mpPlaylistContent->count() > 0 )
    {
@@ -191,6 +190,9 @@ void PlaylistWidget::getNextTrack( QString *fileName )
    }
    else
    {
+#if 0
+      int i;
+      
       if( !mRandomList.size() )
       {
          for( i = 0; i < mM3uData.size(); i++ )
@@ -201,6 +203,15 @@ void PlaylistWidget::getNextTrack( QString *fileName )
       i = qrand() % mRandomList.size();
       
       *fileName = mM3uData.at( mRandomList.takeAt(i) );
+#else
+      TrackInfo trackInfo;
+      if( mpDatabase->getTrack( &trackInfo, false, false ) )
+      {
+         *fileName = trackInfo.mDirectory;
+         fileName->append( "/" );
+         fileName->append( trackInfo.mFileName );
+      }
+#endif
    }
 }
 

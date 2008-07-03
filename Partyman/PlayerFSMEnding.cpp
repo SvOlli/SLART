@@ -8,6 +8,8 @@
 #include "PlayerFSMEnding.hpp"
 #include "PlayerWidget.hpp"
 #include "ControlWidget.hpp"
+#include "Database.hpp"
+#include "TrackInfo.hpp"
 
 #include "Trace.hpp"
 
@@ -22,6 +24,8 @@ bool PlayerFSMEnding::enter()
    mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("ending") );
    mpPlayerWidget->mpControlWidget->changeOtherState( mpPlayerWidget->mPlayer, PlayerFSM::playing );
    mpPlayerWidget->mpControlWidget->allowInteractive( false );
+   ++(mpPlayerWidget->mTrackInfo.mTimesPlayed);
+   mpPlayerWidget->mpDatabase->updateTrackInfo( &(mpPlayerWidget->mTrackInfo) );
 
    return true;
 }

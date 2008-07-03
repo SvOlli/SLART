@@ -391,9 +391,7 @@ void PlayerWidget::sendCommand( const QString &command, const QString &parameter
       QString cmd( command );
       if( command == "start" )
       {
-         ++mTrackInfo.mTimesPlayed;
          emit trackPlaying( mTrackInfo );
-         mpDatabase->updateTrackInfo( &mTrackInfo );
       }
       if( command != "preread" )
       {
@@ -487,6 +485,11 @@ void PlayerWidget::handleScan( const QString &data )
 bool PlayerWidget::setVolume()
 {
    double adjust = 1.0;
+   
+   if( mTrackInfo.mPlayTime > 0 )
+   {
+      mTotalTime = mTrackInfo.mPlayTime;
+   }
    
    if( mTrackInfo.mVolume > 0.0 )
    {
