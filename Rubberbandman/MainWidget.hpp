@@ -25,7 +25,7 @@ Q_OBJECT
 
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   bool shutdown();
+   ~MainWidget();
 
 public slots:
    /* switch to filesystem tab */

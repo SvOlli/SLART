@@ -20,18 +20,29 @@ PlayerFSMLoading::PlayerFSMLoading( PlayerWidget *playerWidget )
 
 bool PlayerFSMLoading::enter()
 {
+   bool needRescan = false;
    mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("loading") );
    mpPlayerWidget->mTotalTime = 0;
    mpPlayerWidget->updateTime();
 
    mInScan = false;
+   QString fileName( mpPlayerWidget->mpScrollLine->toolTip() );
    
-   mpPlayerWidget->mpDatabase->getTrackInfo( &(mpPlayerWidget->mTrackInfo), mpPlayerWidget->mpScrollLine->toolTip() );
+   mpPlayerWidget->mpDatabase->getTrackInfo( &(mpPlayerWidget->mTrackInfo), fileName );
    if( mpPlayerWidget->setVolume() )
    {
-      mpPlayerWidget->sendCommand( "scan", "format length" );
+      QFileInfo qfi( fileName );
+      if( qfi.lastModified().toTime_t() > mpPlayerWidget->mTrackInfo.mLastScanned )
+      {
+         needRescan = true;
+      }
    }
    else
+   {
+      needRescan = true;
+   }
+   
+   if( needRescan )
    {
       /* request normalization volume */
       switch( mpPlayerWidget->mNormalizeMode )
@@ -48,6 +59,10 @@ bool PlayerFSMLoading::enter()
          default:
             break;
       }
+   }
+   else
+   {
+      mpPlayerWidget->mpFSM->changeState( PlayerFSM::ready );
    }
    
    return true;

@@ -26,8 +26,10 @@
 DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( database )
+#if 0
 , mpTableModel( new QSqlTableModel() )
 , mpTableView( new QTableView() )
+#endif
 {
    QPushButton *updateButton = new QPushButton( tr("Update") );
    QPushButton *cleanupButton = new QPushButton( tr("Clean up") );
@@ -47,7 +49,9 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( updateButton );
    buttonLayout->addWidget( cleanupButton );
+#if 0
    layout->addWidget( mpTableView );
+#endif
    layout->addLayout( buttonLayout );
    setLayout(layout);
 }
@@ -64,8 +68,8 @@ void DatabaseWidget::handleUpdate()
    mpDatabase->endTransaction(true);
    disconnect( &walker, SIGNAL(foundFile(const QFileInfo&)),
                this, SLOT(handleFile(const QFileInfo&)) );
-   mpTableModel->select();
 #if 0
+   mpTableModel->select();
    QString query( mpTableModel->query().lastQuery() );
    delete mpTableModel;
    mpTableModel = new QSqlTableModel();
@@ -106,7 +110,7 @@ void DatabaseWidget::handleFile( const QFileInfo &fileInfo )
       trackInfo->mID           = 0;
       trackInfo->mDirectory    = fileName.left(fileNameStart);
       trackInfo->mFileName     = fileName.mid(fileNameStart+1);
-      trackInfo->mLastModified = 0;
+      trackInfo->mLastTagsRead = 0;
       trackInfo->mTimesPlayed  = 0;
       trackInfo->mFlags        = 0;
    }
@@ -124,7 +128,7 @@ bool DatabaseWidget::updateTrackInfoFromFile( TrackInfo *trackInfo, const QStrin
 {   
    QFileInfo fileInfo( fileName );
    
-   if( fileInfo.lastModified().toTime_t() > trackInfo->mLastModified )
+   if( fileInfo.lastModified().toTime_t() > trackInfo->mLastTagsRead )
    {
       TagLib::FileRef f( fileName.toLocal8Bit().data() );
       if( f.file() && f.tag() )
@@ -139,7 +143,7 @@ bool DatabaseWidget::updateTrackInfoFromFile( TrackInfo *trackInfo, const QStrin
          {
             trackInfo->mPlayTime  = f.audioProperties()->length();
          }
-         trackInfo->mLastModified = fileInfo.lastModified().toTime_t();
+         trackInfo->mLastTagsRead = fileInfo.lastModified().toTime_t();
          
          return true;
       }

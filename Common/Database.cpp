@@ -80,7 +80,8 @@ Database::Database( const QString &fileName )
                                     "Year INTEGER,"
                                     "Genre VARCHAR,"
                                     "PlayTime INTEGER,"
-                                    "LastModified INTEGER,"
+                                    "LastScanned INTEGER,"
+                                    "LastTagsRead INTEGER,"
                                     "TimesPlayed INTEGER,"
                                     "Volume DOUBLE,"
                                     "Folders VARCHAR,"
@@ -118,10 +119,14 @@ Database::~Database()
 {
    if( mpQuery )
    {
+      mpQuery->clear();
       delete mpQuery;
    }
    if( mpSqlDB )
    {
+      mpSqlDB->commit();
+      mpSqlDB->close();
+      mpSqlDB->removeDatabase( "QSQLITE" );
       delete mpSqlDB;
    }
 }
@@ -130,7 +135,8 @@ Database::~Database()
 bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
 {
    QString sql( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
-                "PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags FROM slart_tracks WHERE ");
+                "PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags"
+                " FROM slart_tracks WHERE ");
    if( fileName.isEmpty() )
    {
       sql.append( "id = :id ;" );
@@ -162,18 +168,22 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
       trackInfo->mYear         = mpQuery->value( 7).toUInt();
       trackInfo->mGenre        = mpQuery->value( 8).toString();
       trackInfo->mPlayTime     = mpQuery->value( 9).toUInt();
-      trackInfo->mLastModified = mpQuery->value(10).toUInt();
-      trackInfo->mTimesPlayed  = mpQuery->value(11).toUInt();
-      trackInfo->mVolume       = mpQuery->value(12).toDouble();
-      trackInfo->mFolders      = mpQuery->value(13).toString();
-      trackInfo->mFlags        = mpQuery->value(14).toUInt();
+      trackInfo->mLastScanned  = mpQuery->value(10).toUInt();
+      trackInfo->mLastTagsRead = mpQuery->value(11).toUInt();
+      trackInfo->mTimesPlayed  = mpQuery->value(12).toUInt();
+      trackInfo->mVolume       = mpQuery->value(13).toDouble();
+      trackInfo->mFolders      = mpQuery->value(14).toString();
+      trackInfo->mFlags        = mpQuery->value(15).toUInt();
       
       mpQuery->clear();
       return true;
    }
-   
-   mpQuery->clear();
-   return false;
+   else
+   {
+      trackInfo->clear();
+      mpQuery->clear();
+      return false;
+   }
 }
 
 
@@ -181,9 +191,9 @@ unsigned int Database::getTrackInfoList( TrackInfoList *trackInfoList )
 {
    if( trackInfoList )
    {
-      mpQuery->prepare( "SELECT Directory,FileName,Artist,Title,Album,TrackNr,Year,"
-                        "Genre,PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags,id"
-                        " FROM slart_tracks;" );
+      mpQuery->prepare( "SELECT Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
+                      "PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags,id"
+                      " FROM slart_tracks;" );
       if( !mpQuery->exec() )
       {
       }
@@ -202,9 +212,10 @@ unsigned int Database::getTrackInfoList( TrackInfoList *trackInfoList )
                                         mpQuery->value( 8).toUInt(),
                                         mpQuery->value( 9).toUInt(),
                                         mpQuery->value(10).toUInt(),
-                                        mpQuery->value(11).toDouble(),
-                                        mpQuery->value(12).toString(),
-                                        mpQuery->value(13).toUInt() );
+                                        mpQuery->value(11).toUInt(),
+                                        mpQuery->value(12).toDouble(),
+                                        mpQuery->value(13).toString(),
+                                        mpQuery->value(14).toUInt() );
       }
       mpQuery->clear();
       return trackInfoList->size();
@@ -228,7 +239,8 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo )
    {
       mpQuery->prepare( "UPDATE slart_tracks SET Directory = :directory, FileName = :filename,"
                         " Artist = :artist, Title = :title, Album = :album, TrackNr = :tracknr,"
-                        " Year = :year, Genre = :genre, PlayTime = :playtime, LastModified = :lastmodified,"
+                        " Year = :year, Genre = :genre, PlayTime = :playtime, LastScanned = :lastscanned,"
+                        " LastTagsRead = :lasttagsread,"
                         " TimesPlayed = :timesplayed, Volume = :volume, Folders = :folders, Flags = :flags"
                         " WHERE id = :id ;" );
       mpQuery->bindValue( ":id", trackInfo->mID );
@@ -240,8 +252,8 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo )
          return;
       }
       mpQuery->prepare( "INSERT OR REPLACE INTO slart_tracks (Directory,FileName,Artist,Title,Album,"
-                        "TrackNr,Year,Genre,PlayTime,LastModified,TimesPlayed,Folders,Flags) VALUES"
-                        " (:directory,:filename,:artist,:title,:album,:tracknr,:year,:genre,"
+                        "TrackNr,Year,Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Folders,Flags)"
+                        " VALUES (:directory,:filename,:artist,:title,:album,:tracknr,:year,:genre,"
                         ":playtime,:lastmodified,:timesplayed,:folders,:flags);" );
    }
    mpQuery->bindValue( ":directory",    trackInfo->mDirectory );
@@ -253,7 +265,8 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo )
    mpQuery->bindValue( ":year",         trackInfo->mYear );
    mpQuery->bindValue( ":genre",        trackInfo->mGenre );
    mpQuery->bindValue( ":playtime",     trackInfo->mPlayTime );
-   mpQuery->bindValue( ":lastmodified", trackInfo->mLastModified );
+   mpQuery->bindValue( ":lastscanned",  trackInfo->mLastScanned );
+   mpQuery->bindValue( ":lasttagsread", trackInfo->mLastTagsRead );
    mpQuery->bindValue( ":timesplayed",  trackInfo->mTimesPlayed );
    mpQuery->bindValue( ":volume",       trackInfo->mVolume );
    mpQuery->bindValue( ":folders",      trackInfo->mFolders );

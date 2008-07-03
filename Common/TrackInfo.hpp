@@ -33,7 +33,8 @@ public:
               unsigned int   year,
               const QString &genre,
               unsigned int   playtime,
-              unsigned int   lastmodified,
+              unsigned int   lastscanned,
+              unsigned int   lasttagsread,
               unsigned int   timesplayed = 0,
               double         volume = 0.0,
               const QString &folders = QString(),
@@ -50,7 +51,8 @@ public:
    unsigned int mYear;
    QString      mGenre;
    unsigned int mPlayTime;
-   unsigned int mLastModified;
+   unsigned int mLastScanned;
+   unsigned int mLastTagsRead;
    unsigned int mTimesPlayed;
    double       mVolume;
    QString      mFolders;

@@ -440,7 +440,7 @@ void PlayerWidget::pause()
 
 void PlayerWidget::handleScan( const QString &data )
 {
-   QStringList token( data.split(" ") );
+   QStringList token( data.split(" ", QString::SkipEmptyParts) );
    bool ok;
    double max = token.at(0).toDouble( &ok );
    if( !ok )
@@ -453,6 +453,7 @@ void PlayerWidget::handleScan( const QString &data )
       mTrackInfo.mVolume = max;
       mTrackInfo.setFlag( TrackInfo::ScannedWithPower, true );
       setVolume();
+      mTrackInfo.mLastScanned = QDateTime::currentDateTime().toTime_t();
       mpDatabase->updateTrackInfo( &mTrackInfo );
    }
    else if( token.at(1).startsWith( "peak" ) )
@@ -460,6 +461,7 @@ void PlayerWidget::handleScan( const QString &data )
       mTrackInfo.mVolume = max;
       mTrackInfo.setFlag( TrackInfo::ScannedWithPeak, true );
       setVolume();
+      mTrackInfo.mLastScanned = QDateTime::currentDateTime().toTime_t();
       mpDatabase->updateTrackInfo( &mTrackInfo );
    }
    else if( token.at(1).startsWith( "Hz" ) )

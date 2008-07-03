@@ -62,9 +62,9 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 }
 
 
-bool MainWidget::shutdown()
+MainWidget::~MainWidget()
 {
-   return true;
+   delete mpDatabase;
 }
 
 

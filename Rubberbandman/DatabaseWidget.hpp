@@ -38,8 +38,10 @@ private:
    DatabaseWidget &operator=( const DatabaseWidget &other );
 
    Database       *mpDatabase;
+#if 0
    QSqlTableModel *mpTableModel;
    QTableView     *mpTableView;
+#endif
 };
 
 #endif

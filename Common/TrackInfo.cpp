@@ -15,8 +15,9 @@ TrackInfo::TrackInfo()
 TrackInfo::TrackInfo( const QString &directory, const QString &filename,
                       const QString &artist, const QString &title, const QString &album,
                       unsigned int tracknr, unsigned int year, const QString &genre,
-                      unsigned int playtime, unsigned int lastmodified, unsigned int timesplayed,
-                      double volume, const QString &folders, unsigned int flags, unsigned int id )
+                      unsigned int playtime, unsigned int lastscanned, unsigned int lasttagsread,
+                      unsigned int timesplayed, double volume, 
+                      const QString &folders, unsigned int flags, unsigned int id )
 : mID( id )
 , mDirectory( directory )
 , mFileName( filename )
@@ -27,7 +28,8 @@ TrackInfo::TrackInfo( const QString &directory, const QString &filename,
 , mYear( year )
 , mGenre( genre )
 , mPlayTime( playtime )
-, mLastModified( lastmodified )
+, mLastScanned( lastscanned )
+, mLastTagsRead( lasttagsread )
 , mTimesPlayed( timesplayed )
 , mVolume( volume )
 , mFolders( folders )
@@ -47,7 +49,8 @@ TrackInfo::TrackInfo( const TrackInfo &other )
 , mYear        ( other.mYear )
 , mGenre       ( other.mGenre )
 , mPlayTime    ( other.mPlayTime )
-, mLastModified( other.mLastModified )
+, mLastScanned ( other.mLastScanned )
+, mLastTagsRead( other.mLastTagsRead )
 , mTimesPlayed ( other.mTimesPlayed )
 , mVolume      ( other.mVolume )
 , mFolders     ( other.mFolders )
@@ -68,7 +71,8 @@ TrackInfo &TrackInfo::operator=( const TrackInfo &other )
    mYear         = other.mYear;
    mGenre        = other.mGenre;
    mPlayTime     = other.mPlayTime;
-   mLastModified = other.mLastModified;
+   mLastScanned  = other.mLastScanned;
+   mLastTagsRead = other.mLastTagsRead;
    mTimesPlayed  = other.mTimesPlayed;
    mVolume       = other.mVolume;
    mFolders      = other.mFolders;
@@ -90,7 +94,8 @@ void TrackInfo::clear()
    mYear         = 0;
    mGenre        = QString();
    mPlayTime     = 0;
-   mLastModified = 0;
+   mLastScanned  = 0;
+   mLastTagsRead = 0;
    mTimesPlayed  = 0;
    mVolume       = 0.0;
    mFolders      = QString();
@@ -172,9 +177,9 @@ QString TrackInfo::toString() const
    return QString("id=%1,dir=%2,file=%3,artist=%4,title=%5,album=%6,trk=%7,year=%8,genre=%9,")
                   .arg(QString::number(mID), mDirectory, mFileName, mArtist, mTitle,
                        mAlbum, QString::number(mTrackNr), QString::number(mYear), mGenre)+
-          QString("pt=%1,lm=%2,tp=%3,vol=%4,folders=%5,flags=%6")
-                  .arg(QString::number(mPlayTime), QString::number(mLastModified),
-                       QString::number(mTimesPlayed),QString::number(mVolume), mFolders,
-                       QString::number(mFlags,16));
+          QString("pt=%1,ls=%2,lt=%3,tp=%4,vol=%5,folders=%6,flags=%7")
+                  .arg(QString::number(mPlayTime), QString::number(mLastScanned),
+                       QString::number(mLastTagsRead),QString::number(mTimesPlayed),
+                       QString::number(mVolume), mFolders, QString::number(mFlags,16));
 }
 

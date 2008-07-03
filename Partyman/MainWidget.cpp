@@ -99,6 +99,8 @@ MainWidget::~MainWidget()
    mpControl = 0;
    delete mpPlaylist;
    mpPlaylist = 0;
+   delete mpDatabase;
+   mpDatabase = 0;
 }
 
 void MainWidget::changeTitle( const QIcon &icon, const QString &title )
