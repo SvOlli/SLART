@@ -11,6 +11,7 @@ INCLUDEPATH += .
 win32:INCLUDEPATH += /usr/local/include
 VERSION = 1.5
 DESTDIR =
+QMAKE_CXXFLAGS = -DNDEBUG=NDEBUG
 
 SOURCES = \
   apefooter.cpp \
