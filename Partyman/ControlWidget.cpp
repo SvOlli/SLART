@@ -65,7 +65,9 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    mpLogo->setFrameShape( QFrame::Box );
    
    mpConnectButton->setCheckable( true );
+#if 0
    mpConnectButton->setDisabled( true );
+#endif
 
    mpSkipButton->setDisabled( true );
    

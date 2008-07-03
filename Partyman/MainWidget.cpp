@@ -67,8 +67,10 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(changeTitle(QIcon,QString)) );
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfig, SLOT(exec()) );
+#if 0
    connect( mpConfig, SIGNAL(configChanged()),
             mpPlaylist, SLOT(readM3u()) );
+#endif
    connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
             mpControl, SLOT(allowConnect(bool)) );
    connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
@@ -112,7 +114,9 @@ void MainWidget::changeTitle( const QIcon &icon, const QString &title )
 void MainWidget::startUp()
 {
    MySettings settings;
+#if 0
    mpPlaylist->readM3u();
+#endif
    mpControl->readConfig();
    if( !QFileInfo( settings.value( "DatabaseFilename", "" ).toString() ).isFile() )
    {

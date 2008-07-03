@@ -48,8 +48,10 @@ protected:
    void dropEvent( QDropEvent *event );
    
 public slots:
+#if 0
    /* add m3u file to database */
    void readM3u();
+#endif
    /* add internal entries */
    void addEntries( const QModelIndex &qmi );
    /* delete entries */

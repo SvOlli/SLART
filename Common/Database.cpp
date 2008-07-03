@@ -192,8 +192,8 @@ unsigned int Database::getTrackInfoList( TrackInfoList *trackInfoList )
    if( trackInfoList )
    {
       mpQuery->prepare( "SELECT Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
-                      "PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags,id"
-                      " FROM slart_tracks;" );
+                        "PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags,id"
+                        " FROM slart_tracks;" );
       if( !mpQuery->exec() )
       {
       }
@@ -254,7 +254,7 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo )
       mpQuery->prepare( "INSERT OR REPLACE INTO slart_tracks (Directory,FileName,Artist,Title,Album,"
                         "TrackNr,Year,Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Folders,Flags)"
                         " VALUES (:directory,:filename,:artist,:title,:album,:tracknr,:year,:genre,"
-                        ":playtime,:lastmodified,:timesplayed,:folders,:flags);" );
+                        ":playtime,:lastscanned,:lasttagsread,:timesplayed,:folders,:flags);" );
    }
    mpQuery->bindValue( ":directory",    trackInfo->mDirectory );
    mpQuery->bindValue( ":filename",     trackInfo->mFileName );
@@ -375,12 +375,12 @@ bool Database::getTrack( TrackInfo *trackInfo, bool favorite, bool unplayed )
       trackInfo->mID = mpQuery->value(0).toUInt();
       mpQuery->clear();
       getTrackInfo( trackInfo );
+      
+      return true;
    }
    else
    {
       mpQuery->clear();
       return false;
    }
-   
-   return true;
 }

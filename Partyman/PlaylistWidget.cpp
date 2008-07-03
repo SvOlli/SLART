@@ -180,7 +180,6 @@ void PlaylistWidget::addEntries( const QStringList &entries, bool atStart )
 
 void PlaylistWidget::getNextTrack( QString *fileName )
 {
-   
    if( mpPlaylistContent->count() > 0 )
    {
       QListWidgetItem *qlwi = mpPlaylistContent->takeItem(0);
@@ -325,6 +324,7 @@ void PlaylistWidget::handleTabChange( int tabNr )
 }
 
 
+#if 0
 void PlaylistWidget::readM3u()
 {
    MySettings settings;
@@ -446,6 +446,7 @@ void PlaylistWidget::readM3u()
    mpSearch->search();
    emit playlistIsValid( true );
 }
+#endif
 
 
 void PlaylistWidget::getTrack( const TrackInfo &trackInfo )

@@ -33,7 +33,9 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpNormalizeMode( new QComboBox( this ) )
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
+#if 0
 , mpM3uFileName( new QPushButton( this ) )
+#endif
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
 {
    setWindowTitle( tr("Partyman Settings") );
@@ -84,8 +86,10 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    pmLayout->addWidget( mpNormalizeValue, 3, 1 );
    pmLayout->addWidget( new QLabel( tr("External Logger:") ), 4, 0 );
    pmLayout->addWidget( mpLogCmd, 4, 1 );
+#if 0
    pmLayout->addWidget( new QLabel( tr("Database File:") ), 5, 0, 1, 2 );
    pmLayout->addWidget( mpM3uFileName, 6, 0, 1, 2 );
+#endif
    pmGroup->setLayout( pmLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -133,8 +137,10 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    }
    setLayout( mainLayout );
 
+#if 0
    connect( mpM3uFileName, SIGNAL(clicked()),
             this, SLOT(setM3uFileName()) );
+#endif
    connect( okButton, SIGNAL(clicked()),
             this, SLOT(accept()) );
    connect( cancelButton, SIGNAL(clicked()),
@@ -172,7 +178,9 @@ void ConfigDialog::readSettings()
    mpNormalizeMode->setCurrentIndex( settings.value("NormalizeMode", 0).toInt() );
    mpNormalizeValue->setValue( settings.value("NormalizeValue", 0.4).toDouble() );
    mpLogCmd->setText( settings.value("LogCmd", "").toString() );
+#if 0
    mpM3uFileName->setText( settings.value("DatabaseFilename", QString() ).toString() );
+#endif
    handleUDPListen( mpSLARTCommunication->isChecked() );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    mpGlobalSettings->readSettings();
@@ -198,13 +206,16 @@ void ConfigDialog::writeSettings()
    settings.setValue( "NormalizeMode", mpNormalizeMode->currentIndex() );
    settings.setValue( "NormalizeValue", mpNormalizeValue->value() );
    settings.setValue( "LogCmd", mpLogCmd->text() );
+#if 0
    settings.setValue( "DatabaseFilename", mpM3uFileName->text().replace('\\','/') );
+#endif
    mpGlobalSettings->writeSettings();
 
    emit configChanged();
 }
 
 
+#if 0
 void ConfigDialog::setM3uFileName()
 {
    QFileDialog fileDialog( this );
@@ -221,6 +232,7 @@ void ConfigDialog::setM3uFileName()
       mpM3uFileName->setText( result );
    }
 }
+#endif
 
 
 void ConfigDialog::handleDerMixDrun( bool checked )
