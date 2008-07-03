@@ -711,14 +711,17 @@ void InfoEdit::handleFlagsMenu( QAction *action )
 {
    if( action == mpRecurseSetFlags )
    {
-      mRecurseSetFlags = action->isChecked();
+      mRecurseSetFlags   = action->isChecked();
+      mRecurseUnsetFlags = false;
       mpRecurseUnsetFlags->setChecked( false );
+      mpTrackScannedFlag->setChecked( false );
       return;
    }
    
    if( action == mpRecurseUnsetFlags )
    {
       mRecurseUnsetFlags = action->isChecked();
+      mRecurseSetFlags   = false;
       mpRecurseSetFlags->setChecked( false );
       return;
    }
@@ -731,6 +734,16 @@ void InfoEdit::handleFlagsMenu( QAction *action )
    if( action == mpUnwantedTrackFlag )
    {
       mpFavoriteTrackFlag->setChecked( false );
+   }
+   
+   if( action == mpTrackScannedFlag )
+   {
+      if( !mTrackInfo.isFlagged( TrackInfo::ScannedWithPeak ) &&
+          !mTrackInfo.isFlagged( TrackInfo::ScannedWithPower ) &&
+          !mRecurseUnsetFlags )
+      {
+         mpTrackScannedFlag->setChecked( false );
+      }
    }
    
    handleChange();
