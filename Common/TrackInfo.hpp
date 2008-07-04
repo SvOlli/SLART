@@ -68,6 +68,7 @@ public:
    bool isInFolder( const QString &folder );
    QStringList getFolders();
    
+   QString filePath() const;
    QString toString() const;
    
 private:

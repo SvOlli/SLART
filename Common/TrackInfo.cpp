@@ -135,6 +135,12 @@ unsigned int TrackInfo::getFlagMask( Flag flag )
 }
 
 
+QString TrackInfo::filePath() const
+{
+   return mDirectory + "/" + mFileName;
+}
+
+
 void TrackInfo::setFolder( const QString &folder, bool add )
 {
    QStringList folders( mFolders.split('|', QString::SkipEmptyParts) );
