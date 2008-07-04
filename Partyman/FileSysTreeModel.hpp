@@ -13,13 +13,14 @@
 
 
 class FileSysTreeItem;
+class Database;
 
 class FileSysTreeModel : public QAbstractItemModel
 {
 Q_OBJECT
 
 public:
-   FileSysTreeModel( QObject *parent = 0 );
+   FileSysTreeModel( Database *database, QObject *parent = 0 );
    virtual ~FileSysTreeModel();
 
    /* clear the complete model */
@@ -47,6 +48,7 @@ private:
    FileSysTreeModel( const FileSysTreeModel &other );
    FileSysTreeModel &operator=( const FileSysTreeModel &other );
 
+   Database        *mpDatabase;
    FileSysTreeItem *mpRootItem;
 };
 

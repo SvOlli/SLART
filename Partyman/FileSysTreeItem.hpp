@@ -11,11 +11,13 @@
 #include <QList>
 #include <QVariant>
 
+class Database;
 
 class FileSysTreeItem
 {
 public:
-   FileSysTreeItem( const QVariant &data, FileSysTreeItem *parent = 0 );
+   FileSysTreeItem( Database *database, const QVariant &data, 
+                    FileSysTreeItem *parent = 0 );
    virtual ~FileSysTreeItem();
 
    /* return child item by row number */
@@ -23,7 +25,7 @@ public:
    /* return child item by path and create one if none exists */
    FileSysTreeItem *child( const QVariant &data );
    /* return number of childs */
-   int childCount() const;
+   int childCount();
    /* return path */
    QVariant data() const;
    /* return own row id */
@@ -36,8 +38,10 @@ private:
    FileSysTreeItem &operator=( const FileSysTreeItem &other );
 
    FileSysTreeItem         *mpParentItem;
+   Database                *mpDatabase;
    QVariant                mItemData;
    QList<FileSysTreeItem*> mChildItems;
+   int                     mScanned;
 };
 
 #endif
