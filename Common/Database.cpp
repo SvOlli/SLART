@@ -187,13 +187,74 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
 }
 
 
-unsigned int Database::getTrackInfoList( TrackInfoList *trackInfoList )
+unsigned int Database::getTracksForTree( QStringList *list, const QString &path )
+{
+   QChar slash('/');
+   QString last;
+   QString trimmed;
+   
+   list->clear();
+   
+   /* get dirs in dir */
+   mpQuery->prepare( "SELECT DISTINCT (Directory) FROM slart_tracks"
+                     " WHERE Directory LIKE :path ;" );
+   if( path == "/" )
+   {
+      mpQuery->bindValue( "path", "/%" );
+   }
+   else
+   {
+      mpQuery->bindValue( "path", path + "/%" );
+   }
+   if( !mpQuery->exec() )
+   {
+   }
+   while( mpQuery->next() )
+   {
+      trimmed = mpQuery->value(0).toString();
+      int idx = trimmed.indexOf( slash, path.length()+1 );
+      trimmed = trimmed.left( idx );
+      
+      if( trimmed != last )
+      {
+         (*list) << trimmed;
+         last = trimmed;
+      }
+   }
+   mpQuery->clear();
+   
+   /* get files in dir */
+   mpQuery->prepare( "SELECT FileName FROM slart_tracks"
+                     " WHERE Directory = :path ;" );
+   mpQuery->bindValue( "path", path );
+   if( !mpQuery->exec() )
+   {
+   }
+   while( mpQuery->next() )
+   {
+      (*list) << mpQuery->value(0).toString();
+   }
+   mpQuery->clear();
+
+   return list->size();
+}
+
+
+unsigned int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QString &search )
 {
    if( trackInfoList )
    {
+      QString sqlSearch( "%" );
+      if( !search.isEmpty() )
+      {
+         sqlSearch.append( search );
+         sqlSearch.replace( "*", "%" );
+         sqlSearch.append( "%" );
+      }
       mpQuery->prepare( "SELECT Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
                         "PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags,id"
-                        " FROM slart_tracks;" );
+                        " FROM slart_tracks WHERE FileName like :filename ;" );
+      mpQuery->bindValue( ":filename", sqlSearch );
       if( !mpQuery->exec() )
       {
       }

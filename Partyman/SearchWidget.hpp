@@ -16,13 +16,14 @@ class QLabel;
 class QModelIndex;
 class PlaylistWidget;
 class PlaylistContentWidget;
+class Database;
 
 class SearchWidget : public QWidget
 {
 Q_OBJECT
 
 public:
-   SearchWidget( PlaylistWidget *parent );
+   SearchWidget( Database *database, PlaylistWidget *parent );
    virtual ~SearchWidget();
    QLineEdit *getLineEdit();
 
@@ -40,6 +41,7 @@ private:
    SearchWidget( const SearchWidget &other );
    SearchWidget &operator=( const SearchWidget &other );
 
+   Database              *mpDatabase;
    PlaylistWidget        *mpPlaylist;
    PlaylistContentWidget *mpResults;
    QLineEdit             *mpInput;

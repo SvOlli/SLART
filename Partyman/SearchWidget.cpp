@@ -8,6 +8,7 @@
 #include "SearchWidget.hpp"
 #include "PlaylistWidget.hpp"
 #include "PlaylistContentWidget.hpp"
+#include "Database.hpp"
 #include "MySettings.hpp"
 
 #include <QtGui>
@@ -48,8 +49,9 @@ void SearchLineEdit::keyPressEvent( QKeyEvent *event )
 };
 
 
-SearchWidget::SearchWidget( PlaylistWidget *parent )
+SearchWidget::SearchWidget( Database *database, PlaylistWidget *parent )
 : QWidget( parent )
+, mpDatabase( database )
 , mpPlaylist( parent )
 , mpResults( new PlaylistContentWidget( false, this ) )
 , mpInput( new SearchLineEdit( this ) )
@@ -99,10 +101,22 @@ void SearchWidget::search()
    mpResults->setToolTip( QModelIndex() );
    if( mpInput->text().size() > 0 )
    {
+#if 0
       QRegExp rx( mpInput->text(), Qt::CaseInsensitive, QRegExp::Wildcard );
       mpResults->addItems( mpPlaylist->search( rx ) );
       mpFound->setText( QString::number(mpResults->count()) + 
                         " Found" );
+#else
+      TrackInfoList til;
+      int i, count;
+      count = mpDatabase->getTrackInfoList( &til, mpInput->text() );
+      mpFound->setText( QString::number(count) + 
+                        " Found" );
+      for( i = 0; i < count; i++ )
+      {
+         mpResults->addItem( til.at(i).filePath() );
+      }
+#endif
       mpFound->setHidden( false );
       mpResults->setFocus();
    }

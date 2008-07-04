@@ -27,8 +27,8 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
 , mpTabs( new QTabWidget( this ) )
 , mpPlaylistContent( new PlaylistContentWidget( true, this ) )
 , mpTreeView( new FileSysTreeView( this ) )
-, mpTreeModel( new FileSysTreeModel( this ) )
-, mpSearch( new SearchWidget( this ) )
+, mpTreeModel( new FileSysTreeModel( database, this ) )
+, mpSearch( new SearchWidget( database, this ) )
 , mpTrackInfo( new TrackInfoWidget( database, this ) )
 , mpHelpText( new QTextBrowser( this ) )
 {
@@ -206,9 +206,7 @@ void PlaylistWidget::getNextTrack( QString *fileName )
       TrackInfo trackInfo;
       if( mpDatabase->getTrack( &trackInfo, false, false ) )
       {
-         *fileName = trackInfo.mDirectory;
-         fileName->append( "/" );
-         fileName->append( trackInfo.mFileName );
+         *fileName = trackInfo.filePath();
       }
 #endif
    }
@@ -458,10 +456,12 @@ void PlaylistWidget::getTrack( const TrackInfo &trackInfo )
 void PlaylistWidget::databaseToBrowser()
 {
    TrackInfoList til;
-   int i, size = 0;
+   int i /*, size = 0*/;
+
+   mpTreeModel->clear();
+#if 0   
    int tracks = mpDatabase->getTrackInfoList( &til );
    QString fileName;
-   
    QProgressDialog progress( tr("<center><img src=':/PartymanSmile.gif'>&nbsp;"
                              "&nbsp;<img src=':/PartymanWriting.gif'><br>"
                              "Loading Playlist...</center>"),
@@ -472,8 +472,6 @@ void PlaylistWidget::databaseToBrowser()
    progress.setModal( true );
    progress.setValue( 0 );
    QCoreApplication::processEvents();
-   
-   mpTreeModel->clear();
    for( i = 0; i < tracks; i++ )
    {
       fileName = til.at(i).mDirectory;
@@ -487,6 +485,8 @@ void PlaylistWidget::databaseToBrowser()
          QCoreApplication::processEvents();
       }
    }
+#endif
+   
    QModelIndex root, qmi;
    mpTreeView->setModel( mpTreeModel );
    mpTreeView->setRootIndex( root );

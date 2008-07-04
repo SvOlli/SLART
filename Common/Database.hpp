@@ -30,7 +30,8 @@ public:
    void updateTrackInfo( const TrackInfo *trackInfo );
    void deleteTrackInfo( const TrackInfo *trackInfo );
    
-   unsigned int getTrackInfoList( TrackInfoList *trackInfoList );
+   unsigned int getTracksForTree( QStringList *list, const QString &path );
+   unsigned int getTrackInfoList( TrackInfoList *trackInfoList, const QString &search = QString() );
    
    QStringList getFolders();
    void insertFolder( const QString &folder );
