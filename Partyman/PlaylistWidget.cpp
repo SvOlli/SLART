@@ -27,7 +27,9 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
 , mpTabs( new QTabWidget( this ) )
 , mpPlaylistContent( new PlaylistContentWidget( true, this ) )
 , mpTreeView( new FileSysTreeView( this ) )
-, mpTreeModel( new FileSysTreeModel( database, this ) )
+, mpTreeModel( new FileSysTreeModel( this ) )
+, mpNextTreeModel( 0 )
+, mpTreeUpdate( new FileSysTreeUpdate() )
 , mpSearch( new SearchWidget( database, this ) )
 , mpTrackInfo( new TrackInfoWidget( database, this ) )
 , mpHelpText( new QTextBrowser( this ) )
@@ -74,8 +76,10 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
             this, SLOT(handleTabChange(int)) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
+   connect( mpTreeUpdate, SIGNAL(finished()),
+            this, SLOT(finishBrowserUpdate()) );
    readConfig();
-
+   
    mpHelpText->setOpenExternalLinks( true );
    mpHelpText->setSource( QUrl("qrc:/Usage.html") );
    setAcceptDrops( true );
@@ -87,7 +91,6 @@ PlaylistWidget::~PlaylistWidget()
 {
    MySettings settings;
    QStringList playlist;
-   QBitArray bitset( mM3uData.count() );
    int i;
    
    for( i = 0; i < mpPlaylistContent->count(); i++ )
@@ -103,12 +106,6 @@ PlaylistWidget::~PlaylistWidget()
    {
       settings.remove( "Playlist" );
    }
-   
-   for( i = 0; i < mRandomList.count(); i++ )
-   {
-      bitset.setBit( mRandomList.at(i) );
-   }
-   settings.setValue( "RandomList", bitset );
 }
 
 
@@ -189,33 +186,12 @@ void PlaylistWidget::getNextTrack( QString *fileName )
    }
    else
    {
-#if 0
-      int i;
-      
-      if( !mRandomList.size() )
-      {
-         for( i = 0; i < mM3uData.size(); i++ )
-         {
-            mRandomList.append(i);
-         }
-      }
-      i = qrand() % mRandomList.size();
-      
-      *fileName = mM3uData.at( mRandomList.takeAt(i) );
-#else
       TrackInfo trackInfo;
       if( mpDatabase->getTrack( &trackInfo, false, false ) )
       {
          *fileName = trackInfo.filePath();
       }
-#endif
    }
-}
-
-
-QStringList PlaylistWidget::search( const QRegExp &rx ) const
-{
-   return mM3uData.filter( rx );
 }
 
 
@@ -309,7 +285,7 @@ void PlaylistWidget::handleTabChange( int tabNr )
          /* search */
          mpSearch->setFocus();
          break;
-      case 2:
+      case 3:
          /* help */
          mpHelpText->setFocus();
          break;
@@ -322,182 +298,48 @@ void PlaylistWidget::handleTabChange( int tabNr )
 }
 
 
-#if 0
-void PlaylistWidget::readM3u()
-{
-   MySettings settings;
-   int i, size;
-   QString listfilename( settings.value( "DatabaseFilename", QString() ).toString() );
-   if( (mM3uFileName == listfilename) && (mM3uData.size() > 0) )
-   {
-      return;
-   }
-   mM3uFileName = listfilename;
-
-   QFile m3uFile( listfilename );
-   if( !m3uFile.exists() )
-   {
-      emit playlistIsValid( false );
-      return;
-   }
-   
-   QProgressDialog progress( tr("<center><img src=':/PartymanSmile.gif'>&nbsp;"
-                             "&nbsp;<img src=':/PartymanWriting.gif'><br>"
-                             "Loading Playlist...</center>"),
-                             QString(), 0, m3uFile.size(), this, Qt::Dialog | Qt::Popup );
-   progress.setWindowTitle( QApplication::applicationName() );
-   progress.setWindowIcon( QIcon(":/PartymanSmile.gif") );
-   progress.setWindowOpacity ( 0.85 );
-   progress.setModal( true );
-   progress.setValue( 0 );
-   QCoreApplication::processEvents();
-   
-   mM3uData.clear();
-   mpTreeModel->clear();
-   m3uFile.open( QIODevice::ReadOnly | QIODevice::Text );
-   
-   i = 0;
-   size = 0;
-   QByteArray line;
-   QString filename;
-   QString filebase( listfilename + "/../" );
-   QFileInfo qfi;
-   while( !m3uFile.atEnd() )
-   {
-      line = m3uFile.readLine();
-      size += line.size();
-      /* a bit of magic for not calling update too ofter */
-      if( 100*size/m3uFile.size() > 0 )
-      {
-         progress.setValue( size );
-         i++;
-         QCoreApplication::processEvents();
-      }
-      
-      filename = QString::fromLocal8Bit( line );
-      if( !filename.startsWith("#") )
-      {
-         if( filename.right(1) == QChar('\n') )
-         {
-            filename.chop(1);
-         }
-         if( !filename.startsWith( "/" ) )
-         {
-            /* a bit of an ugly trick, but gets the job done better than most
-               other solutions */
-            qfi.setFile( filebase + filename );
-            filename = qfi.absoluteFilePath();
-         }
-         mM3uData << filename;
-         mpTreeModel->addModelData( filename );
-      }
-   }
-   m3uFile.close();
-   
-   QModelIndex root, qmi;
-   mpTreeView->setModel( mpTreeModel );
-   mpTreeView->setRootIndex( root );
-   
-   if( mM3uData.count() > 0 )
-   {
-      mM3uData.sort();
-   }
-   else
-   {
-      emit playlistIsValid( false );
-      return;
-   }
-   
-   mRandomList.clear();
-   /* reconstruct randomlist, if possible */
-   QBitArray bitset( settings.value("RandomList", QBitArray()).toBitArray() );
-   if( bitset.count() == mM3uData.count() )
-   {
-      for( int i = 0; i < bitset.count(); i++ )
-      {
-         if( bitset.at(i) )
-         {
-            mRandomList << i;
-         }
-      }
-   }
-   
-   QCoreApplication::processEvents();
-   /* expand the obivous */
-   for(i = 0; ; i++)
-   {
-      qmi = mpTreeModel->index( i, 0, root );
-      if( !qmi.isValid() )
-      {
-         break;
-      }
-      
-      do
-      {
-         emit expand( qmi );
-         qmi = mpTreeModel->index( 0, 0, qmi );
-      }
-      while( mpTreeModel->rowCount( qmi ) <= 1 );
-      emit expand( qmi );
-   }
-
-   mpSearch->search();
-   emit playlistIsValid( true );
-}
-#endif
-
-
 void PlaylistWidget::getTrack( const TrackInfo &trackInfo )
 {
    mpTrackInfo->getTrack( trackInfo );
 }
 
 
-void PlaylistWidget::databaseToBrowser()
+void PlaylistWidget::startBrowserUpdate()
 {
-   TrackInfoList til;
-   int i /*, size = 0*/;
-
-   mpTreeModel->clear();
-#if 0   
-   int tracks = mpDatabase->getTrackInfoList( &til );
-   QString fileName;
-   QProgressDialog progress( tr("<center><img src=':/PartymanSmile.gif'>&nbsp;"
-                             "&nbsp;<img src=':/PartymanWriting.gif'><br>"
-                             "Loading Playlist...</center>"),
-                             QString(), 0, tracks, this, Qt::Dialog | Qt::Popup );
-   progress.setWindowTitle( QApplication::applicationName() );
-   progress.setWindowIcon( QIcon(":/PartymanSmile.gif") );
-   progress.setWindowOpacity ( 0.85 );
-   progress.setModal( true );
-   progress.setValue( 0 );
-   QCoreApplication::processEvents();
-   for( i = 0; i < tracks; i++ )
+   if( mpNextTreeModel )
    {
-      fileName = til.at(i).mDirectory;
-      fileName.append( "/" );
-      fileName.append( til.at(i).mFileName );
-      mpTreeModel->addModelData( fileName );
-      if( 100 * i / tracks > size )
-      {
-         progress.setValue( i );
-         size++;
-         QCoreApplication::processEvents();
-      }
+      return;
    }
-#endif
    
+   mpTreeView->setEnabled( false );
+   mpNextTreeModel = new FileSysTreeModel( this );
+   
+   unsigned int retval = mpTreeUpdate->prepare( mpDatabase, mpNextTreeModel );
+   if( retval > 0 )
+   {
+      mpTreeUpdate->start();
+      mpTreeUpdate->setPriority( QThread::LowestPriority );
+   }
+   emit playlistIsValid( retval > 0 );
+}
+
+
+void PlaylistWidget::finishBrowserUpdate()
+{
+   int i;
    QModelIndex root, qmi;
-   mpTreeView->setModel( mpTreeModel );
-   mpTreeView->setRootIndex( root );
+   mpTreeView->setModel( mpNextTreeModel );
+   delete mpTreeModel;
+   mpTreeModel = mpNextTreeModel;
    
+   mpTreeView->setRootIndex( root );
    for(i = 0; ; i++)
    {
       qmi = mpTreeModel->index( i, 0, root );
       if( !qmi.isValid() )
       {
          break;
-      }
+      } 
       
       do
       {
@@ -507,5 +349,7 @@ void PlaylistWidget::databaseToBrowser()
       while( mpTreeModel->rowCount( qmi ) <= 1 );
       emit expand( qmi );
    }
+   
+   mpTreeView->setEnabled( true );
+   mpNextTreeModel = 0;
 }
-

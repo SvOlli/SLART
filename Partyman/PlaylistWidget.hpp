@@ -9,6 +9,7 @@
 #define PLAYLISTWIDGET_HPP PLAYLISTWIDGET_HPP
 
 #include "FileSysTreeView.hpp"
+#include "FileSysTreeUpdate.hpp"
 
 #include <QWidget>
 #include <QStringList>
@@ -38,8 +39,6 @@ public:
 
    /* get name of next track either from playlist */
    void getNextTrack( QString *fileName );
-   /* search entries */
-   QStringList search( const QRegExp &rx ) const;
 
 protected:
    /* for drag & drop from external sources */
@@ -48,10 +47,6 @@ protected:
    void dropEvent( QDropEvent *event );
    
 public slots:
-#if 0
-   /* add m3u file to database */
-   void readM3u();
-#endif
    /* add internal entries */
    void addEntries( const QModelIndex &qmi );
    /* delete entries */
@@ -65,7 +60,9 @@ public slots:
    /*  */
    void getTrack( const TrackInfo &trackInfo );
    /*  */
-   void databaseToBrowser();
+   void startBrowserUpdate();
+   /*  */
+   void finishBrowserUpdate();
    
 signals:
    /* unfold a node */
@@ -86,12 +83,11 @@ private:
    PlaylistContentWidget *mpPlaylistContent;
    FileSysTreeView       *mpTreeView;
    FileSysTreeModel      *mpTreeModel;
+   FileSysTreeModel      *mpNextTreeModel;
+   FileSysTreeUpdate     *mpTreeUpdate;
    SearchWidget          *mpSearch;
    TrackInfoWidget       *mpTrackInfo;
    QTextBrowser          *mpHelpText;
-   QString               mM3uFileName;
-   QStringList           mM3uData;
-   QList<int>            mRandomList;
 };
 
 #endif

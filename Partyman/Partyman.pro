@@ -58,6 +58,9 @@ SOURCES += FileSysTreeItem.cpp
 HEADERS += FileSysTreeModel.hpp
 SOURCES += FileSysTreeModel.cpp
 
+HEADERS += FileSysTreeUpdate.hpp
+SOURCES += FileSysTreeUpdate.cpp
+
 HEADERS += FileSysTreeView.hpp
 SOURCES += FileSysTreeView.cpp
 

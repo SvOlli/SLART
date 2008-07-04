@@ -14,9 +14,8 @@
 #include "Trace.hpp"
 
 
-FileSysTreeModel::FileSysTreeModel( Database *database, QObject *parent )
+FileSysTreeModel::FileSysTreeModel( QObject *parent )
 : QAbstractItemModel( parent )
-, mpDatabase( database )
 , mpRootItem(0)
 {
 }
@@ -173,7 +172,7 @@ void FileSysTreeModel::clear()
       delete mpRootItem;
       mpRootItem = 0;
    }
-   mpRootItem = new FileSysTreeItem( mpDatabase, QString("/") );
+   mpRootItem = new FileSysTreeItem( QString("/") );
 }
 
 

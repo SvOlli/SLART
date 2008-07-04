@@ -16,6 +16,7 @@
 
 #include <signal.h>
 
+#include "Trace.hpp"
 
 static MainWidget *mpMainWidget;
 
@@ -67,10 +68,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(changeTitle(QIcon,QString)) );
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfig, SLOT(exec()) );
-#if 0
-   connect( mpConfig, SIGNAL(configChanged()),
-            mpPlaylist, SLOT(readM3u()) );
-#endif
    connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
             mpControl, SLOT(allowConnect(bool)) );
    connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
@@ -114,16 +111,9 @@ void MainWidget::changeTitle( const QIcon &icon, const QString &title )
 void MainWidget::startUp()
 {
    MySettings settings;
-#if 0
-   mpPlaylist->readM3u();
-#else
-   mpPlaylist->databaseToBrowser();
-#endif
    mpControl->readConfig();
-   if( !QFileInfo( settings.value( "DatabaseFilename", "" ).toString() ).isFile() )
-   {
-      mpConfig->exec();
-   }
+   mpPlaylist->startBrowserUpdate();
+   QCoreApplication::processEvents();
    if( settings.value( "AutoConnect", false ).toBool() && mAllowAutostart )
    {
       mpControl->initConnect();
@@ -147,4 +137,9 @@ void MainWidget::resizeEvent( QResizeEvent *event )
 void MainWidget::allowAutostart( bool allow )
 {
    mAllowAutostart = allow;
+   if( !allow )
+   {
+      QMessageBox::warning( this, QString(tr("Partyman: database empty")), 
+                            QString(tr("The database is empty. Please run Rubberbandman.")) );
+   }
 }

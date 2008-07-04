@@ -6,19 +6,15 @@
  */
 
 #include "FileSysTreeItem.hpp"
-#include "Database.hpp"
 #include "Trace.hpp"
 
 #include <QVariant>
 
 
-FileSysTreeItem::FileSysTreeItem( Database *database, const QVariant &data, 
-                                  FileSysTreeItem *parent )
+FileSysTreeItem::FileSysTreeItem( const QVariant &data, FileSysTreeItem *parent )
 : mpParentItem( parent )
-, mpDatabase( database )
 , mItemData( data )
 , mChildItems()
-, mScanned( -1 )
 {
 }
 
@@ -52,7 +48,7 @@ FileSysTreeItem *FileSysTreeItem::child(const QVariant &data)
       }
    }
    
-   FileSysTreeItem *fstitem = new FileSysTreeItem( mpDatabase, data, this );
+   FileSysTreeItem *fstitem = new FileSysTreeItem( data, this );
    
    mChildItems.insert( i, fstitem );
    
@@ -60,27 +56,9 @@ FileSysTreeItem *FileSysTreeItem::child(const QVariant &data)
 }
 
 
-int FileSysTreeItem::childCount()
+int FileSysTreeItem::childCount() const
 {
-   return 0;
-   
-   QStringList entries;
-   int i;
-   
-   if( mScanned >= 0 )
-   {
-      return mScanned;
-   }
-   
-   mScanned = mpDatabase->getTracksForTree( &entries, mItemData.toString() );
-   
-   for( i = 0; i < mScanned; i++ )
-   {
-      FileSysTreeItem *fstitem = new FileSysTreeItem( mpDatabase, entries.at(i), this );
-      mChildItems.append( fstitem );
-   }
-   
-   return mScanned;
+   return mChildItems.count();
 }
 
 
