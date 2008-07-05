@@ -51,7 +51,7 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
    QHBoxLayout *layout = new QHBoxLayout;
    QSplitter *splitter = new QSplitter( Qt::Vertical, parent );
    mpTabs->setTabPosition( QTabWidget::South );
-   mpTabs->addTab( mpTreeView, tr("Browser") );
+   mpTabs->addTab( mpTreeView, tr("Browse") );
    mpTabs->addTab( mpSearch, tr("Search") );
    mpTabs->addTab( mpTrackInfo, tr("Track Info") );
    mpTabs->addTab( mpHelpText, tr("Help") );
