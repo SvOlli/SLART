@@ -36,6 +36,10 @@ bool PlayerFSMLoading::enter()
       {
          needRescan = true;
       }
+      else
+      {
+         mpPlayerWidget->mpPlayPosition->setRange( 0, mpPlayerWidget->mTrackInfo.mPlayTime );
+      }
    }
    else
    {

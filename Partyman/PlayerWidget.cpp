@@ -479,6 +479,11 @@ void PlayerWidget::handleScan( const QString &data )
    }
    mTotalTime = mSamples / mFrequency;
    
+   if( (unsigned int)mTotalTime != mTrackInfo.mPlayTime )
+   {
+      mTrackInfo.mPlayTime = mTotalTime;
+      mpDatabase->updateTrackInfo( &mTrackInfo );
+   }
    mpPlayPosition->setRange( 0, mTotalTime );
    updateTime();
 }
