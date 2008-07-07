@@ -102,6 +102,7 @@ Database::Database( const QString &fileName )
          if(!mpQuery->exec( initSQL.at(i) ))
          {
          }
+         mpQuery->clear();
       }
    }
    else
@@ -251,9 +252,10 @@ unsigned int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QSt
          sqlSearch.replace( "*", "%" );
          sqlSearch.append( "%" );
       }
+      mpQuery->clear();
       mpQuery->prepare( "SELECT Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
                         "PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags,id"
-                        " FROM slart_tracks WHERE FileName like :filename ;" );
+                        " FROM slart_tracks WHERE FileName LIKE :filename ;" );
       mpQuery->bindValue( ":filename", sqlSearch );
       if( !mpQuery->exec() )
       {
@@ -397,7 +399,7 @@ void Database::deleteFolder( const QString &folder )
 }
 
 
-bool Database::getTrack( TrackInfo *trackInfo, bool favorite, bool unplayed )
+bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite, bool unplayed )
 {
    QString sql( "SELECT id FROM slart_tracks WHERE Flags & " );
 

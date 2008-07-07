@@ -37,7 +37,7 @@ public:
    void insertFolder( const QString &folder );
    void deleteFolder( const QString &folder );
    
-   bool getTrack( TrackInfo *trackInfo, bool favorite, bool unplayed );
+   bool getRandomTrack( TrackInfo *trackInfo, bool favorite, bool unplayed );
    
 public slots:
 

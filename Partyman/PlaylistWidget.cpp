@@ -187,7 +187,7 @@ void PlaylistWidget::getNextTrack( QString *fileName )
    else
    {
       TrackInfo trackInfo;
-      if( mpDatabase->getTrack( &trackInfo, false, false ) )
+      if( mpDatabase->getRandomTrack( &trackInfo, false, false ) )
       {
          *fileName = trackInfo.filePath();
       }
