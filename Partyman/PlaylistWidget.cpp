@@ -95,7 +95,7 @@ PlaylistWidget::~PlaylistWidget()
    
    for( i = 0; i < mpPlaylistContent->count(); i++ )
    {
-      playlist.append( mpPlaylistContent->item(i)->data(Qt::DisplayRole).toString() );
+      playlist.append( mpPlaylistContent->item(i)->toolTip() );
    }
    
    if( playlist.count() > 0 )
@@ -162,16 +162,8 @@ void PlaylistWidget::addEntries( const QModelIndex &index )
 
 void PlaylistWidget::addEntries( const QStringList &entries, bool atStart )
 {
-   if( atStart )
-   {
-      mpPlaylistContent->insertItems( 0, entries );
-      mpPlaylistContent->scrollToTop();
-   }
-   else
-   {
-      mpPlaylistContent->addItems( entries );
-      mpPlaylistContent->scrollToBottom();
-   }
+   mpPlaylistContent->addItems( entries, atStart );
+   mpPlaylistContent->scrollToBottom();
 }
 
 
@@ -180,8 +172,7 @@ void PlaylistWidget::getNextTrack( QString *fileName )
    if( mpPlaylistContent->count() > 0 )
    {
       QListWidgetItem *qlwi = mpPlaylistContent->takeItem(0);
-      mpPlaylistContent->setToolTip( QModelIndex() );
-      *fileName = qlwi->text();
+      *fileName = qlwi->toolTip();
       delete qlwi;
    }
    else

@@ -29,11 +29,35 @@ PlaylistContentWidget::PlaylistContentWidget( bool allowResort, QWidget *parent 
       connect( this, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
                this, SLOT(moveItem(QListWidgetItem*,QListWidgetItem*)));
    }
-   connect( this, SIGNAL(entered(QModelIndex)), this, SLOT(setToolTip(QModelIndex)) );
    connect( this, SIGNAL(itemClicked(QListWidgetItem *)),
             this, SLOT(handleClick(QListWidgetItem *)) );
    connect( this, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
             this, SLOT(handleDoubleClick(QListWidgetItem *)) );
+}
+
+
+void PlaylistContentWidget::addItems( const QStringList &items, bool atStart )
+{
+   int i;
+   for( i = 0; i < items.count(); i++ )
+   {
+      int lastSlash = items.at(i).lastIndexOf("/");
+      QListWidgetItem *item = new QListWidgetItem( items.at(i).mid(lastSlash+1) );
+      item->setToolTip( items.at(i) );
+      insertItem( atStart ? 0 : count(), item );
+   }
+}
+
+
+void PlaylistContentWidget::addItems( const TrackInfoList &trackInfoList, bool atStart )
+{
+   int i;
+   for( i = 0; i < trackInfoList.count(); i++ )
+   {
+      QListWidgetItem *item = new QListWidgetItem( trackInfoList.at(i).mFileName );
+      item->setToolTip( trackInfoList.at(i).filePath() );
+      insertItem( atStart ? 0 : count(), item );
+   }
 }
 
 
@@ -68,7 +92,7 @@ void PlaylistContentWidget::removeSelectedItems( QStringList *list )
       QListWidgetItem *item = takeItem( indexFromItem( items.at(i) ).row() );
       if( list )
       {
-         (*list) << item->data(Qt::DisplayRole).toString();
+         (*list) << item->toolTip();
       }
       delete item;
    }
@@ -77,26 +101,20 @@ void PlaylistContentWidget::removeSelectedItems( QStringList *list )
       scrollToItem( item(row) );
       // scroll to bottom if too big (todo)
    }
-   QListWidget::setToolTip( QString() );
 }
 
 
-void PlaylistContentWidget::mouseReleaseEvent(QMouseEvent *event)
+void PlaylistContentWidget::mouseReleaseEvent( QMouseEvent *event )
 {
    QListWidget::mouseReleaseEvent( event );
    mLeftButton = (event->buttons() & Qt::LeftButton);
 }
 
 
-void PlaylistContentWidget::mouseMoveEvent(QMouseEvent *event)
+void PlaylistContentWidget::mouseMoveEvent( QMouseEvent *event )
 {
    QListWidget::mouseMoveEvent( event );
    mLeftButton = (event->buttons() & Qt::LeftButton);
-   
-   if( !indexAt(event->pos()).isValid() )
-   {
-      QListWidget::setToolTip( QString() );
-   }
 }
 
 
@@ -125,17 +143,4 @@ void PlaylistContentWidget::keyPressEvent( QKeyEvent *event )
       emit context( currentIndex(), event->key() );
    }
    QListWidget::keyPressEvent( event );
-}
-
-
-void PlaylistContentWidget::setToolTip( const QModelIndex &index )
-{
-   if( horizontalScrollBar()->isVisible() )
-   {
-      QListWidget::setToolTip( index.data().toString() );
-   }
-   else
-   {
-      QListWidget::setToolTip( QString() );
-   }
 }

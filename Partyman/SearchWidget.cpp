@@ -77,9 +77,12 @@ SearchWidget::SearchWidget( Database *database, PlaylistWidget *parent )
    setLayout( mainLayout );
    mpInput->setMouseTracking( true );
    
-   connect( mpInput, SIGNAL(returnPressed()), this, SLOT(search()) );
-   connect( mpResults, SIGNAL(context(QModelIndex,int)), this, SLOT(selectedEntries(QModelIndex,int)) );
-   connect( mpFound, SIGNAL(customContextMenuRequested(QPoint)), mpInput, SLOT(clear()) );
+   connect( mpInput, SIGNAL(returnPressed()),
+            this, SLOT(search()) );
+   connect( mpResults, SIGNAL(context(QModelIndex,int)),
+            this, SLOT(selectedEntries(QModelIndex,int)) );
+   connect( mpFound, SIGNAL(customContextMenuRequested(QPoint)),
+            mpInput, SLOT(clear()) );
    
    mpInput->setText( settings.value( "Search", QString()).toString() );
    mpInput->selectAll();
@@ -98,31 +101,20 @@ void SearchWidget::search()
 {
    mpInput->selectAll();
    mpResults->clear();
-   mpResults->setToolTip( QModelIndex() );
    if( mpInput->text().size() > 0 )
    {
-#if 0
-      QRegExp rx( mpInput->text(), Qt::CaseInsensitive, QRegExp::Wildcard );
-      mpResults->addItems( mpPlaylist->search( rx ) );
-      mpFound->setText( QString::number(mpResults->count()) + 
-                        " Found" );
-#else
       TrackInfoList til;
-      int i, count;
+      int count;
+      
       count = mpDatabase->getTrackInfoList( &til, mpInput->text() );
       mpFound->setText( QString::number(count) + 
                         " Found" );
-      for( i = 0; i < count; i++ )
-      {
-         mpResults->addItem( til.at(i).filePath() );
-      }
-#endif
+      mpResults->addItems( til );
       mpFound->setHidden( false );
       mpResults->setFocus();
    }
    else
    {
-      mpInput->setToolTip( QString() );
       mpFound->setHidden( true );
    }
 }

@@ -9,7 +9,7 @@
 #define PLAYLISTCONTENTWIDGET_HPP PLAYLISTCONTENTWIDGET_HPP
 
 #include <QListWidget>
-
+#include "TrackInfo.hpp"
 
 class PlaylistContentWidget : public QListWidget
 {
@@ -23,20 +23,22 @@ public slots:
    void removeSelectedItems( QStringList *list = 0 );
    /* move items for reordering list */
    void moveItem( QListWidgetItem *item, QListWidgetItem *pos );
-   /* set the tool tip to full entry */
-   void setToolTip( const QModelIndex &index );
    /* handle single click */
    void handleClick( QListWidgetItem *item );
    /* handle double click */
    void handleDoubleClick( QListWidgetItem *item );
+   /*  */
+   void addItems( const QStringList &items, bool atStart = false );
+   /*  */
+   void addItems( const TrackInfoList &trackInfoList, bool atStart = false );
 
 protected:
    /* catch right mouse button */
    virtual void contextMenuEvent( QContextMenuEvent *event );
    /* for reordering of list */
-   void mouseReleaseEvent(QMouseEvent *event);
+   void mouseReleaseEvent( QMouseEvent *event );
    /* for reordering of list */
-   void mouseMoveEvent(QMouseEvent *event);
+   void mouseMoveEvent( QMouseEvent *event );
    /* for handling key presses */
    virtual void keyPressEvent( QKeyEvent *event );
 
