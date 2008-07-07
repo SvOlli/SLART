@@ -53,13 +53,13 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    
    QGroupBox   *strGroup  = new QGroupBox( tr("Stripped Settings:"), this );
    QGridLayout *strLayout = new QGridLayout( strGroup );
-   strLayout->addWidget( mpDevicesLabel, 0, 0 );
-   strLayout->addWidget( mpDevicesBox, 0, 1 );
-   strLayout->addWidget( mpEncodersLabel, 1, 0 );
-   strLayout->addWidget( mpEncodersBox, 1, 1 );
-   strLayout->addWidget( mpPatternLabel, 2, 0 );
-   strLayout->addWidget( mpPattern, 2, 1 );
-   strLayout->addWidget( mpPatternExample, 3, 1 );
+   strLayout->addWidget( mpDevicesLabel,   0, 0 );
+   strLayout->addWidget( mpDevicesBox,     0, 1 );
+   strLayout->addWidget( mpPatternLabel,   1, 0 );
+   strLayout->addWidget( mpPattern,        1, 1 );
+   strLayout->addWidget( mpPatternExample, 2, 1 );
+   strLayout->addWidget( mpEncodersLabel,  3, 0 );
+   strLayout->addWidget( mpEncodersBox,    3, 1 );
    for( i = 0; i < mEncoders.size(); i++ )
    {
       strLayout->addWidget( new QLabel( (mEncoders.at(i)->name + tr(" Encoder") ) ), 4+i, 0 );
