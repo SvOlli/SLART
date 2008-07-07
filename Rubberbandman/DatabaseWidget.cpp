@@ -26,10 +26,12 @@
 DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( database )
+, mpMessage( new QLabel( this ) )
 #if 0
 , mpTableModel( new QSqlTableModel() )
 , mpTableView( new QTableView() )
 #endif
+, mTrackInfo()
 {
    QPushButton *updateButton = new QPushButton( tr("Update") );
    QPushButton *cleanupButton = new QPushButton( tr("Clean up") );
@@ -53,6 +55,8 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    layout->addWidget( mpTableView );
 #endif
    layout->addLayout( buttonLayout );
+   layout->addWidget( mpMessage );
+   layout->addStretch();
    setLayout(layout);
 }
 
@@ -61,13 +65,20 @@ void DatabaseWidget::handleUpdate()
 {
    TrackInfoList trackInfoList;
    DirWalker walker;
+   mCount = 0;
+   mLastCount = 0;
    connect( &walker, SIGNAL(foundFile(const QFileInfo&)),
             this, SLOT(handleFile(const QFileInfo&)) );
+   connect( &walker, SIGNAL(foundDir(const QFileInfo&)),
+            this, SLOT(handleDir(const QFileInfo&)) );
    mpDatabase->beginTransaction();
    walker.run( MySettings().value( "RootDirectory", QString("/") ).toString(), true );
    mpDatabase->endTransaction(true);
    disconnect( &walker, SIGNAL(foundFile(const QFileInfo&)),
                this, SLOT(handleFile(const QFileInfo&)) );
+   disconnect( &walker, SIGNAL(foundDir(const QFileInfo&)),
+               this, SLOT(handleDir(const QFileInfo&)) );
+   mpMessage->setText( "Done, " + QString::number(mCount) + " files scanned." );
 #if 0
    mpTableModel->select();
    QString query( mpTableModel->query().lastQuery() );
@@ -82,68 +93,76 @@ void DatabaseWidget::handleUpdate()
 void DatabaseWidget::handleCleanup()
 {
    TrackInfoList   trackInfoList;
-   const TrackInfo *trackInfo;
    int s = mpDatabase->getTrackInfoList( &trackInfoList );
    
    QFileInfo qfi;
    for( int i = 0; i < s; i++ )
    {
-      trackInfo = &(trackInfoList.at(i));
-      qfi.setFile( trackInfo->mDirectory + "/" + trackInfo->mFileName );
+      mTrackInfo = trackInfoList.at(i);
+      qfi.setFile( mTrackInfo.mDirectory + "/" + mTrackInfo.mFileName );
       if( !qfi.isFile() )
       {
-         mpDatabase->deleteTrackInfo( trackInfo );
+         mpDatabase->deleteTrackInfo( &mTrackInfo );
       }
+   }
+}
+
+
+void DatabaseWidget::handleDir( const QFileInfo &/*fileInfo*/ )
+{
+   if( mCount > mLastCount + 250 )
+   {
+      mpMessage->setText( QString::number(mCount) + " files scanned." );
+      QCoreApplication::processEvents();
+      mLastCount = mCount;
    }
 }
 
 
 void DatabaseWidget::handleFile( const QFileInfo &fileInfo )
 {
-   TrackInfo *trackInfo = new TrackInfo();
-   
-   if( !mpDatabase->getTrackInfo( trackInfo, fileInfo.absoluteFilePath() ) )
+   ++mCount;
+   mTrackInfo.mID = 0;
+   if( !mpDatabase->getTrackInfo( &mTrackInfo, fileInfo.absoluteFilePath() ) )
    {
-      QString fileName(fileInfo.absoluteFilePath());
+      QString fileName( fileInfo.absoluteFilePath() );
       int fileNameStart = fileName.lastIndexOf('/');
       
-      trackInfo->mID           = 0;
-      trackInfo->mDirectory    = fileName.left(fileNameStart);
-      trackInfo->mFileName     = fileName.mid(fileNameStart+1);
-      trackInfo->mLastTagsRead = 0;
-      trackInfo->mTimesPlayed  = 0;
-      trackInfo->mFlags        = 0;
+      mTrackInfo.mID           = 0;
+      mTrackInfo.mDirectory    = fileName.left(fileNameStart);
+      mTrackInfo.mFileName     = fileName.mid(fileNameStart+1);
+      mTrackInfo.mLastTagsRead = 0;
+      mTrackInfo.mTimesPlayed  = 0;
+      mTrackInfo.mFlags        = 0;
    }
    
-   if( updateTrackInfoFromFile( trackInfo, fileInfo.absoluteFilePath() ) )
+   if( updateTrackInfoFromFile( fileInfo.absoluteFilePath() ) )
    {
-      mpDatabase->updateTrackInfo( trackInfo );
+      mpDatabase->updateTrackInfo( &mTrackInfo );
    }
-   
-   delete trackInfo;
 }
 
 
-bool DatabaseWidget::updateTrackInfoFromFile( TrackInfo *trackInfo, const QString &fileName )
+bool DatabaseWidget::updateTrackInfoFromFile( const QString &fileName )
 {   
    QFileInfo fileInfo( fileName );
    
-   if( fileInfo.lastModified().toTime_t() > trackInfo->mLastTagsRead )
+   if( fileInfo.lastModified().toTime_t() > mTrackInfo.mLastTagsRead )
    {
       TagLib::FileRef f( fileName.toLocal8Bit().data() );
       if( f.file() && f.tag() )
       {
-         trackInfo->mArtist       = QString::fromUtf8( f.tag()->artist().toCString( true ) );
-         trackInfo->mTitle        = QString::fromUtf8( f.tag()->title().toCString( true ) );
-         trackInfo->mAlbum        = QString::fromUtf8( f.tag()->album().toCString( true ) );
-         trackInfo->mTrackNr      = f.tag()->track();
-         trackInfo->mYear         = f.tag()->year();
-         trackInfo->mGenre        = QString::fromUtf8( f.tag()->genre().toCString( true ) );
+         mTrackInfo.mArtist       = QString::fromUtf8( f.tag()->artist().toCString( true ) );
+         mTrackInfo.mTitle        = QString::fromUtf8( f.tag()->title().toCString( true ) );
+         mTrackInfo.mAlbum        = QString::fromUtf8( f.tag()->album().toCString( true ) );
+         mTrackInfo.mTrackNr      = f.tag()->track();
+         mTrackInfo.mYear         = f.tag()->year();
+         mTrackInfo.mGenre        = QString::fromUtf8( f.tag()->genre().toCString( true ) );
          if( f.audioProperties() )
          {
-            trackInfo->mPlayTime  = f.audioProperties()->length();
+            mTrackInfo.mPlayTime  = f.audioProperties()->length();
          }
-         trackInfo->mLastTagsRead = fileInfo.lastModified().toTime_t();
+         mTrackInfo.mLastTagsRead = fileInfo.lastModified().toTime_t();
          
          return true;
       }

@@ -84,7 +84,7 @@ void SLARTComWidget::handleGetRandom()
 {
 TRACESTART(SLARTComWidget::handleGetRandom)
    TrackInfo trackInfo;
-   if( mpDatabase->getTrack( &trackInfo, false, true ) )
+   if( mpDatabase->getRandomTrack( &trackInfo, false, true ) )
    {
       mpInfoEdit->load( trackInfo.mDirectory + "/" + trackInfo.mFileName );
 TRACEMSG << trackInfo.toString();
