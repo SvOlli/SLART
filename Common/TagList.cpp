@@ -153,7 +153,7 @@ QString TagList::normalizeString( const QString &string )
    }
    
    newString.replace( "\"", "''" );
-   newString.replace( "\xc2\xb4", "'" ); // UTF8 for "´"
+   newString.replace( QChar::fromLatin1( '´' ), '\'' );
    newString.replace( "`", "'" );
    if( settings.value( "NormalizeSpaces", false ).toBool() )
    {
