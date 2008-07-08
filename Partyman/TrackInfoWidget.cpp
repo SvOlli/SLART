@@ -130,6 +130,8 @@ void TrackInfoWidget::getTrack( const TrackInfo &trackInfo )
       mpArtist->setText( empty );
       mpTitle->setText( empty );
       mpAlbum->setText( empty );
+      mpTrackNr->setText( empty );
+      mpTimesPlayed->setText( empty );
       mpFavoriteButton->setDisabled( true );
       mpUnwantedButton->setDisabled( true );
    }

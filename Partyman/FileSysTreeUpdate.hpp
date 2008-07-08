@@ -18,11 +18,13 @@ class FileSysTreeUpdate : public QThread
 {
 public:
    unsigned int prepare( Database *database, FileSysTreeModel *treeModel );
+   void cancel() { mCancel = true; } ;
    void run();
 
 private:
    Database         *mpDatabase;
    FileSysTreeModel *mpTreeModel;
+   bool             mCancel;
    TrackInfoList    trackInfoList;
 };
 

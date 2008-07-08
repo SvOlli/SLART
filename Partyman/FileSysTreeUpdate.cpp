@@ -18,6 +18,7 @@ unsigned int FileSysTreeUpdate::prepare( Database *database, FileSysTreeModel *t
 {
    mpDatabase  = database;
    mpTreeModel = treeModel;
+   mCancel     = false;
    mpTreeModel->clear();
    return mpDatabase->getTrackInfoList( &trackInfoList );
 }
@@ -28,7 +29,7 @@ void FileSysTreeUpdate::run()
    QString fileName;
    int i /*, size = 0*/;
 
-   for( i = 0; i < trackInfoList.size(); i++ )
+   for( i = 0; (i < trackInfoList.size()) && !mCancel; i++ )
    {
       fileName = trackInfoList.at(i).mDirectory;
       fileName.append( "/" );

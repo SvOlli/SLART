@@ -39,6 +39,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpControl( new ControlWidget( mpDatabase, mpConfig, mpPlaylist, this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 {
+   int i;
    mpMainWidget = this;
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
    
@@ -52,15 +53,20 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpParent->setAttribute( Qt::WA_AlwaysShowToolTips, true );
    mpParent->setWindowIcon( QIcon( ":/PartymanSmile.gif" ) );
 
-   ::signal( SIGHUP,  signalHandler );
-   ::signal( SIGINT,  signalHandler );
-   ::signal( SIGQUIT, signalHandler );
-   ::signal( SIGILL,  signalHandler );
-   ::signal( SIGABRT, signalHandler );
-   ::signal( SIGSEGV, signalHandler );
-   ::signal( SIGPIPE, signalHandler );
-   ::signal( SIGTERM, signalHandler );
-   ::signal( SIGPWR,  signalHandler );
+   for( i = 1; i < 32; i++ )
+   {
+      switch( i )
+      {
+         case SIGKILL:
+         case SIGSTOP:
+         case SIGCHLD:
+         case SIGPIPE:
+            break;
+         default:
+            ::signal( i, signalHandler );
+            break;
+      }
+   }
    
    connect( mpControl, SIGNAL(requestAddToPlaylist(QStringList,bool)), 
             mpPlaylist, SLOT(addEntries(QStringList,bool)) );
@@ -83,16 +89,23 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
 MainWidget::~MainWidget()
 {
+   int i;
+   
    mpMainWidget = 0;
-   ::signal( SIGHUP,  SIG_DFL );
-   ::signal( SIGINT,  SIG_DFL );
-   ::signal( SIGQUIT, SIG_DFL );
-   ::signal( SIGILL,  SIG_DFL );
-   ::signal( SIGABRT, SIG_DFL );
-   ::signal( SIGSEGV, SIG_DFL );
-   ::signal( SIGPIPE, SIG_DFL );
-   ::signal( SIGTERM, SIG_DFL );
-   ::signal( SIGPWR,  SIG_DFL );
+   for( i = 1; i < 32; i++ )
+   {
+      switch( i )
+      {
+         case SIGKILL:
+         case SIGSTOP:
+         case SIGCHLD:
+         case SIGPIPE:
+            break;
+         default:
+            ::signal( i, SIG_DFL );
+            break;
+      }
+   }
 
    delete mpControl;
    mpControl = 0;

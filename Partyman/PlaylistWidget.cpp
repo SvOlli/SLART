@@ -46,7 +46,9 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
    mpPlaylistContent->addItems( settings.value("Playlist", QStringList()).toStringList()  );
 
    mpHelpText->setReadOnly( true );
-   mpHelpText->setHorizontalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
+   mpHelpText->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+   mpHelpText->setOpenExternalLinks( true );
+   mpHelpText->setSource( QUrl("qrc:/Usage.html") );
    
    QHBoxLayout *layout = new QHBoxLayout;
    QSplitter *splitter = new QSplitter( Qt::Vertical, parent );
@@ -80,8 +82,6 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
             this, SLOT(finishBrowserUpdate()) );
    readConfig();
    
-   mpHelpText->setOpenExternalLinks( true );
-   mpHelpText->setSource( QUrl("qrc:/Usage.html") );
    setAcceptDrops( true );
    setLayout( layout );
 }
@@ -92,6 +92,13 @@ PlaylistWidget::~PlaylistWidget()
    MySettings settings;
    QStringList playlist;
    int i;
+   
+   if( mpTreeUpdate->isRunning() )
+   {
+      mpTreeUpdate->cancel();
+      mpTreeUpdate->quit();
+      mpTreeUpdate->wait();
+   }
    
    for( i = 0; i < mpPlaylistContent->count(); i++ )
    {

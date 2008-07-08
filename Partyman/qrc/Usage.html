@@ -5,7 +5,7 @@ of interest:<table border='0'>
 <tr><td><b>-&nbsp;</b></td><td>On top there are the two players.</td></tr>
 <tr><td><b>-&nbsp;</b></td><td>In the middle there's a playlist.</td></tr>
 <tr><td><b>-&nbsp;</b></td><td>On the bottom there's a browser, search
-applet and this help, selectable via tabs.</td></tr>
+applet, track information and this help, selectable via tabs.</td></tr>
 </table>Press the "Connect" button to connect to DerMixD. The button
 is named "Start" if DerMixD is run via Partyman. After a
 successful connection, Partyman will start playing automatically. If
@@ -13,6 +13,8 @@ the playlist is empty, it will pick a random file from the database.
 10 seconds before that track ends, the other player kicks off. You
 can also switch to the other player instantly by pressing the
 "Next"-Button.
+<p>A track from a player can be unloaded by pressing the right
+mouse button on the "ready" label.
 <p>To fill the playlist just browse the database with mouse or
 keyboard. The enter key, double clicking or pressing the right
 mouse button will add the track to the bottom of the playlist. A
@@ -21,14 +23,17 @@ sub-contents. Double clicking, Pressing delete or the right mouse
 button will delete all selected tracks in the playlist. Click and
 hold an entry to move it.
 <p>For using the search just enter a substring of the desired track
-name, the full pathname will be searched. Pressing enter will start
-the search, wildcard searching using "*" is supported. Found entries
-can be moved to the playlist by selecting them and double clicking,
-pressing enter or the right mouse button. Pressing delete will
-remove them without moving into the playlist.
-<p>A track from a player can be unloaded by pressing the right
-mouse button on the "ready" label.
-<p>Complete tracknames will be displayed as tooltips, if the ones
-inside the fields are truncated.
+name, the filename will be searched. Pressing enter will start the
+search, wildcard searching is supported, either using the glob
+placeholders "?" and "*" or the database placeholders "_" and "%".
+Found entries can be moved to the playlist by selecting them and
+double clicking, pressing enter or the right mouse button. Pressing
+delete will remove them without moving into the playlist.
+<p>Information about the currently played track are available in the
+"Track Info" tab. These informations will be loaded from the SLART
+database which can be filled using Rubberbandman, the tag editor from
+the SLART package. A track can be marked either as a favorite track or
+a track that should not be selected automatically from the database.
+<p>Complete filenames with path will be displayed as tooltips.
 <hr>
 [<b>Usage</b>] [<a href="Settings.html">Settings</a>]
