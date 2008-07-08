@@ -135,13 +135,17 @@ void MainWidget::downloadUserPage( const QString &name )
    if( url.endsWith( ".mp3", Qt::CaseInsensitive ) )
    {
       QString fileName( url.mid( url.lastIndexOf( '/' ) + 1 ) );
-      gpDownloadHandler->run( url, fileName, gpPostDownloadHandlerMP3 );
+      gpDownloadHandler->run( url, 
+                              fileName,
+                              gpPostDownloadHandlerMP3,
+                              false );
    }
    else
    {
       gpDownloadHandler->run( url,
                               QString("webpage.html"),
-                              gpPostDownloadHandlerHTML );
+                              gpPostDownloadHandlerHTML,
+                              false );
    }
    
    mpNameInput->setText("");

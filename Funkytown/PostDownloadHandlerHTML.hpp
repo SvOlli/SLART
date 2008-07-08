@@ -16,7 +16,7 @@ public:
    PostDownloadHandlerHTML();
 
    /* analyse downloaded file */
-   void run( const QString &url, const QString &filename, bool success );
+   void run( const QString &url, const QString &filename, bool success, bool enqueue );
 
 private:
    PostDownloadHandlerHTML( const PostDownloadHandlerHTML &other );
@@ -28,6 +28,8 @@ private:
    void runMySpace( const QString &url, const QString &filename );
    /* run download for YouTube page */
    void runYouTube( const QString &url, const QString &filename );
+
+   bool mEnqueue;
 };
 
 #endif

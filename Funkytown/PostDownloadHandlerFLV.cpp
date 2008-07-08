@@ -21,7 +21,8 @@ PostDownloadHandlerFLV::PostDownloadHandlerFLV()
 }
 
 
-void PostDownloadHandlerFLV::run( const QString &/*url*/, const QString &filename, bool success )
+void PostDownloadHandlerFLV::run( const QString &/*url*/, const QString &filename,
+                                  bool success, bool /*enqueue*/ )
 {
    QFileInfo fileinfo( filename );
    if( success && (fileinfo.size() > 0) )

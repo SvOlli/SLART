@@ -16,7 +16,7 @@ public:
    PostDownloadHandlerXML();
 
    /* analyse downloaded file */
-   void run( const QString &url, const QString &filename, bool success );
+   void run( const QString &url, const QString &filename, bool success, bool enqueue );
 
 private:
    PostDownloadHandlerXML( const PostDownloadHandlerXML &other );

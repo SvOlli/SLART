@@ -21,7 +21,8 @@ PostDownloadHandlerXML::PostDownloadHandlerXML()
 }
 
 
-void PostDownloadHandlerXML::run( const QString &url, const QString &filename, bool success )
+void PostDownloadHandlerXML::run( const QString &url, const QString &filename,
+                                  bool success, bool enqueue )
 {
    int i;
    
@@ -113,7 +114,10 @@ void PostDownloadHandlerXML::run( const QString &url, const QString &filename, b
       {
          QString filename( xmlName+QString(" - ")+xmlTitle+QString(".mp3") );
          filename.replace( QRegExp("[:/\\*\\?\\\\]"), "_" );
-         gpDownloadHandler->run( xmlUrl, filename, gpPostDownloadHandlerMP3 );
+         gpDownloadHandler->run( xmlUrl, 
+                                 filename, 
+                                 gpPostDownloadHandlerMP3,
+                                 enqueue );
          xmlTitle = "";
          xmlUrl   = "";
       }

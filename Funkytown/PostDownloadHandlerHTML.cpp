@@ -20,8 +20,10 @@ PostDownloadHandlerHTML::PostDownloadHandlerHTML()
 }
 
 
-void PostDownloadHandlerHTML::run( const QString &url, const QString &filename, bool success )
+void PostDownloadHandlerHTML::run( const QString &url, const QString &filename,
+                                   bool success, bool enqueue )
 {
+   mEnqueue = enqueue;
    if( !success )
    {
       return;
@@ -91,7 +93,8 @@ void PostDownloadHandlerHTML::runYouTube( const QString &/*url*/, const QString 
    {
       gpDownloadHandler->run( QString("http://youtube.com/get_video?")+videoID+"&"+t,
                               title+QString(".flv"),
-                              gpPostDownloadHandlerFLV );
+                              gpPostDownloadHandlerFLV,
+                              mEnqueue );
    }
 }
 
@@ -134,7 +137,8 @@ void PostDownloadHandlerHTML::runMySpace( const QString &/*url*/, const QString 
       gpDownloadHandler->run( QString("http://mediaservices.myspace.com/services/media/musicplayerxml.ashx?b=")
                                      +friendID,
                               friendID+QString(".xml"),
-                              gpPostDownloadHandlerXML );
+                              gpPostDownloadHandlerXML,
+                              mEnqueue );
    }
 }
 
@@ -163,7 +167,10 @@ void PostDownloadHandlerHTML::runGeneric( const QString &url, const QString &fil
          embed.replace( QRegExp(".*\"http://"), "http://" );
          embed.remove( QRegExp("&.*") );
          embed.replace( "/v/", "/watch?v=" );
-         gpDownloadHandler->run( embed, "youtube.html", gpPostDownloadHandlerHTML );
+         gpDownloadHandler->run( embed, 
+                                 "youtube.html", 
+                                 gpPostDownloadHandlerHTML,
+                                 mEnqueue );
       }
       pos = line.indexOf( href );
       if( pos > 0 )
@@ -186,7 +193,10 @@ void PostDownloadHandlerHTML::runGeneric( const QString &url, const QString &fil
          }
          QString filename( mp3ref );
          filename.remove( QRegExp( "^.*/" ) );
-         gpDownloadHandler->run( mp3ref, filename, gpPostDownloadHandlerMP3 );
+         gpDownloadHandler->run( mp3ref, 
+                                 filename,
+                                 gpPostDownloadHandlerMP3,
+                                 mEnqueue );
       }
    }
    file.remove();

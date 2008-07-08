@@ -19,7 +19,7 @@ public:
    virtual ~PostDownloadHandler();
 
    /* analyse downloaded file */
-   virtual void run( const QString &url, const QString &filename, bool success ) = 0;
+   virtual void run( const QString &url, const QString &filename, bool success, bool enqueue ) = 0;
 
 private:
    PostDownloadHandler( const PostDownloadHandler &other );

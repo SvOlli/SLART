@@ -18,7 +18,7 @@ public:
    PostDownloadHandlerFLV();
 
    /* analyse downloaded file */
-   void run( const QString &url, const QString &filename, bool success );
+   void run( const QString &url, const QString &filename, bool success, bool enqueue );
 
 private:
    PostDownloadHandlerFLV( const PostDownloadHandlerFLV &other );

@@ -31,7 +31,7 @@ public:
 
    /* run a download request */
    void run( const QString &url, const QString &filename,
-             PostDownloadHandler *postDownloadHandler );
+             PostDownloadHandler *postDownloadHandler, bool selected );
    /* set the proxy configuration */
    void setProxy( ProxyWidget *proxyWidget );
 
@@ -61,7 +61,6 @@ private:
 
    QHttp                        *mpHttp;
    QFile                        *mpFile;
-   QVBoxLayout                  *mpLayout;
    QProgressBar                 *mpProgressBar;
    QListWidget                  *mpQueue;
    QTimer                       *mpTimer;

@@ -20,28 +20,31 @@ DownloadHandler::DownloadHandler( QWidget *parent )
 , mHttpGetId( 0 )
 , mpHttp( new QHttp( this ) )
 , mpFile( 0 )
-, mpLayout( new QVBoxLayout )
-, mpProgressBar( new QProgressBar )
-, mpQueue( new QListWidget )
-, mpTimer( new QTimer(this) )
+, mpProgressBar( new QProgressBar( this ) )
+, mpQueue( new QListWidget( this ) )
+, mpTimer( new QTimer( this ) )
 {
+   QGridLayout *layout = new QGridLayout( this );
+   mpQueue->setSelectionMode( QAbstractItemView::MultiSelection );
 #if QT_VERSION < 0x040300
-   mpLayout->setMargin( 0 );
+   layout->setMargin( 0 );
 #else
-   mpLayout->setContentsMargins( 0, 0, 0, 0 );
+   layout->setContentsMargins( 0, 0, 0, 0 );
 #endif
-   mpLayout->addWidget( mpProgressBar );
-   mpLayout->addWidget( mpQueue );
-   setLayout( mpLayout );
-
-   connect(mpHttp, SIGNAL(requestFinished(int, bool)),
-           this, SLOT(httpRequestFinished(int, bool)));
-   connect(mpHttp, SIGNAL(dataReadProgress(int, int)),
-           this, SLOT(updateDataReadProgress(int, int)));
-   connect(mpHttp, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
-           this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
-   connect(mpTimer, SIGNAL(timeout()), this, SLOT(startDownload()));
-
+   layout->addWidget( mpProgressBar );
+   layout->addWidget( mpProgressBar );
+   layout->addWidget( mpQueue );
+   setLayout( layout );
+   
+   connect( mpHttp, SIGNAL(requestFinished(int, bool)),
+            this, SLOT(httpRequestFinished(int, bool)) );
+   connect( mpHttp, SIGNAL(dataReadProgress(int, int)),
+            this, SLOT(updateDataReadProgress(int, int)) );
+   connect( mpHttp, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
+            this, SLOT(readResponseHeader(const QHttpResponseHeader &)) );
+   connect( mpTimer, SIGNAL(timeout()),
+            this, SLOT(startDownload()) );
+   
    mpTimer->start(1000);
 }
 
@@ -49,15 +52,18 @@ DownloadHandler::DownloadHandler( QWidget *parent )
 void DownloadHandler::httpRequestFinished( int requestId, bool error )
 {
    QListWidgetItem *qlwi;
+   bool selected = false;
    
    if ( requestId != mHttpGetId )
    {
       return;
    }
    
-   qlwi = mpQueue->takeItem(0);
+   qlwi = mpQueue->item(0);
    if( qlwi )
    {
+      selected = qlwi->isSelected();
+      qlwi = mpQueue->takeItem(0);
       delete qlwi;
    }
 
@@ -88,7 +94,7 @@ void DownloadHandler::httpRequestFinished( int requestId, bool error )
       mpFile = 0;
    }
 
-   mPostDownloadHandler->run( mURL, mFileName, !error );
+   mPostDownloadHandler->run( mURL, mFileName, !error, selected );
 }
 
 
@@ -108,7 +114,7 @@ void DownloadHandler::readResponseHeader( const QHttpResponseHeader &responseHea
 {
    if( (responseHeader.statusCode() >= 300) && (responseHeader.statusCode() < 400) )
    {
-      run( responseHeader.value("location"), mFileName, mPostDownloadHandler );
+      run( responseHeader.value("location"), mFileName, mPostDownloadHandler, mpQueue->item(0)->isSelected() );
    }
    
    if( responseHeader.statusCode() != 200 )
@@ -122,7 +128,8 @@ void DownloadHandler::readResponseHeader( const QHttpResponseHeader &responseHea
 
 void DownloadHandler::run( const QString &url,
                            const QString &filename,
-                           PostDownloadHandler *postDownloadHandler )
+                           PostDownloadHandler *postDownloadHandler,
+                           bool selected )
 {
    if( !url.startsWith("http://") )
    {
@@ -134,6 +141,11 @@ void DownloadHandler::run( const QString &url,
    mPostDownloadHandlers.append( postDownloadHandler );
    
    mpQueue->addItem( filename + QString( " <- " ) + url );
+   QListWidgetItem *qlwi = mpQueue->item( mpQueue->count() - 1 );
+   if( qlwi )
+   {
+      qlwi->setSelected( selected );
+   }
 }
 
 
@@ -154,7 +166,6 @@ void DownloadHandler::startDownload()
    mPostDownloadHandler = mPostDownloadHandlers.takeFirst();
    mURL                 = mURLs.takeFirst();
    mFileName            = mFileNames.takeFirst();
-   QString url          = mURL;
    mDownloading         = true;
    mAborting            = false;
    
@@ -166,6 +177,7 @@ void DownloadHandler::startDownload()
       return;
    }
 
+   QString url( mURL );
    if( url.startsWith( "http://" ) )
    {
       url = url.mid( 7 );

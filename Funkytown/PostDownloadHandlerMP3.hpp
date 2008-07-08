@@ -16,7 +16,7 @@ public:
    PostDownloadHandlerMP3();
 
    /* analyse downloaded file */
-   void run( const QString &url, const QString &filename, bool success );
+   void run( const QString &url, const QString &filename, bool success, bool enqueue );
 
 private:
    PostDownloadHandlerMP3( const PostDownloadHandlerMP3 &other );

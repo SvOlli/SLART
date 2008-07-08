@@ -22,7 +22,8 @@ PostDownloadHandlerMP3::PostDownloadHandlerMP3()
 }
 
 
-void PostDownloadHandlerMP3::run( const QString &url, const QString &filename, bool success )
+void PostDownloadHandlerMP3::run( const QString &url, const QString &filename, 
+                                  bool success, bool enqueue )
 {
    QString full_("/full_");
    
@@ -43,6 +44,11 @@ void PostDownloadHandlerMP3::run( const QString &url, const QString &filename, b
       
       settings.sendNotification( QString("f0d\n") + 
                                  QDir::currentPath() + '/' + filename );
+      if( enqueue )
+      {
+         settings.sendUdpMessage( QString("P0Q\n") + 
+                                  QDir::currentPath() + '/' + filename, QString("Partyman") );
+      }
    }
    
    if( !success && url.indexOf( full_ ) >= 0 )
@@ -50,6 +56,9 @@ void PostDownloadHandlerMP3::run( const QString &url, const QString &filename, b
       QString newurl(url);
       QString std_("/std_");
       newurl.replace( full_, std_ );
-      gpDownloadHandler->run( newurl, filename, gpPostDownloadHandlerMP3 );
+      gpDownloadHandler->run( newurl, 
+                              filename,
+                              gpPostDownloadHandlerMP3,
+                              enqueue );
    }
 }
