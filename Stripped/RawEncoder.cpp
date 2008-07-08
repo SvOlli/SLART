@@ -45,9 +45,9 @@ void RawEncoder::initialize( const QString &fileName )
 }
 
 
-void RawEncoder::finalize( bool enqueue )
+void RawEncoder::finalize( bool enqueue, bool cancel )
 {
-   Encoder::finalize( enqueue );
+   Encoder::finalize( enqueue, cancel );
 }
 
 

@@ -256,7 +256,7 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
          if( mCancel ) break;
       }
       
-      mpEncoder->finalize( doenqueue );
+      mpEncoder->finalize( doenqueue, mCancel );
       if( mCancel ) break;
    }
    

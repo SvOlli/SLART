@@ -68,7 +68,7 @@ void OggEncoder::initialize( const QString &fileName )
 }
 
 
-void OggEncoder::finalize( bool enqueue )
+void OggEncoder::finalize( bool enqueue, bool cancel )
 {
    encodeCDAudio( 0, 0 );
    
@@ -78,7 +78,7 @@ void OggEncoder::finalize( bool enqueue )
    ::vorbis_comment_clear( &mVC );
    ::vorbis_info_clear( &mVI );
    
-   Encoder::finalize( enqueue );
+   Encoder::finalize( enqueue, cancel );
 }
 
 

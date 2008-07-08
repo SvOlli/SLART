@@ -47,13 +47,18 @@ void Encoder::initialize( const QString &fileName, const char *extension )
 }
 
 
-void Encoder::finalize( bool enqueue )
+void Encoder::finalize( bool enqueue, bool cancel )
 {
    ::close( mFD );
    mFD = -1;
    
-   if( enqueue )
+   if( !cancel )
    {
-      MySettings().sendNotification( QString("s0d\n") + mFileName );
+      MySettings settings;
+      settings.sendNotification( QString("s0d\n") + mFileName );
+      if( enqueue )
+      {
+         settings.sendUdpMessage( QString("P0Q\n") + mFileName, QString("Partyman") );
+      }
    }
 }

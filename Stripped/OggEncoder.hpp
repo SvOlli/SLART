@@ -26,7 +26,7 @@ public:
    /* initialize the encoder */
    void initialize( const QString &fileName );
    /* finalize (clean up) the encoder */
-   void finalize( bool enqueue );
+   void finalize( bool enqueue, bool cancel );
    /* set the tags of the encoded file */
    void setTags( const TagList &tagList );
    /* encode raw cd audio data */
