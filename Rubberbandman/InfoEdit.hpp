@@ -24,6 +24,7 @@ class QIntValidator;
 class QPushButton;
 class QDir;
 class Database;
+class ScrollLine;
 
 class InfoEdit : public QWidget
 {
@@ -82,6 +83,8 @@ private:
 
    QLabel *mpLabelPathName;
    QLabel *mpLabelFileName;
+   QLabel *mpLabelSize;
+   QLabel *mpLabelPlayTime;
    QLabel *mpLabelArtist;
    QLabel *mpLabelTitle;
    QLabel *mpLabelAlbum;
@@ -89,8 +92,10 @@ private:
    QLabel *mpLabelYear;
    QLabel *mpLabelGenre;
    
-   QLineEdit *mpShowPathName;
-   QLineEdit *mpShowFileName;
+   ScrollLine *mpShowPathName;
+   ScrollLine *mpShowFileName;
+   QLineEdit *mpShowSize;
+   QLineEdit *mpShowPlayTime;
    
    QLineEdit *mpEditArtist;
    QLineEdit *mpEditTitle;

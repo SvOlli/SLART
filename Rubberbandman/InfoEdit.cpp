@@ -13,6 +13,7 @@
 #include "InfoEdit.hpp"
 #include "MySettings.hpp"
 #include "Database.hpp"
+#include "ScrollLine.hpp"
 #include "Trace.hpp"
 
 #define MODE_NOTHING     0
@@ -34,14 +35,18 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 , mpDatabaseGroupBox( new QGroupBox( tr("Database Information"), this ) )
 , mpLabelPathName( new QLabel( tr("Path:"), this ) )
 , mpLabelFileName( new QLabel( tr("File:"), this ) )
+, mpLabelSize( new QLabel( tr("Size:"), this ) )
+, mpLabelPlayTime( new QLabel( tr("Play Time:"), this ) )
 , mpLabelArtist( new QLabel( tr("Artist:"), this ) )
 , mpLabelTitle( new QLabel( tr("Title:"), this ) )
 , mpLabelAlbum( new QLabel( tr("Album:"), this ) )
-, mpLabelTrackNr( new QLabel( tr("TrackNr:"), this ) )
+, mpLabelTrackNr( new QLabel( tr("Track #:"), this ) )
 , mpLabelYear( new QLabel( tr("Year:"), this ) )
 , mpLabelGenre( new QLabel( tr("Genre:"), this ) )
-, mpShowPathName( new QLineEdit( this ) )
-, mpShowFileName( new QLineEdit( this ) )
+, mpShowPathName( new ScrollLine( this ) )
+, mpShowFileName( new ScrollLine( this ) )
+, mpShowSize( new QLineEdit( this ) )
+, mpShowPlayTime( new QLineEdit( this ) )
 , mpEditArtist( new QLineEdit( this ) )
 , mpEditTitle( new QLineEdit( this ) )
 , mpEditAlbum( new QLineEdit( this ) )
@@ -91,8 +96,8 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 #endif
    mpEditTrackNr->setMaxLength( 2 );
    mpEditYear->setMaxLength( 4 );
-   mpShowPathName->setReadOnly( true );
-   mpShowFileName->setReadOnly( true );
+   mpShowSize->setReadOnly( true );
+   mpShowPlayTime->setReadOnly( true );
    
 #if 0
    mpLabelArtist->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
@@ -106,12 +111,18 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    
    fileLayout->addWidget( mpLabelPathName, 0, 0 );
    fileLayout->addWidget( mpLabelFileName, 1, 0 );
+   fileLayout->addWidget( mpLabelSize,     2, 0 );
+   fileLayout->addWidget( mpLabelPlayTime, 2, 2 );
    
-   fileLayout->addWidget( mpShowPathName,  0, 1, 1, 5 );
-   fileLayout->addWidget( mpShowFileName,  1, 1, 1, 5 );
+   fileLayout->addWidget( mpShowPathName,  0, 1, 1, 3 );
+   fileLayout->addWidget( mpShowFileName,  1, 1, 1, 3 );
+   fileLayout->addWidget( mpShowSize,      2, 1 );
+   fileLayout->addWidget( mpShowPlayTime,  2, 3 );
    
    fileLayout->setColumnStretch( 0,  1 );
-   fileLayout->setColumnStretch( 1, 99 );
+   fileLayout->setColumnStretch( 1, 49 );
+   fileLayout->setColumnStretch( 2,  1 );
+   fileLayout->setColumnStretch( 3, 49 );
    
 #if QT_VERSION < 0x040300
    fileLayout->setMargin( 2 );
@@ -348,6 +359,8 @@ TRACEMSG << mTrackInfo.toString();
          
       mpShowPathName->clear();
       mpShowFileName->clear();
+      mpShowSize->clear();
+      mpShowPlayTime->clear();
       mpEditArtist->clear();
       mpEditTitle->clear();
       mpEditAlbum->clear();
@@ -427,9 +440,31 @@ TRACEMSG << fullpath;
       TagLib::FileRef f( fullpath.toLocal8Bit().data() );
       if( f.file() )
       {
+#if 0
          int fileNameStart = fullpath.lastIndexOf('/')+1;
          mpShowPathName->setText( fullpath.left(fileNameStart) );
          mpShowFileName->setText( fullpath.mid(fileNameStart) );
+#else
+         mpShowPathName->setText( fileInfo.absolutePath() );
+         mpShowFileName->setText( fileInfo.fileName() );
+         mpShowSize->setText( QString::number( fileInfo.size() ) );
+         if( f.audioProperties() )
+         {
+            int length = f.audioProperties()->length();
+            QString time( QString::number( length / 60 ) );
+            if( (length % 60) < 10 )
+            {
+               time.append( ":0" );
+            }
+            else
+            {
+               time.append( ":" );
+            }
+            time.append( QString::number( length % 60 ) );
+            mpShowPlayTime->setText( time );
+         }
+         
+#endif
          
          QString artist = QString::fromUtf8( f.tag()->artist().toCString( true ) );
          QString title  = QString::fromUtf8( f.tag()->title().toCString( true ) );
@@ -462,6 +497,8 @@ TRACEMSG << fullpath;
       mTrackInfo.clear();
       updateMenus( true );
       mpShowFileName->clear();
+      mpShowSize->clear();
+      mpShowPlayTime->clear();
       mpEditArtist->clear();
       mpEditTitle->clear();
       mpEditAlbum->clear();
@@ -489,12 +526,16 @@ TRACEMSG << fullpath;
          mpButtonSet->setText( tr("Save Changes") );
          mpEditTrackNr->setDisabled( false );
          mpShowFileName->setDisabled( false );
+         mpShowSize->setDisabled( false );
+         mpShowPlayTime->setDisabled( false );
       }
       else
       {
          mpButtonSet->setText( tr("Set Recursive") );
          mpEditTrackNr->setDisabled( true );
          mpShowFileName->setDisabled( true );
+         mpShowSize->setDisabled( true );
+         mpShowPlayTime->setDisabled( true );
       }
    }
    

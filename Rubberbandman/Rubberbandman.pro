@@ -43,6 +43,9 @@ SOURCES += MainWidget.cpp
 HEADERS += MySettings.hpp 
 SOURCES += MySettings.cpp 
 
+HEADERS += ScrollLine.hpp 
+SOURCES += ScrollLine.cpp 
+
 HEADERS += AboutWidget.hpp
 SOURCES += AboutWidget.cpp
 
