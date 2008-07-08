@@ -10,6 +10,11 @@ Partyman
   - p0s: stopped
   - p0n: skipping to next
   - p0a: paused
+  - p0t: track info update (parameter: complete filename)
+
+Rubberbandman
+- status messages
+  - r0t: track info update (parameter: complete filename)
 
 Stripped
 - status messages
@@ -18,4 +23,12 @@ Stripped
 Funkytown
 - status messages
   - f0d: done with downloading track (parameter: complete filename)
+
+Karmadrome
+- status messages
+  - k0t: track info update (parameter: complete filename)
+
+Innuendo:
+- commands
+  - I0L: log (parameters: text to log)
 

@@ -7,12 +7,10 @@ Partyman:
 - check all error handling
 - set path to Partyman as first for clients
 
-Karmadrome: (new application)
-- Karma: use several playlists
-  - full contains all tracks
-  - bad contains bad karma tracks
-  - good contains only good karma tracks
-  - base contains all minus bad karma tracks
+Karmadrome:
+- move to database
+  - folders
+  - extract folders to m3u
 
 Funkytown:
 - improve url detecting
@@ -20,12 +18,11 @@ Funkytown:
 Innuendo:
 
 Stripped:
+- break reading on first error of last track in first session of CD-Extra
 - auto read-toc
 - encode in mp3
 - encode in flac
 
 Rubberbandman:
-
-Next Big Thing(tm) after 0.6 release:
-- SQLite database backend
-
+- "add folder"/"remove folder"
+- disable Folders buttons, when no folders exist in database
