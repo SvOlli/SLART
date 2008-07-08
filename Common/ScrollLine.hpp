@@ -26,6 +26,8 @@ public slots:
    void scrolling();
    /* intercept setText for resetting scroll position */
    void setText( const QString &text );
+   /* slot for overwriting partly selection */
+   void setClipboard();
    
 protected:
    virtual void focusInEvent( QFocusEvent *event );

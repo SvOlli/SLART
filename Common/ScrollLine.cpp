@@ -30,14 +30,20 @@ ScrollLine::ScrollLine( QWidget *parent )
    setReadOnly( true );
    setContextMenuPolicy( Qt::NoContextMenu );
    
-   connect( mpTimer, SIGNAL(timeout()), this, SLOT(scrolling()) );
+   connect( mpTimer, SIGNAL(timeout()),
+            this, SLOT(scrolling()) );
+   connect( this, SIGNAL(selectionChanged()),
+            this, SLOT(setClipboard()) );
    mpTimer->start();
 }
 
 
 ScrollLine::~ScrollLine()
 {
-   disconnect( mpTimer, SIGNAL(timeout()), this, SLOT(scrolling()) );
+   disconnect( mpTimer, SIGNAL(timeout()),
+               this, SLOT(scrolling()) );
+   disconnect( this, SIGNAL(selectionChanged()),
+               this, SLOT(setClipboard()) );
 }
 
 
@@ -70,7 +76,13 @@ void ScrollLine::focusInEvent( QFocusEvent *event )
 {
    if( event->gotFocus() )
    {
-      GlobalConfigWidget::setClipboard( QLineEdit::toolTip() );
+      setClipboard();
    }
    event->ignore();
+}
+
+
+void ScrollLine::setClipboard()
+{
+   GlobalConfigWidget::setClipboard( QLineEdit::toolTip() );
 }
