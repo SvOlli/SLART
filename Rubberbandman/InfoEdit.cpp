@@ -698,11 +698,19 @@ void InfoEdit::updateMenus( bool withRecurse )
       mpTrackScannedFlag->setChecked( true );
    }
    
-   for( i = 0; i < folders.size(); i++ )
+   if( folders.size() > 0 )
    {
-      QAction *action = mpMenuFolders->addAction( folders.at(i) );
-      action->setCheckable( true );
-      action->setChecked( mTrackInfo.isInFolder( action->text() ) );
+      mpButtonFolders->setDisabled( false );
+      for( i = 0; i < folders.size(); i++ )
+      {
+         QAction *action = mpMenuFolders->addAction( folders.at(i) );
+         action->setCheckable( true );
+         action->setChecked( mTrackInfo.isInFolder( action->text() ) );
+      }
+   }
+   else
+   {
+      mpButtonFolders->setDisabled( true );
    }
 }
 
