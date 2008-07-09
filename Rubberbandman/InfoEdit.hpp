@@ -62,6 +62,8 @@ private:
 
    /* normalize a line edit field */
    void normalize( QLineEdit *lineEdit );
+   /* load tags from a file */
+   void loadFile( const QString &fullpath );
    /* save the currently edited tags */
    void saveFile();
    /* walk through the directory tree */

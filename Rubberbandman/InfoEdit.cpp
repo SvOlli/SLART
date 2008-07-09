@@ -40,7 +40,7 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 , mpLabelArtist( new QLabel( tr("Artist:"), this ) )
 , mpLabelTitle( new QLabel( tr("Title:"), this ) )
 , mpLabelAlbum( new QLabel( tr("Album:"), this ) )
-, mpLabelTrackNr( new QLabel( tr("Track #:"), this ) )
+, mpLabelTrackNr( new QLabel( tr("Track:"), this ) )
 , mpLabelYear( new QLabel( tr("Year:"), this ) )
 , mpLabelGenre( new QLabel( tr("Genre:"), this ) )
 , mpShowPathName( new ScrollLine( this ) )
@@ -88,24 +88,15 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    mpButtonFolders->setMenu( mpMenuFolders );
    mpShowTimesPlayed->setAlignment( Qt::AlignCenter );
    
-#if 1
    mpValidateTrackNr = new QIntValidator( 0, 99, mpEditTrackNr );
    mpValidateYear    = new QIntValidator( 1900, 2100, mpEditYear );
    mpEditTrackNr->setValidator( mpValidateTrackNr );
    mpEditYear->setValidator( mpValidateYear );
-#endif
    mpEditTrackNr->setMaxLength( 2 );
    mpEditYear->setMaxLength( 4 );
    mpShowSize->setReadOnly( true );
    mpShowPlayTime->setReadOnly( true );
    
-#if 0
-   mpLabelArtist->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
-   mpLabelTitle->setAlignment( Qt::AlignRight | Qt::AlignVCenter  );
-   mpLabelAlbum->setAlignment( Qt::AlignRight | Qt::AlignVCenter  );
-   mpLabelTrackNr->setAlignment( Qt::AlignRight | Qt::AlignVCenter  );
-#endif
-
    mpFileGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
    QGridLayout *fileLayout = new QGridLayout;
    
@@ -229,7 +220,6 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 
 void InfoEdit::recurse( const QDir &dir, bool isBase )
 {
-TRACESTART(InfoEdit::recurse)
    QFileInfoList files(dir.entryInfoList());
    int i;
    
@@ -271,7 +261,7 @@ TRACESTART(InfoEdit::recurse)
          switch( mRecurseMode )
          {
             case MODE_SETTAGS:
-               load( files.at(i).absoluteFilePath() );
+               loadFile( files.at(i).absoluteFilePath() );
                if( !mRecurseArtist.isEmpty() )
                {
                   mpEditArtist->setText( mRecurseArtist );
@@ -294,7 +284,6 @@ TRACESTART(InfoEdit::recurse)
                }
                if( mRecurseSetFlags )
                {
-TRACEMSG << "SetFlags" << mRecurseFavoriteTrackFlag << mRecurseUnwantedTrackFlag;
                   if( mRecurseFavoriteTrackFlag )
                   {
                      mTrackInfo.setFlag( TrackInfo::Favorite, true );
@@ -306,7 +295,6 @@ TRACEMSG << "SetFlags" << mRecurseFavoriteTrackFlag << mRecurseUnwantedTrackFlag
                }
                if( mRecurseUnsetFlags )
                {
-TRACEMSG << "UnsetFlags" << mRecurseFavoriteTrackFlag << mRecurseUnwantedTrackFlag << mRecurseTrackScannedFlag;
                   if( mRecurseFavoriteTrackFlag && mTrackInfo.isFlagged( TrackInfo::Favorite ) )
                   {
                      mTrackInfo.setFlag( TrackInfo::Favorite, false );
@@ -328,17 +316,16 @@ TRACEMSG << "UnsetFlags" << mRecurseFavoriteTrackFlag << mRecurseUnwantedTrackFl
                   }
                }
                QCoreApplication::processEvents();
-TRACEMSG << mTrackInfo.toString();
                saveFile();
                break;
             case MODE_NORM_ARTIST:
-               load( files.at(i).absoluteFilePath() );
+               loadFile( files.at(i).absoluteFilePath() );
                normalize( mpEditArtist );
                QCoreApplication::processEvents();
                saveFile();
                break;
             case MODE_NORM_TITLE:
-               load( files.at(i).absoluteFilePath() );
+               loadFile( files.at(i).absoluteFilePath() );
                normalize( mpEditTitle );
                QCoreApplication::processEvents();
                saveFile();
@@ -411,10 +398,15 @@ void InfoEdit::normalize( QLineEdit *lineEdit )
 
 void InfoEdit::load( const QString &fullpath )
 {
-#if 0
-TRACESTART(InfoEdit::load)
-TRACEMSG << fullpath;
-#endif
+   if( mRecurseMode == MODE_NOTHING )
+   {
+      loadFile( fullpath );
+   }
+}
+
+
+void InfoEdit::loadFile( const QString &fullpath )
+{
    mIsValid  = false;
    mIsFile   = false;
    mFileName = fullpath;
@@ -440,11 +432,6 @@ TRACEMSG << fullpath;
       TagLib::FileRef f( fullpath.toLocal8Bit().data() );
       if( f.file() )
       {
-#if 0
-         int fileNameStart = fullpath.lastIndexOf('/')+1;
-         mpShowPathName->setText( fullpath.left(fileNameStart) );
-         mpShowFileName->setText( fullpath.mid(fileNameStart) );
-#else
          mpShowPathName->setText( fileInfo.absolutePath() );
          mpShowFileName->setText( fileInfo.fileName() );
          mpShowSize->setText( QString::number( fileInfo.size() ) );
@@ -463,8 +450,6 @@ TRACEMSG << fullpath;
             time.append( QString::number( length % 60 ) );
             mpShowPlayTime->setText( time );
          }
-         
-#endif
          
          QString artist = QString::fromUtf8( f.tag()->artist().toCString( true ) );
          QString title  = QString::fromUtf8( f.tag()->title().toCString( true ) );
@@ -540,17 +525,10 @@ TRACEMSG << fullpath;
    }
    
    mpButtonSet->setDisabled( true );
-#if 0
-TRACEMSG << "mIsValid" << mIsValid << "mIsFile" << mIsFile;
-#endif
 }
 
 void InfoEdit::handleSetSave()
 {
-#if 0
-TRACESTART(InfoEdit::handleSetSave)
-TRACEMSG << mIsValid << mIsFile;
-#endif
    if( mIsValid )
    {
       if( mIsFile )
@@ -580,11 +558,6 @@ TRACEMSG << mIsValid << mIsFile;
 
 void InfoEdit::saveFile()
 {
-#if 0
-TRACESTART(InfoEdit::saveFile)
-TRACEMSG << mFileName;
-#endif
-   
    if( mFileName.isEmpty() ) return;
    if( mpEditArtist->text().isEmpty() ) return;
    if( mpEditTitle->text().isEmpty() ) return;
