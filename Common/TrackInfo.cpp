@@ -9,6 +9,22 @@
 #include "Trace.hpp"
 
 TrackInfo::TrackInfo()
+: mID( 0 )
+, mDirectory()
+, mFileName()
+, mArtist()
+, mTitle()
+, mAlbum()
+, mTrackNr( 0 )
+, mYear( 0 )
+, mGenre()
+, mPlayTime( 0 )
+, mLastScanned( 0 )
+, mLastTagsRead( 0 )
+, mTimesPlayed( 0 )
+, mVolume( 0.0 )
+, mFolders()
+, mFlags( 0 )
 {
 }
 
