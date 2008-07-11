@@ -27,14 +27,11 @@ unsigned int FileSysTreeUpdate::prepare( Database *database, FileSysTreeModel *t
 void FileSysTreeUpdate::run()
 {
    QString fileName;
-   int i /*, size = 0*/;
+   int i;
 
    for( i = 0; (i < trackInfoList.size()) && !mCancel; i++ )
    {
-      fileName = trackInfoList.at(i).mDirectory;
-      fileName.append( "/" );
-      fileName.append( trackInfoList.at(i).mFileName );
-      mpTreeModel->addModelData( fileName );
+      mpTreeModel->addModelData( trackInfoList.at(i).filePath() );
    }
    trackInfoList.clear();
 }
