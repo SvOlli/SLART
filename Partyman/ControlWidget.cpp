@@ -69,12 +69,18 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 
    mpSkipButton->setDisabled( true );
    
-   connect( mpConnectButton, SIGNAL(clicked()), this, SLOT(initConnect()) );
-   connect( mpPauseAction, SIGNAL(triggered()), this, SLOT(handlePause()) );
-   connect( mpDisconnectAction, SIGNAL(triggered()), this, SLOT(initDisconnect()) );
-   connect( mpSkipButton, SIGNAL(clicked()), this, SLOT(handleSkipTrack()) );
-   connect( mpConfig, SIGNAL(configChanged()), this, SLOT(readConfig()) );
-   connect( &mSLARTCom, SIGNAL(packageRead(QStringList)), this, SLOT(handleSLART(QStringList)) );
+   connect( mpConnectButton, SIGNAL(clicked()),
+            this, SLOT(initConnect()) );
+   connect( mpPauseAction, SIGNAL(triggered()),
+            this, SLOT(handlePause()) );
+   connect( mpDisconnectAction, SIGNAL(triggered()),
+            this, SLOT(initDisconnect()) );
+   connect( mpSkipButton, SIGNAL(clicked()),
+            this, SLOT(handleSkipTrack()) );
+   connect( mpConfig, SIGNAL(configChanged()),
+            this, SLOT(readConfig()) );
+   connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
+            this, SLOT(handleSLART(QStringList)) );
    connect( mpPlayer[0], SIGNAL(trackPlaying(const TrackInfo &)),
             mpPlaylist, SLOT(getTrack(const TrackInfo &)) );
    connect( mpPlayer[1], SIGNAL(trackPlaying(const TrackInfo &)),
@@ -310,7 +316,7 @@ void ControlWidget::allowConnect( bool allowed )
 
 void ControlWidget::handleSLART( const QStringList &src )
 {
-   if( (src.at(0) == "P0Q") || (src.at(0) == "s0d") || (src.at(0) == "f0d") )
+   if( src.at(0) == "P0Q" )
    {
       QStringList dest;
       
