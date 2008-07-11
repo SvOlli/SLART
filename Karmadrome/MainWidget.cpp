@@ -10,6 +10,9 @@
 #include "MySettings.hpp"
 #include "ConfigDialog.hpp"
 #include "GlobalConfigWidget.hpp"
+#include "ScrollLine.hpp"
+#include "TrackInfoWidget.hpp"
+#include "Database.hpp"
 
 #include <QtGui>
 
@@ -18,7 +21,9 @@
 
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpFileName( new QLineEdit( this ) )
+, mpDatabase( new Database() )
+, mpFileName( new ScrollLine( this ) )
+, mpTrackInfo( new TrackInfoWidget( mpDatabase, this ) )
 , mpReadButton( new QPushButton( this ) )
 , mpWriteButton( new QPushButton( this ) )
 , mpListButtons( new ButtonsWidget( tr("Karma Lists:"), this ) )
@@ -28,7 +33,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpRemoveMenu( new QMenu( this ) )
 , mpConfigDialog( new ConfigDialog( this ) )
 , mSLARTCom()
-, mPlaylists( MySettings().value( "Playlists", QStringList() ).toStringList() )
+, mPlaylists()
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
    
@@ -49,12 +54,13 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    mainLayout->addWidget( mpLogo,           0, 0, 1, 6 );
    mainLayout->addWidget( mpFileName,       1, 0, 1, 6 );
-   mainLayout->addWidget( mpReadButton,     2, 0, 1, 3 );
-   mainLayout->addWidget( mpWriteButton,    2, 3, 1, 3 );
-   mainLayout->addWidget( mpListButtons,    3, 0, 1, 6 );
-   mainLayout->addWidget( mpSettingsButton, 4, 0, 1, 2 );
-   mainLayout->addWidget( mpAddButton,      4, 2, 1, 2 );
-   mainLayout->addWidget( mpRemoveButton,   4, 4, 1, 2 );
+   mainLayout->addWidget( mpTrackInfo,      2, 0, 1, 6 );
+   mainLayout->addWidget( mpReadButton,     3, 0, 1, 3 );
+   mainLayout->addWidget( mpWriteButton,    3, 3, 1, 3 );
+   mainLayout->addWidget( mpListButtons,    4, 0, 1, 6 );
+   mainLayout->addWidget( mpSettingsButton, 5, 0, 1, 2 );
+   mainLayout->addWidget( mpAddButton,      5, 2, 1, 2 );
+   mainLayout->addWidget( mpRemoveButton,   5, 4, 1, 2 );
    
    setLayout( mainLayout );
    
@@ -70,8 +76,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpConfigDialog, SIGNAL(configChanged()),
             this, SLOT(updateLists()) );
    
-   connect( mpListButtons, SIGNAL(clicked(const QString &)),
-            this, SLOT(addToList(const QString &)) );
+   connect( mpListButtons, SIGNAL(clicked(QWidget*)),
+            this, SLOT(addToList(QWidget*)) );
    connect( mpAddButton, SIGNAL(clicked()),
             this, SLOT(handleAdd()) );
    connect( mpRemoveMenu, SIGNAL(triggered(QAction *)),
@@ -86,59 +92,18 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 }
 
 
-void MainWidget::addToList( const QString &listfilename )
+void MainWidget::addToList( QWidget *widget )
 {
-   int i;
-   QFile m3uFile( listfilename );
-   QStringList list( mpFileName->text() );
-   
-   if( list.at(0).isEmpty() )
+   QPushButton *pb = (QPushButton*)widget;
+   if( mTrackInfo.mID > 0 )
    {
-      return;
+      mTrackInfo.setFolder( pb->text(), pb->isChecked() );
+      mpDatabase->updateTrackInfo( &mTrackInfo );
    }
-   
-   QString msg( "k0a\n" );
-   msg.append( listfilename );
-   msg.append( '\n' );
-   msg.append( mpFileName->text() );
-   MySettings().sendUdpMessage( msg, QString("Innuendo") );
-   
-   m3uFile.open( QIODevice::ReadOnly | QIODevice::Text );
-   while (!m3uFile.atEnd())
+   else
    {
-      QByteArray line( m3uFile.readLine() );
-      
-      QString filename(QString::fromLocal8Bit(line));
-      if( filename.left(1) != "#" )
-      {
-         if( filename.right(1) == QChar('\n') )
-         {
-            filename.chop(1);
-         }
-         if( !filename.startsWith( "/" ) )
-         {
-            /* a bit of an ugly trick, but gets the job done better than most
-               other solutions */
-            filename = QFileInfo( listfilename + "/../" + filename ).absoluteFilePath();
-         }
-         list << filename;
-      }
+      pb->setChecked( false );
    }
-   m3uFile.close();
-   
-   list.sort();
-   
-   m3uFile.open( QIODevice::WriteOnly | QIODevice::Text );
-   
-   for( i = 0; i < list.count(); i++ )
-   {
-      QByteArray line( list.at(i).toLocal8Bit() );
-      line.append('\n');
-      
-      m3uFile.write( line );
-   }
-   
-   m3uFile.close();
 }
 
 
@@ -149,8 +114,9 @@ void MainWidget::handleSLART( const QStringList &message )
       if( message.at(0) == "p0p" )
       {
          mpFileName->setText( message.at(1) );
-         mpFileName->setCursorPosition( 0 );
-         mpFileName->setCursorPosition( message.at(1).size() );
+         mpDatabase->getTrackInfo( &mTrackInfo, message.at(1) );
+         mpTrackInfo->getTrack( mTrackInfo );
+         mpListButtons->lockButtons( mTrackInfo.getFolders() );
       }
    }
 }
@@ -159,46 +125,28 @@ void MainWidget::handleSLART( const QStringList &message )
 void MainWidget::updateLists()
 {
    int i;
+   mPlaylists = mpDatabase->getFolders();
    mPlaylists.sort();
    
    mpListButtons->updateButtons( mPlaylists );
    mpRemoveMenu->clear();
+   
    for( i = 0; i < mPlaylists.count(); i++ )
    {
-      int lastSlash = mPlaylists.at(i).lastIndexOf( '/' );
-      int lastDot   = mPlaylists.at(i).lastIndexOf( '.' );
-      QString label( mPlaylists.at(i).mid( lastSlash+1, lastDot-lastSlash-1 ) );
-      
-      QAction *action = mpRemoveMenu->addAction( label );
-      action->setToolTip( mPlaylists.at(i) );
+      mpRemoveMenu->addAction( mPlaylists.at(i) );
    }
 }
 
 
 void MainWidget::handleAdd()
 {
-   int i;
-   QFileDialog fileDialog( this );
-
-   fileDialog.setFileMode( QFileDialog::AnyFile );
-   fileDialog.setAcceptMode( QFileDialog::AcceptSave );
-   fileDialog.setConfirmOverwrite( false );
-   fileDialog.setDefaultSuffix( "m3u" );
-//   fileDialog.setDirectory( QDir( mpM3uFileName->text() ).absolutePath() );
-   fileDialog.setWindowTitle( tr("Select Karma Playlist") );
-   fileDialog.setFilter( "Playlist (*.m3u)" );
-   fileDialog.setReadOnly( false );
-
-   if( fileDialog.exec() )
+   bool ok;
+   QString folder( QInputDialog::getText( this, QApplication::applicationName(),
+                                          QString( tr("Enter name of folder:") ),
+                                          QLineEdit::Normal, QString(), &ok ) );
+   if( ok && !folder.isEmpty() )
    {
-      for( i = 0; i < fileDialog.selectedFiles().count() ; i++ )
-      {
-         if( mPlaylists.indexOf( fileDialog.selectedFiles().at(i) ) < 0 )
-         mPlaylists.append( fileDialog.selectedFiles().at(i) );
-      }
-      mPlaylists.sort();
-      MySettings().setValue( "Playlists", mPlaylists );
-      
+      mpDatabase->insertFolder( folder );
       updateLists();
    }
 }
@@ -206,16 +154,21 @@ void MainWidget::handleAdd()
 
 void MainWidget::handleRemove( QAction *action )
 {
-   mPlaylists.removeAll( action->toolTip() );
-   
-   MySettings().setValue( "Playlists", mPlaylists );
-   updateLists();
+   if( QMessageBox::Ok == QMessageBox::question( this, QApplication::applicationName(),
+                                                 QString( tr("Are you sure you want to delete the folder\n") ) +
+                                                 action->text(), QMessageBox::Ok | QMessageBox::Cancel ) )
+   {
+      mpDatabase->deleteFolder( action->text() );
+      updateLists();
+   }
 }
 
 
 void MainWidget::handleReadButton()
 {
    mpFileName->setText( GlobalConfigWidget::getClipboard() );
+   mpDatabase->getTrackInfo( &mTrackInfo, GlobalConfigWidget::getClipboard() );
+   mpTrackInfo->getTrack( mTrackInfo );
 }
 
 

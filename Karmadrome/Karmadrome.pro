@@ -6,6 +6,7 @@ include ( ../Global.pri )
 
 TEMPLATE = app
 TARGET = Karmadrome
+QT += sql
 
 # Input
 #RESOURCES = Resources.qrc
@@ -23,6 +24,18 @@ SOURCES += MainWidget.cpp
 
 HEADERS += AboutWidget.hpp
 SOURCES += AboutWidget.cpp
+
+HEADERS += Database.hpp
+SOURCES += Database.cpp
+
+HEADERS += TrackInfo.hpp
+SOURCES += TrackInfo.cpp
+
+HEADERS += TrackInfoWidget.hpp
+SOURCES += TrackInfoWidget.cpp
+
+HEADERS += ScrollLine.hpp
+SOURCES += ScrollLine.cpp
 
 HEADERS += ButtonsWidget.hpp 
 SOURCES += ButtonsWidget.cpp 

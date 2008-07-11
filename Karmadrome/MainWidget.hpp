@@ -11,6 +11,7 @@
 #include <QWidget>
 
 #include "SLARTCom.hpp"
+#include "TrackInfoWidget.hpp"
 
 class QIcon;
 class QString;
@@ -20,6 +21,8 @@ class QLineEdit;
 class QAction;
 class ButtonsWidget;
 class ConfigDialog;
+class ScrollLine;
+class Database;
 
 
 class MainWidget : public QWidget
@@ -31,7 +34,7 @@ public:
 
 public slots:
    /* add currently played track to the list */
-   void addToList( const QString &msg );
+   void addToList( QWidget *widget );
    /* handle SLART message */
    void handleSLART( const QStringList &message );
    /* handle adding of new playlist */
@@ -54,19 +57,22 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
 
-   QLineEdit      *mpFileName;
-   QPushButton    *mpReadButton;
-   QPushButton    *mpWriteButton;
-   ButtonsWidget  *mpListButtons;
+   Database        *mpDatabase;
+   ScrollLine      *mpFileName;
+   TrackInfoWidget *mpTrackInfo;
+   QPushButton     *mpReadButton;
+   QPushButton     *mpWriteButton;
+   ButtonsWidget   *mpListButtons;
 
-   QPushButton    *mpSettingsButton;
-   QPushButton    *mpAddButton;
-   QPushButton    *mpRemoveButton;
-   QMenu          *mpRemoveMenu;
-   ConfigDialog   *mpConfigDialog;
+   QPushButton     *mpSettingsButton;
+   QPushButton     *mpAddButton;
+   QPushButton     *mpRemoveButton;
+   QMenu           *mpRemoveMenu;
+   ConfigDialog    *mpConfigDialog;
 
-   SLARTCom       mSLARTCom;
-   QStringList    mPlaylists;
+   SLARTCom        mSLARTCom;
+   QStringList     mPlaylists;
+   TrackInfo       mTrackInfo;
 };
 
 #endif

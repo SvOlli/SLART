@@ -42,8 +42,8 @@ ButtonsWidget::ButtonsWidget( const QString &title, QWidget *parent )
    mpMainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
    
-   connect(mpSignalMapper, SIGNAL(mapped(const QString &)),
-           this, SIGNAL(clicked(const QString &)));
+   connect(mpSignalMapper, SIGNAL(mapped(QWidget*)),
+           this, SIGNAL(clicked(QWidget*)));
    
    setLayout( mpMainLayout );
 }
@@ -67,9 +67,30 @@ void ButtonsWidget::updateButtons( const QStringList &fileNames )
       int lastDot   = fileNames.at(i).lastIndexOf( '.' );
       QString label( fileNames.at(i).mid( lastSlash+1, lastDot-lastSlash-1 ) );
       QPushButton *pb = new QPushButton( label, this );
+      pb->setCheckable( true );
+      pb->setToolTip( fileNames.at(i) );
       mButtonList.append( pb );
       connect( pb, SIGNAL(clicked()), mpSignalMapper, SLOT(map()) );
-      mpSignalMapper->setMapping( pb, fileNames.at(i) );
+      mpSignalMapper->setMapping( pb, (QWidget*)pb );
       mpMainLayout->addWidget( pb, i / rows, i % rows );
+   }
+}
+
+
+void ButtonsWidget::lockButtons( const QStringList &list )
+{
+   int i, n;
+   
+   for( n = 0; n < mButtonList.size(); n++ )
+   {
+      mButtonList.at(n)->setChecked( false );
+      for( i = 0; i < list.size(); i++ )
+      {
+         if( list.at(i) == mButtonList.at(n)->text() )
+         {
+            mButtonList.at(n)->setChecked( true );
+            break;
+         }
+      }
    }
 }

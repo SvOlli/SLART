@@ -25,11 +25,13 @@ public:
 
    /* update the button list: replace all existing buttons */
    void updateButtons( const QStringList &list );
+   /* set buttons checked state */
+   void lockButtons( const QStringList &list );
 
 public slots:
 
 signals:
-   void clicked( const QString &name );
+   void clicked( QWidget *widget );
 
 private:
    ButtonsWidget( const ButtonsWidget &other );
