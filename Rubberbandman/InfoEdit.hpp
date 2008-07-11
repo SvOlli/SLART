@@ -69,7 +69,7 @@ private:
    /* walk through the directory tree */
    void recurse( const QDir &dir, bool isBase = true );
    /*  */
-   void updateMenus( bool withRecurse );
+   void updateDatabaseInfo( bool withRecurse );
 
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;
