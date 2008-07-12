@@ -157,7 +157,7 @@ QString TagList::normalizeString( const QString &string )
    newString.replace( "`", "'" );
    if( settings.value( "NormalizeSpaces", false ).toBool() )
    {
-      newString.replace( QRegExp( " +" ), " " );
+      newString = newString.simplified();
    }
    
    return newString;
