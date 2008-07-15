@@ -85,6 +85,7 @@ SearchWidget::SearchWidget( Database *database, PlaylistWidget *parent )
             mpInput, SLOT(clear()) );
    
    mpInput->setText( settings.value( "Search", QString()).toString() );
+   settings.remove( "Search" );
    mpInput->selectAll();
    mpInput->setFocus();
 }

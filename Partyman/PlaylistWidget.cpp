@@ -43,7 +43,8 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
    mpPlaylistContent->setAlternatingRowColors( true );
    mpPlaylistContent->setAutoFillBackground( false );
    mpPlaylistContent->setHidden( false );
-   mpPlaylistContent->addItems( settings.value("Playlist", QStringList()).toStringList()  );
+   mpPlaylistContent->addItems( settings.value( "Playlist", QStringList() ).toStringList() );
+   settings.remove( "Playlist" );
 
    mpHelpText->setReadOnly( true );
    mpHelpText->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
