@@ -261,6 +261,7 @@ void ControlWidget::initDisconnect( eErrorCode errorcode )
          mDerMixDprocess.terminate();
       }
       emit signalConnected( false );
+      mpPlaylist->getTrack( TrackInfo() );
       log( "p0s", "stop" );
    }
 }
