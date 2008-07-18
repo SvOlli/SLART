@@ -27,9 +27,9 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 {
    MySettings settings;
    
-   QStringList filterNames;
-   filterNames << "*.mp2" << "*.mp3" << "*.ogg";
-   mpModel->setNameFilters( filterNames );
+   QStringList defaultNameFilters;
+   defaultNameFilters << "*.mp3" << "*.ogg";
+   mpModel->setNameFilters( settings.value( "FileExtensions", defaultNameFilters ).toStringList() );
    mpModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files );
    mpModel->setSorting( QDir::Name | QDir::DirsFirst | QDir::IgnoreCase /*| QDir::LocaleAware*/ );
    mpModel->setLazyChildCount( true );
