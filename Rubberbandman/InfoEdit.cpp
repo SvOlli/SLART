@@ -563,13 +563,53 @@ void InfoEdit::saveFile()
    QFile qf( mFileName );
    QFileInfo qfi( qf );
    QString newname;
+   bool tagsChanged = false;
+   int i;
    
-   mTagList.set( "ARTIST",      mpEditArtist->text() );
-   mTagList.set( "TITLE",       mpEditTitle->text() );
-   mTagList.set( "ALBUM",       mpEditAlbum->text() );
-   mTagList.set( "TRACKNUMBER", mpEditTrackNr->text() );
-   mTagList.set( "DATE",        mpEditYear->text() );
-   mTagList.set( "GENRE",       mpEditGenre->text() );
+   for( i = 0; i < mTagList.count(); i++ )
+   {
+      if( (mTagList.tagAt(i) == "ARTIST") && 
+          (mTagList.valueAt(i) != mpEditArtist->text()) )
+      {
+         mTagList.set( "ARTIST", mpEditArtist->text() );
+         tagsChanged = true;
+      }
+      
+      if( (mTagList.tagAt(i) == "TITLE") && 
+          (mTagList.valueAt(i) != mpEditTitle->text()) )
+      {
+         mTagList.set( "TITLE", mpEditTitle->text() );
+         tagsChanged = true;
+      }
+      
+      if( (mTagList.tagAt(i) == "ALBUM") && 
+          (mTagList.valueAt(i) != mpEditAlbum->text()) )
+      {
+         mTagList.set( "ALBUM", mpEditAlbum->text() );
+         tagsChanged = true;
+      }
+      
+      if( (mTagList.tagAt(i) == "TRACKNUMBER") && 
+          (mTagList.valueAt(i) != mpEditTrackNr->text()) )
+      {
+         mTagList.set( "TRACKNUMBER", mpEditTrackNr->text() );
+         tagsChanged = true;
+      }
+      
+      if( (mTagList.tagAt(i) == "DATE") && 
+          (mTagList.valueAt(i) != mpEditYear->text()) )
+      {
+         mTagList.set( "DATE", mpEditYear->text() );
+         tagsChanged = true;
+      }
+      
+      if( (mTagList.tagAt(i) == "GENRE") && 
+          (mTagList.valueAt(i) != mpEditGenre->text()) )
+      {
+         mTagList.set( "GENRE", mpEditGenre->text() );
+         tagsChanged = true;
+      }
+   }
 
    if( mpEditTrackNr->text().isEmpty() )
    {
@@ -583,24 +623,31 @@ void InfoEdit::saveFile()
    QString newpath( qfi.absolutePath() + "/" + newname + "." + qfi.suffix().toLower() );
    QString tmppath( qfi.absolutePath() + "/" + newname + ".rbm." + qfi.suffix().toLower() );
    
-   if( qf.copy( tmppath ) )
+   if( tagsChanged )
    {
-      TagLib::String artist( mpEditArtist->text().toUtf8().data(), TagLib::String::UTF8 );
-      TagLib::String title( mpEditTitle->text().toUtf8().data(), TagLib::String::UTF8 );
-      TagLib::String album( mpEditAlbum->text().toUtf8().data(), TagLib::String::UTF8 );
-      int tracknr = mpEditTrackNr->text().toInt();
-      int year    = mpEditYear->text().toInt();
-      TagLib::String genre( mpEditGenre->text().toUtf8().data(), TagLib::String::UTF8 );
-      
-      TagLib::FileRef f( tmppath.toLocal8Bit().data() );
-      f.tag()->setArtist( artist );
-      f.tag()->setTitle( title );
-      f.tag()->setAlbum( album );
-      f.tag()->setTrack( tracknr );
-      f.tag()->setYear( year );
-      f.tag()->setGenre( genre );
-      f.save();
-      ::unlink( mFileName.toLocal8Bit().data() );
+      if( qf.copy( tmppath ) )
+      {
+         TagLib::String artist( mpEditArtist->text().toUtf8().data(), TagLib::String::UTF8 );
+         TagLib::String title( mpEditTitle->text().toUtf8().data(), TagLib::String::UTF8 );
+         TagLib::String album( mpEditAlbum->text().toUtf8().data(), TagLib::String::UTF8 );
+         int tracknr = mpEditTrackNr->text().toInt();
+         int year    = mpEditYear->text().toInt();
+         TagLib::String genre( mpEditGenre->text().toUtf8().data(), TagLib::String::UTF8 );
+         
+         TagLib::FileRef f( tmppath.toLocal8Bit().data() );
+         f.tag()->setArtist( artist );
+         f.tag()->setTitle( title );
+         f.tag()->setAlbum( album );
+         f.tag()->setTrack( tracknr );
+         f.tag()->setYear( year );
+         f.tag()->setGenre( genre );
+         f.save();
+         ::unlink( mFileName.toLocal8Bit().data() );
+         ::rename( tmppath.toLocal8Bit().data(), newpath.toLocal8Bit().data() );
+      }
+   }
+   else
+   {
       ::rename( tmppath.toLocal8Bit().data(), newpath.toLocal8Bit().data() );
    }
    
