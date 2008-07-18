@@ -15,7 +15,6 @@
 
 ConfigDialog::ConfigDialog( QWidget *parent )
 : QDialog( parent )
-, mpLayout( new QGridLayout )
 , mpProxyWidget( new ProxyWidget )
 , mpLogList( new QListWidget )
 {
@@ -25,13 +24,20 @@ ConfigDialog::ConfigDialog( QWidget *parent )
    QPushButton *okButton( new QPushButton(tr("OK"), this) );
    QPushButton *cancelButton( new QPushButton(tr("Cancel"), this) );
    
-   mpLayout->addWidget( mpProxyWidget,   0, 0, 1, 2 );
-   mpLayout->addWidget( mpLogList,       1, 0, 1, 2 );
-   mpLayout->addWidget( about,           2, 0, 1, 2 );
-   mpLayout->addWidget( okButton,        3, 0, 1, 1 );
-   mpLayout->addWidget( cancelButton,    3, 1, 1, 1 );
+   QHBoxLayout *buttonLayout = new QHBoxLayout;
+   buttonLayout->addWidget( okButton );
+   buttonLayout->addWidget( cancelButton );
    
-   setLayout( mpLayout );
+   QBoxLayout *mainLayout = new QVBoxLayout( this );
+   QTabWidget *tabs       = new QTabWidget( this );
+   tabs->addTab( mpProxyWidget, QString(tr("Proxy")) );
+   tabs->addTab( mpLogList,     QString(tr("Log")) );
+   
+   mainLayout->addWidget( about );
+   mainLayout->addWidget( tabs );
+   mainLayout->addLayout( buttonLayout );
+   
+   setLayout( mainLayout );
    
    connect( okButton, SIGNAL(clicked()),
             this, SLOT(accept()) );

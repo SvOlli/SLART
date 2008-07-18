@@ -51,8 +51,8 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showNormalize();
    
-   QGroupBox   *strGroup  = new QGroupBox( tr("Stripped Settings:"), this );
-   QGridLayout *strLayout = new QGridLayout( strGroup );
+   QWidget     *strTab    = new QWidget( this );
+   QGridLayout *strLayout = new QGridLayout( strTab );
    strLayout->addWidget( mpDevicesLabel,   0, 0 );
    strLayout->addWidget( mpDevicesBox,     0, 1 );
    strLayout->addWidget( mpPatternLabel,   1, 0 );
@@ -72,7 +72,8 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
       QMessageBox::critical( 0, QApplication::applicationName(), tr("Can't find a CD or DVD drive!") );
       exit(1);
    }
-   strGroup->setLayout( strLayout );
+   strLayout->setRowStretch( 4+i, 1 );
+   strTab->setLayout( strLayout );
       
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
@@ -82,10 +83,12 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    buttonLayout->addWidget( cancelButton );
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
+   QTabWidget *tabs       = new QTabWidget( this );
+   tabs->addTab( strTab,               QString(tr("Stripped")) );
+   tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
    
-   mainLayout->addWidget( strGroup );
-   mainLayout->addWidget( mpGlobalConfigWidget );
    mainLayout->addWidget( about );
+   mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );
    
    setLayout( mainLayout );

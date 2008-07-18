@@ -18,7 +18,7 @@ class QListWidget;
 class QSpinBox;
 class QHttp;
 
-class ProxyWidget : public QGroupBox
+class ProxyWidget : public QWidget
 {
 Q_OBJECT
    

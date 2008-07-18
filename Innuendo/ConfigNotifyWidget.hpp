@@ -11,16 +11,9 @@
 #include <QWidget>
 #include <QStringList>
 
-class QGridLayout;
-class QLabel;
+class QSignalMapper;
 class QPushButton;
-class QLineEdit;
-class QListWidget;
-class QSpinBox;
-class QHttp;
 class ConfigNotifyApplicationWidget;
-class QCheckBox;
-class QTabWidget;
 
 class ConfigNotifyWidget : public QWidget
 {
@@ -43,9 +36,15 @@ public slots:
    void enableFullCommunication();
    /* handle "No Communication" button */
    void disableFullCommunication();
+   /* handle click of application button */
+   void handleAppButton( int index );
+
+signals:
+   void clicked( int index );
 
 private:
-   QTabWidget                    *mpTabWidget;
+   QSignalMapper                 *mpSignalMapper;
+   QPushButton                   **mpApps;
    ConfigNotifyApplicationWidget **mpTabs;
    QStringList                   mApplications;
 };

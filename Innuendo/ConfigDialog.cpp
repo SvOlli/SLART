@@ -35,32 +35,15 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
 
-   QBoxLayout *mainLayout;
+   QBoxLayout *mainLayout = new QVBoxLayout( this );
+   QTabWidget *tabs       = new QTabWidget( this );
+   tabs->addTab( mpNotifyWidget,       QString(tr("Notification")) );
+   tabs->addTab( mpProxyWidget,        QString(tr("Proxy")) );
+   tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
    
-   if( QApplication::desktop()->screenGeometry().height() < 600 )
-   {
-      mainLayout = new QHBoxLayout( this );
-      QVBoxLayout *tmp1Layout = new QVBoxLayout;
-      QVBoxLayout *tmp2Layout = new QVBoxLayout;
-      tmp1Layout->addWidget( mpNotifyWidget );
-      tmp1Layout->addStretch();
-      tmp2Layout->addWidget( mpGlobalConfigWidget );
-      tmp2Layout->addWidget( mpProxyWidget );
-      tmp2Layout->addStretch();
-      tmp2Layout->addWidget( about );
-      tmp2Layout->addLayout( buttonLayout );
-      mainLayout->addLayout( tmp1Layout );
-      mainLayout->addLayout( tmp2Layout );
-   }
-   else
-   {
-      mainLayout = new QVBoxLayout( this );
-      mainLayout->addWidget( mpNotifyWidget );
-      mainLayout->addWidget( mpGlobalConfigWidget );
-      mainLayout->addWidget( mpProxyWidget );
-      mainLayout->addWidget( about );
-      mainLayout->addLayout( buttonLayout );
-   }
+   mainLayout->addWidget( about );
+   mainLayout->addWidget( tabs );
+   mainLayout->addLayout( buttonLayout );
    setLayout( mainLayout );
 
    connect( okButton, SIGNAL(clicked()),

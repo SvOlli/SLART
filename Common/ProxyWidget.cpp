@@ -13,7 +13,7 @@
 
 
 ProxyWidget::ProxyWidget( QWidget *parent )
-: QGroupBox( parent )
+: QWidget( parent )
 , mpProxyOnLabel( new QLabel( tr("Enable Proxy"), this ) )
 , mpProxyHostLabel( new QLabel( tr(" Host"), this ) )
 , mpProxyPortLabel( new QLabel( tr(" Port"), this ) )
@@ -28,13 +28,12 @@ ProxyWidget::ProxyWidget( QWidget *parent )
 , mpProxyPasswordInput( new QLineEdit )
 {
    QGridLayout *mainLayout = new QGridLayout( this );
-   setTitle( tr("Proxy Settings:") );
    
    mpProxyOnButton->setCheckable( true );
    mpProxyAuthButton->setCheckable( true );
    mpProxyPortInput->setRange( 1, 65535 );
    mpProxyPasswordInput->setEchoMode( QLineEdit::PasswordEchoOnEdit );
-
+   
    readSettings();
    
    mainLayout->addWidget( mpProxyOnLabel,        0, 0, 1, 1 );
@@ -43,14 +42,16 @@ ProxyWidget::ProxyWidget( QWidget *parent )
    mainLayout->addWidget( mpProxyAuthLabel,      0, 2, 1, 1 );
    mainLayout->addWidget( mpProxyLoginLabel,     1, 2, 1, 1 );
    mainLayout->addWidget( mpProxyPasswordLabel,  2, 2, 1, 1 );
-
+   
    mainLayout->addWidget( mpProxyOnButton,      0, 1, 1, 1 );
    mainLayout->addWidget( mpProxyHostInput,     1, 1, 1, 1 );
    mainLayout->addWidget( mpProxyPortInput,     2, 1, 1, 1 );
    mainLayout->addWidget( mpProxyAuthButton,    0, 3, 1, 1 );
    mainLayout->addWidget( mpProxyLoginInput,    1, 3, 1, 1 );
    mainLayout->addWidget( mpProxyPasswordInput, 2, 3, 1, 1 );
- 
+   
+   mainLayout->setRowStretch( 3, 1 );
+   
    setLayout( mainLayout );
    
    connect( mpProxyOnButton,   SIGNAL(clicked()), this, SLOT(updateWidgets()) );

@@ -40,7 +40,6 @@ private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
 
-   QGridLayout  *mpLayout;
    ProxyWidget  *mpProxyWidget;
    QListWidget  *mpLogList;
 };

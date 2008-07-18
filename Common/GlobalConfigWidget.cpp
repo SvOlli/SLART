@@ -12,7 +12,7 @@
 
 
 GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
-: QGroupBox( parent )
+: QWidget( parent )
 , mpClipboardLabel( new QLabel( tr("Use Clipboard: "), this ) )
 , mpClipboardSelection( new QComboBox( this ) )
 , mpAnimateViews( new QCheckBox( tr("Animate Views"), this ) )
@@ -20,7 +20,6 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
 , mpNormalizeSpaces( new QCheckBox( tr("Normalize Spaces In Text"), this ) )
 {
    QGridLayout *mainLayout = new QGridLayout( this );
-   setTitle( tr("Global Settings:") );
    
    showClipboard( false );
    showAnimate( false );
@@ -39,6 +38,8 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
    mainLayout->addWidget( mpNormalizeSpaces,    3, 0, 1, 2 );
  
    readSettings();
+   
+   mainLayout->setRowStretch( 4, 1 );
    
    setLayout( mainLayout );
 }

@@ -47,8 +47,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
 
-   QGroupBox   *rbmGroup  = new QGroupBox( tr("Rubberbandman Settings:"), this );
-   QGridLayout *rbmLayout = new QGridLayout( rbmGroup );
+   QWidget     *rbmTab    = new QWidget( this );
+   QGridLayout *rbmLayout = new QGridLayout( rbmTab );
    rbmLayout->addWidget( mpWithTrackNrLabel, 0, 0 );
    rbmLayout->addWidget( mpWithTrackNr, 0, 1 );
    rbmLayout->addWidget( mpWithTrackNrExample, 1, 1 );
@@ -58,17 +58,20 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    rbmLayout->addWidget( mpPlayingPatternLabel, 4, 0 );
    rbmLayout->addWidget( mpPlayingPattern, 4, 1 );
    rbmLayout->addWidget( mpPlayingPatternExample, 5, 1 );
-   rbmGroup->setLayout( rbmLayout );
+   rbmLayout->setRowStretch( 6, 1 );
+   rbmTab->setLayout( rbmLayout );
    
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
+   QTabWidget *tabs       = new QTabWidget( this );
+   tabs->addTab( rbmTab,               QString(tr("Rubberbandman")) );
+   tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
    
-   mainLayout->addWidget( rbmGroup );
-   mainLayout->addWidget( mpGlobalConfigWidget );
    mainLayout->addWidget( about );
+   mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );
    
    setLayout( mainLayout );

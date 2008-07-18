@@ -3,14 +3,15 @@ extra:
 - make install
 
 Partyman:
-- set title with current track
+- make entries customizable
+- set title with current track (also customizable)
 - check all error handling
 - set path to Partyman as first for clients
+- after loading saved tracks, etc. clear info from registry, so on bad crash
+  it's empty
 
 Karmadrome:
-- move to database
-  - folders
-  - extract folders to m3u
+- extract folders to m3u
 
 Funkytown:
 - improve url detecting
@@ -22,7 +23,12 @@ Stripped:
 - auto read-toc
 - encode in mp3
 - encode in flac
+- request on overwrite
 
 Rubberbandman:
 - "add folder"/"remove folder"
 - disable Folders buttons, when no folders exist in database
+- context menu for browser
+- only update mp3/ogg if changed
+- Change Layout (horizontal/vertical)
+

@@ -14,7 +14,7 @@ class QLabel;
 class QComboBox;
 class QCheckBox;
 
-class GlobalConfigWidget : public QGroupBox
+class GlobalConfigWidget : public QWidget
 {
 Q_OBJECT
    

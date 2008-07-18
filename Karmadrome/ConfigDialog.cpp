@@ -28,11 +28,12 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showClipboard();
    
-   QGroupBox   *kmdGroup  = new QGroupBox( tr("Karmadrome Settings:"), this );
-   QGridLayout *kmdLayout = new QGridLayout( kmdGroup );
+   QWidget     *kmdTab    = new QWidget( this );
+   QGridLayout *kmdLayout = new QGridLayout( kmdTab );
    kmdLayout->addWidget( mpNumColumnsLabel, 0, 0 );
    kmdLayout->addWidget( mpNumColumns, 0, 1 );
-   kmdGroup->setLayout( kmdLayout );
+   kmdLayout->setRowStretch( 1, 1 );
+   kmdTab->setLayout( kmdLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
@@ -42,10 +43,12 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    buttonLayout->addWidget( cancelButton );
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
+   QTabWidget *tabs       = new QTabWidget( this );
    
-   mainLayout->addWidget( kmdGroup );
-   mainLayout->addWidget( mpGlobalConfigWidget );
+   tabs->addTab( kmdTab,               QString(tr("Karmadrome")) );
+   tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
    mainLayout->addWidget( about );
+   mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );
    
    setLayout( mainLayout );

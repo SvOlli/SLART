@@ -7,7 +7,7 @@
 
 #include "ConfigNotifyWidget.hpp"
 #include "ConfigNotifyApplicationWidget.hpp"
-#include "MySettings.hpp"
+#include "Trace.hpp"
 
 #include <QtGui>
 #include <QHttp>
@@ -15,41 +15,45 @@
 
 ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
 : QWidget( parent )
-//, mpTabBar( new QTabBar( this ) )
-, mpTabWidget( new QTabWidget( this ) )
+, mpSignalMapper( new QSignalMapper( this ) )
+, mpApps( 0 )
 , mpTabs( 0 )
+, mApplications()
 {
    int i;
    
+   connect( mpSignalMapper, SIGNAL(mapped(int)),
+            this, SLOT(handleAppButton(int)) );
+   
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
-   QGroupBox   *groupBox     = new QGroupBox;
+   QHBoxLayout *bothLayout   = new QHBoxLayout();
+   QVBoxLayout *appsLayout   = new QVBoxLayout();
+   QVBoxLayout *tabsLayout   = new QVBoxLayout();
    QHBoxLayout *buttonLayout = new QHBoxLayout;
 
-   mpTabWidget->setUsesScrollButtons( true );
    mApplications << "Innuendo" << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome";
+   mpApps = new QPushButton*[mApplications.count()];
    mpTabs = new ConfigNotifyApplicationWidget*[mApplications.count()];
    for( i = 0; i < mApplications.count(); i++ )
    {
+      mpApps[i] = new QPushButton( mApplications.at(i), this );
       mpTabs[i] = new ConfigNotifyApplicationWidget( i, mApplications, this );
-      mpTabWidget->addTab( mpTabs[i], mApplications.at(i) );
+      mpApps[i]->setCheckable( true );
+      mpApps[i]->setChecked( i == 0 );
+      mpTabs[i]->setVisible( i == 0 );
+      appsLayout->addWidget( mpApps[i] );
+      tabsLayout->addWidget( mpTabs[i] );
+      connect( mpApps[i], SIGNAL(clicked()), mpSignalMapper, SLOT(map()) );
+      mpSignalMapper->setMapping( mpApps[i], i );
    }
    
-   MySettings settings;
-   QGridLayout *gridLayout = new QGridLayout;
-   groupBox->setTitle( tr("Notification Settings:") );
-   
 #if QT_VERSION < 0x040300
-   gridLayout->setMargin( 1 );
    mainLayout->setMargin( 1 );
    buttonLayout->setMargin( 0 );
 #else
-   gridLayout->setContentsMargins( 1, 1, 2, 2 );
    mainLayout->setContentsMargins( 1, 1, 1, 1 );
    buttonLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
-   
-//   mainLayout->addWidget( mpTabBar, 0, 0, mApplications.count() + 1, 1 );
-   gridLayout->addWidget( mpTabWidget, 0, 0, mApplications.count() + 1, 1 );
    
    /* all communication has been disabled by default,
       now turn those back on which could be useful */
@@ -72,15 +76,29 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
    buttonLayout->addWidget( allOnButton );
    buttonLayout->addWidget( allOffButton );
    
-   groupBox->setLayout( gridLayout );
-   
-   mainLayout->addWidget( groupBox );
+   bothLayout->addLayout( appsLayout );
+   bothLayout->addLayout( tabsLayout );
+   bothLayout->setStretchFactor( appsLayout, 0 );
+   bothLayout->setStretchFactor( tabsLayout, 1 );
+   mainLayout->addLayout( bothLayout );
    mainLayout->addLayout( buttonLayout );
    
-   connect( allOnButton,  SIGNAL(clicked()), this, SLOT(enableFullCommunication()) );
-   connect( allOffButton, SIGNAL(clicked()), this, SLOT(disableFullCommunication()) );
-   
+   connect( allOnButton,  SIGNAL(clicked()),
+            this, SLOT(enableFullCommunication()) );
+   connect( allOffButton, SIGNAL(clicked()),
+            this, SLOT(disableFullCommunication()) );
+
    setLayout( mainLayout );
+}
+
+
+void ConfigNotifyWidget::handleAppButton( int index )
+{
+   for( int i = 0; i < mApplications.count(); i++ )
+   {
+      mpApps[i]->setChecked( i == index );
+      mpTabs[i]->setVisible( i == index );
+   }
 }
 
 

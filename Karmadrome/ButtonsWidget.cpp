@@ -23,8 +23,8 @@ ButtonsWidget::ButtonsWidget( QWidget *parent )
    mpMainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
    
-   connect(mpSignalMapper, SIGNAL(mapped(const QString &)),
-           this, SIGNAL(clicked(const QString &)));
+   connect( mpSignalMapper, SIGNAL(mapped(QWidget*)),
+            this, SIGNAL(clicked(QWidget*)) );
    
    setLayout( mpMainLayout );
 }
@@ -42,8 +42,8 @@ ButtonsWidget::ButtonsWidget( const QString &title, QWidget *parent )
    mpMainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
    
-   connect(mpSignalMapper, SIGNAL(mapped(QWidget*)),
-           this, SIGNAL(clicked(QWidget*)));
+   connect( mpSignalMapper, SIGNAL(mapped(QWidget*)),
+            this, SIGNAL(clicked(QWidget*)) );
    
    setLayout( mpMainLayout );
 }
