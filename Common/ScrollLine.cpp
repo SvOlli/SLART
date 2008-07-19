@@ -41,8 +41,6 @@ ScrollLine::~ScrollLine()
 {
    disconnect( mpTimer, SIGNAL(timeout()),
                this, SLOT(scrolling()) );
-   disconnect( this, SIGNAL(selectionChanged()),
-               this, SLOT(setClipboard()) );
 }
 
 
