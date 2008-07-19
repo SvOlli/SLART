@@ -34,9 +34,11 @@ public:
    int lastSector( int track = -1 );
    /* return the length of a track or disc if no track is given if mm:ss format */
    QString length( int track = -1 );
+   /* return if track is audio */
+   bool isAudio( int track ) { return mpIsAudio[track]; };
    /* return the cddb query parameters */
    QString query();
-
+   
    int          mYear;
    QString      mGenre;
    QString      mTitle[100];

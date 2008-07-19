@@ -74,6 +74,7 @@ private:
    unsigned int         mCallbackFunction[13];
    QString              mDevice;
    bool                 mCancel;
+   bool                 mEject;
 };
 
 #endif

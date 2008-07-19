@@ -302,7 +302,8 @@ void CDEdit::update( bool useCDDB )
       length = mpToc->length( i );
       mpTrackPlaytime[i]->setText( length );
       mpEnqueueTrack[i]->setChecked( false );
-      mpTrackNr[i]->setChecked( i != 0 );
+      mpTrackNr[i]->setChecked( (i != 0) && mpToc->isAudio(i) );
+      setTrackDisabled( i, !mpToc->isAudio(i) );
       bool empty = length.isEmpty();
       setTrackHidden( i, empty );
       if( !empty )

@@ -29,6 +29,12 @@ static void callback0( long inpos, ::paranoia_cb_mode_t function )
 
 void CDReader::callback( long /*inpos*/, ::paranoia_cb_mode_t function )
 {
+   if( function > 11 )
+   {
+      mCancel = true;
+      return;
+   }
+   
    mCallbackFunction[(int)function]++;
 //   qDebug() << "callback:" << "inpos:" << inpos << "function:" << function << mCallbackFunction[function];
 }
@@ -187,6 +193,7 @@ void CDReader::readTracks()
    int sector;
    char *buffer = 0;
    mCancel = false;
+   mEject  = true;
    QString createPattern( MySettings().value("CreatePattern",
                           "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|").toString() );
    
@@ -267,7 +274,7 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
    mpMessage->setText( tr("Done.") );
    mpProgress->setValue( 0 );
    mpProgress->setRange( 0, 1 );
-   if( !mCancel )
+   if( mEject )
    {
       eject();
    }
@@ -295,4 +302,5 @@ void CDReader::eject()
 void CDReader::cancel()
 {
    mCancel = true;
+   mEject  = false;
 }

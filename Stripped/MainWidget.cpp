@@ -94,7 +94,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpDirButton, SIGNAL(clicked()),
             this, SLOT(setRippingDir()) );
    connect( mpCDEdit, SIGNAL(containsData(bool)),
-            mpRipButton, SIGNAL(setEnabled(bool)) );
+            mpRipButton, SLOT(setEnabled(bool)) );
    
    connect( mpCancelButton, SIGNAL(clicked()),
             mpCDReader, SLOT(cancel()) );
