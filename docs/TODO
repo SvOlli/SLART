@@ -2,13 +2,14 @@
 extra:
 - make install
 
+Common:
+- define "unset" value for TrackInfo for TrackNr/Year (use -1 ?)
+
 Partyman:
 - make entries customizable
 - set title with current track (also customizable)
 - check all error handling
 - set path to Partyman as first for clients
-- after loading saved tracks, etc. clear info from registry, so on bad crash
-  it's empty
 
 Karmadrome:
 - extract folders to m3u
@@ -29,6 +30,5 @@ Rubberbandman:
 - "add folder"/"remove folder"
 - disable Folders buttons, when no folders exist in database
 - context menu for browser
-- only update mp3/ogg if changed
 - Change Layout (horizontal/vertical)
 
