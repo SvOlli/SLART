@@ -28,8 +28,19 @@ SLARTComWidget::SLARTComWidget( Database *database, QWidget *parent, Qt::WindowF
 , mpGetRandom( new QPushButton( tr("Get Random Track"), this ) )
 , mSLARTCom()
 {
-   QVBoxLayout *mainLayout = new QVBoxLayout( this );
-   QHBoxLayout *buttonLayout = new QHBoxLayout;
+   QBoxLayout *mainLayout;
+   QBoxLayout *buttonLayout;
+   
+   if( QApplication::desktop()->screenGeometry().height() < 600 )
+   {
+      mainLayout   = new QHBoxLayout( this );
+      buttonLayout = new QVBoxLayout;
+   }
+   else
+   {
+      mainLayout   = new QVBoxLayout( this );
+      buttonLayout = new QHBoxLayout;
+   }
    
    buttonLayout->addWidget( mpNowPlaying );
    buttonLayout->addWidget( mpShowInFilesystem );

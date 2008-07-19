@@ -19,10 +19,18 @@ BrowseWidget::BrowseWidget( Database *database, QWidget *parent, Qt::WindowFlags
 , mpFileSysBrowser( new FileSysBrowser( database, this ) )
 , mpInfoEdit( new InfoEdit( database, this ) )
 {
-   QVBoxLayout *layout = new QVBoxLayout;
+   QBoxLayout *layout;
+   if( QApplication::desktop()->screenGeometry().height() < 600 )
+   {
+      layout = new QHBoxLayout( this );
+   }
+   else
+   {
+      layout = new QVBoxLayout( this );
+   }
    layout->addWidget( mpFileSysBrowser );
    layout->addWidget( mpInfoEdit );
-   setLayout(layout);
+   setLayout( layout );
    
    connect( mpFileSysBrowser, SIGNAL(clicked(const QString&)),
             mpInfoEdit, SLOT(load(const QString&)) );

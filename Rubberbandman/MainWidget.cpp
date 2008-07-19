@@ -76,6 +76,5 @@ void MainWidget::goToFilesystem()
 
 void MainWidget::handleTabChange( int tabNr )
 {
-   MySettings settings;
-   settings.setValue( "CurrentTab", tabNr );
+   MySettings().setValue( "CurrentTab", tabNr );
 }
