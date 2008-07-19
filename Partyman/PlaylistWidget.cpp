@@ -31,7 +31,7 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
 , mpNextTreeModel( 0 )
 , mpTreeUpdate( new FileSysTreeUpdate() )
 , mpSearch( new SearchWidget( database, this ) )
-, mpTrackInfo( new TrackInfoWidget( database, this ) )
+, mpTrackInfo( new TrackInfoWidget( database, QString("p0u"), this ) )
 , mpHelpText( new QTextBrowser( this ) )
 {
    MySettings settings;
@@ -353,4 +353,10 @@ void PlaylistWidget::finishBrowserUpdate()
    
    mpTreeView->setEnabled( true );
    mpNextTreeModel = 0;
+}
+
+
+void PlaylistWidget::updateTrackInfo()
+{
+   mpTrackInfo->update();
 }

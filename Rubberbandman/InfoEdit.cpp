@@ -356,6 +356,8 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       mpEditGenre->clear();
       
       mTrackInfo.clear();
+      
+      MySettings().sendNotification( QString("r0u") );
    }
 }
 
@@ -400,7 +402,14 @@ void InfoEdit::load( const QString &fullpath )
 {
    if( mRecurseMode == MODE_NOTHING )
    {
-      loadFile( fullpath );
+      if( fullpath == "-" )
+      {
+         loadFile( mFileName );
+      }
+      else
+      {
+         loadFile( fullpath );
+      }
    }
 }
 
@@ -532,6 +541,7 @@ void InfoEdit::handleSetSave()
       if( mIsFile )
       {
          saveFile();
+         MySettings().sendNotification( QString("r0u") );
       }
       else
       {

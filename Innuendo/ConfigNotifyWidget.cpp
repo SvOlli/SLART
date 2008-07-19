@@ -68,8 +68,12 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
    mpTabs[mApplications.indexOf("Funkytown")]->allowNotify(mApplications.indexOf("Partyman"));
    
    mpTabs[mApplications.indexOf("Rubberbandman")]->allowNotify(mApplications.indexOf("Innuendo"));
+   mpTabs[mApplications.indexOf("Rubberbandman")]->allowNotify(mApplications.indexOf("Partyman"));
+   mpTabs[mApplications.indexOf("Rubberbandman")]->allowNotify(mApplications.indexOf("Karmadrome"));
    
    mpTabs[mApplications.indexOf("Karmadrome")]->allowNotify(mApplications.indexOf("Innuendo"));
+   mpTabs[mApplications.indexOf("Karmadrome")]->allowNotify(mApplications.indexOf("Partyman"));
+   mpTabs[mApplications.indexOf("Karmadrome")]->allowNotify(mApplications.indexOf("Rubberbandman"));
    
    QPushButton *allOnButton  = new QPushButton( tr("Full Communication"), this );
    QPushButton *allOffButton = new QPushButton( tr("No Communication"), this );

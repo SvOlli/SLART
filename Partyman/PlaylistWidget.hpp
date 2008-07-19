@@ -63,6 +63,8 @@ public slots:
    void startBrowserUpdate();
    /*  */
    void finishBrowserUpdate();
+   /*  */
+   void updateTrackInfo();
    
 signals:
    /* unfold a node */

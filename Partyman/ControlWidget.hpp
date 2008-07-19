@@ -77,6 +77,8 @@ signals:
    void requestAddToPlaylist( const QStringList &entries, bool atStart );
    /* signal if a connection has been established or cut off */
    void signalConnected( bool connected );
+   /*  */
+   void trackUpdate();
 
 private:
    ControlWidget( const ControlWidget &other );

@@ -8,15 +8,18 @@
 #include "TrackInfoWidget.hpp"
 #include "ScrollLine.hpp"
 #include "Database.hpp"
+#include "MySettings.hpp"
 
 #include <QtGui>
 
 #include "Trace.hpp"
 
-TrackInfoWidget::TrackInfoWidget( Database *database, QWidget *parent )
+TrackInfoWidget::TrackInfoWidget( Database *database, const QString &updateCode,
+                                  QWidget *parent )
 : QWidget( parent )
 , mpDatabase( database )
 , mTrackInfo()
+, mUpdateCode( updateCode )
 , mpArtistLabel( new QLabel( tr("Artist:"), this ) )
 , mpTitleLabel( new QLabel( tr("Title:"), this ) )
 , mpAlbumLabel( new QLabel( tr("Album:"), this ) )
@@ -65,6 +68,8 @@ TrackInfoWidget::TrackInfoWidget( Database *database, QWidget *parent )
             this, SLOT(handleFavoriteButton()) );
    connect( mpUnwantedButton, SIGNAL(clicked()),
             this, SLOT(handleUnwantedButton()) );
+   
+   update( false );
 }
 
 
@@ -77,6 +82,7 @@ void TrackInfoWidget::handleFavoriteButton()
    }
    mTrackInfo.setFlag( TrackInfo::Favorite, checked );
    mpDatabase->updateTrackInfo( &mTrackInfo );
+   MySettings().sendNotification( mUpdateCode );
 }
 
 
@@ -89,12 +95,23 @@ void TrackInfoWidget::handleUnwantedButton()
    }
    mTrackInfo.setFlag( TrackInfo::Unwanted, checked );
    mpDatabase->updateTrackInfo( &mTrackInfo );
+   MySettings().sendNotification( mUpdateCode );
 }
 
 
 void TrackInfoWidget::getTrack( const TrackInfo &trackInfo )
 {
    mTrackInfo = trackInfo;
+   update( false );
+}
+
+
+void TrackInfoWidget::update( bool reread )
+{
+   if( reread )
+   {
+      mpDatabase->getTrackInfo( &mTrackInfo );
+   }
    mpFavoriteButton->setChecked( false );
    mpUnwantedButton->setChecked( false );
    if( mTrackInfo.mID )

@@ -23,7 +23,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( new Database() )
 , mpFileName( new ScrollLine( this ) )
-, mpTrackInfo( new TrackInfoWidget( mpDatabase, this ) )
+, mpTrackInfo( new TrackInfoWidget( mpDatabase, QString("k0u"), this ) )
 , mpReadButton( new QPushButton( this ) )
 , mpWriteButton( new QPushButton( this ) )
 , mpListButtons( new ButtonsWidget( tr("Karma Lists:"), this ) )
@@ -99,6 +99,7 @@ void MainWidget::addToList( QWidget *widget )
    {
       mTrackInfo.setFolder( pb->text(), pb->isChecked() );
       mpDatabase->updateTrackInfo( &mTrackInfo );
+      MySettings().sendNotification( QString("k0u") );
    }
    else
    {
@@ -118,6 +119,14 @@ void MainWidget::handleSLART( const QStringList &message )
          mpTrackInfo->getTrack( mTrackInfo );
          mpListButtons->lockButtons( mTrackInfo.getFolders() );
       }
+   }
+   
+   if( (message.at(0) == "p0u") || 
+       (message.at(0) == "r0u") )
+   {
+      mpDatabase->getTrackInfo( &mTrackInfo );
+      mpTrackInfo->getTrack( mTrackInfo );
+      mpListButtons->lockButtons( mTrackInfo.getFolders() );
    }
 }
 

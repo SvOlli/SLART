@@ -72,6 +72,10 @@ void SLARTComWidget::handleSLART( const QStringList &message )
    {
       mpInfoEdit->load( message.at(1) );
    }
+   if( (message.at(0) == "p0u") || (message.at(0) == "k0u") )
+   {
+      mpInfoEdit->load( QString("-") );
+   }
 }
 
 

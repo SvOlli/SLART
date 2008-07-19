@@ -78,7 +78,9 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpControl, SLOT(allowConnect(bool)) );
    connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
             this, SLOT(allowAutostart(bool)) );
-            
+   connect( mpControl, SIGNAL(trackUpdate()), 
+            mpPlaylist, SLOT(updateTrackInfo()) );
+   
    setLayout( mainLayout );
    
    mpSettingsButton->setMaximumWidth( fontMetrics().width( mpSettingsButton->text() ) + 16 );

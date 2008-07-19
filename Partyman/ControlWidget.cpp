@@ -275,14 +275,14 @@ void ControlWidget::handlePause( bool reset )
    {
       emit requestChangeTitle( mPlayIcon, QApplication::applicationName() );
       mpPauseAction->setIcon( mPauseIcon );
-      mpPauseAction->setText( tr( "Pause" ) );
+      mpPauseAction->setText( tr("Pause") );
       mPaused = false;
    }
    else
    {
       emit requestChangeTitle( mPauseIcon, QApplication::applicationName()+tr(" (paused)") );
       mpPauseAction->setIcon( mPlayIcon );
-      mpPauseAction->setText( tr( "Resume" ) );
+      mpPauseAction->setText( tr("Resume") );
       mPaused = true;
    }
    mpConnectButton->setMenu( mpDisconnectMenu );
@@ -360,6 +360,12 @@ void ControlWidget::handleSLART( const QStringList &src )
    if( src.at(0) == "P0S" )
    {
       initDisconnect();
+   }
+   
+   if( (src.at(0) == "k0u") ||
+       (src.at(0) == "r0u") )
+   {
+      emit trackUpdate();
    }
 }
 
