@@ -17,6 +17,7 @@ QTimer *ScrollLine::mpTimer = 0;
 
 ScrollLine::ScrollLine( QWidget *parent )
 : QLineEdit( parent )
+, mClicked( false )
 , mDirection( 1 )
 , mPosition( 0 )
 {
@@ -25,6 +26,7 @@ ScrollLine::ScrollLine( QWidget *parent )
       mpTimer = new QTimer;
       mpTimer->setSingleShot( false );
       mpTimer->setInterval( 333 );
+      mpTimer->start();
    }
    
    setReadOnly( true );
@@ -32,9 +34,6 @@ ScrollLine::ScrollLine( QWidget *parent )
    
    connect( mpTimer, SIGNAL(timeout()),
             this, SLOT(scrolling()) );
-   connect( this, SIGNAL(selectionChanged()),
-            this, SLOT(setClipboard()) );
-   mpTimer->start();
 }
 
 
@@ -49,6 +48,11 @@ ScrollLine::~ScrollLine()
 
 void ScrollLine::scrolling()
 {
+   if( mClicked )
+   {
+      return;
+   }
+   
    if( mPosition < 0 )
    {
       mDirection = 1;
@@ -72,17 +76,26 @@ void ScrollLine::setText( const QString &text )
 }
 
 
-void ScrollLine::focusInEvent( QFocusEvent *event )
+void ScrollLine::mouseDoubleClickEvent( QMouseEvent *event )
 {
-   if( event->gotFocus() )
-   {
-      setClipboard();
-   }
-   event->ignore();
+   mClicked = true;
+   setCursorPosition( cursorPositionAt( event->pos() ) );
+   QLineEdit::mouseDoubleClickEvent( event );
 }
 
 
-void ScrollLine::setClipboard()
+void ScrollLine::mousePressEvent( QMouseEvent *event )
 {
-   GlobalConfigWidget::setClipboard( QLineEdit::toolTip() );
+   mClicked = true;
+   setCursorPosition( cursorPositionAt( event->pos() ) );
+   QLineEdit::mousePressEvent( event );
+}
+
+
+void ScrollLine::mouseReleaseEvent( QMouseEvent *event )
+{
+   mClicked = false;
+   GlobalConfigWidget::setClipboard( selectedText() );
+   setCursorPosition( cursorPositionAt( event->pos() ) );
+   QLineEdit::mouseReleaseEvent( event );
 }

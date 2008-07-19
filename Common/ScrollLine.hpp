@@ -12,6 +12,7 @@
 
 class QTimer;
 class QString;
+class QMouseEvent;
 
 class ScrollLine : public QLineEdit
 {
@@ -20,17 +21,20 @@ Q_OBJECT
 public:
    ScrollLine( QWidget *parent );
    virtual ~ScrollLine();
-   
+
 public slots:
    /* callback for timer to scroll */
    void scrolling();
    /* intercept setText for resetting scroll position */
    void setText( const QString &text );
-   /* slot for overwriting partly selection */
-   void setClipboard();
    
 protected:
-   virtual void focusInEvent( QFocusEvent *event );
+   /* handle mouse event for correct copy'n'paste */
+   void mouseDoubleClickEvent( QMouseEvent *event );
+   /* handle mouse event for correct copy'n'paste */
+   void mousePressEvent( QMouseEvent *event );
+   /* handle mouse event for correct copy'n'paste */
+   void mouseReleaseEvent( QMouseEvent *event );
 
 signals:
 
@@ -39,6 +43,7 @@ private:
    ScrollLine &operator=( const ScrollLine &other );
 
    static QTimer        *mpTimer;
+   bool                 mClicked;
    int                  mDirection;
    int                  mPosition;
 };
