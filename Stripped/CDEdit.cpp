@@ -312,6 +312,14 @@ void CDEdit::update( bool useCDDB )
       }
    }
 
+   if( mpTrackYear[0]->isHidden() )
+   {
+      mpTrackYear[1]->setDisabled( false );
+   }
+   else
+   {
+      mpTrackYear[0]->setDisabled( false );
+   }
    mpScrollWidget->resize( mpScrollArea->width() - 20, count * 24 );
    mpDiscID->setText( mpToc->cddbDiscID() );
    
