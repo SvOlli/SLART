@@ -19,13 +19,22 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 : QWidget( parent, flags )
 , mpDatabase( database )
 , mpRootDir( new QLineEdit( this ) )
-, mpSetButton( new QPushButton( tr("Set"), this ) )
 , mpDotButton( new QPushButton( tr(".."), this ) )
-, mpTimer( new QTimer( this ) )
 , mpView( new QTreeView( this ) )
 , mpModel( new QDirModel( this ) )
+, mpMenuSendToPartyman( new QAction( tr("Send To Partyman"), this ) )
+, mpMenuSetRootDir( new QAction( tr("Set As Root Directory"), this ) )
+, mpMenuMove( new QAction( tr("Move"), this ) )
+, mpMenuRename( new QAction( tr("Rename"), this ) )
+, mpMenuDelete( new QAction( tr("Delete"), this ) )
+, mContextModelIndex()
 {
    MySettings settings;
+   
+   // not implemented yet
+   mpMenuMove->setDisabled( true );
+   mpMenuRename->setDisabled( true );
+   mpMenuDelete->setDisabled( true );
    
    QStringList defaultNameFilters;
    defaultNameFilters << "*.mp3" << "*.ogg";
@@ -37,13 +46,11 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
    mpView->setContextMenuPolicy( Qt::CustomContextMenu );
    mpView->setModel( mpModel );
    
-//   connect(mpView, SIGNAL(context(QModelIndex)), this, SLOT(addEntries(QModelIndex)));
    QVBoxLayout *layout = new QVBoxLayout( this );
    QHBoxLayout *topLayout = new QHBoxLayout;
    
    topLayout->addWidget( new QLabel(tr("Root:")) );
    topLayout->addWidget( mpRootDir );
-   topLayout->addWidget( mpSetButton );
    topLayout->addWidget( mpDotButton );
 #if QT_VERSION < 0x040300
    topLayout->setMargin( 0 );
@@ -60,48 +67,41 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 #endif
    setLayout(layout);
    
-   mpTimer->setSingleShot( true );
-   mpTimer->setInterval( 2500 );
-   
    /* evil hack */
-   mpSetButton->setMaximumWidth( mpSetButton->width() / 2 );
-   mpDotButton->setMaximumWidth( mpDotButton->width() / 2 );
+   mpDotButton->setMaximumWidth( mpDotButton->height() );
    
    mpRootDir->setText( settings.value( "RootDirectory", QString("/") ).toString() );
-   //mpView->setRootIndex( mpModel->index( mpRootDir->text() ) );
    handleRootDir();
    mpView->setAnimated( true );
    connect( mpView, SIGNAL(clicked(const QModelIndex&)),
             this, SLOT(entryClicked(const QModelIndex&)) );
    connect( mpRootDir, SIGNAL(returnPressed()),
             this, SLOT(handleRootDir()) );
-   connect( mpSetButton, SIGNAL(clicked()),
-            this, SLOT(handleRootDir()) );
    connect( mpDotButton, SIGNAL(clicked()),
             this, SLOT(handleDotButton()) );
-   connect( mpTimer, SIGNAL(timeout()),
-            this, SLOT(handleTimer()) );
    connect( mpView, SIGNAL(customContextMenuRequested(const QPoint&)),
             this, SLOT(contextMenu(const QPoint&)) );
+   connect( mpMenuSendToPartyman, SIGNAL(triggered()),
+            this, SLOT(menuSendToPartyman()) );
+   connect( mpMenuSetRootDir, SIGNAL(triggered()),
+            this, SLOT(menuSetRootDir()) );
+   connect( mpMenuMove, SIGNAL(triggered()),
+            this, SLOT(menuMove()) );
+   connect( mpMenuRename, SIGNAL(triggered()),
+            this, SLOT(menuRename()) );
+   connect( mpMenuDelete, SIGNAL(triggered()),
+            this, SLOT(menuDelete()) );
 }
 
 
 void FileSysBrowser::entryClicked( const QModelIndex &index )
 {
-   QString path( mpModel->filePath(index) );
-   
-   if( QFileInfo( path ).isDir() )
-   {
-      mpRootDir->setText( path );
-      mpTimer->start();
-   }
-   emit clicked( path );
+   emit clicked( mpModel->filePath(index) );
 }
 
 
 void FileSysBrowser::handleDotButton()
 {
-TRACESTART(FileSysBrowser::handleDotButton)
    QDir dir( mpRootDir->text() + "/.." );
    mpRootDir->setText( dir.absolutePath() );
    handleRootDir();
@@ -120,20 +120,10 @@ void FileSysBrowser::handleRootDir()
       mpView->setCurrentIndex( mpModel->index( current ) );
       scrollTo( current );
    }
-   else
-   {
-      mpTimer->start();
-   }
    mpView->header()->hide();
    mpView->setColumnHidden( 1, true );
    mpView->setColumnHidden( 2, true );
    mpView->setColumnHidden( 3, true );
-}
-
-
-void FileSysBrowser::handleTimer()
-{
-   mpRootDir->setText( MySettings().value( "RootDirectory", QString("/") ).toString() );
 }
 
 
@@ -149,11 +139,60 @@ void FileSysBrowser::scrollTo( const QString &fileName )
 
 void FileSysBrowser::contextMenu( const QPoint &pos )
 {
-   QModelIndex qmi( mpView->indexAt( pos ) );
-   if( !mpModel->isDir( qmi ) )
+   mContextModelIndex = mpView->indexAt( pos );
+
+   QMenu menu(mpView);
+   if( mpModel->isDir( mContextModelIndex ) )
    {
-      QString msg( mpModel->filePath( qmi ) );
+      menu.addAction( mpMenuSetRootDir );
+   }
+   else
+   {
+      menu.addAction( mpMenuSendToPartyman );
+   }
+   menu.addSeparator();
+   menu.addAction( mpMenuMove );
+   menu.addAction( mpMenuRename );
+   menu.addAction( mpMenuDelete );
+   menu.exec( mpView->mapToGlobal( pos ) );
+}
+
+
+
+void FileSysBrowser::menuSendToPartyman()
+{
+   if( !mpModel->isDir( mContextModelIndex ) )
+   {
+      QString msg( mpModel->filePath( mContextModelIndex ) );
       msg.prepend( "P0Q\n" );
       MySettings().sendUdpMessage( msg, "Partyman" );
    }
+}
+
+
+void FileSysBrowser::menuSetRootDir()
+{
+   if( mpModel->isDir( mContextModelIndex ) )
+   {
+      mpRootDir->setText( mpModel->filePath( mContextModelIndex ) );
+      handleRootDir();
+   }
+}
+
+
+void FileSysBrowser::menuMove()
+{
+TRACESTART(FileSysBrowser::menuMove)
+}
+
+
+void FileSysBrowser::menuRename()
+{
+TRACESTART(FileSysBrowser::menuRename)
+}
+
+
+void FileSysBrowser::menuDelete()
+{
+TRACESTART(FileSysBrowser::menuDelete)
 }

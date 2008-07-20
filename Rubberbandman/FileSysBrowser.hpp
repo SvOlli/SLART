@@ -9,14 +9,14 @@
 #define FILESYSBROWSER_HPP FILESYSBROWSER_HPP
 
 #include <QWidget>
+#include <QModelIndex>
 
-//class FileSysTreeView;
+class QAction;
 class QTreeView;
 class QDirModel;
 class QLineEdit;
 class QPushButton;
 class QModelIndex;
-class QTimer;
 class QShowEvent;
 class Database;
 
@@ -35,12 +35,20 @@ public slots:
    void handleRootDir();
    /* handle dir up button */
    void handleDotButton();
-   /* handle the set-back timer */
-   void handleTimer();
    /* show a filename in browser */
    void scrollTo( const QString &fileName );
    /* handle right mouse button (send track name to Partyman) */
    void contextMenu( const QPoint &pos );
+   /* handle menu entry "Send To Partyman" */
+   void menuSendToPartyman();
+   /* handle menu entry "Set As Root Directory" */
+   void menuSetRootDir();
+   /* handle menu entry "Move" */
+   void menuMove();
+   /* handle menu entry "Rename" */
+   void menuRename();
+   /* handle menu entry "Delete" */
+   void menuDelete();
 
 signals:
    /* emit the path of clicked entry */
@@ -52,11 +60,15 @@ private:
 
    Database     *mpDatabase;
    QLineEdit    *mpRootDir;
-   QPushButton  *mpSetButton;
    QPushButton  *mpDotButton;
-   QTimer       *mpTimer;
    QTreeView    *mpView;
    QDirModel    *mpModel;
+   QAction      *mpMenuSendToPartyman;
+   QAction      *mpMenuSetRootDir;
+   QAction      *mpMenuMove;
+   QAction      *mpMenuRename;
+   QAction      *mpMenuDelete;
+   QModelIndex  mContextModelIndex;
 };
 
 #endif
