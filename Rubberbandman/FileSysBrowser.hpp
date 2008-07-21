@@ -10,6 +10,7 @@
 
 #include <QWidget>
 #include <QModelIndex>
+#include <QFileInfo>
 
 class QAction;
 class QTreeView;
@@ -69,6 +70,7 @@ private:
    QAction      *mpMenuRename;
    QAction      *mpMenuDelete;
    QModelIndex  mContextModelIndex;
+   QFileInfo    mFileInfo;
 };
 
 #endif

@@ -28,13 +28,9 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 , mpMenuRename( new QAction( tr("Rename"), this ) )
 , mpMenuDelete( new QAction( tr("Delete"), this ) )
 , mContextModelIndex()
+, mFileInfo()
 {
    MySettings settings;
-   
-   // not implemented yet
-   mpMenuMove->setDisabled( true );
-   mpMenuRename->setDisabled( true );
-   mpMenuDelete->setDisabled( true );
    
    QStringList defaultNameFilters;
    defaultNameFilters << "*.mp3" << "*.ogg";
@@ -140,9 +136,14 @@ void FileSysBrowser::scrollTo( const QString &fileName )
 void FileSysBrowser::contextMenu( const QPoint &pos )
 {
    mContextModelIndex = mpView->indexAt( pos );
-
+   if( !mContextModelIndex.isValid() )
+   {
+      return;
+   }
+   mFileInfo.setFile( mpModel->filePath( mContextModelIndex ) );
+   
    QMenu menu(mpView);
-   if( mpModel->isDir( mContextModelIndex ) )
+   if( mFileInfo.isDir() )
    {
       menu.addAction( mpMenuSetRootDir );
    }
@@ -161,9 +162,9 @@ void FileSysBrowser::contextMenu( const QPoint &pos )
 
 void FileSysBrowser::menuSendToPartyman()
 {
-   if( !mpModel->isDir( mContextModelIndex ) )
+   if( !mFileInfo.isDir() )
    {
-      QString msg( mpModel->filePath( mContextModelIndex ) );
+      QString msg( mFileInfo.filePath() );
       msg.prepend( "P0Q\n" );
       MySettings().sendUdpMessage( msg, "Partyman" );
    }
@@ -172,9 +173,9 @@ void FileSysBrowser::menuSendToPartyman()
 
 void FileSysBrowser::menuSetRootDir()
 {
-   if( mpModel->isDir( mContextModelIndex ) )
+   if( mFileInfo.isDir() )
    {
-      mpRootDir->setText( mpModel->filePath( mContextModelIndex ) );
+      mpRootDir->setText( mFileInfo.filePath() );
       handleRootDir();
    }
 }
@@ -183,16 +184,40 @@ void FileSysBrowser::menuSetRootDir()
 void FileSysBrowser::menuMove()
 {
 TRACESTART(FileSysBrowser::menuMove)
+   QFileDialog dialog( this, QString(tr("Rubberbandman: Move %1 To:")).arg(mFileInfo.fileName()) );
+   dialog.setFileMode( QFileDialog::DirectoryOnly );
+   dialog.setDirectory( mpRootDir->text() );
+   dialog.setAcceptMode( QFileDialog::AcceptOpen );
+   if( dialog.exec() )
+   {
+TRACEMSG << dialog.selectedFiles();
+   }
 }
 
 
 void FileSysBrowser::menuRename()
 {
 TRACESTART(FileSysBrowser::menuRename)
+   bool ok;
+   QString text = QInputDialog::getText( this, QString(tr("Rubberbandman: Rename %1 To:")).arg(mFileInfo.fileName()),
+                                         QString(tr("Rename %1 To:")).arg(mFileInfo.fileName()),
+                                         QLineEdit::Normal, mFileInfo.fileName(), &ok );
+   if (ok && !text.isEmpty())
+   {
+TRACEMSG << text;
+   }
 }
 
 
 void FileSysBrowser::menuDelete()
 {
 TRACESTART(FileSysBrowser::menuDelete)
+   QMessageBox::StandardButton button;
+   button = QMessageBox::question( this, QString(tr("Rubberbandman: Delete %1")).arg(mFileInfo.fileName()),
+                                   QString(tr("Really Delete %1 ?")).arg(mFileInfo.fileName()),
+                                   QMessageBox::Ok | QMessageBox::Cancel );
+   if( button == QMessageBox::Ok )
+   {
+TRACEMSG << button;
+   }
 }
