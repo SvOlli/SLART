@@ -205,3 +205,79 @@ QString TrackInfo::toString() const
                        QString::number(mVolume), mFolders, QString::number(mFlags,16));
 }
 
+
+QString TrackInfo::sec2minsec( int seconds )
+{
+   int minutes = seconds / 60;
+   seconds %= 60;
+   QString time( QString::number( minutes ) );
+   if( seconds < 10 )
+   {
+      time.append( ":0" );
+   }
+   else
+   {
+      time.append( ":" );
+   }
+   time.append( QString::number( seconds ) );
+
+   return time;
+}
+
+
+QString TrackInfo::valueByKey( const QString &key ) const
+{
+   if( key.toUpper() == "ID" )          return QString::number( mID );
+   if( key.toUpper() == "DIRECTORY" )   return mDirectory;
+   if( key.toUpper() == "FILENAME" )    return mFileName;
+   if( key.toUpper() == "ARTIST" )      return mArtist;
+   if( key.toUpper() == "TITLE" )       return mTitle;
+   if( key.toUpper() == "ALBUM" )       return mAlbum;
+   if( key.toUpper() == "TRACKNUMBER" ) return QString::number( mTrackNr );
+   if( key.toUpper() == "DATE" )        return QString::number( mYear );
+   if( key.toUpper() == "GENRE" )       return mGenre;
+   if( key.toUpper() == "PLAYTIME" )    return sec2minsec( mPlayTime );
+   if( key.toUpper() == "TIMESPLAYED" ) return QString::number( mTimesPlayed );
+   if( key.toUpper() == "FOLDERS" )     return mFolders;
+   return QString();
+}
+
+
+QString TrackInfo::displayString( const QString &pattern ) const 
+{
+   if( pattern.isEmpty() || mArtist.isEmpty() || mTitle.isEmpty() )
+   {
+      return mFileName;
+   }
+   
+   QStringList parts( pattern.split( "|", QString::SkipEmptyParts ) );
+   QString filename;
+   int i;
+
+   for( i = 0; i < parts.size() ; i++ )
+   {
+      switch( parts.at(i).at(0).unicode() )
+      {
+         case '$':
+            filename.append( valueByKey( parts.at(i).toUpper().mid(1) ) );
+            break;
+         case '#':
+            {
+               bool ok;
+               int size = parts.at(i).mid(1,1).toInt( &ok );
+                  
+               if( !ok ) break;
+               int number = 1000000000 + valueByKey( parts.at(i).toUpper().mid(2) ).toInt( &ok );
+               
+               if( !ok ) break;
+               filename.append( QString::number(number).right(size) );
+            }
+            break;
+         default:
+            filename.append( parts.at(i) );
+            break;
+      }
+   }
+   
+   return filename;
+}

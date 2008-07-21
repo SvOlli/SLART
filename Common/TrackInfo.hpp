@@ -58,20 +58,36 @@ public:
    QString      mFolders;
    unsigned int mFlags;
    
+   /*  */
    void clear();
    
+   /*  */
    void setFlag( Flag flag, bool set );
+   /*  */
    bool isFlagged( Flag flag );
+   /*  */
    unsigned int getFlagMask( Flag flag );
    
+   /*  */
    void setFolder( const QString &folder, bool add );
+   /*  */
    bool isInFolder( const QString &folder );
+   /*  */
    QStringList getFolders();
    
+   /*  */
    QString filePath() const;
+   /*  */
    QString toString() const;
-   
+   /*  */
+   QString displayString( const QString &pattern ) const;
+
+   /* convert seconds to a 0:00 timecode */
+   static QString sec2minsec( int seconds );
+
 private:
+   /*  */
+   QString valueByKey( const QString &key ) const;
 };
 
 typedef QList<TrackInfo> TrackInfoList;
