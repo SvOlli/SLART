@@ -53,7 +53,7 @@ SearchWidget::SearchWidget( Database *database, PlaylistWidget *parent )
 : QWidget( parent )
 , mpDatabase( database )
 , mpPlaylist( parent )
-, mpResults( new PlaylistContentWidget( false, this ) )
+, mpResults( new PlaylistContentWidget( database, false, this ) )
 , mpInput( new SearchLineEdit( this ) )
 , mpFound( new QLabel( this ) )
 {

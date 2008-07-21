@@ -10,8 +10,7 @@
 
 #include <QWidget>
 #include <QMutex>
-#include <QTcpSocket>
-
+#include <QString>
 
 
 class QTcpSocket;
@@ -99,8 +98,6 @@ private:
    PlayerWidget( const PlayerWidget &other );
    PlayerWidget &operator=( const PlayerWidget &other );
    
-   /* convert seconds to a 0:00 timecode */
-   static QString sec2minsec( const QString &seconds );
    /* send a command to DerMixD */
    void sendCommand( const QString &command, const QString &parameter = QString() );
    /* enable/disable watching of track status */
@@ -130,6 +127,7 @@ private:
    bool          mUpdateSlider;
    int           mNormalizeMode;
    double        mNormalizeValue;
+   QString       mDisplayPattern;
    TrackInfo     mTrackInfo;
 };
 

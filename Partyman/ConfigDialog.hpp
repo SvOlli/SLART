@@ -33,10 +33,6 @@ public slots:
    void readSettings();
    /* write settings to storage */
    void writeSettings();
-#if 0
-   /* run m3u filename requester */
-   void setM3uFileName();
-#endif
    /* handle "start DerMixD" checkbox */
    void handleDerMixDrun( bool checked );
    /* handle "SLARTCom" checkbox */
@@ -69,9 +65,8 @@ private:
    QDoubleSpinBox       *mpNormalizeValue;
    MyClipboard          *mpClipboard;
    QLineEdit            *mpLogCmd;
-#if 0
-   QPushButton          *mpM3uFileName;
-#endif
+   QLineEdit            *mpPlayerPattern;
+   QLineEdit            *mpListPattern;
    GlobalConfigWidget   *mpGlobalSettings;
 };
 

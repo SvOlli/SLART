@@ -12,12 +12,14 @@
 
 #include "PlaylistContentWidget.hpp"
 #include "GlobalConfigWidget.hpp"
+#include "MySettings.hpp"
 
 #include "Trace.hpp"
 
 
-PlaylistContentWidget::PlaylistContentWidget( bool allowResort, QWidget *parent )
+PlaylistContentWidget::PlaylistContentWidget( Database *database, bool allowResort, QWidget *parent )
 : QListWidget( parent )
+, mpDatabase( database )
 , mMovingItem( false )
 , mLeftButton( false )
 {
@@ -39,22 +41,37 @@ PlaylistContentWidget::PlaylistContentWidget( bool allowResort, QWidget *parent 
 void PlaylistContentWidget::addItems( const QStringList &items, bool atStart )
 {
    int i;
+   TrackInfoList trackInfoList;
    for( i = 0; i < items.count(); i++ )
    {
-      int lastSlash = items.at(i).lastIndexOf("/");
-      QListWidgetItem *item = new QListWidgetItem( items.at(i).mid(lastSlash+1) );
-      item->setToolTip( items.at(i) );
-      insertItem( atStart ? 0 : count(), item );
+      TrackInfo trackInfo;
+      if( !mpDatabase->getTrackInfo( &trackInfo, items.at(i) ) )
+      {
+         int lastSlash = items.at(i).lastIndexOf("/");
+         trackInfo.mDirectory = items.at(i).left(lastSlash);
+         trackInfo.mFileName  = items.at(i).mid(lastSlash+1);
+      }
+      trackInfoList.append( trackInfo );
    }
+   addItems( trackInfoList, atStart );
 }
 
 
 void PlaylistContentWidget::addItems( const TrackInfoList &trackInfoList, bool atStart )
 {
+   QString pattern( MySettings().value( "ListPattern","|(|$PLAYTIME|)|$ARTIST| - |$TITLE|" ).toString() );
    int i;
    for( i = 0; i < trackInfoList.count(); i++ )
    {
-      QListWidgetItem *item = new QListWidgetItem( trackInfoList.at(i).mFileName );
+      QListWidgetItem *item = 0;
+      if( !trackInfoList.at(i).mArtist.isEmpty() && !trackInfoList.at(i).mTitle.isEmpty() )
+      {
+         item = new QListWidgetItem( trackInfoList.at(i).displayString( pattern ) );
+      }
+      else
+      {
+         item = new QListWidgetItem( trackInfoList.at(i).mFileName );
+      }
       item->setToolTip( trackInfoList.at(i).filePath() );
       insertItem( atStart ? 0 : count(), item );
    }

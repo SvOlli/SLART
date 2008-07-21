@@ -9,6 +9,7 @@
 #define PLAYLISTCONTENTWIDGET_HPP PLAYLISTCONTENTWIDGET_HPP
 
 #include <QListWidget>
+#include "Database.hpp"
 #include "TrackInfo.hpp"
 
 class PlaylistContentWidget : public QListWidget
@@ -16,7 +17,7 @@ class PlaylistContentWidget : public QListWidget
 Q_OBJECT
    
 public:
-   PlaylistContentWidget( bool allowResort, QWidget *parent = 0 );
+   PlaylistContentWidget( Database* database, bool allowResort, QWidget *parent = 0 );
 
 public slots:
    /* remove selected items from list widget and put them into the list parameter */
@@ -49,8 +50,9 @@ private:
    PlaylistContentWidget( const PlaylistContentWidget &other );
    PlaylistContentWidget &operator=( const PlaylistContentWidget &other );
 
-   bool mMovingItem;
-   bool mLeftButton;
+   Database *mpDatabase;
+   bool     mMovingItem;
+   bool     mLeftButton;
 };
 
 #endif

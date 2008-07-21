@@ -25,7 +25,7 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
 , mpDatabase( database )
 , mpConfig( config )
 , mpTabs( new QTabWidget( this ) )
-, mpPlaylistContent( new PlaylistContentWidget( true, this ) )
+, mpPlaylistContent( new PlaylistContentWidget( database, true, this ) )
 , mpTreeView( new FileSysTreeView( this ) )
 , mpTreeModel( new FileSysTreeModel( this ) )
 , mpNextTreeModel( 0 )

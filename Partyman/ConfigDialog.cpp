@@ -33,6 +33,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpNormalizeMode( new QComboBox( this ) )
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
+, mpPlayerPattern( new QLineEdit( this ) )
+, mpListPattern( new QLineEdit( this ) )
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
 {
    setWindowTitle( tr("Partyman Settings") );
@@ -84,7 +86,11 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    pmLayout->addWidget( mpNormalizeValue, 3, 1 );
    pmLayout->addWidget( new QLabel( tr("External Logger:") ), 4, 0 );
    pmLayout->addWidget( mpLogCmd, 4, 1 );
-   pmLayout->setRowStretch( 5, 1 );
+   pmLayout->addWidget( new QLabel( tr("Player Display Pattern:") ), 5, 0 );
+   pmLayout->addWidget( mpPlayerPattern, 5, 1 );
+   pmLayout->addWidget( new QLabel( tr("List Display Pattern:") ), 6, 0 );
+   pmLayout->addWidget( mpListPattern, 6, 1 );
+   pmLayout->setRowStretch( 7, 1 );
    pmTab->setLayout( pmLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -155,6 +161,8 @@ void ConfigDialog::readSettings()
    mpNormalizeMode->setCurrentIndex( settings.value("NormalizeMode", 0).toInt() );
    mpNormalizeValue->setValue( settings.value("NormalizeValue", 0.4).toDouble() );
    mpLogCmd->setText( settings.value("LogCmd", "").toString() );
+   mpPlayerPattern->setText( settings.value("PlayerPattern", "|$ARTIST| - |$TITLE|").toString() );
+   mpListPattern->setText( settings.value("ListPattern", "|(|$PLAYTIME|)|$ARTIST| - |$TITLE|").toString() );
    handleUDPListen( mpSLARTCommunication->isChecked() );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    mpGlobalSettings->readSettings();
@@ -180,6 +188,8 @@ void ConfigDialog::writeSettings()
    settings.setValue( "NormalizeMode", mpNormalizeMode->currentIndex() );
    settings.setValue( "NormalizeValue", mpNormalizeValue->value() );
    settings.setValue( "LogCmd", mpLogCmd->text() );
+   settings.setValue( "PlayerPattern", mpPlayerPattern->text() );
+   settings.setValue( "ListPattern", mpListPattern->text() );
    mpGlobalSettings->writeSettings();
 
    emit configChanged();

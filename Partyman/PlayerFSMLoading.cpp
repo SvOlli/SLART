@@ -28,7 +28,9 @@ bool PlayerFSMLoading::enter()
    mInScan = false;
    QString fileName( mpPlayerWidget->mpScrollLine->toolTip() );
    
+#if 0
    mpPlayerWidget->mpDatabase->getTrackInfo( &(mpPlayerWidget->mTrackInfo), fileName );
+#endif
    if( mpPlayerWidget->setVolume() )
    {
       QFileInfo qfi( fileName );

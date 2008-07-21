@@ -65,6 +65,7 @@ PlayerWidget::PlayerWidget( int index, Database *database,
 , mSamples( 0 )
 , mHeadStart( 10 )
 , mUpdateSlider( true )
+, mDisplayPattern()
 , mTrackInfo()
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
@@ -118,20 +119,30 @@ PlayerWidget::~PlayerWidget()
 void PlayerWidget::getNextTrack( bool armed )
 {
    QString fileName;
+   bool inDatabase;
    
    if( armed )
    {
       mpControlWidget->getNextTrack( &fileName );
    }
+   
+   inDatabase = mpDatabase->getTrackInfo( &mTrackInfo, fileName );
    if( fileName.isEmpty() )
    {
       mpScrollLine->setText( tr("no file loaded") );
    }
    else
    {
-      int lastSlash = fileName.lastIndexOf( '/' );
-      int lastDot   = fileName.lastIndexOf( '.' );
-      mpScrollLine->setText( fileName.mid( lastSlash+1, lastDot-lastSlash-1 ) );
+      if( inDatabase && !mTrackInfo.mArtist.isEmpty() && !mTrackInfo.mTitle.isEmpty() )
+      {
+         mpScrollLine->setText( mTrackInfo.displayString( mDisplayPattern ) );
+      }
+      else
+      {
+         int lastSlash = fileName.lastIndexOf( '/' );
+         int lastDot   = fileName.lastIndexOf( '.' );
+         mpScrollLine->setText( fileName.mid( lastSlash+1, lastDot-lastSlash-1 ) );
+      }
    }
    mpScrollLine->setToolTip( fileName );
    sendCommand( "preread", fileName );
@@ -151,6 +162,7 @@ void PlayerWidget::readConfig()
    mHeadStart      = settings.value( "CrossfadeTime", 10 ).toInt();
    mNormalizeMode  = settings.value( "NormalizeMode",  0 ).toInt();
    mNormalizeValue = settings.value( "NormalizeValue", 0.4 ).toDouble();
+   mDisplayPattern = settings.value( "PlayerPattern", "|$ARTIST| - |$TITLE|" ).toString();
 }
 
 
@@ -195,27 +207,6 @@ void PlayerWidget::unload()
 }
 
 
-QString PlayerWidget::sec2minsec( const QString &seconds )
-{
-   bool ok;
-   long secs = seconds.toLong( &ok );
-   long mins = secs / 60;
-   secs %= 60;
-   QString time( QString::number( mins ) );
-   if( secs < 10 )
-   {
-      time.append( ":0" );
-   }
-   else
-   {
-      time.append( ":" );
-   }
-   time.append( QString::number( secs ) );
-
-   return time;
-}
-
-
 void PlayerWidget::updateTime( const QString &msg, bool force )
 {
    int colon = msg.indexOf(',');
@@ -225,14 +216,16 @@ void PlayerWidget::updateTime( const QString &msg, bool force )
    {
       if( msg.isEmpty() )
       {
-         mpTimeDisplay->setText( sec2minsec( "0" ) + "/" + sec2minsec( QString::number( mTotalTime ) ) );
+         mpTimeDisplay->setText( TrackInfo::sec2minsec( 0 ) + "/" +
+                                 TrackInfo::sec2minsec( mTotalTime ) );
          playPosition = 0;
       }
       else
       {
          if( (colon > 0) && (msg.at(colon-1) == 's') )
          {
-            mpTimeDisplay->setText( sec2minsec( msg.left(colon-1) ) + "/" + sec2minsec( QString::number( mTotalTime ) ) );
+            mpTimeDisplay->setText( TrackInfo::sec2minsec( msg.left(colon-1).toInt() ) + "/" +
+                                    TrackInfo::sec2minsec( mTotalTime ) );
             playPosition = msg.left(colon-1).toLong();
          }
       }
