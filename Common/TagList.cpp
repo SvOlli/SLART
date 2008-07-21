@@ -56,17 +56,13 @@ void TagList::clear()
 
 QString TagList::fileName( const QString &pattern, bool filterPath )
 {
-   QStringList parts( pattern.split( "|" ) );
+   QStringList parts( pattern.split( "|", QString::SkipEmptyParts ) );
    QString filename;
    int i;
    int j;
    
    for( i = 0; i < parts.size() ; i++ )
    {
-      if( parts.at(i).isEmpty() )
-      {
-         continue;
-      }
       switch( parts.at(i).at(0).unicode() )
       {
          case '$':
