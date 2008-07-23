@@ -263,10 +263,29 @@ QString TrackInfo::displayString( const QString &pattern ) const
             break;
          case '#':
             {
+               if( parts.at(i).size() < 2 )
+               {
+                  break;
+               }
                bool ok;
                int size = parts.at(i).mid(1,1).toInt( &ok );
                   
-               if( !ok ) break;
+               if( !ok )
+               {
+                  switch( parts.at(i).at(1).unicode() )
+                  {
+                     case '#':
+                     case '$':
+                        filename.append( parts.at(i).at(1) );
+                        break;
+                     case '/':
+                        filename.append( "|" );
+                        break;
+                     default:
+                        break;
+                  }
+                  break;
+               }
                int number = 1000000000 + valueByKey( parts.at(i).toUpper().mid(2) ).toInt( &ok );
                
                if( !ok ) break;
