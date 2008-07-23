@@ -80,7 +80,7 @@ void PlaylistContentWidget::addItems( const TrackInfoList &trackInfoList, bool a
 
 void PlaylistContentWidget::handleClick( QListWidgetItem *item )
 {
-   GlobalConfigWidget::setClipboard( item->text() );
+   GlobalConfigWidget::setClipboard( item->toolTip() );
 }
 
 
