@@ -116,6 +116,7 @@ void TrackInfoWidget::update( bool reread )
    mpUnwantedButton->setChecked( false );
    if( mTrackInfo.mID )
    {
+      setDisabled( false );
       mpArtist->setText( mTrackInfo.mArtist );
       mpTitle->setText( mTrackInfo.mTitle );
       mpAlbum->setText( mTrackInfo.mAlbum );
@@ -129,8 +130,6 @@ void TrackInfoWidget::update( bool reread )
          mpTimesPlayed->setText( QString::number(mTrackInfo.mTimesPlayed)+" Times Played" );
       }
       
-      mpFavoriteButton->setDisabled( false );
-      mpUnwantedButton->setDisabled( false );
       if( mTrackInfo.isFlagged( TrackInfo::Favorite ) )
       {
          mpFavoriteButton->setChecked( true );
@@ -144,12 +143,11 @@ void TrackInfoWidget::update( bool reread )
    {
       QString empty;
       
+      setDisabled( true );
       mpArtist->setText( empty );
       mpTitle->setText( empty );
       mpAlbum->setText( empty );
       mpTrackNr->setText( empty );
       mpTimesPlayed->setText( empty );
-      mpFavoriteButton->setDisabled( true );
-      mpUnwantedButton->setDisabled( true );
    }
 }
