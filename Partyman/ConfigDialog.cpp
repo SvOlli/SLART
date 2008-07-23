@@ -162,7 +162,7 @@ void ConfigDialog::readSettings()
    mpNormalizeValue->setValue( settings.value("NormalizeValue", 0.4).toDouble() );
    mpLogCmd->setText( settings.value("LogCmd", "").toString() );
    mpPlayerPattern->setText( settings.value("PlayerPattern", "|$ARTIST| - |$TITLE|").toString() );
-   mpListPattern->setText( settings.value("ListPattern", "|(|$PLAYTIME|)|$ARTIST| - |$TITLE|").toString() );
+   mpListPattern->setText( settings.value("ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|").toString() );
    handleUDPListen( mpSLARTCommunication->isChecked() );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    mpGlobalSettings->readSettings();

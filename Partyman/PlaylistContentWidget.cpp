@@ -59,7 +59,7 @@ void PlaylistContentWidget::addItems( const QStringList &items, bool atStart )
 
 void PlaylistContentWidget::addItems( const TrackInfoList &trackInfoList, bool atStart )
 {
-   QString pattern( MySettings().value( "ListPattern","|(|$PLAYTIME|)|$ARTIST| - |$TITLE|" ).toString() );
+   QString pattern( MySettings().value( "ListPattern","(|$PLAYTIME|)|$ARTIST| - |$TITLE|" ).toString() );
    int i;
    for( i = 0; i < trackInfoList.count(); i++ )
    {
