@@ -30,8 +30,14 @@ MainWindow::MainWindow( QWidget *parent, Qt::WindowFlags flags )
 
 void MainWindow::changeTitle( const QIcon &icon, const QString &title )
 {
-   setWindowIcon( icon );
-   setWindowTitle( title );
+   if( !icon.isNull() )
+   {
+      setWindowIcon( icon );
+   }
+   if( !title.isNull() )
+   {
+      setWindowTitle( title );
+   }
 }
 
 
