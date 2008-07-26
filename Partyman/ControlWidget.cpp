@@ -82,9 +82,9 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
             this, SLOT(handleSLART(QStringList)) );
    connect( mpPlayer[0], SIGNAL(trackPlaying(const TrackInfo &)),
-            mpPlaylist, SLOT(getTrack(const TrackInfo &)) );
+            this, SLOT(handleTrackPlaying(const TrackInfo &)) );
    connect( mpPlayer[1], SIGNAL(trackPlaying(const TrackInfo &)),
-            mpPlaylist, SLOT(getTrack(const TrackInfo &)) );
+            this, SLOT(handleTrackPlaying(const TrackInfo &)) );
 
    connect( &mDerMixDprocess, SIGNAL(readyReadStandardError()),
             this, SLOT(handleDerMixDstartup()) );
@@ -437,4 +437,17 @@ void ControlWidget::allowInteractive( bool allow )
    mpSkipButton->setDisabled( !allow );
    mpPlayer[0]->disablePlayPosition( !allow );
    mpPlayer[1]->disablePlayPosition( !allow );
+}
+
+
+void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
+{
+   mpPlaylist->getTrack( trackInfo );
+   QString title( trackInfo.displayString( MySettings().value("NamePattern", 
+                                             QApplication::applicationName()+": |$TITLE|").toString() ) );
+   if( title.isEmpty() )
+   {
+      title = QApplication::applicationName();
+   }
+   emit requestChangeTitle( mPlayIcon, title );
 }

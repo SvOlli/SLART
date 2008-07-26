@@ -33,6 +33,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpNormalizeMode( new QComboBox( this ) )
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
+, mpNamePattern( new QLineEdit( this ) )
 , mpPlayerPattern( new QLineEdit( this ) )
 , mpListPattern( new QLineEdit( this ) )
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
@@ -60,38 +61,45 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    mpDerMixDport->setRange( 1, 65535 );
    mpCrossfadeTime->setRange( 1, 30 );
    
-   QWidget     *dmdTab    = new QWidget( this );
-   QGridLayout *dmdLayout = new QGridLayout( dmdTab );
-   dmdLayout->addWidget( mpDerMixDrun, 0, 0, 1, 2 );
-   dmdLayout->addWidget( mpDerMixDcmdLabel, 1, 0 );
-   dmdLayout->addWidget( mpDerMixDcmd, 1, 1 );
-   dmdLayout->addWidget( mpDerMixDparamsLabel, 2, 0 );
-   dmdLayout->addWidget( mpDerMixDparams, 2, 1 );
-   dmdLayout->addWidget( mpDerMixDhostLabel, 3, 0 );
-   dmdLayout->addWidget( mpDerMixDhost, 3, 1 );
-   dmdLayout->addWidget( mpDerMixDportLabel, 4, 0 );
-   dmdLayout->addWidget( mpDerMixDport, 4, 1 );
-   dmdLayout->addWidget( mpDerMixDlog, 5, 0, 1, 2 );
-   dmdLayout->setRowStretch( 6, 1 );
-   dmdTab->setLayout( dmdLayout );
+   QWidget     *dermixdTab    = new QWidget( this );
+   QGridLayout *dermixdLayout = new QGridLayout( dermixdTab );
+   dermixdLayout->addWidget( mpDerMixDrun, 0, 0, 1, 2 );
+   dermixdLayout->addWidget( mpDerMixDcmdLabel, 1, 0 );
+   dermixdLayout->addWidget( mpDerMixDcmd, 1, 1 );
+   dermixdLayout->addWidget( mpDerMixDparamsLabel, 2, 0 );
+   dermixdLayout->addWidget( mpDerMixDparams, 2, 1 );
+   dermixdLayout->addWidget( mpDerMixDhostLabel, 3, 0 );
+   dermixdLayout->addWidget( mpDerMixDhost, 3, 1 );
+   dermixdLayout->addWidget( mpDerMixDportLabel, 4, 0 );
+   dermixdLayout->addWidget( mpDerMixDport, 4, 1 );
+   dermixdLayout->addWidget( mpDerMixDlog, 5, 0, 1, 2 );
+   dermixdLayout->setRowStretch( 6, 1 );
+   dermixdTab->setLayout( dermixdLayout );
    
-   QWidget     *pmTab    = new QWidget( this );
-   QGridLayout *pmLayout = new QGridLayout( pmTab );
-   pmLayout->addWidget( mpAutoConnect, 0, 0, 1, 2 );
-   pmLayout->addWidget( new QLabel( tr("Crossfade Time:") ), 1, 0 );
-   pmLayout->addWidget( mpCrossfadeTime, 1, 1 );
-   pmLayout->addWidget( mpSLARTCommunication, 2, 0 );
-   pmLayout->addWidget( mpUDPListenerPort, 2, 1 );
-   pmLayout->addWidget( mpNormalizeMode, 3, 0 );
-   pmLayout->addWidget( mpNormalizeValue, 3, 1 );
-   pmLayout->addWidget( new QLabel( tr("External Logger:") ), 4, 0 );
-   pmLayout->addWidget( mpLogCmd, 4, 1 );
-   pmLayout->addWidget( new QLabel( tr("Player Display Pattern:") ), 5, 0 );
-   pmLayout->addWidget( mpPlayerPattern, 5, 1 );
-   pmLayout->addWidget( new QLabel( tr("List Display Pattern:") ), 6, 0 );
-   pmLayout->addWidget( mpListPattern, 6, 1 );
-   pmLayout->setRowStretch( 7, 1 );
-   pmTab->setLayout( pmLayout );
+   QWidget     *partymanTab    = new QWidget( this );
+   QGridLayout *partymanLayout = new QGridLayout( partymanTab );
+   partymanLayout->addWidget( mpAutoConnect, 0, 0, 1, 2 );
+   partymanLayout->addWidget( new QLabel( tr("Crossfade Time:") ), 1, 0 );
+   partymanLayout->addWidget( mpCrossfadeTime, 1, 1 );
+   partymanLayout->addWidget( mpSLARTCommunication, 2, 0 );
+   partymanLayout->addWidget( mpUDPListenerPort, 2, 1 );
+   partymanLayout->addWidget( mpNormalizeMode, 3, 0 );
+   partymanLayout->addWidget( mpNormalizeValue, 3, 1 );
+   partymanLayout->addWidget( new QLabel( tr("External Logger:") ), 4, 0 );
+   partymanLayout->addWidget( mpLogCmd, 4, 1 );
+   partymanLayout->setRowStretch( 5, 1 );
+   partymanTab->setLayout( partymanLayout );
+   
+   QWidget     *patternTab    = new QWidget( this );
+   QGridLayout *patternLayout = new QGridLayout( patternTab );
+   patternLayout->addWidget( new QLabel( tr("Title Display Pattern:") ), 0, 0 );
+   patternLayout->addWidget( mpNamePattern, 0, 1 );
+   patternLayout->addWidget( new QLabel( tr("Player Display Pattern:") ), 1, 0 );
+   patternLayout->addWidget( mpPlayerPattern, 1, 1 );
+   patternLayout->addWidget( new QLabel( tr("List Display Pattern:") ), 2, 0 );
+   patternLayout->addWidget( mpListPattern, 2, 1 );
+   patternLayout->setRowStretch( 3, 1 );
+   patternTab->setLayout( patternLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
@@ -114,8 +122,9 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    
    mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs = new QTabWidget( this );
-   tabs->addTab( dmdTab,           QString(tr("DerMixD")) );
-   tabs->addTab( pmTab,            QString(tr("Partyman")) );
+   tabs->addTab( dermixdTab,       QString(tr("DerMixD")) );
+   tabs->addTab( partymanTab,      QString(tr("Partyman")) );
+   tabs->addTab( patternTab,       QString(tr("Pattern")) );
    tabs->addTab( mpGlobalSettings, QString(tr("Global")) );
    
    mainLayout->addWidget( about );
@@ -163,6 +172,7 @@ void ConfigDialog::readSettings()
    mpLogCmd->setText( settings.value("LogCmd", "").toString() );
    mpPlayerPattern->setText( settings.value("PlayerPattern", "|$ARTIST| - |$TITLE|").toString() );
    mpListPattern->setText( settings.value("ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|").toString() );
+   mpNamePattern->setText( settings.value("NamePattern", QApplication::applicationName()+": |$TITLE|").toString() );
    handleUDPListen( mpSLARTCommunication->isChecked() );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    mpGlobalSettings->readSettings();
@@ -190,6 +200,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "LogCmd", mpLogCmd->text() );
    settings.setValue( "PlayerPattern", mpPlayerPattern->text() );
    settings.setValue( "ListPattern", mpListPattern->text() );
+   settings.setValue( "NamePattern", mpNamePattern->text() );
    mpGlobalSettings->writeSettings();
 
    emit configChanged();

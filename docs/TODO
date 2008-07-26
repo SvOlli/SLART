@@ -6,13 +6,12 @@ Common:
 - define "unset" value for TrackInfo for TrackNr/Year (use -1 ?)
 
 Partyman:
-- make entries customizable
-- set title with current track (also customizable)
 - check all error handling
 - set path to Partyman as first for clients
 
 Karmadrome:
 - extract folders to m3u
+- handle p0s with clearing track info
 
 Funkytown:
 - improve url detecting
@@ -27,8 +26,12 @@ Stripped:
 - request on overwrite
 
 Rubberbandman:
+- copy playtime to database from tags if empty
 - "add folder"/"remove folder"
 - disable Folders buttons, when no folders exist in database
 - context menu for browser
+  - rescan
+  - implement rename, move, delete
 - Change Layout (horizontal/vertical)
+- handle p0s with clearing track info
 

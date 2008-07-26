@@ -22,6 +22,7 @@ class QPushButton;
 class QMenu;
 class QAction;
 class Database;
+class TrackInfo;
 
 class ControlWidget : public QWidget
 {
@@ -69,6 +70,8 @@ public slots:
    void handleDerMixDfinish( int exitCode, QProcess::ExitStatus exitStatus );
    /* handle process error */
    void handleDerMixDerror( QProcess::ProcessError error );
+   /*  */
+   void handleTrackPlaying( const TrackInfo &trackInfo );
 
 signals:
    /* request a new icon and title */
