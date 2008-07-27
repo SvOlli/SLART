@@ -49,6 +49,23 @@ void SLARTCom::resetReceiver()
 }
 
 
+void SLARTCom::sendPing( const QString &application )
+{
+   bool active = MySettings().value( "SLARTCommunication", false ).toBool();
+   int port = QSettings( QApplication::organizationName(), application )
+                        .value( "UDPListenerPort", 0 ).toInt();
+   
+   if( (!active) || (port < 1) || (port > 65535) )
+   {
+      return;
+   }
+   QString data("PNG\n");
+   data.append( QApplication::applicationName() );
+   mUdpSocket.writeDatagram( data.toUtf8(), 
+                             QHostAddress::LocalHost, port );
+}
+
+
 void SLARTCom::handleReadyRead()
 {
    while( mUdpSocket.hasPendingDatagrams() )
@@ -68,6 +85,15 @@ void SLARTCom::handleReadyRead()
          if( src.at(0) == "CFG" )
          {
             emit updateConfig();
+            return;
+         }
+         
+         if( (src.at(0) == "PNG") && (src.count() > 1) )
+         {
+            QString data("png\n");
+            data.append( QApplication::applicationName() );
+            
+            MySettings().sendUdpMessage( data, src.at(1) );
             return;
          }
          

@@ -24,6 +24,8 @@ public:
 
    /* bind or release the port according to settings */
    void resetReceiver();
+   /* send a ping request to the specified application */
+   void sendPing( const QString &application );
 
 public slots:
    /* handle new incoming udp packet */
