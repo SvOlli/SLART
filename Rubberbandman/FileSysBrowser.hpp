@@ -66,6 +66,7 @@ private:
    QDirModel    *mpModel;
    QAction      *mpMenuSendToPartyman;
    QAction      *mpMenuSetRootDir;
+   QAction      *mpMenuRescan;
    QAction      *mpMenuMove;
    QAction      *mpMenuRename;
    QAction      *mpMenuDelete;

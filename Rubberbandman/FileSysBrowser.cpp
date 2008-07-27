@@ -24,6 +24,7 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 , mpModel( new QDirModel( this ) )
 , mpMenuSendToPartyman( new QAction( tr("Send To Partyman"), this ) )
 , mpMenuSetRootDir( new QAction( tr("Set As Root Directory"), this ) )
+, mpMenuRescan( new QAction( tr("Rescan"), this ) )
 , mpMenuMove( new QAction( tr("Move"), this ) )
 , mpMenuRename( new QAction( tr("Rename"), this ) )
 , mpMenuDelete( new QAction( tr("Delete"), this ) )
@@ -81,6 +82,8 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
             this, SLOT(menuSendToPartyman()) );
    connect( mpMenuSetRootDir, SIGNAL(triggered()),
             this, SLOT(menuSetRootDir()) );
+   connect( mpMenuRescan, SIGNAL(triggered()),
+            this, SLOT(handleRootDir()) );
    connect( mpMenuMove, SIGNAL(triggered()),
             this, SLOT(menuMove()) );
    connect( mpMenuRename, SIGNAL(triggered()),
@@ -151,6 +154,7 @@ void FileSysBrowser::contextMenu( const QPoint &pos )
    {
       menu.addAction( mpMenuSendToPartyman );
    }
+   menu.addAction( mpMenuRescan );
    menu.addSeparator();
    menu.addAction( mpMenuMove );
    menu.addAction( mpMenuRename );
