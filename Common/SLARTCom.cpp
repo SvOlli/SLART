@@ -59,9 +59,7 @@ void SLARTCom::sendPing( const QString &application )
    {
       return;
    }
-   QString data("PNG\n");
-   data.append( QApplication::applicationName() );
-   mUdpSocket.writeDatagram( data.toUtf8(), 
+   mUdpSocket.writeDatagram( QByteArray("PNG"), 
                              QHostAddress::LocalHost, port );
 }
 
@@ -88,12 +86,13 @@ void SLARTCom::handleReadyRead()
             return;
          }
          
-         if( (src.at(0) == "PNG") && (src.count() > 1) )
+         if( src.at(0) == "PNG" )
          {
             QString data("png\n");
             data.append( QApplication::applicationName() );
             
-            MySettings().sendUdpMessage( data, src.at(1) );
+            mUdpSocket.writeDatagram( data.toUtf8(), 
+                                      QHostAddress::LocalHost, senderPort );
             return;
          }
          
