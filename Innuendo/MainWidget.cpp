@@ -20,11 +20,13 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpMessageBuffer( new QListWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
+, mpPingButton( new QPushButton( tr("Ping"), this ) )
 , mpBufferSizeLabel( new QLabel( tr("Buffer Size:"), this ) )
 , mpBufferSize( new QSpinBox( this ) )
 , mpConfig( new ConfigDialog( this ) )
 , mBufferSize(500)
 , mSLARTCom()
+, mApplications()
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
 #if QT_VERSION < 0x040300
@@ -33,8 +35,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
 
-   QStringList applications;
-   applications << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome";
+   mApplications << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome";
    
    mpBufferSizeLabel->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
    mpBufferSize->setRange( 50, 50000 );
@@ -45,18 +46,21 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpLogo->setFrameShadow( QFrame::Raised );
    mpLogo->setFrameShape( QFrame::Box );
 
-   mainLayout->addWidget( mpLogo,            0, 0, 1, applications.count() );
-   mainLayout->addWidget( mpMessageBuffer,   1, 0, 1, applications.count() );
-   for( int i = 0; i < applications.count(); i++ )
+   mainLayout->addWidget( mpLogo,            0, 0, 1, mApplications.count() );
+   mainLayout->addWidget( mpMessageBuffer,   1, 0, 1, mApplications.count() );
+   for( int i = 0; i < mApplications.count(); i++ )
    {
-      mainLayout->addWidget( new ExecButton( applications.at(i), this ), 2, i );
+      mainLayout->addWidget( new ExecButton( mApplications.at(i), this ), 2, i );
    }
    mainLayout->addWidget( mpSettingsButton,  3, 0 );
-   mainLayout->addWidget( mpBufferSizeLabel, 3, applications.count() - 2 );
-   mainLayout->addWidget( mpBufferSize,      3, applications.count() - 1 );
+   mainLayout->addWidget( mpPingButton,      3, 1 );
+   mainLayout->addWidget( mpBufferSizeLabel, 3, mApplications.count() - 2 );
+   mainLayout->addWidget( mpBufferSize,      3, mApplications.count() - 1 );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfig, SLOT(exec()) );
+   connect( mpPingButton, SIGNAL(clicked()),
+            this, SLOT(handlePingButton()) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
    connect( mpBufferSize, SIGNAL(valueChanged(int)),
@@ -87,6 +91,16 @@ void MainWidget::readConfig()
 void MainWidget::setBufferSize( int size )
 {
    mBufferSize = size;
+}
+
+
+void MainWidget::handlePingButton()
+{
+   MySettings settings;
+   for( int i = 0; i < mApplications.count(); i++ )
+   {
+      mSLARTCom.sendPing( mApplications.at(i) );
+   }
 }
 
 

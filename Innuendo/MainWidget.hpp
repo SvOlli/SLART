@@ -10,6 +10,7 @@
 
 #include <QWidget>
 #include <QUdpSocket>
+#include <QStringList>
 
 #include "SLARTCom.hpp"
 
@@ -35,6 +36,8 @@ public slots:
    void readConfig();
    /* handle input of buffer size */
    void setBufferSize( int size );
+   /* handle the ping button */
+   void handlePingButton();
    /* handle SLART message */
    void handleSLART( const QStringList &message );
    /* copy clicked line of message buffer to clipboard */
@@ -49,11 +52,13 @@ private:
 
    QListWidget  *mpMessageBuffer;
    QPushButton  *mpSettingsButton;
+   QPushButton  *mpPingButton;
    QLabel       *mpBufferSizeLabel;
    QSpinBox     *mpBufferSize;
    ConfigDialog *mpConfig;
    int          mBufferSize;
    SLARTCom     mSLARTCom;
+   QStringList  mApplications;
 };
 
 #endif
