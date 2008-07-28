@@ -15,6 +15,7 @@
 #include <QIcon>
 #include <QUdpSocket>
 #include <QProcess>
+#include <QString>
 class PlayerWidget;
 class ConfigDialog;
 class PlaylistWidget;
@@ -106,6 +107,7 @@ private:
    QProcess       mLoggerProcess;
    bool           mWaitForDerMixD;
    bool           mDerMixDstarted;
+   QString        mLastTitle;
 };
 
 #endif

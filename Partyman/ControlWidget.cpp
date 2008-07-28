@@ -273,7 +273,11 @@ void ControlWidget::handlePause( bool reset )
    mpPlayer[1]->pause();
    if( mPaused || reset )
    {
-      emit requestChangeTitle( mPlayIcon, QApplication::applicationName() );
+      if( mLastTitle.isEmpty() )
+      {
+         mLastTitle = QApplication::applicationName();
+      }
+      emit requestChangeTitle( mPlayIcon, mLastTitle );
       mpPauseAction->setIcon( mPauseIcon );
       mpPauseAction->setText( tr("Pause") );
       mPaused = false;
@@ -442,6 +446,7 @@ void ControlWidget::allowInteractive( bool allow )
 
 void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
 {
+   /* pass through to track info widget */
    mpPlaylist->getTrack( trackInfo );
    QString title( trackInfo.displayString( MySettings().value("NamePattern", 
                                              QApplication::applicationName()+": |$TITLE|").toString() ) );
@@ -449,5 +454,6 @@ void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
    {
       title = QApplication::applicationName();
    }
+   mLastTitle = title;
    emit requestChangeTitle( mPlayIcon, title );
 }
