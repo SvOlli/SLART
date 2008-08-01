@@ -13,7 +13,6 @@
 
 #include <stdlib.h>
 
-
 Database::Database( const QString &fileName )
 : mpSqlDB( 0 )
 , mpQuery( 0 )
@@ -27,21 +26,9 @@ Database::Database( const QString &fileName )
    
    if( fileName.isEmpty() )
    {
-      char path[PATH_MAX];
-      char *home = getenv( "HOME" );
-      
-      if( home )
-      {
-         strcpy( path, home );
-         strcat( path, "/" );
-      }
-      else
-      {
-         path[0] = '\0';
-      }
-      strcat( path, ".slartdb" );
-      
+      char *path = getDatabaseFileName();
       mpSqlDB->setDatabaseName( path );
+      free( path );
    }
    else
    {
@@ -166,6 +153,27 @@ Database::~Database()
       mpSqlDB->close();
       mpSqlDB->removeDatabase( "QSQLITE" );
       delete mpSqlDB;
+   }
+}
+
+
+char *Database::getDatabaseFileName()
+{
+   const char *dotslartdb = ".slartdb";
+   char *filePath = 0;
+   char *home = getenv( "HOME" );
+   
+   if( home )
+   {
+      filePath = (char*)malloc( strlen(home) + 1 + strlen(dotslartdb) );
+      strcpy( filePath, home );
+      strcat( filePath, "/" );
+      strcat( filePath, dotslartdb );
+      return( filePath );
+   }
+   else
+   {
+      return strdup( dotslartdb );
    }
 }
 

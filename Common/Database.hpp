@@ -21,6 +21,9 @@ public:
    Database( const QString &fileName = QString() );
    virtual ~Database();
 
+   /* generate the filename for database */
+   static char *getDatabaseFileName();
+
    /* open the database file */
    bool open();
    /* start an encapsulated database transaction */
