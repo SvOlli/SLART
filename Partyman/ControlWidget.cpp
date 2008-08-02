@@ -36,6 +36,8 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mLoggerProcess()
 , mWaitForDerMixD( false )
 , mDerMixDstarted( false )
+, mLastTitle()
+, mLastP0p()
 {
    MySettings settings;
    mpPlayer[0] = new PlayerWidget(0, database, this);
@@ -366,6 +368,14 @@ void ControlWidget::handleSLART( const QStringList &src )
       initDisconnect();
    }
    
+   if( src.at(0) == "P0R" )
+   {
+      if( !mLastP0p.isEmpty() )
+      {
+         MySettings().sendNotification( mLastP0p );
+      }
+   }
+   
    if( (src.at(0) == "k0u") ||
        (src.at(0) == "r0u") )
    {
@@ -385,6 +395,14 @@ void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const
       udp.append( data );
    }
    settings.sendNotification( udp );
+   if( udpEvent == "p0p" )
+   {
+      mLastP0p = udp;
+   }
+   if( udpEvent == "p0s" )
+   {
+      mLastP0p.clear();
+   }
    
    QString command( settings.value( "LogCmd", "" ).toString() );
    if( !command.isEmpty() )

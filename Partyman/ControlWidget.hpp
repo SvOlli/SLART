@@ -108,6 +108,7 @@ private:
    bool           mWaitForDerMixD;
    bool           mDerMixDstarted;
    QString        mLastTitle;
+   QString        mLastP0p;
 };
 
 #endif

@@ -59,6 +59,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             mpConfigDialog, SLOT(exec()) );
    
    setLayout( mainLayout );
+   
+   settings.sendUdpMessage( "P0R", "Partyman" );
 }
 
 

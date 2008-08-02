@@ -89,6 +89,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    labelReadWriteButtons();
    mSLARTCom.resetReceiver();
+   
+   MySettings().sendUdpMessage( "P0R", "Partyman" );
 }
 
 

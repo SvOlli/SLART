@@ -1,10 +1,18 @@
 
+Generic (handled by SLARTCom)
+- commands
+  - CFG: re-read configuration
+  - PNG: ping request
+- status messages
+  - png: ping reply
+
 Partyman
 - commands
   - P0Q: enQueue track
   - P0A: plAy / pAuse
   - P0S: Stop
   - P0N: skip to Next track
+  - P0R: re-send last "p0p" status message
 - status messages
   - p0p: Playing track (parameter: complete filename)
   - p0s: Stopped
@@ -13,6 +21,8 @@ Partyman
   - p0u: Updated database
 
 Rubberbandman
+- commands
+  - R0D: build / update Database (parameter: m3u-File or Path)
 - status messages
   - r0u: Updated database
 
