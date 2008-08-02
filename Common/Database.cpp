@@ -157,27 +157,6 @@ Database::~Database()
 }
 
 
-char *Database::getDatabaseFileName()
-{
-   const char *dotslartdb = ".slartdb";
-   char *filePath = 0;
-   char *home = getenv( "HOME" );
-   
-   if( home )
-   {
-      filePath = (char*)malloc( strlen(home) + 1 + strlen(dotslartdb) );
-      strcpy( filePath, home );
-      strcat( filePath, "/" );
-      strcat( filePath, dotslartdb );
-      return( filePath );
-   }
-   else
-   {
-      return strdup( dotslartdb );
-   }
-}
-
-
 bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
 {
    QString sql( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
@@ -484,3 +463,35 @@ void Database::logError( const QString &note )
    }
    MySettings().sendUdpMessage( msg, QString("Innuendo") );
 }
+
+
+bool Database::databaseExists()
+{
+   char *fileName = getDatabaseFileName();
+   QFileInfo qfi( fileName );
+   free( fileName );
+   return qfi.isFile();
+}
+
+
+char *Database::getDatabaseFileName()
+{
+   const char *dotslartdb = ".slartdb";
+   char *filePath = 0;
+   char *home = getenv( "HOME" );
+   
+   if( home )
+   {
+      filePath = (char*)malloc( strlen(home) + 1 + strlen(dotslartdb) );
+      strcpy( filePath, home );
+      strcat( filePath, "/" );
+      strcat( filePath, dotslartdb );
+      return( filePath );
+   }
+   else
+   {
+      return strdup( dotslartdb );
+   }
+}
+
+

@@ -21,8 +21,8 @@ public:
    Database( const QString &fileName = QString() );
    virtual ~Database();
 
-   /* generate the filename for database */
-   static char *getDatabaseFileName();
+   /* test for the existance of the database file */
+   static bool databaseExists();
 
    /* open the database file */
    bool open();
@@ -61,6 +61,9 @@ private:
    /* send out an error description to Innuendo */
    void logError( const QString &note = QString() );
    
+   /* generate the filename for database */
+   static char *getDatabaseFileName();
+
    QSqlDatabase       *mpSqlDB;
    QSqlQuery          *mpQuery;
    unsigned int       mDatabaseVersion;
