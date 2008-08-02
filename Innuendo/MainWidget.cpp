@@ -97,10 +97,21 @@ void MainWidget::setBufferSize( int size )
 void MainWidget::handlePingButton()
 {
    MySettings settings;
+   mpMessageBuffer->addItem( "** pinging applications" );
+   mpPingButton->setDisabled( true );
    for( int i = 0; i < mApplications.count(); i++ )
    {
-      mSLARTCom.sendPing( mApplications.at(i) );
+      QString msg("* ");
+      msg.append( mApplications.at(i) );
+      msg.append( " is " );
+      if( !mSLARTCom.ping( mApplications.at(i) ) )
+      {
+         msg.append( "not " );
+      }
+      msg.append( "responing" );
+      mpMessageBuffer->addItem( msg );
    }
+   mpPingButton->setDisabled( false );
 }
 
 
