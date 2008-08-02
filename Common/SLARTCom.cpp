@@ -12,12 +12,14 @@
 
 #include <QMessageBox>
 #include <QApplication>
+#include <QTimer>
 
 
 SLARTCom::SLARTCom( QObject *parent )
 : QObject( parent )
 , mpParent( parent )
 , mUdpSocket()
+, mPingPort( 0 )
 {
    connect( &mUdpSocket, SIGNAL(readyRead()),
             this, SLOT(handleReadyRead()) );
@@ -49,7 +51,7 @@ void SLARTCom::resetReceiver()
 }
 
 
-void SLARTCom::sendPing( const QString &application )
+bool SLARTCom::ping( const QString &application )
 {
    bool active = MySettings().value( "SLARTCommunication", false ).toBool();
    int port = QSettings( QApplication::organizationName(), application )
@@ -57,15 +59,32 @@ void SLARTCom::sendPing( const QString &application )
    
    if( (!active) || (port < 1) || (port > 65535) )
    {
-      return;
+      return false;
    }
+   
+   mPingPort = port;
    mUdpSocket.writeDatagram( QByteArray("PNG"), 
                              QHostAddress::LocalHost, port );
+   
+   if( port == mPingPort )
+   {
+      QTimer::singleShot(1000, this, SLOT(handleReadyRead()));
+      while( port == mPingPort )
+      {
+         QApplication::processEvents();
+      }
+   }
+   
+   return mPingPort != 0;
 }
 
 
 void SLARTCom::handleReadyRead()
 {
+   if( !mUdpSocket.hasPendingDatagrams() )
+   {
+      mPingPort = 0;
+   }
    while( mUdpSocket.hasPendingDatagrams() )
    {
       QByteArray datagram;
@@ -88,11 +107,16 @@ void SLARTCom::handleReadyRead()
          
          if( src.at(0) == "PNG" )
          {
-            QString data("png\n");
-            data.append( QApplication::applicationName() );
+            QString data("png");
             
             mUdpSocket.writeDatagram( data.toUtf8(), 
                                       QHostAddress::LocalHost, senderPort );
+            return;
+         }
+         
+         if( src.at(0) == "png" )
+         {
+            mPingPort = ( mPingPort == senderPort ) ? -1 : 0;
             return;
          }
          

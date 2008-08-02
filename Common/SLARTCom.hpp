@@ -25,7 +25,7 @@ public:
    /* bind or release the port according to settings */
    void resetReceiver();
    /* send a ping request to the specified application */
-   void sendPing( const QString &application );
+   bool ping( const QString &application );
 
 public slots:
    /* handle new incoming udp packet */
@@ -41,8 +41,10 @@ private:
    SLARTCom( const SLARTCom &other );
    SLARTCom &operator=( const SLARTCom &other );
 
-   QObject     *mpParent;
-   QUdpSocket  mUdpSocket;
+   QObject      *mpParent;
+   QUdpSocket   mUdpSocket;
+   bool         mEndPing;
+   int          mPingPort;
 };
 
 #endif
