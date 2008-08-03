@@ -17,7 +17,7 @@ class Database;
 class FileSysTreeUpdate : public QThread
 {
 public:
-   unsigned int prepare( Database *database, FileSysTreeModel *treeModel );
+   int prepare( Database *database, FileSysTreeModel *treeModel );
    void cancel() { mCancel = true; } ;
    void run();
 

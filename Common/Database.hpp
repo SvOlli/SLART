@@ -38,7 +38,7 @@ public:
    /* delete track information from database */
    void deleteTrackInfo( const TrackInfo *trackInfo );
    /* get a list of track information matching to the search string */
-   unsigned int getTrackInfoList( TrackInfoList *trackInfoList, const QString &search = QString() );
+   int getTrackInfoList( TrackInfoList *trackInfoList, const QString &search = QString() );
    /* get a random track */
    bool getRandomTrack( TrackInfo *trackInfo, bool favorite,
                         bool unplayed, const QString &folder = QString() );

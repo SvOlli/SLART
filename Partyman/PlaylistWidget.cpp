@@ -313,7 +313,7 @@ void PlaylistWidget::startBrowserUpdate()
    mpTreeView->setEnabled( false );
    mpNextTreeModel = new FileSysTreeModel( this );
    
-   unsigned int retval = mpTreeUpdate->prepare( mpDatabase, mpNextTreeModel );
+   int retval = mpTreeUpdate->prepare( mpDatabase, mpNextTreeModel );
    if( retval > 0 )
    {
       mpTreeUpdate->start();

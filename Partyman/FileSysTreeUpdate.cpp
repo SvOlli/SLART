@@ -14,7 +14,7 @@
 #include "Trace.hpp"
 
 
-unsigned int FileSysTreeUpdate::prepare( Database *database, FileSysTreeModel *treeModel )
+int FileSysTreeUpdate::prepare( Database *database, FileSysTreeModel *treeModel )
 {
    mpDatabase  = database;
    mpTreeModel = treeModel;

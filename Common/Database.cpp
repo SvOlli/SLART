@@ -213,7 +213,7 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
 }
 
 
-unsigned int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QString &search )
+int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QString &search )
 {
    if( trackInfoList )
    {
@@ -265,8 +265,9 @@ unsigned int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QSt
          logError();
       }
       mpQuery->next();
+      int tracks = mpQuery->value(0).toInt();
       mpQuery->clear();
-      return mpQuery->value(0).toUInt();
+      return tracks;
    }
 }
 
