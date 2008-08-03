@@ -5,7 +5,7 @@
 include( ../Global.pri )
 
 TEMPLATE = app
-TARGET = 
+TARGET = Rubberbandman
 
 INCLUDEPATH += ../taglib
 LIBS += -L../taglib -ltag

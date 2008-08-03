@@ -54,8 +54,7 @@ void SLARTCom::resetReceiver()
 bool SLARTCom::ping( const QString &application )
 {
    bool active = MySettings().value( "SLARTCommunication", false ).toBool();
-   int port = QSettings( QApplication::organizationName(), application )
-                        .value( "UDPListenerPort", 0 ).toInt();
+   int port = MySettings( application ).value( "UDPListenerPort", 0 ).toInt();
    
    if( (!active) || (port < 1) || (port > 65535) )
    {

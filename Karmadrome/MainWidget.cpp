@@ -191,7 +191,7 @@ void MainWidget::handleWriteButton()
 
 void MainWidget::labelReadWriteButtons()
 {
-   QSettings settings( QApplication::organizationName(), "Global" );
+   MySettings settings( "Global" );
    int mode = settings.value( "ClipboardMode", 0 ).toInt();
 
    switch( mode )

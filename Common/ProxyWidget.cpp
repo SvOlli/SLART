@@ -161,7 +161,7 @@ void ProxyWidget::setProxy( QHttp *http )
 
 void ProxyWidget::readSettings()
 {
-   QSettings settings( QApplication::organizationName(), "Global" );
+   MySettings settings( "Global" );
 
    settings.beginGroup( "HTTPProxy" );
    mpProxyOnButton->setChecked(   settings.value("Enable",   false).toBool() );
@@ -177,7 +177,7 @@ void ProxyWidget::readSettings()
 
 void ProxyWidget::writeSettings()
 {
-   QSettings settings( QApplication::organizationName(), "Global" );
+   MySettings settings( "Global" );
    
    settings.beginGroup( "HTTPProxy" );
    settings.setValue( "Enable",   mpProxyOnButton->isChecked() );

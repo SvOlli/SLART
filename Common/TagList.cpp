@@ -6,8 +6,8 @@
  */
 
 #include "TagList.hpp"
+#include "MySettings.hpp"
 
-#include <QSettings>
 #include <QApplication>
 
 #include "Trace.hpp"
@@ -106,7 +106,7 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
 QString TagList::normalizeString( const QString &string )
 {
    QString newString;
-   QSettings settings( QApplication::organizationName(), "Global" );
+   MySettings settings( "Global" );
    
    if( settings.value( "NormalizeCase", false ).toBool() )
    {

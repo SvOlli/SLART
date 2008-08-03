@@ -6,7 +6,7 @@
  */
 
 #include "GlobalConfigWidget.hpp"
-#include <QSettings>
+#include "MySettings.hpp"
 
 #include <QtGui>
 
@@ -52,7 +52,7 @@ GlobalConfigWidget::~GlobalConfigWidget()
 
 void GlobalConfigWidget::readSettings()
 {
-   QSettings settings( QApplication::organizationName(), "Global" );
+   MySettings settings( "Global" );
    mpClipboardSelection->setCurrentIndex( settings.value( "ClipboardMode", 0 ).toInt() );
    mpAnimateViews->setChecked( settings.value( "AnimateViews", false ).toBool() );
    mpNormalizeCase->setChecked( settings.value("NormalizeCase", false).toBool() );
@@ -62,7 +62,7 @@ void GlobalConfigWidget::readSettings()
 
 void GlobalConfigWidget::writeSettings()
 {
-   QSettings settings( QApplication::organizationName(), "Global" );
+   MySettings settings( "Global" );
    settings.setValue( "ClipboardMode", mpClipboardSelection->currentIndex() );
    settings.setValue( "AnimateViews",  mpAnimateViews->isChecked() );
    settings.setValue( "NormalizeCase", mpNormalizeCase->isChecked() );
@@ -92,7 +92,7 @@ void GlobalConfigWidget::showNormalize( bool allow )
 
 void GlobalConfigWidget::setClipboard( const QString &text )
 {
-   QSettings settings( QApplication::organizationName(), "Global" );
+   MySettings settings( "Global" );
    QClipboard *clipboard = QApplication::clipboard();
    
 #if 1
@@ -128,7 +128,7 @@ void GlobalConfigWidget::setClipboard( const QString &text )
 
 QString GlobalConfigWidget::getClipboard()
 {
-   QSettings settings( QApplication::organizationName(), "Global" );
+   MySettings settings( "Global" );
    QClipboard *clipboard = QApplication::clipboard();
 
    switch( settings.value( "ClipboardMode", 0 ).toInt() )

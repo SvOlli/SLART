@@ -63,7 +63,7 @@ void ConfigNotifyApplicationWidget::allowNotify( int index, bool allow )
 
 void ConfigNotifyApplicationWidget::readSettings()
 {
-   QSettings settings( QApplication::organizationName(), mApplications.at( mIndex ) );
+   MySettings settings( mApplications.at( mIndex ) );
    mpSLARTCommunication->setChecked( settings.value( "SLARTCommunication", false ).toBool() );
    handleUDPListen( mpSLARTCommunication->isChecked() );
    mpUDPListenerPort->setValue( settings.value( "UDPListenerPort", 24221+mIndex ).toInt() );
@@ -79,7 +79,7 @@ void ConfigNotifyApplicationWidget::readSettings()
 
 void ConfigNotifyApplicationWidget::writeSettings()
 {
-   QSettings settings( QApplication::organizationName(), mApplications.at( mIndex ) );
+   MySettings settings( mApplications.at( mIndex ) );
    settings.setValue( "SLARTCommunication", mpSLARTCommunication->isChecked() );
    settings.setValue( "UDPListenerPort",   mpUDPListenerPort->value() );
    
