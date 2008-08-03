@@ -9,6 +9,7 @@
 #include "PlaylistWidget.hpp"
 #include "ConfigDialog.hpp"
 #include "MySettings.hpp"
+#include "GlobalConfigWidget.hpp"
 
 #include <QtGui>
 
@@ -28,9 +29,11 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mStopIcon( QIcon(":/Stop.gif") )
 , mPlayIcon( QIcon(":/Play.gif") )
 , mPauseIcon( QIcon(":/Pause.gif") )
+, mLoadIcon( QIcon(":/Load.gif") )
 , mpDisconnectMenu( new QMenu( mpConnectButton ) )
 , mpPauseAction( mpDisconnectMenu->addAction( tr("Pause" ) ) )
 , mpDisconnectAction( mpDisconnectMenu->addAction( mStopIcon, tr("Disconnect" ) ) )
+, mpLoadAction( mpDisconnectMenu->addAction( mLoadIcon, tr("Load" ) ) )
 , mSLARTCom( this )
 , mDerMixDprocess()
 , mLoggerProcess()
@@ -77,6 +80,8 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
             this, SLOT(handlePause()) );
    connect( mpDisconnectAction, SIGNAL(triggered()),
             this, SLOT(initDisconnect()) );
+   connect( mpLoadAction, SIGNAL(triggered()),
+            this, SLOT(handleLoad()) );
    connect( mpSkipButton, SIGNAL(clicked()),
             this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()),
@@ -169,6 +174,7 @@ void ControlWidget::readConfig()
       mpConnectButton->setText("Connect");
       mpDisconnectAction->setText("Disconnect");
    }
+   mpLoadAction->setEnabled( MySettings( "Global" ).value( "ClipboardMode", 0 ).toInt() > 0 );
 }
 
 
@@ -292,6 +298,12 @@ void ControlWidget::handlePause( bool reset )
       mPaused = true;
    }
    mpConnectButton->setMenu( mpDisconnectMenu );
+}
+
+
+void ControlWidget::handleLoad()
+{
+   mpPlaylist->addEntries( GlobalConfigWidget::getClipboard().split(QRegExp("(\r|\n)"),QString::SkipEmptyParts) );
 }
 
 

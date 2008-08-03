@@ -8,5 +8,6 @@
    <file>Play.gif</file>
    <file>Pause.gif</file>
    <file>Stop.gif</file>
+   <file>Load.gif</file>
 </qresource>
 </RCC>

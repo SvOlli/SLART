@@ -63,6 +63,8 @@ public slots:
    void handleSkipTrack();
    /* handle (un)pausing */
    void handlePause( bool reset = false );
+   /* handle load from clipboard */
+   void handleLoad();
    /* handle remote requests */
    void handleSLART( const QStringList &package );
    /* handle process startup */
@@ -99,9 +101,11 @@ private:
    QIcon          mStopIcon;
    QIcon          mPlayIcon;
    QIcon          mPauseIcon;
+   QIcon          mLoadIcon;
    QMenu          *mpDisconnectMenu;
    QAction        *mpPauseAction;
    QAction        *mpDisconnectAction;
+   QAction        *mpLoadAction;
    SLARTCom       mSLARTCom;
    QProcess       mDerMixDprocess;
    QProcess       mLoggerProcess;
