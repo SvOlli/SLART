@@ -253,7 +253,10 @@ void PlaylistWidget::dropEvent( QDropEvent *event )
                         qfi.setFile( filebase + filename );
                         filename = qfi.absoluteFilePath();
                      }
-                     dest << filename;
+                     if( qfi.isFile() )
+                     {
+                        dest << filename;
+                     }
                   }
                }
                qf.close();
