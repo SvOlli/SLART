@@ -15,6 +15,7 @@ class MySettings : public QSettings
 {
 public:
    MySettings();
+   MySettings( const QString &application );
 
    /* save main window settings */
    void saveMainWindow( QMainWindow *mainWindow );

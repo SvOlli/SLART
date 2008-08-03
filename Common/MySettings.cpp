@@ -19,6 +19,12 @@ MySettings::MySettings()
 }
 
 
+MySettings::MySettings( const QString &application )
+: QSettings( QApplication::organizationName(), application )
+{
+}
+
+
 void MySettings::sendUdpMessage( const QString &data, int port )
 {
 #if 0
