@@ -16,8 +16,8 @@
 #include <tag.h>
 
 #include "Database.hpp"
-#include "FileSysBrowser.hpp"
-#include "InfoEdit.hpp"
+//#include "FileSysBrowser.hpp"
+//#include "InfoEdit.hpp"
 #include "DirWalker.hpp"
 #include "MySettings.hpp"
 
@@ -26,6 +26,8 @@
 DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( database )
+, mpBaseDir( new QLineEdit( this ) )
+, mpUpdateButton( new QPushButton( tr("Update"), this ) )
 , mpMessage( new QLabel( this ) )
 #if 0
 , mpTableModel( new QSqlTableModel() )
@@ -33,11 +35,17 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
 #endif
 , mTrackInfo()
 {
-   QPushButton *updateButton = new QPushButton( tr("Update") );
-   QPushButton *cleanupButton = new QPushButton( tr("Clean up") );
+   QPushButton *cleanupButton = new QPushButton( tr("Clean up"), this );
+   QPushButton *browseButton  = new QPushButton( tr("Browse"), this );
    
-   connect( updateButton, SIGNAL(pressed()), this, SLOT(handleUpdate()) );
-   connect( cleanupButton, SIGNAL(pressed()), this, SLOT(handleCleanup()) );
+   connect( browseButton, SIGNAL(pressed()),
+            this, SLOT(setBaseDir()) );
+   connect( mpUpdateButton, SIGNAL(pressed()),
+            this, SLOT(handleUpdate()) );
+   connect( cleanupButton, SIGNAL(pressed()),
+            this, SLOT(handleCleanup()) );
+   connect( mpBaseDir, SIGNAL(textChanged(const QString &)),
+            this, SLOT(checkValidDir(const QString &)) );
    
 #if 0
    mpTableModel->setQuery( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
@@ -48,16 +56,23 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
 #endif
    
    QVBoxLayout *layout = new QVBoxLayout;
+   QHBoxLayout *rootLayout = new QHBoxLayout;
+   rootLayout->addWidget( new QLabel( tr("Music Base:"), this ) );
+   rootLayout->addWidget( mpBaseDir );
+   rootLayout->addWidget( browseButton );
+   
    QHBoxLayout *buttonLayout = new QHBoxLayout;
-   buttonLayout->addWidget( updateButton );
+   buttonLayout->addWidget( mpUpdateButton );
    buttonLayout->addWidget( cleanupButton );
 #if 0
    layout->addWidget( mpTableView );
 #endif
+   layout->addLayout( rootLayout );
    layout->addLayout( buttonLayout );
    layout->addWidget( mpMessage );
    layout->addStretch();
    setLayout(layout);
+   mpBaseDir->setText( MySettings( "Global" ).value( "MusicBase", QString("/") ).toString() );
 }
 
 
@@ -72,13 +87,17 @@ void DatabaseWidget::handleUpdate()
    connect( &walker, SIGNAL(foundDir(const QFileInfo&)),
             this, SLOT(handleDir(const QFileInfo&)) );
    mpDatabase->beginTransaction();
-   walker.run( MySettings().value( "RootDirectory", QString("/") ).toString(), true );
+   walker.run( mpBaseDir->text(), true );
    mpDatabase->endTransaction(true);
    disconnect( &walker, SIGNAL(foundFile(const QFileInfo&)),
                this, SLOT(handleFile(const QFileInfo&)) );
    disconnect( &walker, SIGNAL(foundDir(const QFileInfo&)),
                this, SLOT(handleDir(const QFileInfo&)) );
    mpMessage->setText( "Done, " + QString::number(mCount) + " files scanned." );
+   if( mCount > 3 )
+   {
+      emit databaseOk();
+   }
 #if 0
    mpTableModel->select();
    QString query( mpTableModel->query().lastQuery() );
@@ -171,3 +190,36 @@ bool DatabaseWidget::updateTrackInfoFromFile( const QString &fileName )
    return false;
 }
 
+
+void DatabaseWidget::setBaseDir()
+{
+   QFileDialog fileDialog( this );
+   
+   fileDialog.setFileMode( QFileDialog::DirectoryOnly );
+   fileDialog.setDirectory( mpBaseDir->text() );
+   fileDialog.setReadOnly( true );
+   
+   if( fileDialog.exec() )
+   {
+      MySettings settings( "Global" );
+      QString result( fileDialog.selectedFiles().at(0) );
+      mpBaseDir->setText( result );
+      settings.setValue( "MusicBase", result.replace('\\','/') );
+   }
+}
+
+
+void DatabaseWidget::checkValidDir( const QString &dirName )
+{
+   QFileInfo qfi( dirName );
+   if( qfi.isDir() )
+   {
+      mpUpdateButton->setDisabled( false );
+      MySettings settings( "Global" );
+      settings.setValue( "MusicBase", QString( dirName ).replace('\\','/') );
+   }
+   else
+   {
+      mpUpdateButton->setDisabled( true );
+   }
+}

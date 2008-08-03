@@ -20,6 +20,7 @@ class QSqlTableModel;
 class QFileInfo;
 class QTableView;
 class Database;
+class QLineEdit;
 
 class DatabaseWidget : public QWidget
 {
@@ -34,12 +35,19 @@ public slots:
    void handleCleanup();
    void handleFile( const QFileInfo &fileInfo );
    void handleDir( const QFileInfo &fileInfo );
+   void setBaseDir();
+   void checkValidDir( const QString &dirName );
+
+signals:
+   void databaseOk();
 
 private:
    DatabaseWidget( const DatabaseWidget &other );
    DatabaseWidget &operator=( const DatabaseWidget &other );
 
    Database       *mpDatabase;
+   QLineEdit      *mpBaseDir;
+   QPushButton    *mpUpdateButton;
    QLabel         *mpMessage;
 #if 0
    QSqlTableModel *mpTableModel;
