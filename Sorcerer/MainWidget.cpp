@@ -51,6 +51,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    QLabel *welldone   = new QLabel( tr("Some spiffy well done text..."), this );
    welcome->setAlignment( Qt::AlignCenter );
    welldone->setAlignment( Qt::AlignCenter );
+   mpHint->setFrameShadow( QFrame::Raised );
+   mpHint->setFrameShape( QFrame::Box );
    
    mpTabs->addTab( welcome,                     QString(tr("Welcome")) );
    mpTabs->addTab( mpDatabaseWidget,            QString(tr("Database")) );
