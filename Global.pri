@@ -10,6 +10,9 @@ DEPENDPATH += ../Common
 INCLUDEPATH += ../Common
 DESTDIR = ../bin
 
+QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
+QMAKE_LFLAGS += -Wl,--gc-sections
+
 CONFIG(debug, debug|release)
 {
    HEADERS += Trace.hpp
