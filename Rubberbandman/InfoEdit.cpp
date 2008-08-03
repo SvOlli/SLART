@@ -735,23 +735,27 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
       
       if( withRecurse )
       {
-         mRecurseSetFlags    = false;
+         mRecurseSetFlags    = true;
          mpRecurseSetFlags   = mpMenuFlags->addAction( QString( tr("Set Selected Flags") ) );
          mpRecurseSetFlags->setCheckable( true );
+         mpRecurseSetFlags->setChecked( mRecurseSetFlags );
          
          mRecurseUnsetFlags  = false;
          mpRecurseUnsetFlags = mpMenuFlags->addAction( QString( tr("Unset Selected Flags") ) );
          mpRecurseUnsetFlags->setCheckable( true );
+         mpRecurseUnsetFlags->setChecked( mRecurseUnsetFlags );
          
          mpMenuFlags->addSeparator();
          
-         mRecurseSetFolders    = false;
+         mRecurseSetFolders    = true;
          mpRecurseSetFolders   = mpMenuFolders->addAction( QString( tr("Set Selected Folders") ) );
          mpRecurseSetFolders->setCheckable( true );
+         mpRecurseSetFolders->setChecked( mRecurseSetFolders );
          
          mRecurseUnsetFolders  = false;
          mpRecurseUnsetFolders = mpMenuFolders->addAction( QString( tr("Unset Selected Folders") ) );
          mpRecurseUnsetFolders->setCheckable( true );
+         mpRecurseUnsetFolders->setChecked( mRecurseUnsetFolders );
          
          mpMenuFolders->addSeparator();
       }
@@ -818,18 +822,20 @@ void InfoEdit::handleFlagsMenu( QAction *action )
 {
    if( action == mpRecurseSetFlags )
    {
-      mRecurseSetFlags   = action->isChecked();
+      mRecurseSetFlags   = true;
       mRecurseUnsetFlags = false;
-      mpRecurseUnsetFlags->setChecked( false );
+      mpRecurseSetFlags->setChecked( mRecurseSetFlags );
+      mpRecurseUnsetFlags->setChecked( mRecurseUnsetFlags );
       mpTrackScannedFlag->setChecked( false );
       return;
    }
    
    if( action == mpRecurseUnsetFlags )
    {
-      mRecurseUnsetFlags = action->isChecked();
       mRecurseSetFlags   = false;
-      mpRecurseSetFlags->setChecked( false );
+      mRecurseUnsetFlags = true;
+      mpRecurseSetFlags->setChecked( mRecurseSetFlags );
+      mpRecurseUnsetFlags->setChecked( mRecurseUnsetFlags );
       return;
    }
    
@@ -861,15 +867,19 @@ void InfoEdit::handleFoldersMenu( QAction *action )
 {
    if( action == mpRecurseSetFolders )
    {
-      mRecurseSetFolders = action->isChecked();
-      mpRecurseUnsetFolders->setChecked( false );
+      mRecurseSetFolders   = true;
+      mRecurseUnsetFolders = false;
+      mpRecurseSetFolders->setChecked( mRecurseSetFolders );
+      mpRecurseUnsetFolders->setChecked( mRecurseUnsetFolders );
       return;
    }
    
    if( action == mpRecurseUnsetFolders )
    {
-      mRecurseUnsetFolders = action->isChecked();
-      mpRecurseSetFolders->setChecked( false );
+      mRecurseSetFolders   = false;
+      mRecurseUnsetFolders = true;
+      mpRecurseSetFolders->setChecked( mRecurseSetFolders );
+      mpRecurseUnsetFolders->setChecked( mRecurseUnsetFolders );
       return;
    }
    
