@@ -28,7 +28,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mLastTab( 0 )
 , mDatabaseOk( Database::exists() )
 , mCommunicationOk( MySettings( "Innuendo" ).value( "SLARTCommunication" ).isValid() )
-, mProxyOk( false )
+, mProxyOk( MySettings( "Global" ).value( "Enable" ).isValid() )
 {
    int i;
    if( mDatabaseOk )
@@ -147,7 +147,7 @@ void MainWidget::handleNextButton()
    }
    else
    {
-      QApplication::quit();
+      QApplication::exit((mDatabaseOk ? 0x2 : 0) | (mCommunicationOk ? 0x4 : 0) | (mProxyOk ? 0x8 : 0));
    }
 }
 

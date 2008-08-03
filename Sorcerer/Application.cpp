@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
    MainWindow window;
    window.show();
    
-   retval = app.exec();
+   retval = app.exec() ^ 0x0e;
    
    return retval;
 }
