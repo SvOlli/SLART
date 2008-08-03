@@ -26,14 +26,16 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpTrackInfo( new TrackInfoWidget( mpDatabase, QString("k0u"), this ) )
 , mpReadButton( new QPushButton( this ) )
 , mpWriteButton( new QPushButton( this ) )
-, mpListButtons( new ButtonsWidget( tr("Karma Lists:"), this ) )
+, mpListButtons( new ButtonsWidget( tr("Folders:"), this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpAddButton( new QPushButton( tr("Add"), this ) )
 , mpRemoveButton( new QPushButton( tr("Remove"), this ) )
 , mpRemoveMenu( new QMenu( this ) )
 , mpConfigDialog( new ConfigDialog( this ) )
+, mpTimer( new QTimer( this ) )
 , mSLARTCom()
 , mPlaylists()
+, mTrackInfo()
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
    
@@ -43,16 +45,19 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
    
-   QLabel *mpLogo = new QLabel( this );
-   mpLogo->setText( QApplication::applicationName() );
-   mpLogo->setAlignment( Qt::AlignCenter );
-   mpLogo->setFrameShadow( QFrame::Raised );
-   mpLogo->setFrameShape( QFrame::Box );
+   mpTimer->setSingleShot( true );
+   mpTimer->setInterval( 2000 );
+   
+   QLabel *pLogo = new QLabel( this );
+   pLogo->setText( QApplication::applicationName() );
+   pLogo->setAlignment( Qt::AlignCenter );
+   pLogo->setFrameShadow( QFrame::Raised );
+   pLogo->setFrameShape( QFrame::Box );
    
    mpFileName->setReadOnly( true );
    mpRemoveButton->setMenu( mpRemoveMenu );
 
-   mainLayout->addWidget( mpLogo,           0, 0, 1, 6 );
+   mainLayout->addWidget( pLogo,            0, 0, 1, 6 );
    mainLayout->addWidget( mpFileName,       1, 0, 1, 6 );
    mainLayout->addWidget( mpTrackInfo,      2, 0, 1, 6 );
    mainLayout->addWidget( mpReadButton,     3, 0, 1, 3 );
@@ -75,6 +80,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(labelReadWriteButtons()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
             this, SLOT(updateLists()) );
+   connect( mpTimer, SIGNAL(timeout()),
+            this, SLOT(sendK0u()) );
    
    connect( mpListButtons, SIGNAL(clicked(QWidget*)),
             this, SLOT(addToList(QWidget*)) );
@@ -101,12 +108,18 @@ void MainWidget::addToList( QWidget *widget )
    {
       mTrackInfo.setFolder( pb->text(), pb->isChecked() );
       mpDatabase->updateTrackInfo( &mTrackInfo );
-      MySettings().sendNotification( QString("k0u") );
+      mpTimer->start();
    }
    else
    {
       pb->setChecked( false );
    }
+}
+
+
+void MainWidget::sendK0u()
+{
+      MySettings().sendNotification( QString("k0u") );
 }
 
 

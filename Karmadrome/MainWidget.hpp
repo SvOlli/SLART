@@ -19,6 +19,7 @@ class QPushButton;
 class QMenu;
 class QLineEdit;
 class QAction;
+class QTimer;
 class ButtonsWidget;
 class ConfigDialog;
 class ScrollLine;
@@ -49,6 +50,8 @@ public slots:
    void labelReadWriteButtons();
    /* update the lists containing the playlists */
    void updateLists();
+   /* slot for timer to send out k0u notification */
+   void sendK0u();
 
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
@@ -69,6 +72,7 @@ private:
    QPushButton     *mpRemoveButton;
    QMenu           *mpRemoveMenu;
    ConfigDialog    *mpConfigDialog;
+   QTimer          *mpTimer;
 
    SLARTCom        mSLARTCom;
    QStringList     mPlaylists;
