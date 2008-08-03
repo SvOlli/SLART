@@ -17,7 +17,7 @@ extern "C"
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-};
+}
 
 Encoder::Encoder( QWidget *parent, const QString &encoderName )
 : QWidget( parent )

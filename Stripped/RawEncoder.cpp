@@ -13,7 +13,7 @@
 extern "C"
 {
 #include <unistd.h>
-};
+}
 
 #include <QtGui>
 

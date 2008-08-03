@@ -46,7 +46,7 @@ void SearchLineEdit::keyPressEvent( QKeyEvent *event )
       }
    }
    QLineEdit::keyPressEvent( event );
-};
+}
 
 
 SearchWidget::SearchWidget( Database *database, PlaylistWidget *parent )

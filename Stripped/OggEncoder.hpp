@@ -13,7 +13,7 @@
 extern "C"
 {
 #include <vorbis/vorbisenc.h>
-};
+}
 
 class OggEncoder : public Encoder
 {

@@ -13,7 +13,7 @@
 extern "C" {
 #include <cdio/cdio.h>
 #include <cdio/paranoia.h>
-};
+}
 
 class QProgressBar;
    

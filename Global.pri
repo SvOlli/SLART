@@ -14,5 +14,9 @@ CONFIG(debug, debug|release)
 {
    HEADERS += Trace.hpp
    SOURCES += Trace.cpp
+   contains( QMAKE_CXX, g++ )
+   {
+      QMAKE_CXXFLAGS_DEBUG += -pedantic -Wno-long-long
+   }
 }
 
