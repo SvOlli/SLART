@@ -466,7 +466,7 @@ void Database::logError( const QString &note )
 }
 
 
-bool Database::databaseExists()
+bool Database::exists()
 {
    char *fileName = getDatabaseFileName();
    QFileInfo qfi( fileName );

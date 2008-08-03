@@ -22,7 +22,7 @@ public:
    virtual ~Database();
 
    /* test for the existance of the database file */
-   static bool databaseExists();
+   static bool exists();
 
    /* open the database file */
    bool open();

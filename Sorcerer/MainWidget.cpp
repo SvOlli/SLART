@@ -26,7 +26,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpConfigCommunicationWidget( new ConfigNotifyWidget( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mLastTab( 0 )
-, mDatabaseOk( Database::databaseExists() )
+, mDatabaseOk( Database::exists() )
 , mCommunicationOk( MySettings( "Innuendo" ).value( "SLARTCommunication" ).isValid() )
 , mProxyOk( false )
 {
