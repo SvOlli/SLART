@@ -3,6 +3,7 @@
 <qresource>
    <file>Usage.html</file>
    <file>Settings.html</file>
+   <file>Pattern.html</file>
    <file>PartymanSmile.gif</file>
    <file>PartymanWriting.gif</file>
    <file>Play.gif</file>
