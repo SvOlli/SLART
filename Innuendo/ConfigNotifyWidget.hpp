@@ -40,7 +40,8 @@ public slots:
    void handleAppButton( int index );
 
 signals:
-   void clicked( int index );
+   /*  */
+   void fullNoCommunnicationClicked();
 
 private:
    QSignalMapper                 *mpSignalMapper;

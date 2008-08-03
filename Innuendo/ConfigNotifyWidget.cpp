@@ -43,7 +43,8 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
       mpTabs[i]->setVisible( i == 0 );
       appsLayout->addWidget( mpApps[i] );
       tabsLayout->addWidget( mpTabs[i] );
-      connect( mpApps[i], SIGNAL(clicked()), mpSignalMapper, SLOT(map()) );
+      connect( mpApps[i], SIGNAL(clicked()), 
+               mpSignalMapper, SLOT(map()) );
       mpSignalMapper->setMapping( mpApps[i], i );
    }
    
@@ -155,4 +156,5 @@ void ConfigNotifyWidget::setAllAtOnce( bool enable )
    {
       mpTabs[i]->setAllAtOnce( enable );
    }
+   emit fullNoCommunnicationClicked();
 }

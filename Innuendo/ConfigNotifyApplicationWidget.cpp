@@ -65,6 +65,7 @@ void ConfigNotifyApplicationWidget::readSettings()
 {
    QSettings settings( QApplication::organizationName(), mApplications.at( mIndex ) );
    mpSLARTCommunication->setChecked( settings.value( "SLARTCommunication", false ).toBool() );
+   handleUDPListen( mpSLARTCommunication->isChecked() );
    mpUDPListenerPort->setValue( settings.value( "UDPListenerPort", 24221+mIndex ).toInt() );
    
    settings.beginGroup( "Listeners" );

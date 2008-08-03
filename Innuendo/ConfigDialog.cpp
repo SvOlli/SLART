@@ -37,7 +37,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
-   tabs->addTab( mpNotifyWidget,       QString(tr("Notification")) );
+   tabs->addTab( mpNotifyWidget,       QString(tr("Communication")) );
    tabs->addTab( mpProxyWidget,        QString(tr("Proxy")) );
    tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
    
