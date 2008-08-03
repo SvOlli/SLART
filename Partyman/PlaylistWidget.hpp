@@ -17,6 +17,7 @@
 
 class QLabel;
 class QTabWidget;
+class QSplitter;
 class QTextBrowser;
    
 class FileSysTreeModel;
@@ -90,6 +91,7 @@ private:
    SearchWidget          *mpSearch;
    TrackInfoWidget       *mpTrackInfo;
    QTextBrowser          *mpHelpText;
+   QSplitter             *mpSplitter;
 };
 
 #endif

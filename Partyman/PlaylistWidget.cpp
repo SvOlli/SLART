@@ -33,6 +33,7 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
 , mpSearch( new SearchWidget( database, this ) )
 , mpTrackInfo( new TrackInfoWidget( database, QString("p0u"), this ) )
 , mpHelpText( new QTextBrowser( this ) )
+, mpSplitter( new QSplitter( Qt::Vertical, parent ) )
 {
    MySettings settings;
    qsrand( time((time_t*)0) );
@@ -52,7 +53,6 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
    mpHelpText->setSource( QUrl("qrc:/Usage.html") );
    
    QHBoxLayout *layout = new QHBoxLayout;
-   QSplitter *splitter = new QSplitter( Qt::Vertical, parent );
    mpTabs->setTabPosition( QTabWidget::South );
    mpTabs->addTab( mpTreeView, tr("Browse") );
    mpTabs->addTab( mpSearch, tr("Search") );
@@ -60,9 +60,13 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
    mpTabs->addTab( mpHelpText, tr("Help") );
    mpTabs->setCurrentIndex( settings.value("CurrentTab", mpTabs->count()-1).toInt() );
    
-   splitter->addWidget( mpPlaylistContent );
-   splitter->addWidget( mpTabs );
-   layout->addWidget( splitter );
+   mpSplitter->addWidget( mpPlaylistContent );
+   mpSplitter->addWidget( mpTabs );
+   QPoint regSizes( settings.value( "SplitterSizes", QPoint(1,1) ).toPoint() );
+   QList<int> sizes;
+   sizes << regSizes.x() << regSizes.y();
+   mpSplitter->setSizes( sizes );
+   layout->addWidget( mpSplitter );
 #if QT_VERSION < 0x040300
    layout->setMargin( 0 );
 #else
@@ -113,6 +117,12 @@ PlaylistWidget::~PlaylistWidget()
    else
    {
       settings.remove( "Playlist" );
+   }
+   
+   QList<int> sizes = mpSplitter->sizes();
+   if( sizes.count() > 1 )
+   {
+      settings.setValue( "SplitterSizes", QPoint(sizes.at(0),sizes.at(1)) );
    }
 }
 
