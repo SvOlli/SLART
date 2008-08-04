@@ -31,7 +31,9 @@ public:
    /* end an encapsulated database transaction */
    bool endTransaction( bool commit ) { return commit ? mpSqlDB->commit() : mpSqlDB->rollback(); };
    
-   /* get track information from database */
+   /* get track information from database
+      empty fileName: search for TrackInfo by trackInfo->mID
+      trackInfo = 0: only test if fileName is in database */
    bool getTrackInfo( TrackInfo *trackInfo, const QString &fileName = QString() );
    /* update track information to database */
    void updateTrackInfo( const TrackInfo *trackInfo );

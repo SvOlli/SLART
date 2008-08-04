@@ -166,6 +166,10 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
    {
       sql.append( "id = :id ;" );
       mpQuery->prepare( sql );
+      if( !trackInfo )
+      {
+         return false;
+      }
       mpQuery->bindValue( ":id", trackInfo->mID );
    }
    else
@@ -184,29 +188,36 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
    
    if( mpQuery->next() )
    {
-      trackInfo->mID           = mpQuery->value( 0).toUInt();
-      trackInfo->mDirectory    = mpQuery->value( 1).toString();
-      trackInfo->mFileName     = mpQuery->value( 2).toString();
-      trackInfo->mArtist       = mpQuery->value( 3).toString();
-      trackInfo->mTitle        = mpQuery->value( 4).toString();
-      trackInfo->mAlbum        = mpQuery->value( 5).toString();
-      trackInfo->mTrackNr      = mpQuery->value( 6).toUInt();
-      trackInfo->mYear         = mpQuery->value( 7).toUInt();
-      trackInfo->mGenre        = mpQuery->value( 8).toString();
-      trackInfo->mPlayTime     = mpQuery->value( 9).toUInt();
-      trackInfo->mLastScanned  = mpQuery->value(10).toUInt();
-      trackInfo->mLastTagsRead = mpQuery->value(11).toUInt();
-      trackInfo->mTimesPlayed  = mpQuery->value(12).toUInt();
-      trackInfo->mVolume       = mpQuery->value(13).toDouble();
-      trackInfo->mFolders      = mpQuery->value(14).toString();
-      trackInfo->mFlags        = mpQuery->value(15).toUInt();
+      if( trackInfo )
+      {
+         trackInfo->mID           = mpQuery->value( 0).toUInt();
+         trackInfo->mDirectory    = mpQuery->value( 1).toString();
+         trackInfo->mFileName     = mpQuery->value( 2).toString();
+         trackInfo->mArtist       = mpQuery->value( 3).toString();
+         trackInfo->mTitle        = mpQuery->value( 4).toString();
+         trackInfo->mAlbum        = mpQuery->value( 5).toString();
+         trackInfo->mTrackNr      = mpQuery->value( 6).toUInt();
+         trackInfo->mYear         = mpQuery->value( 7).toUInt();
+         trackInfo->mGenre        = mpQuery->value( 8).toString();
+         trackInfo->mPlayTime     = mpQuery->value( 9).toUInt();
+         trackInfo->mLastScanned  = mpQuery->value(10).toUInt();
+         trackInfo->mLastTagsRead = mpQuery->value(11).toUInt();
+         trackInfo->mTimesPlayed  = mpQuery->value(12).toUInt();
+         trackInfo->mVolume       = mpQuery->value(13).toDouble();
+         trackInfo->mFolders      = mpQuery->value(14).toString();
+         trackInfo->mFlags        = mpQuery->value(15).toUInt();
+      }
       
       mpQuery->clear();
       return true;
    }
    else
    {
-      trackInfo->clear();
+      if( trackInfo )
+      {
+         trackInfo->clear();
+      }
+      
       mpQuery->clear();
       return false;
    }
