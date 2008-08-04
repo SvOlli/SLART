@@ -180,7 +180,21 @@ void PlaylistWidget::addEntries( const QModelIndex &index )
 
 void PlaylistWidget::addEntries( const QStringList &entries, bool atStart )
 {
-   mpPlaylistContent->addItems( entries, atStart );
+   int i;
+   QStringList checkedEntries;
+   
+   for( i = 0; i < entries.count(); i++ )
+   {
+      if( mpDatabase->getTrackInfo( 0, entries.at(i) ) )
+      {
+         checkedEntries.append( entries.at(i) );
+      }
+      else if( QFileInfo( entries.at(i) ).isFile() )
+      {
+         checkedEntries.append( entries.at(i) );
+      }
+   }
+   mpPlaylistContent->addItems( checkedEntries, atStart );
    mpPlaylistContent->scrollToBottom();
 }
 
