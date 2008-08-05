@@ -12,6 +12,7 @@
 //#include <QDir>
 //#include <QTableView>
 #include "TrackInfo.hpp"
+#include "DirWalker.hpp"
 
 class QPushButton;
 class QLabel;
@@ -31,8 +32,8 @@ public:
    bool updateTrackInfoFromFile( const QString &fileName );
 
 public slots:
-   void handleUpdate();
-   void handleCleanup();
+   void handleUpdate( bool checked );
+   void handleCleanup( bool checked );
    void handleFile( const QFileInfo &fileInfo );
    void handleDir( const QFileInfo &fileInfo );
    void setBaseDir();
@@ -48,6 +49,7 @@ private:
    Database       *mpDatabase;
    QLineEdit      *mpBaseDir;
    QPushButton    *mpUpdateButton;
+   QPushButton    *mpCleanupButton;
    QLabel         *mpMessage;
 #if 0
    QSqlTableModel *mpTableModel;
@@ -56,6 +58,7 @@ private:
    unsigned int   mCount;
    unsigned int   mLastCount;
    TrackInfo      mTrackInfo;
+   DirWalker      mDirWalker;
 };
 
 #endif

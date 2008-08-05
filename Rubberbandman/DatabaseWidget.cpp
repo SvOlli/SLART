@@ -28,6 +28,7 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
 , mpDatabase( database )
 , mpBaseDir( new QLineEdit( this ) )
 , mpUpdateButton( new QPushButton( tr("Update"), this ) )
+, mpCleanupButton( new QPushButton( tr("Clean Up"), this ) )
 , mpMessage( new QLabel( this ) )
 #if 0
 , mpTableModel( new QSqlTableModel() )
@@ -35,17 +36,24 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
 #endif
 , mTrackInfo()
 {
-   QPushButton *cleanupButton = new QPushButton( tr("Clean up"), this );
    QPushButton *browseButton  = new QPushButton( tr("Browse"), this );
+   mpMessage->setFrameShadow( QFrame::Raised );
+   mpMessage->setFrameShape( QFrame::Box );
+   mpUpdateButton->setCheckable( true );
+   mpCleanupButton->setCheckable( true );
    
-   connect( browseButton, SIGNAL(pressed()),
+   connect( browseButton, SIGNAL(clicked()),
             this, SLOT(setBaseDir()) );
-   connect( mpUpdateButton, SIGNAL(pressed()),
-            this, SLOT(handleUpdate()) );
-   connect( cleanupButton, SIGNAL(pressed()),
-            this, SLOT(handleCleanup()) );
+   connect( mpUpdateButton, SIGNAL(clicked(bool)),
+            this, SLOT(handleUpdate(bool)) );
+   connect( mpCleanupButton, SIGNAL(clicked(bool)),
+            this, SLOT(handleCleanup(bool)) );
    connect( mpBaseDir, SIGNAL(textChanged(const QString &)),
             this, SLOT(checkValidDir(const QString &)) );
+   connect( &mDirWalker, SIGNAL(foundFile(const QFileInfo&)),
+            this, SLOT(handleFile(const QFileInfo&)) );
+   connect( &mDirWalker, SIGNAL(foundDir(const QFileInfo&)),
+            this, SLOT(handleDir(const QFileInfo&)) );
    
 #if 0
    mpTableModel->setQuery( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
@@ -63,7 +71,7 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( mpUpdateButton );
-   buttonLayout->addWidget( cleanupButton );
+   buttonLayout->addWidget( mpCleanupButton );
 #if 0
    layout->addWidget( mpTableView );
 #endif
@@ -76,28 +84,29 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
 }
 
 
-void DatabaseWidget::handleUpdate()
+void DatabaseWidget::handleUpdate( bool checked )
 {
+   if( !checked )
+   {
+      mpUpdateButton->setChecked( true );
+      return;
+   }
+   mpUpdateButton->setDisabled( true );
+   mpCleanupButton->setDisabled( true );
    TrackInfoList trackInfoList;
-   DirWalker walker;
    mCount = 0;
    mLastCount = 0;
-   connect( &walker, SIGNAL(foundFile(const QFileInfo&)),
-            this, SLOT(handleFile(const QFileInfo&)) );
-   connect( &walker, SIGNAL(foundDir(const QFileInfo&)),
-            this, SLOT(handleDir(const QFileInfo&)) );
    mpDatabase->beginTransaction();
-   walker.run( mpBaseDir->text(), true );
+   mDirWalker.run( mpBaseDir->text(), true );
    mpDatabase->endTransaction(true);
-   disconnect( &walker, SIGNAL(foundFile(const QFileInfo&)),
-               this, SLOT(handleFile(const QFileInfo&)) );
-   disconnect( &walker, SIGNAL(foundDir(const QFileInfo&)),
-               this, SLOT(handleDir(const QFileInfo&)) );
    mpMessage->setText( "Done, " + QString::number(mCount) + " files scanned." );
    if( mCount > 3 )
    {
       emit databaseOk();
    }
+   mpUpdateButton->setDisabled( false );
+   mpCleanupButton->setDisabled( false );
+   mpUpdateButton->setChecked( false );
 #if 0
    mpTableModel->select();
    QString query( mpTableModel->query().lastQuery() );
@@ -109,21 +118,42 @@ void DatabaseWidget::handleUpdate()
 }
 
 
-void DatabaseWidget::handleCleanup()
+void DatabaseWidget::handleCleanup( bool checked )
 {
+TRACESTART(DatabaseWidget::handleCleanup)
+TRACEMSG << checked;
+   if( !checked )
+   {
+      mpCleanupButton->setChecked( true );
+      return;
+   }
+   mpUpdateButton->setDisabled( true );
+   mpCleanupButton->setDisabled( true );
    TrackInfoList   trackInfoList;
    int s = mpDatabase->getTrackInfoList( &trackInfoList );
    
    QFileInfo qfi;
-   for( int i = 0; i < s; i++ )
+   int i;
+   int c = 0;
+   for( i = 0; i < s; i++ )
    {
       mTrackInfo = trackInfoList.at(i);
       qfi.setFile( mTrackInfo.mDirectory + "/" + mTrackInfo.mFileName );
       if( !qfi.isFile() )
       {
          mpDatabase->deleteTrackInfo( &mTrackInfo );
+         ++c;
+      }
+      if( i % 100 == 99 )
+      {
+         mpMessage->setText( QString::number(i+1) + " files checked, " + QString::number(c) + " cleaned." );
+         QApplication::processEvents();
       }
    }
+   mpMessage->setText( "Done, " + QString::number(i+1) + " files checked, " + QString::number(c) + " cleaned." );
+   mpUpdateButton->setDisabled( false );
+   mpCleanupButton->setDisabled( false );
+   mpCleanupButton->setChecked( false );
 }
 
 
