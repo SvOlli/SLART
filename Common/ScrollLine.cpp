@@ -15,7 +15,7 @@
 
 QTimer *ScrollLine::mpTimer = 0;
 
-ScrollLine::ScrollLine( QWidget *parent )
+ScrollLine::ScrollLine( QWidget *parent, bool autoScroll )
 : QLineEdit( parent )
 , mClicked( false )
 , mDirection( 1 )
@@ -29,11 +29,17 @@ ScrollLine::ScrollLine( QWidget *parent )
       mpTimer->start();
    }
    
+   QPalette myPalette( palette() );
+   myPalette.setColor( QPalette::Base, myPalette.color( QPalette::Window ) );
+   setPalette( myPalette );
    setReadOnly( true );
    setContextMenuPolicy( Qt::NoContextMenu );
    
-   connect( mpTimer, SIGNAL(timeout()),
-            this, SLOT(scrolling()) );
+   if( autoScroll )
+   {
+      connect( mpTimer, SIGNAL(timeout()),
+               this, SLOT(scrolling()) );
+   }
 }
 
 
