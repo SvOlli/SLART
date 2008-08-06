@@ -120,8 +120,6 @@ void DatabaseWidget::handleUpdate( bool checked )
 
 void DatabaseWidget::handleCleanup( bool checked )
 {
-TRACESTART(DatabaseWidget::handleCleanup)
-TRACEMSG << checked;
    if( !checked )
    {
       mpCleanupButton->setChecked( true );
