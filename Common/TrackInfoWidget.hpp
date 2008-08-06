@@ -14,7 +14,6 @@
 #include "TrackInfo.hpp"
 
 class QLabel;
-class QLineEdit;
 class QPushButton;
 class QCheckBox;
 class Database;
@@ -56,7 +55,7 @@ private:
    ScrollLine  *mpArtist;
    ScrollLine  *mpTitle;
    ScrollLine  *mpAlbum;
-   QLineEdit   *mpTrackNr;
+   ScrollLine  *mpTrackNr;
    QCheckBox   *mpFavoriteButton;
    QCheckBox   *mpUnwantedButton;
 };

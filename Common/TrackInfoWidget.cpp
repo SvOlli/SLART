@@ -28,7 +28,7 @@ TrackInfoWidget::TrackInfoWidget( Database *database, const QString &updateCode,
 , mpArtist( new ScrollLine( this ) )
 , mpTitle( new ScrollLine( this ) )
 , mpAlbum( new ScrollLine( this ) )
-, mpTrackNr( new QLineEdit( this ) )
+, mpTrackNr( new ScrollLine( this, false ) )
 , mpFavoriteButton( new QCheckBox( tr("Favorite") ) )
 , mpUnwantedButton( new QCheckBox( tr("No Auto") ) )
 {
@@ -61,7 +61,6 @@ TrackInfoWidget::TrackInfoWidget( Database *database, const QString &updateCode,
    mainLayout->setColumnStretch( 3,  1 );
    mainLayout->setColumnStretch( 4,  1 );
    
-   mpTrackNr->setReadOnly( true );
    mpTimesPlayed->setAlignment( Qt::AlignCenter );
    
    connect( mpFavoriteButton, SIGNAL(clicked()),
