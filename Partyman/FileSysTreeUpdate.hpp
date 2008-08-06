@@ -25,7 +25,7 @@ private:
    Database         *mpDatabase;
    FileSysTreeModel *mpTreeModel;
    bool             mCancel;
-   TrackInfoList    trackInfoList;
+   TrackInfoList    mTrackInfoList;
 };
 
 #endif

@@ -20,7 +20,7 @@ int FileSysTreeUpdate::prepare( Database *database, FileSysTreeModel *treeModel 
    mpTreeModel = treeModel;
    mCancel     = false;
    mpTreeModel->clear();
-   return mpDatabase->getTrackInfoList( &trackInfoList );
+   return mpDatabase->getTrackInfoList( &mTrackInfoList );
 }
 
 
@@ -29,9 +29,9 @@ void FileSysTreeUpdate::run()
    QString fileName;
    int i;
 
-   for( i = 0; (i < trackInfoList.size()) && !mCancel; i++ )
+   for( i = 0; (i < mTrackInfoList.size()) && !mCancel; i++ )
    {
-      mpTreeModel->addModelData( trackInfoList.at(i).filePath() );
+      mpTreeModel->addModelData( mTrackInfoList.at(i).filePath() );
    }
-   trackInfoList.clear();
+   mTrackInfoList.clear();
 }
