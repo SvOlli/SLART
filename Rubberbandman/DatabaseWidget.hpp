@@ -9,10 +9,7 @@
 #define DATABASEWIDGET_HPP DATABASEWIDGET_HPP
 
 #include <QWidget>
-//#include <QDir>
-//#include <QTableView>
 #include "TrackInfo.hpp"
-#include "DirWalker.hpp"
 
 class QPushButton;
 class QLabel;
@@ -21,6 +18,7 @@ class QSqlTableModel;
 class QFileInfo;
 class QTableView;
 class Database;
+class DatabaseWorker;
 class QLineEdit;
 
 class DatabaseWidget : public QWidget
@@ -29,15 +27,22 @@ Q_OBJECT
 
 public:
    DatabaseWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   bool updateTrackInfoFromFile( const QString &fileName );
 
 public slots:
+   /*  */
    void handleUpdate( bool checked );
+   /*  */
    void handleCleanup( bool checked );
-   void handleFile( const QFileInfo &fileInfo );
-   void handleDir( const QFileInfo &fileInfo );
+   /*  */
+   void handleImport( bool checked );
+   /*  */
    void setBaseDir();
+   /*  */
    void checkValidDir( const QString &dirName );
+   /*  */
+   void handleProgress( int checked, int processed );
+   /*  */
+   void handleFinished();
 
 signals:
    void databaseOk();
@@ -46,19 +51,21 @@ private:
    DatabaseWidget( const DatabaseWidget &other );
    DatabaseWidget &operator=( const DatabaseWidget &other );
 
+   void disableButtons( bool disable );
+
    Database       *mpDatabase;
+   DatabaseWorker *mpDatabaseWorker;
    QLineEdit      *mpBaseDir;
    QPushButton    *mpUpdateButton;
    QPushButton    *mpCleanupButton;
+   QPushButton    *mpImportButton;
    QLabel         *mpMessage;
 #if 0
    QSqlTableModel *mpTableModel;
    QTableView     *mpTableView;
 #endif
-   unsigned int   mCount;
-   unsigned int   mLastCount;
-   TrackInfo      mTrackInfo;
-   DirWalker      mDirWalker;
+   QString        mCheckedText;
+   QString        mProcessedText;
 };
 
 #endif

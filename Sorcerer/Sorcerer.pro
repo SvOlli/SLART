@@ -46,6 +46,9 @@ SOURCES += TrackInfo.cpp
 HEADERS += ../Rubberbandman/DatabaseWidget.hpp
 SOURCES += ../Rubberbandman/DatabaseWidget.cpp
 
+HEADERS += ../Rubberbandman/DatabaseWorker.hpp
+SOURCES += ../Rubberbandman/DatabaseWorker.cpp
+
 HEADERS += DirWalker.hpp
 SOURCES += DirWalker.cpp
 
