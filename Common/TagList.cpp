@@ -67,6 +67,11 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
       {
          case '$':
             j = mTags.indexOf( parts.at(i).toUpper().mid(1) );
+            if( (j < 0) && (parts.at(i).toUpper() == "$YEAR") )
+            {
+               j = mTags.indexOf( "DATE" );
+            }
+               
             if( j >= 0 )
             {
                QString value( mValues.at(j) );
