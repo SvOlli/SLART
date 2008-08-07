@@ -193,7 +193,7 @@ void ControlWidget::initConnect()
       QString hostname( "localhost" );
       int port = settings.value( "DerMixDport", 8888 ).toInt();
       
-      if( settings.value( "DerMixDrun", false ).toBool() )
+      if( settings.value( "DerMixDrun", true ).toBool() )
       {
          QMutex mutex;
          QStringList args;
@@ -264,7 +264,7 @@ void ControlWidget::initDisconnect( eErrorCode errorcode )
       {
          QMessageBox::critical( this, QApplication::applicationName(), errorText );
       }
-      if( MySettings().value( "DerMixDrun", false ).toBool() )
+      if( MySettings().value( "DerMixDrun", true ).toBool() )
       {
          mDerMixDprocess.terminate();
       }
