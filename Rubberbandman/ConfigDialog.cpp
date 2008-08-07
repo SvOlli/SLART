@@ -37,7 +37,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    mTagList.set("ARTIST","Artist");
    mTagList.set("TITLE","Title");
    mTagList.set("GENRE","Genre");
-   mTagList.set("Year","1986");
+   mTagList.set("DATE","1986");
    
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showClipboard();
