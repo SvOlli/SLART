@@ -202,6 +202,8 @@ void ConfigDialog::writeSettings()
    settings.setValue( "ListPattern", mpListPattern->text() );
    settings.setValue( "NamePattern", mpNamePattern->text() );
    mpGlobalSettings->writeSettings();
+   settings.sync();
+   settings.sendNotification( "p0c" );
 
    emit configChanged();
 }
