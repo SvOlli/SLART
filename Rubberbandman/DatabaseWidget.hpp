@@ -9,6 +9,7 @@
 #define DATABASEWIDGET_HPP DATABASEWIDGET_HPP
 
 #include <QWidget>
+#include <QHostInfo>
 #include "TrackInfo.hpp"
 
 class QPushButton;
@@ -43,6 +44,8 @@ public slots:
    void handleProgress( int checked, int processed );
    /*  */
    void handleFinished();
+   /*  */
+   void readPartymanConfig( const QHostInfo &hi = QHostInfo() );
 
 signals:
    void databaseOk();
@@ -60,10 +63,12 @@ private:
    QPushButton    *mpCleanupButton;
    QPushButton    *mpImportButton;
    QLabel         *mpMessage;
+   QLabel         *mpPartymanInfo;
 #if 0
    QSqlTableModel *mpTableModel;
    QTableView     *mpTableView;
 #endif
+   bool           mPartymanLocal;
    QString        mCheckedText;
    QString        mProcessedText;
 };

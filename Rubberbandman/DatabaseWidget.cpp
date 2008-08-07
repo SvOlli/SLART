@@ -28,15 +28,21 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
 , mpCleanupButton( new QPushButton( tr("Clean Up"), this ) )
 , mpImportButton( new QPushButton( tr("Import m3u"), this ) )
 , mpMessage( new QLabel( this ) )
+, mpPartymanInfo( new QLabel( this ) )
 #if 0
 , mpTableModel( new QSqlTableModel() )
 , mpTableView( new QTableView() )
 #endif
+, mPartymanLocal( false )
+, mCheckedText()
+, mProcessedText()
 {
    mpDatabaseWorker->prepare( database );
    QPushButton *browseButton  = new QPushButton( tr("Browse"), this );
    mpMessage->setFrameShadow( QFrame::Raised );
    mpMessage->setFrameShape( QFrame::Box );
+   mpPartymanInfo->setFrameShadow( QFrame::Raised );
+   mpPartymanInfo->setFrameShape( QFrame::Box );
    mpUpdateButton->setCheckable( true );
    mpCleanupButton->setCheckable( true );
    mpImportButton->setCheckable( true );
@@ -80,16 +86,18 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    layout->addLayout( rootLayout );
    layout->addLayout( buttonLayout );
    layout->addWidget( mpMessage );
+   layout->addWidget( mpPartymanInfo );
    layout->addStretch();
    setLayout(layout);
    mpBaseDir->setText( MySettings( "Global" ).value( "MusicBase", QString("/") ).toString() );
+   readPartymanConfig();
 }
 
 
 void DatabaseWidget::disableButtons( bool disable )
 {
-   mpUpdateButton->setDisabled( disable );
-   mpCleanupButton->setDisabled( disable );
+   mpUpdateButton->setDisabled( disable | !mPartymanLocal );
+   mpCleanupButton->setDisabled( disable | !mPartymanLocal );
    mpImportButton->setDisabled( disable );
    if( !disable )
    {
@@ -238,5 +246,39 @@ void DatabaseWidget::handleProgress( int checked, int processed )
 void DatabaseWidget::handleFinished()
 {
    mpMessage->setText( tr("Done: ") + mpMessage->text() );
+   disableButtons( false );
+}
+
+
+void DatabaseWidget::readPartymanConfig( const QHostInfo &hi )
+{
+   MySettings partymanSettings( "Partyman" );
+   
+   mPartymanLocal = partymanSettings.value("DerMixDrun", true).toBool();
+   if( !mPartymanLocal && (hi.lookupId() == -1) )
+   {
+      QHostInfo::lookupHost(partymanSettings.value("DerMixDhost", "localhost").toString(),
+                            this, SLOT(readPartymanConfig(QHostInfo)));
+      return;
+   }
+   mPartymanLocal |= (hi.error() != QHostInfo::NoError);
+   mPartymanLocal |= hi.addresses().isEmpty();
+   if( !mPartymanLocal )
+   {
+      mPartymanLocal |= (hi.addresses().first() == QHostAddress::LocalHost);
+   }
+   
+   if( mPartymanLocal )
+   {
+      mpPartymanInfo->setText( tr("Partyman is set to local mode.\n"
+                                  "Nonexistant files will be removed from database.\n"
+                                  "Tags will be scanned." ) );
+   }
+   else
+   {
+      mpPartymanInfo->setText( tr("Partyman is set to remote mode.\n"
+                                  "Nonexistant files will not be removed from database.\n"
+                                  "Tags will not be scanned.") );
+   }
    disableButtons( false );
 }

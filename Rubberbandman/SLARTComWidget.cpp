@@ -76,6 +76,10 @@ void SLARTComWidget::handleSLART( const QStringList &message )
    {
       mpInfoEdit->load( QString("-") );
    }
+   if( message.at(0) == "p0c" )
+   {
+      emit partymanConfigUpdate();
+   }
 }
 
 
