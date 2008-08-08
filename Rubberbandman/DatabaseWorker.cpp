@@ -17,14 +17,14 @@
 #include "Trace.hpp"
 
 
-class UpdateCallbacks : public DirWalkerCallbacks
+class DirWalkerDatabaseUpdate : public DirWalkerCallbacks
 {
 public:
-   UpdateCallbacks( DatabaseWorker *databaseWorker )
+   DirWalkerDatabaseUpdate( DatabaseWorker *databaseWorker )
    : mpDatabaseWorker( databaseWorker )
    {
    }
-   ~UpdateCallbacks(){}
+   virtual ~DirWalkerDatabaseUpdate(){}
    void handleFile( const QFileInfo &fileInfo )
    {
       mpDatabaseWorker->updateFile( fileInfo );
@@ -32,6 +32,9 @@ public:
    void handleDir( const QFileInfo &fileInfo )
    {
       mpDatabaseWorker->updateDir( fileInfo );
+   }
+   void handleOther( const QFileInfo &/*fileInfo*/ )
+   {
    }
 private:
    DatabaseWorker *mpDatabaseWorker;
@@ -95,8 +98,8 @@ void DatabaseWorker::run()
    {
       case update:
          {
-            UpdateCallbacks callbacks( this );
-            mDirWalker.run( &callbacks, mPath, true );
+            DirWalkerDatabaseUpdate walkerCallbacks( this );
+            mDirWalker.run( &walkerCallbacks, mPath, DirWalker::RecurseBeforeCallback );
          }
          break;
       case cleanup:

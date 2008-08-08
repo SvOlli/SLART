@@ -8,8 +8,7 @@
 #ifndef DIRWALKER_HPP
 #define DIRWALKER_HPP DIRWALKER_HPP
 
-#include <QFileInfo>
-
+class QFileInfo;
 class QString;
 
 
@@ -17,18 +16,20 @@ class DirWalkerCallbacks
 {
 public:
    virtual ~DirWalkerCallbacks(){}
-   virtual void handleFile( const QFileInfo &fileInfo ) = 0;
-   virtual void handleDir( const QFileInfo &fileInfo )  = 0;
+   virtual void handleFile( const QFileInfo &fileInfo )  = 0;
+   virtual void handleDir( const QFileInfo &fileInfo )   = 0;
+   virtual void handleOther( const QFileInfo &fileInfo ) = 0;
 };
 
 
 class DirWalker
 {
 public:
+   enum RecurseMode { NoRecurse, RecurseBeforeCallback, RecurseAfterCallback };
    DirWalker();
    virtual ~DirWalker();
    void run( DirWalkerCallbacks *callbacks, 
-             const QString &directoryPath, bool recursive );
+             const QString &directoryPath, enum RecurseMode recurse );
    
 private:
    DirWalker( const DirWalker &other );
