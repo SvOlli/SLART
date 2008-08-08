@@ -15,12 +15,47 @@
 #include "Trace.hpp"
 
 
+class MyTreeView : public QTreeView
+{
+public:
+   MyTreeView( QWidget *parent );
+protected:
+   /* handle return/enter key */
+   virtual void keyPressEvent( QKeyEvent *event );
+};
+
+
+
+MyTreeView::MyTreeView( QWidget *parent )
+: QTreeView( parent )
+{
+}
+
+
+void MyTreeView::keyPressEvent( QKeyEvent *event )
+{
+   if( !event->isAutoRepeat() )
+   {
+      switch( event->key() )
+      {
+         case Qt::Key_Return:
+         case Qt::Key_Enter:
+            emit clicked( currentIndex() );
+            break;
+         default:
+            break;
+      }
+   }
+   QTreeView::keyPressEvent( event );
+}
+
+
 FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( database )
 , mpRootDir( new QLineEdit( this ) )
 , mpDotButton( new QPushButton( tr(".."), this ) )
-, mpView( new QTreeView( this ) )
+, mpView( new MyTreeView( this ) )
 , mpModel( new QDirModel( this ) )
 , mpMenuSendToPartyman( new QAction( tr("Send To Partyman"), this ) )
 , mpMenuSetRootDir( new QAction( tr("Set As Root Directory"), this ) )
