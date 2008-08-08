@@ -24,7 +24,8 @@ DirWalker::~DirWalker()
 }
 
 
-void DirWalker::run( const QString &directoryPath, bool recursive )
+void DirWalker::run( DirWalkerCallbacks *callbacks,
+                     const QString &directoryPath, bool recursive )
 {
    QDir dir( directoryPath );
    QFileInfoList entries( dir.entryInfoList( QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot ) );
@@ -34,15 +35,15 @@ void DirWalker::run( const QString &directoryPath, bool recursive )
    {
       if( entries.at(i).isDir() )
       {
-         emit foundDir( entries.at(i) );
+         callbacks->handleDir( entries.at(i) );
          if( recursive )
          {
-            run( entries.at(i).absoluteFilePath(), recursive );
+            run( callbacks, entries.at(i).absoluteFilePath(), recursive );
          }
       }
       if( entries.at(i).isFile() )
       {
-         emit foundFile( entries.at(i) );
+         callbacks->handleFile( entries.at(i) );
       }
    }
 }

@@ -57,6 +57,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handleTabChange(int)) );
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfigDialog, SLOT(exec()) );
+   connect( mpSLARTComWidget, SIGNAL(partymanConfigUpdate()),
+            mpDatabaseWidget, SLOT(readPartymanConfig()) );
    
    setLayout( mainLayout );
    

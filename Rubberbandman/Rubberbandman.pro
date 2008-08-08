@@ -25,6 +25,9 @@ SOURCES += SLARTComWidget.cpp
 HEADERS += DatabaseWidget.hpp 
 SOURCES += DatabaseWidget.cpp 
 
+HEADERS += DatabaseWorker.hpp 
+SOURCES += DatabaseWorker.cpp 
+
 HEADERS += SLARTCom.hpp 
 SOURCES += SLARTCom.cpp 
 

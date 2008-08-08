@@ -41,6 +41,8 @@ public slots:
 signals:
    /* emit track path from show in filesystem button */
    void showInFilesystem( const QString &path );
+   /*  */
+   void partymanConfigUpdate();
 
 private:
    SLARTComWidget( const SLARTComWidget &other );

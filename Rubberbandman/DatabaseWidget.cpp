@@ -12,35 +12,40 @@
 #include <QSqlTableModel>
 #include <QTableView>
 
-#include <fileref.h>
-#include <tag.h>
-
 #include "Database.hpp"
-//#include "FileSysBrowser.hpp"
-//#include "InfoEdit.hpp"
-#include "DirWalker.hpp"
+#include "DatabaseWorker.hpp"
 #include "MySettings.hpp"
 
 #include "Trace.hpp"
 
+
 DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( database )
+, mpDatabaseWorker( new DatabaseWorker() )
 , mpBaseDir( new QLineEdit( this ) )
 , mpUpdateButton( new QPushButton( tr("Update"), this ) )
 , mpCleanupButton( new QPushButton( tr("Clean Up"), this ) )
+, mpImportButton( new QPushButton( tr("Import m3u"), this ) )
 , mpMessage( new QLabel( this ) )
+, mpPartymanInfo( new QLabel( this ) )
 #if 0
 , mpTableModel( new QSqlTableModel() )
 , mpTableView( new QTableView() )
 #endif
-, mTrackInfo()
+, mPartymanLocal( false )
+, mCheckedText()
+, mProcessedText()
 {
+   mpDatabaseWorker->prepare( database );
    QPushButton *browseButton  = new QPushButton( tr("Browse"), this );
    mpMessage->setFrameShadow( QFrame::Raised );
    mpMessage->setFrameShape( QFrame::Box );
+   mpPartymanInfo->setFrameShadow( QFrame::Raised );
+   mpPartymanInfo->setFrameShape( QFrame::Box );
    mpUpdateButton->setCheckable( true );
    mpCleanupButton->setCheckable( true );
+   mpImportButton->setCheckable( true );
    
    connect( browseButton, SIGNAL(clicked()),
             this, SLOT(setBaseDir()) );
@@ -48,12 +53,14 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
             this, SLOT(handleUpdate(bool)) );
    connect( mpCleanupButton, SIGNAL(clicked(bool)),
             this, SLOT(handleCleanup(bool)) );
+   connect( mpImportButton, SIGNAL(clicked(bool)),
+            this, SLOT(handleImport(bool)) );
    connect( mpBaseDir, SIGNAL(textChanged(const QString &)),
             this, SLOT(checkValidDir(const QString &)) );
-   connect( &mDirWalker, SIGNAL(foundFile(const QFileInfo&)),
-            this, SLOT(handleFile(const QFileInfo&)) );
-   connect( &mDirWalker, SIGNAL(foundDir(const QFileInfo&)),
-            this, SLOT(handleDir(const QFileInfo&)) );
+   connect( mpDatabaseWorker, SIGNAL(progress(int,int)),
+            this, SLOT(handleProgress(int,int)) );
+   connect( mpDatabaseWorker, SIGNAL(finished()),
+            this, SLOT(handleFinished()) );
    
 #if 0
    mpTableModel->setQuery( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
@@ -72,17 +79,33 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( mpUpdateButton );
    buttonLayout->addWidget( mpCleanupButton );
+   buttonLayout->addWidget( mpImportButton );
 #if 0
    layout->addWidget( mpTableView );
 #endif
    layout->addLayout( rootLayout );
    layout->addLayout( buttonLayout );
    layout->addWidget( mpMessage );
+   layout->addWidget( mpPartymanInfo );
    layout->addStretch();
    setLayout(layout);
    mpBaseDir->setText( MySettings( "Global" ).value( "MusicBase", QString("/") ).toString() );
+   readPartymanConfig();
 }
 
+
+void DatabaseWidget::disableButtons( bool disable )
+{
+   mpUpdateButton->setDisabled( disable | !mPartymanLocal );
+   mpCleanupButton->setDisabled( disable | !mPartymanLocal );
+   mpImportButton->setDisabled( disable );
+   if( !disable )
+   {
+      mpUpdateButton->setChecked( disable );
+      mpCleanupButton->setChecked( disable );
+      mpImportButton->setChecked( disable );
+   }
+}
 
 void DatabaseWidget::handleUpdate( bool checked )
 {
@@ -91,30 +114,19 @@ void DatabaseWidget::handleUpdate( bool checked )
       mpUpdateButton->setChecked( true );
       return;
    }
-   mpUpdateButton->setDisabled( true );
-   mpCleanupButton->setDisabled( true );
-   TrackInfoList trackInfoList;
-   mCount = 0;
-   mLastCount = 0;
-   mpDatabase->beginTransaction();
-   mDirWalker.run( mpBaseDir->text(), true );
-   mpDatabase->endTransaction(true);
-   mpMessage->setText( "Done, " + QString::number(mCount) + " files scanned." );
-   if( mCount > 3 )
+   disableButtons( true );
+   mCheckedText   = tr(" files scanned, ");
+   mProcessedText = tr(" updated.");
+   QString baseDir( MySettings( "Global" ).value( "MusicBase", QString() ).toString() );
+   if( !baseDir.isEmpty() )
    {
-      emit databaseOk();
+      mpDatabaseWorker->initUpdate( baseDir );
+      mpDatabaseWorker->start();
    }
-   mpUpdateButton->setDisabled( false );
-   mpCleanupButton->setDisabled( false );
-   mpUpdateButton->setChecked( false );
-#if 0
-   mpTableModel->select();
-   QString query( mpTableModel->query().lastQuery() );
-   delete mpTableModel;
-   mpTableModel = new QSqlTableModel();
-   mpTableModel->setQuery( query );
-   mpTableView->setModel( mpTableModel );
-#endif
+   else
+   {
+      disableButtons( false );
+   }
 }
 
 
@@ -125,14 +137,19 @@ void DatabaseWidget::handleCleanup( bool checked )
       mpCleanupButton->setChecked( true );
       return;
    }
-   mpUpdateButton->setDisabled( true );
-   mpCleanupButton->setDisabled( true );
+   disableButtons( true );
+   mCheckedText   = tr(" entries checked, ");
+   mProcessedText = tr(" cleaned.");
+   mpDatabaseWorker->initCleanup();
+   mpDatabaseWorker->start();
+#if 0
    TrackInfoList   trackInfoList;
    int s = mpDatabase->getTrackInfoList( &trackInfoList );
    
    QFileInfo qfi;
    int i;
    int c = 0;
+   mpDatabase->beginTransaction();
    for( i = 0; i < s; i++ )
    {
       mTrackInfo = trackInfoList.at(i);
@@ -148,74 +165,40 @@ void DatabaseWidget::handleCleanup( bool checked )
          QApplication::processEvents();
       }
    }
+   mpDatabase->endTransaction(true);
    mpMessage->setText( "Done, " + QString::number(i+1) + " files checked, " + QString::number(c) + " cleaned." );
-   mpUpdateButton->setDisabled( false );
-   mpCleanupButton->setDisabled( false );
-   mpCleanupButton->setChecked( false );
+   disableButtons( false );
+#endif
 }
 
 
-void DatabaseWidget::handleDir( const QFileInfo &/*fileInfo*/ )
+void DatabaseWidget::handleImport( bool checked )
 {
-   if( mCount > mLastCount + 250 )
+TRACESTART(DatabaseWidget::handleImport)
+TRACEMSG << checked;
+   if( !checked )
    {
-      mpMessage->setText( QString::number(mCount) + " files scanned." );
-      QCoreApplication::processEvents();
-      mLastCount = mCount;
+      mpImportButton->setChecked( true );
+      return;
    }
-}
-
-
-void DatabaseWidget::handleFile( const QFileInfo &fileInfo )
-{
-   ++mCount;
-   mTrackInfo.mID = 0;
-   if( !mpDatabase->getTrackInfo( &mTrackInfo, fileInfo.absoluteFilePath() ) )
-   {
-      QString fileName( fileInfo.absoluteFilePath() );
-      int fileNameStart = fileName.lastIndexOf('/');
-      
-      mTrackInfo.mID           = 0;
-      mTrackInfo.mDirectory    = fileName.left(fileNameStart);
-      mTrackInfo.mFileName     = fileName.mid(fileNameStart+1);
-      mTrackInfo.mLastTagsRead = 0;
-      mTrackInfo.mTimesPlayed  = 0;
-      mTrackInfo.mFlags        = 0;
-   }
+   disableButtons( true );
+   QFileDialog fileDialog( this );
    
-   if( updateTrackInfoFromFile( fileInfo.absoluteFilePath() ) )
+   fileDialog.setFileMode( QFileDialog::ExistingFile );
+   fileDialog.setDirectory( mpBaseDir->text() );
+   fileDialog.setFilter("Playlists (*.m3u)");
+   fileDialog.setReadOnly( true );
+   if( fileDialog.exec() )
    {
-      mpDatabase->updateTrackInfo( &mTrackInfo );
+      mCheckedText   = tr(" files scanned,");
+      mProcessedText = tr(" updated.");
+      mpDatabaseWorker->initImport( fileDialog.selectedFiles().at(0) );
+      mpDatabaseWorker->start();
    }
-}
-
-
-bool DatabaseWidget::updateTrackInfoFromFile( const QString &fileName )
-{   
-   QFileInfo fileInfo( fileName );
-   
-   if( fileInfo.lastModified().toTime_t() > mTrackInfo.mLastTagsRead )
+   else
    {
-      TagLib::FileRef f( fileName.toLocal8Bit().data() );
-      if( f.file() && f.tag() )
-      {
-         mTrackInfo.mArtist       = QString::fromUtf8( f.tag()->artist().toCString( true ) );
-         mTrackInfo.mTitle        = QString::fromUtf8( f.tag()->title().toCString( true ) );
-         mTrackInfo.mAlbum        = QString::fromUtf8( f.tag()->album().toCString( true ) );
-         mTrackInfo.mTrackNr      = f.tag()->track();
-         mTrackInfo.mYear         = f.tag()->year();
-         mTrackInfo.mGenre        = QString::fromUtf8( f.tag()->genre().toCString( true ) );
-         if( f.audioProperties() )
-         {
-            mTrackInfo.mPlayTime  = f.audioProperties()->length();
-         }
-         mTrackInfo.mLastTagsRead = fileInfo.lastModified().toTime_t();
-         
-         return true;
-      }
+      disableButtons( false );
    }
-   
-   return false;
 }
 
 
@@ -250,4 +233,52 @@ void DatabaseWidget::checkValidDir( const QString &dirName )
    {
       mpUpdateButton->setDisabled( true );
    }
+}
+
+
+void DatabaseWidget::handleProgress( int checked, int processed )
+{
+   mpMessage->setText( QString::number( checked ) + mCheckedText + 
+                       QString::number( processed ) + mProcessedText );
+}
+
+
+void DatabaseWidget::handleFinished()
+{
+   mpMessage->setText( tr("Done: ") + mpMessage->text() );
+   disableButtons( false );
+}
+
+
+void DatabaseWidget::readPartymanConfig( const QHostInfo &hi )
+{
+   MySettings partymanSettings( "Partyman" );
+   
+   mPartymanLocal = partymanSettings.value("DerMixDrun", true).toBool();
+   if( !mPartymanLocal && (hi.lookupId() == -1) )
+   {
+      QHostInfo::lookupHost(partymanSettings.value("DerMixDhost", "localhost").toString(),
+                            this, SLOT(readPartymanConfig(QHostInfo)));
+      return;
+   }
+   mPartymanLocal |= (hi.error() != QHostInfo::NoError);
+   mPartymanLocal |= hi.addresses().isEmpty();
+   if( !mPartymanLocal )
+   {
+      mPartymanLocal |= (hi.addresses().first() == QHostAddress::LocalHost);
+   }
+   
+   if( mPartymanLocal )
+   {
+      mpPartymanInfo->setText( tr("Partyman is set to local mode.\n"
+                                  "Nonexistant files will be removed from database.\n"
+                                  "Tags will be scanned." ) );
+   }
+   else
+   {
+      mpPartymanInfo->setText( tr("Partyman is set to remote mode.\n"
+                                  "Nonexistant files will not be removed from database.\n"
+                                  "Tags will not be scanned.") );
+   }
+   disableButtons( false );
 }
