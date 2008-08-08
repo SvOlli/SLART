@@ -21,6 +21,7 @@ class QIcon;
 class QString;
 class QPushButton;
 class QListWidgetItem;
+class DropDialog;
 class ConfigDialog;
 class QKeyEvent;
 
@@ -43,6 +44,12 @@ public slots:
    /* copy clicked line of message buffer to clipboard */
    void listWidgetItemToClipboard( QListWidgetItem *item );
 
+protected:
+   /* for implementing dropping */
+   void dragEnterEvent( QDragEnterEvent *event );
+   /* for implementing dropping */
+   void dropEvent( QDropEvent *event );
+
 signals:
    void requestChangeTitle( const QIcon&, const QString& );
 
@@ -56,6 +63,7 @@ private:
    QLabel       *mpBufferSizeLabel;
    QSpinBox     *mpBufferSize;
    ConfigDialog *mpConfig;
+   DropDialog   *mpDropDialog;
    int          mBufferSize;
    SLARTCom     mSLARTCom;
    QStringList  mApplications;

@@ -12,6 +12,7 @@
 #include "ConfigDialog.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "ExecButton.hpp"
+#include "DropDialog.hpp"
 
 #include "Trace.hpp"
 
@@ -24,6 +25,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpBufferSizeLabel( new QLabel( tr("Buffer Size:"), this ) )
 , mpBufferSize( new QSpinBox( this ) )
 , mpConfig( new ConfigDialog( this ) )
+, mpDropDialog( new DropDialog( this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint ) )
 , mBufferSize(500)
 , mSLARTCom()
 , mApplications()
@@ -75,6 +77,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    readConfig();
    
    setLayout( mainLayout );
+   
+   setAcceptDrops( true );
 }
 
 
@@ -142,3 +146,15 @@ void MainWidget::listWidgetItemToClipboard( QListWidgetItem *item )
    GlobalConfigWidget::setClipboard( item->text() );
 }
 
+
+void MainWidget::dragEnterEvent( QDragEnterEvent *event )
+{
+   event->acceptProposedAction();
+}
+
+
+void MainWidget::dropEvent( QDropEvent *event )
+{
+   mpDropDialog->dropEvent( event );
+   mpDropDialog->show();
+}

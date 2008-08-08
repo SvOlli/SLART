@@ -45,3 +45,6 @@ SOURCES += GlobalConfigWidget.cpp
 HEADERS += SLARTCom.hpp
 SOURCES += SLARTCom.cpp
 
+HEADERS += DropDialog.hpp 
+SOURCES += DropDialog.cpp 
+
