@@ -13,10 +13,8 @@
 
 #include "TrackInfo.hpp"
 
-class Database : public QObject
+class Database
 {
-Q_OBJECT
-
 public:
    Database( const QString &fileName = QString() );
    virtual ~Database();
@@ -51,10 +49,9 @@ public:
    void insertFolder( const QString &folder );
    /* remove a folder */
    void deleteFolder( const QString &folder );
-   
-public slots:
-
-signals:
+   /* rename */
+   void rename( const QString &newName,
+                const QString &oldDirName, const QString &oldFileName = QString() );
    
 private:
    Database( const Database &other );

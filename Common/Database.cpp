@@ -507,3 +507,72 @@ char *Database::getDatabaseFileName()
 }
 
 
+void Database::rename( const QString &newName,
+                       const QString &oldDirName, const QString &oldFileName )
+{
+#if 0
+TRACESTART(Database::rename)
+TRACEMSG << oldDirName << oldFileName << newName;
+#endif
+   if( oldFileName.isEmpty() )
+   {
+      /* rename a directory */
+      mpQuery->prepare( "SELECT DISTINCT(Directory) FROM slart_tracks"
+                        " WHERE Directory LIKE :directory ;" );
+      mpQuery->bindValue( ":directory", oldDirName + "/%" );
+      if( !mpQuery->exec() )
+      {
+         logError();
+      }
+      else
+      {
+         QStringList directories( oldDirName );
+         QString     newDirName;
+         while( mpQuery->next() )
+         {
+            directories << mpQuery->value(0).toString();
+         }
+         mpQuery->clear();
+         for( int i = 0; i < directories.size(); i++ )
+         {
+            newDirName = directories.at(i);
+            newDirName.replace( 0, oldDirName.size(), newName );
+            mpQuery->prepare( "UPDATE slart_tracks SET Directory = :newDirName"
+                              " WHERE Directory = :oldDirName;" );
+            mpQuery->bindValue( ":newDirName", newDirName );
+            mpQuery->bindValue( ":oldDirName", directories.at(i) );
+            if( !mpQuery->exec() )
+            {
+               logError();
+            }
+            else
+            {
+#if 0
+TRACEMSG << "rows:" << mpQuery->numRowsAffected();
+#endif
+            }
+            mpQuery->clear();
+         }
+      }
+   }
+   else
+   {
+      /* rename a file */
+      mpQuery->prepare( "UPDATE slart_tracks SET FileName = :newName"
+                        " WHERE Directory = :oldDirName AND FileName = :oldFileName;" );
+      mpQuery->bindValue( ":newName", newName );
+      mpQuery->bindValue( ":oldDirName", oldDirName );
+      mpQuery->bindValue( ":oldFileName", oldFileName );
+      if( !mpQuery->exec() )
+      {
+         logError();
+      }
+      else
+      {
+#if 0
+TRACEMSG << "rows:" << mpQuery->numRowsAffected();
+#endif
+      }
+      mpQuery->clear();
+   }
+}
