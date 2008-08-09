@@ -164,7 +164,7 @@ void DatabaseWorker::updateFile( const QFileInfo &fileInfo )
    if( updateTrackInfoFromFile( fileInfo.absoluteFilePath() ) )
    {
       mpDatabase->updateTrackInfo( &mTrackInfo );
-      ++mChecked;
+      ++mProcessed;
    }
 }
 
