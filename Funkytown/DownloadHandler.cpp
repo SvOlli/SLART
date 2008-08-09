@@ -7,6 +7,7 @@
 
 #include "DownloadHandler.hpp"
 #include "PostDownloadHandler.hpp"
+#include "MySettings.hpp"
 
 #include <QtGui>
 #include <QtNetwork>
@@ -25,13 +26,15 @@ DownloadHandler::DownloadHandler( QWidget *parent )
 , mpTimer( new QTimer( this ) )
 {
    QGridLayout *layout = new QGridLayout( this );
-   mpQueue->setSelectionMode( QAbstractItemView::MultiSelection );
+   if( MySettings().value( "SLARTCommunication", false ).toBool() )
+   {
+      mpQueue->setSelectionMode( QAbstractItemView::MultiSelection );
+   }
 #if QT_VERSION < 0x040300
    layout->setMargin( 0 );
 #else
    layout->setContentsMargins( 0, 0, 0, 0 );
 #endif
-   layout->addWidget( mpProgressBar );
    layout->addWidget( mpProgressBar );
    layout->addWidget( mpQueue );
    setLayout( layout );
