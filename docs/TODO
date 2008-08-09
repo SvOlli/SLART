@@ -6,7 +6,6 @@ Common:
 - define "unset" value for TrackInfo for TrackNr/Year (use -1 ?)
 
 Partyman:
-- BUG(!) read Playlist from clipboard allows invalid data
 - check all error handling
 - set path to Partyman as first for clients
 
@@ -17,16 +16,19 @@ Rubberbandman:
 - disable Normalize Buttons, when no file or dir is selected
 - context menu for browser
   - rescan
-  - implement rename, move, delete
+  - implement move
+- improve Database Tab
+  - implement import m3u
 
 Sorcerer:
 
 Karmadrome:
+- disable Folders Buttons if track is not in database
 - extract folders to m3u
+- import folders from m3u
 - handle p0s with clearing track info
 - confirmation dialog on remove folder
 - remove folder indication from entries
-- delay sending r0u message
 
 Funkytown:
 - improve url detecting

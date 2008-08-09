@@ -19,10 +19,9 @@ Partyman
   - p0n: skipping to Next
   - p0a: pAused
   - p0u: Updated database
+  - p0c: updated Configuration
 
 Rubberbandman
-- commands
-  - R0D: build / update Database (parameter: m3u-File or Path)
 - status messages
   - r0u: Updated database
 
