@@ -8,6 +8,7 @@
 #include "FileSysBrowser.hpp"
 #include "MySettings.hpp"
 #include "Database.hpp"
+#include "DirWalker.hpp"
 
 #include <QtGui>
 #include <QString>
@@ -15,21 +16,62 @@
 #include "Trace.hpp"
 
 
-class MyTreeView : public QTreeView
+class DirWalkerDelete : public DirWalkerCallbacks
 {
 public:
-   MyTreeView( QWidget *parent );
-protected:
-   /* handle return/enter key */
-   virtual void keyPressEvent( QKeyEvent *event );
+   DirWalkerDelete( Database *database )
+   : mpDatabase( database )
+   , mDir()
+   , mDirChanged( true )
+   , mTrackInfo()
+   {
+   }
+   virtual ~DirWalkerDelete(){}
+   void handleFile( const QFileInfo &fileInfo )
+   {
+      remove( fileInfo );
+      if( mpDatabase->getTrackInfo( &mTrackInfo, fileInfo.absoluteFilePath() ) )
+      {
+         mpDatabase->deleteTrackInfo( &mTrackInfo );
+      }
+   }
+   void handleDir( const QFileInfo &fileInfo )
+   {
+      mDirChanged = true;
+      remove( fileInfo );
+      mDirChanged = true;
+   }
+   void handleOther( const QFileInfo &fileInfo )
+   {
+      remove( fileInfo );
+   }
+   
+private:
+   void remove( const QFileInfo &fileInfo )
+   {
+      if( mDirChanged )
+      {
+         mDir.setPath( fileInfo.absolutePath() );
+         mDirChanged = false;
+      }
+      mDir.remove( fileInfo.fileName() );
+   }
+   Database  *mpDatabase;
+   QDir      mDir;
+   bool      mDirChanged;
+   TrackInfo mTrackInfo;
 };
 
 
 
-MyTreeView::MyTreeView( QWidget *parent )
-: QTreeView( parent )
+class MyTreeView : public QTreeView
 {
-}
+public:
+   MyTreeView( QWidget *parent ) : QTreeView( parent ){};
+protected:
+   /* handle return/enter key */
+   virtual void keyPressEvent( QKeyEvent *event );
+};
 
 
 void MyTreeView::keyPressEvent( QKeyEvent *event )
@@ -236,27 +278,49 @@ TRACEMSG << dialog.selectedFiles();
 
 void FileSysBrowser::menuRename()
 {
-TRACESTART(FileSysBrowser::menuRename)
    bool ok;
    QString text = QInputDialog::getText( this, QString(tr("Rubberbandman: Rename %1 To:")).arg(mFileInfo.fileName()),
                                          QString(tr("Rename %1 To:")).arg(mFileInfo.fileName()),
                                          QLineEdit::Normal, mFileInfo.fileName(), &ok );
    if (ok && !text.isEmpty())
    {
-TRACEMSG << text;
+      QDir qd( mFileInfo.absolutePath() );
+      QFileInfo qfi( mFileInfo.absolutePath() + "/" + text );
+      
+      if( qfi.absolutePath() == mFileInfo.absolutePath() )
+      {
+         if( qd.rename( mFileInfo.fileName(), text ) )
+         {
+            if( mFileInfo.isDir() )
+            {
+               mpDatabase->rename( qfi.absoluteFilePath(), mFileInfo.absoluteFilePath() );
+            }
+            else
+            {
+               mpDatabase->rename( qfi.fileName(), mFileInfo.absolutePath(), mFileInfo.fileName() );
+            }
+            handleRootDir();
+         }
+      }
+      else
+      {
+         QMessageBox::warning( this, QApplication::applicationName(),
+                               tr("New name is not valid.") );
+      }
    }
 }
 
 
 void FileSysBrowser::menuDelete()
 {
-TRACESTART(FileSysBrowser::menuDelete)
    QMessageBox::StandardButton button;
    button = QMessageBox::question( this, QString(tr("Rubberbandman: Delete %1")).arg(mFileInfo.fileName()),
                                    QString(tr("Really Delete %1 ?")).arg(mFileInfo.fileName()),
                                    QMessageBox::Ok | QMessageBox::Cancel );
    if( button == QMessageBox::Ok )
    {
-TRACEMSG << button;
+      DirWalkerDelete walkerCallbacks( mpDatabase );
+      DirWalker       dirWalker;
+      dirWalker.run( &walkerCallbacks, mFileInfo.absoluteFilePath(), DirWalker::RecurseBeforeCallback );
    }
 }
