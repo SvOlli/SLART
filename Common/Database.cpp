@@ -239,8 +239,9 @@ int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QString &sea
       mpQuery->clear();
       mpQuery->prepare( "SELECT Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
                         "PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags,id"
-                        " FROM slart_tracks WHERE FileName LIKE :filename ;" );
-      mpQuery->bindValue( ":filename", sqlSearch );
+                        " FROM slart_tracks WHERE Directory LIKE :directory OR FileName LIKE :fileName;" );
+      mpQuery->bindValue( ":directory", sqlSearch );
+      mpQuery->bindValue( ":fileName", sqlSearch );
       if( !mpQuery->exec() )
       {
          logError();
