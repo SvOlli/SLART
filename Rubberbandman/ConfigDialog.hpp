@@ -50,6 +50,7 @@ private:
    ConfigDialog &operator=( const ConfigDialog &other );
 
    GlobalConfigWidget   *mpGlobalConfigWidget;
+   QCheckBox            *mpAutoRescan;
    QLabel               *mpWithTrackNrLabel;
    QLineEdit            *mpWithTrackNr;
    QLabel               *mpWithTrackNrExample;

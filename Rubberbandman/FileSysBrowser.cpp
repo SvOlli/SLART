@@ -19,9 +19,9 @@
 class DirWalkerDelete : public DirWalkerCallbacks
 {
 public:
-   DirWalkerDelete( Database *database )
+   DirWalkerDelete( Database *database, const QString &path )
    : mpDatabase( database )
-   , mDir()
+   , mDir( path )
    , mDirChanged( true )
    , mTrackInfo()
    {
@@ -29,7 +29,8 @@ public:
    virtual ~DirWalkerDelete(){}
    void handleFile( const QFileInfo &fileInfo )
    {
-      remove( fileInfo );
+      mDir.setPath( fileInfo.absolutePath() );
+      mDir.remove( fileInfo.fileName() );
       if( mpDatabase->getTrackInfo( &mTrackInfo, fileInfo.absoluteFilePath() ) )
       {
          mpDatabase->deleteTrackInfo( &mTrackInfo );
@@ -37,25 +38,16 @@ public:
    }
    void handleDir( const QFileInfo &fileInfo )
    {
-      mDirChanged = true;
-      remove( fileInfo );
-      mDirChanged = true;
+      mDir.setPath( fileInfo.absolutePath() );
+      mDir.rmdir( fileInfo.fileName() );
    }
    void handleOther( const QFileInfo &fileInfo )
    {
-      remove( fileInfo );
+      mDir.setPath( fileInfo.absolutePath() );
+      mDir.remove( fileInfo.fileName() );
    }
    
 private:
-   void remove( const QFileInfo &fileInfo )
-   {
-      if( mDirChanged )
-      {
-         mDir.setPath( fileInfo.absolutePath() );
-         mDirChanged = false;
-      }
-      mDir.remove( fileInfo.fileName() );
-   }
    Database  *mpDatabase;
    QDir      mDir;
    bool      mDirChanged;
@@ -272,6 +264,10 @@ TRACESTART(FileSysBrowser::menuMove)
    if( dialog.exec() )
    {
 TRACEMSG << dialog.selectedFiles();
+      if( MySettings().value("AutoRescan", true).toBool() )
+      {
+         handleRootDir();
+      }
    }
 }
 
@@ -299,7 +295,10 @@ void FileSysBrowser::menuRename()
             {
                mpDatabase->rename( qfi.fileName(), mFileInfo.absolutePath(), mFileInfo.fileName() );
             }
-            handleRootDir();
+            if( MySettings().value("AutoRescan", true).toBool() )
+            {
+               handleRootDir();
+            }
          }
       }
       else
@@ -319,8 +318,21 @@ void FileSysBrowser::menuDelete()
                                    QMessageBox::Ok | QMessageBox::Cancel );
    if( button == QMessageBox::Ok )
    {
-      DirWalkerDelete walkerCallbacks( mpDatabase );
-      DirWalker       dirWalker;
-      dirWalker.run( &walkerCallbacks, mFileInfo.absoluteFilePath(), DirWalker::RecurseBeforeCallback );
+      QDir qdir( mFileInfo.absolutePath() );
+      if( mFileInfo.isDir() )
+      {
+         DirWalkerDelete walkerCallbacks( mpDatabase, mFileInfo.absoluteFilePath() );
+         DirWalker       dirWalker;
+         dirWalker.run( &walkerCallbacks, mFileInfo.absoluteFilePath(), DirWalker::RecurseBeforeCallback );
+         qdir.rmdir( mFileInfo.fileName() );
+      }
+      else
+      {
+         qdir.remove( mFileInfo.fileName() );
+      }
+      if( MySettings().value("AutoRescan", true).toBool() )
+      {
+         handleRootDir();
+      }
    }
 }

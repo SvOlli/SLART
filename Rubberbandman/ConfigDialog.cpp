@@ -18,18 +18,23 @@
 ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
-, mpWithTrackNrLabel( new QLabel( tr("Rename Pattern With Track Nr"), this ) )
+, mpAutoRescan( new QCheckBox( tr("Rescan After Filesystem Operation"), this ) )
+, mpWithTrackNrLabel( new QLabel( tr("Pattern For Rename\nWith Track Nr"), this ) )
 , mpWithTrackNr( new QLineEdit( this ) )
 , mpWithTrackNrExample( new QLabel( this ) )
-, mpWithoutTrackNrLabel( new QLabel( tr("Rename Pattern Without Track Nr"), this ) )
+, mpWithoutTrackNrLabel( new QLabel( tr("Pattern For Rename\nWithout Track Nr"), this ) )
 , mpWithoutTrackNr( new QLineEdit( this ) )
 , mpWithoutTrackNrExample( new QLabel( this ) )
-, mpPlayingPatternLabel( new QLabel( tr("Now Playing Pattern"), this ) )
+, mpPlayingPatternLabel( new QLabel( tr("Pattern For\nNow Playing"), this ) )
 , mpPlayingPattern( new QLineEdit( this ) )
 , mpPlayingPatternExample( new QLabel( this ) )
 , mTagList()
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   
+   mpWithTrackNrLabel->setAlignment( Qt::AlignTop );
+   mpWithoutTrackNrLabel->setAlignment( Qt::AlignTop );
+   mpPlayingPatternLabel->setAlignment( Qt::AlignTop );
    
    mTagList.set("TRACKNUMBER","1");
    mTagList.set("ALBUMARTIST","AlbumArtist");
@@ -49,15 +54,16 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 
    QWidget     *rbmTab    = new QWidget( this );
    QGridLayout *rbmLayout = new QGridLayout( rbmTab );
-   rbmLayout->addWidget( mpWithTrackNrLabel, 0, 0 );
-   rbmLayout->addWidget( mpWithTrackNr, 0, 1 );
-   rbmLayout->addWidget( mpWithTrackNrExample, 1, 1 );
-   rbmLayout->addWidget( mpWithoutTrackNrLabel, 2, 0 );
-   rbmLayout->addWidget( mpWithoutTrackNr, 2, 1 );
-   rbmLayout->addWidget( mpWithoutTrackNrExample, 3, 1 );
-   rbmLayout->addWidget( mpPlayingPatternLabel, 4, 0 );
-   rbmLayout->addWidget( mpPlayingPattern, 4, 1 );
-   rbmLayout->addWidget( mpPlayingPatternExample, 5, 1 );
+   rbmLayout->addWidget( mpAutoRescan, 0, 0, 1, 2 );
+   rbmLayout->addWidget( mpWithTrackNrLabel, 1, 0, 2, 1 );
+   rbmLayout->addWidget( mpWithTrackNr, 1, 1 );
+   rbmLayout->addWidget( mpWithTrackNrExample, 2, 1 );
+   rbmLayout->addWidget( mpWithoutTrackNrLabel, 3, 0, 2, 1 );
+   rbmLayout->addWidget( mpWithoutTrackNr, 3, 1 );
+   rbmLayout->addWidget( mpWithoutTrackNrExample, 4, 1 );
+   rbmLayout->addWidget( mpPlayingPatternLabel, 5, 0, 2, 1 );
+   rbmLayout->addWidget( mpPlayingPattern, 5, 1 );
+   rbmLayout->addWidget( mpPlayingPatternExample, 6, 1 );
    rbmLayout->setRowStretch( 6, 1 );
    rbmTab->setLayout( rbmLayout );
    
@@ -105,6 +111,7 @@ void ConfigDialog::exec()
 void ConfigDialog::readSettings()
 {
    MySettings settings;
+   mpAutoRescan->setChecked( settings.value("AutoRescan", true).toBool() );
    mpWithTrackNr->setText( settings.value("WithTrackNr", "(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|").toString() );
    mpWithoutTrackNr->setText( settings.value("WithoutTrackNr", "|$ARTIST| - |$TITLE|").toString() );
    mpPlayingPattern->setText( settings.value("PlayingPattern", "NP: |$ARTIST| - |$TITLE|").toString() );
@@ -118,6 +125,7 @@ void ConfigDialog::readSettings()
 void ConfigDialog::writeSettings()
 {
    MySettings settings;
+   settings.setValue( "AutoRescan", mpAutoRescan->isChecked() );
    settings.setValue( "WithTrackNr", mpWithTrackNr->text() );
    settings.setValue( "WithoutTrackNr", mpWithoutTrackNr->text() );
    settings.setValue( "PlayingPattern", mpPlayingPattern->text() );
