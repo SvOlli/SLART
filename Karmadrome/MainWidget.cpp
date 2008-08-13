@@ -97,6 +97,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    labelReadWriteButtons();
    mSLARTCom.resetReceiver();
    
+   mpListButtons->setDisabled( true );
    MySettings().sendUdpMessage( "P0R", "Partyman" );
 }
 
@@ -130,10 +131,16 @@ void MainWidget::handleSLART( const QStringList &message )
       if( message.at(0) == "p0p" )
       {
          mpFileName->setText( message.at(1) );
-         mpDatabase->getTrackInfo( &mTrackInfo, message.at(1) );
+         mpListButtons->setDisabled( !mpDatabase->getTrackInfo( &mTrackInfo, message.at(1) ) );
          mpTrackInfo->getTrack( mTrackInfo );
          mpListButtons->lockButtons( mTrackInfo.getFolders() );
       }
+   }
+   if( message.at(0) == "p0s" )
+   {
+      mTrackInfo.clear();
+      mpListButtons->setDisabled( true );
+      mpTrackInfo->getTrack( mTrackInfo );
    }
    
    if( (message.at(0) == "p0u") || 
@@ -191,7 +198,7 @@ void MainWidget::handleRemove( QAction *action )
 void MainWidget::handleReadButton()
 {
    mpFileName->setText( GlobalConfigWidget::getClipboard() );
-   mpDatabase->getTrackInfo( &mTrackInfo, GlobalConfigWidget::getClipboard() );
+   mpListButtons->setDisabled( !mpDatabase->getTrackInfo( &mTrackInfo, GlobalConfigWidget::getClipboard() ) );
    mpTrackInfo->getTrack( mTrackInfo );
 }
 

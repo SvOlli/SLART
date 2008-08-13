@@ -23,7 +23,6 @@ Rubberbandman:
 Sorcerer:
 
 Karmadrome:
-- disable Folders Buttons if track is not in database
 - extract folders to m3u
 - import folders from m3u
 - handle p0s with clearing track info
