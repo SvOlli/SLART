@@ -46,6 +46,8 @@ signals:
 private:
    /*  */
    bool updateTrackInfoFromFile( const QString &fileName );
+   /*  */
+   void importM3u();
 
    enum { none, update, cleanup, import } mMode;
    Database         *mpDatabase;

@@ -124,6 +124,7 @@ void DatabaseWorker::run()
          }
          break;
       case import:
+         importM3u();
          break;
       default:
          break;
@@ -198,3 +199,57 @@ bool DatabaseWorker::updateTrackInfoFromFile( const QString &fileName )
 }
 
 
+void DatabaseWorker::importM3u()
+{
+   QFile m3uFile( mPath );
+   if( !m3uFile.exists() )
+   {
+      return;
+   }
+   m3uFile.open( QIODevice::ReadOnly | QIODevice::Text );
+   
+   QString fileName;
+   QString fileBase( mPath + "/../" );
+   QFileInfo qfi;
+   while( !m3uFile.atEnd() )
+   {
+      fileName = QString::fromLocal8Bit( m3uFile.readLine() );
+      if( !fileName.startsWith("#") )
+      {
+         if( fileName.right(1) == QChar('\n') )
+         {
+            fileName.chop(1);
+         }
+         if( !fileName.startsWith( "/" ) )
+         {
+            /* a bit of an ugly trick, but gets the job done better than most
+               other solutions */
+            qfi.setFile( fileBase + fileName );
+            fileName = qfi.absoluteFilePath();
+         }
+         
+         mTrackInfo.mID = 0;
+         if( !mpDatabase->getTrackInfo( &mTrackInfo, fileName ) )
+         {
+            int fileNameStart = fileName.lastIndexOf('/');
+            
+            mTrackInfo.mID           = 0;
+            mTrackInfo.mDirectory    = fileName.left(fileNameStart);
+            mTrackInfo.mFileName     = fileName.mid(fileNameStart+1);
+            mTrackInfo.mLastTagsRead = 0;
+            mTrackInfo.mTimesPlayed  = 0;
+            mTrackInfo.mFlags        = 0;
+            ++mProcessed;
+         }
+         updateTrackInfoFromFile( fileName );
+         mpDatabase->updateTrackInfo( &mTrackInfo );
+         
+         if( ++mChecked > mLastChecked + 200 )
+         {
+            emit progress( mChecked, mProcessed );
+            mLastChecked = mChecked;
+         }
+      }
+   }
+   m3uFile.close();
+}
