@@ -4,22 +4,30 @@
 ######################################################################
 
 QT += network
-CONFIG += qt warn_all debug
+CONFIG += qt warn_all
 
 DEPENDPATH += ../Common
 INCLUDEPATH += ../Common
 DESTDIR = ../bin
 
-QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
-QMAKE_LFLAGS += -Wl,--gc-sections
+unix {
+   CONFIG += debug
+}
+
+win32 {
+   CONFIG += release
+}
+
+contains( QMAKE_CXX, g++ )
+{
+   QMAKE_CXXFLAGS_DEBUG += -pedantic -Wno-long-long
+   QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
+   QMAKE_LFLAGS += -Wl,--gc-sections
+}
 
 CONFIG(debug, debug|release)
 {
    HEADERS += Trace.hpp
    SOURCES += Trace.cpp
-   contains( QMAKE_CXX, g++ )
-   {
-      QMAKE_CXXFLAGS_DEBUG += -pedantic -Wno-long-long
-   }
 }
 

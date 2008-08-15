@@ -56,7 +56,7 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
    mpTabs->setTabPosition( QTabWidget::South );
    mpTabs->addTab( mpTreeView, tr("Browse") );
    mpTabs->addTab( mpSearch, tr("Search") );
-   mpTabs->addTab( mpTrackInfo, tr("Track Info") );
+   mpTabs->addTab( mpTrackInfo, tr("Info") );
    mpTabs->addTab( mpHelpText, tr("Help") );
    mpTabs->setCurrentIndex( settings.value("CurrentTab", mpTabs->count()-1).toInt() );
    

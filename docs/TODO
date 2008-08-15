@@ -18,14 +18,12 @@ Rubberbandman:
   - rescan
   - implement move
 - improve Database Tab
-  - implement import m3u
 
 Sorcerer:
 
 Karmadrome:
 - extract folders to m3u
 - import folders from m3u
-- handle p0s with clearing track info
 - confirmation dialog on remove folder
 - remove folder indication from entries
 
