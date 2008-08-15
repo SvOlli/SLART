@@ -52,3 +52,22 @@ void MainWindow::closeEvent( QCloseEvent *event )
    MySettings().saveMainWindow( this );
    event->accept();
 }
+
+
+bool MainWindow::invokeSetUp( const char *argv0 )
+{
+   QProcess sorcerer;
+   QDir qdir( argv0 );
+   qdir.cdUp();
+   sorcerer.start( qdir.absolutePath() + "/Sorcerer" );
+   if( sorcerer.waitForStarted() )
+   {
+      sorcerer.waitForFinished( -1 );
+      return sorcerer.exitCode() == 0;
+   }
+   else
+   {
+      sorcerer.terminate();
+      return false;
+   }
+}

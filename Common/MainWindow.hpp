@@ -24,6 +24,8 @@ public:
    MainWidget *mainWidget();
    /* intercept for writing the settings */
    void closeEvent( QCloseEvent *event );
+   /* call Sorcerer for setting up */
+   static bool invokeSetUp( const char *argv0 );
 
 public slots:
    /* handle request for new icon and title */
