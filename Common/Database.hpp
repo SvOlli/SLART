@@ -61,7 +61,7 @@ private:
    void logError( const QString &note = QString() );
    
    /* generate the filename for database */
-   static char *getDatabaseFileName();
+   static QString getDatabaseFileName();
 
    QSqlDatabase       *mpSqlDB;
    QSqlQuery          *mpQuery;

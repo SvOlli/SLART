@@ -11,7 +11,6 @@
 
 #include "Trace.hpp"
 
-#include <stdlib.h>
 
 Database::Database( const QString &fileName )
 : mpSqlDB( 0 )
@@ -26,9 +25,7 @@ Database::Database( const QString &fileName )
    
    if( fileName.isEmpty() )
    {
-      char *path = getDatabaseFileName();
-      mpSqlDB->setDatabaseName( path );
-      free( path );
+      mpSqlDB->setDatabaseName( getDatabaseFileName() );
    }
    else
    {
@@ -480,31 +477,18 @@ void Database::logError( const QString &note )
 
 bool Database::exists()
 {
-   char *fileName = getDatabaseFileName();
-   QFileInfo qfi( fileName );
-   free( fileName );
-   return qfi.isFile();
+   return QFileInfo( getDatabaseFileName() ).isFile();
 }
 
 
-char *Database::getDatabaseFileName()
+QString Database::getDatabaseFileName()
 {
-   const char *dotslartdb = ".slartdb";
-   char *filePath = 0;
-   char *home = getenv( "HOME" );
-   
-   if( home )
-   {
-      filePath = (char*)malloc( strlen(home) + 1 + strlen(dotslartdb) );
-      strcpy( filePath, home );
-      strcat( filePath, "/" );
-      strcat( filePath, dotslartdb );
-      return( filePath );
-   }
-   else
-   {
-      return strdup( dotslartdb );
-   }
+#ifdef _WIN32
+   QString slartdb( "/slart.db" );
+#else
+   QString slartdb( "/.slartdb" );
+#endif
+   return QDir::homePath() + slartdb;
 }
 
 
