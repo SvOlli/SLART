@@ -7,6 +7,7 @@
 
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
+#include "MySettings.hpp"
 
 #include <QtGui>
 
@@ -20,6 +21,15 @@ int main(int argc, char *argv[])
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("Innuendo");
 
+   if( !MySettings().contains( "SLARTCommunication" ) )
+   {
+      if( !MainWindow::invokeSetUp( argv[0] ) )
+      {
+         QMessageBox::critical( 0, app.applicationName(), QObject::tr("Setup failed!\nCannot start.\nSorry.") );
+         return 1;
+      }
+   }
+   
    MainWindow window;
    window.show();
    
