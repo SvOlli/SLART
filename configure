@@ -1,0 +1,147 @@
+#!/bin/sh
+
+BUILDARCH=`uname -s -m|tr ' ' _`
+CACHEFILE=`dirname $0`/${BUILDARCH}/.config.cache
+CONFIG=debug
+PREFIX=/usr/local
+QMAKE=
+JOBS=
+WRITECACHE=no
+
+[ -f ${CACHEFILE} ] && . ${CACHEFILE}
+
+findqmake()
+{
+  which qt4qmake ||
+  which qt4-qmake ||
+  which qmake-qt4 ||
+  which qmake ||
+  echo qmake
+}
+
+if [ -z "${QMAKE}" ]; then
+  QMAKE=`findqmake`
+fi
+
+helpmessage()
+{
+cat <<EOF
+configure for SLART
+
+options:
+  --release      build release code
+  --debug        build debug code
+  --prefix=path  set the install prefix to path
+  --qmake=path   specify the qmake to use for building
+  --jobs=#jobs   specify the number of jobs to use for compiling
+  --help         print this message
+
+internally used:
+  --config       print build configuration (debug or release) [${CONFIG}]
+  --prefix       print the prefix [${PREFIX}]
+  --qmake        print the qmake to use [${QMAKE}]
+  --jobs         print the number of jobs [${JOBS}]
+  --buildarch    print the build architecture [${BUILDARCH}]
+  --cflags       wrapper for pkg-config
+  --libs         wrapper for pkg-config
+
+Using configure is optional! Sane defaults will always be used.
+EOF
+}
+
+pkgconfig()
+{
+# first try use pkg-config
+if type pkg-config >/dev/null; then
+  if pkg-config $@; then
+    # Bingo! It worked, quit now
+    exit 0
+  else
+    # pkg-config failed
+    exit $?
+  fi
+fi
+
+# tried everything I could, failing now
+exit 1
+}
+
+
+for arg; do
+  case "$arg" in
+    --help)
+        helpmessage
+        exit 0;
+      ;;
+    --cflags)
+        pkgconfig $@
+        # will not return
+      ;;
+    --libs)
+        pkgconfig $@
+        # will not return
+      ;;
+    --prefix)
+        echo "${PREFIX}"
+        exit 0;
+      ;;
+    --config)
+        echo "${CONFIG}"
+        exit 0;
+      ;;
+    --qmake)
+        echo "${QMAKE}"
+        exit 0;
+      ;;
+    --jobs)
+        [ -n "${JOBS}" ] && echo "-j${JOBS}"
+        exit 0;
+      ;;
+    --buildarch)
+        echo "${BUILDARCH}"
+        exit 0;
+      ;;
+    --prefix=*)
+        PREFIX="`echo $arg|cut -f2- -d=`"
+        WRITECACHE=yes
+      ;;
+    --debug)
+        CONFIG=debug
+        WRITECACHE=yes
+      ;;
+    --release)
+        CONFIG=release
+        WRITECACHE=yes
+      ;;
+    --qmake=*)
+        QMAKE="`echo $arg|cut -f2- -d=`"
+        WRITECACHE=yes
+      ;;
+    --jobs=*)
+        JOBS="`echo $arg|cut -f2- -d=`"
+        WRITECACHE=yes
+      ;;
+    *)
+        echo "unknown argument: $arg"
+        echo "try: $0 --help"
+        exit 0;
+      ;;
+  esac
+done
+
+if [ -z "${QMAKE}" ]; then
+  QMAKE=`findqmake`
+fi
+
+if [ "${WRITECACHE}" = "yes" ]; then
+  if [ ! -d `dirname ${CACHEFILE}` ]; then
+    mkdir -p `dirname ${CACHEFILE}`
+  fi
+cat <<EOF >${CACHEFILE}
+CONFIG=${CONFIG}
+PREFIX=${PREFIX}
+QMAKE=${QMAKE}
+JOBS=${JOBS}
+EOF
+fi
+
