@@ -8,8 +8,8 @@ TEMPLATE = app
 TARGET = Stripped
 
 #LIBS += -lvorbisenc -lvorbis -lm -logg -lcdio_paranoia -lcdio_cdda -lcdio
-QMAKE_CXXFLAGS += $$system( sh ../pkgconfig.sh --cflags vorbisenc )
-LIBS += $$system( sh ../pkgconfig.sh --libs vorbisenc libcdio_paranoia )
+QMAKE_CXXFLAGS += $$system( sh ../configure --cflags vorbisenc )
+LIBS += $$system( sh ../configure --libs vorbisenc libcdio_paranoia )
 # Input
 #RESOURCES = Resources.qrc
 

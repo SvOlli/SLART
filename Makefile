@@ -1,5 +1,7 @@
 
-PLATFORM = $(shell uname -s -m|tr ' ' _)
+PLATFORM = $(shell sh configure --buildarch)
+
+PREFIX = $(shell sh configure --prefix)
 
 SUBDIRS = taglib Funkytown Partyman Stripped Rubberbandman \
           Karmadrome Creep Innuendo Sorcerer
@@ -21,4 +23,8 @@ toolchain:
 	(cd extra ; ./install-dev-packages.sh)
 
 everything: toolchain all tools
+
+install: strip
+	mkdir -p $(PREFIX)/bin
+	cp -d $(PLATFORM)/bin/* $(PREFIX)/bin
 

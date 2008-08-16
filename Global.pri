@@ -10,13 +10,7 @@ DEPENDPATH += ../Common
 INCLUDEPATH += ../Common
 DESTDIR = ../bin
 
-unix {
-   CONFIG += debug
-}
-
-win32 {
-   CONFIG += release
-}
+CONFIG += $$system( sh ./configure --config )
 
 contains( QMAKE_CXX, g++ )
 {
