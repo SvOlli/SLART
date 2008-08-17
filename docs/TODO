@@ -6,6 +6,7 @@ Common:
 - define "unset" value for TrackInfo for TrackNr/Year (use -1 ?)
 
 Partyman:
+- sophisticated random function
 - check all error handling
 - set path to Partyman as first for clients
 
@@ -15,11 +16,11 @@ Rubberbandman:
 - disable Folders buttons, when no folders exist in database
 - disable Normalize Buttons, when no file or dir is selected
 - context menu for browser
-  - rescan
   - implement move
 - improve Database Tab
 
 Sorcerer:
+- create real spiffy texts
 
 Karmadrome:
 - extract folders to m3u
