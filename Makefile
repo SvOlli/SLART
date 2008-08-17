@@ -12,6 +12,9 @@ all:
 
 clean:
 	rm -rf $(PLATFORM)
+	@echo
+	@echo " note: configuration was deleted as well!"
+	@echo
 
 strip: all
 	strip -R .note -R .comment $(PLATFORM)/bin/*

@@ -1,7 +1,9 @@
 #!/bin/sh
 
+BASEDIR=`dirname ${0}`
 BUILDARCH=`uname -s -m|tr ' ' _`
-CACHEFILE=`dirname $0`/${BUILDARCH}/.config.cache
+VERSION=`cat ${BASEDIR}/Common/Version.hpp|cut -f2 -d\"|tr '&;\n' ' '`
+CACHEFILE=${BASEDIR}/${BUILDARCH}/.config.cache
 CONFIG=debug
 PREFIX=/usr/local
 QMAKE=
@@ -26,34 +28,37 @@ fi
 helpmessage()
 {
 cat <<EOF
-configure for SLART
+
+configure for SLART Version${VERSION}
 
 options:
   --release      build release code
   --debug        build debug code
   --prefix=path  set the install prefix to path
   --qmake=path   specify the qmake to use for building
-  --jobs=#jobs   specify the number of jobs to use for compiling
+  --jobs=#jobs   specify the number of concurrent jobs to use for compiling
   --help         print this message
 
 internally used:
   --config       print build configuration (debug or release) [${CONFIG}]
   --prefix       print the prefix [${PREFIX}]
   --qmake        print the qmake to use [${QMAKE}]
-  --jobs         print the number of jobs [${JOBS}]
+  --jobs         print the number of concurrent compile-jobs [${JOBS:-1}]
   --buildarch    print the build architecture [${BUILDARCH}]
+  --commits      print the number of git commits so far
   --cflags       wrapper for pkg-config
   --libs         wrapper for pkg-config
 
-Using configure is optional! Sane defaults will always be used.
+NOTE: Using configure is optional! Sane defaults will always be used.
+
 EOF
 }
 
 pkgconfig()
 {
 # first try use pkg-config
-if type pkg-config >/dev/null; then
-  if pkg-config $@; then
+if type pkg-config 2>/dev/null >/dev/null; then
+  if pkg-config ${@}; then
     # Bingo! It worked, quit now
     exit 0
   else
@@ -68,17 +73,17 @@ exit 1
 
 
 for arg; do
-  case "$arg" in
+  case "${arg}" in
     --help)
         helpmessage
         exit 0;
       ;;
     --cflags)
-        pkgconfig $@
+        pkgconfig ${@}
         # will not return
       ;;
     --libs)
-        pkgconfig $@
+        pkgconfig ${@}
         # will not return
       ;;
     --prefix)
@@ -101,8 +106,16 @@ for arg; do
         echo "${BUILDARCH}"
         exit 0;
       ;;
+    --commits)
+        git-log 2>/dev/null | grep '^commit ' | wc -l
+        exit 0;
+      ;;
+    --last-commit)
+        git-log 2>/dev/null | head -1 | sed 's/^commit \([0-9a-f]*\)/\1/'
+        exit 0;
+      ;;
     --prefix=*)
-        PREFIX="`echo $arg|cut -f2- -d=`"
+        PREFIX="`echo ${arg}|cut -f2- -d=`"
         WRITECACHE=yes
       ;;
     --debug)
@@ -114,16 +127,16 @@ for arg; do
         WRITECACHE=yes
       ;;
     --qmake=*)
-        QMAKE="`echo $arg|cut -f2- -d=`"
+        QMAKE="`echo ${arg}|cut -f2- -d=`"
         WRITECACHE=yes
       ;;
     --jobs=*)
-        JOBS="`echo $arg|cut -f2- -d=`"
+        JOBS="`echo ${arg}|cut -f2- -d=`"
         WRITECACHE=yes
       ;;
     *)
-        echo "unknown argument: $arg"
-        echo "try: $0 --help"
+        echo "unknown argument: ${arg}"
+        echo "try: ${0} --help"
         exit 0;
       ;;
   esac
