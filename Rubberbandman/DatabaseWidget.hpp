@@ -30,24 +30,25 @@ public:
    DatabaseWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
-   /*  */
+   /* handle update button */
    void handleUpdate( bool checked );
-   /*  */
+   /* handle cleanup button */
    void handleCleanup( bool checked );
-   /*  */
+   /* handle import button */
    void handleImport( bool checked );
-   /*  */
+   /* pop up requester for selecting base dir */
    void setBaseDir();
-   /*  */
+   /* update buttons to show if base dir is valid */
    void checkValidDir( const QString &dirName );
-   /*  */
+   /* update output from worker */
    void handleProgress( int checked, int processed );
-   /*  */
+   /* handle finishing worker */
    void handleFinished();
-   /*  */
+   /* read the Partyman configuration to determine if running in local mode */
    void readPartymanConfig( const QHostInfo &hi = QHostInfo() );
 
 signals:
+   /* for Sorcerer: signal, that the database is ok */
    void databaseOk();
 
 private:

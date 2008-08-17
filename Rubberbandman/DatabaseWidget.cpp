@@ -142,40 +142,11 @@ void DatabaseWidget::handleCleanup( bool checked )
    mProcessedText = tr(" cleaned.");
    mpDatabaseWorker->initCleanup();
    mpDatabaseWorker->start();
-#if 0
-   TrackInfoList   trackInfoList;
-   int s = mpDatabase->getTrackInfoList( &trackInfoList );
-   
-   QFileInfo qfi;
-   int i;
-   int c = 0;
-   mpDatabase->beginTransaction();
-   for( i = 0; i < s; i++ )
-   {
-      mTrackInfo = trackInfoList.at(i);
-      qfi.setFile( mTrackInfo.mDirectory + "/" + mTrackInfo.mFileName );
-      if( !qfi.isFile() )
-      {
-         mpDatabase->deleteTrackInfo( &mTrackInfo );
-         ++c;
-      }
-      if( i % 100 == 99 )
-      {
-         mpMessage->setText( QString::number(i+1) + " files checked, " + QString::number(c) + " cleaned." );
-         QApplication::processEvents();
-      }
-   }
-   mpDatabase->endTransaction(true);
-   mpMessage->setText( "Done, " + QString::number(i+1) + " files checked, " + QString::number(c) + " cleaned." );
-   disableButtons( false );
-#endif
 }
 
 
 void DatabaseWidget::handleImport( bool checked )
 {
-TRACESTART(DatabaseWidget::handleImport)
-TRACEMSG << checked;
    if( !checked )
    {
       mpImportButton->setChecked( true );
@@ -190,8 +161,8 @@ TRACEMSG << checked;
    fileDialog.setReadOnly( true );
    if( fileDialog.exec() )
    {
-      mCheckedText   = tr(" files scanned,");
-      mProcessedText = tr(" updated.");
+      mCheckedText   = tr(" files scanned, ");
+      mProcessedText = tr(" added.");
       mpDatabaseWorker->initImport( fileDialog.selectedFiles().at(0) );
       mpDatabaseWorker->start();
    }

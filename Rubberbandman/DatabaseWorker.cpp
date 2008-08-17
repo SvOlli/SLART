@@ -17,6 +17,7 @@
 #include "Trace.hpp"
 
 
+/* helper class for DirWalker updating database */
 class DirWalkerDatabaseUpdate : public DirWalkerCallbacks
 {
 public:
@@ -91,8 +92,9 @@ bool DatabaseWorker::initImport( const QString &fileName )
 
 void DatabaseWorker::run()
 {
-   mChecked   = 0;
-   mProcessed = 0;
+   mChecked     = 0;
+   mLastChecked = 0;
+   mProcessed   = 0;
    mpDatabase->beginTransaction();
    switch( mMode )
    {
