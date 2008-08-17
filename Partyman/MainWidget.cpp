@@ -39,7 +39,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpControl( new ControlWidget( mpDatabase, mpConfig, mpPlaylist, this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 {
-   int i;
    mpMainWidget = this;
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
    
@@ -53,20 +52,24 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpParent->setAttribute( Qt::WA_AlwaysShowToolTips, true );
    mpParent->setWindowIcon( QIcon( ":/PartymanSmile.gif" ) );
 
+#if (!defined _WIN32) || (defined __MINGW32__)
+   int i;
    for( i = 1; i < 32; i++ )
    {
       switch( i )
       {
-         case SIGKILL:
-         case SIGSTOP:
-         case SIGCHLD:
-         case SIGPIPE:
+         // numeric because of MinGW lacking most signals
+         case  9: //SIGKILL
+         case 13: //SIGPIPE
+         case 17: //SIGCHLD
+         case 19: //SIGSTOP
             break;
          default:
             ::signal( i, signalHandler );
             break;
       }
    }
+#endif
    
    connect( mpControl, SIGNAL(requestAddToPlaylist(QStringList,bool)), 
             mpPlaylist, SLOT(addEntries(QStringList,bool)) );
@@ -91,23 +94,25 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
 MainWidget::~MainWidget()
 {
-   int i;
-   
    mpMainWidget = 0;
+#if (!defined _WIN32) || (defined __MINGW32__)
+   int i;
    for( i = 1; i < 32; i++ )
    {
       switch( i )
       {
-         case SIGKILL:
-         case SIGSTOP:
-         case SIGCHLD:
-         case SIGPIPE:
+         // numeric because of MinGW lacking most signals
+         case  9: //SIGKILL
+         case 13: //SIGPIPE
+         case 17: //SIGCHLD
+         case 19: //SIGSTOP
             break;
          default:
             ::signal( i, SIG_DFL );
             break;
       }
    }
+#endif
 
    delete mpControl;
    mpControl = 0;
