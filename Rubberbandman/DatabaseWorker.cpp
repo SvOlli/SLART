@@ -16,6 +16,7 @@
 
 #include "Trace.hpp"
 
+static const int UPDATE_INCREMENT = 200;
 
 /* helper class for DirWalker updating database */
 class DirWalkerDatabaseUpdate : public DirWalkerCallbacks
@@ -95,6 +96,7 @@ void DatabaseWorker::run()
    mChecked     = 0;
    mLastChecked = 0;
    mProcessed   = 0;
+   emit progress( mChecked, mProcessed );
    mpDatabase->beginTransaction();
    switch( mMode )
    {
@@ -118,9 +120,10 @@ void DatabaseWorker::run()
                   mpDatabase->deleteTrackInfo( &mTrackInfo );
                   ++mProcessed;
                }
-               if( mChecked % 200 == (200 - 1) )
+               if( mChecked > mLastChecked + UPDATE_INCREMENT )
                {
-                  emit progress( mChecked + 1, mProcessed );
+                  emit progress( mChecked, mProcessed );
+                  mLastChecked = mChecked;
                }
             }
          }
@@ -139,7 +142,7 @@ void DatabaseWorker::run()
 
 void DatabaseWorker::updateDir( const QFileInfo &/*fileInfo*/ )
 {
-   if( mChecked > mLastChecked + 200 )
+   if( mChecked > mLastChecked + UPDATE_INCREMENT )
    {
       emit progress( mChecked, mProcessed );
       mLastChecked = mChecked;
@@ -246,7 +249,7 @@ void DatabaseWorker::importM3u()
          updateTrackInfoFromFile( fileName );
          mpDatabase->updateTrackInfo( &mTrackInfo );
          
-         if( ++mChecked > mLastChecked + 200 )
+         if( ++mChecked > mLastChecked + UPDATE_INCREMENT )
          {
             emit progress( mChecked, mProcessed );
             mLastChecked = mChecked;
