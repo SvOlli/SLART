@@ -114,6 +114,7 @@ void MainWidget::handlePingButton()
       }
       msg.append( "responing" );
       mpMessageBuffer->addItem( msg );
+      mpMessageBuffer->scrollToBottom();
    }
    mpPingButton->setDisabled( false );
 }
