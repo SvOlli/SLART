@@ -48,8 +48,8 @@ public slots:
    void readPartymanConfig( const QHostInfo &hi = QHostInfo() );
 
 signals:
-   /* for Sorcerer: signal, that the database is ok */
-   void databaseOk();
+   /* for Sorcerer: signal, that the database has been updated / created */
+   void databaseUpdated();
 
 private:
    DatabaseWidget( const DatabaseWidget &other );

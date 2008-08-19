@@ -26,15 +26,12 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpConfigCommunicationWidget( new ConfigNotifyWidget( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mLastTab( 0 )
-, mDatabaseOk( Database::exists() )
+, mDatabaseOk( false )
 , mCommunicationOk( MySettings( "Innuendo" ).value( "SLARTCommunication" ).isValid() )
 , mProxyOk( MySettings( "Global" ).value( "Enable" ).isValid() )
 {
    int i;
-   if( mDatabaseOk )
-   {
-      mDatabaseOk = mpDatabase->getTrackInfoList( 0 ) > 2;
-   }
+   unlockDatabase();
    
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
 #if QT_VERSION < 0x040300
@@ -75,9 +72,9 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(handleTabChange(int)) );
    connect( mpNext, SIGNAL(pressed()),
             this, SLOT(handleNextButton()) );
-   connect( mpConfigCommunicationWidget, SIGNAL(fullNoCommunnicationClicked()),
+   connect( mpConfigCommunicationWidget, SIGNAL(fullOrNoCommunication()),
             this, SLOT(unlockCommunication()) );
-   connect( mpDatabaseWidget, SIGNAL(databaseOk()),
+   connect( mpDatabaseWidget, SIGNAL(databaseUpdated()),
             this, SLOT(unlockDatabase()) );
    
    setLayout( mainLayout );
@@ -162,8 +159,14 @@ void MainWidget::handleNextButton()
 
 void MainWidget::unlockDatabase()
 {
-   mDatabaseOk = true;
-   mpNext->setDisabled( false );
+   if( Database::exists() )
+   {
+      mDatabaseOk = mpDatabase->getTrackInfoList( 0 ) > 2;
+   }
+   if( mDatabaseOk )
+   {
+      mpNext->setDisabled( false );
+   }
 }
 
 

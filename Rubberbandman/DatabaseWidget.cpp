@@ -218,6 +218,7 @@ void DatabaseWidget::handleFinished()
 {
    mpMessage->setText( tr("Done: ") + mpMessage->text() );
    disableButtons( false );
+   emit databaseUpdated();
 }
 
 

@@ -156,5 +156,5 @@ void ConfigNotifyWidget::setAllAtOnce( bool enable )
    {
       mpTabs[i]->setAllAtOnce( enable );
    }
-   emit fullNoCommunnicationClicked();
+   emit fullOrNoCommunication();
 }

@@ -40,8 +40,8 @@ public slots:
    void handleAppButton( int index );
 
 signals:
-   /*  */
-   void fullNoCommunnicationClicked();
+   /* for Sorcerer: indicate selection of full or no communication */
+   void fullOrNoCommunication();
 
 private:
    QSignalMapper                 *mpSignalMapper;
