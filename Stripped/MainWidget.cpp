@@ -35,7 +35,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpRipButton( new QPushButton( tr("Rip Tracks"), this ) )
 , mpEjectButton( new QPushButton( tr("Eject"), this ) )
 {
-   char cwd[PATH_MAX];
    MySettings settings;
    mpRipButton->setEnabled( false );
    
@@ -58,9 +57,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    pathLayout->addWidget( mpDirButton );
    pathLayout->setStretchFactor( targetDirLabel,  0 );
    pathLayout->setStretchFactor( mpDirButton, 1 );
-   QVariant targetDir( getcwd(&cwd[0], PATH_MAX) );
-   mpDirButton->setText( settings.value("Directory", targetDir).toString() );
-   chdir( mpDirButton->text().toLocal8Bit().constData() );
+   mpDirButton->setText( settings.value("Directory", QDir::current().absolutePath()).toString() );
+   QDir::setCurrent( mpDirButton->text() );
 
    mpCancelButton->setDisabled( true );
    mpButtonLayout->addWidget( mpSettingsButton );
@@ -124,7 +122,7 @@ void MainWidget::setRippingDir()
       settings.setValue( "Directory", result.replace('\\','/') );
    }
 
-   chdir( mpDirButton->text().toLocal8Bit().constData() );
+   QDir::setCurrent( mpDirButton->text() );
 }
 
 
