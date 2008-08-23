@@ -29,7 +29,7 @@ Q_OBJECT
 
 public:
    ConfigDialog( CDReader *cdreader, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
+   
 public slots:
    /* execute the dialog */
    void exec();
@@ -51,6 +51,7 @@ private:
 
    CDReader             *mpCDReader;
    GlobalConfigWidget   *mpGlobalConfigWidget;
+   ProxyWidget          *mpProxyWidget;
    QLabel               *mpDevicesLabel;
    QComboBox            *mpDevicesBox;
    QLabel               *mpEncodersLabel;

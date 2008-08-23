@@ -7,6 +7,7 @@
 
 #include "CDDB.hpp"
 #include "CDToc.hpp"
+#include "ProxyWidget.hpp"
 
 #include <QtGui>
 #include <QHttp>
@@ -193,6 +194,7 @@ void CDDB::genericrequest( const QString &cmd )
    request.append( "&hello=svolli svolli.de Stripped alpha&proto=6" );
    request.replace( ' ', '+' );
    
+   ProxyWidget::setProxy( mpHttp );
    mpFile->open( QIODevice::WriteOnly );
    mHttpGetId = mpHttp->get( request, mpFile );
 }

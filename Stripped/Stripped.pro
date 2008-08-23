@@ -27,6 +27,9 @@ SOURCES += ConfigDialog.cpp
 HEADERS += GlobalConfigWidget.hpp 
 SOURCES += GlobalConfigWidget.cpp 
 
+HEADERS += ProxyWidget.hpp 
+SOURCES += ProxyWidget.cpp 
+
 HEADERS += MySettings.hpp 
 SOURCES += MySettings.cpp 
 

@@ -8,6 +8,7 @@
 #include "ConfigDialog.hpp"
 #include "MySettings.hpp"
 #include "GlobalConfigWidget.hpp"
+#include "ProxyWidget.hpp"
 #include "AboutWidget.hpp"
 
 
@@ -24,6 +25,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 : QDialog( parent, flags )
 , mpCDReader( cdreader )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
+, mpProxyWidget( new ProxyWidget( this ) )
 , mpDevicesLabel( new QLabel( tr("Device:"), this ) )
 , mpDevicesBox( new QComboBox( this ) )
 , mpEncodersLabel( new QLabel( tr("Encoder:"), this ) )
@@ -85,6 +87,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
    tabs->addTab( strTab,               QString(tr("Stripped")) );
+   tabs->addTab( mpProxyWidget,        QString(tr("Proxy")) );
    tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
    
    mainLayout->addWidget( about );
@@ -139,6 +142,7 @@ void ConfigDialog::readSettings()
                        "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|").toString() );
    
    mpGlobalConfigWidget->readSettings();
+   mpProxyWidget->readSettings();
    
    emit configChanged();
 }
@@ -152,6 +156,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "CreatePattern", mpPattern->text() );
    
    mpGlobalConfigWidget->writeSettings();
+   mpProxyWidget->writeSettings();
 
    emit configChanged();
 }
