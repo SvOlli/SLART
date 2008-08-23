@@ -140,19 +140,22 @@ void ProxyWidget::updateWidgets( bool disabled )
 
 void ProxyWidget::setProxy( QHttp *http )
 {
-   QString host;
-   int     port = 0;
-   QString login;
-   QString password;
+   MySettings settings( "Global" );
+
+   QString      host;
+   int          port = 0;
+   QString      login;
+   QString      password;
    
-   if( mpProxyOnButton->isChecked() )
+   settings.beginGroup( "HTTPProxy" );
+   if( settings.value("Enable", false).toBool() )
    {
-      host = mpProxyHostInput->text();
-      port = mpProxyPortInput->value();
-      if( mpProxyAuthButton->isChecked() )
+      host = settings.value("Host", QString( tr("proxy") )).toString();
+      port = settings.value("Port", 8080).toInt();
+      if( settings.value("Auth", false).toBool() )
       {
-         login    = mpProxyLoginInput->text();
-         password = mpProxyPasswordInput->text();
+         login    = settings.value("Login",    QString( tr("login") )).toString();
+         password = settings.value("Password", QString( tr("password") )).toString();
       }
    }
    http->setProxy( host, port, login, password );

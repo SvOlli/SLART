@@ -187,12 +187,7 @@ void DownloadHandler::startDownload()
    }
    int slash1 = url.indexOf('/');
    
+   ProxyWidget::setProxy( mpHttp );
    mpHttp->setHost( url.left(slash1) );
    mHttpGetId = mpHttp->get( url.mid(slash1), mpFile );
-}
-
-
-void DownloadHandler::setProxy( ProxyWidget *proxyWidget )
-{
-   proxyWidget->setProxy( mpHttp );
 }

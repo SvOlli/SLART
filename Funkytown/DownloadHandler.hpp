@@ -32,8 +32,6 @@ public:
    /* run a download request */
    void run( const QString &url, const QString &filename,
              PostDownloadHandler *postDownloadHandler, bool selected );
-   /* set the proxy configuration */
-   void setProxy( ProxyWidget *proxyWidget );
 
 public slots:
    /* callback for QHttp */

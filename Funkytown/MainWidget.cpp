@@ -130,7 +130,6 @@ void MainWidget::downloadUserPage( const QString &name )
       return;
 
    downloadActive( true );
-   gpDownloadHandler->setProxy( mpConfigDialog->proxyWidget() );
    
    if( url.endsWith( ".mp3", Qt::CaseInsensitive ) )
    {
@@ -155,7 +154,6 @@ void MainWidget::downloadUserPage( const QString &name )
 void MainWidget::downloadActive( bool active )
 {
    mpDirButton->setDisabled( active );
-   mpConfigDialog->proxyWidget()->updateWidgets( active );
    if( active )
    {
       mpGoButton->setText( tr("ADD!") );

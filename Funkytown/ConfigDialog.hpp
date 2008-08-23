@@ -23,9 +23,6 @@ Q_OBJECT
 public:
    ConfigDialog( QWidget *parent = 0 );
 
-   /* grant direct access to proxy settings */
-   ProxyWidget *proxyWidget();
-
 public slots:
    /* execute the dialog */
    void exec();

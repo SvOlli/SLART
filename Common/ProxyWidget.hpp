@@ -26,7 +26,7 @@ public:
    ProxyWidget( QWidget *parent = 0 );
 
    /* set proxy in QHttp class */
-   void setProxy( QHttp *http );
+   static void setProxy( QHttp *http );
    /* read settings from storage */
    void readSettings();
    /* write settings from storage */

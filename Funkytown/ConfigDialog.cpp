@@ -15,8 +15,8 @@
 
 ConfigDialog::ConfigDialog( QWidget *parent )
 : QDialog( parent )
-, mpProxyWidget( new ProxyWidget )
-, mpLogList( new QListWidget )
+, mpProxyWidget( new ProxyWidget( this ) )
+, mpLogList( new QListWidget( this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    
@@ -56,12 +56,6 @@ void ConfigDialog::exec()
 {
    readSettings();
    QDialog::exec();
-}
-
-
-ProxyWidget *ConfigDialog::proxyWidget()
-{
-   return mpProxyWidget;
 }
 
 
