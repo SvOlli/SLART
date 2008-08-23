@@ -269,6 +269,11 @@ void PlayerWidget::skip()
    {
       case PlayerFSM::playing:
       case PlayerFSM::paused:
+         if( MySettings().value("CountSkip", false).toBool() )
+         {
+            ++mTrackInfo.mTimesPlayed;
+            mpDatabase->updateTrackInfo( &mTrackInfo );
+         }
          setState( PlayerFSM::searching );
          break;
       case PlayerFSM::searching:

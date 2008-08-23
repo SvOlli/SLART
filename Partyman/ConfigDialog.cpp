@@ -33,6 +33,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpNormalizeMode( new QComboBox( this ) )
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
+, mpCountSkip( new QCheckBox( tr("Increase track played counter on skip"), this ) )
 , mpNamePattern( new QLineEdit( this ) )
 , mpPlayerPattern( new QLineEdit( this ) )
 , mpListPattern( new QLineEdit( this ) )
@@ -87,7 +88,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    partymanLayout->addWidget( mpNormalizeValue, 3, 1 );
    partymanLayout->addWidget( new QLabel( tr("External Logger:") ), 4, 0 );
    partymanLayout->addWidget( mpLogCmd, 4, 1 );
-   partymanLayout->setRowStretch( 5, 1 );
+   partymanLayout->addWidget( mpCountSkip, 5, 0, 1, 2 );
+   partymanLayout->setRowStretch( 6, 1 );
    partymanTab->setLayout( partymanLayout );
    
    QWidget     *patternTab    = new QWidget( this );
@@ -170,6 +172,7 @@ void ConfigDialog::readSettings()
    mpNormalizeMode->setCurrentIndex( settings.value("NormalizeMode", 0).toInt() );
    mpNormalizeValue->setValue( settings.value("NormalizeValue", 0.4).toDouble() );
    mpLogCmd->setText( settings.value("LogCmd", "").toString() );
+   mpCountSkip->setChecked( settings.value("CountSkip", false).toBool() );
    mpPlayerPattern->setText( settings.value("PlayerPattern", "|$ARTIST| - |$TITLE|").toString() );
    mpListPattern->setText( settings.value("ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|").toString() );
    mpNamePattern->setText( settings.value("NamePattern", QApplication::applicationName()+": |$TITLE|").toString() );
@@ -198,6 +201,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "NormalizeMode", mpNormalizeMode->currentIndex() );
    settings.setValue( "NormalizeValue", mpNormalizeValue->value() );
    settings.setValue( "LogCmd", mpLogCmd->text() );
+   settings.setValue( "CountSkip", mpCountSkip->isChecked() );
    settings.setValue( "PlayerPattern", mpPlayerPattern->text() );
    settings.setValue( "ListPattern", mpListPattern->text() );
    settings.setValue( "NamePattern", mpNamePattern->text() );

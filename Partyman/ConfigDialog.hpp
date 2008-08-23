@@ -65,6 +65,7 @@ private:
    QDoubleSpinBox       *mpNormalizeValue;
    MyClipboard          *mpClipboard;
    QLineEdit            *mpLogCmd;
+   QCheckBox            *mpCountSkip;
    QLineEdit            *mpNamePattern;
    QLineEdit            *mpPlayerPattern;
    QLineEdit            *mpListPattern;
