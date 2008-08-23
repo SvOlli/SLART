@@ -11,6 +11,9 @@ all:
 	ls -l $(PLATFORM)/bin
 
 clean:
+	for i in $(SUBDIRS); do rm -rf $(PLATFORM)/$$i;done
+
+distclean:
 	rm -rf $(PLATFORM)
 	@echo
 	@echo " note: configuration was deleted as well!"
