@@ -7,8 +7,9 @@
 
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
+#include "MySettings.hpp"
+#include "Database.hpp"
 
-//#include <unistd.h>
 #include <QtGui>
 
 
@@ -17,10 +18,21 @@ int main(int argc, char *argv[])
    int retval = 0;
 
    QApplication app(argc, argv);
-   app.setOrganizationName("SLAT");
+   app.setOrganizationName("SLART");
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("TemplateApp");
 
+#if 0
+   if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
+   {
+      if( !MainWindow::invokeSetUp( argv[0] ) )
+      {
+         QMessageBox::critical( 0, app.applicationName(), QObject::tr("Setup failed!\nCannot start.\nSorry.") );
+         return 1;
+      }
+   }
+#endif
+   
    MainWindow window;
    window.show();
    
