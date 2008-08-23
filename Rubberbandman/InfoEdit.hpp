@@ -96,8 +96,8 @@ private:
    
    ScrollLine *mpShowPathName;
    ScrollLine *mpShowFileName;
-   QLineEdit *mpShowSize;
-   QLineEdit *mpShowPlayTime;
+   ScrollLine *mpShowSize;
+   ScrollLine *mpShowPlayTime;
    
    QLineEdit *mpEditArtist;
    QLineEdit *mpEditTitle;
