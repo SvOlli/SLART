@@ -40,9 +40,9 @@ public slots:
    void handleSLART( const QStringList &message );
    /* handle adding of new playlist */
    void handleAdd();
-   /* handle export of playlist to m3u file */
+   /* handle menu to export of playlist to m3u file */
    void handleExport( QAction *action );
-   /* handle import of playlist from m3u file */
+   /* handle menu to import of playlist from m3u file */
    void handleImport( QAction *action );
    /* handle removal of playlist */
    void handleRemove( QAction *action );
@@ -54,6 +54,10 @@ public slots:
    void updateLists();
    /* slot for timer to send out k0u notification */
    void sendK0u();
+   /* export a playlist to m3u file */
+   void exportM3u( const QString &folder, const QString &fileName );
+   /* import a playlist from m3u file */
+   void importM3u( const QString &folder, const QString &fileName );
 
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );

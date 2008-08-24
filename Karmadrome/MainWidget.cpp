@@ -136,8 +136,42 @@ void MainWidget::sendK0u()
 
 void MainWidget::handleSLART( const QStringList &message )
 {
+   if( message.count() > 2 )
+   {
+      if( message.at(0) == "K0E" )
+      {
+         if( message.at(1).startsWith( "|F", Qt::CaseInsensitive ) )
+         {
+            exportM3u( QChar(1), message.at(2) );
+         }
+         else if( message.at(1).startsWith( "|U", Qt::CaseInsensitive ) )
+         {
+            exportM3u( QChar(2), message.at(2) );
+         }
+         else
+         {
+            exportM3u( message.at(1), message.at(2) );
+         }
+      }
+      
+      if( message.at(0) == "K0I" )
+      {
+         importM3u( message.at(1), message.at(2) );
+      }
+   }
+   
    if( message.count() > 1 )
    {
+      if( message.at(0) == "K0A" )
+      {
+         if( mpDatabase->getFolders().contains( message.at(1) ) )
+         {
+            mTrackInfo.setFolder( message.at(1), !mTrackInfo.isInFolder( message.at(1) ) );
+            mpDatabase->updateTrackInfo( &mTrackInfo );
+            mpTimer->start();
+         }
+      }
+      
       if( message.at(0) == "p0p" )
       {
          mpFileName->setText( message.at(1) );
@@ -146,6 +180,7 @@ void MainWidget::handleSLART( const QStringList &message )
          mpListButtons->lockButtons( mTrackInfo.getFolders() );
       }
    }
+   
    if( message.at(0) == "p0s" )
    {
       mTrackInfo.clear();
@@ -242,12 +277,6 @@ void MainWidget::handleExport( QAction *action )
       {
          fileName.append( ".m3u" );
       }
-      QFile m3uFile( fileName );
-      if( !m3uFile.open( QIODevice::WriteOnly | QIODevice::Text ) )
-      {
-         return;
-      }
-      QDir dir( QFileInfo( m3uFile.fileName() ).absolutePath() );
       QString folder( action->text() );
       if( action == mpExportFavorite )
       {
@@ -257,33 +286,7 @@ void MainWidget::handleExport( QAction *action )
       {
          folder = QChar(2);
       }
-      QStringList entries( mpDatabase->getFolder( folder ) );
-      if( settings.value( "RandomizeExport", false ).toBool() )
-      {
-         QStringList randomized;
-         while( entries.count() )
-         {
-            randomized.append( entries.takeAt( qrand() % entries.count() ) );
-         }
-         entries = randomized;
-      }
-      if( settings.value( "ExportAsRelative", false ).toBool() )
-      {
-         for( int i = 0; i < entries.count(); i++ )
-         {
-            m3uFile.write( dir.relativeFilePath( entries.at(i) ).toLocal8Bit() );
-            m3uFile.write( "\n" );
-         }
-      }
-      else
-      {
-         for( int i = 0; i < entries.count(); i++ )
-         {
-            m3uFile.write( entries.at(i).toLocal8Bit() );
-            m3uFile.write( "\n" );
-         }
-      }
-      m3uFile.close();
+      exportM3u( folder, fileName );
    }
 }
 
@@ -326,39 +329,7 @@ void MainWidget::handleImport( QAction *action )
       }
       for( int i = 0; i < dialog.selectedFiles().count(); i++ )
       {
-         QFile m3uFile( dialog.selectedFiles().at(i) );
-         if( m3uFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
-         {
-            QString fileName;
-            QString fileBase( m3uFile.fileName() + "/../" );
-            QFileInfo qfi;
-            mpDatabase->beginTransaction();
-            while( !m3uFile.atEnd() )
-            {
-               fileName = QString::fromLocal8Bit( m3uFile.readLine() );
-               if( !fileName.startsWith("#") )
-               {
-                  if( fileName.right(1) == QChar('\n') )
-                  {
-                     fileName.chop(1);
-                  }
-                  if( !fileName.startsWith( "/" ) )
-                  {
-                     /* a bit of an ugly trick, but gets the job done better than most
-                        other solutions */
-                     qfi.setFile( fileBase + fileName );
-                     fileName = qfi.absoluteFilePath();
-                  }
-                  if( mpDatabase->getTrackInfo( &trackInfo, fileName ) )
-                  {
-                     trackInfo.setFolder( action->text(), true );
-                     mpDatabase->updateTrackInfo( &trackInfo );
-                  }
-               }
-            }
-            mpDatabase->endTransaction( true );
-            m3uFile.close();
-         }
+         importM3u( action->text(), dialog.selectedFiles().at(i) );
       }
       QDir::setCurrent( cwd );
    }
@@ -418,5 +389,83 @@ void MainWidget::labelReadButton()
          mpReadButton->setText( QString() );
          mpReadButton->setHidden( true );
          break;
+   }
+}
+
+
+void MainWidget::exportM3u( const QString &folder, const QString &fileName )
+{
+   MySettings settings;
+   QFile m3uFile( fileName );
+   if( !m3uFile.open( QIODevice::WriteOnly | QIODevice::Text ) )
+   {
+      return;
+   }
+   QDir dir( QFileInfo( m3uFile.fileName() ).absolutePath() );
+   QStringList entries( mpDatabase->getFolder( folder ) );
+   if( settings.value( "RandomizeExport", false ).toBool() )
+   {
+      QStringList randomized;
+      while( entries.count() )
+      {
+         randomized.append( entries.takeAt( qrand() % entries.count() ) );
+      }
+      entries = randomized;
+   }
+   if( settings.value( "ExportAsRelative", false ).toBool() )
+   {
+      for( int i = 0; i < entries.count(); i++ )
+      {
+         m3uFile.write( dir.relativeFilePath( entries.at(i) ).toLocal8Bit() );
+         m3uFile.write( "\n" );
+      }
+   }
+   else
+   {
+      for( int i = 0; i < entries.count(); i++ )
+      {
+         m3uFile.write( entries.at(i).toLocal8Bit() );
+         m3uFile.write( "\n" );
+      }
+   }
+   m3uFile.close();
+}
+
+
+void MainWidget::importM3u( const QString &folder, const QString &fileName )
+{
+   TrackInfo trackInfo;
+   QFile m3uFile( fileName );
+   if( m3uFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
+   {
+      QString fileName;
+      QString fileBase( m3uFile.fileName() + "/../" );
+      QFileInfo qfi;
+      mpDatabase->beginTransaction();
+      while( !m3uFile.atEnd() )
+      {
+         fileName = QString::fromLocal8Bit( m3uFile.readLine() );
+         if( !fileName.startsWith("#") )
+         {
+            if( fileName.right(1) == QChar('\n') )
+            {
+               fileName.chop(1);
+            }
+            if( !fileName.startsWith( "/" ) )
+            {
+               /* a bit of an ugly trick, but gets the job done better than most
+                  other solutions */
+               qfi.setFile( fileBase + fileName );
+               fileName = qfi.absoluteFilePath();
+            }
+            if( mpDatabase->getTrackInfo( &trackInfo, fileName ) )
+            {
+               trackInfo.setFolder( folder, true );
+               mpDatabase->updateTrackInfo( &trackInfo );
+            }
+         }
+      }
+      mpDatabase->endTransaction( true );
+      m3uFile.close();
    }
 }

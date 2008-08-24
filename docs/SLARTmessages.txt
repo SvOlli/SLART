@@ -34,6 +34,10 @@ Funkytown
   - f0d: done with downloading track (parameter: complete filename)
 
 Karmadrome
+- commands
+  - K0A: Add/remove current track to folder (parameter: foldername)
+  - K0E: Export folder from file (parameters foldername, filename.m3u)
+  - K0I: Import folder from file (parameters foldername, filename.m3u)
 - status messages
   - k0u: Updated database
 
