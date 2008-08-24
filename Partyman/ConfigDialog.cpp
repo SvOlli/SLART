@@ -39,7 +39,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpListPattern( new QLineEdit( this ) )
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
 {
-   setWindowTitle( tr("Partyman Settings") );
+   setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowIcon( QIcon(":/PartymanSmile.gif") );
    connect( mpNormalizeMode, SIGNAL(currentIndexChanged(int)), 
             this, SLOT(handleNormalizeMode(int)) );
    connect( mpDerMixDrun, SIGNAL(clicked(bool)),
@@ -64,31 +65,33 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    
    QWidget     *dermixdTab    = new QWidget( this );
    QGridLayout *dermixdLayout = new QGridLayout( dermixdTab );
-   dermixdLayout->addWidget( mpDerMixDrun, 0, 0, 1, 2 );
+   dermixdLayout->addWidget( mpDerMixDrun, 0, 0, 1, 3 );
    dermixdLayout->addWidget( mpDerMixDcmdLabel, 1, 0 );
-   dermixdLayout->addWidget( mpDerMixDcmd, 1, 1 );
+   dermixdLayout->addWidget( mpDerMixDcmd, 1, 1, 1, 2 );
    dermixdLayout->addWidget( mpDerMixDparamsLabel, 2, 0 );
-   dermixdLayout->addWidget( mpDerMixDparams, 2, 1 );
+   dermixdLayout->addWidget( mpDerMixDparams, 2, 1, 1, 2 );
    dermixdLayout->addWidget( mpDerMixDhostLabel, 3, 0 );
-   dermixdLayout->addWidget( mpDerMixDhost, 3, 1 );
+   dermixdLayout->addWidget( mpDerMixDhost, 3, 1, 1, 2 );
    dermixdLayout->addWidget( mpDerMixDportLabel, 4, 0 );
    dermixdLayout->addWidget( mpDerMixDport, 4, 1 );
-   dermixdLayout->addWidget( mpDerMixDlog, 5, 0, 1, 2 );
+   dermixdLayout->addWidget( mpDerMixDlog, 4, 2 );
+   dermixdLayout->setColumnStretch( 2, 1 );
    dermixdLayout->setRowStretch( 6, 1 );
    dermixdTab->setLayout( dermixdLayout );
    
    QWidget     *partymanTab    = new QWidget( this );
    QGridLayout *partymanLayout = new QGridLayout( partymanTab );
-   partymanLayout->addWidget( mpAutoConnect, 0, 0, 1, 2 );
-   partymanLayout->addWidget( new QLabel( tr("Crossfade Time:") ), 1, 0 );
-   partymanLayout->addWidget( mpCrossfadeTime, 1, 1 );
-   partymanLayout->addWidget( mpSLARTCommunication, 2, 0 );
-   partymanLayout->addWidget( mpUDPListenerPort, 2, 1 );
-   partymanLayout->addWidget( mpNormalizeMode, 3, 0 );
-   partymanLayout->addWidget( mpNormalizeValue, 3, 1 );
+   partymanLayout->addWidget( mpAutoConnect, 0, 0, 1, 3 );
+   partymanLayout->addWidget( new QLabel( tr("Crossfade Time:") ), 1, 0, 1, 2 );
+   partymanLayout->addWidget( mpCrossfadeTime, 1, 2 );
+   partymanLayout->addWidget( mpSLARTCommunication, 2, 0, 1, 2 );
+   partymanLayout->addWidget( mpUDPListenerPort, 2, 2 );
+   partymanLayout->addWidget( mpNormalizeMode, 3, 0, 1, 2 );
+   partymanLayout->addWidget( mpNormalizeValue, 3, 2 );
    partymanLayout->addWidget( new QLabel( tr("External Logger:") ), 4, 0 );
-   partymanLayout->addWidget( mpLogCmd, 4, 1 );
-   partymanLayout->addWidget( mpCountSkip, 5, 0, 1, 2 );
+   partymanLayout->addWidget( mpLogCmd, 4, 1, 1, 2 );
+   partymanLayout->addWidget( mpCountSkip, 5, 0, 1, 3 );
+   partymanLayout->setColumnStretch( 1, 1 );
    partymanLayout->setRowStretch( 6, 1 );
    partymanTab->setLayout( partymanLayout );
    
