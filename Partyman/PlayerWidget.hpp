@@ -70,6 +70,8 @@ public:
    void disablePlayPosition( bool disable );
    /* (re-)read configuration */
    void readConfig();
+   /* (reread current track information */
+   void rereadTrackInfo();
 
 public slots:
    /* lock seek slider from getting status updates */

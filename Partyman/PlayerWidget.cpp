@@ -519,3 +519,12 @@ void PlayerWidget::disablePlayPosition( bool disable )
 {
    mpPlayPosition->setDisabled( disable );
 }
+
+
+void PlayerWidget::rereadTrackInfo()
+{
+   if( mTrackInfo.mID > 0)
+   {
+      mpDatabase->getTrackInfo( &mTrackInfo );
+   }
+}

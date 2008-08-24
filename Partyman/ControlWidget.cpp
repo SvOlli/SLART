@@ -392,6 +392,8 @@ void ControlWidget::handleSLART( const QStringList &src )
        (src.at(0) == "r0u") )
    {
       emit trackUpdate();
+      mpPlayer[0]->rereadTrackInfo();
+      mpPlayer[1]->rereadTrackInfo();
    }
 }
 
