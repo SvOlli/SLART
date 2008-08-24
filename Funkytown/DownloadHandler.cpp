@@ -30,6 +30,10 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    {
       mpQueue->setSelectionMode( QAbstractItemView::MultiSelection );
    }
+   else
+   {
+      mpQueue->setSelectionMode( QAbstractItemView::NoSelection );
+   }
 #if QT_VERSION < 0x040300
    layout->setMargin( 0 );
 #else
