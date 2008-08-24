@@ -27,6 +27,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpReadButton( new QPushButton( this ) )
 , mpExportButton( new QPushButton( tr("Export m3u"), this ) )
 , mpExportMenu( new QMenu( this ) )
+, mpExportFavorite( new QAction( tr("Favorite"), this ) )
+, mpExportUnwanted( new QAction( tr("No Auto"), this ) )
 , mpImportButton( new QPushButton( tr("Import m3u"), this ) )
 , mpImportMenu( new QMenu( this ) )
 , mpListButtons( new ButtonsWidget( tr("Folders:"), this ) )
@@ -178,6 +180,14 @@ void MainWidget::updateLists()
       mpImportMenu->addAction( mPlaylists.at(i) );
       mpRemoveMenu->addAction( mPlaylists.at(i) );
    }
+   
+   if( mPlaylists.count() > 0 )
+   {
+      mpExportMenu->addSeparator();
+   }
+   
+   mpExportMenu->addAction( mpExportFavorite );
+   mpExportMenu->addAction( mpExportUnwanted );
 }
 
 
@@ -238,7 +248,16 @@ void MainWidget::handleExport( QAction *action )
          return;
       }
       QDir dir( QFileInfo( m3uFile.fileName() ).absolutePath() );
-      QStringList entries( mpDatabase->getFolder( action->text() ) );
+      QString folder( action->text() );
+      if( action == mpExportFavorite )
+      {
+         folder = QChar(1);
+      }
+      else if( action == mpExportUnwanted )
+      {
+         folder = QChar(2);
+      }
+      QStringList entries( mpDatabase->getFolder( folder ) );
       if( settings.value( "RandomizeExport", false ).toBool() )
       {
          QStringList randomized;
