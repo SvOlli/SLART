@@ -1,10 +1,11 @@
 
 PLATFORM = $(shell sh configure --buildarch)
-
+VERSION = $(shell sh configure --version)
 PREFIX = $(shell sh configure --prefix)
 
 SUBDIRS = taglib Funkytown Partyman Stripped Rubberbandman \
           Karmadrome Creep Innuendo Sorcerer
+TARCONT = Makefile Global.pri TemplateApp $(SUBDIRS) extra/*.sh docs
 
 all:
 	for dir in $(SUBDIRS); do [ ! -d $$dir ] || make -C $$dir $@ ; done
@@ -33,4 +34,9 @@ everything: toolchain all tools
 install: strip
 	mkdir -p $(PREFIX)/bin
 	cp -d $(PLATFORM)/bin/* $(PREFIX)/bin
+
+tar:
+	ln -s SLART ../slart-$(VERSION)
+	(cd ..;tar jcf slart-$(VERSION).tar.bz2 slart-$(VERSION)/{$(shell echo $(TARCONT)|tr ' ' ',')};ls -l slart-$(VERSION).tar.bz2)
+	rm ../slart-$(VERSION)
 

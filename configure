@@ -2,7 +2,7 @@
 
 BASEDIR=`dirname ${0}`
 BUILDARCH=`uname -s -m|tr ' ' _`
-VERSION=`cat ${BASEDIR}/Common/Version.hpp|cut -f2 -d\"|tr '&;\n' ' '`
+VERSION=`tr -d '\n "&;#_[A-Za-z]' < ${BASEDIR}/Common/Version.hpp`
 CACHEFILE=${BASEDIR}/${BUILDARCH}/.config.cache
 CONFIG=debug
 PREFIX=/usr/local
@@ -29,7 +29,7 @@ helpmessage()
 {
 cat <<EOF
 
-configure for SLART Version${VERSION}
+configure for SLART Version ${VERSION}
 
 options:
   --release      build release code
@@ -45,7 +45,7 @@ internally used:
   --qmake        print the qmake to use [${QMAKE}]
   --jobs         print the number of concurrent compile-jobs [${JOBS:-1}]
   --buildarch    print the build architecture [${BUILDARCH}]
-  --commits      print the number of git commits so far
+  --version      print the version number (last is # of git commits so far)
   --cflags       wrapper for pkg-config
   --libs         wrapper for pkg-config
 
@@ -106,7 +106,8 @@ for arg; do
         echo "${BUILDARCH}"
         exit 0;
       ;;
-    --commits)
+    --version)
+        echo -n "${VERSION}."
         git-log 2>/dev/null | grep '^commit ' | wc -l
         exit 0;
       ;;
