@@ -5,7 +5,7 @@ PREFIX = $(shell sh configure --prefix)
 
 SUBDIRS = taglib Funkytown Partyman Stripped Rubberbandman \
           Karmadrome Creep Innuendo Sorcerer
-TARCONT = configure Makefile Global.pri TemplateApp \
+TARCONT = configure Makefile Global.pri TemplateApp Common \
           $(SUBDIRS) extra/*.sh docs
 
 all:
