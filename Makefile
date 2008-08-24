@@ -11,7 +11,7 @@ all:
 	ls -l $(PLATFORM)/bin
 
 clean:
-	for i in $(SUBDIRS); do rm -rf $(PLATFORM)/$$i;done
+	for i in $(SUBDIRS); do rm -rf $(PLATFORM)/$$i $(PLATFORM)/bin/$$i;done
 
 distclean:
 	rm -rf $(PLATFORM)
