@@ -22,6 +22,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpNumColumns( new QSpinBox( this ) )
 , mpClearBeforeImport( new QCheckBox( tr("Clear Folder Before Import"), this ) )
 , mpExportAsRelative( new QCheckBox( tr("Export m3u With Relative Entries"), this ) )
+, mpRandomizeExport( new QCheckBox( tr("Randomize Output Of Export m3u"), this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    
@@ -32,11 +33,12 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    
    QWidget     *kmdTab    = new QWidget( this );
    QGridLayout *kmdLayout = new QGridLayout( kmdTab );
-   kmdLayout->addWidget( mpNumColumnsLabel, 0, 0 );
-   kmdLayout->addWidget( mpNumColumns, 0, 1 );
+   kmdLayout->addWidget( mpNumColumnsLabel,   0, 0 );
+   kmdLayout->addWidget( mpNumColumns,        0, 1 );
    kmdLayout->addWidget( mpClearBeforeImport, 1, 0, 1, 2 );
-   kmdLayout->addWidget( mpExportAsRelative, 2, 0, 1, 2 );
-   kmdLayout->setRowStretch( 3, 1 );
+   kmdLayout->addWidget( mpExportAsRelative,  2, 0, 1, 2 );
+   kmdLayout->addWidget( mpRandomizeExport,   3, 0, 1, 2 );
+   kmdLayout->setRowStretch( 4, 1 );
    kmdTab->setLayout( kmdLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -83,6 +85,7 @@ void ConfigDialog::readSettings()
    mpNumColumns->setValue( settings.value( "NumberOfColumns", 3 ).toInt() );
    mpClearBeforeImport->setChecked( settings.value( "ClearBeforeImport", false ).toBool() );
    mpExportAsRelative->setChecked( settings.value( "ExportAsRelative", false ).toBool() );
+   mpRandomizeExport->setChecked( settings.value( "RandomizeExport", false ).toBool() );
    
    mpGlobalConfigWidget->readSettings();
    
@@ -96,6 +99,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "NumberOfColumns",   mpNumColumns->value() );
    settings.setValue( "ClearBeforeImport", mpClearBeforeImport->isChecked() );
    settings.setValue( "ExportAsRelative",  mpExportAsRelative->isChecked() );
+   settings.setValue( "RandomizeExport",   mpRandomizeExport->isChecked() );
    
    mpGlobalConfigWidget->writeSettings();
 

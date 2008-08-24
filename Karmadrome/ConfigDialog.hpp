@@ -47,6 +47,7 @@ private:
    QSpinBox             *mpNumColumns;
    QCheckBox            *mpClearBeforeImport;
    QCheckBox            *mpExportAsRelative;
+   QCheckBox            *mpRandomizeExport;
 };
 
 #endif

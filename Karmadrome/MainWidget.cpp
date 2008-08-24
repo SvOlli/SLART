@@ -40,6 +40,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mPlaylists()
 , mTrackInfo()
 {
+   qsrand( time((time_t*)0) );
    QGridLayout *mainLayout   = new QGridLayout( this );
    
 #if QT_VERSION < 0x040300
@@ -188,8 +189,16 @@ void MainWidget::handleAdd()
                                           QLineEdit::Normal, QString(), &ok ) );
    if( ok && !folder.isEmpty() )
    {
-      mpDatabase->insertFolder( folder );
-      updateLists();
+      if( folder.contains( "|" ) )
+      {
+         QMessageBox::warning( this, QApplication::applicationName(),
+                               tr("Name is not valid.") );
+      }
+      else
+      {
+         mpDatabase->insertFolder( folder );
+         updateLists();
+      }
    }
 }
 
@@ -199,7 +208,7 @@ void MainWidget::handleExport( QAction *action )
    MySettings settings;
    QFileDialog dialog( this, QString(tr("Rubberbandman: Export %1 To:")).arg(action->text()) );
    dialog.setFileMode( QFileDialog::AnyFile );
-   dialog.setFilter("Playlist files (*.m3u)");
+   dialog.setFilter( tr("Playlist files (*.m3u)") );
    QString rqdir( settings.value( "ExportDirectory", QString() ).toString() );
    if( !QFileInfo( rqdir ).isDir() )
    {
@@ -214,19 +223,32 @@ void MainWidget::handleExport( QAction *action )
    if( dialog.exec() )
    {
       settings.setValue( "ExportDirectory", dialog.directory().absolutePath() );
-      bool relative = settings.value( "ExportAsRelative", false ).toBool();
       if( dialog.selectedFiles().count() == 0 )
       {
          return;
       }
-      QFile m3uFile( dialog.selectedFiles().at(0) );
+      QString fileName( dialog.selectedFiles().at(0) );
+      if( !fileName.endsWith( ".m3u", Qt::CaseInsensitive ) )
+      {
+         fileName.append( ".m3u" );
+      }
+      QFile m3uFile( fileName );
       if( !m3uFile.open( QIODevice::WriteOnly | QIODevice::Text ) )
       {
          return;
       }
       QDir dir( QFileInfo( m3uFile.fileName() ).absolutePath() );
       QStringList entries( mpDatabase->getFolder( action->text() ) );
-      if( relative )
+      if( settings.value( "RandomizeExport", false ).toBool() )
+      {
+         QStringList randomized;
+         while( entries.count() )
+         {
+            randomized.append( entries.takeAt( qrand() % entries.count() ) );
+         }
+         entries = randomized;
+      }
+      if( settings.value( "ExportAsRelative", false ).toBool() )
       {
          for( int i = 0; i < entries.count(); i++ )
          {
@@ -252,7 +274,7 @@ void MainWidget::handleImport( QAction *action )
    MySettings settings;
    QFileDialog dialog( this, QString(tr("Rubberbandman: Import %1 From:")).arg(action->text()) );
    dialog.setFileMode( QFileDialog::ExistingFiles );
-   dialog.setFilter("Playlist files (*.m3u)");
+   dialog.setFilter( tr("Playlist files (*.m3u)") );
    QString rqdir( settings.value( "ImportDirectory", QString() ).toString() );
    if( !QFileInfo( rqdir ).isDir() )
    {
