@@ -73,7 +73,9 @@ void ButtonsWidget::updateButtons( const QStringList &fileNames )
       connect( pb, SIGNAL(clicked()), mpSignalMapper, SLOT(map()) );
       mpSignalMapper->setMapping( pb, (QWidget*)pb );
       mpMainLayout->addWidget( pb, i / rows, i % rows );
+      mpMainLayout->setRowStretch( i / rows, 0 );
    }
+   mpMainLayout->setRowStretch( (i / rows) + 1, 1 );
 }
 
 
