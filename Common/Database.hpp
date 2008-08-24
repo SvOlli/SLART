@@ -45,6 +45,8 @@ public:
    
    /* get a list of all available folders */
    QStringList getFolders();
+   /* get all entries of a list */
+   QStringList getFolder( const QString &folder );
    /* add a folder */
    void insertFolder( const QString &folder );
    /* remove a folder */

@@ -369,6 +369,32 @@ QStringList Database::getFolders()
 }
 
 
+QStringList Database::getFolder( const QString &folder )
+{
+   QStringList folders;
+
+   if( !folder.isEmpty() )
+   {
+      QString sql( "SELECT Directory, FileName FROM slart_tracks WHERE Folders LIKE '%|" );
+      sql.append( folder );
+      sql.append( "|%' ORDER BY Directory, FileName;" );
+      
+      mpQuery->prepare( sql );
+      if( !mpQuery->exec() )
+      {
+         logError();
+      }
+      while( mpQuery->next() )
+      {
+         folders << mpQuery->value(0).toString() + '/' + mpQuery->value(1).toString();
+      }
+      mpQuery->clear();
+   }
+   
+   return folders;
+}
+
+
 void Database::insertFolder( const QString &folder )
 {
    mpQuery->prepare( "INSERT OR REPLACE INTO slart_folders( Name ) VALUES ( :name );" );
@@ -431,7 +457,8 @@ bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite,
    
    /* QSqlQuery::size() seems not to work with sqlite... :( */
    int rows;
-   for( rows = 0; mpQuery->next(); rows++);
+   for( rows = 0; mpQuery->next(); rows++ )
+      ;
    
    if( rows )
    {
