@@ -20,20 +20,38 @@ int main(int argc, char *argv[])
    app.setOrganizationName("SLART");
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("Innuendo");
-
-   if( !MySettings().contains( "SLARTCommunication" ) )
+   
+   if( argc == 1 )
    {
-      if( !MainWindow::invokeSetUp( argv[0] ) )
+      if( !MySettings().contains( "SLARTCommunication" ) )
       {
-         QMessageBox::critical( 0, app.applicationName(), QObject::tr("Setup failed!\nCannot start.\nSorry.") );
-         return 1;
+         if( !MainWindow::invokeSetUp( argv[0] ) )
+         {
+            QMessageBox::critical( 0, app.applicationName(), QObject::tr("Setup failed!\nCannot start.\nSorry.") );
+            return 1;
+         }
       }
+      
+      MainWindow window;
+      window.show();
+      
+      retval = app.exec();
    }
-   
-   MainWindow window;
-   window.show();
-   
-   retval = app.exec();
+   else if( argc > 2 )
+   {
+      QString application( argv[1] );
+      QStringList message;
+      for( int i = 2; i < argc; i++ )
+      {
+         message.append( argv[i] );
+      }
+      MySettings().sendUdpMessage( message.join("\n"), application );
+   }
+   else
+   {
+      fprintf( stderr, "Usage: %s (<application> <message>)\n", argv[0] );
+      retval = 1;
+   }
 
    return retval;
 }
