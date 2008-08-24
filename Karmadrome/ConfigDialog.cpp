@@ -20,6 +20,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpNumColumnsLabel( new QLabel( tr("Number Of Columns"), this ) )
 , mpNumColumns( new QSpinBox( this ) )
+, mpClearBeforeImport( new QCheckBox( tr("Clear Folder Before Import"), this ) )
+, mpExportAsRelative( new QCheckBox( tr("Export m3u With Relative Entries"), this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    
@@ -32,7 +34,9 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    QGridLayout *kmdLayout = new QGridLayout( kmdTab );
    kmdLayout->addWidget( mpNumColumnsLabel, 0, 0 );
    kmdLayout->addWidget( mpNumColumns, 0, 1 );
-   kmdLayout->setRowStretch( 1, 1 );
+   kmdLayout->addWidget( mpClearBeforeImport, 1, 0, 1, 2 );
+   kmdLayout->addWidget( mpExportAsRelative, 2, 0, 1, 2 );
+   kmdLayout->setRowStretch( 3, 1 );
    kmdTab->setLayout( kmdLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -76,7 +80,9 @@ void ConfigDialog::exec()
 void ConfigDialog::readSettings()
 {
    MySettings settings;
-   mpNumColumns->setValue( settings.value("NumberOfColumns", 3).toInt() );
+   mpNumColumns->setValue( settings.value( "NumberOfColumns", 3 ).toInt() );
+   mpClearBeforeImport->setChecked( settings.value( "ClearBeforeImport", false ).toBool() );
+   mpExportAsRelative->setChecked( settings.value( "ExportAsRelative", false ).toBool() );
    
    mpGlobalConfigWidget->readSettings();
    
@@ -87,7 +93,9 @@ void ConfigDialog::readSettings()
 void ConfigDialog::writeSettings()
 {
    MySettings settings;
-   settings.setValue( "NumberOfColumns", mpNumColumns->value() );
+   settings.setValue( "NumberOfColumns",   mpNumColumns->value() );
+   settings.setValue( "ClearBeforeImport", mpClearBeforeImport->isChecked() );
+   settings.setValue( "ExportAsRelative",  mpExportAsRelative->isChecked() );
    
    mpGlobalConfigWidget->writeSettings();
 

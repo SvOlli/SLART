@@ -40,14 +40,16 @@ public slots:
    void handleSLART( const QStringList &message );
    /* handle adding of new playlist */
    void handleAdd();
+   /* handle export of playlist to m3u file */
+   void handleExport( QAction *action );
+   /* handle import of playlist from m3u file */
+   void handleImport( QAction *action );
    /* handle removal of playlist */
    void handleRemove( QAction *action );
    /* handle "Read Clipboard" button */
    void handleReadButton();
-   /* handle "Write Clipboard" button */
-   void handleWriteButton();
-   /* label "Read/Write Clipboard" buttons according to settings */
-   void labelReadWriteButtons();
+   /* label "Read Clipboard" button according to settings */
+   void labelReadButton();
    /* update the lists containing the playlists */
    void updateLists();
    /* slot for timer to send out k0u notification */
@@ -64,7 +66,10 @@ private:
    ScrollLine      *mpFileName;
    TrackInfoWidget *mpTrackInfo;
    QPushButton     *mpReadButton;
-   QPushButton     *mpWriteButton;
+   QPushButton     *mpExportButton;
+   QMenu           *mpExportMenu;
+   QPushButton     *mpImportButton;
+   QMenu           *mpImportMenu;
    ButtonsWidget   *mpListButtons;
 
    QPushButton     *mpSettingsButton;

@@ -45,6 +45,8 @@ private:
    GlobalConfigWidget   *mpGlobalConfigWidget;
    QLabel               *mpNumColumnsLabel;
    QSpinBox             *mpNumColumns;
+   QCheckBox            *mpClearBeforeImport;
+   QCheckBox            *mpExportAsRelative;
 };
 
 #endif

@@ -25,7 +25,10 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpFileName( new ScrollLine( this ) )
 , mpTrackInfo( new TrackInfoWidget( mpDatabase, QString("k0u"), this ) )
 , mpReadButton( new QPushButton( this ) )
-, mpWriteButton( new QPushButton( this ) )
+, mpExportButton( new QPushButton( tr("Export m3u"), this ) )
+, mpExportMenu( new QMenu( this ) )
+, mpImportButton( new QPushButton( tr("Import m3u"), this ) )
+, mpImportMenu( new QMenu( this ) )
 , mpListButtons( new ButtonsWidget( tr("Folders:"), this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpAddButton( new QPushButton( tr("Add"), this ) )
@@ -54,18 +57,20 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    pLogo->setFrameShadow( QFrame::Raised );
    pLogo->setFrameShape( QFrame::Box );
    
-   mpFileName->setReadOnly( true );
+   mpExportButton->setMenu( mpExportMenu );
+   mpImportButton->setMenu( mpImportMenu );
    mpRemoveButton->setMenu( mpRemoveMenu );
 
-   mainLayout->addWidget( pLogo,            0, 0, 1, 6 );
-   mainLayout->addWidget( mpFileName,       1, 0, 1, 6 );
-   mainLayout->addWidget( mpTrackInfo,      2, 0, 1, 6 );
-   mainLayout->addWidget( mpReadButton,     3, 0, 1, 3 );
-   mainLayout->addWidget( mpWriteButton,    3, 3, 1, 3 );
-   mainLayout->addWidget( mpListButtons,    4, 0, 1, 6 );
-   mainLayout->addWidget( mpSettingsButton, 5, 0, 1, 2 );
-   mainLayout->addWidget( mpAddButton,      5, 2, 1, 2 );
-   mainLayout->addWidget( mpRemoveButton,   5, 4, 1, 2 );
+   mainLayout->addWidget( pLogo,            0, 0, 1, 3 );
+   mainLayout->addWidget( mpFileName,       1, 0, 1, 3 );
+   mainLayout->addWidget( mpTrackInfo,      2, 0, 1, 3 );
+   mainLayout->addWidget( mpReadButton,     3, 0 );
+   mainLayout->addWidget( mpExportButton,   3, 1 );
+   mainLayout->addWidget( mpImportButton,   3, 2 );
+   mainLayout->addWidget( mpListButtons,    4, 0, 1, 3 );
+   mainLayout->addWidget( mpSettingsButton, 5, 0 );
+   mainLayout->addWidget( mpAddButton,      5, 1 );
+   mainLayout->addWidget( mpRemoveButton,   5, 2 );
    
    setLayout( mainLayout );
    
@@ -73,28 +78,30 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
             this, SLOT(handleSLART(QStringList)) );
-            
+   
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfigDialog, SLOT(exec()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
-            this, SLOT(labelReadWriteButtons()) );
+            this, SLOT(labelReadButton()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
             this, SLOT(updateLists()) );
    connect( mpTimer, SIGNAL(timeout()),
             this, SLOT(sendK0u()) );
    
+   connect( mpReadButton, SIGNAL(clicked()),
+            this, SLOT(handleReadButton()) );
+   connect( mpExportMenu, SIGNAL(triggered(QAction *)),
+            this, SLOT(handleExport(QAction *)) );
+   connect( mpImportMenu, SIGNAL(triggered(QAction *)),
+            this, SLOT(handleImport(QAction *)) );
    connect( mpListButtons, SIGNAL(clicked(QWidget*)),
             this, SLOT(addToList(QWidget*)) );
    connect( mpAddButton, SIGNAL(clicked()),
             this, SLOT(handleAdd()) );
    connect( mpRemoveMenu, SIGNAL(triggered(QAction *)),
             this, SLOT(handleRemove(QAction *)) );
-   connect( mpReadButton, SIGNAL(clicked()),
-            this, SLOT(handleReadButton()) );
-   connect( mpWriteButton, SIGNAL(clicked()),
-            this, SLOT(handleWriteButton()) );
 
-   labelReadWriteButtons();
+   labelReadButton();
    mSLARTCom.resetReceiver();
    
    mpListButtons->setDisabled( true );
@@ -120,7 +127,7 @@ void MainWidget::addToList( QWidget *widget )
 
 void MainWidget::sendK0u()
 {
-      MySettings().sendNotification( QString("k0u") );
+   MySettings().sendNotification( QString("k0u") );
 }
 
 
@@ -160,10 +167,14 @@ void MainWidget::updateLists()
    mPlaylists.sort();
    
    mpListButtons->updateButtons( mPlaylists );
+   mpExportMenu->clear();
+   mpImportMenu->clear();
    mpRemoveMenu->clear();
    
    for( i = 0; i < mPlaylists.count(); i++ )
    {
+      mpExportMenu->addAction( mPlaylists.at(i) );
+      mpImportMenu->addAction( mPlaylists.at(i) );
       mpRemoveMenu->addAction( mPlaylists.at(i) );
    }
 }
@@ -183,12 +194,154 @@ void MainWidget::handleAdd()
 }
 
 
+void MainWidget::handleExport( QAction *action )
+{
+   MySettings settings;
+   QFileDialog dialog( this, QString(tr("Rubberbandman: Export %1 To:")).arg(action->text()) );
+   dialog.setFileMode( QFileDialog::AnyFile );
+   dialog.setFilter("Playlist files (*.m3u)");
+   QString rqdir( settings.value( "ExportDirectory", QString() ).toString() );
+   if( !QFileInfo( rqdir ).isDir() )
+   {
+      rqdir = settings.value( "ImportDirectory", QString() ).toString();
+   }
+   if( !QFileInfo( rqdir ).isDir() )
+   {
+      rqdir = QDir::currentPath();
+   }
+   dialog.setDirectory( rqdir );
+   dialog.setAcceptMode( QFileDialog::AcceptSave );
+   if( dialog.exec() )
+   {
+      settings.setValue( "ExportDirectory", dialog.directory().absolutePath() );
+      bool relative = settings.value( "ExportAsRelative", false ).toBool();
+      if( dialog.selectedFiles().count() == 0 )
+      {
+         return;
+      }
+      QFile m3uFile( dialog.selectedFiles().at(0) );
+      if( !m3uFile.open( QIODevice::WriteOnly | QIODevice::Text ) )
+      {
+         return;
+      }
+      QDir dir( QFileInfo( m3uFile.fileName() ).absolutePath() );
+      QStringList entries( mpDatabase->getFolder( action->text() ) );
+      if( relative )
+      {
+         for( int i = 0; i < entries.count(); i++ )
+         {
+            m3uFile.write( dir.relativeFilePath( entries.at(i) ).toLocal8Bit() );
+            m3uFile.write( "\n" );
+         }
+      }
+      else
+      {
+         for( int i = 0; i < entries.count(); i++ )
+         {
+            m3uFile.write( entries.at(i).toLocal8Bit() );
+            m3uFile.write( "\n" );
+         }
+      }
+      m3uFile.close();
+   }
+}
+
+
+void MainWidget::handleImport( QAction *action )
+{
+   MySettings settings;
+   QFileDialog dialog( this, QString(tr("Rubberbandman: Import %1 From:")).arg(action->text()) );
+   dialog.setFileMode( QFileDialog::ExistingFiles );
+   dialog.setFilter("Playlist files (*.m3u)");
+   QString rqdir( settings.value( "ImportDirectory", QString() ).toString() );
+   if( !QFileInfo( rqdir ).isDir() )
+   {
+      rqdir = settings.value( "ExportDirectory", QString() ).toString();
+   }
+   if( !QFileInfo( rqdir ).isDir() )
+   {
+      rqdir = QDir::currentPath();
+   }
+   dialog.setDirectory( rqdir );
+   dialog.setAcceptMode( QFileDialog::AcceptOpen );
+   if( dialog.exec() )
+   {
+      TrackInfo trackInfo;
+      settings.setValue( "ImportDirectory", dialog.directory().absolutePath() );
+      QString cwd( QDir::currentPath() );
+      if( settings.value( "ClearBeforeImport", false ).toBool() )
+      {
+         QStringList entries( mpDatabase->getFolder( action->text() ) );
+         mpDatabase->beginTransaction();
+         for( int i = 0; i < entries.count(); i++ )
+         {
+            if( mpDatabase->getTrackInfo( &trackInfo, entries.at(i) ) )
+            {
+               trackInfo.setFolder( action->text(), false );
+               mpDatabase->updateTrackInfo( &trackInfo );
+            }
+         }
+         mpDatabase->endTransaction( true );
+      }
+      for( int i = 0; i < dialog.selectedFiles().count(); i++ )
+      {
+         QFile m3uFile( dialog.selectedFiles().at(i) );
+         if( m3uFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
+         {
+            QString fileName;
+            QString fileBase( m3uFile.fileName() + "/../" );
+            QFileInfo qfi;
+            mpDatabase->beginTransaction();
+            while( !m3uFile.atEnd() )
+            {
+               fileName = QString::fromLocal8Bit( m3uFile.readLine() );
+               if( !fileName.startsWith("#") )
+               {
+                  if( fileName.right(1) == QChar('\n') )
+                  {
+                     fileName.chop(1);
+                  }
+                  if( !fileName.startsWith( "/" ) )
+                  {
+                     /* a bit of an ugly trick, but gets the job done better than most
+                        other solutions */
+                     qfi.setFile( fileBase + fileName );
+                     fileName = qfi.absoluteFilePath();
+                  }
+                  if( mpDatabase->getTrackInfo( &trackInfo, fileName ) )
+                  {
+                     trackInfo.setFolder( action->text(), true );
+                     mpDatabase->updateTrackInfo( &trackInfo );
+                  }
+               }
+            }
+            mpDatabase->endTransaction( true );
+            m3uFile.close();
+         }
+      }
+      QDir::setCurrent( cwd );
+   }
+}
+
+
 void MainWidget::handleRemove( QAction *action )
 {
    if( QMessageBox::Ok == QMessageBox::question( this, QApplication::applicationName(),
                                                  QString( tr("Are you sure you want to delete the folder\n") ) +
                                                  action->text(), QMessageBox::Ok | QMessageBox::Cancel ) )
    {
+      TrackInfo trackInfo;
+      QStringList entries( mpDatabase->getFolder( action->text() ) );
+      mpDatabase->beginTransaction();
+      for( int i = 0; i < entries.count(); i++ )
+      {
+         if( mpDatabase->getTrackInfo( &trackInfo, entries.at(i) ) )
+         {
+            trackInfo.setFolder( action->text(), false );
+            mpDatabase->updateTrackInfo( &trackInfo );
+         }
+      }
+      mpDatabase->endTransaction( true );
       mpDatabase->deleteFolder( action->text() );
       updateLists();
    }
@@ -203,13 +356,7 @@ void MainWidget::handleReadButton()
 }
 
 
-void MainWidget::handleWriteButton()
-{
-   GlobalConfigWidget::setClipboard( mpFileName->text() );
-}
-
-
-void MainWidget::labelReadWriteButtons()
+void MainWidget::labelReadButton()
 {
    MySettings settings( "Global" );
    int mode = settings.value( "ClipboardMode", 0 ).toInt();
@@ -229,27 +376,6 @@ void MainWidget::labelReadWriteButtons()
       default:
          mpReadButton->setText( QString() );
          mpReadButton->setHidden( true );
-         break;
-   }
-
-   switch( mode )
-   {
-      case 1:
-         mpWriteButton->setText( tr("Write Selection") );
-         mpWriteButton->setHidden( false );
-         break;
-      case 2:
-         mpWriteButton->setText( tr("Write Clipboard") );
-         mpWriteButton->setHidden( false );
-         break;
-      case 3:
-      case 4:
-         mpWriteButton->setText( tr("Write Both") );
-         mpWriteButton->setHidden( false );
-         break;
-      default:
-         mpWriteButton->setText( QString() );
-         mpWriteButton->setHidden( true );
          break;
    }
 }
