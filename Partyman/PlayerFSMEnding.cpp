@@ -24,9 +24,12 @@ bool PlayerFSMEnding::enter()
    mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("ending") );
    mpPlayerWidget->mpControlWidget->changeOtherState( mpPlayerWidget->mPlayer, PlayerFSM::playing );
    mpPlayerWidget->mpControlWidget->allowInteractive( false );
-   ++(mpPlayerWidget->mTrackInfo.mTimesPlayed);
-   mpPlayerWidget->mpDatabase->updateTrackInfo( &(mpPlayerWidget->mTrackInfo) );
-
+   if( mpPlayerWidget->mTrackInfo.mID > 0 )
+   {
+      mpPlayerWidget->mpDatabase->getTrackInfo( &(mpPlayerWidget->mTrackInfo) );
+      ++(mpPlayerWidget->mTrackInfo.mTimesPlayed);
+      mpPlayerWidget->mpDatabase->updateTrackInfo( &(mpPlayerWidget->mTrackInfo) );
+   }
    return true;
 }
 
