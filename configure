@@ -12,6 +12,20 @@ WRITECACHE=no
 
 [ -f ${CACHEFILE} ] && . ${CACHEFILE}
 
+getrevision()
+{
+  revision=$(git-log 2>/dev/null | grep '^commit ' | wc -l)
+  if [ ${revision} -gt 0 ]; then
+    echo ${revision}
+  else
+    pwd|tr '/' '\n'|while read directory;do
+      case ${directory} in
+        slart-*) echo ${directory}|cut -f3 -d- ;;
+      esac
+    done
+  fi
+}
+
 findqmake()
 {
   which qt4qmake ||
@@ -107,8 +121,7 @@ for arg; do
         exit 0;
       ;;
     --version)
-        echo -n "${VERSION}."
-        git-log 2>/dev/null | grep '^commit ' | wc -l
+        echo "${VERSION}-$(getrevision)"
         exit 0;
       ;;
     --last-commit)
