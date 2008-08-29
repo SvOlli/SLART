@@ -156,8 +156,10 @@ Database::~Database()
 
 bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
 {
-   QString sql( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
-                "PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags"
+   QString sql( "SELECT id,Directory,FileName,Artist,Title,Album,"
+                "CASE WHEN TrackNr NOTNULL THEN TrackNr ELSE -1 END,"
+                "CASE WHEN Year NOTNULL THEN Year ELSE -1 END,"
+                "Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags"
                 " FROM slart_tracks WHERE ");
    if( fileName.isEmpty() )
    {
@@ -193,8 +195,8 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
          trackInfo->mArtist       = mpQuery->value( 3).toString();
          trackInfo->mTitle        = mpQuery->value( 4).toString();
          trackInfo->mAlbum        = mpQuery->value( 5).toString();
-         trackInfo->mTrackNr      = mpQuery->value( 6).toUInt();
-         trackInfo->mYear         = mpQuery->value( 7).toUInt();
+         trackInfo->mTrackNr      = mpQuery->value( 6).toInt();
+         trackInfo->mYear         = mpQuery->value( 7).toInt();
          trackInfo->mGenre        = mpQuery->value( 8).toString();
          trackInfo->mPlayTime     = mpQuery->value( 9).toUInt();
          trackInfo->mLastScanned  = mpQuery->value(10).toUInt();
@@ -234,8 +236,10 @@ int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QString &sea
          sqlSearch.append( "%" );
       }
       mpQuery->clear();
-      mpQuery->prepare( "SELECT Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
-                        "PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags,id"
+      mpQuery->prepare( "SELECT Directory,FileName,Artist,Title,Album,"
+                        "CASE WHEN TrackNr NOTNULL THEN TrackNr ELSE -1 END,"
+                        "CASE WHEN Year NOTNULL THEN Year ELSE -1 END,"
+                        "Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags,id"
                         " FROM slart_tracks WHERE Directory LIKE :directory OR FileName LIKE :fileName;" );
       mpQuery->bindValue( ":directory", sqlSearch );
       mpQuery->bindValue( ":fileName", sqlSearch );
@@ -252,8 +256,8 @@ int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QString &sea
                                         mpQuery->value( 2).toString(),
                                         mpQuery->value( 3).toString(),
                                         mpQuery->value( 4).toString(),
-                                        mpQuery->value( 5).toUInt(),
-                                        mpQuery->value( 6).toUInt(),
+                                        mpQuery->value( 5).toInt(),
+                                        mpQuery->value( 6).toInt(),
                                         mpQuery->value( 7).toString(),
                                         mpQuery->value( 8).toUInt(),
                                         mpQuery->value( 9).toUInt(),
@@ -309,8 +313,22 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo )
    mpQuery->bindValue( ":artist",       trackInfo->mArtist );
    mpQuery->bindValue( ":title",        trackInfo->mTitle );
    mpQuery->bindValue( ":album",        trackInfo->mAlbum );
-   mpQuery->bindValue( ":tracknr",      trackInfo->mTrackNr );
-   mpQuery->bindValue( ":year",         trackInfo->mYear );
+   if( trackInfo->mTrackNr < 0 )
+   {
+      mpQuery->bindValue( ":tracknr",   QVariant() );
+   }
+   else
+   {
+      mpQuery->bindValue( ":tracknr",   trackInfo->mTrackNr );
+   }
+   if( trackInfo->mYear < 0 )
+   {
+      mpQuery->bindValue( ":year",      QVariant() );
+   }
+   else
+   {
+      mpQuery->bindValue( ":year",      trackInfo->mYear );
+   }
    mpQuery->bindValue( ":genre",        trackInfo->mGenre );
    mpQuery->bindValue( ":playtime",     trackInfo->mPlayTime );
    mpQuery->bindValue( ":lastscanned",  trackInfo->mLastScanned );

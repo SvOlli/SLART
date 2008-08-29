@@ -89,7 +89,7 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    mpShowTimesPlayed->setAlignment( Qt::AlignCenter );
    
    mpValidateTrackNr = new QIntValidator( 0, 99, mpEditTrackNr );
-   mpValidateYear    = new QIntValidator( 1900, 2100, mpEditYear );
+   mpValidateYear    = new QIntValidator( 0, 9999, mpEditYear );
    mpEditTrackNr->setValidator( mpValidateTrackNr );
    mpEditYear->setValidator( mpValidateYear );
    mpEditTrackNr->setMaxLength( 2 );
@@ -461,22 +461,36 @@ void InfoEdit::loadFile( const QString &fullpath )
          QString artist = QString::fromUtf8( f.tag()->artist().toCString( true ) );
          QString title  = QString::fromUtf8( f.tag()->title().toCString( true ) );
          QString album  = QString::fromUtf8( f.tag()->album().toCString( true ) );
-         uint tracknr   = f.tag()->track();
-         uint year      = f.tag()->year();
+         int tracknr    = f.tag()->track();
+         int year       = f.tag()->year();
          QString genre  = QString::fromUtf8( f.tag()->genre().toCString( true ) );
          
          mpEditArtist->setText( artist );
          mpEditTitle->setText( title );
          mpEditAlbum->setText( album );
-         mpEditTrackNr->setText( QString::number(tracknr) );
-         mpEditYear->setText( QString::number(year) );
+         if( tracknr < 0 )
+         {
+            mpEditTrackNr->clear();
+         }
+         else
+         {
+            mpEditTrackNr->setText( QString::number(tracknr) );
+         }
+         if( year < 0 )
+         {
+            mpEditYear->clear();
+         }
+         else
+         {
+            mpEditYear->setText( QString::number(year) );
+         }
          mpEditGenre->setText( genre );
          
          mTagList.set( "ARTIST", artist );
          mTagList.set( "TITLE", title );
          mTagList.set( "ALBUM", album );
-         mTagList.set( "TRACKNUMBER", QString::number(tracknr) );
-         mTagList.set( "DATE", QString::number(year) );
+         mTagList.set( "TRACKNUMBER", (tracknr < 0) ? QString() : QString::number(tracknr) );
+         mTagList.set( "DATE", (year < 0) ? QString() : QString::number(year) );
          mTagList.set( "GENRE", genre );
       }
       else
@@ -637,11 +651,20 @@ void InfoEdit::saveFile()
    {
       if( qf.copy( tmppath ) )
       {
+         bool convertOk;
          TagLib::String artist( mpEditArtist->text().toUtf8().data(), TagLib::String::UTF8 );
          TagLib::String title( mpEditTitle->text().toUtf8().data(), TagLib::String::UTF8 );
          TagLib::String album( mpEditAlbum->text().toUtf8().data(), TagLib::String::UTF8 );
-         int tracknr = mpEditTrackNr->text().toInt();
-         int year    = mpEditYear->text().toInt();
+         int tracknr = mpEditTrackNr->text().toInt( &convertOk );
+         if( !convertOk )
+         {
+            tracknr = -1;
+         }
+         int year    = mpEditYear->text().toInt( &convertOk );
+         if( !convertOk )
+         {
+            year = -1;
+         }
          TagLib::String genre( mpEditGenre->text().toUtf8().data(), TagLib::String::UTF8 );
          
          TagLib::FileRef f( tmppath.toLocal8Bit().data() );
@@ -668,7 +691,14 @@ void InfoEdit::saveFile()
    mTrackInfo.mArtist    = mpEditArtist->text();
    mTrackInfo.mTitle     = mpEditTitle->text();
    mTrackInfo.mAlbum     = mpEditAlbum->text();
-   mTrackInfo.mTrackNr   = mpEditTrackNr->text().toUInt();
+   if( mpEditTrackNr->text().isEmpty() )
+   {
+      mTrackInfo.mTrackNr   = -1;
+   }
+   else
+   {
+      mTrackInfo.mTrackNr   = mpEditTrackNr->text().toUInt();
+   }
    mTrackInfo.mYear      = mpEditYear->text().toUInt();
    mTrackInfo.mGenre     = mpEditGenre->text();
    

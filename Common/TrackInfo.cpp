@@ -15,8 +15,8 @@ TrackInfo::TrackInfo()
 , mArtist()
 , mTitle()
 , mAlbum()
-, mTrackNr( 0 )
-, mYear( 0 )
+, mTrackNr( -1 )
+, mYear( -1 )
 , mGenre()
 , mPlayTime( 0 )
 , mLastScanned( 0 )
@@ -30,7 +30,7 @@ TrackInfo::TrackInfo()
 
 TrackInfo::TrackInfo( const QString &directory, const QString &filename,
                       const QString &artist, const QString &title, const QString &album,
-                      unsigned int tracknr, unsigned int year, const QString &genre,
+                      int tracknr, int year, const QString &genre,
                       unsigned int playtime, unsigned int lastscanned, unsigned int lasttagsread,
                       unsigned int timesplayed, double volume, 
                       const QString &folders, unsigned int flags, unsigned int id )
@@ -106,8 +106,8 @@ void TrackInfo::clear()
    mArtist       = QString();
    mTitle        = QString();
    mAlbum        = QString();
-   mTrackNr      = 0;
-   mYear         = 0;
+   mTrackNr      = -1;
+   mYear         = -1;
    mGenre        = QString();
    mPlayTime     = 0;
    mLastScanned  = 0;
@@ -270,7 +270,14 @@ QString TrackInfo::displayString( const QString &pattern ) const
                bool ok;
                int size = parts.at(i).mid(1,1).toInt( &ok );
                   
-               if( !ok )
+               if( ok )
+               {
+                  int number = valueByKey( parts.at(i).toUpper().mid(2) ).toInt( &ok );
+                  
+                  if( !ok || (number < 0) ) break;
+                  filename.append( QString::number(1000000000 + number).right(size) );
+               }
+               else
                {
                   switch( parts.at(i).at(1).unicode() )
                   {
@@ -284,12 +291,7 @@ QString TrackInfo::displayString( const QString &pattern ) const
                      default:
                         break;
                   }
-                  break;
                }
-               int number = 1000000000 + valueByKey( parts.at(i).toUpper().mid(2) ).toInt( &ok );
-               
-               if( !ok ) break;
-               filename.append( QString::number(number).right(size) );
             }
             break;
          default:

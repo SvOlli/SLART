@@ -119,7 +119,14 @@ void TrackInfoWidget::update( bool reread )
       mpArtist->setText( mTrackInfo.mArtist );
       mpTitle->setText( mTrackInfo.mTitle );
       mpAlbum->setText( mTrackInfo.mAlbum );
-      mpTrackNr->setText( QString::number(mTrackInfo.mTrackNr) );
+      if( mTrackInfo.mTrackNr < 0 )
+      {
+         mpTrackNr->clear();
+      }
+      else
+      {
+         mpTrackNr->setText( QString::number(mTrackInfo.mTrackNr) );
+      }
       if( mTrackInfo.mTimesPlayed == 1 )
       {
          mpTimesPlayed->setText( QString::number(mTrackInfo.mTimesPlayed)+" Time Played" );

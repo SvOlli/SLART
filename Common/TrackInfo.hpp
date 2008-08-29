@@ -29,8 +29,8 @@ public:
               const QString &artist,
               const QString &title,
               const QString &album,
-              unsigned int   tracknr,
-              unsigned int   year,
+              int            tracknr,
+              int            year,
               const QString &genre,
               unsigned int   playtime,
               unsigned int   lastscanned,
@@ -47,8 +47,8 @@ public:
    QString      mArtist;
    QString      mTitle;
    QString      mAlbum;
-   unsigned int mTrackNr;
-   unsigned int mYear;
+   int          mTrackNr;
+   int          mYear;
    QString      mGenre;
    unsigned int mPlayTime;
    unsigned int mLastScanned;
