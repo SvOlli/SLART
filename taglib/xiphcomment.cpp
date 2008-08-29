@@ -101,17 +101,17 @@ String Ogg::XiphComment::genre() const
   return d->fieldListMap["GENRE"].front();
 }
 
-TagLib::uint Ogg::XiphComment::year() const
+int Ogg::XiphComment::year() const
 {
   if(d->fieldListMap["DATE"].isEmpty())
-    return 0;
+    return -1;
   return d->fieldListMap["DATE"].front().toInt();
 }
 
-TagLib::uint Ogg::XiphComment::track() const
+int Ogg::XiphComment::track() const
 {
   if(d->fieldListMap["TRACKNUMBER"].isEmpty())
-    return 0;
+    return -1;
   return d->fieldListMap["TRACKNUMBER"].front().toInt();
 }
 
@@ -140,17 +140,17 @@ void Ogg::XiphComment::setGenre(const String &s)
   addField("GENRE", s);
 }
 
-void Ogg::XiphComment::setYear(uint i)
+void Ogg::XiphComment::setYear(int i)
 {
-  if(i == 0)
+  if(i < 0)
     removeField("DATE");
   else
     addField("DATE", String::number(i));
 }
 
-void Ogg::XiphComment::setTrack(uint i)
+void Ogg::XiphComment::setTrack(int i)
 {
-  if(i == 0)
+  if(i < 0)
     removeField("TRACKNUMBER");
   else
     addField("TRACKNUMBER", String::number(i));

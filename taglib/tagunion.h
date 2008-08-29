@@ -61,16 +61,16 @@ namespace TagLib {
     virtual String album() const;
     virtual String comment() const;
     virtual String genre() const;
-    virtual uint year() const;
-    virtual uint track() const;
+    virtual int year() const;
+    virtual int track() const;
 
     virtual void setTitle(const String &s);
     virtual void setArtist(const String &s);
     virtual void setAlbum(const String &s);
     virtual void setComment(const String &s);
     virtual void setGenre(const String &s);
-    virtual void setYear(uint i);
-    virtual void setTrack(uint i);
+    virtual void setYear(int i);
+    virtual void setTrack(int i);
     virtual bool isEmpty() const;
 
     template <class T> T *access(int index, bool create)

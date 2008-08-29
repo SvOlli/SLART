@@ -37,13 +37,13 @@ using namespace TagLib;
   return String::null                                                \
 
 #define numberUnion(method)                                          \
-  if(tag(0) && tag(0)->method() > 0)                                 \
+  if(tag(0) && tag(0)->method() >= 0)                                \
     return tag(0)->method();                                         \
-  if(tag(1) && tag(1)->method() > 0)                                 \
+  if(tag(1) && tag(1)->method() >= 0)                                \
     return tag(1)->method();                                         \
-  if(tag(2) && tag(2)->method() > 0)                                 \
+  if(tag(2) && tag(2)->method() >= 0)                                \
     return tag(2)->method();                                         \
-  return 0
+  return -1
 
 #define setUnion(method, value)                                      \
   if(tag(0))                                                         \
@@ -126,12 +126,12 @@ String TagUnion::genre() const
   stringUnion(genre);
 }
 
-TagLib::uint TagUnion::year() const
+int TagUnion::year() const
 {
   numberUnion(year);
 }
 
-TagLib::uint TagUnion::track() const
+int TagUnion::track() const
 {
   numberUnion(track);
 }
@@ -161,12 +161,12 @@ void TagUnion::setGenre(const String &s)
   setUnion(Genre, s);
 }
 
-void TagUnion::setYear(uint i)
+void TagUnion::setYear(int i)
 {
   setUnion(Year, i);
 }
 
-void TagUnion::setTrack(uint i)
+void TagUnion::setTrack(int i)
 {
   setUnion(Track, i);
 }

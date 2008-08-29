@@ -4,7 +4,9 @@ upon version 1.5, but the file layout has been modfied for easier integration
 into the Qt buildprocess. To accomplish this, the include paths have been
 modified. All files except for sourcecode, includes and the "COPYING" file
 have been removed. Also a compiler warning about a missing virtual destructor
-has been fixed.
+has been fixed. The functions returning the track number and the year have
+been changed to use a value of '-1' instead of '0' to indicate the absense
+of that tag.
 
 
 From http://developer.kde.org/~wheeler/taglib.html :

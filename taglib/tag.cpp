@@ -50,7 +50,7 @@ bool Tag::isEmpty() const
           comment().isEmpty() &&
           genre().isEmpty() &&
           year() == 0 &&
-          track() == 0);
+          track() == -1);
 }
 
 void Tag::duplicate(const Tag *source, Tag *target, bool overwrite) // static
@@ -75,9 +75,9 @@ void Tag::duplicate(const Tag *source, Tag *target, bool overwrite) // static
       target->setComment(source->comment());
     if(target->genre().isEmpty())
       target->setGenre(source->genre());
-    if(target->year() <= 0)
+    if(target->year() < 0)
       target->setYear(source->year());
-    if(target->track() <= 0)
+    if(target->track() < 0)
       target->setTrack(source->track());
   }
 }

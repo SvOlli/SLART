@@ -81,15 +81,15 @@ namespace TagLib {
     virtual String genre() const = 0;
 
     /*!
-     * Returns the year; if there is no year set, this will return 0.
+     * Returns the year; if there is no year set, this will return -1.
      */
-    virtual uint year() const = 0;
+    virtual int year() const = 0;
 
     /*!
      * Returns the track number; if there is no track number set, this will
-     * return 0.
+     * return -1, id3v1 returns a 0 as -1.
      */
-    virtual uint track() const = 0;
+    virtual int track() const = 0;
 
     /*!
      * Sets the title to \a s.  If \a s is String::null then this value will be
@@ -125,14 +125,14 @@ namespace TagLib {
     virtual void setGenre(const String &s) = 0;
 
     /*!
-     * Sets the year to \a i.  If \a s is 0 then this value will be cleared.
+     * Sets the year to \a i.  If \a i is 0 then this value will be cleared.
      */
-    virtual void setYear(uint i) = 0;
+    virtual void setYear(int i) = 0;
 
     /*!
-     * Sets the track to \a i.  If \a s is 0 then this value will be cleared.
+     * Sets the track to \a i.  If \a i is -1 then this value will be cleared.
      */
-    virtual void setTrack(uint i) = 0;
+    virtual void setTrack(int i) = 0;
 
     /*!
      * Returns true if the tag does not contain any data.  This should be

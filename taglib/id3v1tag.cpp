@@ -142,14 +142,18 @@ String ID3v1::Tag::genre() const
   return ID3v1::genre(d->genre);
 }
 
-TagLib::uint ID3v1::Tag::year() const
+int ID3v1::Tag::year() const
 {
-  return d->year.toInt();
+  if( d->year.toInt() )
+    return d->year.toInt();
+  return -1;
 }
 
-TagLib::uint ID3v1::Tag::track() const
+int ID3v1::Tag::track() const
 {
-  return d->track;
+  if( d->track )
+    return d->track;
+  return -1;
 }
 
 void ID3v1::Tag::setTitle(const String &s)
@@ -177,14 +181,14 @@ void ID3v1::Tag::setGenre(const String &s)
   d->genre = ID3v1::genreIndex(s);
 }
 
-void ID3v1::Tag::setYear(uint i)
+void ID3v1::Tag::setYear(int i)
 {
-  d->year = i > 0 ? String::number(i) : String::null;
+  d->year = i >= 0 ? String::number(i) : String::null;
 }
 
-void ID3v1::Tag::setTrack(uint i)
+void ID3v1::Tag::setTrack(int i)
 {
-  d->track = i < 256 ? i : 0;
+  d->track = (i < 256) & (i >= 0) ? i : 0;
 }
 
 void ID3v1::Tag::setStringHandler(const StringHandler *handler)

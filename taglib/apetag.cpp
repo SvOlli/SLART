@@ -119,17 +119,17 @@ String APE::Tag::genre() const
   return d->itemListMap["GENRE"].toString();
 }
 
-TagLib::uint APE::Tag::year() const
+int APE::Tag::year() const
 {
   if(d->itemListMap["YEAR"].isEmpty())
-    return 0;
+    return -1;
   return d->itemListMap["YEAR"].toString().toInt();
 }
 
-TagLib::uint APE::Tag::track() const
+int APE::Tag::track() const
 {
   if(d->itemListMap["TRACK"].isEmpty())
-    return 0;
+    return -1;
   return d->itemListMap["TRACK"].toString().toInt();
 }
 
@@ -158,17 +158,17 @@ void APE::Tag::setGenre(const String &s)
   addValue("GENRE", s, true);
 }
 
-void APE::Tag::setYear(uint i)
+void APE::Tag::setYear(int i)
 {
-  if(i <= 0)
+  if(i < 0)
     removeItem("YEAR");
   else
     addValue("YEAR", String::number(i), true);
 }
 
-void APE::Tag::setTrack(uint i)
+void APE::Tag::setTrack(int i)
 {
-  if(i <= 0)
+  if(i < 0)
     removeItem("TRACK");
   else
     addValue("TRACK", String::number(i), true);

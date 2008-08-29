@@ -181,18 +181,18 @@ String ID3v2::Tag::genre() const
   return genres.toString();
 }
 
-TagLib::uint ID3v2::Tag::year() const
+int ID3v2::Tag::year() const
 {
   if(!d->frameListMap["TDRC"].isEmpty())
     return d->frameListMap["TDRC"].front()->toString().substr(0, 4).toInt();
-  return 0;
+  return -1;
 }
 
-TagLib::uint ID3v2::Tag::track() const
+int ID3v2::Tag::track() const
 {
   if(!d->frameListMap["TRCK"].isEmpty())
     return d->frameListMap["TRCK"].front()->toString().toInt();
-  return 0;
+  return -1;
 }
 
 void ID3v2::Tag::setTitle(const String &s)
@@ -252,18 +252,18 @@ void ID3v2::Tag::setGenre(const String &s)
 #endif
 }
 
-void ID3v2::Tag::setYear(uint i)
+void ID3v2::Tag::setYear(int i)
 {
-  if(i <= 0) {
+  if(i < 0) {
     removeFrames("TDRC");
     return;
   }
   setTextFrame("TDRC", String::number(i));
 }
 
-void ID3v2::Tag::setTrack(uint i)
+void ID3v2::Tag::setTrack(int i)
 {
-  if(i <= 0) {
+  if(i < 0) {
     removeFrames("TRCK");
     return;
   }
