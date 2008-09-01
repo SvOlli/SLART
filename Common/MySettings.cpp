@@ -14,7 +14,7 @@
 
 
 MySettings::MySettings()
-: QSettings()
+: QSettings( QApplication::organizationName(), QApplication::applicationName() )
 {
 }
 
