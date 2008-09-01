@@ -81,8 +81,10 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    mpMainLayout->setSpacing( 1 );
    mpMainLayout->setColumnStretch( 2, 1 );
    mpMainLayout->setColumnStretch( 3, 1 );
+#if 0
    mpDiscArtist->setText( tr("DiscArtist" ) );
    mpDiscTitle->setText( tr("DiscTitle" ) );
+#endif
    mpLabelEnqueueTrack->setToolTip( tr("enqueue track in Partyman after ripping") );
    
    mpMainLayout->addWidget( mpLabelDiscArtist, 0, 0 );
@@ -232,6 +234,7 @@ void CDEdit::handleTrackArtist()
    for( int i = 0; i < 100; i++ )
    {
       mpTrackArtist[i]->setText( artist );
+      mpTrackArtist[i]->setCursorPosition( 1 );
    }
 }
 
@@ -242,6 +245,7 @@ void CDEdit::handleNormalizeTitle()
    for( int i = 0; i < 100; i++ )
    {
       mpTrackTitle[i]->setText( TagList::normalizeString( mpTrackTitle[i]->text() ) );
+      mpTrackTitle[i]->setCursorPosition( 1 );
    }
 }
 
@@ -338,6 +342,8 @@ void CDEdit::updateCDText( int track, const QString &artist, const QString &titl
    {
       mpTrackArtist[track]->setText( artist );
       mpTrackTitle[track]->setText( title );
+      mpTrackArtist[track]->setCursorPosition( 1 );
+      mpTrackTitle[track]->setCursorPosition( 1 );
    }
 }
 
@@ -389,10 +395,13 @@ void CDEdit::splitTitles()
       {
          mpTrackArtist[i]->setText( title.left(indexOfSplit) );
          mpTrackTitle[i]->setText( title.mid( indexOfSplit + splitMode.size() ) );
+         mpTrackArtist[i]->setCursorPosition( 1 );
+         mpTrackTitle[i]->setCursorPosition( 1 );
       }
       else
       {
          mpTrackArtist[i]->setText( mpDiscArtist->text() );
+         mpTrackArtist[i]->setCursorPosition( 1 );
       }
    }
 }

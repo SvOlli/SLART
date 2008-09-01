@@ -25,9 +25,8 @@ int main(int argc, char *argv[])
    {
       if( !MySettings().contains( "SLARTCommunication" ) )
       {
-         if( !MainWindow::invokeSetUp( argv[0] ) )
+         if( !MainWindow::invokeSetUp( &app ) )
          {
-            QMessageBox::critical( 0, app.applicationName(), QObject::tr("Setup failed!\nCannot start.\nSorry.") );
             return 1;
          }
       }
@@ -52,6 +51,6 @@ int main(int argc, char *argv[])
       fprintf( stderr, "Usage: %s (<application> <message>)\n", argv[0] );
       retval = 1;
    }
-
+   
    return retval;
 }

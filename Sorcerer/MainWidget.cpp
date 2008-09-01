@@ -12,6 +12,7 @@
 #include "ProxyWidget.hpp"
 #include "Database.hpp"
 #include "MySettings.hpp"
+#include "Trace.hpp"
 
 #include <QtGui>
 
@@ -44,10 +45,16 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpProxyWidget->readSettings();
    
    AboutWidget *about = new AboutWidget( this );
-   QLabel *welcome    = new QLabel( tr("Some spiffy welcome text..."), this );
-   QLabel *welldone   = new QLabel( tr("Some spiffy well done text..."), this );
+   QLabel *welcome    = new QLabel( tr("Hello and welcome to SLART<hr>"
+                                       "Before %1 can be started a little bit of setup needs to be done.<br><br>"
+                                       "This little wizard will help you on this task. There's no need to worry,<br>"
+                                       "anything you configure here can be configured in the appropriate<br>"
+                                       "SLART application as well.").arg( QApplication::applicationName() ), this );
+   QLabel *welldone   = new QLabel( tr("Well, that's all. Wasn't so hard, was it?.<br><br>"
+                                       "Now, press 'Done' to start %1.").arg( QApplication::applicationName() ), this );
    welcome->setAlignment( Qt::AlignCenter );
    welldone->setAlignment( Qt::AlignCenter );
+   mpHint->setAlignment( Qt::AlignCenter );
    mpHint->setFrameShadow( QFrame::Raised );
    mpHint->setFrameShape( QFrame::Box );
    
@@ -56,10 +63,9 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpTabs->addTab( mpConfigCommunicationWidget, QString(tr("Communication")) );
    mpTabs->addTab( mpProxyWidget,               QString(tr("Proxy")) );
    mpTabs->addTab( welldone,                    QString(tr("Done")) );
-   handleTabChange( 0 );
-   for( i = 1; i < mpTabs->count(); i++ )
+   for( i = 0; i < mpTabs->count(); i++ )
    {
-      mpTabs->setTabEnabled( i, false );
+      mpTabs->setTabEnabled( i, (i==0) );
    }
    
    mainLayout->addWidget( about );
@@ -76,6 +82,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(unlockCommunication()) );
    connect( mpDatabaseWidget, SIGNAL(databaseUpdated()),
             this, SLOT(unlockDatabase()) );
+   handleTabChange(0);
    
    setLayout( mainLayout );
 }
@@ -84,6 +91,12 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 MainWidget::~MainWidget()
 {
    delete mpDatabase;
+}
+
+
+int MainWidget::errors()
+{
+   return (mDatabaseOk ? 0 : 0x2) | (mCommunicationOk ? 0 : 0x4) | (mProxyOk ? 0 : 0x8);
 }
 
 
@@ -106,26 +119,32 @@ void MainWidget::handleTabChange( int newTab )
    switch( newTab )
    {
       case 0:
-         mpHint->setText( tr("\n\nA recommendation for each pannel will be displayed here.") );
+         mpHint->setText( tr("A recommendation for each pannel will be displayed here.\n\n"
+                             "Right now, just press the 'Next'-Button below.") );
          mpNext->setDisabled( false );
          break;
       case 1:
-         mpHint->setText( tr("\nA database is needed for operation.\nPlease create one.") );
+         mpHint->setText( tr("A database is needed for operation. Please create one by selecting\n"
+                             "the directory containing the music and press 'Update' to create the\n"
+                             "database. This might take some time. Press 'Next' once it's done.") );
          mpNext->setDisabled( !mDatabaseOk );
          break;
       case 2:
          mpConfigCommunicationWidget->readSettings();
-         mpHint->setText( tr("\n\"Full Communication\" is strongly recommended\nto take advantage of all SLART features.") );
+         mpHint->setText( tr("'Full Communication' is strongly recommended\nto take advantage of all SLART features.\n"
+                             "So go ahead and press 'Full Communication' and 'Next'.") );
          mpNext->setDisabled( !mCommunicationOk );
          break;
       case 3:
          mpProxyWidget->readSettings();
-         mpHint->setText( tr("\nUsusally a proxy is not necessary for web access."
-                             "\nIf unsure look at the proxy settings of your web browser.") );
+         mpHint->setText( tr("Ususally a proxy is not necessary for web access.\n"
+                             "If unsure look at the proxy settings of your web browser.\n"
+                             "Once you've set the proxy (or decided not to) press 'Next'.") );
          mpNext->setDisabled( false );
          break;
       case 4:
-         mpHint->setText( tr("\n\nA recommendation for each pannel will be displayed here.") );
+         mpHint->setText( tr("\n\nPress 'Done' blow to start %1.")
+                          .arg( QApplication::applicationName() ) );
          mpNext->setDisabled( !mDatabaseOk || !mCommunicationOk || !mProxyOk );
          break;
    }
@@ -152,7 +171,7 @@ void MainWidget::handleNextButton()
    }
    else
    {
-      QApplication::exit((mDatabaseOk ? 0x2 : 0) | (mCommunicationOk ? 0x4 : 0) | (mProxyOk ? 0x8 : 0));
+      QApplication::quit();
    }
 }
 

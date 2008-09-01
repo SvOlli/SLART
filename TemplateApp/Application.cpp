@@ -8,7 +8,9 @@
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
 #include "MySettings.hpp"
+#if 0
 #include "Database.hpp"
+#endif
 
 #include <QtGui>
 
@@ -25,7 +27,7 @@ int main(int argc, char *argv[])
 #if 0
    if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
    {
-      if( !MainWindow::invokeSetUp( argv[0] ) )
+      if( !MainWindow::invokeSetUp( &app ) )
       {
          QMessageBox::critical( 0, app.applicationName(), QObject::tr("Setup failed!\nCannot start.\nSorry.") );
          return 1;

@@ -22,15 +22,6 @@ int main(int argc, char *argv[])
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("Partyman");
    
-   if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
-   {
-      if( !MainWindow::invokeSetUp( argv[0] ) )
-      {
-         QMessageBox::critical( 0, app.applicationName(), QObject::tr("Setup failed!\nCannot start.\nSorry.") );
-         return 1;
-      }
-   }
-   
    if( argc > 1 )
    {
       MySettings settings;
@@ -38,15 +29,23 @@ int main(int argc, char *argv[])
       {
          settings.sendUdpMessage( QFileInfo( QString::fromLocal8Bit(argv[i]) ).absoluteFilePath().prepend( "P0Q\n" ) );
       }
-      
-      return 0;
    }
-
-   MainWindow window;
-   window.show();
-   window.mainWidget()->startUp();
+   else
+   {
+      if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
+      {
+         if( !MainWindow::invokeSetUp( &app ) )
+         {
+            return 1;
+         }
+      }
       
-   retval = app.exec();
-
+      MainWindow window;
+      window.show();
+      window.mainWidget()->startUp();
+      
+      retval = app.exec();
+   }
+   
    return retval;
 }

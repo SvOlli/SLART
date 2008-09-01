@@ -28,6 +28,7 @@ Q_OBJECT
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    ~MainWidget();
+   int errors();
 
 public slots:
    void handleTabChange( int newTab );

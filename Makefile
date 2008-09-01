@@ -10,10 +10,10 @@ TARCONT = configure Makefile Global.pri TemplateApp Common \
 
 all:
 	for dir in $(SUBDIRS); do [ ! -d $$dir ] || make -C $$dir $@ ; done
-	ls -l $(PLATFORM)/bin
+	ls -l $(PLATFORM)/{bin,lib} || true
 
 clean:
-	for i in $(SUBDIRS); do rm -rf $(PLATFORM)/$$i $(PLATFORM)/bin/$$i;done
+	for i in $(SUBDIRS); do rm -rf $(PLATFORM)/$$i $(PLATFORM)/{bin,lib}/*$$i*;done
 
 distclean:
 	rm -rf $(PLATFORM)
@@ -33,8 +33,9 @@ toolchain:
 everything: toolchain all tools
 
 install: strip
-	mkdir -p $(PREFIX)/bin
-	cp -d $(PLATFORM)/bin/* $(PREFIX)/bin
+	mkdir -p $(DESTDIR)$(PREFIX)/{bin,lib}
+	cp -d $(PLATFORM)/bin/* $(DESTDIR)$(PREFIX)/bin
+	cp -d $(PLATFORM)/lib/* $(DESTDIR)$(PREFIX)/lib
 
 tar:
 	ln -s SLART ../slart-$(VERSION)

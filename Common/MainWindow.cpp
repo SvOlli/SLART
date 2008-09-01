@@ -8,20 +8,25 @@
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
 #include "MySettings.hpp"
+#include "../Sorcerer/Interface.hpp"
 
 #include <QtGui>
 
 #include "Trace.hpp"
 
 
-MainWindow::MainWindow( QWidget *parent, Qt::WindowFlags flags )
+MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
+, mSaveWindow( saveWindow )
 , mpMainWidget( new MainWidget( this ) )
 {
    setCentralWidget( mpMainWidget );
    setWindowTitle( QApplication::applicationName() );
    
-   MySettings().setMainWindow( this );
+   if( mSaveWindow )
+   {
+      MySettings().setMainWindow( this );
+   }
 
    connect( mpMainWidget, SIGNAL(requestChangeTitle(QIcon,QString)),
             this, SLOT(changeTitle(QIcon,QString)) );
@@ -49,25 +54,78 @@ MainWidget *MainWindow::mainWidget()
 
 void MainWindow::closeEvent( QCloseEvent *event )
 {
-   MySettings().saveMainWindow( this );
+   if( mSaveWindow )
+   {
+      MySettings().saveMainWindow( this );
+   }
    event->accept();
 }
 
 
-bool MainWindow::invokeSetUp( const char *argv0 )
+bool MainWindow::invokeSetUp( QApplication *app )
 {
-   QProcess sorcerer;
-   QDir qdir( argv0 );
-   qdir.cdUp();
-   sorcerer.start( qdir.absolutePath() + "/Sorcerer" );
-   if( sorcerer.waitForStarted() )
+   QDir sorcererDir(qApp->applicationDirPath());
+#if defined Q_OS_MAC
+   if( sorcererDir.dirName() == "MacOS" )
    {
-      sorcerer.waitForFinished( -1 );
-      return sorcerer.exitCode() == 0;
+      QDir searchDir( sorcererDir );
+      searchDir.cdUp();
+      if( searchDir.cd( "Plugins" ) )
+      {
+         if( trySorcerer( app, searchDir ) )
+         {
+            return true;
+         }
+      }
    }
-   else
+#elif defined Q_OS_UNIX
+   if( sorcererDir.dirName() == "bin" )
    {
-      sorcerer.terminate();
+      QDir searchDir( sorcererDir );
+      searchDir.cdUp();
+      if( searchDir.cd( "lib" ) )
+      {
+         if( trySorcerer( app, searchDir ) )
+         {
+            return true;
+         }
+      }
+   }
+#endif
+   if( trySorcerer( app, sorcererDir ) )
+   {
+      return true;
+   }
+   return false;
+}
+
+
+bool MainWindow::trySorcerer( QApplication *app, const QDir &dir )
+{
+   int retval = 1;
+   QString path( dir.absolutePath() );
+#if defined Q_OS_WIN
+   path.append( "/Sorcerer.dll" );
+#elif defined Q_OS_MAC
+   path.append( "/libSorcerer.dylib" );
+#else
+   path.append( "/libSorcerer.so" );
+#endif
+   QPluginLoader pluginLoader( path );
+   QObject *plugin = pluginLoader.instance();
+   if( plugin )
+   {
+      SorcererInterface *sorcerer = qobject_cast<SorcererInterface *>(plugin);
+      if( sorcerer )
+      {
+         retval = sorcerer->run( app );
+      }
+   }
+   
+   if( retval )
+   {
+      QMessageBox::critical( 0, app->applicationName(), tr("Setup failed!\nCannot start.\nSorry.") );
       return false;
    }
+   return true;
 }
