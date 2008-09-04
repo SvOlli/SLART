@@ -1,8 +1,8 @@
 #!/bin/sh
 
-BASEDIR=`dirname ${0}`
-BUILDARCH=`uname -s -m|tr ' ' _`
-VERSION=`tr -d '\n "&;#_[A-Za-z]' < ${BASEDIR}/Common/Version.hpp`
+BASEDIR="`dirname ${0}`"
+BUILDARCH="`uname -s -m|tr ' ' _`"
+VERSION="`tr -d '\n "&;#_[A-Za-z]' < ${BASEDIR}/Common/Version.hpp`"
 CACHEFILE=${BASEDIR}/${BUILDARCH}/.config.cache
 CONFIG=debug
 PREFIX=/usr/local
@@ -28,11 +28,19 @@ getrevision()
 
 findqmake()
 {
-  which qt4qmake ||
-  which qt4-qmake ||
-  which qmake-qt4 ||
-  which qmake ||
-  echo qmake
+  if [ -n "$BASH_VERSION" ]; then
+    type -p qt4qmake ||
+    type -p qt4-qmake ||
+    type -p qmake-qt4 ||
+    type -p qmake ||
+    echo qmake
+  else
+    which qt4qmake ||
+    which qt4-qmake ||
+    which qmake-qt4 ||
+    which qmake ||
+    echo qmake
+  fi
 }
 
 if [ -z "${QMAKE}" ]; then
@@ -165,10 +173,10 @@ if [ "${WRITECACHE}" = "yes" ]; then
     mkdir -p `dirname ${CACHEFILE}`
   fi
 cat <<EOF >${CACHEFILE}
-CONFIG=${CONFIG}
-PREFIX=${PREFIX}
-QMAKE=${QMAKE}
-JOBS=${JOBS}
+CONFIG="${CONFIG}"
+PREFIX="${PREFIX}"
+QMAKE="${QMAKE}"
+JOBS="${JOBS}"
 EOF
 fi
 
