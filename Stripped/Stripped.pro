@@ -9,7 +9,7 @@ TARGET = Stripped
 
 #LIBS += -lvorbisenc -lvorbis -lm -logg -lcdio_paranoia -lcdio_cdda -lcdio
 QMAKE_CXXFLAGS += $$system( sh ../configure --cflags vorbisenc )
-LIBS += $$system( sh ../configure --libs vorbisenc libcdio_paranoia )
+LIBS += $$system( sh ../configure --libs vorbisenc libcdio_paranoia libcdio )
 # Input
 #RESOURCES = Resources.qrc
 
