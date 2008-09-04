@@ -24,6 +24,7 @@ class QListWidgetItem;
 class DropDialog;
 class ConfigDialog;
 class QKeyEvent;
+class ExecButton;
 
 class MainWidget : public QWidget
 {
@@ -31,6 +32,7 @@ Q_OBJECT
 
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   virtual ~MainWidget();
 
 public slots:
    /* re-read config */
@@ -44,11 +46,15 @@ public slots:
    /* copy clicked line of message buffer to clipboard */
    void listWidgetItemToClipboard( QListWidgetItem *item );
 
+private slots:
+   /* autostart */
+   void autostart();
+
 protected:
    /* for implementing dropping */
-   void dragEnterEvent( QDragEnterEvent *event );
+   virtual void dragEnterEvent( QDragEnterEvent *event );
    /* for implementing dropping */
-   void dropEvent( QDropEvent *event );
+   virtual void dropEvent( QDropEvent *event );
 
 signals:
    void requestChangeTitle( const QIcon&, const QString& );
@@ -64,9 +70,10 @@ private:
    QSpinBox     *mpBufferSize;
    ConfigDialog *mpConfig;
    DropDialog   *mpDropDialog;
+   ExecButton   **mpExecButtons;
+   int          mNumExecButtons;
    int          mBufferSize;
    SLARTCom     mSLARTCom;
-   QStringList  mApplications;
 };
 
 #endif

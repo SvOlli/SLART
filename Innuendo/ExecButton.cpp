@@ -49,17 +49,37 @@ ExecButton::~ExecButton()
 
 void ExecButton::handleClick()
 {
+   MySettings settings;
+   
+   QStringList applications( settings.value("Startup", QStringList()).toStringList() );
    if( isChecked() )
    {
       /* start */
       mTerminating = false;
       mProcess.start( mName );
+      if( !applications.contains( text() ) )
+      {
+         applications.append( text() );
+         settings.setValue("Startup", applications);
+      }
    }
    else
    {
       /* stop */
       mTerminating = true;
       mProcess.terminate();
+      if( applications.contains( text() ) )
+      {
+         applications.removeAt( applications.indexOf( text() ) );
+         if( applications.count() > 0 )
+         {
+            settings.setValue( "Startup", applications );
+         }
+         else
+         {
+            settings.remove( "Startup" );
+         }
+      }
    }
 }
 

@@ -26,9 +26,10 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpBufferSize( new QSpinBox( this ) )
 , mpConfig( new ConfigDialog( this ) )
 , mpDropDialog( new DropDialog( this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint ) )
+, mpExecButtons(0)
+, mNumExecButtons(0)
 , mBufferSize(500)
 , mSLARTCom()
-, mApplications()
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
 #if QT_VERSION < 0x040300
@@ -37,8 +38,27 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
 
-   mApplications << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome";
+   QStringList applications;
+   applications
+      << "Partyman"
+      << "Stripped"
+      << "Funkytown"
+      << "Rubberbandman"
+      << "Karmadrome"
+      << "Creep"
+      ;
+   QStringList toolTips;
+   toolTips 
+      << "Audio Player"
+      << "CD Ripper"
+      << "MySpace Downloader"
+      << "Tag Editor"
+      << "Playlist Organizer"
+      << "Remote Control Daemon"
+      ;
    
+   mNumExecButtons = applications.count();
+   mpExecButtons = new ExecButton*[mNumExecButtons];
    mpBufferSizeLabel->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
    mpBufferSize->setRange( 50, 50000 );
    
@@ -48,16 +68,18 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpLogo->setFrameShadow( QFrame::Raised );
    mpLogo->setFrameShape( QFrame::Box );
 
-   mainLayout->addWidget( mpLogo,            0, 0, 1, mApplications.count() );
-   mainLayout->addWidget( mpMessageBuffer,   1, 0, 1, mApplications.count() );
-   for( int i = 0; i < mApplications.count(); i++ )
+   mainLayout->addWidget( mpLogo,            0, 0, 1, mNumExecButtons );
+   mainLayout->addWidget( mpMessageBuffer,   1, 0, 1, mNumExecButtons );
+   for( int i = 0; i < mNumExecButtons; i++ )
    {
-      mainLayout->addWidget( new ExecButton( mApplications.at(i), this ), 2, i );
+      mpExecButtons[i] = new ExecButton( applications.at(i), this );
+      mpExecButtons[i]->setToolTip( toolTips.at(i) );
+      mainLayout->addWidget( mpExecButtons[i], 2, i );
    }
    mainLayout->addWidget( mpSettingsButton,  3, 0 );
    mainLayout->addWidget( mpPingButton,      3, 1 );
-   mainLayout->addWidget( mpBufferSizeLabel, 3, mApplications.count() - 2 );
-   mainLayout->addWidget( mpBufferSize,      3, mApplications.count() - 1 );
+   mainLayout->addWidget( mpBufferSizeLabel, 3, mNumExecButtons - 2 );
+   mainLayout->addWidget( mpBufferSize,      3, mNumExecButtons - 1 );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfig, SLOT(exec()) );
@@ -79,6 +101,58 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    setLayout( mainLayout );
    
    setAcceptDrops( true );
+   
+   QTimer::singleShot(333, this, SLOT(autostart()));
+}
+
+
+MainWidget::~MainWidget()
+{
+   delete[] mpExecButtons;
+}
+
+
+#if 0
+void MainWidget::aboutToClose()
+{
+TRACESTART(MainWidget::closeEvent)
+   QStringList runningApplications;
+   
+   for( int i = 0; i < mNumExecButtons; i++ )
+   {
+TRACEMSG << mpExecButtons[i]->text() << mpExecButtons[i]->isChecked();
+      if( mpExecButtons[i]->isChecked() )
+      {
+         runningApplications << mpExecButtons[i]->text();
+         mpExecButtons[i]->click();
+      }
+   }
+   if( runningApplications.count() )
+   {
+      MySettings().setValue( "Startup", runningApplications );
+   }
+   else
+   {
+      MySettings().remove( "Startup" );
+   }
+}
+#endif
+
+
+void MainWidget::autostart()
+{
+   QStringList startApplications( MySettings().value("Startup", QStringList()).toStringList() );
+   
+   if( startApplications.count() > 0 )
+   {
+      for( int i = 0; i < mNumExecButtons; i++ )
+      {
+         if( startApplications.contains( mpExecButtons[i]->text() ) )
+         {
+            mpExecButtons[i]->click();
+         }
+      }
+   }
 }
 
 
@@ -103,12 +177,12 @@ void MainWidget::handlePingButton()
    MySettings settings;
    mpMessageBuffer->addItem( "** pinging applications" );
    mpPingButton->setDisabled( true );
-   for( int i = 0; i < mApplications.count(); i++ )
+   for( int i = 0; i < mNumExecButtons; i++ )
    {
       QString msg("* ");
-      msg.append( mApplications.at(i) );
+      msg.append( mpExecButtons[i]->text() );
       msg.append( " is " );
-      if( !mSLARTCom.ping( mApplications.at(i) ) )
+      if( !mSLARTCom.ping( mpExecButtons[i]->text() ) )
       {
          msg.append( "not " );
       }
