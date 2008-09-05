@@ -175,6 +175,8 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    hlayout->addWidget( mpButtonNormTitle );
    hlayout->addWidget( mpButtonCancel );
    mpButtonSet->setDisabled( true );
+   mpButtonNormArtist->setDisabled( true );
+   mpButtonNormTitle->setDisabled( true );
    mpButtonCancel->setDisabled( true );
    
    QVBoxLayout *vlayout = new QVBoxLayout;
@@ -340,8 +342,8 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
    if( isBase )
    {
       mpButtonSet->setDisabled( false );
-      mpButtonNormArtist->setDisabled( false );
-      mpButtonNormTitle->setDisabled( false );
+      mpButtonNormArtist->setDisabled( true );
+      mpButtonNormTitle->setDisabled( true );
       mpButtonCancel->setDisabled( true );
          
       mpShowPathName->clear();
@@ -429,6 +431,8 @@ void InfoEdit::loadFile( const QString &fullpath )
    mpShowTimesPlayed->clear();
    if( fileInfo.isFile() )
    {
+      mpButtonNormArtist->setDisabled( false );
+      mpButtonNormTitle->setDisabled( false );
       mIsValid = true;
       mIsFile  = true;
       
@@ -514,12 +518,16 @@ void InfoEdit::loadFile( const QString &fullpath )
       
       if( fileInfo.isDir() )
       {
+         mpButtonNormArtist->setDisabled( false );
+         mpButtonNormTitle->setDisabled( false );
          mIsValid = true;
          mpShowPathName->setText( fullpath );
       }
       else
       {
          mpShowPathName->clear();
+         mpButtonNormArtist->setDisabled( true );
+         mpButtonNormTitle->setDisabled( true );
          mpButtonFlags->setDisabled( true );
          mpButtonFolders->setDisabled( true );
       }
