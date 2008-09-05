@@ -124,9 +124,9 @@ void MainWidget::handleTabChange( int newTab )
          mpNext->setDisabled( false );
          break;
       case 1:
-         mpHint->setText( tr("A database is needed for operation. Please create one by selecting\n"
-                             "the directory containing the music and press 'Update' to create the\n"
-                             "database. This might take some time. Press 'Next' once it's done.") );
+         mpHint->setText( tr("A database is needed for operation. Please create one by selecting the\n"
+                             "directory containing the music by pressing '...' and then press 'Update' to\n"
+                             "create the database. This might take some time. Press 'Next' once it's done.") );
          mpNext->setDisabled( !mDatabaseOk );
          break;
       case 2:

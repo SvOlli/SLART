@@ -38,7 +38,10 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
 , mProcessedText()
 {
    mpDatabaseWorker->prepare( database );
-   QPushButton *browseButton  = new QPushButton( tr("Browse"), this );
+   QPushButton *browseButton  = new QPushButton( tr("..."), this );
+   /* evil hack */
+   browseButton->setMaximumWidth( browseButton->height() );
+   
    mpMessage->setFrameShadow( QFrame::Raised );
    mpMessage->setFrameShape( QFrame::Box );
    mpPartymanInfo->setFrameShadow( QFrame::Raised );
