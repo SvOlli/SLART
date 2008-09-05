@@ -88,11 +88,10 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 : QWidget( parent, flags )
 , mpDatabase( database )
 , mpRootDir( new QLineEdit( this ) )
-, mpDotButton( new QPushButton( tr(".."), this ) )
+, mpDotButton( new QPushButton( tr("..."), this ) )
 , mpView( new MyTreeView( this ) )
 , mpModel( new QDirModel( this ) )
 , mpMenuSendToPartyman( new QAction( tr("Send To Partyman"), this ) )
-, mpMenuSetRootDir( new QAction( tr("Set As Root Directory"), this ) )
 , mpMenuRescan( new QAction( tr("Rescan"), this ) )
 , mpMenuMove( new QAction( tr("Move"), this ) )
 , mpMenuRename( new QAction( tr("Rename"), this ) )
@@ -149,8 +148,6 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
             this, SLOT(contextMenu(const QPoint&)) );
    connect( mpMenuSendToPartyman, SIGNAL(triggered()),
             this, SLOT(menuSendToPartyman()) );
-   connect( mpMenuSetRootDir, SIGNAL(triggered()),
-            this, SLOT(menuSetRootDir()) );
    connect( mpMenuRescan, SIGNAL(triggered()),
             this, SLOT(handleRootDir()) );
    connect( mpMenuMove, SIGNAL(triggered()),
@@ -170,9 +167,18 @@ void FileSysBrowser::entryClicked( const QModelIndex &index )
 
 void FileSysBrowser::handleDotButton()
 {
-   QDir dir( mpRootDir->text() + "/.." );
-   mpRootDir->setText( dir.absolutePath() );
-   handleRootDir();
+   QFileDialog fileDialog( this );
+   
+   fileDialog.setFileMode( QFileDialog::DirectoryOnly );
+   fileDialog.setDirectory( mpRootDir->text() );
+   fileDialog.setReadOnly( true );
+   
+   if( fileDialog.exec() )
+   {
+      QString result( fileDialog.selectedFiles().at(0) );
+      mpRootDir->setText( result );
+      handleRootDir();
+   }
 }
 
 
@@ -215,15 +221,11 @@ void FileSysBrowser::contextMenu( const QPoint &pos )
    mFileInfo.setFile( mpModel->filePath( mContextModelIndex ) );
    
    QMenu menu(mpView);
-   if( mFileInfo.isDir() )
-   {
-      menu.addAction( mpMenuSetRootDir );
-   }
-   else
+   menu.addAction( mpMenuRescan );
+   if( !mFileInfo.isDir() )
    {
       menu.addAction( mpMenuSendToPartyman );
    }
-   menu.addAction( mpMenuRescan );
    menu.addSeparator();
    menu.addAction( mpMenuMove );
    menu.addAction( mpMenuRename );
@@ -240,16 +242,6 @@ void FileSysBrowser::menuSendToPartyman()
       QString msg( mFileInfo.filePath() );
       msg.prepend( "P0Q\n" );
       MySettings().sendUdpMessage( msg, "Partyman" );
-   }
-}
-
-
-void FileSysBrowser::menuSetRootDir()
-{
-   if( mFileInfo.isDir() )
-   {
-      mpRootDir->setText( mFileInfo.filePath() );
-      handleRootDir();
    }
 }
 

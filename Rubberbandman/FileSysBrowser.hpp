@@ -42,8 +42,6 @@ public slots:
    void contextMenu( const QPoint &pos );
    /* handle menu entry "Send To Partyman" */
    void menuSendToPartyman();
-   /* handle menu entry "Set As Root Directory" */
-   void menuSetRootDir();
    /* handle menu entry "Move" */
    void menuMove();
    /* handle menu entry "Rename" */
@@ -65,7 +63,6 @@ private:
    QTreeView    *mpView;
    QDirModel    *mpModel;
    QAction      *mpMenuSendToPartyman;
-   QAction      *mpMenuSetRootDir;
    QAction      *mpMenuRescan;
    QAction      *mpMenuMove;
    QAction      *mpMenuRename;
