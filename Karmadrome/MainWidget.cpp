@@ -140,23 +140,29 @@ void MainWidget::handleSLART( const QStringList &message )
    {
       if( message.at(0) == "K0E" )
       {
-         if( message.at(1).startsWith( "|F", Qt::CaseInsensitive ) )
+         if( message.at(2).startsWith( "/" ) )
          {
-            exportM3u( QChar(1), message.at(2) );
-         }
-         else if( message.at(1).startsWith( "|U", Qt::CaseInsensitive ) )
-         {
-            exportM3u( QChar(2), message.at(2) );
-         }
-         else
-         {
-            exportM3u( message.at(1), message.at(2) );
+            if( message.at(1).startsWith( "|F", Qt::CaseInsensitive ) )
+            {
+               exportM3u( QChar(1), message.at(2) );
+            }
+            else if( message.at(1).startsWith( "|U", Qt::CaseInsensitive ) )
+            {
+               exportM3u( QChar(2), message.at(2) );
+            }
+            else
+            {
+               exportM3u( message.at(1), message.at(2) );
+            }
          }
       }
       
       if( message.at(0) == "K0I" )
       {
-         importM3u( message.at(1), message.at(2) );
+         if( message.at(2).startsWith( "/" ) )
+         {
+            importM3u( message.at(1), message.at(2) );
+         }
       }
    }
    
@@ -230,7 +236,7 @@ void MainWidget::handleAdd()
 {
    bool ok;
    QString folder( QInputDialog::getText( this, QApplication::applicationName(),
-                                          QString( tr("Enter name of folder:") ),
+                                          tr("Enter name of folder:"),
                                           QLineEdit::Normal, QString(), &ok ) );
    if( ok && !folder.isEmpty() )
    {
@@ -339,7 +345,7 @@ void MainWidget::handleImport( QAction *action )
 void MainWidget::handleRemove( QAction *action )
 {
    if( QMessageBox::Ok == QMessageBox::question( this, QApplication::applicationName(),
-                                                 QString( tr("Are you sure you want to delete the folder\n") ) +
+                                                 tr("Are you sure you want to delete the folder\n") +
                                                  action->text(), QMessageBox::Ok | QMessageBox::Cancel ) )
    {
       TrackInfo trackInfo;

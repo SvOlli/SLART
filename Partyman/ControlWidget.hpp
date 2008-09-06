@@ -73,7 +73,7 @@ public slots:
    void handleDerMixDfinish( int exitCode, QProcess::ExitStatus exitStatus );
    /* handle process error */
    void handleDerMixDerror( QProcess::ProcessError error );
-   /*  */
+   /* handle the info of the currently played track */
    void handleTrackPlaying( const TrackInfo &trackInfo );
 
 signals:
@@ -83,7 +83,7 @@ signals:
    void requestAddToPlaylist( const QStringList &entries, bool atStart );
    /* signal if a connection has been established or cut off */
    void signalConnected( bool connected );
-   /*  */
+   /* signal to handle a "k0u" and "r0u" SLART message */
    void trackUpdate();
 
 private:

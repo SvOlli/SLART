@@ -37,11 +37,10 @@ private:
    MainWindow( const MainWindow &other );
    MainWindow &operator=( const MainWindow &other );
    
-   /*  */
+   /* try to load and run Sorcerer */
    static bool trySorcerer( QApplication *app, const QDir &dir );
-   /*  */
+
    bool mSaveWindow;
-   
    MainWidget   *mpMainWidget;
 };
 

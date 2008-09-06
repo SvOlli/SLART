@@ -93,7 +93,7 @@ void DownloadHandler::httpRequestFinished( int requestId, bool error )
       if( error )
       {
          mpFile->remove();
-         emit errorMessage( mURL+QString( tr(" Download failed:") )+
+         emit errorMessage( mURL + tr(" Download failed:") +
                             mpHttp->errorString() );
       }
       

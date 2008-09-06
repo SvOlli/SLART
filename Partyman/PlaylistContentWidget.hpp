@@ -28,9 +28,9 @@ public slots:
    void handleClick( QListWidgetItem *item );
    /* handle double click */
    void handleDoubleClick( QListWidgetItem *item );
-   /*  */
+   /* add tracks to the list */
    void addItems( const QStringList &items, bool atStart = false );
-   /*  */
+   /* add tracks to the list */
    void addItems( const TrackInfoList &trackInfoList, bool atStart = false );
 
 protected:

@@ -29,13 +29,13 @@ public:
                     QWidget *parent = 0 );
 
 public slots:
-   /*  */
+   /* handle the "Favorite" checkbox */
    void handleFavoriteButton();
-   /*  */
+   /* handle the "No Auto" checkbox */
    void handleUnwantedButton();
-   /*  */
+   /* update the track data */
    void getTrack( const TrackInfo &trackInfo );
-   /*  */
+   /* update the displayed track info */
    void update( bool reread = true );
 
 signals:

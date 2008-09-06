@@ -29,6 +29,8 @@ public:
    QString valueAt( int i ) const { return mValues.at(i); };
    /* set/add tag */
    void set( const QString &tag, const QString &value = QString() );
+   /* get a tag */
+   QString get( const QString &tag );
    /* generate filename according to tags */
    QString fileName( const QString &pattern, bool filterPath = true );
    /* normalize a string */

@@ -48,9 +48,9 @@ public slots:
    void handleCancel();
    /* enable save button */
    void handleChange();
-   /*  */
+   /* handle the flags menu */
    void handleFlagsMenu( QAction *action );
-   /*  */
+   /* handle the folders menu */
    void handleFoldersMenu( QAction *action );
 
 signals:
@@ -68,7 +68,7 @@ private:
    void saveFile();
    /* walk through the directory tree */
    void recurse( const QDir &dir, bool isBase = true );
-   /*  */
+   /* update the info of the track concerning flags and folders */
    void updateDatabaseInfo( bool withRecurse );
 
    Database    *mpDatabase;

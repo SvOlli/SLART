@@ -47,6 +47,19 @@ void TagList::set( const QString &tag, const QString &value )
 }
 
 
+QString TagList::get( const QString &tag )
+{
+   for( int i = 0; i < mTags.count(); i++ )
+   {
+      if( mTags.at(i) == tag.toUpper() )
+      {
+         return mValues.at(i);
+      }
+   }
+   return QString();
+}
+
+
 void TagList::clear()
 {
    mTags.clear();
@@ -160,6 +173,12 @@ QString TagList::normalizeString( const QString &string )
    {
       newString = newString.simplified();
    }
+#if 0
+   if( newString.startsWith( "The " ) && !newString.startsWith("The The ") )
+   {
+      newString = newString.mid(4);
+   }
+#endif
    
    return newString;
 }

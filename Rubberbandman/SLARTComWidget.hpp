@@ -41,7 +41,7 @@ public slots:
 signals:
    /* emit track path from show in filesystem button */
    void showInFilesystem( const QString &path );
-   /*  */
+   /* emit that partyman did an update on the config */
    void partymanConfigUpdate();
 
 private:

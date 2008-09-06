@@ -596,53 +596,38 @@ void InfoEdit::saveFile()
    QFileInfo qfi( qf );
    QString newname;
    bool tagsChanged = false;
-   int i;
    
-   for( i = 0; i < mTagList.count(); i++ )
+   if( mpEditArtist->text() != mTagList.get("ARTIST") )
    {
-      if( (mTagList.tagAt(i) == "ARTIST") && 
-          (mTagList.valueAt(i) != mpEditArtist->text()) )
-      {
-         mTagList.set( "ARTIST", mpEditArtist->text() );
-         tagsChanged = true;
-      }
-      
-      if( (mTagList.tagAt(i) == "TITLE") && 
-          (mTagList.valueAt(i) != mpEditTitle->text()) )
-      {
-         mTagList.set( "TITLE", mpEditTitle->text() );
-         tagsChanged = true;
-      }
-      
-      if( (mTagList.tagAt(i) == "ALBUM") && 
-          (mTagList.valueAt(i) != mpEditAlbum->text()) )
-      {
-         mTagList.set( "ALBUM", mpEditAlbum->text() );
-         tagsChanged = true;
-      }
-      
-      if( (mTagList.tagAt(i) == "TRACKNUMBER") && 
-          (mTagList.valueAt(i) != mpEditTrackNr->text()) )
-      {
-         mTagList.set( "TRACKNUMBER", mpEditTrackNr->text() );
-         tagsChanged = true;
-      }
-      
-      if( (mTagList.tagAt(i) == "DATE") && 
-          (mTagList.valueAt(i) != mpEditYear->text()) )
-      {
-         mTagList.set( "DATE", mpEditYear->text() );
-         tagsChanged = true;
-      }
-      
-      if( (mTagList.tagAt(i) == "GENRE") && 
-          (mTagList.valueAt(i) != mpEditGenre->text()) )
-      {
-         mTagList.set( "GENRE", mpEditGenre->text() );
-         tagsChanged = true;
-      }
+      mTagList.set( "ARTIST", mpEditArtist->text() );
+      tagsChanged = true;
    }
-
+   if( mpEditTitle->text() != mTagList.get("TITLE") )
+   {
+      mTagList.set( "TITLE", mpEditTitle->text() );
+      tagsChanged = true;
+   }
+   if( mpEditAlbum->text() != mTagList.get("ALBUM") )
+   {
+      mTagList.set( "ALBUM", mpEditAlbum->text() );
+      tagsChanged = true;
+   }
+   if( mpEditTrackNr->text() != mTagList.get("TRACKNUMBER") )
+   {
+      mTagList.set( "TRACKNUMBER", mpEditTrackNr->text() );
+      tagsChanged = true;
+   }
+   if( mpEditYear->text() != mTagList.get("DATE") )
+   {
+      mTagList.set( "DATE", mpEditYear->text() );
+      tagsChanged = true;
+   }
+   if( mpEditGenre->text() != mTagList.get("GENRE") )
+   {
+      mTagList.set( "GENRE", mpEditGenre->text() );
+      tagsChanged = true;
+   }
+   
    if( mpEditTrackNr->text().isEmpty() )
    {
       newname = mTagList.fileName( MySettings().value("WithoutTrackNr", "|$ARTIST| - |$TITLE|").toString() );
@@ -774,24 +759,24 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
       if( withRecurse )
       {
          mRecurseSetFlags    = true;
-         mpRecurseSetFlags   = mpMenuFlags->addAction( QString( tr("Set Selected Flags") ) );
+         mpRecurseSetFlags   = mpMenuFlags->addAction( tr("Set Selected Flags") );
          mpRecurseSetFlags->setCheckable( true );
          mpRecurseSetFlags->setChecked( mRecurseSetFlags );
          
          mRecurseUnsetFlags  = false;
-         mpRecurseUnsetFlags = mpMenuFlags->addAction( QString( tr("Unset Selected Flags") ) );
+         mpRecurseUnsetFlags = mpMenuFlags->addAction( tr("Unset Selected Flags") );
          mpRecurseUnsetFlags->setCheckable( true );
          mpRecurseUnsetFlags->setChecked( mRecurseUnsetFlags );
          
          mpMenuFlags->addSeparator();
          
          mRecurseSetFolders    = true;
-         mpRecurseSetFolders   = mpMenuFolders->addAction( QString( tr("Set Selected Folders") ) );
+         mpRecurseSetFolders   = mpMenuFolders->addAction( tr("Set Selected Folders") );
          mpRecurseSetFolders->setCheckable( true );
          mpRecurseSetFolders->setChecked( mRecurseSetFolders );
          
          mRecurseUnsetFolders  = false;
-         mpRecurseUnsetFolders = mpMenuFolders->addAction( QString( tr("Unset Selected Folders") ) );
+         mpRecurseUnsetFolders = mpMenuFolders->addAction( tr("Unset Selected Folders") );
          mpRecurseUnsetFolders->setCheckable( true );
          mpRecurseUnsetFolders->setChecked( mRecurseUnsetFolders );
          
@@ -831,7 +816,7 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
    {
       mpButtonFlags->setDisabled( true );
       mpButtonFolders->setDisabled( true );
-      mpShowTimesPlayed->setText( QString( tr("Not In Database") ) );
+      mpShowTimesPlayed->setText( tr("Not In Database") );
    }
    
    mpFavoriteTrackFlag = mpMenuFlags->addAction( tr("Favorite Track") );

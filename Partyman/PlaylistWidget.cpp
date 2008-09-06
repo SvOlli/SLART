@@ -387,7 +387,7 @@ void PlaylistWidget::startBrowserUpdate()
    {
       mpTreeUpdate->start();
       mpTreeUpdate->setPriority( QThread::LowestPriority );
-      mpTabs->setTabText( 0, QString( tr("*Wait*") ) );
+      mpTabs->setTabText( 0, tr("*Wait*") );
    }
    emit playlistIsValid( retval > 0 );
 }
@@ -402,7 +402,7 @@ void PlaylistWidget::finishBrowserUpdate()
    mpTreeModel = mpNextTreeModel;
    
    mpTreeView->setRootIndex( root );
-   mpTabs->setTabText( 0, QString( tr("Browse") ) );
+   mpTabs->setTabText( 0, tr("Browse") );
    for(i = 0; ; i++)
    {
       qmi = mpTreeModel->index( i, 0, root );

@@ -43,7 +43,7 @@ public slots:
 private:
    DropDialog( const DropDialog &other );
    DropDialog &operator=( const DropDialog &other );
-   /*  */
+   /* handle the drop */
    void handleDropData();
 
    QComboBox       *mpMimeTypes;

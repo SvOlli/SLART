@@ -58,13 +58,13 @@ public slots:
    void handleTabChange( int tabNr );
    /* re-read config parameters */
    void readConfig();
-   /*  */
+   /* pass the track info through to track info */
    void getTrack( const TrackInfo &trackInfo );
-   /*  */
+   /* start the background update of the browser */
    void startBrowserUpdate();
-   /*  */
+   /* finish up the browser background update */
    void finishBrowserUpdate();
-   /*  */
+   /* pass the update through to track info */
    void updateTrackInfo();
    
 signals:

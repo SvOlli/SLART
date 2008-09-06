@@ -1,46 +1,60 @@
 
+*** version 0.7 release ***
 extra:
-- make install
 
 Common:
-- define "unset" value for TrackInfo for TrackNr/Year (use -1 ?)
 
 Partyman:
-- sophisticated random function
-- check all error handling
-- set path to Partyman as first for clients
 
 Rubberbandman:
-- copy playtime to database from tags if empty
 - "add folder"/"remove folder"
 - disable Folders buttons, when no folders exist in database
-- disable Normalize Buttons, when no file or dir is selected
 - context menu for browser
   - implement move
 - improve Database Tab
+- search in "Partyman"-Tab
+  - rename "Partyman"-Tab
+
+Funkytown:
 
 Sorcerer:
-- create real spiffy texts
 
 Karmadrome:
-- extract folders to m3u
-- import folders from m3u
-- confirmation dialog on remove folder
-- remove folder indication from entries
+
+Innuendo:
+- reorder application start buttons
+
+Stripped:
+
+all:
+- alpha sort classes in *.hpp
+
+*** post 0.7 ***
+extra:
+- debian build
+
+Footloose(?):
+- new application
+- handle VirtualDJ.xml
+- handle iTunes.xml
+- handle freedb
+
+Covers:
+- store cover graphics in separate table
+  - key: md5sum, add column to slart_tracks
 
 Funkytown:
 - improve url detecting
 
-Innuendo:
-
 Stripped:
-- break reading on first error of last track in first session of CD-Extra
+- change freedb-handling to libcddb
 - auto read-toc
 - encode in mp3
 - encode in flac
 - request on overwrite
 
-all:
-- alpha sort classes in *.hpp
-- remove QString( tr("...") )
+Partyman:
+- check all error handling
+- set path to Partyman as first for clients
+  (better alternative: make DerMixD monolithic / use Phonon)
 

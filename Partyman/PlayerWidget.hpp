@@ -104,7 +104,7 @@ private:
    void watch( bool turnWatchOn );
    /* adjust volume for normalization */
    void handleScan( const QString &data );
-   /*  */
+   /* set the volume according to peak or power */
    bool setVolume();
 
    int           mPlayer;

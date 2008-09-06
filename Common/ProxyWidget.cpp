@@ -150,12 +150,12 @@ void ProxyWidget::setProxy( QHttp *http )
    settings.beginGroup( "HTTPProxy" );
    if( settings.value("Enable", false).toBool() )
    {
-      host = settings.value("Host", QString( tr("proxy") )).toString();
+      host = settings.value("Host", QString("proxy") ).toString();
       port = settings.value("Port", 8080).toInt();
       if( settings.value("Auth", false).toBool() )
       {
-         login    = settings.value("Login",    QString( tr("login") )).toString();
-         password = settings.value("Password", QString( tr("password") )).toString();
+         login    = settings.value("Login",    QString("login") ).toString();
+         password = settings.value("Password", QString("password") ).toString();
       }
    }
    http->setProxy( host, port, login, password );
@@ -168,11 +168,11 @@ void ProxyWidget::readSettings()
 
    settings.beginGroup( "HTTPProxy" );
    mpProxyOnButton->setChecked(   settings.value("Enable",   false).toBool() );
-   mpProxyHostInput->setText(     settings.value("Host",     QString( tr("proxy") )).toString() );
+   mpProxyHostInput->setText(     settings.value("Host",     QString("proxy") ).toString() );
    mpProxyPortInput->setValue(    settings.value("Port",     8080).toInt() );
    mpProxyAuthButton->setChecked( settings.value("Auth",     false).toBool() );
-   mpProxyLoginInput->setText(    settings.value("Login",    QString( tr("login") )).toString() );
-   mpProxyPasswordInput->setText( settings.value("Password", QString( tr("password") )).toString() );
+   mpProxyLoginInput->setText(    settings.value("Login",    QString("login") ).toString() );
+   mpProxyPasswordInput->setText( settings.value("Password", QString("password") ).toString() );
    
    updateWidgets();
 }
