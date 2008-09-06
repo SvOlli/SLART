@@ -17,6 +17,7 @@ class QComboBox;
 class QDoubleSpinBox;
 class MyClipboard;
 class GlobalConfigWidget;
+class Database;
 
 
 class ConfigDialog : public QDialog
@@ -24,7 +25,7 @@ class ConfigDialog : public QDialog
 Q_OBJECT
 
 public:
-   ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   ConfigDialog( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
    /* execute the dialog */
@@ -47,6 +48,7 @@ private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
 
+   Database             *mpDatabase;
    QLabel               *mpDerMixDhostLabel;
    QLineEdit            *mpDerMixDhost;
    QLabel               *mpDerMixDportLabel;
@@ -66,6 +68,10 @@ private:
    MyClipboard          *mpClipboard;
    QLineEdit            *mpLogCmd;
    QCheckBox            *mpCountSkip;
+   QCheckBox            *mpPlayOnlyFavorite;
+   QCheckBox            *mpPlayOnlyLeastPlayed;
+   QComboBox            *mpPlayFolder;
+   QSpinBox             *mpPlayNotAgainCount;
    QLineEdit            *mpNamePattern;
    QLineEdit            *mpPlayerPattern;
    QLineEdit            *mpListPattern;

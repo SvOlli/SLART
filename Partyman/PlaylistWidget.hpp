@@ -80,6 +80,10 @@ private:
    /* add entries to a stringlist */
    void addEntries( QStringList *list, const QModelIndex &qmi );
    
+   /* get a random track from database */
+   bool getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
+                        bool favoriteOnly, bool leastPlayed, const QString &playFolder );
+
    Database              *mpDatabase;
    ConfigDialog          *mpConfig;
    QTabWidget            *mpTabs;

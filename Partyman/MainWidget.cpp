@@ -34,7 +34,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mAllowAutostart( false )
 , mpParent( parent )
 , mpDatabase( new Database() )
-, mpConfig( new ConfigDialog( this ) )
+, mpConfig( new ConfigDialog( mpDatabase, this ) )
 , mpPlaylist( new PlaylistWidget( mpDatabase, mpConfig, this ) )
 , mpControl( new ControlWidget( mpDatabase, mpConfig, mpPlaylist, this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
@@ -121,6 +121,7 @@ MainWidget::~MainWidget()
    delete mpDatabase;
    mpDatabase = 0;
 }
+
 
 void MainWidget::changeTitle( const QIcon &icon, const QString &title )
 {

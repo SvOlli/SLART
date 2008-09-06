@@ -456,7 +456,7 @@ void Database::deleteFolder( const QString &folder )
 
 
 bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite,
-                               bool unplayed, const QString &folder )
+                               bool leastplayed, const QString &folder )
 {
    QString sql( "SELECT id FROM slart_tracks WHERE Flags & " );
 
@@ -470,20 +470,20 @@ bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite,
       sql.append( " = 0" );
    }
    
-   if( unplayed )
+   if( leastplayed )
    {
-      sql.append( " AND TimesPlayed = 0" );
+      sql.append( " AND TimesPlayed = (SELECT MIN(TimesPlayed) FROM slart_tracks)" );
    }
    
    if( !folder.isEmpty() )
    {
-      sql.append( " AND Folders LIKE = '%|" );
+      sql.append( " AND Folders LIKE '%|" );
       sql.append( folder );
       sql.append( "|%'" );
    }
    
    sql.append( ";" );
-
+   
    mpQuery->prepare( sql );
    if( !mpQuery->exec() )
    {

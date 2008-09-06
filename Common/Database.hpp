@@ -41,7 +41,7 @@ public:
    int getTrackInfoList( TrackInfoList *trackInfoList, const QString &search = QString() );
    /* get a random track */
    bool getRandomTrack( TrackInfo *trackInfo, bool favorite,
-                        bool unplayed, const QString &folder = QString() );
+                        bool leastplayed, const QString &folder = QString() );
    
    /* get a list of all available folders */
    QStringList getFolders();

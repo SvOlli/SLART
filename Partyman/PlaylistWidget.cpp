@@ -209,12 +209,54 @@ void PlaylistWidget::getNextTrack( QString *fileName )
    }
    else
    {
-      TrackInfo trackInfo;
-      if( mpDatabase->getRandomTrack( &trackInfo, false, false ) )
+      MySettings settings;
+      
+      int randomTries = settings.value("RandomTries", 10).toInt();
+      QStringList playedArtists( settings.value("PlayedArtists").toStringList() );
+      bool favoriteOnly = settings.value("PlayOnlyFavorite", false).toBool();
+      bool leastPlayed = settings.value("PlayOnlyLeastPlayed", false).toBool();
+      int notAgainCount = settings.value("PlayNotAgainCount", 0).toInt();
+      QString playFolder( settings.value("PlayFolder").toString() );
+      
+      if( !getRandomTrack( fileName, &playedArtists, randomTries, favoriteOnly, leastPlayed, playFolder ) )
+      {
+         if( !getRandomTrack( fileName, &playedArtists, randomTries, favoriteOnly, false, playFolder ) )
+         {
+            if( !getRandomTrack( fileName, &playedArtists, randomTries, false, false, playFolder ) )
+            {
+               getRandomTrack( fileName, &playedArtists, randomTries, false, false, QString() );
+            }
+         }
+      }
+      while( playedArtists.count() > notAgainCount )
+      {
+         playedArtists.takeLast();
+      }
+      settings.setValue( "PlayedArtists", playedArtists );
+   }
+}
+
+
+bool PlaylistWidget::getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
+                                     bool favoriteOnly, bool leastPlayed, const QString &playFolder )
+{
+   TrackInfo trackInfo;
+   
+   for( int i = 0; i < randomTries; i++ )
+   {
+      if( mpDatabase->getRandomTrack( &trackInfo, favoriteOnly, leastPlayed, playFolder ) )
       {
          *fileName = trackInfo.filePath();
+         
+         if( !playedArtists->contains( trackInfo.mArtist ) )
+         {
+            playedArtists->prepend( trackInfo.mArtist );
+            
+            return true;
+         }
       }
    }
+   return false;
 }
 
 

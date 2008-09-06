@@ -6,6 +6,7 @@
  */
 
 #include "ConfigDialog.hpp"
+#include "Database.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "MySettings.hpp"
 #include "AboutWidget.hpp"
@@ -14,8 +15,9 @@
 #include <QtGui>
 
 
-ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
+ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
+, mpDatabase( database )
 , mpDerMixDhostLabel( new QLabel( tr("Hostname:") ) )
 , mpDerMixDhost( new QLineEdit( this ) )
 , mpDerMixDportLabel( new QLabel( tr("Port:") ) )
@@ -34,6 +36,10 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
 , mpCountSkip( new QCheckBox( tr("Increase track played counter on skip"), this ) )
+, mpPlayOnlyFavorite( new QCheckBox( tr("Play favorite tracks only"), this ) )
+, mpPlayOnlyLeastPlayed( new QCheckBox( tr("Play least played tracks only"), this ) )
+, mpPlayFolder( new QComboBox( this ) )
+, mpPlayNotAgainCount( new QSpinBox( this ) )
 , mpNamePattern( new QLineEdit( this ) )
 , mpPlayerPattern( new QLineEdit( this ) )
 , mpListPattern( new QLineEdit( this ) )
@@ -62,6 +68,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    mpUDPListenerPort->setRange( 1, 65535 );
    mpDerMixDport->setRange( 1, 65535 );
    mpCrossfadeTime->setRange( 1, 30 );
+   mpPlayNotAgainCount->setRange( 0, 999 );
    
    QWidget     *dermixdTab    = new QWidget( this );
    QGridLayout *dermixdLayout = new QGridLayout( dermixdTab );
@@ -94,6 +101,17 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    partymanLayout->setColumnStretch( 1, 1 );
    partymanLayout->setRowStretch( 6, 1 );
    partymanTab->setLayout( partymanLayout );
+   
+   QWidget     *randomTab    = new QWidget( this );
+   QGridLayout *randomLayout = new QGridLayout( randomTab );
+   randomLayout->addWidget( mpPlayOnlyFavorite, 0, 0, 1, 3 );
+   randomLayout->addWidget( mpPlayOnlyLeastPlayed, 1, 0, 1, 3 );
+   randomLayout->addWidget( new QLabel( tr("Play Folder:") ), 2, 0 );
+   randomLayout->addWidget( mpPlayFolder, 2, 1, 1, 2 );
+   randomLayout->addWidget( new QLabel( tr("Number of tracks an artist is not played again:") ), 3, 0, 1, 2 );
+   randomLayout->addWidget( mpPlayNotAgainCount, 3, 2 );
+   randomLayout->setRowStretch( 6, 1 );
+   randomTab->setLayout( randomLayout );
    
    QWidget     *patternTab    = new QWidget( this );
    QGridLayout *patternLayout = new QGridLayout( patternTab );
@@ -129,6 +147,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    QTabWidget *tabs = new QTabWidget( this );
    tabs->addTab( dermixdTab,       QString(tr("DerMixD")) );
    tabs->addTab( partymanTab,      QString(tr("Partyman")) );
+   tabs->addTab( randomTab,        QString(tr("Random")) );
    tabs->addTab( patternTab,       QString(tr("Pattern")) );
    tabs->addTab( mpGlobalSettings, QString(tr("Global")) );
    
@@ -162,6 +181,10 @@ void ConfigDialog::readSettings()
 {
    MySettings settings;
    
+   mpPlayFolder->clear();
+   mpPlayFolder->addItem( tr("| All |") );
+   mpPlayFolder->addItems( mpDatabase->getFolders() );
+   
    mpDerMixDhost->setText( settings.value("DerMixDhost", "localhost").toString() );
    mpDerMixDport->setValue( settings.value("DerMixDport", 8888).toInt() );
    mpDerMixDlog->setChecked( settings.value("DerMixDlog", false).toBool() );
@@ -176,12 +199,25 @@ void ConfigDialog::readSettings()
    mpNormalizeValue->setValue( settings.value("NormalizeValue", 0.4).toDouble() );
    mpLogCmd->setText( settings.value("LogCmd", "").toString() );
    mpCountSkip->setChecked( settings.value("CountSkip", false).toBool() );
+   mpPlayOnlyFavorite->setChecked( settings.value("PlayOnlyFavorite", false).toBool() );
+   mpPlayOnlyLeastPlayed->setChecked( settings.value("PlayOnlyLeastPlayed", false).toBool() );
+   mpPlayNotAgainCount->setValue(settings.value("PlayNotAgainCount", 24222).toInt() );
    mpPlayerPattern->setText( settings.value("PlayerPattern", "|$ARTIST| - |$TITLE|").toString() );
    mpListPattern->setText( settings.value("ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|").toString() );
    mpNamePattern->setText( settings.value("NamePattern", QApplication::applicationName()+": |$TITLE|").toString() );
    handleUDPListen( mpSLARTCommunication->isChecked() );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    mpGlobalSettings->readSettings();
+   
+   QString playFolder( settings.value("PlayFolder").toString() );
+   if( !playFolder.isEmpty() )
+   {
+      int i = mpPlayFolder->findText( playFolder );
+      if( i > 0 )
+      {
+         mpPlayFolder->setCurrentIndex( i );
+      }
+   }
    
    emit configChanged();
 }
@@ -205,9 +241,20 @@ void ConfigDialog::writeSettings()
    settings.setValue( "NormalizeValue", mpNormalizeValue->value() );
    settings.setValue( "LogCmd", mpLogCmd->text() );
    settings.setValue( "CountSkip", mpCountSkip->isChecked() );
+   settings.setValue( "PlayOnlyFavorite", mpPlayOnlyFavorite->isChecked() );
+   settings.setValue( "PlayOnlyLeastPlayed", mpPlayOnlyLeastPlayed->isChecked() );
+   settings.setValue( "PlayNotAgainCount", mpPlayNotAgainCount->value() );
    settings.setValue( "PlayerPattern", mpPlayerPattern->text() );
    settings.setValue( "ListPattern", mpListPattern->text() );
    settings.setValue( "NamePattern", mpNamePattern->text() );
+   if( mpPlayFolder->currentIndex() )
+   {
+      settings.setValue( "PlayFolder", mpPlayFolder->currentText() );
+   }
+   else
+   {
+      settings.remove( "PlayFolder" );
+   }
    mpGlobalSettings->writeSettings();
    settings.sync();
    settings.sendNotification( "p0c" );
