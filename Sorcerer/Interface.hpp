@@ -17,9 +17,7 @@ public:
    virtual int run( QApplication *app ) = 0;
 };
 
-QT_BEGIN_NAMESPACE
 Q_DECLARE_INTERFACE(SorcererInterface,
                     "org.svolli.SLART.SorcererInterface/1.0")
-QT_END_NAMESPACE
 
 #endif
