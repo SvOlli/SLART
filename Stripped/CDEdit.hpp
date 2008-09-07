@@ -10,23 +10,25 @@
 
 #include <QWidget>
 
-class QScrollArea;
-class QGridLayout;
 class QCheckBox;
+class QComboBox;
+class QGridLayout;
 class QLabel;
 class QLineEdit;
 class QPushButton;
-class QComboBox;
+class QScrollArea;
+
 class CDToc;
 class CDDB;
+
 
 class CDEdit : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
+   
    /* get the track info by tracknr */
    void trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *artist, QString *title,
                    QString *albumartist, QString *albumtitle, QString *genre, int *year );
@@ -35,11 +37,11 @@ public:
    /* clear the sheet */
    void clear();
    bool isEmpty();
-
+   
 signals:
    /* signalize if the TOC contains data */
    void containsData( bool flag );
-
+   
 public slots:
    /* handle toggle all tracks button */
    void handleTrackNr();
@@ -63,11 +65,11 @@ public slots:
    void splitTitles();
    /* ensure that a certain track is visible on sheet */
    void ensureVisible( int tracknr );
-
+   
 private:
    CDEdit( const CDEdit &other );
    CDEdit &operator=( const CDEdit &other );
-
+   
    CDToc        *mpToc;
    CDDB         *mpCDDB;
    QScrollArea  *mpScrollArea;

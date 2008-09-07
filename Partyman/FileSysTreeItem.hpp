@@ -17,7 +17,7 @@ class FileSysTreeItem
 public:
    FileSysTreeItem( const QVariant &data, FileSysTreeItem *parent = 0 );
    virtual ~FileSysTreeItem();
-
+   
    /* return child item by row number */
    FileSysTreeItem *child( int row );
    /* return child item by path and create one if none exists */
@@ -30,11 +30,11 @@ public:
    int row() const;
    /* return parent */
    FileSysTreeItem *parent();
-
+   
 private:
    FileSysTreeItem( const FileSysTreeItem &other );
    FileSysTreeItem &operator=( const FileSysTreeItem &other );
-
+   
    FileSysTreeItem         *mpParentItem;
    QVariant                mItemData;
    QList<FileSysTreeItem*> mChildItems;

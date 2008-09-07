@@ -9,7 +9,9 @@
 #define RAWRawEncoder_HPP RAWRawEncoder_HPP
 
 #include "Encoder.hpp"
+
 #include <QWidget>
+
 
 class RawEncoder : public Encoder
 {
@@ -18,7 +20,7 @@ Q_OBJECT
 public:
    RawEncoder( QWidget *parent = 0 );
    virtual ~RawEncoder();
-
+   
    /* initialize the encoder */
    void initialize( const QString &fileName );
    /* finalize (clean up) the encoder */
@@ -27,7 +29,7 @@ public:
    void setTags( const TagList &tagList );
    /* encode raw cd audio data */
    bool encodeCDAudio( const char* data, int size );
-
+   
 private:
    RawEncoder( const RawEncoder &other );
    RawEncoder &operator=( const RawEncoder &other );

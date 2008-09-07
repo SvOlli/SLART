@@ -9,26 +9,28 @@
 #define PLAYERWIDGET_HPP PLAYERWIDGET_HPP
 
 #include <QWidget>
+
 #include <QMutex>
 #include <QString>
 
+#include "PlayerFSM.hpp"
+#include "TrackInfo.hpp"
 
-class QTcpSocket;
-class QLineEdit;
 class QLabel;
+class QLineEdit;
 class QScrollArea;
 class QSlider;
+class QTcpSocket;
+
 class ControlWidget;
 class ScrollLine;
 class Database;
-#include "PlayerFSM.hpp"
-#include "TrackInfo.hpp"
 
 
 class PlayerWidget : public QWidget
 {
 Q_OBJECT
-
+   
    friend class PlayerFSMDisconnected;
    friend class PlayerFSMSearching;
    friend class PlayerFSMLoading;
@@ -43,7 +45,7 @@ public:
    PlayerWidget( int index, Database *database, 
                  ControlWidget *controlWidget, Qt::WindowFlags flags = 0 );
    virtual ~PlayerWidget();
-
+   
    /* get a new track from playlist */
    void getNextTrack( bool armed = true );
    /* get name of the currently loaded track */
@@ -70,7 +72,7 @@ public:
    void disablePlayPosition( bool disable );
    /* (re-)read configuration */
    void readConfig();
-
+   
 public slots:
    /* lock seek slider from getting status updates */
    void lock();
@@ -88,10 +90,10 @@ public slots:
    void handleResponse();
    /* handle DerMixD connection errors */
    void handleError( QAbstractSocket::SocketError socketError );
-
+   
 signals:
    void trackPlaying( const TrackInfo &trackInfo );
-
+   
 private:
    enum eDerMixD { inNormal, inFullstat, inScan };
    
@@ -106,7 +108,7 @@ private:
    void handleScan( const QString &data );
    /* set the volume according to peak or power */
    bool setVolume();
-
+   
    int           mPlayer;
    Database      *mpDatabase;
    ControlWidget *mpControlWidget;

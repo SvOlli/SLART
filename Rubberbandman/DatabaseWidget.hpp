@@ -9,18 +9,22 @@
 #define DATABASEWIDGET_HPP DATABASEWIDGET_HPP
 
 #include <QWidget>
+
 #include <QHostInfo>
+
 #include "TrackInfo.hpp"
 
-class QPushButton;
-class QLabel;
-class QString;
-class QSqlTableModel;
 class QFileInfo;
+class QLabel;
+class QLineEdit;
+class QPushButton;
+class QSqlTableModel;
+class QString;
 class QTableView;
+
 class Database;
 class DatabaseWorker;
-class QLineEdit;
+
 
 class DatabaseWidget : public QWidget
 {

@@ -10,6 +10,7 @@
 
 #include <QString>
 
+
 class TrackInfo
 {
 public:
@@ -81,10 +82,10 @@ public:
    QString toString() const;
    /* format to a string by patterns */
    QString displayString( const QString &pattern ) const;
-
+   
    /* convert seconds to a 0:00 timecode */
    static QString sec2minsec( int seconds );
-
+   
 private:
    /* subroutine for displayString */
    QString valueByKey( const QString &key ) const;

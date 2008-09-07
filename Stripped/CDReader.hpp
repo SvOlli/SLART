@@ -8,12 +8,14 @@
 #ifndef CDREADER_HPP
 #define CDREADER_HPP CDREADER_HPP
 
-#include <QWidget>
-#include <QString>
 extern "C" {
 #include <cdio/cdio.h>
 #include <cdio/paranoia.h>
 }
+
+#include <QWidget>
+
+#include <QString>
 
 class QProgressBar;
    
@@ -27,17 +29,17 @@ class QCheckBox;
 class CDReader : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    CDReader( CDToc *toc, CDEdit *edit, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
+   
    /* callback for paranoia */
    void callback( long inpos, ::paranoia_cb_mode_t function );
    /* set the encoder to use */
    void setEncoder( Encoder *encoder );
    /* insert available devices into given combobox */
    void getDevices( QComboBox *comboBox );
-
+   
 public slots:
    /* read the toc and get titles via CDDB */
    void readTocCDDB();
@@ -51,18 +53,18 @@ public slots:
    void eject();
    /* handle cancel button */
    void cancel();
-
+   
 signals:
    void starting();
    void stopping();
-
+   
 private:
    CDReader( const CDReader &other );
    CDReader &operator=( const CDReader &other );
    
    /* read the toc */
    void readToc();
-
+   
    ::CdIo_t             *mpCdIo;
    ::cdrom_drive_t      *mpDrive;
    ::cdrom_paranoia_t   *mpParanoia;

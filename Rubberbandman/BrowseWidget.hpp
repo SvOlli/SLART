@@ -9,29 +9,32 @@
 #define BROWSEWIDGET_HPP BROWSEWIDGET_HPP
 
 #include <QWidget>
+
 #include <QDir>
 
-class QString;
+class Database;
 class FileSysBrowser;
 class InfoEdit;
+
 class QPushButton;
-class Database;
+class QString;
+
 
 class BrowseWidget : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    BrowseWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
+   
 public slots:
    /* show a specific file in filesystem tree */
    void scrollTo( const QString &fileName );
-
+   
 private:
    BrowseWidget( const BrowseWidget &other );
    BrowseWidget &operator=( const BrowseWidget &other );
-
+   
    FileSysBrowser *mpFileSysBrowser;
    InfoEdit       *mpInfoEdit;
 };

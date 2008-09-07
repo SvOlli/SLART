@@ -9,25 +9,28 @@
 #define CONFIGDIALOG_HPP CONFIGDIALOG_HPP
 
 #include <QDialog>
+
 #include "TagList.hpp"
-class QSpinBox;
-class QLabel;
-class QLineEdit;
+
 class QCheckBox;
 class QComboBox;
 class QDoubleSpinBox;
-class ProxyWidget;
+class QLabel;
+class QLineEdit;
+class QSpinBox;
+
 class ConfigNotifyWidget;
 class GlobalConfigWidget;
+class ProxyWidget;
 
 
 class ConfigDialog : public QDialog
 {
 Q_OBJECT
-
+   
 public:
    ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
+   
 public slots:
    /* show dialog */
    void exec();
@@ -41,14 +44,14 @@ public slots:
    void updateWithoutTrackNr( const QString &text );
    /* update example */
    void updatePlayingPattern( const QString &text );
-
+   
 signals:
    void configChanged();
-
+   
 private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
-
+   
    GlobalConfigWidget   *mpGlobalConfigWidget;
    QCheckBox            *mpAutoRescan;
    QLabel               *mpWithTrackNrLabel;

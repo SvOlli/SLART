@@ -8,15 +8,14 @@
 #ifndef PROXYWIDGET_HPP
 #define PROXYWIDGET_HPP PROXYWIDGET_HPP
 
-#include <QGroupBox>
+#include <QWidget>
 
-class QGridLayout;
-class QLabel;
-class QPushButton;
-class QLineEdit;
-class QListWidget;
-class QSpinBox;
 class QHttp;
+class QLabel;
+class QLineEdit;
+class QPushButton;
+class QSpinBox;
+
 
 class ProxyWidget : public QWidget
 {
@@ -24,18 +23,18 @@ Q_OBJECT
    
 public:
    ProxyWidget( QWidget *parent = 0 );
-
+   
    /* set proxy in QHttp class */
    static void setProxy( QHttp *http );
    /* read settings from storage */
    void readSettings();
    /* write settings from storage */
    void writeSettings();
-
+   
 public slots:
    /* enable/disable widget according to settings */
    void updateWidgets( bool disabled = false );
-
+   
 private:
    QLabel       *mpProxyOnLabel;
    QLabel       *mpProxyHostLabel;

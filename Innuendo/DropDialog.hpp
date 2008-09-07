@@ -9,18 +9,21 @@
 #define DROPDIALOG_HPP DROPDIALOG_HPP
 
 #include <QDialog>
+
 #include <QStringList>
-class QSpinBox;
-class QLabel;
-class QLineEdit;
+
 class QCheckBox;
 class QComboBox;
-class QTextBrowser;
-class QSignalMapper;
+class QLabel;
+class QLineEdit;
 class QMimeData;
-class ProxyWidget;
+class QSignalMapper;
+class QSpinBox;
+class QTextBrowser;
+
 class ConfigNotifyWidget;
 class GlobalConfigWidget;
+class ProxyWidget;
 
 
 class DropDialog : public QDialog

@@ -9,22 +9,25 @@
 #define MAINWIDGET_HPP MAINWIDGET_HPP
 
 #include <QWidget>
-#include <QUdpSocket>
+
 #include <QStringList>
+#include <QUdpSocket>
 
 #include "SLARTCom.hpp"
 
-class QListWidget;
-class QLabel;
-class QSpinBox;
-class QIcon;
-class QString;
-class QPushButton;
-class QListWidgetItem;
-class DropDialog;
-class ConfigDialog;
 class QKeyEvent;
+class QLabel;
+class QListWidget;
+class QListWidgetItem;
+class QIcon;
+class QPushButton;
+class QSpinBox;
+class QString;
+   
+class ConfigDialog;
+class DropDialog;
 class ExecButton;
+
 
 class MainWidget : public QWidget
 {

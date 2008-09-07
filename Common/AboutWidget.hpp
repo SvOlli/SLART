@@ -9,7 +9,9 @@
 #define ABOUTWIDGET_HPP ABOUTWIDGET_HPP
 
 #include <QWidget>
+
 class QUrl;
+
 
 class AboutWidget : public QWidget
 {
@@ -23,8 +25,6 @@ public slots:
    void handleLink( const QUrl &url );
    /* handle links from about tab */
    void handleLink( const QString &url );
-
-signals:
 
 private:
    AboutWidget( const AboutWidget &other );

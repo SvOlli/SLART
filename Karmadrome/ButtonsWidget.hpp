@@ -9,34 +9,34 @@
 #define BUTTONSWIDGET_HPP BUTTONSWIDGET_HPP
 
 #include <QGroupBox>
+
 #include <QList>
 
 class QGridLayout;
 class QPushButton;
 class QSignalMapper;
 
+
 class ButtonsWidget : public QGroupBox
 {
 Q_OBJECT
-
+   
 public:
    ButtonsWidget( QWidget *parent = 0 );
    ButtonsWidget( const QString &title, QWidget *parent = 0 );
-
+   
    /* update the button list: replace all existing buttons */
    void updateButtons( const QStringList &list );
    /* set buttons checked state */
    void lockButtons( const QStringList &list );
-
-public slots:
-
+   
 signals:
    void clicked( QWidget *widget );
-
+   
 private:
    ButtonsWidget( const ButtonsWidget &other );
    ButtonsWidget &operator=( const ButtonsWidget &other );
-
+   
    QGridLayout          *mpMainLayout;
    QSignalMapper        *mpSignalMapper;
    QList<QPushButton*>  mButtonList;

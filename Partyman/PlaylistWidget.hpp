@@ -8,39 +8,39 @@
 #ifndef PLAYLISTWIDGET_HPP
 #define PLAYLISTWIDGET_HPP PLAYLISTWIDGET_HPP
 
+#include <QWidget>
+
+#include <QStringList>
+
 #include "FileSysTreeView.hpp"
 #include "FileSysTreeUpdate.hpp"
 
-#include <QWidget>
-#include <QStringList>
-
-
 class QLabel;
-class QTabWidget;
 class QSplitter;
+class QTabWidget;
 class QTextBrowser;
    
+class ConfigDialog;
+class Database;
 class FileSysTreeModel;
 class PlaylistContentWidget;
 class SearchWidget;
 class TrackInfo;
 class TrackInfoWidget;
-class ConfigDialog;
-class Database;
 
 
 class PlaylistWidget : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    PlaylistWidget( Database *database, ConfigDialog *config,
                    QWidget *parent = 0, Qt::WindowFlags f = 0 );
    virtual ~PlaylistWidget();
-
+   
    /* get name of next track either from playlist */
    void getNextTrack( QString *fileName );
-
+   
 protected:
    /* for drag & drop from external sources */
    void dragEnterEvent( QDragEnterEvent *event );
@@ -72,18 +72,18 @@ signals:
    void expand( const QModelIndex &qmi );
    /* tell if the current playlist is valid */
    void playlistIsValid( bool isValid );
-
+   
 private:
    PlaylistWidget( const PlaylistWidget &other );
    PlaylistWidget &operator=( const PlaylistWidget &other );
-
+   
    /* add entries to a stringlist */
    void addEntries( QStringList *list, const QModelIndex &qmi );
    
    /* get a random track from database */
    bool getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
                         bool favoriteOnly, bool leastPlayed, const QString &playFolder );
-
+   
    Database              *mpDatabase;
    ConfigDialog          *mpConfig;
    QTabWidget            *mpTabs;

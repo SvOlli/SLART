@@ -8,28 +8,37 @@
 #ifndef CONTROLWIDGET_HPP
 #define CONTROLWIDGET_HPP CONTROLWIDGET_HPP
 
+#include <QWidget>
+
+#include <QIcon>
+#include <QProcess>
+#include <QString>
+#include <QUdpSocket>
+
 #include "PlayerWidget.hpp"
 #include "SLARTCom.hpp"
 
-#include <QWidget>
-#include <QIcon>
-#include <QUdpSocket>
-#include <QProcess>
-#include <QString>
-class PlayerWidget;
-class ConfigDialog;
-class PlaylistWidget;
 class QPushButton;
 class QMenu;
 class QAction;
+   
+class ConfigDialog;
 class Database;
+class PlaylistWidget;
 class TrackInfo;
+
 
 class ControlWidget : public QWidget
 {
 Q_OBJECT
 public:
-   enum eErrorCode { noError, noConnection, connectionLost, wrongVersion };
+   enum eErrorCode
+   { 
+      noError, 
+      noConnection, 
+      connectionLost, 
+      wrongVersion
+   };
    
    ControlWidget( Database *database, ConfigDialog *config,
                   PlaylistWidget *playlist, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
@@ -49,7 +58,7 @@ public:
 private:
    /* save the current tracks for restart */
    void saveTracks();
-
+   
 public slots:
    /* (re-)read configuration */
    void readConfig();
@@ -75,7 +84,7 @@ public slots:
    void handleDerMixDerror( QProcess::ProcessError error );
    /* handle the info of the currently played track */
    void handleTrackPlaying( const TrackInfo &trackInfo );
-
+   
 signals:
    /* request a new icon and title */
    void requestChangeTitle( const QIcon &icon, const QString &title );
@@ -85,11 +94,11 @@ signals:
    void signalConnected( bool connected );
    /* signal to handle a "k0u" and "r0u" SLART message */
    void trackUpdate();
-
+   
 private:
    ControlWidget( const ControlWidget &other );
    ControlWidget &operator=( const ControlWidget &other );
-
+   
    ConfigDialog   *mpConfig;
    PlaylistWidget *mpPlaylist;
    QLabel         *mpLogo;

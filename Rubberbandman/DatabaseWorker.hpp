@@ -9,13 +9,17 @@
 #define DATABASEWORKER_HPP DATABASEWORKER_HPP
 
 #include <QThread>
+
 #include <QString>
+
 #include "TrackInfo.hpp"
 #include "DirWalker.hpp"
 
 class QFileInfo;
-class FileSysTreeModel;
+
 class Database;
+class FileSysTreeModel;
+
 
 class DatabaseWorker : public QThread
 {
@@ -34,7 +38,7 @@ public:
    bool initImport( const QString &fileName );
    /* run the job */
    void run();
-
+   
    /* callback for update */
    void updateFile( const QFileInfo &fileInfo );
    /* callback for update */
@@ -43,13 +47,13 @@ public:
 signals:
    /* emit progress */
    void progress( int checked, int processed );
-
+   
 private:
    /* read track info from a file */
    bool updateTrackInfoFromFile( const QString &fileName );
    /* subroutine for better reading of code */
    void importM3u();
-
+   
    enum { none, update, cleanup, import } mMode;
    Database         *mpDatabase;
    FileSysTreeModel *mpTreeModel;

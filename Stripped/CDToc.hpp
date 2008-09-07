@@ -10,11 +10,12 @@
 
 #include <QString>
 
+
 class CDToc
 {
 public:
    CDToc();
-
+   
    /* set the global disc data (also resets all other data) */
    void setDisc( int tracks, int startSector, int endSector );
    /* set the data for a track */
@@ -24,10 +25,6 @@ public:
    void calcCddbDiscID();
    /* return the cddb discid */
    QString cddbDiscID();
-#if 0
-   /* debug function: dump all data */
-   void dump();
-#endif
    /* return the first sector of a track or disc if no track is given */
    int firstSector( int track = -1 );
    /* return the last sector of a track or disc if no track is given */
@@ -42,14 +39,14 @@ public:
    int          mYear;
    QString      mGenre;
    QString      mTitle[100];
-
+   
 private:
    CDToc( const CDToc &other );
    CDToc &operator=( const CDToc &other );
-
+   
    /* subroutine for cddb discid calculation */
    int cddbSum( int i );
-
+   
    int          mNumTracks;
    int          mStartSectorDisc;
    int          mEndSectorDisc;

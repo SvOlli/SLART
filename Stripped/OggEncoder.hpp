@@ -8,21 +8,22 @@
 #ifndef RAWOggEncoder_HPP
 #define RAWOggEncoder_HPP RAWOggEncoder_HPP
 
-#include "Encoder.hpp"
-
 extern "C"
 {
 #include <vorbis/vorbisenc.h>
 }
 
+#include "Encoder.hpp"
+
+
 class OggEncoder : public Encoder
 {
 Q_OBJECT
-
+   
 public:
    OggEncoder( QWidget *parent = 0 );
    virtual ~OggEncoder();
-
+   
    /* initialize the encoder */
    void initialize( const QString &fileName );
    /* finalize (clean up) the encoder */
@@ -31,7 +32,7 @@ public:
    void setTags( const TagList &tagList );
    /* encode raw cd audio data */
    bool encodeCDAudio( const char* data, int size );
-
+   
 public slots:
    /* set the encoding quality */
    void setQuality( double quality );
@@ -39,10 +40,10 @@ public slots:
 private:
    OggEncoder( const OggEncoder &other );
    OggEncoder &operator=( const OggEncoder &other );
-
+   
    /* ogg initialize helper function call on first encode */
    bool oggInit();
-
+   
    ::ogg_stream_state   mOS;
    ::ogg_page           mOG;
    ::ogg_packet         mOP;

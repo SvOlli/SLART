@@ -9,24 +9,27 @@
 #define SLARTCOMWIDGET_HPP SLARTCOMWIDGET_HPP
 
 #include <QWidget>
+
 #include <QDir>
 
 #include "SLARTCom.hpp"
 #include "TrackInfo.hpp"
 
-class QString;
-class InfoEdit;
-class QPushButton;
 class QCheckBox;
+class QPushButton;
+class QString;
+
 class Database;
+class InfoEdit;
+
 
 class SLARTComWidget : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    SLARTComWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
+   
 public slots:
    /* handle SLART message to read tags of current track */
    void handleSLART( const QStringList &message );
@@ -37,17 +40,17 @@ public slots:
    void handleGetRandom();
    /* restart SLART receiver */
    void readConfig();
-
+   
 signals:
    /* emit track path from show in filesystem button */
    void showInFilesystem( const QString &path );
    /* emit that partyman did an update on the config */
    void partymanConfigUpdate();
-
+   
 private:
    SLARTComWidget( const SLARTComWidget &other );
    SLARTComWidget &operator=( const SLARTComWidget &other );
-
+   
    Database       *mpDatabase;
    InfoEdit       *mpInfoEdit;
    QPushButton    *mpNowPlaying;

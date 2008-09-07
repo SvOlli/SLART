@@ -6,16 +6,9 @@
  */
 
 #ifndef MAINWIDGET_HPP
-#define MAINWIDGET_HPP
+#define MAINWIDGET_HPP MAINWIDGET_HPP
 
 #include <QWidget>
-
-class DownloadHandler;
-class PostDownloadHandler;
-class PostDownloadHandlerHTML;
-class PostDownloadHandlerXML;
-class PostDownloadHandlerMP3;
-class PostDownloadHandlerFLV;
 
 class QDropEvent;
 class QFile;
@@ -26,15 +19,23 @@ class QLabel;
 class QLineEdit;
 class QListWidget;
 class QPushButton;
+
 class ConfigDialog;
+class DownloadHandler;
+class PostDownloadHandler;
+class PostDownloadHandlerFLV;
+class PostDownloadHandlerHTML;
+class PostDownloadHandlerMP3;
+class PostDownloadHandlerXML;
+
 
 class MainWidget : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    MainWidget( QWidget *parent = 0 );
-
+   
 public slots:
    /* open download dir requester */
    void setDownloadDir();
@@ -42,10 +43,10 @@ public slots:
    void downloadUserPage( const QString &name = QString() );
    /* handle if download is active */
    void downloadActive( bool downloadActive = false );
-
+   
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
-
+   
 protected:
    /* for implementing dropping */
    void dragEnterEvent( QDragEnterEvent *event );
@@ -55,7 +56,7 @@ protected:
 private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
-
+   
    QGridLayout             *mpLayout;
    QLabel                  *mpDirText;
    QPushButton             *mpDirButton;
@@ -64,7 +65,6 @@ private:
    QPushButton             *mpGoButton;
    QPushButton             *mpSetupButton;
    ConfigDialog            *mpConfigDialog;
-
 };
 
 #endif

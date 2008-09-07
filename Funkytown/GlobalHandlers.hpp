@@ -5,8 +5,8 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#ifndef _GLOBALHANDLERS_HPP_
-#define _GLOBALHANDLERS_HPP_ _GLOBALHANDLERS_HPP_
+#ifndef GLOBALHANDLERS_HPP
+#define GLOBALHANDLERS_HPP GLOBALHANDLERS_HPP
 
 class DownloadHandler;
 class PostDownloadHandler;

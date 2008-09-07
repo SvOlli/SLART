@@ -11,14 +11,11 @@
 #include <QStringList>
 
 
-class MainWidget;
-
 class TagList
 {
-
 public:
    TagList();
-
+   
    /* return number of tags */
    int count() const { return mTags.count(); };
    /* clear all tags */
@@ -41,7 +38,7 @@ public:
 private:
    TagList( const TagList &other );
    TagList &operator=( const TagList &other );
-
+   
    QStringList mTags;
    QStringList mValues;
 };

@@ -13,26 +13,27 @@
 #include "SLARTCom.hpp"
 #include "TrackInfoWidget.hpp"
 
-class QIcon;
-class QString;
-class QPushButton;
-class QMenu;
-class QLineEdit;
 class QAction;
+class QIcon;
+class QLineEdit;
+class QMenu;
+class QPushButton;
+class QString;
 class QTimer;
+
 class ButtonsWidget;
 class ConfigDialog;
-class ScrollLine;
 class Database;
+class ScrollLine;
 
 
 class MainWidget : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
+   
 public slots:
    /* add currently played track to the list */
    void addToList( QWidget *widget );
@@ -58,14 +59,14 @@ public slots:
    void exportM3u( const QString &folder, const QString &fileName );
    /* import a playlist from m3u file */
    void importM3u( const QString &folder, const QString &fileName );
-
+   
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
-
+   
 private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
-
+   
    Database        *mpDatabase;
    ScrollLine      *mpFileName;
    TrackInfoWidget *mpTrackInfo;
@@ -77,14 +78,14 @@ private:
    QPushButton     *mpImportButton;
    QMenu           *mpImportMenu;
    ButtonsWidget   *mpListButtons;
-
+   
    QPushButton     *mpSettingsButton;
    QPushButton     *mpAddButton;
    QPushButton     *mpRemoveButton;
    QMenu           *mpRemoveMenu;
    ConfigDialog    *mpConfigDialog;
    QTimer          *mpTimer;
-
+   
    SLARTCom        mSLARTCom;
    QStringList     mPlaylists;
    TrackInfo       mTrackInfo;

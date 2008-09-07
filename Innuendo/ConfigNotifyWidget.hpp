@@ -9,11 +9,14 @@
 #define CONFIGNOTIFYWIDGET_HPP CONFIGNOTIFYWIDGET_HPP
 
 #include <QWidget>
+
 #include <QStringList>
 
-class QSignalMapper;
-class QPushButton;
 class ConfigNotifyApplicationWidget;
+
+class QPushButton;
+class QSignalMapper;
+
 
 class ConfigNotifyWidget : public QWidget
 {
@@ -21,12 +24,12 @@ Q_OBJECT
    
 public:
    ConfigNotifyWidget( QWidget *parent = 0 );
-
+   
    /* get the SLART UDP listener port for application */
    int getUDPListenerPort( int index );
    /* set all notifications at once */
    void setAllAtOnce( bool enable );
-
+   
 public slots:
    /* read settings from storage */
    void readSettings();
@@ -38,11 +41,11 @@ public slots:
    void disableFullCommunication();
    /* handle click of application button */
    void handleAppButton( int index );
-
+   
 signals:
    /* for Sorcerer: indicate selection of full or no communication */
    void fullOrNoCommunication();
-
+   
 private:
    QSignalMapper                 *mpSignalMapper;
    QPushButton                   **mpApps;

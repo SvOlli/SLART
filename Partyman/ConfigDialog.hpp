@@ -9,15 +9,17 @@
 #define CONFIGDIALOG_HPP CONFIGDIALOG_HPP
 
 #include <QDialog>
-class QSpinBox;
-class QLabel;
-class QLineEdit;
+
 class QCheckBox;
 class QComboBox;
 class QDoubleSpinBox;
-class MyClipboard;
-class GlobalConfigWidget;
+class QLabel;
+class QLineEdit;
+class QSpinBox;
+
 class Database;
+class GlobalConfigWidget;
+class MyClipboard;
 
 
 class ConfigDialog : public QDialog

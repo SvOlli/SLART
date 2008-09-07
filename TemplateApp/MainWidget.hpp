@@ -17,15 +17,15 @@ class QString;
 class MainWidget : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
+   
 public slots:
-
+   
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
-
+   
 private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );

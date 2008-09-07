@@ -12,6 +12,7 @@ class QFileInfo;
 class QString;
 
 
+/* interface to provide callbacks */
 class DirWalkerCallbacks
 {
 public:
@@ -25,9 +26,17 @@ public:
 class DirWalker
 {
 public:
-   enum RecurseMode { NoRecurse, RecurseBeforeCallback, RecurseAfterCallback };
+   enum RecurseMode
+   {
+      NoRecurse,
+      RecurseBeforeCallback,
+      RecurseAfterCallback
+   };
+   
    DirWalker();
    virtual ~DirWalker();
+   
+   /* let the directory walker travel the filesystem */
    void run( DirWalkerCallbacks *callbacks, 
              const QString &directoryPath, enum RecurseMode recurse );
    

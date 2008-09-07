@@ -9,25 +9,27 @@
 #define CDDB_HPP CDDB_HPP
 
 #include <QWidget>
+
 #include <QMutex>
 
-class QLabel;
 class QComboBox;
-class QHttp;
 class QFile;
+class QHttp;
+class QLabel;
 
 class CDToc;
+
 
 class CDDB : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    CDDB( CDToc *toc, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
+   
    /* query freedb for possible matches */
    void query( const QString &querystring );
-
+   
 public slots:
    /* callback for QHttp */
    void httpRequestFinished( int requestId, bool error );
@@ -35,17 +37,17 @@ public slots:
    void read( const QString &querystring );
    /* cancel the request */
    void cancel();
-
+   
 signals:
    void tocUpdated();
-
+   
 private:
    CDDB( const CDDB &other );
    CDDB &operator=( const CDDB &other );
-
+   
    /* initiate the read request for freedb */
    void genericrequest( const QString &cmd );
-
+   
    bool         mRequestIsQuery;
    bool         mCancel;
    CDToc        *mpToc;

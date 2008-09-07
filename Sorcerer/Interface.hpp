@@ -10,6 +10,7 @@
 
 class QApplication;
 
+
 class SorcererInterface
 {
 public:

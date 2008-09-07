@@ -8,25 +8,30 @@
 #ifndef SLARTCOM_HPP
 #define SLARTCOM_HPP SLARTCOM_HPP
 
+/*
+ * this class is only for receiving SLARTCom messages 
+ * sending of SLARTCom messages is handled by the MySettings class
+ */
+
 #include <QUdpSocket>
-class MySettings;
+
 class QStringList;
 
+class MySettings;
 
-/* sending of SLARTCom messages is handle by the MySettings class */
 
 class SLARTCom : public QObject
 {
 Q_OBJECT
-
+   
 public:
    SLARTCom( QObject *parent = 0 );
-
+   
    /* bind or release the port according to settings */
    void resetReceiver();
    /* send a ping request to the specified application */
    bool ping( const QString &application );
-
+   
 public slots:
    /* handle new incoming udp packet */
    void handleReadyRead();
@@ -40,7 +45,7 @@ signals:
 private:
    SLARTCom( const SLARTCom &other );
    SLARTCom &operator=( const SLARTCom &other );
-
+   
    QObject      *mpParent;
    QUdpSocket   mUdpSocket;
    bool         mEndPing;

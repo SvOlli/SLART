@@ -8,20 +8,21 @@
 #ifndef FILESYSTREEMODEL_HPP
 #define FILESYSTREEMODEL_HPP FILESYSTREEMODEL_HPP
 
-#include <QWidget>
 #include <QAbstractItemModel>
 
+#include <QWidget>
 
 class FileSysTreeItem;
+
 
 class FileSysTreeModel : public QAbstractItemModel
 {
 Q_OBJECT
-
+   
 public:
    FileSysTreeModel( QObject *parent = 0 );
    virtual ~FileSysTreeModel();
-
+   
    /* clear the complete model */
    void clear();
    /* return the data of an index */
@@ -42,11 +43,11 @@ public:
    void addModelData( const QString &filename );
    /* get the full path of an index */
    QString getPath( const QModelIndex &index ) const;
-
+   
 private:
    FileSysTreeModel( const FileSysTreeModel &other );
    FileSysTreeModel &operator=( const FileSysTreeModel &other );
-
+   
    FileSysTreeItem *mpRootItem;
 };
 

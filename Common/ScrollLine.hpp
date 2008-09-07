@@ -10,18 +10,19 @@
 
 #include <QLineEdit>
 
-class QTimer;
-class QString;
 class QMouseEvent;
+class QString;
+class QTimer;
+
 
 class ScrollLine : public QLineEdit
 {
 Q_OBJECT
-
+   
 public:
    ScrollLine( QWidget *parent, bool autoScroll = true );
    virtual ~ScrollLine();
-
+   
 public slots:
    /* callback for timer to scroll */
    void scrolling();
@@ -35,13 +36,11 @@ protected:
    void mousePressEvent( QMouseEvent *event );
    /* handle mouse event for correct copy'n'paste */
    void mouseReleaseEvent( QMouseEvent *event );
-
-signals:
-
+   
 private:
    ScrollLine( const ScrollLine &other );
    ScrollLine &operator=( const ScrollLine &other );
-
+   
    static QTimer        *mpTimer;
    bool                 mClicked;
    int                  mDirection;

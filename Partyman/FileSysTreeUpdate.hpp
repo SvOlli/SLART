@@ -9,18 +9,23 @@
 #define FILESYSTREEUPDATE_HPP FILESYSTREEUPDATE_HPP
 
 #include <QThread>
+
 #include "TrackInfo.hpp"
 
-class FileSysTreeModel;
 class Database;
+class FileSysTreeModel;
+
 
 class FileSysTreeUpdate : public QThread
 {
 public:
+   /* prepare the update function (constructor replacement) */
    int prepare( Database *database, FileSysTreeModel *treeModel );
+   /* cancel current operation */
    void cancel() { mCancel = true; } ;
+   /* start main work (called by QThread) */
    void run();
-
+   
 private:
    Database         *mpDatabase;
    FileSysTreeModel *mpTreeModel;

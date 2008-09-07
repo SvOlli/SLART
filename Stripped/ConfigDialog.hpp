@@ -9,24 +9,27 @@
 #define CONFIGDIALOG_HPP CONFIGDIALOG_HPP
 
 #include <QDialog>
+
 #include "TagList.hpp"
-class QSpinBox;
-class QLabel;
-class QLineEdit;
+
 class QCheckBox;
 class QComboBox;
 class QDoubleSpinBox;
-class ProxyWidget;
-class ConfigNotifyWidget;
-class GlobalConfigWidget;
-class Encoder;
+class QLabel;
+class QLineEdit;
+class QSpinBox;
+
 class CDReader;
+class ConfigNotifyWidget;
+class Encoder;
+class GlobalConfigWidget;
+class ProxyWidget;
 
 
 class ConfigDialog : public QDialog
 {
 Q_OBJECT
-
+   
 public:
    ConfigDialog( CDReader *cdreader, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    
@@ -41,14 +44,14 @@ public slots:
    void changeEncoder( int id );
    /* update example */
    void updatePattern( const QString &text );
-
+   
 signals:
    void configChanged();
-
+   
 private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
-
+   
    CDReader             *mpCDReader;
    GlobalConfigWidget   *mpGlobalConfigWidget;
    ProxyWidget          *mpProxyWidget;

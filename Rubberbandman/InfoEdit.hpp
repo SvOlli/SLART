@@ -9,32 +9,36 @@
 #define INFOEDIT_HPP INFOEDIT_HPP
 
 #include <QWidget>
+
 #include <QStringList>
+
 #include "TagList.hpp"
 #include "TrackInfo.hpp"
    
 class QAction;
 class QCheckBox;
 class QComboBox;
-class QGroupBox;
-class QLabel;
-class QMenu;
-class QLineEdit;
-class QIntValidator;
-class QPushButton;
 class QDir;
+class QGroupBox;
+class QIntValidator;
+class QLabel;
+class QLineEdit;
+class QMenu;
+class QPushButton;
+
 class Database;
 class ScrollLine;
+
 
 class InfoEdit : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    InfoEdit( Database *database, QWidget *parent = 0 );
    QString tagsFileName( const QString &pattern, bool filterPath = true );
    QString fileName();
-
+   
 public slots:
    /* load tags from a file */
    void load( const QString &fullpath = QString() );
@@ -52,14 +56,14 @@ public slots:
    void handleFlagsMenu( QAction *action );
    /* handle the folders menu */
    void handleFoldersMenu( QAction *action );
-
+   
 signals:
    void fileStats( bool isValid, bool isFile );
    
 private:
    InfoEdit( const InfoEdit &other );
    InfoEdit &operator=( const InfoEdit &other );
-
+   
    /* normalize a line edit field */
    void normalize( QLineEdit *lineEdit );
    /* load tags from a file */
@@ -70,19 +74,19 @@ private:
    void recurse( const QDir &dir, bool isBase = true );
    /* update the info of the track concerning flags and folders */
    void updateDatabaseInfo( bool withRecurse );
-
+   
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;
-
+   
    QPushButton *mpButtonSet;
    QPushButton *mpButtonNormArtist;
    QPushButton *mpButtonNormTitle;
    QPushButton *mpButtonCancel;
-
+   
    QGroupBox *mpFileGroupBox;
    QGroupBox *mpTagGroupBox;
    QGroupBox *mpDatabaseGroupBox;
-
+   
    QLabel *mpLabelPathName;
    QLabel *mpLabelFileName;
    QLabel *mpLabelSize;
@@ -120,7 +124,7 @@ private:
    QAction      *mpTrackScannedFlag;
    QAction      *mpRecurseSetFolders;
    QAction      *mpRecurseUnsetFolders;
-
+   
    int          mRecurseMode;
    bool         mIsValid;
    bool         mIsFile;

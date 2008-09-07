@@ -9,15 +9,16 @@
 #define PLUGIN_HPP PLUGIN_HPP
 
 #include <QWidget>
+#include "Interface.hpp"
 
 #include <QObject>
-#include "Interface.hpp"
+
 
 class SorcererPlugin : public QObject, SorcererInterface
 {
    Q_OBJECT
    Q_INTERFACES(SorcererInterface)
-
+   
 public:
    int run( QApplication *app );
 };

@@ -10,23 +10,24 @@
 
 #include <QWidget>
 
-
-class QLineEdit;
 class QLabel;
+class QLineEdit;
 class QModelIndex;
-class PlaylistWidget;
-class PlaylistContentWidget;
+
 class Database;
+class PlaylistContentWidget;
+class PlaylistWidget;
+
 
 class SearchWidget : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    SearchWidget( Database *database, PlaylistWidget *parent );
    virtual ~SearchWidget();
    QLineEdit *getLineEdit();
-
+   
 public slots:
    /* execute search */
    void search();
@@ -34,13 +35,11 @@ public slots:
    void selectedEntries( const QModelIndex &index, int key );
    /* handle focus */
    void setFocus();
-
-signals:
-
+   
 private:
    SearchWidget( const SearchWidget &other );
    SearchWidget &operator=( const SearchWidget &other );
-
+   
    Database              *mpDatabase;
    PlaylistWidget        *mpPlaylist;
    PlaylistContentWidget *mpResults;

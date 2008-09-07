@@ -101,7 +101,7 @@ void CDToc::calcCddbDiscID()
       n += cddbSum( mpStartSectorTrack[i]/75 + 2 );
    }
 
-   t = ((mEndSectorDisc-mStartSectorDisc)/75);
+   t = ((mEndSectorDisc-mStartSectorDisc)/75) + 0;
 
    mDiscID = ((n % 0xff) << 24 | t << 8 | mNumTracks);
 }

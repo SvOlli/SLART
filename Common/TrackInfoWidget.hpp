@@ -13,21 +13,22 @@
 
 #include "TrackInfo.hpp"
 
+class QCheckBox;
 class QLabel;
 class QPushButton;
-class QCheckBox;
-class Database;
 
+class Database;
 class ScrollLine;
+
 
 class TrackInfoWidget : public QWidget
 {
 Q_OBJECT
-
+   
 public:
    TrackInfoWidget( Database *database, const QString &updateCode,
                     QWidget *parent = 0 );
-
+   
 public slots:
    /* handle the "Favorite" checkbox */
    void handleFavoriteButton();
@@ -37,13 +38,13 @@ public slots:
    void getTrack( const TrackInfo &trackInfo );
    /* update the displayed track info */
    void update( bool reread = true );
-
+   
 signals:
-
+   
 private:
    TrackInfoWidget( const TrackInfoWidget &other );
    TrackInfoWidget &operator=( const TrackInfoWidget &other );
-
+   
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;
    QString     mUpdateCode;

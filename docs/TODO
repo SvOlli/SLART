@@ -8,6 +8,7 @@ Partyman:
 
 Rubberbandman:
 - "add folder"/"remove folder"
+- "Set Recursive" not deactivated aftr recusive Norm.Title
 - disable Folders buttons, when no folders exist in database
 - context menu for browser
   - implement move
@@ -16,6 +17,7 @@ Rubberbandman:
   - rename "Partyman"-Tab
 
 Funkytown:
+- code Application.cpp's TODO
 
 Sorcerer:
 
@@ -25,6 +27,7 @@ Innuendo:
 - reorder application start buttons
 
 Stripped:
+- change raw encoder to wav encoder
 
 all:
 - alpha sort classes in *.hpp

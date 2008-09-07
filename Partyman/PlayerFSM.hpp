@@ -8,9 +8,9 @@
 #ifndef PLAYERFSM_HPP
 #define PLAYERFSM_HPP PLAYERFSM_HPP
 
-#include <QWidget>
 #include <QMutex>
 #include <QTcpSocket>
+#include <QWidget>
 
 class PlayerWidget;
 
@@ -23,6 +23,7 @@ class PlayerFSMEnding;
 class PlayerFSMPlaying;
 class PlayerFSMPaused;
 class PlayerFSMEndingPaused;
+
 
 class PlayerFSM
 {
