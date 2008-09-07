@@ -20,10 +20,6 @@ TrackInfoWidget::TrackInfoWidget( Database *database, const QString &updateCode,
 , mpDatabase( database )
 , mTrackInfo()
 , mUpdateCode( updateCode )
-, mpArtistLabel( new QLabel( tr("Artist:"), this ) )
-, mpTitleLabel( new QLabel( tr("Title:"), this ) )
-, mpAlbumLabel( new QLabel( tr("Album:"), this ) )
-, mpTrackNrLabel( new QLabel( tr("Track:"), this ) )
 , mpTimesPlayed( new QLabel( this ) )
 , mpArtist( new ScrollLine( this ) )
 , mpTitle( new ScrollLine( this ) )
@@ -43,13 +39,14 @@ TrackInfoWidget::TrackInfoWidget( Database *database, const QString &updateCode,
    mainLayout->setHorizontalSpacing( 1 );
 #endif
    
-   mainLayout->addWidget( mpArtistLabel,    0, 0 );
+   mainLayout->addWidget( new QLabel( tr("Artist:"), this ), 0, 0 );
+   mainLayout->addWidget( new QLabel( tr("Title:"), this ),  1, 0 );
+   mainLayout->addWidget( new QLabel( tr("Album:"), this ),  2, 0 );
+   mainLayout->addWidget( new QLabel( tr("Track:"), this ),  3, 0 );
+   
    mainLayout->addWidget( mpArtist,         0, 1, 1, 4 );
-   mainLayout->addWidget( mpTitleLabel,     1, 0 );
    mainLayout->addWidget( mpTitle,          1, 1, 1, 4 );
-   mainLayout->addWidget( mpAlbumLabel,     2, 0 );
    mainLayout->addWidget( mpAlbum,          2, 1, 1, 4 );
-   mainLayout->addWidget( mpTrackNrLabel,   3, 0 );
    mainLayout->addWidget( mpTrackNr,        3, 1 );
    mainLayout->addWidget( mpTimesPlayed,    3, 2 );
    mainLayout->addWidget( mpFavoriteButton, 3, 3 );

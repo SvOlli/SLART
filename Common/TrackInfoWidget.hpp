@@ -48,10 +48,6 @@ private:
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;
    QString     mUpdateCode;
-   QLabel      *mpArtistLabel;
-   QLabel      *mpTitleLabel;
-   QLabel      *mpAlbumLabel;
-   QLabel      *mpTrackNrLabel;
    QLabel      *mpTimesPlayed;
    ScrollLine  *mpArtist;
    ScrollLine  *mpTitle;
