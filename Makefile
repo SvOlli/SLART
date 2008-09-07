@@ -42,3 +42,11 @@ tar:
 	(cd ..;tar jcf slart-$(VERSION).tar.bz2 slart-$(VERSION)/{$(shell echo $(TARCONT)|tr ' ' ',')};ls -l slart-$(VERSION).tar.bz2)
 	rm ../slart-$(VERSION)
 
+deb:
+	[ -e ../slart-$(VERSION) ] || ln -sv SLART ../slart-$(VERSION)
+	[ -e debian ] || cp -r extra/debian debian
+	extra/gitlog2changelog.sh > debian/changelog
+	cd ../slart-$(VERSION) && fakeroot dpkg-buildpackage
+	rm -f *-stamp
+	[ ! -d debian ] || rm -r debian
+	[ ! -h ../slart-$(VERSION) ] || rm ../slart-$(VERSION)
