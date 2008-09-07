@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 program=slart
 version=$($(dirname $0)/../configure --version|cut -f1 -d-)
@@ -22,7 +22,7 @@ Author:*)
   author="$(echo ${line}|cut -f2- -d:)"
 ;;
 Date:*)
-  date="$(echo ${line}|cut -f2- -d:)"
+  date="$(echo ${line}|cut -f2- -d:|sed 's/^\( *[A-Z][a-z][a-z]\),* \([A-Z][a-z][a-z]\) \([0-9]*\) \([0-9:]*\) \([0-9]*\) /\1, \3 \2 \5 \4 /')"
 ;;
 "")
   mode=$[1-mode]
@@ -33,11 +33,18 @@ Date:*)
   fi
 ;;
 *)
+  if [ -n "$(echo ${line}|grep 'RELEASE:')" ]; then
+    version="$(echo ${line}|sed 's/.*RELEASE: //')"
+    urgency=high
+    stable=stable
+  else
+    urgency=low
+    stable=unstable
+  fi
   if [ -z "${header}" ]; then
-    header="${program} (${version}-${revision}) stable; urgency=low"
+    header="${program} (${version}-${revision}) ${stable}; urgency=${urgency}"
     echo "${header}"
     echo
-    header=
   fi
   echo "  * ${line}" | fold -s -75 | sed 's/^[^ ]/    &/'
 ;;
