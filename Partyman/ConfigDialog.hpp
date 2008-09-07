@@ -45,6 +45,7 @@ public slots:
 
 signals:
    void configChanged();
+   void updateBrowser();
 
 private:
    ConfigDialog( const ConfigDialog &other );
@@ -77,6 +78,7 @@ private:
    QLineEdit            *mpNamePattern;
    QLineEdit            *mpPlayerPattern;
    QLineEdit            *mpListPattern;
+   QPushButton          *mpUpdateBrowserButton;
    GlobalConfigWidget   *mpGlobalSettings;
 };
 

@@ -83,6 +83,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(allowAutostart(bool)) );
    connect( mpControl, SIGNAL(trackUpdate()), 
             mpPlaylist, SLOT(updateTrackInfo()) );
+   connect( mpConfig, SIGNAL(updateBrowser()),
+            mpPlaylist, SLOT(startBrowserUpdate()) );
    
    setLayout( mainLayout );
    

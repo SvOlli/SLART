@@ -43,6 +43,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpNamePattern( new QLineEdit( this ) )
 , mpPlayerPattern( new QLineEdit( this ) )
 , mpListPattern( new QLineEdit( this ) )
+, mpUpdateBrowserButton( new QPushButton( tr("Update Browser Tab"), this ) )
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
@@ -113,16 +114,17 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    randomLayout->setRowStretch( 6, 1 );
    randomTab->setLayout( randomLayout );
    
-   QWidget     *patternTab    = new QWidget( this );
-   QGridLayout *patternLayout = new QGridLayout( patternTab );
-   patternLayout->addWidget( new QLabel( tr("Title Display Pattern:") ), 0, 0 );
-   patternLayout->addWidget( mpNamePattern, 0, 1 );
-   patternLayout->addWidget( new QLabel( tr("Player Display Pattern:") ), 1, 0 );
-   patternLayout->addWidget( mpPlayerPattern, 1, 1 );
-   patternLayout->addWidget( new QLabel( tr("List Display Pattern:") ), 2, 0 );
-   patternLayout->addWidget( mpListPattern, 2, 1 );
-   patternLayout->setRowStretch( 3, 1 );
-   patternTab->setLayout( patternLayout );
+   QWidget     *displayTab    = new QWidget( this );
+   QGridLayout *displayLayout = new QGridLayout( displayTab );
+   displayLayout->addWidget( new QLabel( tr("Title Display Pattern:") ), 0, 0 );
+   displayLayout->addWidget( mpNamePattern, 0, 1 );
+   displayLayout->addWidget( new QLabel( tr("Player Display Pattern:") ), 1, 0 );
+   displayLayout->addWidget( mpPlayerPattern, 1, 1 );
+   displayLayout->addWidget( new QLabel( tr("List Display Pattern:") ), 2, 0 );
+   displayLayout->addWidget( mpListPattern, 2, 1 );
+   displayLayout->setRowStretch( 3, 1 );
+   displayLayout->addWidget( mpUpdateBrowserButton, 4, 0, 1, 2 );
+   displayTab->setLayout( displayLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
@@ -148,7 +150,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    tabs->addTab( dermixdTab,       QString(tr("DerMixD")) );
    tabs->addTab( partymanTab,      QString(tr("Partyman")) );
    tabs->addTab( randomTab,        QString(tr("Random")) );
-   tabs->addTab( patternTab,       QString(tr("Pattern")) );
+   tabs->addTab( displayTab,       QString(tr("Display")) );
    tabs->addTab( mpGlobalSettings, QString(tr("Global")) );
    
    mainLayout->addWidget( about );
@@ -165,6 +167,8 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
             this, SLOT(writeSettings()) );
    connect( this, SIGNAL(rejected()),
             this, SLOT(readSettings()) );
+   connect( mpUpdateBrowserButton, SIGNAL(clicked()),
+            this, SIGNAL(updateBrowser()) );
    
    readSettings();
 }
