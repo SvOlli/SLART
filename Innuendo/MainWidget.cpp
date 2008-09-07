@@ -181,12 +181,14 @@ void MainWidget::handlePingButton()
    {
       QString msg("* ");
       msg.append( mpExecButtons[i]->text() );
-      msg.append( " is " );
-      if( !mSLARTCom.ping( mpExecButtons[i]->text() ) )
+      if( mSLARTCom.ping( mpExecButtons[i]->text() ) )
       {
-         msg.append( "not " );
+         msg.append( " has reponded" );
       }
-      msg.append( "responing" );
+      else
+      {
+         msg.append( " is not responing" );
+      }
       mpMessageBuffer->addItem( msg );
       mpMessageBuffer->scrollToBottom();
    }
