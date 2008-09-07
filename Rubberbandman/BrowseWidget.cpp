@@ -34,6 +34,8 @@ BrowseWidget::BrowseWidget( Database *database, QWidget *parent, Qt::WindowFlags
    
    connect( mpFileSysBrowser, SIGNAL(clicked(const QString&)),
             mpInfoEdit, SLOT(load(const QString&)) );
+   connect( mpInfoEdit, SIGNAL(updated()),
+            mpFileSysBrowser, SLOT(handleRootDir()) );
 }
 
 

@@ -341,7 +341,9 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
    
    if( isBase )
    {
-      mpButtonSet->setDisabled( false );
+      MySettings settings;
+      
+      mpButtonSet->setDisabled( true );
       mpButtonNormArtist->setDisabled( true );
       mpButtonNormTitle->setDisabled( true );
       mpButtonCancel->setDisabled( true );
@@ -359,7 +361,11 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       
       mTrackInfo.clear();
       
-      MySettings().sendNotification( QString("r0u") );
+      settings.sendNotification( QString("r0u") );
+      if( settings.value( "AutoRescan", false ).toBool() )
+      {
+         emit updated();
+      }
    }
 }
 
@@ -551,7 +557,7 @@ void InfoEdit::loadFile( const QString &fullpath )
          mpShowFileName->setDisabled( true );
          mpShowSize->setDisabled( true );
          mpShowPlayTime->setDisabled( true );
-         mpButtonSet->setDisabled( true );
+         mpButtonSet->setDisabled( mpShowPathName->text().isEmpty() );
       }
    }
 }

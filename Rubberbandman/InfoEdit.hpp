@@ -59,6 +59,7 @@ public slots:
    
 signals:
    void fileStats( bool isValid, bool isFile );
+   void updated();
    
 private:
    InfoEdit( const InfoEdit &other );
