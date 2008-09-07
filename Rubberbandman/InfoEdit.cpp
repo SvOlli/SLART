@@ -33,16 +33,6 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 , mpFileGroupBox( new QGroupBox( tr("File Information"), this ) )
 , mpTagGroupBox( new QGroupBox( tr("Tag Information"), this ) )
 , mpDatabaseGroupBox( new QGroupBox( tr("Database Information"), this ) )
-, mpLabelPathName( new QLabel( tr("Path:"), this ) )
-, mpLabelFileName( new QLabel( tr("File:"), this ) )
-, mpLabelSize( new QLabel( tr("Size:"), this ) )
-, mpLabelPlayTime( new QLabel( tr("Play Time:"), this ) )
-, mpLabelArtist( new QLabel( tr("Artist:"), this ) )
-, mpLabelTitle( new QLabel( tr("Title:"), this ) )
-, mpLabelAlbum( new QLabel( tr("Album:"), this ) )
-, mpLabelTrackNr( new QLabel( tr("Track:"), this ) )
-, mpLabelYear( new QLabel( tr("Year:"), this ) )
-, mpLabelGenre( new QLabel( tr("Genre:"), this ) )
 , mpShowPathName( new ScrollLine( this ) )
 , mpShowFileName( new ScrollLine( this ) )
 , mpShowSize( new ScrollLine( this, false ) )
@@ -100,20 +90,17 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    mpFileGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
    QGridLayout *fileLayout = new QGridLayout;
    
-   fileLayout->addWidget( mpLabelPathName, 0, 0 );
-   fileLayout->addWidget( mpLabelFileName, 1, 0 );
-   fileLayout->addWidget( mpLabelSize,     2, 0 );
-   fileLayout->addWidget( mpLabelPlayTime, 2, 2 );
+   fileLayout->addWidget( new QLabel( tr("Path:"), this ),      0, 0 );
+   fileLayout->addWidget( new QLabel( tr("File:"), this ),      1, 0 );
+   fileLayout->addWidget( new QLabel( tr("Size:"), this ),      2, 0 );
+   fileLayout->addWidget( new QLabel( tr("Play Time:"), this ), 2, 3 );
    
-   fileLayout->addWidget( mpShowPathName,  0, 1, 1, 3 );
-   fileLayout->addWidget( mpShowFileName,  1, 1, 1, 3 );
-   fileLayout->addWidget( mpShowSize,      2, 1 );
-   fileLayout->addWidget( mpShowPlayTime,  2, 3 );
+   fileLayout->addWidget( mpShowPathName, 0, 1, 1, 4 );
+   fileLayout->addWidget( mpShowFileName, 1, 1, 1, 4 );
+   fileLayout->addWidget( mpShowSize,     2, 1 );
+   fileLayout->addWidget( mpShowPlayTime, 2, 4 );
    
-   fileLayout->setColumnStretch( 0,  1 );
-   fileLayout->setColumnStretch( 1, 49 );
-   fileLayout->setColumnStretch( 2,  1 );
-   fileLayout->setColumnStretch( 3, 49 );
+   fileLayout->setColumnStretch( 2, 1 );
    
 #if QT_VERSION < 0x040300
    fileLayout->setMargin( 2 );
@@ -126,19 +113,19 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    mpTagGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
    QGridLayout *tagLayout = new QGridLayout;
    
-   tagLayout->addWidget( mpLabelArtist,   0, 0 );
-   tagLayout->addWidget( mpLabelTitle,    1, 0 );
-   tagLayout->addWidget( mpLabelAlbum,    2, 0 );
-   tagLayout->addWidget( mpLabelTrackNr,  3, 0 );
-   tagLayout->addWidget( mpLabelYear,     3, 2 );
-   tagLayout->addWidget( mpLabelGenre,    3, 4 );
+   tagLayout->addWidget( new QLabel( tr("Artist:"), this ), 0, 0 );
+   tagLayout->addWidget( new QLabel( tr("Title:"), this ),  1, 0 );
+   tagLayout->addWidget( new QLabel( tr("Album:"), this ),  2, 0 );
+   tagLayout->addWidget( new QLabel( tr("Track:"), this ),  3, 0 );
+   tagLayout->addWidget( new QLabel( tr("Year:"), this ),   3, 2 );
+   tagLayout->addWidget( new QLabel( tr("Genre:"), this ),  3, 4 );
    
-   tagLayout->addWidget( mpEditArtist,    0, 1, 1, 5 );
-   tagLayout->addWidget( mpEditTitle,     1, 1, 1, 5 );
-   tagLayout->addWidget( mpEditAlbum,     2, 1, 1, 5 );
-   tagLayout->addWidget( mpEditTrackNr,   3, 1 );
-   tagLayout->addWidget( mpEditYear,      3, 3 );
-   tagLayout->addWidget( mpEditGenre,     3, 5 );
+   tagLayout->addWidget( mpEditArtist,  0, 1, 1, 5 );
+   tagLayout->addWidget( mpEditTitle,   1, 1, 1, 5 );
+   tagLayout->addWidget( mpEditAlbum,   2, 1, 1, 5 );
+   tagLayout->addWidget( mpEditTrackNr, 3, 1 );
+   tagLayout->addWidget( mpEditYear,    3, 3 );
+   tagLayout->addWidget( mpEditGenre,   3, 5 );
 
    tagLayout->setColumnStretch( 0,  1 );
    tagLayout->setColumnStretch( 1,  2 );

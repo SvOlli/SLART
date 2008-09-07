@@ -88,17 +88,6 @@ private:
    QGroupBox *mpTagGroupBox;
    QGroupBox *mpDatabaseGroupBox;
    
-   QLabel *mpLabelPathName;
-   QLabel *mpLabelFileName;
-   QLabel *mpLabelSize;
-   QLabel *mpLabelPlayTime;
-   QLabel *mpLabelArtist;
-   QLabel *mpLabelTitle;
-   QLabel *mpLabelAlbum;
-   QLabel *mpLabelTrackNr;
-   QLabel *mpLabelYear;
-   QLabel *mpLabelGenre;
-   
    ScrollLine *mpShowPathName;
    ScrollLine *mpShowFileName;
    ScrollLine *mpShowSize;
