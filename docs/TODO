@@ -5,11 +5,11 @@ extra:
 Common:
 
 Partyman:
+- update documentation
 
 Rubberbandman:
 - "add folder"/"remove folder"
 - "Set Recursive" not deactivated aftr recusive Norm.Title
-- disable Folders buttons, when no folders exist in database
 - context menu for browser
   - implement move
 - improve Database Tab
@@ -25,9 +25,9 @@ Karmadrome:
 
 Innuendo:
 - reorder application start buttons
+- add Sorcerer
 
 Stripped:
-- change raw encoder to wav encoder
 
 all:
 - alpha sort classes in *.hpp

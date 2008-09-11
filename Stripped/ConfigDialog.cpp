@@ -86,9 +86,9 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
-   tabs->addTab( strTab,               QString(tr("Stripped")) );
-   tabs->addTab( mpProxyWidget,        QString(tr("Proxy")) );
-   tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
+   tabs->addTab( strTab,               tr("Stripped") );
+   tabs->addTab( mpProxyWidget,        tr("Proxy") );
+   tabs->addTab( mpGlobalConfigWidget, tr("Global") );
    
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );

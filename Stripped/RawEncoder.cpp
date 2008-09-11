@@ -12,13 +12,15 @@
 
 extern "C"
 {
+#include <sys/types.h>
 #include <unistd.h>
+#include <string.h>
 }
 
 #include <QtGui>
 
 RawEncoder::RawEncoder( QWidget *parent )
-: Encoder( parent, tr("raw") )
+: Encoder( parent, tr("wav") )
 {
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
    QLabel      *label      = new QLabel( tr("no config"), this );
@@ -41,12 +43,35 @@ RawEncoder::~RawEncoder()
 
 void RawEncoder::initialize( const QString &fileName )
 {
-   Encoder::initialize( fileName, ".raw" );
+TRACESTART(RawEncoder::initialize)
+   char dummy[44];
+   Encoder::initialize( fileName, ".wav" );
+   /* write now, what later will become the header */
+   ::memset( &dummy[0], 0, 44 );
+   ::write( mFD, &dummy[0], 44 );
 }
 
 
 void RawEncoder::finalize( bool enqueue, bool cancel )
 {
+TRACESTART(RawEncoder::finalize)
+   unsigned int size = (unsigned int) ::lseek( mFD, 0, SEEK_CUR );
+   /* write the wave header */
+   ::lseek( mFD, 0, SEEK_SET );
+   unsigned int header[11];
+   header[ 0] = 0x46464952; // "RIFF"
+   header[ 1] = size - 8;   // wave size
+   header[ 2] = 0x45564157; // "WAVE"
+   header[ 3] = 0x20746D66; // "fmt "
+   header[ 4] = 0x00000010; // size of "fmt "-header
+   header[ 5] = 0x00020001; // format PCM / Stereo
+   header[ 6] = 44100;      // samplerate
+   header[ 7] = 44100 * 4;  // bytes per second
+   header[ 8] = 0x00100004; // 16 bit / bytes per sample
+   header[ 9] = 0x61746164; // "data"
+   header[10] = size - 44;  // data size
+   /* data needs to be written as little endian */
+   ::write( mFD, &header[0], 44 );
    Encoder::finalize( enqueue, cancel );
 }
 
@@ -58,9 +83,15 @@ void RawEncoder::setTags( const TagList &/*tagList*/ )
 
 bool RawEncoder::encodeCDAudio( const char* data, int size )
 {
-   if( ::write( mFD, data, size ) < 0 )
+   while( size > 0 )
    {
-      return false;
+      int written = ::write( mFD, data, size );
+      if( written < 0 )
+      {
+         return false;
+      }
+      size -= written;
+      data += written;
    }
    return true;
 }
