@@ -672,11 +672,12 @@ void InfoEdit::saveFile()
    
    qfi.setFile( newpath );
    
-   mTrackInfo.mDirectory = qfi.absolutePath();
-   mTrackInfo.mFileName  = qfi.fileName();
-   mTrackInfo.mArtist    = mpEditArtist->text();
-   mTrackInfo.mTitle     = mpEditTitle->text();
-   mTrackInfo.mAlbum     = mpEditAlbum->text();
+   mTrackInfo.mDirectory    = qfi.absolutePath();
+   mTrackInfo.mFileName     = qfi.fileName();
+   mTrackInfo.mLastTagsRead = qfi.lastModified().toTime_t();
+   mTrackInfo.mArtist       = mpEditArtist->text();
+   mTrackInfo.mTitle        = mpEditTitle->text();
+   mTrackInfo.mAlbum        = mpEditAlbum->text();
    if( mpEditTrackNr->text().isEmpty() )
    {
       mTrackInfo.mTrackNr   = -1;
