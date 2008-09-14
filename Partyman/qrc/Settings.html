@@ -2,76 +2,112 @@
 <hr>
 [<a href="#dermixd">DerMixD</a>]
 [<a href="#partyman">Partyman</a>]
+[<a href="#random">Random</a>]
+[<a href="#display">Display</a>]
 [<a href="#global">Global</a>]
-[<a href="#commandline">Command Line</a>]
-<hr>
-<p>The settings screen is available via the red link on
-the about tab. It will also pop up automatically if
-the m3u file containing the database is either not set
-or not found.</p>
+[<a href="#commandline">Command&nbsp;Line</a>]
 <hr>
 <p><a name="dermixd"><b>DerMixD Settings:</b></a>
 <dl>
  <dt>Start/Stop via Partyman:</dt>
- <dd>Check this if you want DerMixD to be started
- during the initiation of the connection.</dd>
+  <dd>Check this if you want DerMixD to be started
+  during the initiation of the connection.</dd>
  <dt>Command:</dt>
- <dd>The command to run DerMixD.</dd>
+  <dd>The command to run DerMixD.</dd>
  <dt>Parameters:</dt>
- <dd>The parameters to start DerMixD with<br>
- (Note: "-c" and "-p port" will be always added.)</dd>
+  <dd>The parameters to start DerMixD with<br>
+  (Note: "-c" and "-p port" will be always added.)</dd>
  <dt>Hostname:</dt>
- <dd>The name of the host DerMixD runs on.</dd>
+  <dd>The name of the host DerMixD runs on.</dd>
  <dt>Port:</dt>
- <dd>The port DerMixD listens on.</dd>
- <dt>Log communications to stdout:</dt>
- <dd>Write the communication of Partyman and DerMixD
- to stdout (mainly used for debugging purposes).</dd>
+  <dd>The port DerMixD listens on.</dd>
+ <dt>Log Communications To stdout:</dt>
+  <dd>Write the communication of Partyman and DerMixD
+  to stdout (mainly used for debugging purposes).</dd>
+ <dt>Normalization:</dt>
+  <dd>DerMixD, starting with version 1.4.0, can
+  analyse the volume of a track, either by peak or
+  by a power algorithm. Using this feature, Partyman
+  can automatically set the volume, so that each track
+  is played at the same volume level.
+  </dd>
 </dl></p>
 <hr>
 <p><a name="partyman"><b>Partyman Settings:</b></a>
 <dl>
  <dt>Connect On Startup</dt>
- <dd>Check this if you're too lazy to press the
- "Connect" button.</dd>
+  <dd>Check this if you're too lazy to press the
+  "Connect" button.</dd>
  <dt>Crossfade Time:</dt>
- <dd>The number of seconds both player should play
- at the same time.</dd>
+  <dd>The number of seconds both player should play
+  at the same time.</dd>
  <dt><a name="slart">Use SLART UDP Communication:</a></dt>
- <dd>Partyman is part of
- "<a href="http://svolli.org/software/slart/">SvOlli's
- Little Audio Related Thingies</a>" or
- "<a href="http://svolli.org/software/slart/">SLART</a>"
- (external links) for short, which can use UDP for
- communicating with each other. It can be also used
- by Partyman for communicating with itself (see also
- <a href="#commandline">Command Line Parameters</a>).
- This switch activates this communication.</dd>
- <dt>Normalization:</dt>
- <dd>DerMixD, starting with version 1.4.0, can
- analyse the volume of a track, either by peak or
- by a power algorithm. Using this feature, Partyman
- can automatically set the volume, so that each track
- is played at the same volume level.
- </dd>
+  <dd>Partyman is part of
+  "<a href="http://svolli.org/software/slart/">SvOlli's
+  Little Audio Related Thingies</a>" or
+  "<a href="http://svolli.org/software/slart/">SLART</a>"
+  (external links) for short, which can use UDP for
+  communicating with each other. It can be also used
+  by Partyman for communicating with itself (see also
+  <a href="#commandline">Command Line Parameters</a>).
+  This switch activates this communication.</dd>
  <dt>External Logger:</dt>
- <dd>Each action like playing a track, stopping, pausing
- and skipping can be logged though an external application.
- Here it can be specified. See the 
- <a href="http://svolli.org/software/partyman/#external">Partyman
- webpage</a> (external link) for a more detailed explanation.</dd>
+  <dd>Each action like playing a track, stopping, pausing
+  and skipping can be logged though an external application.
+  Here it can be specified. See the 
+  <a href="http://svolli.org/software/partyman/#external">Partyman
+  webpage</a> (external link) for a more detailed explanation.</dd>
 </dl></p>
 <hr>
-<p><a name="global"><b>Partyman Settings:</b></a>
+<p><a name="random"><b>Random Settings:</b></a>
+<dl>
+ These settings only have an effect if the playlist is empty and
+ a track is chosen randomly from the database. If no tracks are
+ found corresponding to the settings, they will be ignored one by
+ one.
+ <dt>Play Favorite Tracks Only</dt>
+  <dd>Only select tracks that are marked as favorite from the
+  database.</dd>
+ <dt>Play Least Played Tracks Only</dt>
+  <dd>Each time a track has been played it is counted inside the
+  database. This settings only selects tracks that have the lowest
+  count.</dd>
+ <dt>Play Folder:</dt>
+  <dd>Only select tracks that are in this folder.</dd>
+ <dt>Number Of Tracks An Artist Is Not Played Again:</dt>
+  <dd>The artists of the last played tracks are remembered. This
+  option makes sure that you don't hear too much from a few artists
+  only.</dd>
+</dl>
+<hr>
+<p><a name="display"><b>Display Settings:</b></a>
+<dl>
+ <dt>Title Display Pattern</dt>
+  <dd>Set the pattern on how the window title is display when a track
+  is played.</dd>
+ <dt>Player Display Pattern</dt>
+  <dd>Set the pattern on how a track is displayed in the top left or
+  top right player.</dd>
+ <dt>List Display Pattern</dt>
+  <dd>Set the pattern on how a track is displayed in the playlist or
+  searchlist.</dd>
+ <dt>Update Browser Tab</dt>
+  <dd>This button initiates a rescan of the database for the
+  filesystem tree displayed "Browse"-Tab. Since this can be time
+  consuming and also resets the contents unfold state, it is not
+  done automatically.</dd>
+</dl>
+<hr>
+<p><a name="global"><b>Global Settings:</b></a>
 <dl>
  These settings are shared between all SLART applications.
  <dt>Use Clipboard:</dt>
- <dd>Clicking on a track name copies the filename of the
- track automatically to the clipboard or the selection buffer,
- according to this setting.</dd>
+  <dd>Clicking on a track name copies the filename of the
+  track automatically to the clipboard or the selection buffer,
+  according to this setting.</dd>
  <dt>Animate Views:</dt>
- <dd>This activates the animation of the tree in the browse
- window.</dd>
+  <dd>This activates the animation of the tree in the browse
+  window.</dd>
 </dl></p>
 <hr>
 <p><a name="commandline"><b>Command Line Settings:</b></a>

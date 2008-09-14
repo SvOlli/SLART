@@ -22,7 +22,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpDerMixDhost( new QLineEdit( this ) )
 , mpDerMixDportLabel( new QLabel( tr("Port:") ) )
 , mpDerMixDport( new QSpinBox( this ) )
-, mpDerMixDlog( new QCheckBox( tr("Log communication to stdout"), this ) )
+, mpDerMixDlog( new QCheckBox( tr("Log Communication To stdout"), this ) )
 , mpDerMixDrun( new QCheckBox( tr("Start/Stop via Partyman"), this ) )
 , mpDerMixDcmdLabel( new QLabel( tr("Command:"), this ) )
 , mpDerMixDcmd( new QLineEdit( this ) )
@@ -35,9 +35,9 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpNormalizeMode( new QComboBox( this ) )
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
-, mpCountSkip( new QCheckBox( tr("Increase track played counter on skip"), this ) )
-, mpPlayOnlyFavorite( new QCheckBox( tr("Play favorite tracks only"), this ) )
-, mpPlayOnlyLeastPlayed( new QCheckBox( tr("Play least played tracks only"), this ) )
+, mpCountSkip( new QCheckBox( tr("Increase Track Played Counter On Skip"), this ) )
+, mpPlayOnlyFavorite( new QCheckBox( tr("Play Favorite Tracks Only"), this ) )
+, mpPlayOnlyLeastPlayed( new QCheckBox( tr("Play Least Played Tracks Only"), this ) )
 , mpPlayFolder( new QComboBox( this ) )
 , mpPlayNotAgainCount( new QSpinBox( this ) )
 , mpNamePattern( new QLineEdit( this ) )
@@ -73,17 +73,20 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    
    QWidget     *dermixdTab    = new QWidget( this );
    QGridLayout *dermixdLayout = new QGridLayout( dermixdTab );
-   dermixdLayout->addWidget( mpDerMixDrun, 0, 0, 1, 3 );
+   dermixdLayout->addWidget( mpDerMixDrun, 0, 0, 1, 4 );
    dermixdLayout->addWidget( mpDerMixDcmdLabel, 1, 0 );
-   dermixdLayout->addWidget( mpDerMixDcmd, 1, 1, 1, 2 );
+   dermixdLayout->addWidget( mpDerMixDcmd, 1, 1, 1, 3 );
    dermixdLayout->addWidget( mpDerMixDparamsLabel, 2, 0 );
-   dermixdLayout->addWidget( mpDerMixDparams, 2, 1, 1, 2 );
+   dermixdLayout->addWidget( mpDerMixDparams, 2, 1, 1, 3 );
    dermixdLayout->addWidget( mpDerMixDhostLabel, 3, 0 );
-   dermixdLayout->addWidget( mpDerMixDhost, 3, 1, 1, 2 );
+   dermixdLayout->addWidget( mpDerMixDhost, 3, 1, 1, 3 );
    dermixdLayout->addWidget( mpDerMixDportLabel, 4, 0 );
    dermixdLayout->addWidget( mpDerMixDport, 4, 1 );
-   dermixdLayout->addWidget( mpDerMixDlog, 4, 2 );
-   dermixdLayout->setColumnStretch( 2, 1 );
+   dermixdLayout->addWidget( mpDerMixDlog, 4, 2, 1, 2 );
+   dermixdLayout->addWidget( mpNormalizeMode, 5, 0, 1, 3 );
+   dermixdLayout->addWidget( mpNormalizeValue, 5, 3 );
+   dermixdLayout->setColumnStretch( 2, 2 );
+   dermixdLayout->setColumnStretch( 3, 1 );
    dermixdLayout->setRowStretch( 6, 1 );
    dermixdTab->setLayout( dermixdLayout );
    
@@ -94,8 +97,6 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    partymanLayout->addWidget( mpCrossfadeTime, 1, 2 );
    partymanLayout->addWidget( mpSLARTCommunication, 2, 0, 1, 2 );
    partymanLayout->addWidget( mpUDPListenerPort, 2, 2 );
-   partymanLayout->addWidget( mpNormalizeMode, 3, 0, 1, 2 );
-   partymanLayout->addWidget( mpNormalizeValue, 3, 2 );
    partymanLayout->addWidget( new QLabel( tr("External Logger:") ), 4, 0 );
    partymanLayout->addWidget( mpLogCmd, 4, 1, 1, 2 );
    partymanLayout->addWidget( mpCountSkip, 5, 0, 1, 3 );
@@ -109,7 +110,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    randomLayout->addWidget( mpPlayOnlyLeastPlayed, 1, 0, 1, 3 );
    randomLayout->addWidget( new QLabel( tr("Play Folder:") ), 2, 0 );
    randomLayout->addWidget( mpPlayFolder, 2, 1, 1, 2 );
-   randomLayout->addWidget( new QLabel( tr("Number of tracks an artist is not played again:") ), 3, 0, 1, 2 );
+   randomLayout->addWidget( new QLabel( tr("Number Of Tracks An Artist Is Not Played Again:") ), 3, 0, 1, 2 );
    randomLayout->addWidget( mpPlayNotAgainCount, 3, 2 );
    randomLayout->setRowStretch( 6, 1 );
    randomTab->setLayout( randomLayout );
@@ -123,7 +124,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    displayLayout->addWidget( new QLabel( tr("List Display Pattern:") ), 2, 0 );
    displayLayout->addWidget( mpListPattern, 2, 1 );
    displayLayout->setRowStretch( 3, 1 );
-   displayLayout->addWidget( mpUpdateBrowserButton, 4, 0, 1, 2 );
+   displayLayout->addWidget( mpUpdateBrowserButton, 5, 0, 1, 2 );
    displayTab->setLayout( displayLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -139,8 +140,8 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    "<tr><td align='center'><a href='http://svolli.org/software/partyman/'>"
    "<img src=':/PartymanSmile.gif'></a>&nbsp;&nbsp;<a href='http://svolli.org/software/partyman/'>"
    "<img src=':/PartymanWriting.gif'></a></td></tr><tr><td align='center'>Version " SLART_VERSION
-   " written by Sven Oliver Moll as a part of <a href='http://svolli.org/software/slart/'>SLART</a>"
-   ".</td></tr><tr><td align='left'>Distributed unter the terms of the "
+   " written by Sven Oliver Moll as a part of <a href='http://svolli.org/software/slart/'>SLART</a>."
+   "</td></tr><tr><td align='left'>Distributed unter the terms of the "
    "<a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>.</td></tr><tr><td align='center'>"
    "This is a frontend for <a href='http://dermixd.de/'>DerMixD</a>.</td></tr>"
    "<tr><td align='right'>Based upon the <a href='about:qt'>Qt</a> framework.</td></tr></table>") );

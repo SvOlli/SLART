@@ -1,5 +1,16 @@
 [<a href="Usage.html">Usage</a>] [<a href="Settings.html">Settings</a>] [<b>Pattern</b>]
 <hr>
+The patterns that are used to display the window title, the track inside
+the player and the tracks in the playlist/searchlist are configured the
+same way. Everything that is either static or dynamic content is enclosed
+in pipe-signes ('|'). Dynamic content is marked by using a dollar- ('$')
+or hash-sign ('#') according to the following table. The values of this
+dynamic content are taken from the database and not from the files directly.
+The tokens for accessing the database are pretty much self describing.
+Numeric values can be accessed via the hash-sign ('#') and a number of
+digits that shall be displayed. Only the right digits are display, if the
+number is to big, so "#2DATE" will display a track from 1980 as "80" and
+a track from 2008 as "08".
 <table border='1' cellspacing='0'>
 <thead>
 <tr><th>Token</th></tr>
