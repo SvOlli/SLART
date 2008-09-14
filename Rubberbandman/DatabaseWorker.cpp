@@ -211,7 +211,10 @@ void DatabaseWorker::importM3u()
    {
       return;
    }
-   m3uFile.open( QIODevice::ReadOnly | QIODevice::Text );
+   if( !m3uFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
+   {
+      return;
+   }
    
    QString fileName;
    QString fileBase( mPath + "/../" );
