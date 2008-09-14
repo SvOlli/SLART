@@ -544,7 +544,7 @@ void InfoEdit::loadFile( const QString &fullpath )
          mpShowFileName->setDisabled( true );
          mpShowSize->setDisabled( true );
          mpShowPlayTime->setDisabled( true );
-         mpButtonSet->setDisabled( mpShowPathName->text().isEmpty() );
+         mpButtonSet->setDisabled( true );
       }
    }
 }
@@ -734,7 +734,7 @@ void InfoEdit::handleCancel()
 
 void InfoEdit::handleChange()
 {
-   mpButtonSet->setDisabled( false );
+   mpButtonSet->setDisabled( mpShowPathName->text().isEmpty() );
 }
 
 
