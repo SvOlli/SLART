@@ -248,9 +248,9 @@ bool PlaylistWidget::getRandomTrack( QString *fileName, QStringList *playedArtis
       {
          *fileName = trackInfo.filePath();
          
-         if( !playedArtists->contains( trackInfo.mArtist ) )
+         if( !playedArtists->contains( trackInfo.mArtist.simplified(), Qt::CaseInsensitive ) )
          {
-            playedArtists->prepend( trackInfo.mArtist );
+            playedArtists->prepend( trackInfo.mArtist.simplified() );
             
             return true;
          }
