@@ -206,7 +206,7 @@ void ConfigDialog::readSettings()
    mpCountSkip->setChecked( settings.value("CountSkip", false).toBool() );
    mpPlayOnlyFavorite->setChecked( settings.value("PlayOnlyFavorite", false).toBool() );
    mpPlayOnlyLeastPlayed->setChecked( settings.value("PlayOnlyLeastPlayed", false).toBool() );
-   mpPlayNotAgainCount->setValue(settings.value("PlayNotAgainCount", 24222).toInt() );
+   mpPlayNotAgainCount->setValue(settings.value("PlayNotAgainCount", 10).toInt() );
    mpPlayerPattern->setText( settings.value("PlayerPattern", "|$ARTIST| - |$TITLE|").toString() );
    mpListPattern->setText( settings.value("ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|").toString() );
    mpNamePattern->setText( settings.value("NamePattern", QApplication::applicationName()+": |$TITLE|").toString() );
