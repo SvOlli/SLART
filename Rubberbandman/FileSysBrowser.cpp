@@ -324,6 +324,7 @@ void FileSysBrowser::menuDelete()
       }
       if( MySettings().value("AutoRescan", true).toBool() )
       {
+         mpView->setCurrentIndex( mpView->indexAbove( mContextModelIndex ) );
          handleRootDir();
       }
    }
