@@ -210,6 +210,7 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 void InfoEdit::recurse( const QDir &dir, bool isBase )
 {
    QFileInfoList files(dir.entryInfoList());
+   QString fileName;
    int i;
    
    if( isBase )
@@ -223,6 +224,7 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
          return;
       }
       
+      fileName = mFileName;
       mpButtonSet->setDisabled( true );
       mpButtonNormArtist->setDisabled( true );
       mpButtonNormTitle->setDisabled( true );
@@ -353,6 +355,7 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       {
          emit updated();
       }
+      loadFile( fileName );
    }
 }
 
@@ -556,7 +559,6 @@ void InfoEdit::handleSetSave()
       if( mIsFile )
       {
          saveFile();
-         MySettings().sendNotification( QString("r0u") );
       }
       else
       {
@@ -575,6 +577,7 @@ void InfoEdit::handleSetSave()
          mRecurseMode = MODE_NOTHING;
       }
       mpButtonSet->setDisabled( true );
+      MySettings().sendNotification( QString("r0u") );
    }
 }
 
