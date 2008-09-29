@@ -711,6 +711,12 @@ void InfoEdit::saveFile()
    {
       loadFile( mTrackInfo.filePath() );
    }
+   else
+   {
+      mpShowPathName->setText( qfi.absolutePath() );
+      mpShowFileName->setText( qfi.fileName() );
+      mFileName = qfi.absoluteFilePath();
+   }
 }
 
 
