@@ -40,8 +40,6 @@ public:
 public slots:
    /* re-read config */
    void readConfig();
-   /* handle input of buffer size */
-   void setBufferSize( int size );
    /* handle the ping button */
    void handlePingButton();
    /* handle SLART message */
@@ -69,13 +67,10 @@ private:
    QListWidget  *mpMessageBuffer;
    QPushButton  *mpSettingsButton;
    QPushButton  *mpPingButton;
-   QLabel       *mpBufferSizeLabel;
-   QSpinBox     *mpBufferSize;
    ConfigDialog *mpConfig;
    DropDialog   *mpDropDialog;
    ExecButton   **mpExecButtons;
    int          mNumExecButtons;
-   int          mBufferSize;
    SLARTCom     mSLARTCom;
 };
 

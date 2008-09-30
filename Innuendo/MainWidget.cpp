@@ -13,6 +13,7 @@
 #include "GlobalConfigWidget.hpp"
 #include "ExecButton.hpp"
 #include "DropDialog.hpp"
+#include "MySettings.hpp"
 
 #include "Trace.hpp"
 
@@ -22,13 +23,10 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpMessageBuffer( new QListWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpPingButton( new QPushButton( tr("Ping"), this ) )
-, mpBufferSizeLabel( new QLabel( tr("Buffer Size:"), this ) )
-, mpBufferSize( new QSpinBox( this ) )
 , mpConfig( new ConfigDialog( this ) )
 , mpDropDialog( new DropDialog( this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint ) )
 , mpExecButtons(0)
 , mNumExecButtons(0)
-, mBufferSize(500)
 , mSLARTCom()
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
@@ -59,8 +57,6 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    
    mNumExecButtons = applications.count();
    mpExecButtons = new ExecButton*[mNumExecButtons];
-   mpBufferSizeLabel->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
-   mpBufferSize->setRange( 50, 50000 );
    
    QLabel *mpLogo = new QLabel( this );
    mpLogo->setText( QApplication::applicationName() );
@@ -78,8 +74,6 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    }
    mainLayout->addWidget( mpSettingsButton,  3, 0 );
    mainLayout->addWidget( mpPingButton,      3, 1 );
-   mainLayout->addWidget( mpBufferSizeLabel, 3, mNumExecButtons - 2 );
-   mainLayout->addWidget( mpBufferSize,      3, mNumExecButtons - 1 );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfig, SLOT(exec()) );
@@ -87,8 +81,6 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handlePingButton()) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
-   connect( mpBufferSize, SIGNAL(valueChanged(int)),
-            this, SLOT(setBufferSize(int)) );
    connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
             this, SLOT(handleSLART(QStringList)) );
    connect( &mSLARTCom, SIGNAL(updateConfig()),
@@ -158,17 +150,7 @@ void MainWidget::autostart()
 
 void MainWidget::readConfig()
 {
-   MySettings settings;
-
    mSLARTCom.resetReceiver();
-
-   mpBufferSize->setValue( mBufferSize );
-}
-
-
-void MainWidget::setBufferSize( int size )
-{
-   mBufferSize = size;
 }
 
 
@@ -205,7 +187,7 @@ void MainWidget::handleSLART( const QStringList &message )
       mpMessageBuffer->addItem( message.at(i) );
    }
 
-   while( mpMessageBuffer->count() > mBufferSize )
+   while( mpMessageBuffer->count() > MySettings().value( "BufferSize", 500 ).toInt() )
    {
       QListWidgetItem *item = mpMessageBuffer->takeItem(0);
       if( item )

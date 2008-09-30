@@ -22,6 +22,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpNotifyWidget( new ConfigNotifyWidget( this ) )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
+, mpBufferSize( new QSpinBox( this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    
@@ -30,14 +31,23 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
-
+   
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
-
+   
+   QWidget     *iTab    = new QWidget( this );
+   QGridLayout *iLayout = new QGridLayout( iTab );
+   iLayout->addWidget( new QLabel( tr("Buffer Size:"), this ), 0, 0 );
+   iLayout->addWidget( mpBufferSize,                           0, 1 );
+   iLayout->setColumnStretch( 0, 1 );
+   iLayout->setRowStretch( 1, 1 );
+   mpBufferSize->setRange( 50, 50000 );
+   
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
    tabs->addTab( mpNotifyWidget,       QString(tr("Communication")) );
+   tabs->addTab( iTab,                 QString(tr("Innuendo")) );
    tabs->addTab( mpProxyWidget,        QString(tr("Proxy")) );
    tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
    
@@ -45,7 +55,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );
    setLayout( mainLayout );
-
+   
    connect( okButton, SIGNAL(clicked()),
             this, SLOT(accept()) );
    connect( cancelButton, SIGNAL(clicked()),
@@ -72,6 +82,9 @@ void ConfigDialog::readSettings()
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
    
+   MySettings settings;
+   mpBufferSize->setValue( settings.value( "BufferSize", 500 ).toInt() );
+   
    emit configChanged();
 }
 
@@ -81,7 +94,10 @@ void ConfigDialog::writeSettings()
    mpNotifyWidget->writeSettings();
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
-
+   
+   MySettings settings;
+   settings.setValue( "BufferSize", mpBufferSize->value() );
+   
    emit configChanged();
 }
 

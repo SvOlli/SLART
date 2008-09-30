@@ -47,6 +47,7 @@ private:
    ConfigNotifyWidget   *mpNotifyWidget;
    GlobalConfigWidget   *mpGlobalConfigWidget;
    ProxyWidget          *mpProxyWidget;
+   QSpinBox             *mpBufferSize;
 };
 
 #endif
