@@ -399,20 +399,19 @@ QStringList Database::getFolder( const QString &folder )
       {
          sql.append( "Flags & " );
          sql.append( QString::number( (unsigned int)TrackInfo::Favorite ) );
-         sql.append( ";" );
       }
       else if( folder == QChar(2) )
       {
          sql.append( "Flags & " );
          sql.append( QString::number( (unsigned int)TrackInfo::Unwanted ) );
-         sql.append( ";" );
       }
       else
       {
          sql.append( "Folders LIKE '%|" );
          sql.append( folder );
-         sql.append( "|%' ORDER BY Directory, FileName;" );
+         sql.append( "|%'" );
       }
+      sql.append( " ORDER BY Directory, FileName;" );
       
       mpQuery->prepare( sql );
       if( !mpQuery->exec() )
