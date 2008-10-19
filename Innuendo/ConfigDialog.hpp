@@ -48,6 +48,12 @@ private:
    GlobalConfigWidget   *mpGlobalConfigWidget;
    ProxyWidget          *mpProxyWidget;
    QSpinBox             *mpBufferSize;
+   QPushButton          *mpAutostartPartyman;
+   QPushButton          *mpAutostartKarmadrome;
+   QPushButton          *mpAutostartRubberbandman;
+   QPushButton          *mpAutostartStripped;
+   QPushButton          *mpAutostartFunkytown;
+   QPushButton          *mpAutostartCreep;
 };
 
 #endif

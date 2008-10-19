@@ -28,6 +28,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpExecButtons(0)
 , mNumExecButtons(0)
 , mSLARTCom()
+, mAutostart( MySettings().value("Startup", QStringList()).toStringList() )
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
 #if QT_VERSION < 0x040300
@@ -133,15 +134,16 @@ TRACEMSG << mpExecButtons[i]->text() << mpExecButtons[i]->isChecked();
 
 void MainWidget::autostart()
 {
-   QStringList startApplications( MySettings().value("Startup", QStringList()).toStringList() );
-   
-   if( startApplications.count() > 0 )
+   if( mAutostart.count() > 0 )
    {
       for( int i = 0; i < mNumExecButtons; i++ )
       {
-         if( startApplications.contains( mpExecButtons[i]->text() ) )
+         if( mAutostart.contains( mpExecButtons[i]->text() ) )
          {
             mpExecButtons[i]->click();
+            mAutostart.removeAt( mAutostart.indexOf( mpExecButtons[i]->text() ) );
+            QTimer::singleShot(500, this, SLOT(autostart()));
+            break;
          }
       }
    }

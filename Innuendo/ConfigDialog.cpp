@@ -23,8 +23,20 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mpBufferSize( new QSpinBox( this ) )
+, mpAutostartPartyman( new QPushButton( tr("Partyman"), this) )
+, mpAutostartKarmadrome( new QPushButton( tr("Karmadrome"), this) )
+, mpAutostartRubberbandman( new QPushButton( tr("Rubberbandman"), this) )
+, mpAutostartStripped( new QPushButton( tr("Stripped"), this) )
+, mpAutostartFunkytown( new QPushButton( tr("Funkytown"), this) )
+, mpAutostartCreep( new QPushButton( tr("Creep"), this) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   mpAutostartPartyman->setCheckable( true );
+   mpAutostartKarmadrome->setCheckable( true );
+   mpAutostartRubberbandman->setCheckable( true );
+   mpAutostartStripped->setCheckable( true );
+   mpAutostartFunkytown->setCheckable( true );
+   mpAutostartCreep->setCheckable( true );
    
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showClipboard();
@@ -36,12 +48,23 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
    
+   QGroupBox   *autostartBox    = new QGroupBox( tr("Autostart With Innuendo:") );
+   QGridLayout *autostartLayout = new QGridLayout( autostartBox );
+   autostartLayout->addWidget( mpAutostartPartyman, 0, 0 );
+   autostartLayout->addWidget( mpAutostartKarmadrome, 0, 1 );
+   autostartLayout->addWidget( mpAutostartRubberbandman, 0, 2 );
+   autostartLayout->addWidget( mpAutostartStripped, 1, 0 );
+   autostartLayout->addWidget( mpAutostartFunkytown, 1, 1 );
+   autostartLayout->addWidget( mpAutostartCreep, 1, 2 );
+   autostartBox->setLayout( autostartLayout );
+   
    QWidget     *iTab    = new QWidget( this );
    QGridLayout *iLayout = new QGridLayout( iTab );
    iLayout->addWidget( new QLabel( tr("Buffer Size:"), this ), 0, 0 );
    iLayout->addWidget( mpBufferSize,                           0, 1 );
+   iLayout->addWidget( autostartBox,                           1, 0, 1, 2 );
    iLayout->setColumnStretch( 0, 1 );
-   iLayout->setRowStretch( 1, 1 );
+   iLayout->setRowStretch( 2, 1 );
    mpBufferSize->setRange( 50, 50000 );
    
    QBoxLayout *mainLayout = new QVBoxLayout( this );
@@ -84,6 +107,14 @@ void ConfigDialog::readSettings()
    
    MySettings settings;
    mpBufferSize->setValue( settings.value( "BufferSize", 500 ).toInt() );
+   QStringList autostart( settings.value( "Startup", QStringList() ).toStringList() );
+   
+   mpAutostartPartyman->setChecked( autostart.contains( "Partyman" ) );
+   mpAutostartKarmadrome->setChecked( autostart.contains( "Karmadrome" ) );
+   mpAutostartRubberbandman->setChecked( autostart.contains( "Rubberbandman" ) );
+   mpAutostartStripped->setChecked( autostart.contains( "Stripped" ) );
+   mpAutostartFunkytown->setChecked( autostart.contains( "Funkytown" ) );
+   mpAutostartCreep->setChecked( autostart.contains( "Creep" ) );
    
    emit configChanged();
 }
@@ -96,7 +127,22 @@ void ConfigDialog::writeSettings()
    mpProxyWidget->writeSettings();
    
    MySettings settings;
+   QStringList autostart;
+   if( mpAutostartPartyman->isChecked() ) { autostart.append( "Partyman" ); }
+   if( mpAutostartKarmadrome->isChecked() ) { autostart.append( "Karmadrome" ); }
+   if( mpAutostartRubberbandman->isChecked() ) { autostart.append( "Rubberbandman" ); }
+   if( mpAutostartStripped->isChecked() ) { autostart.append( "Stripped" ); }
+   if( mpAutostartFunkytown->isChecked() ) { autostart.append( "Funkytown" ); }
+   if( mpAutostartCreep->isChecked() ) { autostart.append( "Creep" ); }
    settings.setValue( "BufferSize", mpBufferSize->value() );
+   if( autostart.isEmpty() )
+   {
+      settings.remove( "Startup" );
+   }
+   else
+   {
+      settings.setValue( "Startup", autostart );
+   }
    
    emit configChanged();
 }

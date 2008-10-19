@@ -22,7 +22,7 @@ class QListWidgetItem;
 class QIcon;
 class QPushButton;
 class QSpinBox;
-class QString;
+class QStringList;
    
 class ConfigDialog;
 class DropDialog;
@@ -72,6 +72,7 @@ private:
    ExecButton   **mpExecButtons;
    int          mNumExecButtons;
    SLARTCom     mSLARTCom;
+   QStringList  mAutostart;
 };
 
 #endif
