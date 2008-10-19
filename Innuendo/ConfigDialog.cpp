@@ -62,9 +62,9 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    QGridLayout *iLayout = new QGridLayout( iTab );
    iLayout->addWidget( new QLabel( tr("Buffer Size:"), this ), 0, 0 );
    iLayout->addWidget( mpBufferSize,                           0, 1 );
-   iLayout->addWidget( autostartBox,                           1, 0, 1, 2 );
+   iLayout->addWidget( autostartBox,                           2, 0, 1, 2 );
    iLayout->setColumnStretch( 0, 1 );
-   iLayout->setRowStretch( 2, 1 );
+   iLayout->setRowStretch( 1, 1 );
    mpBufferSize->setRange( 50, 50000 );
    
    QBoxLayout *mainLayout = new QVBoxLayout( this );
