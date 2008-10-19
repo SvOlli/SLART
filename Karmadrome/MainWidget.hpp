@@ -77,6 +77,8 @@ private:
    QAction         *mpExportUnwanted;
    QPushButton     *mpImportButton;
    QMenu           *mpImportMenu;
+   QAction         *mpImportFavorite;
+   QAction         *mpImportUnwanted;
    ButtonsWidget   *mpListButtons;
    
    QPushButton     *mpSettingsButton;

@@ -31,6 +31,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpExportUnwanted( new QAction( tr("No Auto"), this ) )
 , mpImportButton( new QPushButton( tr("Import m3u"), this ) )
 , mpImportMenu( new QMenu( this ) )
+, mpImportFavorite( new QAction( tr("Favorite"), this ) )
+, mpImportUnwanted( new QAction( tr("No Auto"), this ) )
 , mpListButtons( new ButtonsWidget( tr("Folders:"), this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpAddButton( new QPushButton( tr("Add"), this ) )
@@ -215,20 +217,23 @@ void MainWidget::updateLists()
    mpImportMenu->clear();
    mpRemoveMenu->clear();
    
+   mpExportMenu->addAction( mpExportFavorite );
+   mpImportMenu->addAction( mpImportFavorite );
+   mpExportMenu->addAction( mpExportUnwanted );
+   mpImportMenu->addAction( mpImportUnwanted );
+   
+   if( mPlaylists.count() > 0 )
+   {
+      mpExportMenu->addSeparator();
+      mpImportMenu->addSeparator();
+   }
+   
    for( i = 0; i < mPlaylists.count(); i++ )
    {
       mpExportMenu->addAction( mPlaylists.at(i) );
       mpImportMenu->addAction( mPlaylists.at(i) );
       mpRemoveMenu->addAction( mPlaylists.at(i) );
    }
-   
-   if( mPlaylists.count() > 0 )
-   {
-      mpExportMenu->addSeparator();
-   }
-   
-   mpExportMenu->addAction( mpExportFavorite );
-   mpExportMenu->addAction( mpExportUnwanted );
 }
 
 
@@ -466,7 +471,18 @@ void MainWidget::importM3u( const QString &folder, const QString &fileName )
             }
             if( mpDatabase->getTrackInfo( &trackInfo, fileName ) )
             {
-               trackInfo.setFolder( folder, true );
+               if( folder == QChar(1) )
+               {
+                  trackInfo.setFlag( TrackInfo::Favorite, true );
+               }
+               else if( folder == QChar(2) )
+               {
+                  trackInfo.setFlag( TrackInfo::Unwanted, true );
+               }
+               else
+               {
+                  trackInfo.setFolder( folder, true );
+               }
                mpDatabase->updateTrackInfo( &trackInfo );
             }
          }
