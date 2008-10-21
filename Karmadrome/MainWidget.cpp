@@ -163,7 +163,18 @@ void MainWidget::handleSLART( const QStringList &message )
       {
          if( message.at(2).startsWith( "/" ) )
          {
-            importM3u( message.at(1), message.at(2) );
+            if( message.at(1).startsWith( "|F", Qt::CaseInsensitive ) )
+            {
+               importM3u( QChar(1), message.at(2) );
+            }
+            else if( message.at(1).startsWith( "|U", Qt::CaseInsensitive ) )
+            {
+               importM3u( QChar(2), message.at(2) );
+            }
+            else
+            {
+               importM3u( message.at(1), message.at(2) );
+            }
          }
       }
    }
