@@ -148,7 +148,7 @@ Database::~Database()
    {
       mpSqlDB->commit();
       mpSqlDB->close();
-      mpSqlDB->removeDatabase( "QSQLITE" );
+      mpSqlDB->removeDatabase( QLatin1String("qt_sql_default_connection") );
       delete mpSqlDB;
    }
 }
