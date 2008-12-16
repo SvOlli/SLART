@@ -109,7 +109,7 @@ void CDToc::calcCddbDiscID()
 
 QString CDToc::cddbDiscID()
 {
-   return QString::number( mDiscID, 16 );
+   return QString::number( mDiscID, 16 ).right(8);
 }
 
 
@@ -185,7 +185,7 @@ QString CDToc::length( int track )
 QString CDToc::query()
 {
    QString querystring("cddb query ");
-   querystring.append( QString::number( mDiscID, 16 ) );
+   querystring.append( QString::number( mDiscID, 16 ).right(8) );
    querystring.append( " " );
    querystring.append( QString::number( mNumTracks ) );
    for( int i = 1; i <= mNumTracks; i++ )
