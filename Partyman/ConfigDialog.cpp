@@ -36,6 +36,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
 , mpCountSkip( new QCheckBox( tr("Increase Track Played Counter On Skip"), this ) )
+, mpTrayIcon( new QCheckBox( tr("Show Tray Icon"), this ) )
 , mpPlayOnlyFavorite( new QCheckBox( tr("Play Favorite Tracks Only"), this ) )
 , mpPlayOnlyLeastPlayed( new QCheckBox( tr("Play Least Played Tracks Only"), this ) )
 , mpPlayFolder( new QComboBox( this ) )
@@ -43,6 +44,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpNamePattern( new QLineEdit( this ) )
 , mpPlayerPattern( new QLineEdit( this ) )
 , mpListPattern( new QLineEdit( this ) )
+, mpTrayIconPattern( new QLineEdit( this ) )
 , mpUpdateBrowserButton( new QPushButton( tr("Update Browser Tab"), this ) )
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
 {
@@ -92,16 +94,18 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    
    QWidget     *partymanTab    = new QWidget( this );
    QGridLayout *partymanLayout = new QGridLayout( partymanTab );
-   partymanLayout->addWidget( mpAutoConnect, 0, 0, 1, 3 );
+   partymanLayout->addWidget( mpAutoConnect, 0, 0, 1, 2 );
+   partymanLayout->addWidget( mpTrayIcon, 0, 2, 1, 3 );
    partymanLayout->addWidget( new QLabel( tr("Crossfade Time:") ), 1, 0, 1, 2 );
-   partymanLayout->addWidget( mpCrossfadeTime, 1, 2 );
+   partymanLayout->addWidget( mpCrossfadeTime, 1, 4 );
    partymanLayout->addWidget( mpSLARTCommunication, 2, 0, 1, 2 );
-   partymanLayout->addWidget( mpUDPListenerPort, 2, 2 );
-   partymanLayout->addWidget( new QLabel( tr("External Logger:") ), 4, 0 );
-   partymanLayout->addWidget( mpLogCmd, 4, 1, 1, 2 );
-   partymanLayout->addWidget( mpCountSkip, 5, 0, 1, 3 );
+   partymanLayout->addWidget( new QLabel( tr("Port") ), 2, 3 );
+   partymanLayout->addWidget( mpUDPListenerPort, 2, 4 );
+   partymanLayout->addWidget( new QLabel( tr("External Logger:") ), 3, 0 );
+   partymanLayout->addWidget( mpLogCmd, 3, 1, 1, 4 );
+   partymanLayout->addWidget( mpCountSkip, 4, 0, 1, 5 );
    partymanLayout->setColumnStretch( 1, 1 );
-   partymanLayout->setRowStretch( 6, 1 );
+   partymanLayout->setRowStretch( 5, 1 );
    partymanTab->setLayout( partymanLayout );
    
    QWidget     *randomTab    = new QWidget( this );
@@ -119,11 +123,13 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    QGridLayout *displayLayout = new QGridLayout( displayTab );
    displayLayout->addWidget( new QLabel( tr("Title Display Pattern:") ), 0, 0 );
    displayLayout->addWidget( mpNamePattern, 0, 1 );
-   displayLayout->addWidget( new QLabel( tr("Player Display Pattern:") ), 1, 0 );
-   displayLayout->addWidget( mpPlayerPattern, 1, 1 );
-   displayLayout->addWidget( new QLabel( tr("List Display Pattern:") ), 2, 0 );
-   displayLayout->addWidget( mpListPattern, 2, 1 );
-   displayLayout->setRowStretch( 3, 1 );
+   displayLayout->addWidget( new QLabel( tr("TrayIcon Display Pattern:") ), 1, 0 );
+   displayLayout->addWidget( mpTrayIconPattern, 1, 1 );
+   displayLayout->addWidget( new QLabel( tr("Player Display Pattern:") ), 2, 0 );
+   displayLayout->addWidget( mpPlayerPattern, 2, 1 );
+   displayLayout->addWidget( new QLabel( tr("List Display Pattern:") ), 3, 0 );
+   displayLayout->addWidget( mpListPattern, 3, 1 );
+   displayLayout->setRowStretch( 4, 1 );
    displayLayout->addWidget( mpUpdateBrowserButton, 5, 0, 1, 2 );
    displayTab->setLayout( displayLayout );
    
@@ -204,12 +210,14 @@ void ConfigDialog::readSettings()
    mpNormalizeValue->setValue( settings.value("NormalizeValue", 0.4).toDouble() );
    mpLogCmd->setText( settings.value("LogCmd", "").toString() );
    mpCountSkip->setChecked( settings.value("CountSkip", false).toBool() );
+   mpTrayIcon->setChecked( settings.value("TrayIcon", false).toBool() );
    mpPlayOnlyFavorite->setChecked( settings.value("PlayOnlyFavorite", false).toBool() );
    mpPlayOnlyLeastPlayed->setChecked( settings.value("PlayOnlyLeastPlayed", false).toBool() );
    mpPlayNotAgainCount->setValue(settings.value("PlayNotAgainCount", 10).toInt() );
    mpPlayerPattern->setText( settings.value("PlayerPattern", "|$ARTIST| - |$TITLE|").toString() );
    mpListPattern->setText( settings.value("ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|").toString() );
    mpNamePattern->setText( settings.value("NamePattern", QApplication::applicationName()+": |$TITLE|").toString() );
+   mpTrayIconPattern->setText( settings.value("TrayIconPattern", "|$ARTIST|\n|$TITLE|\n|$ALBUM|").toString() );
    handleUDPListen( mpSLARTCommunication->isChecked() );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    mpGlobalSettings->readSettings();
@@ -246,12 +254,14 @@ void ConfigDialog::writeSettings()
    settings.setValue( "NormalizeValue", mpNormalizeValue->value() );
    settings.setValue( "LogCmd", mpLogCmd->text() );
    settings.setValue( "CountSkip", mpCountSkip->isChecked() );
+   settings.setValue( "TrayIcon", mpTrayIcon->isChecked() );
    settings.setValue( "PlayOnlyFavorite", mpPlayOnlyFavorite->isChecked() );
    settings.setValue( "PlayOnlyLeastPlayed", mpPlayOnlyLeastPlayed->isChecked() );
    settings.setValue( "PlayNotAgainCount", mpPlayNotAgainCount->value() );
    settings.setValue( "PlayerPattern", mpPlayerPattern->text() );
    settings.setValue( "ListPattern", mpListPattern->text() );
    settings.setValue( "NamePattern", mpNamePattern->text() );
+   settings.setValue( "TrayIconPattern", mpTrayIconPattern->text() );
    if( mpPlayFolder->currentIndex() )
    {
       settings.setValue( "PlayFolder", mpPlayFolder->currentText() );

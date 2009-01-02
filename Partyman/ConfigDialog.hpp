@@ -71,6 +71,7 @@ private:
    MyClipboard          *mpClipboard;
    QLineEdit            *mpLogCmd;
    QCheckBox            *mpCountSkip;
+   QCheckBox            *mpTrayIcon;
    QCheckBox            *mpPlayOnlyFavorite;
    QCheckBox            *mpPlayOnlyLeastPlayed;
    QComboBox            *mpPlayFolder;
@@ -78,6 +79,7 @@ private:
    QLineEdit            *mpNamePattern;
    QLineEdit            *mpPlayerPattern;
    QLineEdit            *mpListPattern;
+   QLineEdit            *mpTrayIconPattern;
    QPushButton          *mpUpdateBrowserButton;
    GlobalConfigWidget   *mpGlobalSettings;
 };

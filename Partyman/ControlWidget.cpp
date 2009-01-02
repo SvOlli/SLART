@@ -29,8 +29,14 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mStopIcon( QIcon(":/Stop.gif") )
 , mPlayIcon( QIcon(":/Play.gif") )
 , mPauseIcon( QIcon(":/Pause.gif") )
+, mSkipIcon( QIcon(":/Skip.gif") )
 , mLoadIcon( QIcon(":/Load.gif") )
+, mpTrayIcon( new QSystemTrayIcon( this ) )
+, mpTrayIconStopMenu( new QMenu( this ) )
+, mpTrayIconPlayMenu( new QMenu( this ) )
 , mpDisconnectMenu( new QMenu( mpConnectButton ) )
+, mpPlayAction( mpTrayIconStopMenu->addAction( mPlayIcon, tr("Start" ) ) )
+, mpSkipAction( mpTrayIconPlayMenu->addAction( mSkipIcon, tr("Next" ) ) )
 , mpPauseAction( mpDisconnectMenu->addAction( tr("Pause" ) ) )
 , mpDisconnectAction( mpDisconnectMenu->addAction( mStopIcon, tr("Disconnect" ) ) )
 , mpLoadAction( mpDisconnectMenu->addAction( mLoadIcon, tr("Load" ) ) )
@@ -74,7 +80,14 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 
    mpSkipButton->setDisabled( true );
    
+   mpTrayIcon->setIcon( QIcon(":/PartymanSmile.gif") );
+   mpTrayIcon->setContextMenu( mpTrayIconStopMenu );
+   mpTrayIconPlayMenu->addAction( mpPauseAction );
+   mpTrayIconPlayMenu->addAction( mpDisconnectAction );
+   
    connect( mpConnectButton, SIGNAL(clicked()),
+            this, SLOT(initConnect()) );
+   connect( mpPlayAction, SIGNAL(triggered()),
             this, SLOT(initConnect()) );
    connect( mpPauseAction, SIGNAL(triggered()),
             this, SLOT(handlePause()) );
@@ -83,6 +96,8 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    connect( mpLoadAction, SIGNAL(triggered()),
             this, SLOT(handleLoad()) );
    connect( mpSkipButton, SIGNAL(clicked()),
+            this, SLOT(handleSkipTrack()) );
+   connect( mpSkipAction, SIGNAL(triggered()),
             this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
@@ -174,6 +189,14 @@ void ControlWidget::readConfig()
       mpConnectButton->setText("Connect");
       mpDisconnectAction->setText("Disconnect");
    }
+   if( settings.value("TrayIcon", false).toBool() )
+   {
+      mpTrayIcon->show();
+   }
+   else
+   {
+      mpTrayIcon->hide();
+   }
    mpLoadAction->setEnabled( MySettings( "Global" ).value( "ClipboardMode", 0 ).toInt() > 0 );
 }
 
@@ -225,6 +248,7 @@ void ControlWidget::initConnect()
       mpPlayer[0]->connectTo( hostname, port );
       mpPlayer[1]->connectTo( hostname, port );
       mpConnectButton->setMenu( mpDisconnectMenu );
+      mpTrayIcon->setContextMenu( mpTrayIconPlayMenu );
       mpConnectButton->setChecked( true );
       emit signalConnected( true );
    }
@@ -235,6 +259,8 @@ void ControlWidget::initConnect()
 void ControlWidget::initDisconnect( eErrorCode errorcode )
 {
    emit requestChangeTitle( mStopIcon, QApplication::applicationName()+tr(" (disconnected)") );
+   mpTrayIcon->setToolTip( QString() );
+   mpTrayIcon->setContextMenu( mpTrayIconStopMenu );
    if( mConnected )
    {
       mConnected = false;
@@ -486,4 +512,6 @@ void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
    }
    mLastTitle = title;
    emit requestChangeTitle( mPlayIcon, title );
+   mpTrayIcon->setToolTip( trackInfo.displayString( MySettings().value("TrayIconPattern", 
+                                                      "|$ARTIST|\n|$TITLE|\n|$ALBUM|").toString() ) );
 }

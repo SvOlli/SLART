@@ -21,12 +21,12 @@
 class QPushButton;
 class QMenu;
 class QAction;
+class QSystemTrayIcon;
    
 class ConfigDialog;
 class Database;
 class PlaylistWidget;
 class TrackInfo;
-
 
 class ControlWidget : public QWidget
 {
@@ -99,29 +99,35 @@ private:
    ControlWidget( const ControlWidget &other );
    ControlWidget &operator=( const ControlWidget &other );
    
-   ConfigDialog   *mpConfig;
-   PlaylistWidget *mpPlaylist;
-   QLabel         *mpLogo;
-   QPushButton    *mpConnectButton;
-   QPushButton    *mpSkipButton;
-   PlayerWidget   *mpPlayer[2];
-   bool           mConnected;
-   bool           mPaused;
-   QIcon          mStopIcon;
-   QIcon          mPlayIcon;
-   QIcon          mPauseIcon;
-   QIcon          mLoadIcon;
-   QMenu          *mpDisconnectMenu;
-   QAction        *mpPauseAction;
-   QAction        *mpDisconnectAction;
-   QAction        *mpLoadAction;
-   SLARTCom       mSLARTCom;
-   QProcess       mDerMixDprocess;
-   QProcess       mLoggerProcess;
-   bool           mWaitForDerMixD;
-   bool           mDerMixDstarted;
-   QString        mLastTitle;
-   QString        mLastP0p;
+   ConfigDialog    *mpConfig;
+   PlaylistWidget  *mpPlaylist;
+   QLabel          *mpLogo;
+   QPushButton     *mpConnectButton;
+   QPushButton     *mpSkipButton;
+   PlayerWidget    *mpPlayer[2];
+   bool            mConnected;
+   bool            mPaused;
+   QIcon           mStopIcon;
+   QIcon           mPlayIcon;
+   QIcon           mPauseIcon;
+   QIcon           mSkipIcon;
+   QIcon           mLoadIcon;
+   QSystemTrayIcon *mpTrayIcon;
+   QMenu           *mpTrayIconStopMenu;
+   QMenu           *mpTrayIconPlayMenu;
+   QMenu           *mpDisconnectMenu;
+   QAction         *mpPlayAction;
+   QAction         *mpSkipAction;
+   QAction         *mpPauseAction;
+   QAction         *mpDisconnectAction;
+   QAction         *mpLoadAction;
+   SLARTCom        mSLARTCom;
+   QProcess        mDerMixDprocess;
+   QProcess        mLoggerProcess;
+   bool            mWaitForDerMixD;
+   bool            mDerMixDstarted;
+   QString         mLastTitle;
+   QString         mLastP0p;
 };
 
 #endif
