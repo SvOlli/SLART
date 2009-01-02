@@ -189,14 +189,7 @@ void ControlWidget::readConfig()
       mpConnectButton->setText("Connect");
       mpDisconnectAction->setText("Disconnect");
    }
-   if( settings.value("TrayIcon", false).toBool() )
-   {
-      mpTrayIcon->show();
-   }
-   else
-   {
-      mpTrayIcon->hide();
-   }
+   mpTrayIcon->setVisible( settings.value("TrayIcon", false).toBool() && QSystemTrayIcon::isSystemTrayAvailable() );
    mpLoadAction->setEnabled( MySettings( "Global" ).value( "ClipboardMode", 0 ).toInt() > 0 );
 }
 
@@ -502,9 +495,10 @@ void ControlWidget::allowInteractive( bool allow )
 
 void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
 {
+   MySettings settings;
    /* pass through to track info widget */
    mpPlaylist->getTrack( trackInfo );
-   QString title( trackInfo.displayString( MySettings().value("NamePattern", 
+   QString title( trackInfo.displayString( settings.value("NamePattern", 
                                              QApplication::applicationName()+": |$TITLE|").toString() ) );
    if( title.isEmpty() )
    {
@@ -512,6 +506,13 @@ void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
    }
    mLastTitle = title;
    emit requestChangeTitle( mPlayIcon, title );
-   mpTrayIcon->setToolTip( trackInfo.displayString( MySettings().value("TrayIconPattern", 
-                                                      "|$ARTIST|\n|$TITLE|\n|$ALBUM|").toString() ) );
+   title = trackInfo.displayString( settings.value("TrayIconPattern", 
+                                       "|$ARTIST|\n|$TITLE|\n|$ALBUM|").toString() );
+   mpTrayIcon->setToolTip( title );
+   if( settings.value("TrayIcon", false).toBool() && 
+       settings.value("TrayIconBubble", false).toBool() && 
+       QSystemTrayIcon::supportsMessages() )
+   {
+      mpTrayIcon->showMessage( tr("Now Playing:"), title, QSystemTrayIcon::NoIcon, (int)(settings.value("TrayIconBubbleTime", 4.0).toDouble() * 1000) );
+   }
 }

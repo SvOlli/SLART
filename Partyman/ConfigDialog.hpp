@@ -72,6 +72,8 @@ private:
    QLineEdit            *mpLogCmd;
    QCheckBox            *mpCountSkip;
    QCheckBox            *mpTrayIcon;
+   QCheckBox            *mpTrayIconBubble;
+   QDoubleSpinBox       *mpTrayIconBubbleTime;
    QCheckBox            *mpPlayOnlyFavorite;
    QCheckBox            *mpPlayOnlyLeastPlayed;
    QComboBox            *mpPlayFolder;

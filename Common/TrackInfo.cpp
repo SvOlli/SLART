@@ -288,6 +288,9 @@ QString TrackInfo::displayString( const QString &pattern ) const
                      case '/':
                         filename.append( "|" );
                         break;
+                     case 'n':
+                        filename.append( "\n" );
+                        break;
                      default:
                         break;
                   }
