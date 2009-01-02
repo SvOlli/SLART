@@ -6,8 +6,11 @@ Common:
 - clean filename function
 
 Partyman:
+- trayicon
+  - start/stop/pause/next
+  - current track as tooltip
+    - pattern configurable (\n)
 - update documentation
-- auto-switch to info
 
 Rubberbandman:
 - "add folder"/"remove folder"
@@ -20,9 +23,11 @@ Funkytown:
 - remove/replace special chars from filename
 
 Sorcerer:
+- close database connection
 
 Karmadrome:
 - clear out filename on stop
+- Read Selection sets "Lists Buttons"
 
 Innuendo:
 - reorder application start buttons
@@ -58,6 +63,9 @@ Stripped:
 - request on overwrite
 
 Partyman:
+- trayicon
+  - optional remove window on minimize
+- auto-switch to info
 - check all error handling
 - set path to Partyman as first for clients
   (better alternative: make DerMixD monolithic / use Phonon)

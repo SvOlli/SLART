@@ -22,7 +22,6 @@ public:
    DirWalkerDelete( Database *database, const QString &path )
    : mpDatabase( database )
    , mDir( path )
-   , mDirChanged( true )
    , mTrackInfo()
    {
    }
@@ -36,10 +35,13 @@ public:
          mpDatabase->deleteTrackInfo( &mTrackInfo );
       }
    }
-   void handleDir( const QFileInfo &fileInfo )
+   void handleDirEntry( const QFileInfo &fileInfo )
    {
       mDir.setPath( fileInfo.absolutePath() );
       mDir.rmdir( fileInfo.fileName() );
+   }
+   void handleDirLeave( const QFileInfo & )
+   {
    }
    void handleOther( const QFileInfo &fileInfo )
    {
@@ -50,7 +52,80 @@ public:
 private:
    Database  *mpDatabase;
    QDir      mDir;
-   bool      mDirChanged;
+   TrackInfo mTrackInfo;
+};
+
+
+
+class DirWalkerMove : public DirWalkerCallbacks
+{
+public:
+   DirWalkerMove( Database *database, const QString &srcpath, const QString &destpath )
+   : mpDatabase( database )
+   , mSrcBaseLen( srcpath.length() )
+   , mDestBase( destpath )
+   , mSrcFile()
+   , mDestFile()
+   , mPath()
+   , mTrackInfo()
+   {
+   }
+   virtual ~DirWalkerMove(){}
+   void handleFile( const QFileInfo &fileInfo )
+   {
+TRACESTART( handleFile )
+      mSrcFile = fileInfo.absoluteFilePath();
+      mDestFile = mSrcFile;
+      mDestFile.replace( 0, mSrcBaseLen, mDestBase );
+      
+TRACEMSG << "rename" << mSrcFile << mDestFile;
+#if 0
+      if( QFile::rename( mSrcFile, mDestFile ) )
+      {
+         if( mpDatabase->getTrackInfo( &mTrackInfo, mSrcFile ) )
+         {
+            mTrackInfo.mDirectory = mDestDir.absolutePath();
+            mpDatabase->updateTrackInfo( &mTrackInfo );
+         }
+      }
+#endif
+   }
+   void handleDirEntry( const QFileInfo &fileInfo )
+   {
+TRACESTART( handleDirEntry )
+      mDestFile = fileInfo.absoluteFilePath();
+      mDestFile.replace( 0, mSrcBaseLen, mDestBase );
+TRACEMSG << "create" << mDestFile;
+   }
+   void handleDirLeave( const QFileInfo &fileInfo )
+   {
+TRACESTART( handleDirEntry )
+      mSrcFile = fileInfo.absoluteFilePath();
+TRACEMSG << "remove" << mSrcFile;
+      
+      //mDir.rmdir( fileInfo.fileName() );
+   }
+   void handleOther( const QFileInfo &fileInfo )
+   {
+      mSrcFile = fileInfo.absoluteFilePath();
+      mDestFile = mSrcFile;
+      mDestFile.replace( 0, mSrcBaseLen, mDestBase );
+#if 0
+      QFile::rename( mSrcFile, mDestFile );
+#endif
+   }
+   
+private:
+   Database  *mpDatabase;
+   int       mSrcBaseLen;
+   QString   mDestBase;
+   QString   mSrcFile;
+   QString   mDestFile;
+   QString   mPath;
+#if 0
+   QDir      mSrcDir;
+   QDir      mDestDir;
+#endif
    TrackInfo mTrackInfo;
 };
 
@@ -93,7 +168,9 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 , mpModel( new QDirModel( this ) )
 , mpMenuSendToPartyman( new QAction( tr("Send To Partyman"), this ) )
 , mpMenuRescan( new QAction( tr("Rescan"), this ) )
-, mpMenuMove( new QAction( tr("Move"), this ) )
+, mpMenuMoveFile( new QAction( tr("Move"), this ) )
+, mpMenuMoveDirectory( new QAction( tr("Move Directory"), this ) )
+, mpMenuMoveContent( new QAction( tr("Move Content"), this ) )
 , mpMenuRename( new QAction( tr("Rename"), this ) )
 , mpMenuDelete( new QAction( tr("Delete"), this ) )
 , mContextModelIndex()
@@ -150,8 +227,12 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
             this, SLOT(menuSendToPartyman()) );
    connect( mpMenuRescan, SIGNAL(triggered()),
             this, SLOT(handleRootDir()) );
-   connect( mpMenuMove, SIGNAL(triggered()),
+   connect( mpMenuMoveFile, SIGNAL(triggered()),
             this, SLOT(menuMove()) );
+   connect( mpMenuMoveDirectory, SIGNAL(triggered()),
+            this, SLOT(menuMove()) );
+   connect( mpMenuMoveContent, SIGNAL(triggered()),
+            this, SLOT(menuMoveContent()) );
    connect( mpMenuRename, SIGNAL(triggered()),
             this, SLOT(menuRename()) );
    connect( mpMenuDelete, SIGNAL(triggered()),
@@ -227,7 +308,15 @@ void FileSysBrowser::contextMenu( const QPoint &pos )
       menu.addAction( mpMenuSendToPartyman );
    }
    menu.addSeparator();
-   menu.addAction( mpMenuMove );
+   if( mFileInfo.isDir() )
+   {
+      menu.addAction( mpMenuMoveDirectory );
+      menu.addAction( mpMenuMoveContent );
+   }
+   else
+   {
+      menu.addAction( mpMenuMoveFile );
+   }
    menu.addAction( mpMenuRename );
    menu.addAction( mpMenuDelete );
    menu.exec( mpView->mapToGlobal( pos ) );
@@ -246,7 +335,13 @@ void FileSysBrowser::menuSendToPartyman()
 }
 
 
-void FileSysBrowser::menuMove()
+void FileSysBrowser::menuMoveContent()
+{
+   menuMove( true );
+}
+
+
+void FileSysBrowser::menuMove( bool withContent )
 {
 TRACESTART(FileSysBrowser::menuMove)
    QFileDialog dialog( this, QString(tr("Rubberbandman: Move %1 To:")).arg(mFileInfo.fileName()) );
@@ -255,7 +350,21 @@ TRACESTART(FileSysBrowser::menuMove)
    dialog.setAcceptMode( QFileDialog::AcceptOpen );
    if( dialog.exec() )
    {
-TRACEMSG << dialog.selectedFiles();
+TRACEMSG << withContent << mFileInfo.absoluteFilePath() << dialog.selectedFiles();
+      
+      QDir qdir( mFileInfo.absolutePath() );
+      if( mFileInfo.isDir() )
+      {
+         DirWalkerMove walkerCallbacks( mpDatabase, mFileInfo.absoluteFilePath(), dialog.selectedFiles().at(0) );
+         DirWalker     dirWalker;
+         dirWalker.run( &walkerCallbacks, mFileInfo.absoluteFilePath() );
+         //qdir.rmdir( mFileInfo.fileName() );
+      }
+      else
+      {
+         //qdir.remove( mFileInfo.fileName() );
+      }
+      
       if( MySettings().value("AutoRescan", true).toBool() )
       {
          handleRootDir();
@@ -315,7 +424,7 @@ void FileSysBrowser::menuDelete()
       {
          DirWalkerDelete walkerCallbacks( mpDatabase, mFileInfo.absoluteFilePath() );
          DirWalker       dirWalker;
-         dirWalker.run( &walkerCallbacks, mFileInfo.absoluteFilePath(), DirWalker::RecurseBeforeCallback );
+         dirWalker.run( &walkerCallbacks, mFileInfo.absoluteFilePath() );
          qdir.rmdir( mFileInfo.fileName() );
       }
       else

@@ -17,28 +17,22 @@ class DirWalkerCallbacks
 {
 public:
    virtual ~DirWalkerCallbacks(){}
-   virtual void handleFile( const QFileInfo &fileInfo )  = 0;
-   virtual void handleDir( const QFileInfo &fileInfo )   = 0;
-   virtual void handleOther( const QFileInfo &fileInfo ) = 0;
+   virtual void handleFile( const QFileInfo &fileInfo )     = 0;
+   virtual void handleDirEntry( const QFileInfo &fileInfo ) = 0;
+   virtual void handleDirLeave( const QFileInfo &fileInfo ) = 0;
+   virtual void handleOther( const QFileInfo &fileInfo )    = 0;
 };
 
 
 class DirWalker
 {
 public:
-   enum RecurseMode
-   {
-      NoRecurse,
-      RecurseBeforeCallback,
-      RecurseAfterCallback
-   };
-   
    DirWalker();
    virtual ~DirWalker();
    
    /* let the directory walker travel the filesystem */
    void run( DirWalkerCallbacks *callbacks, 
-             const QString &directoryPath, enum RecurseMode recurse );
+             const QString &directoryPath );
    
 private:
    DirWalker( const DirWalker &other );

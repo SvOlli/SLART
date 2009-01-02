@@ -31,9 +31,12 @@ public:
    {
       mpDatabaseWorker->updateFile( fileInfo );
    }
-   void handleDir( const QFileInfo &fileInfo )
+   void handleDirEntry( const QFileInfo &fileInfo )
    {
       mpDatabaseWorker->updateDir( fileInfo );
+   }
+   void handleDirLeave( const QFileInfo & )
+   {
    }
    void handleOther( const QFileInfo &/*fileInfo*/ )
    {
@@ -103,7 +106,7 @@ void DatabaseWorker::run()
       case update:
          {
             DirWalkerDatabaseUpdate walkerCallbacks( this );
-            mDirWalker.run( &walkerCallbacks, mPath, DirWalker::RecurseBeforeCallback );
+            mDirWalker.run( &walkerCallbacks, mPath );
          }
          break;
       case cleanup:

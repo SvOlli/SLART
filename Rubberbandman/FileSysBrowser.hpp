@@ -44,8 +44,10 @@ public slots:
    void contextMenu( const QPoint &pos );
    /* handle menu entry "Send To Partyman" */
    void menuSendToPartyman();
-   /* handle menu entry "Move" */
-   void menuMove();
+   /* handle menu entries "Move" and "Move Directory" */
+   void menuMove( bool withContent = false );
+   /* handle menu entry "Move Content" with wrapper for menuMove() */
+   void menuMoveContent();
    /* handle menu entry "Rename" */
    void menuRename();
    /* handle menu entry "Delete" */
@@ -66,7 +68,9 @@ private:
    QDirModel    *mpModel;
    QAction      *mpMenuSendToPartyman;
    QAction      *mpMenuRescan;
-   QAction      *mpMenuMove;
+   QAction      *mpMenuMoveFile;
+   QAction      *mpMenuMoveDirectory;
+   QAction      *mpMenuMoveContent;
    QAction      *mpMenuRename;
    QAction      *mpMenuDelete;
    QModelIndex  mContextModelIndex;
