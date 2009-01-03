@@ -137,7 +137,7 @@ void MainWidget::startUp()
    mpControl->readConfig();
    mpPlaylist->startBrowserUpdate();
    QCoreApplication::processEvents();
-   if( settings.value( "AutoConnect", false ).toBool() && mAllowAutostart )
+   if( settings.VALUE_AUTOCONNECT && mAllowAutostart )
    {
       mpControl->initConnect();
    }

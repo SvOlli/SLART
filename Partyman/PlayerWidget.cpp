@@ -9,6 +9,7 @@
 #include "ControlWidget.hpp"
 #include "Database.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 
 #include <iostream>
 #include <QtGui>
@@ -158,11 +159,11 @@ QString PlayerWidget::getCurrentTrack() const
 void PlayerWidget::readConfig()
 {
    MySettings settings;
-   mConsole        = settings.value( "DerMixDlog", false ).toBool();
-   mHeadStart      = settings.value( "CrossfadeTime", 10 ).toInt();
-   mNormalizeMode  = settings.value( "NormalizeMode",  0 ).toInt();
-   mNormalizeValue = settings.value( "NormalizeValue", 0.4 ).toDouble();
-   mDisplayPattern = settings.value( "PlayerPattern", "|$ARTIST| - |$TITLE|" ).toString();
+   mConsole        = settings.VALUE_DERMIXDLOG;
+   mHeadStart      = settings.VALUE_CROSSFADETIME;
+   mNormalizeMode  = settings.VALUE_NORMALIZEMODE;
+   mNormalizeValue = settings.VALUE_NORMALIZEVALUE;
+   mDisplayPattern = settings.VALUE_PLAYERPATTERN;
 }
 
 
@@ -269,7 +270,7 @@ void PlayerWidget::skip()
    {
       case PlayerFSM::playing:
       case PlayerFSM::paused:
-         if( MySettings().value("CountSkip", false).toBool() )
+         if( MySettings().VALUE_COUNTSKIP )
          {
             ++mTrackInfo.mTimesPlayed;
             mpDatabase->updateTrackInfo( &mTrackInfo );

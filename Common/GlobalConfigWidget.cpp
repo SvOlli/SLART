@@ -143,3 +143,16 @@ QString GlobalConfigWidget::getClipboard()
          return QString();
    }
 }
+
+
+QString GlobalConfigWidget::correctFileName( QString fileName, bool withDir )
+{
+   fileName.remove( QRegExp("[:?]") );
+   fileName.replace( QRegExp("[|\\*]"), "_" );
+   fileName.replace( QString("\""), "''" );
+   if( withDir )
+   {
+      fileName.replace( QRegExp("[\\\\/]"), "_" );
+   }
+   return fileName;
+}

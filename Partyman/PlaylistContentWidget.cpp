@@ -12,6 +12,7 @@
 
 #include "PlaylistContentWidget.hpp"
 #include "GlobalConfigWidget.hpp"
+#include "ConfigDialog.hpp"
 #include "MySettings.hpp"
 
 #include "Trace.hpp"
@@ -59,7 +60,7 @@ void PlaylistContentWidget::addItems( const QStringList &items, bool atStart )
 
 void PlaylistContentWidget::addItems( const TrackInfoList &trackInfoList, bool atStart )
 {
-   QString pattern( MySettings().value( "ListPattern","(|$PLAYTIME|)|$ARTIST| - |$TITLE|" ).toString() );
+   QString pattern( MySettings().VALUE_LISTPATTERN );
    int i;
    for( i = 0; i < trackInfoList.count(); i++ )
    {

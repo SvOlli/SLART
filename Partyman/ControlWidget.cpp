@@ -179,7 +179,7 @@ void ControlWidget::readConfig()
    mSLARTCom.resetReceiver();
    mpPlayer[0]->readConfig();
    mpPlayer[1]->readConfig();
-   if( settings.value("DerMixDrun", true).toBool() )
+   if( settings.VALUE_DERMIXDRUN )
    {
       mpConnectButton->setText("Start");
       mpDisconnectAction->setText("Stop");
@@ -189,8 +189,8 @@ void ControlWidget::readConfig()
       mpConnectButton->setText("Connect");
       mpDisconnectAction->setText("Disconnect");
    }
-   mpTrayIcon->setVisible( settings.value("TrayIcon", false).toBool() && QSystemTrayIcon::isSystemTrayAvailable() );
-   mpLoadAction->setEnabled( MySettings( "Global" ).value( "ClipboardMode", 0 ).toInt() > 0 );
+   mpTrayIcon->setVisible( settings.VALUE_TRAYICON && QSystemTrayIcon::isSystemTrayAvailable() );
+   mpLoadAction->setEnabled( MySettings( "Global" ).VALUE_CLIPBOARDMODE > 0 );
 }
 
 
@@ -207,20 +207,20 @@ void ControlWidget::initConnect()
    if( !mConnected )
    {
       QString hostname( "localhost" );
-      int port = settings.value( "DerMixDport", 8888 ).toInt();
+      int port = settings.VALUE_DERMIXDPORT;
       
-      if( settings.value( "DerMixDrun", true ).toBool() )
+      if( settings.VALUE_DERMIXDRUN )
       {
          QMutex mutex;
          QStringList args;
-         QString params( settings.value( "DerMixDparams", "" ).toString() );
+         QString params( settings.VALUE_DERMIXDPARAMS );
          args << "-c" << "-p" << QString::number( port );
          if( !params.isEmpty() )
          {
             args << params.split(' ');
          }
          /* TODO: configure path to dermixd */
-         mDerMixDprocess.start( settings.value("DerMixDcmd", "dermixd").toString(), args );
+         mDerMixDprocess.start( settings.VALUE_DERMIXDCMD, args );
          /* block until dermixd is up an running */
          for( mWaitForDerMixD = true; mWaitForDerMixD; )
          {
@@ -235,7 +235,7 @@ void ControlWidget::initConnect()
       else
       {
          mDerMixDstarted = true;
-         hostname = settings.value( "DerMixDhost", QString("localhost") ).toString();
+         hostname = settings.VALUE_DERMIXDHOST;
       }
       mConnected = true;
       mpPlayer[0]->connectTo( hostname, port );
@@ -283,7 +283,7 @@ void ControlWidget::initDisconnect( eErrorCode errorcode )
       {
          QMessageBox::critical( this, QApplication::applicationName(), errorText );
       }
-      if( MySettings().value( "DerMixDrun", true ).toBool() )
+      if( MySettings().VALUE_DERMIXDRUN )
       {
          mDerMixDprocess.terminate();
       }
@@ -435,7 +435,7 @@ void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const
       mLastP0p.clear();
    }
    
-   QString command( settings.value( "LogCmd", "" ).toString() );
+   QString command( settings.VALUE_LOGCMD );
    if( !command.isEmpty() )
    {
       QStringList args;
@@ -498,21 +498,19 @@ void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
    MySettings settings;
    /* pass through to track info widget */
    mpPlaylist->getTrack( trackInfo );
-   QString title( trackInfo.displayString( settings.value("NamePattern", 
-                                             QApplication::applicationName()+": |$TITLE|").toString() ) );
+   QString title( trackInfo.displayString( settings.VALUE_NAMEPATTERN ) );
    if( title.isEmpty() )
    {
       title = QApplication::applicationName();
    }
    mLastTitle = title;
    emit requestChangeTitle( mPlayIcon, title );
-   title = trackInfo.displayString( settings.value("TrayIconPattern", 
-                                       "|$ARTIST|\n|$TITLE|\n|$ALBUM|").toString() );
+   title = trackInfo.displayString( settings.VALUE_TRAYICONPATTERN );
    mpTrayIcon->setToolTip( title );
-   if( settings.value("TrayIcon", false).toBool() && 
-       settings.value("TrayIconBubble", false).toBool() && 
+   if( settings.VALUE_TRAYICON && 
+       settings.VALUE_TRAYICONBUBBLE && 
        QSystemTrayIcon::supportsMessages() )
    {
-      mpTrayIcon->showMessage( tr("Now Playing:"), title, QSystemTrayIcon::NoIcon, (int)(settings.value("TrayIconBubbleTime", 4.0).toDouble() * 1000) );
+      mpTrayIcon->showMessage( tr("Now Playing:"), title, QSystemTrayIcon::NoIcon, (int)(settings.VALUE_TRAYICONBUBBLETIME * 1000) );
    }
 }

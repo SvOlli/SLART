@@ -31,6 +31,8 @@ public:
    static void setClipboard( const QString &text );
    /* read from clipboard (copy or selection buffer) according to settings */
    static QString getClipboard();
+   /* remove/replace chars illegal for a fileName */
+   static QString correctFileName( QString fileName, bool withDir );
    /* show clipboard options on panel */
    void showClipboard( bool allow = true );
    /* show animation option on panel */
@@ -45,5 +47,9 @@ private:
    QCheckBox    *mpNormalizeCase;
    QCheckBox    *mpNormalizeSpaces;
 };
+
+/* defaults */
+#define VALUE_ANIMATEVIEWS  value("AnimateViews", false).toBool()
+#define VALUE_CLIPBOARDMODE value("ClipboardMode", 0).toInt()
 
 #endif

@@ -12,6 +12,7 @@
 #include "PlaylistWidget.hpp"
 #include "SearchWidget.hpp"
 #include "TrackInfoWidget.hpp"
+#include "GlobalConfigWidget.hpp"
 #include "ConfigDialog.hpp"
 #include "Database.hpp"
 #include "MySettings.hpp"
@@ -211,12 +212,12 @@ void PlaylistWidget::getNextTrack( QString *fileName )
    {
       MySettings settings;
       
-      int randomTries = settings.value("RandomTries", 10).toInt();
+      int randomTries = settings.VALUE_RANDOMTRIES;
       QStringList playedArtists( settings.value("PlayedArtists").toStringList() );
-      bool favoriteOnly = settings.value("PlayOnlyFavorite", false).toBool();
-      bool leastPlayed = settings.value("PlayOnlyLeastPlayed", false).toBool();
-      int notAgainCount = settings.value("PlayNotAgainCount", 0).toInt();
-      QString playFolder( settings.value("PlayFolder").toString() );
+      bool favoriteOnly = settings.VALUE_PLAYONLYFAVORITE;
+      bool leastPlayed  = settings.VALUE_PLAYONLYLEASTPLAYED;
+      int notAgainCount = settings.VALUE_PLAYNOTAGAINCOUNT;
+      QString playFolder( settings.VALUE_PLAYFOLDER );
       
       if( !getRandomTrack( fileName, &playedArtists, randomTries, favoriteOnly, leastPlayed, playFolder ) )
       {
@@ -334,8 +335,7 @@ void PlaylistWidget::dropEvent( QDropEvent *event )
 
 void PlaylistWidget::readConfig()
 {
-   MySettings settings( "Global" );
-   mpTreeView->setAnimated( settings.value( "AnimateViews", false ).toBool() );
+   mpTreeView->setAnimated( MySettings("Global").VALUE_ANIMATEVIEWS );
 }
 
 
