@@ -143,6 +143,8 @@ void PlayerWidget::getNextTrack( bool armed )
          int lastSlash = fileName.lastIndexOf( '/' );
          int lastDot   = fileName.lastIndexOf( '.' );
          mpScrollLine->setText( fileName.mid( lastSlash+1, lastDot-lastSlash-1 ) );
+         mTrackInfo.mDirectory = fileName.left( lastSlash+1 );
+         mTrackInfo.mFileName  = fileName.mid( lastSlash+1 );
       }
    }
    mpScrollLine->setToolTip( fileName );

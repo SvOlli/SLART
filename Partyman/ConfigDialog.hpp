@@ -110,6 +110,7 @@ private:
 #define VALUE_SLARTCOMMUNICATION  value("SLARTCommunication", false).toBool()
 #define VALUE_TRAYICON            value("TrayIcon", false).toBool()
 #define VALUE_TRAYICONBUBBLE      value("TrayIconBubble", true).toBool()
+#define VALUE_TRAYICONBUBBLEICON  value("TrayIconBubbleIcon", 0).toInt()
 #define VALUE_TRAYICONBUBBLETIME  value("TrayIconBubbleTime", 4.0).toDouble()
 #define VALUE_TRAYICONPATTERN     value("TrayIconPattern", "|$ARTIST|#n|$TITLE|#n|$ALBUM|").toString()
 #define VALUE_UDPLISTENERPORT     value("UDPListenerPort", 24222).toInt()

@@ -499,18 +499,23 @@ void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
    /* pass through to track info widget */
    mpPlaylist->getTrack( trackInfo );
    QString title( trackInfo.displayString( settings.VALUE_NAMEPATTERN ) );
-   if( title.isEmpty() )
+   QString bubble( trackInfo.displayString( settings.VALUE_TRAYICONPATTERN ) );
+   if( trackInfo.mTitle.isEmpty() )
    {
-      title = QApplication::applicationName();
+      title  = QApplication::applicationName();
+      bubble = trackInfo.mDirectory;
+      bubble.append( '\n' );
+      bubble.append( trackInfo.mFileName );
    }
    mLastTitle = title;
    emit requestChangeTitle( mPlayIcon, title );
-   title = trackInfo.displayString( settings.VALUE_TRAYICONPATTERN );
-   mpTrayIcon->setToolTip( title );
+   mpTrayIcon->setToolTip( bubble );
    if( settings.VALUE_TRAYICON && 
        settings.VALUE_TRAYICONBUBBLE && 
        QSystemTrayIcon::supportsMessages() )
    {
-      mpTrayIcon->showMessage( tr("Now Playing:"), title, QSystemTrayIcon::NoIcon, (int)(settings.VALUE_TRAYICONBUBBLETIME * 1000) );
+      mpTrayIcon->showMessage( tr("Now Playing:"), bubble,
+         (QSystemTrayIcon::MessageIcon)(settings.VALUE_TRAYICONBUBBLEICON),
+         (int)(settings.VALUE_TRAYICONBUBBLETIME * 1000) );
    }
 }
