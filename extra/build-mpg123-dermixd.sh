@@ -63,7 +63,7 @@ if [ -n "$build_mpg123" ]; then
   rm -rf mpg123-$mpg123_version
   tar jxf mpg123-$mpg123_version.tar.bz2
   cd mpg123-$mpg123_version
-  ./configure --prefix=/usr/local --disable-shared --enable-static && make
+  ./configure --prefix=/usr/local --disable-shared --enable-static && make $(cd ../../..;./configure --jobs)
   cp src/mpg123 ../../$bindir/mpg123-$mpg123_version
   ln -sf mpg123-$mpg123_version ../../$bindir/mpg123
   cd ..
@@ -73,11 +73,11 @@ if [ -n "$build_dermixd" ]; then
   rm -rf dermixd-$dermixd_version
   tar jxf dermixd-$dermixd_version.tar.bz2
   cd dermixd-$dermixd_version
-  make $dermixd_options gnu-oss
+  make $dermixd_options gnu-oss $(cd ../../..;./configure --jobs)
   cp dermixd ../../$bindir/dermixd-oss-$dermixd_version
   ln -sf dermixd-oss-$dermixd_version ../../$bindir/dermixd-oss
   rm output.o param_init.o
-  make $dermixd_options gnu-alsa
+  make $dermixd_options gnu-alsa $(cd ../../..;./configure --jobs)
   cp dermixd ../../$bindir/dermixd-alsa-$dermixd_version
   ln -sf dermixd-alsa-$dermixd_version ../../$bindir/dermixd-alsa
   cd ..
