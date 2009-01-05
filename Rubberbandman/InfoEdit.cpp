@@ -664,13 +664,13 @@ void InfoEdit::saveFile()
          f.tag()->setYear( year );
          f.tag()->setGenre( genre );
          f.save();
-         ::unlink( mFileName.toLocal8Bit().data() );
-         ::rename( tmppath.toLocal8Bit().data(), newpath.toLocal8Bit().data() );
+         QFile( mFileName ).remove();
+         QFile::rename( tmppath, newpath );
       }
    }
    else
    {
-      ::rename( tmppath.toLocal8Bit().data(), newpath.toLocal8Bit().data() );
+      QFile::rename( tmppath, newpath );
    }
    
    qfi.setFile( newpath );
