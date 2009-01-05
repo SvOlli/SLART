@@ -68,51 +68,53 @@ public:
    , mDestFile()
    , mPath()
    , mTrackInfo()
+   , mQDir()
+   , mQFileInfo()
    {
+//TRACESTART( DirWalkerMove )
+//TRACEMSG << srcpath << destpath;
    }
    virtual ~DirWalkerMove(){}
    void handleFile( const QFileInfo &fileInfo )
    {
-TRACESTART( handleFile )
+//TRACESTART( handleFile )
       mSrcFile = fileInfo.absoluteFilePath();
       mDestFile = mSrcFile;
       mDestFile.replace( 0, mSrcBaseLen, mDestBase );
       
-TRACEMSG << "rename" << mSrcFile << mDestFile;
-#if 0
+//TRACEMSG << "rename" << mSrcFile << mDestFile;
       if( QFile::rename( mSrcFile, mDestFile ) )
       {
          if( mpDatabase->getTrackInfo( &mTrackInfo, mSrcFile ) )
          {
-            mTrackInfo.mDirectory = mDestDir.absolutePath();
+            mQFileInfo.setFile( mDestFile );
+            mTrackInfo.mDirectory = mQFileInfo.absolutePath();
             mpDatabase->updateTrackInfo( &mTrackInfo );
          }
       }
-#endif
    }
    void handleDirEntry( const QFileInfo &fileInfo )
    {
-TRACESTART( handleDirEntry )
+//TRACESTART( handleDirEntry )
       mDestFile = fileInfo.absoluteFilePath();
       mDestFile.replace( 0, mSrcBaseLen, mDestBase );
-TRACEMSG << "create" << mDestFile;
+//TRACEMSG << "create" << mDestFile;
+      mQDir.mkdir( mDestFile );
    }
    void handleDirLeave( const QFileInfo &fileInfo )
    {
-TRACESTART( handleDirEntry )
+//TRACESTART( handleDirEntry )
       mSrcFile = fileInfo.absoluteFilePath();
-TRACEMSG << "remove" << mSrcFile;
+//TRACEMSG << "remove" << mSrcFile;
       
-      //mDir.rmdir( fileInfo.fileName() );
+      mQDir.rmdir( mSrcFile );
    }
    void handleOther( const QFileInfo &fileInfo )
    {
       mSrcFile = fileInfo.absoluteFilePath();
       mDestFile = mSrcFile;
       mDestFile.replace( 0, mSrcBaseLen, mDestBase );
-#if 0
       QFile::rename( mSrcFile, mDestFile );
-#endif
    }
    
 private:
@@ -122,11 +124,9 @@ private:
    QString   mSrcFile;
    QString   mDestFile;
    QString   mPath;
-#if 0
-   QDir      mSrcDir;
-   QDir      mDestDir;
-#endif
    TrackInfo mTrackInfo;
+   QDir      mQDir;
+   QFileInfo mQFileInfo;
 };
 
 
@@ -341,28 +341,46 @@ void FileSysBrowser::menuMoveContent()
 }
 
 
-void FileSysBrowser::menuMove( bool withContent )
+void FileSysBrowser::menuMove( bool contentOnly )
 {
-TRACESTART(FileSysBrowser::menuMove)
-   QFileDialog dialog( this, QString(tr("Rubberbandman: Move %1 To:")).arg(mFileInfo.fileName()) );
+//TRACESTART(FileSysBrowser::menuMove)
+   QString dialogMessage;
+   if( contentOnly )
+   {
+      dialogMessage = tr("Rubberbandman: Move Content Of %1 To:");
+   }
+   else
+   {
+      dialogMessage = tr("Rubberbandman: Move %1 To:");
+   }
+   QFileDialog dialog( this, dialogMessage.arg( mFileInfo.fileName()) );
    dialog.setFileMode( QFileDialog::DirectoryOnly );
    dialog.setDirectory( mpRootDir->text() );
    dialog.setAcceptMode( QFileDialog::AcceptOpen );
    if( dialog.exec() )
    {
-TRACEMSG << withContent << mFileInfo.absoluteFilePath() << dialog.selectedFiles();
+      QString dest( dialog.selectedFiles().at(0) );
       
-      QDir qdir( mFileInfo.absolutePath() );
+      if( !contentOnly )
+      {
+         dest.append( QDir::separator() );
+         dest.append( mFileInfo.fileName() );
+      }
+//TRACEMSG << contentOnly << mFileInfo.absoluteFilePath() << dest;
       if( mFileInfo.isDir() )
       {
-         DirWalkerMove walkerCallbacks( mpDatabase, mFileInfo.absoluteFilePath(), dialog.selectedFiles().at(0) );
+         QDir qDir;
+         DirWalkerMove walkerCallbacks( mpDatabase, mFileInfo.absoluteFilePath(), dest );
          DirWalker     dirWalker;
+//TRACEMSG << "create" << dest;
+         qDir.mkdir( dest );
          dirWalker.run( &walkerCallbacks, mFileInfo.absoluteFilePath() );
-         //qdir.rmdir( mFileInfo.fileName() );
+//TRACEMSG << "remove" << mFileInfo.absoluteFilePath();
+         qDir.rmdir( mFileInfo.absoluteFilePath() );
       }
       else
       {
-         //qdir.remove( mFileInfo.fileName() );
+         QFile::rename( mFileInfo.fileName(), dest );
       }
       
       if( MySettings().value("AutoRescan", true).toBool() )
