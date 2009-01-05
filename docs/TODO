@@ -6,24 +6,15 @@ Common:
 - clean filename function
 
 Partyman:
-- trayicon
-  - start/stop/pause/next
-  - current track as tooltip
-    - pattern configurable (\n)
-- update documentation
 
 Rubberbandman:
 - "add folder"/"remove folder"
-- context menu for browser
-  - implement move
-  - delete removes from database?
 - improve Database Tab
 
 Funkytown:
 - remove/replace special chars from filename
 
 Sorcerer:
-- close database connection
 
 Karmadrome:
 - clear out filename on stop
@@ -40,17 +31,6 @@ all:
 
 *** post 0.7 ***
 extra:
-- debian build
-
-Footloose(?):
-- new application
-- handle VirtualDJ.xml
-- handle iTunes.xml
-- handle freedb
-
-Covers:
-- store cover graphics in separate table
-  - key: md5sum, add column to slart_tracks
 
 Funkytown:
 - improve url detecting
