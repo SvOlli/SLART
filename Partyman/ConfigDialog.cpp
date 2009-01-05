@@ -52,12 +52,6 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/PartymanSmile.gif") );
-   connect( mpNormalizeMode, SIGNAL(currentIndexChanged(int)), 
-            this, SLOT(handleNormalizeMode(int)) );
-   connect( mpDerMixDrun, SIGNAL(clicked(bool)),
-            this, SLOT(handleDerMixDrun(bool)) );
-   connect( mpSLARTCommunication, SIGNAL(clicked(bool)),
-            this, SLOT(handleUDPListen(bool)) );
    
    mpGlobalSettings->showClipboard();
    mpGlobalSettings->showAnimate();
@@ -98,6 +92,12 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    dermixdLayout->setColumnStretch( 3, 1 );
    dermixdLayout->setRowStretch( 6, 1 );
    dermixdTab->setLayout( dermixdLayout );
+   connect( mpNormalizeMode, SIGNAL(currentIndexChanged(int)), 
+            this, SLOT(handleNormalizeMode(int)) );
+   connect( mpDerMixDrun, SIGNAL(clicked(bool)),
+            this, SLOT(handleDerMixDrun(bool)) );
+   connect( mpSLARTCommunication, SIGNAL(clicked(bool)),
+            this, SLOT(handleUDPListen(bool)) );
    
    QWidget     *partymanTab    = new QWidget( this );
    QGridLayout *partymanLayout = new QGridLayout( partymanTab );
@@ -117,6 +117,8 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    partymanLayout->setColumnStretch( 2, 1 );
    partymanLayout->setRowStretch( 5, 1 );
    partymanTab->setLayout( partymanLayout );
+   connect( mpTrayIcon, SIGNAL(clicked(bool)),
+            this, SLOT(handleShowTrayIcon(bool)) );
    
    QWidget     *randomTab    = new QWidget( this );
    QGridLayout *randomLayout = new QGridLayout( randomTab );
@@ -131,16 +133,17 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    
    QWidget     *displayTab    = new QWidget( this );
    QGridLayout *displayLayout = new QGridLayout( displayTab );
-   displayLayout->addWidget( new QLabel( tr("Title Display Pattern:") ), 0, 0 );
-   displayLayout->addWidget( mpNamePattern, 0, 1 );
-   displayLayout->addWidget( new QLabel( tr("TrayIcon Display Pattern:") ), 1, 0 );
-   displayLayout->addWidget( mpTrayIconPattern, 1, 1 );
-   displayLayout->addWidget( new QLabel( tr("Player Display Pattern:") ), 2, 0 );
-   displayLayout->addWidget( mpPlayerPattern, 2, 1 );
-   displayLayout->addWidget( new QLabel( tr("List Display Pattern:") ), 3, 0 );
-   displayLayout->addWidget( mpListPattern, 3, 1 );
-   displayLayout->setRowStretch( 4, 1 );
-   displayLayout->addWidget( mpUpdateBrowserButton, 5, 0, 1, 2 );
+   displayLayout->addWidget( new QLabel( tr("Display Patterns:") ), 0, 0, 1, 2 );
+   displayLayout->addWidget( new QLabel( tr("Title:") ), 1, 0 );
+   displayLayout->addWidget( mpNamePattern, 1, 1 );
+   displayLayout->addWidget( new QLabel( tr("Tray Icon:") ), 2, 0 );
+   displayLayout->addWidget( mpTrayIconPattern, 2, 1 );
+   displayLayout->addWidget( new QLabel( tr("Player:") ), 3, 0 );
+   displayLayout->addWidget( mpPlayerPattern, 3, 1 );
+   displayLayout->addWidget( new QLabel( tr("List:") ), 4, 0 );
+   displayLayout->addWidget( mpListPattern, 4, 1 );
+   displayLayout->setRowStretch( 5, 1 );
+   displayLayout->addWidget( mpUpdateBrowserButton, 6, 0, 1, 2 );
    displayTab->setLayout( displayLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -312,4 +315,11 @@ void ConfigDialog::handleUDPListen( bool checked )
 void ConfigDialog::handleNormalizeMode( int mode )
 {
    mpNormalizeValue->setDisabled( mode != 2 );
+}
+
+
+void ConfigDialog::handleShowTrayIcon( bool checked )
+{
+   mpTrayIconBubble->setDisabled( !checked );
+   mpTrayIconBubbleTime->setDisabled( !checked );
 }

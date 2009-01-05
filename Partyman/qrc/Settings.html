@@ -51,12 +51,24 @@
   by Partyman for communicating with itself (see also
   <a href="#commandline">Command Line Parameters</a>).
   This switch activates this communication.</dd>
+ <dt>Show Tray Icon:</dt>
+  <dd>The tray icon serves two purposes: first it'll let you
+   start, stop, pause, or skip without the need on bringing
+   the window to a visible place; second when you move your
+   mousepointer over it, it'll show the currently played track.
+   </dd>
+ <dt>With Bubble:</dt>
+  <dd>Additionally the track can also be displayed when it starts
+  to play as a bubble from that tray icon.</dd>
  <dt>External Logger:</dt>
   <dd>Each action like playing a track, stopping, pausing
   and skipping can be logged though an external application.
   Here it can be specified. See the 
   <a href="http://svolli.org/software/partyman/#external">Partyman
   webpage</a> (external link) for a more detailed explanation.</dd>
+ <dt>Increase Track Played Counter On Skip:</dt>
+  <dd>When you press "Next", the track will be counted as played,
+  if this option is checked.</dd>
 </dl></p>
 <hr>
 <p><a name="random"><b>Random Settings:</b></a>
@@ -85,6 +97,10 @@
  <dt>Title Display Pattern</dt>
   <dd>Set the pattern on how the window title is display when a track
   is played.</dd>
+ <dt>Tray Icon Display Pattern</dt>
+  <dd>Set the pattern on how the tool tip and bubble of the tray icon
+  should be displayed. The use of "|#n|" for a newline is strongly
+  recommended (see <a href="Pattern.html">Pattern</a>).</dd>
  <dt>Player Display Pattern</dt>
   <dd>Set the pattern on how a track is displayed in the top left or
   top right player.</dd>

@@ -42,6 +42,8 @@ public slots:
    void handleUDPListen( bool checked );
    /* handle "Nomalize" combobox */
    void handleNormalizeMode( int mode );
+   /* handle "Show Tray Icon" checkbox */
+   void handleShowTrayIcon( bool checked );
 
 signals:
    void configChanged();
