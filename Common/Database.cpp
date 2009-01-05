@@ -148,7 +148,11 @@ Database::~Database()
    {
       mpSqlDB->commit();
       mpSqlDB->close();
-      mpSqlDB->removeDatabase( QLatin1String("qt_sql_default_connection") );
+      /* clean up database, line below doesn't work without annoying warning */
+      //mpSqlDB->removeDatabase( mpSqlDB->connectionName() );
+      /* use this one instead, found on:
+         http://lists.trolltech.com/qt4-preview-feedback/2005-08/thread00142-0.html#msg00143 */
+      *mpSqlDB = QSqlDatabase();
       delete mpSqlDB;
    }
 }
