@@ -344,14 +344,14 @@ void FileSysBrowser::menuMoveContent()
 void FileSysBrowser::menuMove( bool contentOnly )
 {
 //TRACESTART(FileSysBrowser::menuMove)
-   QString dialogMessage;
+   QString dialogMessage( QApplication::applicationName() );
    if( contentOnly )
    {
-      dialogMessage = tr("Rubberbandman: Move Content Of %1 To:");
+      dialogMessage.append( tr(": Move Content Of %1 To:") );
    }
    else
    {
-      dialogMessage = tr("Rubberbandman: Move %1 To:");
+      dialogMessage.append( tr(": Move %1 To:") );
    }
    QFileDialog dialog( this, dialogMessage.arg( mFileInfo.fileName()) );
    dialog.setFileMode( QFileDialog::DirectoryOnly );
@@ -394,7 +394,7 @@ void FileSysBrowser::menuMove( bool contentOnly )
 void FileSysBrowser::menuRename()
 {
    bool ok;
-   QString text = QInputDialog::getText( this, QString(tr("Rubberbandman: Rename %1 To:")).arg(mFileInfo.fileName()),
+   QString text = QInputDialog::getText( this, QString(QApplication::applicationName() + tr(": Rename %1 To:")).arg(mFileInfo.fileName()),
                                          QString(tr("Rename %1 To:")).arg(mFileInfo.fileName()),
                                          QLineEdit::Normal, mFileInfo.fileName(), &ok );
    if (ok && !text.isEmpty())
@@ -432,7 +432,7 @@ void FileSysBrowser::menuRename()
 void FileSysBrowser::menuDelete()
 {
    QMessageBox::StandardButton button;
-   button = QMessageBox::question( this, QString(tr("Rubberbandman: Delete %1")).arg(mFileInfo.fileName()),
+   button = QMessageBox::question( this, QString(QApplication::applicationName() + tr(": Delete %1")).arg(mFileInfo.fileName()),
                                    QString(tr("Really Delete %1 ?")).arg(mFileInfo.fileName()),
                                    QMessageBox::Ok | QMessageBox::Cancel );
    if( button == QMessageBox::Ok )
