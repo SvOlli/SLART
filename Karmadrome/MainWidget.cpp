@@ -203,6 +203,7 @@ void MainWidget::handleSLART( const QStringList &message )
    if( message.at(0) == "p0s" )
    {
       mTrackInfo.clear();
+      mpFileName->clear();
       mpListButtons->setDisabled( true );
       mpTrackInfo->getTrack( mTrackInfo );
    }
@@ -287,6 +288,7 @@ void MainWidget::handleExport( QAction *action )
    }
    dialog.setDirectory( rqdir );
    dialog.setAcceptMode( QFileDialog::AcceptSave );
+   dialog.setConfirmOverwrite( false ); // handled in exportM3u()
    if( dialog.exec() )
    {
       settings.setValue( "ExportDirectory", dialog.directory().absolutePath() );
@@ -419,6 +421,17 @@ void MainWidget::exportM3u( const QString &folder, const QString &fileName )
 {
    MySettings settings;
    QFile m3uFile( fileName );
+   if( m3uFile.exists() )
+   {
+      QMessageBox::StandardButton button;
+      button = QMessageBox::question( this, QString( QApplication::applicationName() + tr(": Overwrite %1")).arg(fileName),
+                                      QString(tr("Overwrite %1 ?")).arg(fileName),
+                                      QMessageBox::Ok | QMessageBox::Cancel );
+      if( button != QMessageBox::Ok )
+      {
+         return;
+      }
+   }
    if( !m3uFile.open( QIODevice::WriteOnly | QIODevice::Text ) )
    {
       return;
