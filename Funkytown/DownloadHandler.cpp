@@ -144,10 +144,13 @@ void DownloadHandler::run( const QString &url,
    }
    
    mURLs.append( url );
-   mFileNames.append( filename );
+   QString filenameClean( filename );
+   filenameClean.remove( QRegExp("[\\\\:?]") );
+   filenameClean.replace( QRegExp("[\"|/\\*]"), "_" ); 
+   mFileNames.append( filenameClean );
    mPostDownloadHandlers.append( postDownloadHandler );
    
-   mpQueue->addItem( filename + QString( " <- " ) + url );
+   mpQueue->addItem( filenameClean + QString( " <- " ) + url );
    QListWidgetItem *qlwi = mpQueue->item( mpQueue->count() - 1 );
    if( qlwi )
    {
