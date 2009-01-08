@@ -32,7 +32,6 @@ MainWidget::MainWidget( QWidget *parent )
 , mpSetupButton( new QPushButton( tr("Settings / Log"), this ) )
 , mpConfigDialog( new ConfigDialog( this ) )
 {
-   char cwd[PATH_MAX];
    MySettings settings;
    
 #if QT_VERSION < 0x040300
@@ -61,9 +60,8 @@ MainWidget::MainWidget( QWidget *parent )
    mpSetupButton->setAcceptDrops( false );
    gpDownloadHandler->setAcceptDrops( false );
    
-   QVariant targetDir( getcwd(&cwd[0], PATH_MAX) );
-   mpDirButton->setText( settings.value("Directory", targetDir).toString() );
-   chdir( mpDirButton->text().toLocal8Bit().constData() );
+   mpDirButton->setText( settings.value("Directory", QDir::currentPath()).toString() );
+   QDir::setCurrent( mpDirButton->text() );
    
    downloadActive( false );
    
@@ -114,7 +112,7 @@ void MainWidget::setDownloadDir()
       settings.setValue( "Directory", result.replace('\\','/') );
    }
    
-   chdir( mpDirButton->text().toLocal8Bit().constData() );
+   QDir::setCurrent( mpDirButton->text() );
 }
 
 
