@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/opt/xandros/sbin/update-launcher
+

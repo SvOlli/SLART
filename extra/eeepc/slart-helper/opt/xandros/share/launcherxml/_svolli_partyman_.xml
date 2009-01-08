@@ -1,0 +1,7 @@
+<parcel simplecat="Play"
+        extraargs="/usr/bin/Partyman"
+        icon="partyman_norm.png"
+        selected_icon="partyman_hi.png"
+        id="_svolli_partyman_">
+        <name lang="en">Partyman</name>
+</parcel>
