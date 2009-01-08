@@ -282,11 +282,16 @@ void CDEdit::setTrackHidden( int track, bool hide )
 
 void CDEdit::setTrackDisabled( int track, bool disable )
 {
+   /* everything that's not an audio track is always disabled */
+   if( !mpToc->isAudio( track ) )
+   {
+      disable = true;
+   }
    mpTrackNr[track]->setDisabled( disable );
    mpEnqueueTrack[track]->setDisabled( disable );
    mpTrackArtist[track]->setDisabled( disable );
    mpTrackTitle[track]->setDisabled( disable );
-   mpTrackYear[track]->setDisabled( disable );
+   mpTrackYear[track]->setDisabled( disable && (track != 1) );
    mpTrackPlaytime[track]->setDisabled( disable );
 }
 
