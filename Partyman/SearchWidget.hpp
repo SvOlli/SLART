@@ -26,7 +26,6 @@ Q_OBJECT
 public:
    SearchWidget( Database *database, PlaylistWidget *parent );
    virtual ~SearchWidget();
-   QLineEdit *getLineEdit();
    
 public slots:
    /* execute search */

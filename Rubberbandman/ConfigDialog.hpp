@@ -46,6 +46,7 @@ public slots:
    void updatePlayingPattern( const QString &text );
    
 signals:
+   /* configuration has changed */
    void configChanged();
    
 private:

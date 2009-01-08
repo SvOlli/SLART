@@ -31,6 +31,7 @@ public:
    void lockButtons( const QStringList &list );
    
 signals:
+   /* signalize the widget clicked on */
    void clicked( QWidget *widget );
    
 private:

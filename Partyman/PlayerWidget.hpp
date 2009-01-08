@@ -92,6 +92,7 @@ public slots:
    void handleError( QAbstractSocket::SocketError socketError );
    
 signals:
+   /* signal the track playing on start/resume */
    void trackPlaying( const TrackInfo &trackInfo );
    
 private:

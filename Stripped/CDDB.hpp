@@ -39,6 +39,7 @@ public slots:
    void cancel();
    
 signals:
+   /* toc has been updated */
    void tocUpdated();
    
 private:

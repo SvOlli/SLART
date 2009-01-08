@@ -33,14 +33,15 @@ Q_OBJECT
 public:
    DropDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
-protected:
-   /* for implementing dropping */
-   void dragEnterEvent( QDragEnterEvent *event );
-public:
    /* for implementing dropping */
    void dropEvent( QDropEvent *event );
 
+protected:
+   /* for implementing dropping */
+   void dragEnterEvent( QDragEnterEvent *event );
+
 public slots:
+   /* handle the dropdown list containing mime types */
    void mimeDataByIndex( int index );
 
 private:

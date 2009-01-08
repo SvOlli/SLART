@@ -38,6 +38,7 @@ public slots:
    void writeSettings();
    
 signals:
+   /* configuration has changed */
    void configChanged();
    
 private:

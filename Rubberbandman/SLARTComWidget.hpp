@@ -37,6 +37,7 @@ public slots:
    void handleNowPlaying();
    /* handle the show in filesystem button */
    void handleShowInFilesystem();
+   /* handle the "Get Random Track" button */
    void handleGetRandom();
    /* restart SLART receiver */
    void readConfig();

@@ -66,7 +66,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    mpNormalizeValue->setRange( 0.0, 1.0 );
    mpTrayIconBubbleTime->setDecimals( 1 );
    mpTrayIconBubbleTime->setSuffix( "s" );
-   mpTrayIconBubbleTime->setSingleStep( 0.1 );
+   mpTrayIconBubbleTime->setSingleStep( 1.0 );
    mpTrayIconBubbleTime->setRange( 1.0, 15.0 );
    mpUDPListenerPort->setRange( 1, 65535 );
    mpDerMixDport->setRange( 1, 65535 );

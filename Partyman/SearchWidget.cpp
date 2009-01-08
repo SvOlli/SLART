@@ -152,12 +152,6 @@ void SearchWidget::selectedEntries( const QModelIndex &/*index*/, int key )
 }
 
 
-QLineEdit *SearchWidget::getLineEdit()
-{
-   return mpInput;
-}
-
-
 void SearchWidget::setFocus()
 {
    mpInput->setFocus();

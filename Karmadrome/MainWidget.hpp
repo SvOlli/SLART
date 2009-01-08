@@ -60,9 +60,6 @@ public slots:
    /* import a playlist from m3u file */
    void importM3u( const QString &folder, const QString &fileName );
    
-signals:
-   void requestChangeTitle( const QIcon &icon, const QString &title );
-   
 private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );

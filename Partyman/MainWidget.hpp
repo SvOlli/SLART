@@ -28,15 +28,15 @@ public:
    /* prepare startup of application */
    void startUp();
    
+protected:
+   /* handle resize event to place settings button */
+   void resizeEvent( QResizeEvent *event );
+   
 public slots:
    /* handle request for new icon and title */
    void changeTitle( const QIcon &icon, const QString &title );
    /* don't autostart if database is empty */
    void allowAutostart( bool allow );
-   
-protected:
-   /* handle resize event to place settings button */
-   void resizeEvent( QResizeEvent *event );
    
 signals:
    /* request a new icon and title */

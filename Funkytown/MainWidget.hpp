@@ -45,6 +45,7 @@ public slots:
    void downloadActive( bool downloadActive = false );
    
 signals:
+   /* request to change the title and icon */
    void requestChangeTitle( const QIcon &icon, const QString &title );
    
 protected:

@@ -58,7 +58,9 @@ public slots:
    void handleFoldersMenu( QAction *action );
    
 signals:
+   /* data has been read */
    void fileStats( bool isValid, bool isFile );
+   /* the data has been updated */
    void updated();
    
 private:

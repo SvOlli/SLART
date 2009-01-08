@@ -46,6 +46,7 @@ protected:
    virtual void keyPressEvent( QKeyEvent *event );
    
 signals:
+   /* signal that right mousebutton has been pressed */
    void context( const QModelIndex &index, int key );
    
 private:

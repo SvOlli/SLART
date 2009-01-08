@@ -28,17 +28,19 @@ Q_OBJECT
    
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   ~MainWidget();
+   virtual ~MainWidget();
+   /* bitmask of errors occured */
    int errors();
    
 public slots:
+   /* handle the change of a tab */
    void handleTabChange( int newTab );
+   /* handle the next button */
    void handleNextButton();
+   /* unlock the option to leave database tab when everything is ok */
    void unlockDatabase();
+   /* unlock the option to leave communication tab */
    void unlockCommunication();
-   
-signals:
-   void requestChangeTitle( const QIcon &icon, const QString &title );
    
 private:
    MainWidget( const MainWidget &other );

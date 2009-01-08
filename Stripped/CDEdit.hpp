@@ -36,6 +36,7 @@ public:
    void updateCDText( int track, const QString &artist, const QString &title );
    /* clear the sheet */
    void clear();
+   /* check if the sheet is empty */
    bool isEmpty();
    
 signals:

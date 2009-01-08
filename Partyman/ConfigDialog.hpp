@@ -46,7 +46,9 @@ public slots:
    void handleShowTrayIcon( bool checked );
 
 signals:
+   /* configuration has changed */
    void configChanged();
+   /* update of browser tree requested */
    void updateBrowser();
 
 private:

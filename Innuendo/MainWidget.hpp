@@ -57,9 +57,6 @@ protected:
    /* for implementing dropping */
    virtual void dropEvent( QDropEvent *event );
 
-signals:
-   void requestChangeTitle( const QIcon&, const QString& );
-
 private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );

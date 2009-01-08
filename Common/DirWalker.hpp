@@ -16,10 +16,15 @@ class QString;
 class DirWalkerCallbacks
 {
 public:
+   /* must be virtual because of virtual functions */
    virtual ~DirWalkerCallbacks(){}
+   /* handle a file entry */
    virtual void handleFile( const QFileInfo &fileInfo )     = 0;
+   /* handle a directory entry upon entering */
    virtual void handleDirEntry( const QFileInfo &fileInfo ) = 0;
+   /* handle a directory entry upon leaving */
    virtual void handleDirLeave( const QFileInfo &fileInfo ) = 0;
+   /* handle an other entry (link, etc.) */
    virtual void handleOther( const QFileInfo &fileInfo )    = 0;
 };
 
