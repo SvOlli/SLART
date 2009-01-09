@@ -7,6 +7,7 @@
 
 #include "ConfigNotifyApplicationWidget.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 
 #include <QtGui>
 #include <QHttp>
@@ -64,7 +65,7 @@ void ConfigNotifyApplicationWidget::allowNotify( int index, bool allow )
 void ConfigNotifyApplicationWidget::readSettings()
 {
    MySettings settings( mApplications.at( mIndex ) );
-   mpSLARTCommunication->setChecked( settings.value( "SLARTCommunication", false ).toBool() );
+   mpSLARTCommunication->setChecked( settings.VALUE_SLARTCOMMUNICATION );
    handleUDPListen( mpSLARTCommunication->isChecked() );
    mpUDPListenerPort->setValue( settings.value( "UDPListenerPort", 24221+mIndex ).toInt() );
    

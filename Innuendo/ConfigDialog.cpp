@@ -106,8 +106,8 @@ void ConfigDialog::readSettings()
    mpProxyWidget->readSettings();
    
    MySettings settings;
-   mpBufferSize->setValue( settings.value( "BufferSize", 500 ).toInt() );
-   QStringList autostart( settings.value( "Startup", QStringList() ).toStringList() );
+   mpBufferSize->setValue( settings.VALUE_BUFFERSIZE );
+   QStringList autostart( settings.VALUE_STARTUP );
    
    mpAutostartPartyman->setChecked( autostart.contains( "Partyman" ) );
    mpAutostartKarmadrome->setChecked( autostart.contains( "Karmadrome" ) );

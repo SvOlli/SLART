@@ -28,7 +28,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpExecButtons(0)
 , mNumExecButtons(0)
 , mSLARTCom()
-, mAutostart( MySettings().value("Startup", QStringList()).toStringList() )
+, mAutostart( MySettings().VALUE_STARTUP )
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
 #if QT_VERSION < 0x040300
@@ -189,7 +189,7 @@ void MainWidget::handleSLART( const QStringList &message )
       mpMessageBuffer->addItem( message.at(i) );
    }
 
-   while( mpMessageBuffer->count() > MySettings().value( "BufferSize", 500 ).toInt() )
+   while( mpMessageBuffer->count() > MySettings().VALUE_BUFFERSIZE )
    {
       QListWidgetItem *item = mpMessageBuffer->takeItem(0);
       if( item )
