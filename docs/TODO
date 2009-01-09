@@ -1,36 +1,13 @@
 
 *** version 0.7 release ***
-extra:
-
-Common:
-- clean filename function
-
-Partyman:
-
-Rubberbandman:
-- "add folder"/"remove folder"
-- improve Database Tab
-
-Funkytown:
-- remove/replace special chars from filename
-
-Sorcerer:
-
-Karmadrome:
-- clear out filename on stop
-- Read Selection sets "Lists Buttons"
-
-Innuendo:
-- reorder application start buttons
-- add Sorcerer
-
-Stripped:
-
 all:
 - alpha sort classes in *.hpp
 
 *** post 0.7 ***
 extra:
+
+Common:
+- clean filename function
 
 Funkytown:
 - improve url detecting
@@ -51,6 +28,12 @@ Partyman:
   (better alternative: make DerMixD monolithic / use Phonon)
 
 Rubberbandman:
+- "add folder"/"remove folder"
+- improve Database Tab
 - search in "Partyman"-Tab
   - rename "Partyman"-Tab
+
+Innuendo:
+- reorder application start buttons
+- add Sorcerer
 
