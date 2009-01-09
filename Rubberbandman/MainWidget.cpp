@@ -14,6 +14,7 @@
 #include "DatabaseWidget.hpp"
 #include "ConfigDialog.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
@@ -37,7 +38,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpTabs->addTab( mpBrowseWidget,   tr("Filesystem") );
    mpTabs->addTab( mpSLARTComWidget, tr("Partyman") );
    mpTabs->addTab( mpDatabaseWidget, tr("Database") );
-   mpTabs->setCurrentIndex( settings.value("CurrentTab", 0).toInt() );
+   mpTabs->setCurrentIndex( settings.VALUE_CURRENTTAB );
    
    QLabel *mpLogo = new QLabel( this );
    mpLogo->setText( QApplication::applicationName() );

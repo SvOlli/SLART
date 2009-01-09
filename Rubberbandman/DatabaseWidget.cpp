@@ -15,6 +15,7 @@
 #include "Database.hpp"
 #include "DatabaseWorker.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 
 #include "Trace.hpp"
 
@@ -92,7 +93,7 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    layout->addWidget( mpPartymanInfo );
    layout->addStretch();
    setLayout(layout);
-   mpBaseDir->setText( MySettings( "Global" ).value( "MusicBase", QString("/") ).toString() );
+   mpBaseDir->setText( MySettings( "Global" ).VALUE_MUSICBASE );
    readPartymanConfig();
 }
 
@@ -120,7 +121,7 @@ void DatabaseWidget::handleUpdate( bool checked )
    disableButtons( true );
    mCheckedText   = tr(" files scanned, ");
    mProcessedText = tr(" updated.");
-   QString baseDir( MySettings( "Global" ).value( "MusicBase", QString() ).toString() );
+   QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
    if( !baseDir.isEmpty() )
    {
       mpDatabaseWorker->initUpdate( baseDir );

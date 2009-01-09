@@ -7,6 +7,7 @@
 
 #include "FileSysBrowser.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 #include "Database.hpp"
 #include "DirWalker.hpp"
 
@@ -178,9 +179,7 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 {
    MySettings settings;
    
-   QStringList defaultNameFilters;
-   defaultNameFilters << "*.mp3" << "*.ogg";
-   mpModel->setNameFilters( settings.value( "FileExtensions", defaultNameFilters ).toStringList() );
+   mpModel->setNameFilters( settings.VALUE_FILEEXTENSIONS );
    mpModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files );
    mpModel->setSorting( QDir::Name | QDir::DirsFirst | QDir::IgnoreCase /*| QDir::LocaleAware*/ );
    mpModel->setLazyChildCount( true );
@@ -212,7 +211,7 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
    /* evil hack */
    mpDotButton->setMaximumWidth( mpDotButton->height() );
    
-   mpRootDir->setText( settings.value( "RootDirectory", QString("/") ).toString() );
+   mpRootDir->setText( settings.VALUE_ROOTDIRECTORY );
    handleRootDir();
    mpView->setAnimated( true );
    connect( mpView, SIGNAL(clicked(const QModelIndex&)),
@@ -383,7 +382,7 @@ void FileSysBrowser::menuMove( bool contentOnly )
          QFile::rename( mFileInfo.fileName(), dest );
       }
       
-      if( MySettings().value("AutoRescan", true).toBool() )
+      if( MySettings().VALUE_AUTORESCAN )
       {
          handleRootDir();
       }
@@ -414,7 +413,7 @@ void FileSysBrowser::menuRename()
             {
                mpDatabase->rename( qfi.fileName(), mFileInfo.absolutePath(), mFileInfo.fileName() );
             }
-            if( MySettings().value("AutoRescan", true).toBool() )
+            if( MySettings().VALUE_AUTORESCAN )
             {
                handleRootDir();
             }
@@ -449,7 +448,7 @@ void FileSysBrowser::menuDelete()
       {
          qdir.remove( mFileInfo.fileName() );
       }
-      if( MySettings().value("AutoRescan", true).toBool() )
+      if( MySettings().VALUE_AUTORESCAN )
       {
          mpView->setCurrentIndex( mpView->indexAbove( mContextModelIndex ) );
          handleRootDir();

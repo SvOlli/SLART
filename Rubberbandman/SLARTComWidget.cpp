@@ -15,6 +15,7 @@
 #include "InfoEdit.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 
 #include "Trace.hpp"
 
@@ -86,7 +87,7 @@ void SLARTComWidget::handleSLART( const QStringList &message )
 void SLARTComWidget::handleNowPlaying()
 {
    GlobalConfigWidget::setClipboard( mpInfoEdit->tagsFileName( 
-      MySettings().value("PlayingPattern", "NP: |$ARTIST| - |$TITLE|").toString(), false ) );
+      MySettings().VALUE_PLAYINGPATTERN ) );
 }
 
 

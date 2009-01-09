@@ -12,6 +12,7 @@
 
 #include "InfoEdit.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 #include "Database.hpp"
 #include "ScrollLine.hpp"
 #include "Trace.hpp"
@@ -351,7 +352,7 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       mTrackInfo.clear();
       
       settings.sendNotification( QString("r0u") );
-      if( settings.value( "AutoRescan", false ).toBool() )
+      if( settings.VALUE_AUTORESCAN )
       {
          emit updated();
       }
@@ -626,11 +627,11 @@ void InfoEdit::saveFile()
    
    if( mpEditTrackNr->text().isEmpty() )
    {
-      newname = mTagList.fileName( MySettings().value("WithoutTrackNr", "|$ARTIST| - |$TITLE|").toString() );
+      newname = mTagList.fileName( MySettings().VALUE_WITHOUTTRACKNR );
    }
    else
    {
-      newname = mTagList.fileName( MySettings().value("WithTrackNr", "(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|").toString() );
+      newname = mTagList.fileName( MySettings().VALUE_WITHTRACKNR );
    }
    
    QString newpath( qfi.absolutePath() + "/" + newname + "." + qfi.suffix().toLower() );

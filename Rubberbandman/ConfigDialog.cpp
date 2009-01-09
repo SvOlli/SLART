@@ -111,10 +111,10 @@ void ConfigDialog::exec()
 void ConfigDialog::readSettings()
 {
    MySettings settings;
-   mpAutoRescan->setChecked( settings.value("AutoRescan", true).toBool() );
-   mpWithTrackNr->setText( settings.value("WithTrackNr", "(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|").toString() );
-   mpWithoutTrackNr->setText( settings.value("WithoutTrackNr", "|$ARTIST| - |$TITLE|").toString() );
-   mpPlayingPattern->setText( settings.value("PlayingPattern", "NP: |$ARTIST| - |$TITLE|").toString() );
+   mpAutoRescan->setChecked( settings.VALUE_AUTORESCAN );
+   mpWithTrackNr->setText( settings.VALUE_WITHTRACKNR );
+   mpWithoutTrackNr->setText( settings.VALUE_WITHOUTTRACKNR );
+   mpPlayingPattern->setText( settings.VALUE_PLAYINGPATTERN );
    
    mpGlobalConfigWidget->readSettings();
    
