@@ -91,7 +91,7 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
                if( filterPath )
                {
                   value.remove( QRegExp("[:?]") );
-                  value.replace( QRegExp("[\\\\/\\*]"), "_" );
+                  value.replace( QRegExp("[\"\\\\|/\\*]"), "_" );
                }
                
                filename.append( value );
