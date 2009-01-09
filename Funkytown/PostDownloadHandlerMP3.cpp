@@ -8,6 +8,7 @@
 #include "PostDownloadHandlerMP3.hpp"
 #include "MySettings.hpp"
 #include "GlobalHandlers.hpp"
+#include "ConfigDialog.hpp"
 
 #include <QString>
 #include <QFileInfo>
@@ -35,11 +36,11 @@ void PostDownloadHandlerMP3::run( const QString &url, const QString &filename,
    else
    {
       MySettings settings;
-      qulonglong total = settings.value( "Bytes", 0 ).toULongLong();
+      qulonglong total = settings.VALUE_BYTES;
       total += fileinfo.size();
       settings.setValue( "Bytes", total );
       
-      unsigned int count = settings.value( "Files", 0 ).toUInt()+1;
+      unsigned int count = settings.VALUE_FILES + 1;
       settings.setValue( "Files", count );
       
       settings.sendNotification( QString("f0d\n") + 

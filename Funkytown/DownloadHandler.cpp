@@ -8,6 +8,7 @@
 #include "DownloadHandler.hpp"
 #include "PostDownloadHandler.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 
 #include <QtGui>
 #include <QtNetwork>
@@ -26,7 +27,7 @@ DownloadHandler::DownloadHandler( QWidget *parent )
 , mpTimer( new QTimer( this ) )
 {
    QGridLayout *layout = new QGridLayout( this );
-   if( MySettings().value( "SLARTCommunication", false ).toBool() )
+   if( MySettings().VALUE_SLARTCOMMUNICATION )
    {
       mpQueue->setSelectionMode( QAbstractItemView::MultiSelection );
    }

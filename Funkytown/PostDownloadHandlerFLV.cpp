@@ -11,6 +11,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 
 #include "Trace.hpp"
 
@@ -28,11 +29,11 @@ void PostDownloadHandlerFLV::run( const QString &/*url*/, const QString &filenam
    if( success && (fileinfo.size() > 0) )
    {
       MySettings settings;
-      qulonglong total = settings.value( "Bytes", 0 ).toULongLong();
+      qulonglong total = settings.VALUE_BYTES;
       total += fileinfo.size();
       settings.setValue( "Bytes", total );
       
-      unsigned int count = settings.value( "Files", 0 ).toUInt()+1;
+      unsigned int count = settings.VALUE_FILES + 1;
       settings.setValue( "Files", count );
       
       settings.sendNotification( QString("f0v\n") + 

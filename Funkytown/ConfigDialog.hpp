@@ -42,4 +42,10 @@ private:
    QListWidget  *mpLogList;
 };
 
+/* defaults */
+#define VALUE_BYTES               value( "Bytes", 0 ).toULongLong()
+#define VALUE_DIRECTORY           value("Directory", QDir::currentPath()).toString()
+#define VALUE_FILES               value( "Files", 0 ).toUInt()
+#define VALUE_SLARTCOMMUNICATION  value("SLARTCommunication", false).toBool()
+
 #endif

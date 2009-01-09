@@ -60,7 +60,7 @@ MainWidget::MainWidget( QWidget *parent )
    mpSetupButton->setAcceptDrops( false );
    gpDownloadHandler->setAcceptDrops( false );
    
-   mpDirButton->setText( settings.value("Directory", QDir::currentPath()).toString() );
+   mpDirButton->setText( settings.VALUE_DIRECTORY );
    QDir::setCurrent( mpDirButton->text() );
    
    downloadActive( false );
