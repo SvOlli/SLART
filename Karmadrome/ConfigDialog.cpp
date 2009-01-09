@@ -82,10 +82,10 @@ void ConfigDialog::exec()
 void ConfigDialog::readSettings()
 {
    MySettings settings;
-   mpNumColumns->setValue( settings.value( "NumberOfColumns", 3 ).toInt() );
-   mpClearBeforeImport->setChecked( settings.value( "ClearBeforeImport", false ).toBool() );
-   mpExportAsRelative->setChecked( settings.value( "ExportAsRelative", false ).toBool() );
-   mpRandomizeExport->setChecked( settings.value( "RandomizeExport", false ).toBool() );
+   mpNumColumns->setValue( settings.VALUE_NUMBEROFCOLUMNS );
+   mpClearBeforeImport->setChecked( settings.VALUE_CLEARBEFOREIMPORT );
+   mpExportAsRelative->setChecked( settings.VALUE_EXPORTASRELATIVE );
+   mpRandomizeExport->setChecked( settings.VALUE_RANDOMIZEEXPORT );
    
    mpGlobalConfigWidget->readSettings();
    

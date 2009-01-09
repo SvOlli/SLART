@@ -277,10 +277,10 @@ void MainWidget::handleExport( QAction *action )
    QFileDialog dialog( this, QString(tr("Rubberbandman: Export %1 To:")).arg(action->text()) );
    dialog.setFileMode( QFileDialog::AnyFile );
    dialog.setFilter( tr("Playlist files (*.m3u)") );
-   QString rqdir( settings.value( "ExportDirectory", QString() ).toString() );
+   QString rqdir( settings.VALUE_EXPORTDIRECTORY );
    if( !QFileInfo( rqdir ).isDir() )
    {
-      rqdir = settings.value( "ImportDirectory", QString() ).toString();
+      rqdir = settings.VALUE_IMPORTDIRECTORY;
    }
    if( !QFileInfo( rqdir ).isDir() )
    {
@@ -321,10 +321,10 @@ void MainWidget::handleImport( QAction *action )
    QFileDialog dialog( this, QString(tr("Rubberbandman: Import %1 From:")).arg(action->text()) );
    dialog.setFileMode( QFileDialog::ExistingFiles );
    dialog.setFilter( tr("Playlist files (*.m3u)") );
-   QString rqdir( settings.value( "ImportDirectory", QString() ).toString() );
+   QString rqdir( settings.VALUE_IMPORTDIRECTORY );
    if( !QFileInfo( rqdir ).isDir() )
    {
-      rqdir = settings.value( "ExportDirectory", QString() ).toString();
+      rqdir = settings.VALUE_EXPORTDIRECTORY;
    }
    if( !QFileInfo( rqdir ).isDir() )
    {
@@ -337,7 +337,7 @@ void MainWidget::handleImport( QAction *action )
       TrackInfo trackInfo;
       settings.setValue( "ImportDirectory", dialog.directory().absolutePath() );
       QString cwd( QDir::currentPath() );
-      if( settings.value( "ClearBeforeImport", false ).toBool() )
+      if( settings.VALUE_CLEARBEFOREIMPORT )
       {
          QStringList entries( mpDatabase->getFolder( action->text() ) );
          mpDatabase->beginTransaction();
@@ -395,7 +395,7 @@ void MainWidget::handleReadButton()
 void MainWidget::labelReadButton()
 {
    MySettings settings( "Global" );
-   int mode = settings.value( "ClipboardMode", 0 ).toInt();
+   int mode = settings.VALUE_CLIPBOARDMODE;
 
    switch( mode )
    {
@@ -438,7 +438,7 @@ void MainWidget::exportM3u( const QString &folder, const QString &fileName )
    }
    QDir dir( QFileInfo( m3uFile.fileName() ).absolutePath() );
    QStringList entries( mpDatabase->getFolder( folder ) );
-   if( settings.value( "RandomizeExport", false ).toBool() )
+   if( settings.VALUE_RANDOMIZEEXPORT )
    {
       QStringList randomized;
       while( entries.count() )
@@ -447,7 +447,7 @@ void MainWidget::exportM3u( const QString &folder, const QString &fileName )
       }
       entries = randomized;
    }
-   if( settings.value( "ExportAsRelative", false ).toBool() )
+   if( settings.VALUE_EXPORTASRELATIVE )
    {
       for( int i = 0; i < entries.count(); i++ )
       {

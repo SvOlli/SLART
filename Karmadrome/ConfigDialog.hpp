@@ -53,4 +53,12 @@ private:
    QCheckBox            *mpRandomizeExport;
 };
 
+/* defaults */
+#define VALUE_CLEARBEFOREIMPORT  value( "ClearBeforeImport", false ).toBool()
+#define VALUE_EXPORTASRELATIVE   value( "ExportAsRelative", false ).toBool()
+#define VALUE_EXPORTDIRECTORY    value( "ExportDirectory", QString() ).toString()
+#define VALUE_IMPORTDIRECTORY    value( "ImportDirectory", QString() ).toString()
+#define VALUE_NUMBEROFCOLUMNS    value( "NumberOfColumns", 3 ).toInt()
+#define VALUE_RANDOMIZEEXPORT    value( "RandomizeExport", false ).toBool()
+
 #endif

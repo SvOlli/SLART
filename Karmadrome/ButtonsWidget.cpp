@@ -7,6 +7,7 @@
 
 #include "ButtonsWidget.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 
 #include <QtGui>
 
@@ -52,7 +53,7 @@ ButtonsWidget::ButtonsWidget( const QString &title, QWidget *parent )
 void ButtonsWidget::updateButtons( const QStringList &fileNames )
 {
    int i;
-   int rows = MySettings().value( "NumberOfColumns", 3 ).toInt();
+   int rows = MySettings().VALUE_NUMBEROFCOLUMNS;
    
    for( i = 0; i < mButtonList.count(); i++ )
    {
