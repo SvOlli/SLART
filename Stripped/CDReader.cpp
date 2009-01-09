@@ -13,6 +13,7 @@
 #include "Trace.hpp"
 #include "Encoder.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 #include "TagList.hpp"
 
 //#define TRACETEXT(x) TRACEMSG << cdtext_field2str( x ) << cdtext_get( x, cdtext )
@@ -194,8 +195,7 @@ void CDReader::readTracks()
    char *buffer = 0;
    mCancel = false;
    mEject  = true;
-   QString createPattern( MySettings().value("CreatePattern",
-                          "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|").toString() );
+   QString createPattern( MySettings().VALUE_CREATEPATTERN );
    
    QString artist, title, albumartist, albumtitle, genre;
    bool dorip, doenqueue;

@@ -126,20 +126,19 @@ void ConfigDialog::readSettings()
 {
    MySettings settings;
    int i;
-   i = mpDevicesBox->findText( settings.value( "Device", QString() ).toString() );
+   i = mpDevicesBox->findText( settings.VALUE_DEVICE );
    if( i >= 0 )
    {
       mpDevicesBox->setCurrentIndex( i );
    }
-   i = mpEncodersBox->findText( settings.value( "Encoder", QString() ).toString() );
+   i = mpEncodersBox->findText( settings.VALUE_ENCODER );
    if( i < 0 )
    {
       i = 0;
    }
    mpEncodersBox->setCurrentIndex( i );
    changeEncoder( i );
-   mpPattern->setText( settings.value("CreatePattern",
-                       "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|").toString() );
+   mpPattern->setText( settings.VALUE_CREATEPATTERN );
    
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();

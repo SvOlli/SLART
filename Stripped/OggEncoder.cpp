@@ -7,6 +7,7 @@
 
 #include "OggEncoder.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 #include "TagList.hpp"
 
 #include "Trace.hpp"
@@ -25,10 +26,9 @@ extern "C"
 OggEncoder::OggEncoder( QWidget *parent )
 : Encoder( parent, tr("ogg") )
 {
-   MySettings settings;
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
    QDoubleSpinBox *quality = new QDoubleSpinBox( this );
-   quality->setValue( settings.value("OggQuality", 0.4).toDouble() );
+   quality->setValue( MySettings().VALUE_OGGQUALITY );
    quality->setSingleStep( 0.01 );
    quality->setMinimum( 0.0 );
    quality->setMaximum( 1.0 );
@@ -53,8 +53,7 @@ OggEncoder::~OggEncoder()
 
 void OggEncoder::setQuality( double quality )
 {
-   MySettings settings;
-   settings.setValue( "OggQuality", quality );
+   MySettings().setValue( "OggQuality", quality );
    mQuality = quality;
 }
 

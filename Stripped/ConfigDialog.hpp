@@ -66,4 +66,11 @@ private:
    QList<Encoder*>      mEncoders;
 };
 
+/* defaults */
+#define VALUE_CREATEPATTERN  value( "CreatePattern", "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString()
+#define VALUE_DEVICE         value( "Device", QString() ).toString()
+#define VALUE_DIRECTORY      value( "Directory", QDir::current().absolutePath() ).toString()
+#define VALUE_ENCODER        value( "Encoder", QString() ).toString()
+#define VALUE_OGGQUALITY     value( "OggQuality", 0.4 ).toDouble()
+
 #endif

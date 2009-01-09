@@ -57,7 +57,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    pathLayout->addWidget( mpDirButton );
    pathLayout->setStretchFactor( targetDirLabel,  0 );
    pathLayout->setStretchFactor( mpDirButton, 1 );
-   mpDirButton->setText( settings.value("Directory", QDir::current().absolutePath()).toString() );
+   mpDirButton->setText( settings.VALUE_DIRECTORY );
    QDir::setCurrent( mpDirButton->text() );
 
    mpCancelButton->setDisabled( true );
