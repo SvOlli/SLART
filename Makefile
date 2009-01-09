@@ -33,9 +33,13 @@ toolchain:
 everything: toolchain all tools
 
 install: strip
-	mkdir -p $(DESTDIR)$(PREFIX)/{bin,lib}
+	mkdir -p $(DESTDIR)$(PREFIX)/bin
+	mkdir -p $(DESTDIR)$(PREFIX)/lib
+	mkdir -p $(DESTDIR)/usr/share/doc/slart
 	cp -d $(PLATFORM)/bin/* $(DESTDIR)$(PREFIX)/bin
 	cp -d $(PLATFORM)/lib/* $(DESTDIR)$(PREFIX)/lib
+	for f in COPYING example.lircrc README.TagLib SLARTmessages.txt; do \
+	  gzip -9 <docs/$$f >$(DESTDIR)/usr/share/doc/slart/$$f.gz ; done
 
 tar:
 	ln -s SLART ../slart-$(VERSION)
