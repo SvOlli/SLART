@@ -34,6 +34,9 @@ public slots:
    /* save current tab for restart */
    void handleTabChange( int tabNr );
    
+signals:
+   void requestChangeTitle( const QIcon &icon, const QString &title );
+   
 private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );

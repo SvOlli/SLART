@@ -51,6 +51,9 @@ private slots:
    /* autostart */
    void autostart();
 
+signals:
+   void requestChangeTitle( const QIcon &icon, const QString &title );
+   
 protected:
    /* for implementing dropping */
    virtual void dragEnterEvent( QDragEnterEvent *event );
