@@ -2,7 +2,7 @@
 
 BASEDIR="`dirname ${0}`"
 BUILDARCH="`uname -s -m|tr ' ' _`"
-VERSION="`tr -d '\n "&;#_[A-Za-z]' < ${BASEDIR}/Common/Version.hpp`"
+VERSION="`grep SLART_VERSION Common/Version.hpp|sed 's@.*"\([^"]*\)"@\1@'|tr -d '\n'`"
 CACHEFILE=${BASEDIR}/${BUILDARCH}/.config.cache
 CONFIG=debug
 PREFIX=/usr/local
