@@ -13,6 +13,7 @@
 #include <QIcon>
 #include <QProcess>
 #include <QString>
+#include <QSystemTrayIcon>
 #include <QUdpSocket>
 
 #include "PlayerWidget.hpp"
@@ -21,7 +22,6 @@
 class QPushButton;
 class QMenu;
 class QAction;
-class QSystemTrayIcon;
    
 class ConfigDialog;
 class Database;
@@ -84,6 +84,8 @@ public slots:
    void handleDerMixDerror( QProcess::ProcessError error );
    /* handle the info of the currently played track */
    void handleTrackPlaying( const TrackInfo &trackInfo );
+   /* handle the click on the tray icon */
+   void handleTrayIcon( QSystemTrayIcon::ActivationReason reason );
    
 signals:
    /* request a new icon and title */

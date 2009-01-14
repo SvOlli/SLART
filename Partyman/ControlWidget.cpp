@@ -107,6 +107,8 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
             this, SLOT(handleTrackPlaying(const TrackInfo &)) );
    connect( mpPlayer[1], SIGNAL(trackPlaying(const TrackInfo &)),
             this, SLOT(handleTrackPlaying(const TrackInfo &)) );
+   connect( mpTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+            this, SLOT(handleTrayIcon(QSystemTrayIcon::ActivationReason)) );
 
    connect( &mDerMixDprocess, SIGNAL(readyReadStandardError()),
             this, SLOT(handleDerMixDstartup()) );
@@ -517,5 +519,24 @@ void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
       mpTrayIcon->showMessage( tr("Now Playing:"), bubble,
          (QSystemTrayIcon::MessageIcon)(settings.VALUE_TRAYICONBUBBLEICON),
          (int)(settings.VALUE_TRAYICONBUBBLETIME * 1000) );
+   }
+}
+
+void ControlWidget::handleTrayIcon( QSystemTrayIcon::ActivationReason reason )
+{
+   if( reason == QSystemTrayIcon::Trigger )
+   {
+      if( mConnected )
+      {
+         handlePause();
+      }
+      else
+      {
+         initConnect();
+      }
+   }
+   if( reason == QSystemTrayIcon::DoubleClick )
+   {
+      handleSkipTrack();
    }
 }
