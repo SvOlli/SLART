@@ -2,7 +2,7 @@ Source: slart
 Section: unknown
 Priority: extra
 Maintainer: SvOlli <svolli@svolli.org>
-Build-Depends: debhelper (>= 5), libqt4-gui (>= 4.3), libqt4-sql (>= 4.3)
+Build-Depends: debhelper (>= 5), libqt4-gui (>= 4.3), libqt4-sql-sqlite (>= 4.3)
 Standards-Version: 3.7.2
 
 Package: slart
