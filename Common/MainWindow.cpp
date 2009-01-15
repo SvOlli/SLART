@@ -9,6 +9,7 @@
 #include "MainWidget.hpp"
 #include "MySettings.hpp"
 #include "../Sorcerer/Interface.hpp"
+#include "GlobalConfigWidget.hpp"
 
 #include <QtGui>
 
@@ -22,6 +23,7 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
 {
    setCentralWidget( mpMainWidget );
    setWindowTitle( QApplication::applicationName() );
+   QApplication::setDoubleClickInterval( MySettings( "Global" ).VALUE_DOUBLECLICKINTERVAL );
    
    if( mSaveWindow )
    {
