@@ -14,6 +14,7 @@
 #include <QProcess>
 #include <QString>
 #include <QSystemTrayIcon>
+#include <QTimer>
 #include <QUdpSocket>
 
 #include "PlayerWidget.hpp"
@@ -124,6 +125,7 @@ private:
    QAction         *mpDisconnectAction;
    QAction         *mpLoadAction;
    SLARTCom        mSLARTCom;
+   QTimer          mTrayIconClickTimer;
    QProcess        mDerMixDprocess;
    QProcess        mLoggerProcess;
    bool            mWaitForDerMixD;

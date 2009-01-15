@@ -41,6 +41,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mpDisconnectAction( mpDisconnectMenu->addAction( mStopIcon, tr("Disconnect" ) ) )
 , mpLoadAction( mpDisconnectMenu->addAction( mLoadIcon, tr("Load" ) ) )
 , mSLARTCom( this )
+, mTrayIconClickTimer( this )
 , mDerMixDprocess()
 , mLoggerProcess()
 , mWaitForDerMixD( false )
@@ -51,6 +52,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    MySettings settings;
    mpPlayer[0] = new PlayerWidget(0, database, this);
    mpPlayer[1] = new PlayerWidget(1, database, this);
+   mTrayIconClickTimer.setSingleShot( true );
    
    QHBoxLayout *mainLayout    = new QHBoxLayout( this );
    QVBoxLayout *centralLayout = new QVBoxLayout( );
@@ -109,6 +111,8 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
             this, SLOT(handleTrackPlaying(const TrackInfo &)) );
    connect( mpTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(handleTrayIcon(QSystemTrayIcon::ActivationReason)) );
+   connect( &mTrayIconClickTimer, SIGNAL(timeout()),
+            this, SLOT(handlePause()) );
 
    connect( &mDerMixDprocess, SIGNAL(readyReadStandardError()),
             this, SLOT(handleDerMixDstartup()) );
@@ -528,7 +532,7 @@ void ControlWidget::handleTrayIcon( QSystemTrayIcon::ActivationReason reason )
    {
       if( mConnected )
       {
-         handlePause();
+         mTrayIconClickTimer.start( QApplication::doubleClickInterval() );
       }
       else
       {
@@ -537,6 +541,8 @@ void ControlWidget::handleTrayIcon( QSystemTrayIcon::ActivationReason reason )
    }
    if( reason == QSystemTrayIcon::DoubleClick )
    {
+      mTrayIconClickTimer.stop();
       handleSkipTrack();
    }
 }
+
