@@ -18,12 +18,20 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
 , mpAnimateViews( new QCheckBox( tr("Animate Views"), this ) )
 , mpNormalizeCase( new QCheckBox( tr("Normalize Case In Text"), this ) )
 , mpNormalizeSpaces( new QCheckBox( tr("Normalize Spaces In Text"), this ) )
+, mpDoubleClickLabel( new QLabel( tr("Double Click Interval:"), this ) )
+, mpDoubleClickInterval( new QSpinBox( this ) )
 {
    QGridLayout *mainLayout = new QGridLayout( this );
    
    showClipboard( false );
    showAnimate( false );
    showNormalize( false );
+   showDoubleClickInterval( false );
+   
+   mpDoubleClickInterval->setRange( 100, 1000 );
+   mpDoubleClickInterval->setSingleStep( 50 );
+   mpDoubleClickInterval->setSuffix( tr("ms") );
+   mpDoubleClickInterval->setAlignment( Qt::AlignRight );
    
    QStringList comboBoxText;
    comboBoxText << tr("None") 
@@ -31,15 +39,17 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
                 << tr("Write Both/Read Selection") << tr("Write Both/Read Clipboard");
    mpClipboardSelection->addItems( comboBoxText );
    
-   mainLayout->addWidget( mpClipboardLabel,     0, 0 );
-   mainLayout->addWidget( mpClipboardSelection, 0, 1 );
-   mainLayout->addWidget( mpAnimateViews,       1, 0, 1, 2 );
-   mainLayout->addWidget( mpNormalizeCase,      2, 0, 1, 2 );
-   mainLayout->addWidget( mpNormalizeSpaces,    3, 0, 1, 2 );
- 
+   mainLayout->addWidget( mpClipboardLabel,      0, 0 );
+   mainLayout->addWidget( mpClipboardSelection,  0, 1, 1, 2 );
+   mainLayout->addWidget( mpAnimateViews,        1, 0, 1, 3 );
+   mainLayout->addWidget( mpNormalizeCase,       2, 0, 1, 3 );
+   mainLayout->addWidget( mpNormalizeSpaces,     3, 0, 1, 3 );
+   mainLayout->addWidget( mpDoubleClickLabel,    4, 0, 1, 2 );
+   mainLayout->addWidget( mpDoubleClickInterval, 4, 2 );
+   
    readSettings();
    
-   mainLayout->setRowStretch( 4, 1 );
+   mainLayout->setRowStretch( 5, 1 );
    
    setLayout( mainLayout );
 }
@@ -53,10 +63,11 @@ GlobalConfigWidget::~GlobalConfigWidget()
 void GlobalConfigWidget::readSettings()
 {
    MySettings settings( "Global" );
-   mpClipboardSelection->setCurrentIndex( settings.value( "ClipboardMode", 0 ).toInt() );
-   mpAnimateViews->setChecked( settings.value( "AnimateViews", false ).toBool() );
-   mpNormalizeCase->setChecked( settings.value("NormalizeCase", false).toBool() );
-   mpNormalizeSpaces->setChecked( settings.value("NormalizeSpaces", false).toBool() );
+   mpClipboardSelection->setCurrentIndex( settings.VALUE_CLIPBOARDMODE );
+   mpAnimateViews->setChecked( settings.VALUE_ANIMATEVIEWS );
+   mpNormalizeCase->setChecked( settings.VALUE_NORMALIZECASE );
+   mpNormalizeSpaces->setChecked( settings.VALUE_NORMALIZESPACES );
+   mpDoubleClickInterval->setValue( settings.VALUE_DOUBLECLICKINTERVAL );
 }
 
 
@@ -67,6 +78,8 @@ void GlobalConfigWidget::writeSettings()
    settings.setValue( "AnimateViews",  mpAnimateViews->isChecked() );
    settings.setValue( "NormalizeCase", mpNormalizeCase->isChecked() );
    settings.setValue( "NormalizeSpaces", mpNormalizeSpaces->isChecked() );
+   settings.setValue( "DoubleClickInterval", mpDoubleClickInterval->value() );
+   QApplication::setDoubleClickInterval( mpDoubleClickInterval->value() );
 }
 
 
@@ -87,6 +100,13 @@ void GlobalConfigWidget::showNormalize( bool allow )
 {
    mpNormalizeCase->setHidden( !allow );
    mpNormalizeSpaces->setHidden( !allow );
+}
+
+
+void GlobalConfigWidget::showDoubleClickInterval( bool allow )
+{
+   mpDoubleClickLabel->setHidden( !allow );
+   mpDoubleClickInterval->setHidden( !allow );
 }
 
 

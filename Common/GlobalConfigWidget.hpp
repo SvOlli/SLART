@@ -13,6 +13,7 @@
 class QCheckBox;
 class QComboBox;
 class QLabel;
+class QSpinBox;
 
 
 class GlobalConfigWidget : public QWidget
@@ -39,6 +40,8 @@ public:
    void showAnimate( bool allow = true );
    /* show normalize options on panel */
    void showNormalize( bool allow = true );
+   /* show doubleclick interal options on panel */
+   void showDoubleClickInterval( bool allow = true );
    
 private:
    QLabel       *mpClipboardLabel;
@@ -46,10 +49,15 @@ private:
    QCheckBox    *mpAnimateViews;
    QCheckBox    *mpNormalizeCase;
    QCheckBox    *mpNormalizeSpaces;
+   QLabel       *mpDoubleClickLabel;
+   QSpinBox     *mpDoubleClickInterval;
 };
 
 /* defaults */
-#define VALUE_ANIMATEVIEWS  value("AnimateViews", false).toBool()
-#define VALUE_CLIPBOARDMODE value("ClipboardMode", 0).toInt()
+#define VALUE_ANIMATEVIEWS        value("AnimateViews", false).toBool()
+#define VALUE_CLIPBOARDMODE       value("ClipboardMode", 0).toInt()
+#define VALUE_NORMALIZECASE       value("NormalizeCase", false ).toBool()
+#define VALUE_NORMALIZESPACES     value("NormalizeSpaces", false ).toBool()
+#define VALUE_DOUBLECLICKINTERVAL value("DoubleClickInterval", QApplication::doubleClickInterval() ).toInt()
 
 #endif

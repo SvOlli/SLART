@@ -55,6 +55,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    
    mpGlobalSettings->showClipboard();
    mpGlobalSettings->showAnimate();
+   mpGlobalSettings->showDoubleClickInterval();
    
    QStringList modes;
    modes << tr("No Normalization") 
@@ -64,15 +65,21 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    
    mpNormalizeValue->setSingleStep( 0.01 );
    mpNormalizeValue->setRange( 0.0, 1.0 );
+   mpNormalizeValue->setAlignment( Qt::AlignRight );
    mpTrayIconBubbleTime->setDecimals( 1 );
    mpTrayIconBubbleTime->setSuffix( "s" );
    mpTrayIconBubbleTime->setSingleStep( 1.0 );
    mpTrayIconBubbleTime->setRange( 1.0, 15.0 );
+   mpTrayIconBubbleTime->setAlignment( Qt::AlignRight );
    mpUDPListenerPort->setRange( 1, 65535 );
+   mpUDPListenerPort->setAlignment( Qt::AlignRight );
    mpDerMixDport->setRange( 1, 65535 );
+   mpDerMixDport->setAlignment( Qt::AlignRight );
    mpCrossfadeTime->setRange( 1, 30 );
    mpCrossfadeTime->setSuffix( "s" );
+   mpCrossfadeTime->setAlignment( Qt::AlignRight );
    mpPlayNotAgainCount->setRange( 0, 999 );
+   mpPlayNotAgainCount->setAlignment( Qt::AlignRight );
    
    QWidget     *dermixdTab    = new QWidget( this );
    QGridLayout *dermixdLayout = new QGridLayout( dermixdTab );

@@ -48,6 +48,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    mpGlobalConfigWidget->showClipboard();
    mpGlobalConfigWidget->showAnimate();
    mpGlobalConfigWidget->showNormalize();
+   mpGlobalConfigWidget->showDoubleClickInterval();
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
