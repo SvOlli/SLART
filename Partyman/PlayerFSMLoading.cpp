@@ -93,7 +93,7 @@ enum PlayerFSM::eState PlayerFSMLoading::handleDerMixD( const QString &msg )
       {
          mInScan = true;
       }
-      if( msg.endsWith( "-end" ) )
+      else if( msg.endsWith( "-end" ) )
       {
          mInScan = false;
          
@@ -105,6 +105,10 @@ enum PlayerFSM::eState PlayerFSMLoading::handleDerMixD( const QString &msg )
          {
             return PlayerFSM::ready;
          }
+      }
+      else if( msg.startsWith( "[scan] error:" ) )
+      {
+         mpPlayerWidget->mpFSM->changeState( PlayerFSM::searching );
       }
    }
    
