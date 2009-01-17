@@ -542,7 +542,14 @@ void ControlWidget::handleTrayIcon( QSystemTrayIcon::ActivationReason reason )
    if( reason == QSystemTrayIcon::DoubleClick )
    {
       mTrayIconClickTimer.stop();
-      handleSkipTrack();
+      if( mpSkipButton->isEnabled() )
+      {
+         handleSkipTrack();
+      }
+      else
+      {
+         mpTrayIcon->showMessage( tr("can't skip"), QString("still loading..."), QSystemTrayIcon::Warning, 2000 );
+      }
    }
 }
 
