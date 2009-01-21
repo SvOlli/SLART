@@ -81,6 +81,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    mpConnectButton->setDisabled( true );
 
    mpSkipButton->setDisabled( true );
+   mpSkipAction->setDisabled( true );
    
    mpTrayIcon->setIcon( QIcon(":/PartymanSmile.gif") );
    mpTrayIcon->setContextMenu( mpTrayIconStopMenu );
@@ -268,6 +269,7 @@ void ControlWidget::initDisconnect( eErrorCode errorcode )
       mpPlayer[0]->disconnect();
       mpPlayer[1]->disconnect();
       mpSkipButton->setDisabled( true );
+      mpSkipAction->setDisabled( true );
       mpConnectButton->setMenu( 0 );
       mpConnectButton->setChecked( false );
       switch( errorcode )
@@ -494,6 +496,7 @@ void ControlWidget::changeOtherState( int player, PlayerFSM::tState state )
 void ControlWidget::allowInteractive( bool allow )
 {
    mpSkipButton->setDisabled( !allow );
+   mpSkipAction->setDisabled( !allow );
    mpPlayer[0]->disablePlayPosition( !allow );
    mpPlayer[1]->disablePlayPosition( !allow );
 }
