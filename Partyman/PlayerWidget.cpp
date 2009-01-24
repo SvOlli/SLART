@@ -20,6 +20,27 @@
 #include "PlayerFSM.hpp"
 
 
+/* a very nasty hack to change the protected button variables */
+class MyMouseEvent : public QMouseEvent
+{
+private:
+   MyMouseEvent();
+   MyMouseEvent &operator=( const MyMouseEvent &other );
+   virtual ~MyMouseEvent();
+public:
+   void setMouseButton( Qt::MouseButton bt )
+   {
+      if( mouseState & b )
+      {
+         mouseState &= ~b;
+         mouseState |= bt;
+      }
+      b = bt;
+   }
+};
+
+
+/* slightly modify the behaviour of the slider */
 class MySlider : public QSlider
 {
 public:
@@ -28,6 +49,24 @@ public:
    {
    };
 protected:
+   void mousePressEvent( QMouseEvent *event )
+   {
+      if( event->button() == Qt::LeftButton )
+      {
+         MyMouseEvent *myevent = reinterpret_cast<MyMouseEvent*>(event);
+         myevent->setMouseButton( Qt::MidButton );
+      }
+      QSlider::mousePressEvent( event );
+   }
+   void mouseReleaseEvent( QMouseEvent *event )
+   {
+      if( event->button() == Qt::LeftButton )
+      {
+         MyMouseEvent *myevent = reinterpret_cast<MyMouseEvent*>(event);
+         myevent->setMouseButton( Qt::MidButton );
+      }
+      QSlider::mouseReleaseEvent( event );
+   }
    void keyPressEvent( QKeyEvent *event )
    {
       QSlider::keyPressEvent( event );
@@ -35,7 +74,7 @@ protected:
       {
          emit sliderPressed();
       }
-   };
+   }
    void keyReleaseEvent( QKeyEvent *event )
    {
       QSlider::keyReleaseEvent( event );
@@ -43,7 +82,7 @@ protected:
       {
          emit sliderReleased();
       }
-   };
+   }
 };
 
 
