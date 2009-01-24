@@ -1,9 +1,4 @@
 
-*** version 0.7 release ***
-all:
-- alpha sort classes in *.hpp
-
-*** post 0.7 ***
 extra:
 
 Common:

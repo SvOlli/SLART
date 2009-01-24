@@ -32,6 +32,7 @@ Stripped
 Funkytown
 - status messages
   - f0d: done with downloading track (parameter: complete filename)
+  - f0v: done with downloading video (parameter: complete filename)
 
 Karmadrome
 - commands
