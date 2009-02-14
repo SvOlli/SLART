@@ -47,8 +47,14 @@ public:
    MySlider( Qt::Orientation orientation, QWidget *parent = 0 ) :
    QSlider( orientation, parent )
    {
+      mWheelTimeout.setSingleShot( true );
+      mWheelTimeout.setInterval( 333 );
+      setInvertedControls( true );
+      connect( &mWheelTimeout, SIGNAL(timeout()),
+               this, SIGNAL(sliderReleased()) );
    };
 protected:
+   QTimer mWheelTimeout;
    void mousePressEvent( QMouseEvent *event )
    {
       if( event->button() == Qt::LeftButton )
@@ -66,6 +72,15 @@ protected:
          myevent->setMouseButton( Qt::MidButton );
       }
       QSlider::mouseReleaseEvent( event );
+   }
+   void wheelEvent( QWheelEvent *event )
+   {
+      if( !mWheelTimeout.isActive() )
+      {
+         emit sliderPressed();
+      }
+      mWheelTimeout.start();
+      QSlider::wheelEvent( event );
    }
    void keyPressEvent( QKeyEvent *event )
    {

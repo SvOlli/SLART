@@ -208,6 +208,10 @@ QString TrackInfo::toString() const
 
 QString TrackInfo::sec2minsec( int seconds )
 {
+   if( seconds < 0 )
+   {
+      seconds = 0;
+   }
    int minutes = seconds / 60;
    seconds %= 60;
    QString time( QString::number( minutes ) );
