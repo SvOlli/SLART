@@ -17,6 +17,10 @@ int main(int argc, char *argv[])
 {
    int retval = 0;
    
+   QApplication::setOrganizationName("SLART");
+   QApplication::setOrganizationDomain("svolli.org");
+   QApplication::setApplicationName("Partyman");
+   
    if( argc > 1 )
    {
       MySettings settings;
@@ -28,9 +32,6 @@ int main(int argc, char *argv[])
    else
    {
       QApplication app(argc, argv);
-      app.setOrganizationName("SLART");
-      app.setOrganizationDomain("svolli.org");
-      app.setApplicationName("Partyman");
    
       if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
       {
