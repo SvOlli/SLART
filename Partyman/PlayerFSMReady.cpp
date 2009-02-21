@@ -20,21 +20,28 @@ PlayerFSMReady::PlayerFSMReady( PlayerWidget *playerWidget )
 
 bool PlayerFSMReady::enter()
 {
-   mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("ready") );
-   mpPlayerWidget->mpStatusDisplay->setToolTip( QWidget::tr("right mouse button to unload") );
-   mpPlayerWidget->updateTime();
-   mpPlayerWidget->mpControlWidget->allowInteractive( !(mpPlayerWidget->mAutoPlay) );
-
-   if( mpPlayerWidget->mAutoPlay )
+   if( mpPlayerWidget->mTotalTime < mpPlayerWidget->mHeadStart * 2 + 1 )
    {
-      mpPlayerWidget->mAutoPlay = false;
-      mpPlayerWidget->mpFSM->changeState( PlayerFSM::playing );
+      mpPlayerWidget->mpFSM->changeState( PlayerFSM::searching );
    }
-
-   if( mpPlayerWidget->mStartOther )
+   else
    {
-      mpPlayerWidget->mStartOther = false;
-      mpPlayerWidget->mpControlWidget->changeOtherState( mpPlayerWidget->mPlayer, PlayerFSM::searching );
+      mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("ready") );
+      mpPlayerWidget->mpStatusDisplay->setToolTip( QWidget::tr("right mouse button to unload") );
+      mpPlayerWidget->updateTime();
+      mpPlayerWidget->mpControlWidget->allowInteractive( !(mpPlayerWidget->mAutoPlay) );
+
+      if( mpPlayerWidget->mAutoPlay )
+      {
+         mpPlayerWidget->mAutoPlay = false;
+         mpPlayerWidget->mpFSM->changeState( PlayerFSM::playing );
+      }
+
+      if( mpPlayerWidget->mStartOther )
+      {
+         mpPlayerWidget->mStartOther = false;
+         mpPlayerWidget->mpControlWidget->changeOtherState( mpPlayerWidget->mPlayer, PlayerFSM::searching );
+      }
    }
    
    return true;

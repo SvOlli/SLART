@@ -97,14 +97,7 @@ enum PlayerFSM::eState PlayerFSMLoading::handleDerMixD( const QString &msg )
       {
          mInScan = false;
          
-         if( mpPlayerWidget->mTotalTime < (2 * mpPlayerWidget->mHeadStart) + 1 )
-         {
-            return PlayerFSM::searching;
-         }
-         else
-         {
-            return PlayerFSM::ready;
-         }
+         return PlayerFSM::ready;
       }
       else if( msg.startsWith( "[scan] error:" ) )
       {
