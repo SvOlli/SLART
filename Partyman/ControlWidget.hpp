@@ -52,7 +52,7 @@ public:
    /* add files to playlist (for unloading) */
    void addToPlaylist( const QStringList &entries );
    /* (de)activate Skip/Next button and time sliders */
-   void allowInteractive( bool allow );
+   void disableSkip( bool disable );
    /* run SLARTCommunication & execute external logger */
    void log( const QString &udpEvent, const QString &logEvent, const QString &data = QString() );
    

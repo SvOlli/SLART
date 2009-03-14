@@ -5,6 +5,7 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
+#include "ControlWidget.hpp"
 #include "PlayerFSMSearching.hpp"
 #include "PlayerWidget.hpp"
 #include "ScrollLine.hpp"
@@ -22,6 +23,8 @@ bool PlayerFSMSearching::enter()
    mpPlayerWidget->mTotalTime = 0;
    mpPlayerWidget->updateTime();
    mpPlayerWidget->sendCommand( "unwatch" );
+   mpPlayerWidget->mpControlWidget->disableSkip( true );
+   mpPlayerWidget->disablePlayPosition( true );
    
    mpPlayerWidget->getNextTrack();
    

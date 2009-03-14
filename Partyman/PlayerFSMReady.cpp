@@ -29,7 +29,8 @@ bool PlayerFSMReady::enter()
       mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("ready") );
       mpPlayerWidget->mpStatusDisplay->setToolTip( QWidget::tr("right mouse button to unload") );
       mpPlayerWidget->updateTime();
-      mpPlayerWidget->mpControlWidget->allowInteractive( !(mpPlayerWidget->mAutoPlay) );
+      mpPlayerWidget->mpControlWidget->disableSkip( mpPlayerWidget->mAutoPlay );
+      mpPlayerWidget->disablePlayPosition( false );
 
       if( mpPlayerWidget->mAutoPlay )
       {

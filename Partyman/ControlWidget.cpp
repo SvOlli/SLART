@@ -337,7 +337,9 @@ void ControlWidget::handleLoad()
 void ControlWidget::handleSkipTrack()
 {
    mpSkipButton->clearFocus();
-   allowInteractive( false );
+   disableSkip( true );
+   mpPlayer[0]->disablePlayPosition( true );
+   mpPlayer[1]->disablePlayPosition( true );
    log( "p0n", "skip" );
    if( mPaused )
    {
@@ -493,12 +495,10 @@ void ControlWidget::changeOtherState( int player, PlayerFSM::tState state )
 }
 
 
-void ControlWidget::allowInteractive( bool allow )
+void ControlWidget::disableSkip( bool disable )
 {
-   mpSkipButton->setDisabled( !allow );
-   mpSkipAction->setDisabled( !allow );
-   mpPlayer[0]->disablePlayPosition( !allow );
-   mpPlayer[1]->disablePlayPosition( !allow );
+   mpSkipButton->setDisabled( disable );
+   mpSkipAction->setDisabled( disable );
 }
 
 
