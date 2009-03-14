@@ -8,6 +8,7 @@
 #include "Database.hpp"
 #include "MySettings.hpp"
 #include <QApplication>
+#include <QMessageBox>
 
 #include "Trace.hpp"
 
@@ -22,6 +23,12 @@ Database::Database( const QString &fileName )
    qsrand( time((time_t*)0) );
    
    mpSqlDB = new QSqlDatabase( QSqlDatabase::addDatabase( "QSQLITE" ) );
+   if( mpSqlDB->lastError().type() != QSqlError::NoError )
+   {
+      QMessageBox::critical( 0, QApplication::applicationName() + QWidget::tr(": Error"),
+                             QWidget::tr("Could not open database.\nPlease make sure that the SQLite driver for Qt is installed.") );
+      exit(1);
+   }
    
    if( fileName.isEmpty() )
    {
