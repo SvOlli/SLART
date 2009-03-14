@@ -26,6 +26,7 @@ bool PlayerFSMPlaying::enter()
    mpPlayerWidget->sendCommand( "seek", QString::number(mpPlayerWidget->mpPlayPosition->value()) );
    mpPlayerWidget->mpControlWidget->log( "p0p", "play", mpPlayerWidget->mpScrollLine->toolTip() );
    mpPlayerWidget->sendCommand( "watch" );
+   mpPlayerWidget->disablePlayPosition( false );
 
    return true;
 }
