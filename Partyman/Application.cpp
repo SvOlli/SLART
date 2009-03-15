@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
    
    if( argc > 1 )
    {
+      QCoreApplication app(argc, argv);
+      
       MySettings settings;
       for( int i = 1; i < argc; i++ )
       {
