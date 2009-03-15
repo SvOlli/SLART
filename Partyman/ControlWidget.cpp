@@ -40,6 +40,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mpPauseAction( mpDisconnectMenu->addAction( tr("Pause" ) ) )
 , mpDisconnectAction( mpDisconnectMenu->addAction( mStopIcon, tr("Disconnect" ) ) )
 , mpLoadAction( mpDisconnectMenu->addAction( mLoadIcon, tr("Load" ) ) )
+, mKioskMode( false )
 , mSLARTCom( this )
 , mTrayIconClickTimer( this )
 , mDerMixDprocess()
@@ -315,6 +316,10 @@ void ControlWidget::handlePause( bool reset )
       emit requestChangeTitle( mPlayIcon, mLastTitle );
       mpPauseAction->setIcon( mPauseIcon );
       mpPauseAction->setText( tr("Pause") );
+      if( mKioskMode )
+      {
+         mpPauseAction->setDisabled( true );
+      }
       mPaused = false;
    }
    else
@@ -322,6 +327,10 @@ void ControlWidget::handlePause( bool reset )
       emit requestChangeTitle( mPauseIcon, QApplication::applicationName()+tr(" (paused)") );
       mpPauseAction->setIcon( mPlayIcon );
       mpPauseAction->setText( tr("Resume") );
+      if( mKioskMode )
+      {
+         mpPauseAction->setDisabled( false );
+      }
       mPaused = true;
    }
    mpConnectButton->setMenu( mpDisconnectMenu );
@@ -497,8 +506,8 @@ void ControlWidget::changeOtherState( int player, PlayerFSM::tState state )
 
 void ControlWidget::disableSkip( bool disable )
 {
-   mpSkipButton->setDisabled( disable );
-   mpSkipAction->setDisabled( disable );
+   mpSkipButton->setDisabled( disable | mKioskMode );
+   mpSkipAction->setDisabled( disable | mKioskMode );
 }
 
 
@@ -535,7 +544,10 @@ void ControlWidget::handleTrayIcon( QSystemTrayIcon::ActivationReason reason )
    {
       if( mConnected )
       {
-         mTrayIconClickTimer.start( QApplication::doubleClickInterval() );
+         if( !mKioskMode | mPaused )
+         {
+            mTrayIconClickTimer.start( QApplication::doubleClickInterval() );
+         }
       }
       else
       {
@@ -545,14 +557,28 @@ void ControlWidget::handleTrayIcon( QSystemTrayIcon::ActivationReason reason )
    if( reason == QSystemTrayIcon::DoubleClick )
    {
       mTrayIconClickTimer.stop();
-      if( mpSkipButton->isEnabled() )
+      if( !mKioskMode )
       {
-         handleSkipTrack();
-      }
-      else
-      {
-         mpTrayIcon->showMessage( tr("can't skip"), QString("still loading..."), QSystemTrayIcon::Warning, 2000 );
+         if( mpSkipButton->isEnabled() )
+         {
+            handleSkipTrack();
+         }
+         else
+         {
+            mpTrayIcon->showMessage( tr("can't skip"), QString("still loading..."), QSystemTrayIcon::Warning, 2000 );
+         }
       }
    }
 }
 
+
+void ControlWidget::handleKioskMode( bool enable )
+{
+   mKioskMode = enable;
+   mpPlayer[0]->handleKioskMode( mKioskMode );
+   mpPlayer[1]->handleKioskMode( mKioskMode );
+   mpSkipAction->setDisabled( mKioskMode );
+   mpPauseAction->setDisabled( mKioskMode & !mPaused );
+   mpDisconnectAction->setDisabled( mKioskMode );
+   mpSkipButton->setDisabled( mKioskMode );
+}

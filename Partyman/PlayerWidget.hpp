@@ -72,6 +72,8 @@ public:
    void disablePlayPosition( bool disable );
    /* (re-)read configuration */
    void readConfig();
+   /* disable slider while playing, if running in kiosk mode */
+   void handleKioskMode( bool enable );
    
 public slots:
    /* lock seek slider from getting status updates */
@@ -128,6 +130,7 @@ private:
    long          mSamples;
    long          mHeadStart;
    bool          mUpdateSlider;
+   bool          mKioskMode;
    int           mNormalizeMode;
    double        mNormalizeValue;
    QString       mDisplayPattern;

@@ -48,7 +48,9 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpListPattern( new QLineEdit( this ) )
 , mpTrayIconPattern( new QLineEdit( this ) )
 , mpUpdateBrowserButton( new QPushButton( tr("Update Browser Tab"), this ) )
+, mpStartKioskButton( new QPushButton( tr("Start Kiosk Mode"), this ) )
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
+, mPassword()
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/PartymanSmile.gif") );
@@ -138,8 +140,9 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    randomLayout->setRowStretch( 6, 1 );
    randomTab->setLayout( randomLayout );
    
-   QWidget     *displayTab    = new QWidget( this );
-   QGridLayout *displayLayout = new QGridLayout( displayTab );
+   QWidget     *displayTab          = new QWidget( this );
+   QGridLayout *displayLayout       = new QGridLayout( displayTab );
+   QBoxLayout  *displayButtonLayout = new QHBoxLayout;
    displayLayout->addWidget( new QLabel( tr("Display Patterns:") ), 0, 0, 1, 2 );
    displayLayout->addWidget( new QLabel( tr("Title:") ), 1, 0 );
    displayLayout->addWidget( mpNamePattern, 1, 1 );
@@ -150,7 +153,9 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    displayLayout->addWidget( new QLabel( tr("List:") ), 4, 0 );
    displayLayout->addWidget( mpListPattern, 4, 1 );
    displayLayout->setRowStretch( 5, 1 );
-   displayLayout->addWidget( mpUpdateBrowserButton, 6, 0, 1, 2 );
+   displayButtonLayout->addWidget( mpUpdateBrowserButton );
+   displayButtonLayout->addWidget( mpStartKioskButton );
+   displayLayout->addLayout( displayButtonLayout, 6, 0, 1, 2 );
    displayTab->setLayout( displayLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -196,6 +201,8 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
             this, SLOT(readSettings()) );
    connect( mpUpdateBrowserButton, SIGNAL(clicked()),
             this, SIGNAL(updateBrowser()) );
+   connect( mpStartKioskButton, SIGNAL(clicked()),
+            this, SLOT(handleStartKiosk()) );
    
    readSettings();
 }
@@ -203,6 +210,14 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 
 void ConfigDialog::exec()
 {
+   if( !mPassword.isEmpty() )
+   {
+      if( !checkPassword() )
+      {
+         return;
+      }
+   }
+   emit kioskMode( false );
    readSettings();
    QDialog::exec();
 }
@@ -329,4 +344,41 @@ void ConfigDialog::handleShowTrayIcon( bool checked )
 {
    mpTrayIconBubble->setDisabled( !checked );
    mpTrayIconBubbleTime->setDisabled( !checked );
+}
+
+
+void ConfigDialog::handleStartKiosk()
+{
+   if( checkPassword( true ) )
+   {
+      accept();
+   }
+}
+
+
+bool ConfigDialog::checkPassword( bool lock )
+{
+   /* check if we want to lock instead of verify */
+   if( lock )
+   {
+      mPassword =
+         QInputDialog::getText( this, tr("Enter Password For Enableing Kiosk Mode"),
+                                tr("To enable Kiosk Mode enter a password that will be needed for unlocking.\n"
+                                   "(Empty password does not activate Kiosk Mode)"),
+                                QLineEdit::Password );
+      bool enable = !mPassword.isEmpty();
+      emit kioskMode( enable );
+      return enable;
+   }
+   
+   /* no password set -> no kiosk mode */
+   if( mPassword.isEmpty() )
+   {
+      return true;
+   }
+   
+   return mPassword ==
+      QInputDialog::getText( this, tr("Enter Password For Unlocking Kiosk Mode"),
+                             tr("The feature you've requested is not available in Kiosk Mode, enter password to disable."),
+                             QLineEdit::Password );
 }

@@ -35,9 +35,9 @@ Q_OBJECT
 public:
    enum eErrorCode
    { 
-      noError, 
-      noConnection, 
-      connectionLost, 
+      noError,
+      noConnection,
+      connectionLost,
       wrongVersion
    };
    
@@ -87,6 +87,8 @@ public slots:
    void handleTrackPlaying( const TrackInfo &trackInfo );
    /* handle the click on the tray icon */
    void handleTrayIcon( QSystemTrayIcon::ActivationReason reason );
+   /* disable some elements of the user interface, if running in kiosk mode */
+   void handleKioskMode( bool enable );
    
 signals:
    /* request a new icon and title */
@@ -124,6 +126,7 @@ private:
    QAction         *mpPauseAction;
    QAction         *mpDisconnectAction;
    QAction         *mpLoadAction;
+   bool            mKioskMode;
    SLARTCom        mSLARTCom;
    QTimer          mTrayIconClickTimer;
    QProcess        mDerMixDprocess;

@@ -29,6 +29,9 @@ Q_OBJECT
 public:
    ConfigDialog( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
+   /* open the password dialog, default checks, true sets password */
+   bool checkPassword( bool lock = false );
+   
 public slots:
    /* execute the dialog */
    void exec();
@@ -44,16 +47,21 @@ public slots:
    void handleNormalizeMode( int mode );
    /* handle "Show Tray Icon" checkbox */
    void handleShowTrayIcon( bool checked );
+   /* activate kiosk mode */
+   void handleStartKiosk();
 
 signals:
    /* configuration has changed */
    void configChanged();
    /* update of browser tree requested */
    void updateBrowser();
+   /* propagate if running in kiosk mode */
+   void kioskMode( bool on );
 
 private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
+
 
    Database             *mpDatabase;
    QLabel               *mpDerMixDhostLabel;
@@ -87,7 +95,9 @@ private:
    QLineEdit            *mpListPattern;
    QLineEdit            *mpTrayIconPattern;
    QPushButton          *mpUpdateBrowserButton;
+   QPushButton          *mpStartKioskButton;
    GlobalConfigWidget   *mpGlobalSettings;
+   QString              mPassword;
 };
 
 /* defaults */

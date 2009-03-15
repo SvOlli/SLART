@@ -120,6 +120,7 @@ PlayerWidget::PlayerWidget( int index, Database *database,
 , mSamples( 0 )
 , mHeadStart( 10 )
 , mUpdateSlider( true )
+, mKioskMode( false )
 , mDisplayPattern()
 , mTrackInfo()
 {
@@ -575,4 +576,14 @@ bool PlayerWidget::setVolume()
 void PlayerWidget::disablePlayPosition( bool disable )
 {
    mpPlayPosition->setDisabled( disable );
+}
+
+
+void PlayerWidget::handleKioskMode( bool enable )
+{
+   mKioskMode = enable;
+   if( mpFSM->getState() != PlayerFSM::ready )
+   {
+      mpPlayPosition->setDisabled( mKioskMode );
+   }
 }
