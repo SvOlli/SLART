@@ -216,6 +216,7 @@ void ConfigDialog::exec()
       {
          return;
       }
+      mPassword.clear();
    }
    emit kioskMode( false );
    readSettings();
