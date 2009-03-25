@@ -87,6 +87,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpPlaylist, SLOT(startBrowserUpdate()) );
    connect( mpConfig, SIGNAL(kioskMode(bool)),
             mpControl, SLOT(handleKioskMode(bool)) );
+   connect( mpConfig, SIGNAL(kioskMode(bool)),
+            this, SIGNAL(kioskMode(bool)) );
    
    setLayout( mainLayout );
    

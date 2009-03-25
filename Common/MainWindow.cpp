@@ -19,6 +19,7 @@
 MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
 , mSaveWindow( saveWindow )
+, mProhibitCloseWindow( false )
 , mpMainWidget( new MainWidget( this ) )
 {
    setCentralWidget( mpMainWidget );
@@ -32,6 +33,8 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
 
    connect( mpMainWidget, SIGNAL(requestChangeTitle(QIcon,QString)),
             this, SLOT(changeTitle(QIcon,QString)) );
+   connect( mpMainWidget, SIGNAL(kioskMode(bool)),
+            this, SLOT(prohibitClose(bool)) );
 }
 
 
@@ -56,11 +59,19 @@ MainWidget *MainWindow::mainWidget()
 
 void MainWindow::closeEvent( QCloseEvent *event )
 {
-   if( mSaveWindow )
+   if( mProhibitCloseWindow )
    {
-      MySettings().saveMainWindow( this );
+      event->ignore();
    }
-   event->accept();
+   else
+   {
+      if( mSaveWindow )
+      {
+         MySettings().saveMainWindow( this );
+      }
+      
+      event->accept();
+   }
 }
 
 

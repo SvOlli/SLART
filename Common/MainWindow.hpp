@@ -33,6 +33,8 @@ public:
 public slots:
    /* handle request for new icon and title */
    void changeTitle( const QIcon &icon, const QString &title );
+   /* prohibit closing of window (Partyman kiosk mode) */
+   void prohibitClose( bool prohibit ) { mProhibitCloseWindow = prohibit; };
    
 private:
    MainWindow( const MainWindow &other );
@@ -42,6 +44,7 @@ private:
    static bool trySorcerer( QApplication *app, const QDir &dir );
    
    bool mSaveWindow;
+   bool mProhibitCloseWindow;
    MainWidget   *mpMainWidget;
 };
 
