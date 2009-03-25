@@ -586,5 +586,13 @@ void ControlWidget::handleKioskMode( bool enable )
    mpSkipAction->setDisabled( mKioskMode );
    mpPauseAction->setDisabled( mKioskMode & !mPaused );
    mpDisconnectAction->setDisabled( mKioskMode );
-   mpSkipButton->setDisabled( mKioskMode );
+   mpSkipButton->setDisabled( mKioskMode | !mConnected );
+   if( mKioskMode )
+   {
+      mpSkipButton->setText( tr("Kiosk Mode") );
+   }
+   else
+   {
+      mpSkipButton->setText( tr("Next") );
+   }
 }
