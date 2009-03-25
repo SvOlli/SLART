@@ -397,7 +397,10 @@ void ControlWidget::handleSLART( const QStringList &src )
    {
       if( mConnected )
       {
-         handlePause();
+         if( mPaused || !mKioskMode )
+         {
+            handlePause();
+         }
       }
       else
       {
@@ -415,7 +418,10 @@ void ControlWidget::handleSLART( const QStringList &src )
    
    if( src.at(0) == "P0S" )
    {
-      initDisconnect();
+      if( !mKioskMode )
+      {
+         initDisconnect();
+      }
    }
    
    if( src.at(0) == "P0R" )
