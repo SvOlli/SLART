@@ -8,7 +8,7 @@
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
 #include "MySettings.hpp"
-#if 0
+#if MAINWINDOW_SORCERER
 #include "Database.hpp"
 #endif
 
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("TemplateApp");
 
-#if 0
+#if MAINWINDOW_SORCERER
    if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
    {
       if( !MainWindow::invokeSetUp( &app ) )

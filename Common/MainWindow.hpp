@@ -10,10 +10,20 @@
 
 #include <QMainWindow>
 
+#include "MainWidget.hpp"
+#ifndef MAINWINDOW_SORCERER
+#warning MAINWINDOW_SORCERER not defined
+#endif
+#ifndef MAINWINDOW_CHANGETITLE
+#warning MAINWINDOW_CHANGETITLE not defined
+#endif
+#ifndef MAINWINDOW_PROHIBITCLOSE
+#warning MAINWINDOW_PROHIBITCLOSE not defined
+#endif
+
+
 class QApplication;
 class QDir;
-
-class MainWidget;
 
 
 class MainWindow : public QMainWindow
@@ -27,24 +37,34 @@ public:
    MainWidget *mainWidget();
    /* intercept for writing the settings */
    void closeEvent( QCloseEvent *event );
+#if MAINWINDOW_SORCERER
    /* call Sorcerer for setting up */
    static bool invokeSetUp( QApplication *app );
+#endif
    
 public slots:
+#if MAINWINDOW_CHANGETITLE
    /* handle request for new icon and title */
    void changeTitle( const QIcon &icon, const QString &title );
+#endif
+#if MAINWINDOW_PROHIBITCLOSE
    /* prohibit closing of window (Partyman kiosk mode) */
    void prohibitClose( bool prohibit ) { mProhibitCloseWindow = prohibit; };
+#endif
    
 private:
    MainWindow( const MainWindow &other );
    MainWindow &operator=( const MainWindow &other );
    
+#if MAINWINDOW_SORCERER
    /* try to load and run Sorcerer */
    static bool trySorcerer( QApplication *app, const QDir &dir );
+#endif
    
-   bool mSaveWindow;
-   bool mProhibitCloseWindow;
+#if MAINWINDOW_PROHIBITCLOSE
+   bool          mProhibitCloseWindow;
+#endif
+   bool          mSaveWindow;
    MainWidget   *mpMainWidget;
 };
 

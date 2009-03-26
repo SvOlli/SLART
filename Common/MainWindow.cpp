@@ -18,8 +18,10 @@
 
 MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
-, mSaveWindow( saveWindow )
+#if MAINWINDOW_PROHIBITCLOSE
 , mProhibitCloseWindow( false )
+#endif
+, mSaveWindow( saveWindow )
 , mpMainWidget( new MainWidget( this ) )
 {
    setCentralWidget( mpMainWidget );
@@ -31,13 +33,18 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
       MySettings().setMainWindow( this );
    }
 
+#if MAINWINDOW_CHANGETITLE
    connect( mpMainWidget, SIGNAL(requestChangeTitle(QIcon,QString)),
             this, SLOT(changeTitle(QIcon,QString)) );
+#endif
+#if MAINWINDOW_PROHIBITCLOSE
    connect( mpMainWidget, SIGNAL(kioskMode(bool)),
             this, SLOT(prohibitClose(bool)) );
+#endif
 }
 
 
+#if MAINWINDOW_CHANGETITLE
 void MainWindow::changeTitle( const QIcon &icon, const QString &title )
 {
    if( !icon.isNull() )
@@ -49,6 +56,7 @@ void MainWindow::changeTitle( const QIcon &icon, const QString &title )
       setWindowTitle( title );
    }
 }
+#endif
 
 
 MainWidget *MainWindow::mainWidget()
@@ -59,22 +67,23 @@ MainWidget *MainWindow::mainWidget()
 
 void MainWindow::closeEvent( QCloseEvent *event )
 {
+#if MAINWINDOW_PROHIBITCLOSE
    if( mProhibitCloseWindow )
    {
       event->ignore();
+      return;
    }
-   else
+#endif
+   if( mSaveWindow )
    {
-      if( mSaveWindow )
-      {
-         MySettings().saveMainWindow( this );
-      }
-      
-      event->accept();
+      MySettings().saveMainWindow( this );
    }
+   
+   event->accept();
 }
 
 
+#if MAINWINDOW_SORCERER
 bool MainWindow::invokeSetUp( QApplication *app )
 {
    QDir sorcererDir(qApp->applicationDirPath());
@@ -142,3 +151,4 @@ bool MainWindow::trySorcerer( QApplication *app, const QDir &dir )
    }
    return true;
 }
+#endif

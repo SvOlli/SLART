@@ -8,6 +8,11 @@
 #ifndef MAINWIDGET_HPP
 #define MAINWIDGET_HPP MAINWIDGET_HPP
 
+/* define the features of main window to be used */
+#define MAINWINDOW_SORCERER      1
+#define MAINWINDOW_CHANGETITLE   1
+#define MAINWINDOW_PROHIBITCLOSE 1
+
 #include <QWidget>
 
 class QPushButton;
