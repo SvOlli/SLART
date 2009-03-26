@@ -447,7 +447,10 @@ void PlayerWidget::sendCommand( const QString &command, const QString &parameter
       QString cmd( command );
       if( command == "start" )
       {
-         emit trackPlaying( mTrackInfo );
+         if( mpFSM->getState() == PlayerFSM::playing )
+         {
+            emit trackPlaying( mTrackInfo );
+         }
       }
       if( command != "preread" )
       {
