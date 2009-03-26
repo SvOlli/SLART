@@ -10,6 +10,9 @@
 #include "MySettings.hpp"
 #include "../Sorcerer/Interface.hpp"
 #include "GlobalConfigWidget.hpp"
+#if MAINWINDOW_PROHIBITCLOSE
+#include "ConfigDialog.hpp"
+#endif
 
 #include <QtGui>
 
@@ -70,8 +73,11 @@ void MainWindow::closeEvent( QCloseEvent *event )
 #if MAINWINDOW_PROHIBITCLOSE
    if( mProhibitCloseWindow )
    {
-      event->ignore();
-      return;
+      if( !ConfigDialog::checkPassword() )
+      {
+         event->ignore();
+         return;
+      }
    }
 #endif
    if( mSaveWindow )

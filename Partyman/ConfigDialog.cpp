@@ -15,6 +15,8 @@
 #include <QtGui>
 
 
+static ConfigDialog *gpConfig = 0;
+
 ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpDatabase( database )
@@ -52,6 +54,8 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
 , mPassword()
 {
+   gpConfig = this;
+   
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/PartymanSmile.gif") );
    
@@ -212,7 +216,7 @@ void ConfigDialog::exec()
 {
    if( !mPassword.isEmpty() )
    {
-      if( !checkPassword() )
+      if( !checkPassword( false ) )
       {
          return;
       }
@@ -382,4 +386,14 @@ bool ConfigDialog::checkPassword( bool lock )
       QInputDialog::getText( this, tr("Enter Password For Unlocking Kiosk Mode"),
                              tr("The feature you've requested is not available in Kiosk Mode, enter password to disable."),
                              QLineEdit::Password );
+}
+
+
+bool ConfigDialog::checkPassword()
+{
+   if( gpConfig )
+   {
+      return gpConfig->checkPassword( false );
+   }
+   return true;
 }
