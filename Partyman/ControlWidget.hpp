@@ -133,7 +133,6 @@ private:
    QProcess        mLoggerProcess;
    bool            mWaitForDerMixD;
    bool            mDerMixDstarted;
-   QString         mLastTitle;
    QString         mLastP0p;
 };
 

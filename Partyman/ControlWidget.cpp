@@ -47,7 +47,6 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mLoggerProcess()
 , mWaitForDerMixD( false )
 , mDerMixDstarted( false )
-, mLastTitle()
 , mLastP0p()
 {
    MySettings settings;
@@ -309,11 +308,6 @@ void ControlWidget::handlePause( bool reset )
    mpPlayer[1]->pause();
    if( mPaused || reset )
    {
-      if( mLastTitle.isEmpty() )
-      {
-         mLastTitle = QApplication::applicationName();
-      }
-      emit requestChangeTitle( mPlayIcon, mLastTitle );
       mpPauseAction->setIcon( mPauseIcon );
       mpPauseAction->setText( tr("Pause") );
       if( mKioskMode )
@@ -531,7 +525,6 @@ void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
       bubble.append( '\n' );
       bubble.append( trackInfo.mFileName );
    }
-   mLastTitle = title;
    emit requestChangeTitle( mPlayIcon, title );
    mpTrayIcon->setToolTip( bubble );
    if( settings.VALUE_TRAYICON && 
