@@ -709,7 +709,7 @@ void InfoEdit::saveFile()
          mTrackInfo.setFlag( TrackInfo::ScannedWithPeak, false );
       }
    }
-   mpDatabase->updateTrackInfo( &mTrackInfo );
+   mpDatabase->updateTrackInfo( &mTrackInfo, true );
    
    if( mTrackInfo.mID <= 0 )
    {

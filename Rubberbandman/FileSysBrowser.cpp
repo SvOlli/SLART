@@ -90,7 +90,7 @@ public:
          {
             mQFileInfo.setFile( mDestFile );
             mTrackInfo.mDirectory = mQFileInfo.absolutePath();
-            mpDatabase->updateTrackInfo( &mTrackInfo );
+            mpDatabase->updateTrackInfo( &mTrackInfo, true );
          }
       }
    }

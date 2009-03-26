@@ -172,7 +172,7 @@ void DatabaseWorker::updateFile( const QFileInfo &fileInfo )
    
    if( updateTrackInfoFromFile( fileInfo.absoluteFilePath() ) )
    {
-      mpDatabase->updateTrackInfo( &mTrackInfo );
+      mpDatabase->updateTrackInfo( &mTrackInfo, true );
       ++mProcessed;
    }
 }
@@ -253,7 +253,7 @@ void DatabaseWorker::importM3u()
             ++mProcessed;
          }
          updateTrackInfoFromFile( fileName );
-         mpDatabase->updateTrackInfo( &mTrackInfo );
+         mpDatabase->updateTrackInfo( &mTrackInfo, true );
          
          if( ++mChecked > mLastChecked + UPDATE_INCREMENT )
          {

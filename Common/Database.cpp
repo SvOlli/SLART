@@ -296,7 +296,7 @@ int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QString &sea
 }
 
 
-void Database::updateTrackInfo( const TrackInfo *trackInfo )
+void Database::updateTrackInfo( const TrackInfo *trackInfo, bool allowinsert )
 {
    if( trackInfo->mID )
    {
@@ -310,7 +310,7 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo )
    }
    else
    {
-      if( trackInfo->mDirectory.isEmpty() || trackInfo->mFileName.isEmpty() )
+      if( trackInfo->mDirectory.isEmpty() || trackInfo->mFileName.isEmpty() || !allowinsert )
       {
          return;
       }

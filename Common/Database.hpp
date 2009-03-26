@@ -35,7 +35,7 @@ public:
       trackInfo = 0: only test if fileName is in database */
    bool getTrackInfo( TrackInfo *trackInfo, const QString &fileName = QString() );
    /* update track information to database */
-   void updateTrackInfo( const TrackInfo *trackInfo );
+   void updateTrackInfo( const TrackInfo *trackInfo, bool allowinsert = false );
    /* delete track information from database */
    void deleteTrackInfo( const TrackInfo *trackInfo );
    /* get a list of track information matching to the search string */
