@@ -77,6 +77,13 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mainLayout->addWidget( mpAddButton,      5, 1 );
    mainLayout->addWidget( mpRemoveButton,   5, 2 );
    
+   mainLayout->setRowStretch( 0, 0 );
+   mainLayout->setRowStretch( 1, 0 );
+   mainLayout->setRowStretch( 2, 0 );
+   mainLayout->setRowStretch( 3, 0 );
+   mainLayout->setRowStretch( 4, 1 );
+   mainLayout->setRowStretch( 5, 0 );
+   
    setLayout( mainLayout );
    
    updateLists();
