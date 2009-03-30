@@ -139,7 +139,13 @@ void DownloadHandler::run( const QString &url,
                            PostDownloadHandler *postDownloadHandler,
                            bool selected )
 {
+   /* everything that's not http can't be downloaded */
    if( !url.startsWith("http://") )
+   {
+      return;
+   }
+   /* no need to download anything twice */
+   if( mURLs.contains( url ) )
    {
       return;
    }
