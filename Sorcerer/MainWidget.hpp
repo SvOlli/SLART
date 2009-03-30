@@ -47,6 +47,10 @@ public slots:
    /* unlock the option to leave communication tab */
    void unlockCommunication();
    
+signals:
+   /* request a new icon and title */
+   void requestChangeTitle( const QIcon &icon, const QString &title );
+
 private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
