@@ -16,6 +16,7 @@
 #include "FileSysTreeUpdate.hpp"
 
 class QLabel;
+class QSignalMapper;
 class QSplitter;
 class QTabWidget;
 class QTextBrowser;
@@ -96,6 +97,7 @@ private:
    TrackInfoWidget       *mpTrackInfo;
    QTextBrowser          *mpHelpText;
    QSplitter             *mpSplitter;
+   QSignalMapper         *mpFKeyMapper;
 };
 
 #endif

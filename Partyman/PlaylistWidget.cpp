@@ -35,6 +35,7 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
 , mpTrackInfo( new TrackInfoWidget( database, QString("p0u"), this ) )
 , mpHelpText( new QTextBrowser( this ) )
 , mpSplitter( new QSplitter( Qt::Vertical, parent ) )
+, mpFKeyMapper( new QSignalMapper( this ) )
 {
    MySettings settings;
    qsrand( time((time_t*)0) );
@@ -86,6 +87,28 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
             this, SLOT(readConfig()) );
    connect( mpTreeUpdate, SIGNAL(finished()),
             this, SLOT(finishBrowserUpdate()) );
+   
+   QShortcut *f1 = new QShortcut( QKeySequence(Qt::Key_F1), this );
+   QShortcut *f2 = new QShortcut( QKeySequence(Qt::Key_F2), this );
+   QShortcut *f3 = new QShortcut( QKeySequence(Qt::Key_F3), this );
+   QShortcut *f4 = new QShortcut( QKeySequence(Qt::Key_F4), this );
+   
+   connect( f1, SIGNAL(activated()),
+            mpFKeyMapper, SLOT(map()) );
+   connect( f2, SIGNAL(activated()),
+            mpFKeyMapper, SLOT(map()) );
+   connect( f3, SIGNAL(activated()),
+            mpFKeyMapper, SLOT(map()) );
+   connect( f4, SIGNAL(activated()),
+            mpFKeyMapper, SLOT(map()) );
+   mpFKeyMapper->setMapping( f1, 3 );
+   mpFKeyMapper->setMapping( f2, 2 );
+   mpFKeyMapper->setMapping( f3, 1 );
+   mpFKeyMapper->setMapping( f4, 0 );
+   
+   connect( mpFKeyMapper, SIGNAL(mapped(int)),
+            mpTabs, SLOT(setCurrentIndex(int)) );
+   
    readConfig();
    
    setAcceptDrops( true );
