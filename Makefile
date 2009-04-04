@@ -38,6 +38,9 @@ install: strip
 	mkdir -p $(DESTDIR)/usr/share/doc/slart
 	cp -d $(PLATFORM)/bin/* $(DESTDIR)$(PREFIX)/bin
 	cp -d $(PLATFORM)/lib/* $(DESTDIR)$(PREFIX)/lib
+	[ -f $(PLATFORM)/README.DerMixD ] && \
+	  gzip -9 <$(PLATFORM)/README.DerMixD \
+	    >>$(DESTDIR)/usr/share/doc/slart/README.DerMixD.gz
 	for f in COPYING example.lircrc README.TagLib SLARTmessages.txt; do \
 	  gzip -9 <docs/$$f >$(DESTDIR)/usr/share/doc/slart/$$f.gz ; done
 
