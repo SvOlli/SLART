@@ -56,10 +56,10 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
    
    QHBoxLayout *layout = new QHBoxLayout;
    mpTabs->setTabPosition( QTabWidget::South );
-   mpTabs->addTab( mpTreeView, tr("Browse") );
-   mpTabs->addTab( mpSearch, tr("Search") );
-   mpTabs->addTab( mpTrackInfo, tr("Info") );
    mpTabs->addTab( mpHelpText, tr("Help") );
+   mpTabs->addTab( mpTrackInfo, tr("Info") );
+   mpTabs->addTab( mpSearch, tr("Search") );
+   mpTabs->addTab( mpTreeView, tr("Browse") );
    mpTabs->setCurrentIndex( settings.value("CurrentTab", mpTabs->count()-1).toInt() );
    
    mpSplitter->addWidget( mpPlaylistContent );
@@ -101,10 +101,10 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
             mpFKeyMapper, SLOT(map()) );
    connect( f4, SIGNAL(activated()),
             mpFKeyMapper, SLOT(map()) );
-   mpFKeyMapper->setMapping( f1, 3 );
-   mpFKeyMapper->setMapping( f2, 2 );
-   mpFKeyMapper->setMapping( f3, 1 );
-   mpFKeyMapper->setMapping( f4, 0 );
+   mpFKeyMapper->setMapping( f1, 0 );
+   mpFKeyMapper->setMapping( f2, 1 );
+   mpFKeyMapper->setMapping( f3, 2 );
+   mpFKeyMapper->setMapping( f4, 3 );
    
    connect( mpFKeyMapper, SIGNAL(mapped(int)),
             mpTabs, SLOT(setCurrentIndex(int)) );
@@ -364,28 +364,25 @@ void PlaylistWidget::readConfig()
 
 void PlaylistWidget::handleTabChange( int tabNr )
 {
-   MySettings settings;
+   MySettings().setValue( "CurrentTab", tabNr );
    
    switch( tabNr )
    {
       case 0:
-         /* browser */
-         mpTreeView->setFocus();
+         /* help */
+         mpHelpText->setFocus();
          break;
-      case 1:
+      case 2:
          /* search */
          mpSearch->setFocus();
          break;
       case 3:
-         /* help */
-         mpHelpText->setFocus();
+         /* browser */
+         mpTreeView->setFocus();
          break;
-      break;
       default:
          break;
    }
-   
-   settings.setValue( "CurrentTab", tabNr );
 }
 
 
@@ -410,7 +407,7 @@ void PlaylistWidget::startBrowserUpdate()
    {
       mpTreeUpdate->start();
       mpTreeUpdate->setPriority( QThread::LowestPriority );
-      mpTabs->setTabText( 0, tr("*Wait*") );
+      mpTabs->setTabText( 3, tr("*Wait*") );
    }
    emit playlistIsValid( retval > 0 );
 }
@@ -425,7 +422,7 @@ void PlaylistWidget::finishBrowserUpdate()
    mpTreeModel = mpNextTreeModel;
    
    mpTreeView->setRootIndex( root );
-   mpTabs->setTabText( 0, tr("Browse") );
+   mpTabs->setTabText( 3, tr("Browse") );
    for(i = 0; ; i++)
    {
       qmi = mpTreeModel->index( i, 0, root );
