@@ -60,7 +60,7 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
    mpTabs->addTab( mpTrackInfo, tr("Info") );
    mpTabs->addTab( mpSearch, tr("Search") );
    mpTabs->addTab( mpTreeView, tr("Browse") );
-   mpTabs->setCurrentIndex( settings.value("CurrentTab", mpTabs->count()-1).toInt() );
+   mpTabs->setCurrentIndex( settings.value("CurrentTab", 0).toInt() );
    
    mpSplitter->addWidget( mpPlaylistContent );
    mpSplitter->addWidget( mpTabs );
