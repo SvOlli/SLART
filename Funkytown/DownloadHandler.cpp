@@ -6,12 +6,15 @@
  */
 
 #include "DownloadHandler.hpp"
-#include "PostDownloadHandler.hpp"
 #include "MySettings.hpp"
 #include "ConfigDialog.hpp"
 
 #include <QtGui>
 #include <QtNetwork>
+
+#include "MagicQueue.hpp"
+#include "ScrollLine.hpp"
+#include "TheMagic.hpp"
 
 #include "Trace.hpp"
 
@@ -21,12 +24,18 @@ DownloadHandler::DownloadHandler( QWidget *parent )
 , mDownloading( false )
 , mHttpGetId( 0 )
 , mpHttp( new QHttp( this ) )
-, mpFile( 0 )
+, mpURL( new ScrollLine( this ) )
+, mpFileName( new ScrollLine( this ) )
 , mpProgressBar( new QProgressBar( this ) )
 , mpQueue( new QListWidget( this ) )
 , mpTimer( new QTimer( this ) )
+, mpMagicQueue( new MagicQueue() )
+, mpTheMagic( 0 )
 {
-   QGridLayout *layout = new QGridLayout( this );
+   QBoxLayout *layout      = new QVBoxLayout( this );
+   QGroupBox  *groupBox    = new QGroupBox( tr("Now Processing:"), this );
+   QBoxLayout *groupLayout = new QVBoxLayout();
+   
    if( MySettings().VALUE_SLARTCOMMUNICATION )
    {
       mpQueue->setSelectionMode( QAbstractItemView::MultiSelection );
@@ -37,10 +46,18 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    }
 #if QT_VERSION < 0x040300
    layout->setMargin( 0 );
+   groupLayout->setMargin( 5 );
 #else
    layout->setContentsMargins( 0, 0, 0, 0 );
+   groupLayout->setContentsMargins( 5, 5, 5, 5 );
 #endif
-   layout->addWidget( mpProgressBar );
+   
+   groupLayout->addWidget( mpURL );
+   groupLayout->addWidget( mpFileName );
+   groupLayout->addWidget( mpProgressBar );
+   groupBox->setLayout( groupLayout );
+   
+   layout->addWidget( groupBox );
    layout->addWidget( mpQueue );
    setLayout( layout );
    
@@ -53,56 +70,7 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    connect( mpTimer, SIGNAL(timeout()),
             this, SLOT(startDownload()) );
    
-   mpTimer->start(1000);
-}
-
-
-void DownloadHandler::httpRequestFinished( int requestId, bool error )
-{
-   QListWidgetItem *qlwi;
-   bool selected = false;
-   
-   if ( requestId != mHttpGetId )
-   {
-      return;
-   }
-   
-   qlwi = mpQueue->item(0);
-   if( qlwi )
-   {
-      selected = qlwi->isSelected();
-      qlwi = mpQueue->takeItem(0);
-      delete qlwi;
-   }
-
-   if ( mAborting )
-   {
-      if ( mpFile )
-      {
-         mpFile->close();
-         mpFile->remove();
-         delete mpFile;
-         mpFile = 0;
-      }
-      error = true;
-   }
-
-   if( mpFile )
-   {
-      mpFile->close();
-      
-      if( error )
-      {
-         mpFile->remove();
-         emit errorMessage( mURL + tr(" Download failed:") +
-                            mpHttp->errorString() );
-      }
-      
-      delete mpFile;
-      mpFile = 0;
-   }
-
-   mPostDownloadHandler->run( mURL, mFileName, !error, selected );
+   mpTimer->start( 1000 );
 }
 
 
@@ -122,86 +90,107 @@ void DownloadHandler::readResponseHeader( const QHttpResponseHeader &responseHea
 {
    if( (responseHeader.statusCode() >= 300) && (responseHeader.statusCode() < 400) )
    {
-      run( responseHeader.value("location"), mFileName, mPostDownloadHandler, mpQueue->item(0)->isSelected() );
+      mpTheMagic->mURL = responseHeader.value("location");
+      mpMagicQueue->addMagic( mpTheMagic );
    }
    
    if( responseHeader.statusCode() != 200 )
    {
-      errorMessage( mURL+QString(":")+QString::number( responseHeader.statusCode() )+
+      errorMessage( mpTheMagic->mURL+QString(":")+QString::number( responseHeader.statusCode() )+
                     QString(" ")+responseHeader.reasonPhrase() );
       mAborting = true;
    }
 }
 
 
-void DownloadHandler::run( const QString &url,
-                           const QString &filename,
-                           PostDownloadHandler *postDownloadHandler,
-                           bool selected )
+void DownloadHandler::run( const QString &url )
 {
    /* everything that's not http can't be downloaded */
    if( !url.startsWith("http://") )
    {
       return;
    }
-   /* no need to download anything twice */
-   if( mURLs.contains( url ) )
-   {
-      return;
-   }
-   
-   mURLs.append( url );
-   QString filenameClean( filename );
-   filenameClean.remove( QRegExp("[\\\\:?]") );
-   filenameClean.replace( QRegExp("[\"|/\\*]"), "_" ); 
-   mFileNames.append( filenameClean );
-   mPostDownloadHandlers.append( postDownloadHandler );
-   
-   mpQueue->addItem( filenameClean + QString( " <- " ) + url );
-   QListWidgetItem *qlwi = mpQueue->item( mpQueue->count() - 1 );
-   if( qlwi )
-   {
-      qlwi->setSelected( selected );
-   }
+
+   mpMagicQueue->addUrl( url, mpQueue );
 }
 
 
 void DownloadHandler::startDownload()
 {
-   if( mpFile )
+   if( mpTheMagic )
    {
       return;
    }
-   if( mURLs.size() == 0 )
+   
+   mpTheMagic = mpMagicQueue->getMagic();
+   if( !mpTheMagic )
    {
       emit downloadActive( false );
       mpProgressBar->setValue(0);
+      mpURL->clear();
+      mpFileName->clear();
       return;
    }
-   emit downloadActive( true );
+   mpTimer->stop();
    
-   mPostDownloadHandler = mPostDownloadHandlers.takeFirst();
-   mURL                 = mURLs.takeFirst();
-   mFileName            = mFileNames.takeFirst();
-   mDownloading         = true;
-   mAborting            = false;
+   mpTheMagic->preDownload();
    
-   mpFile = new QFile( mFileName );
-   if ( !mpFile->open( QIODevice::WriteOnly ) )
+   mpURL->setText( mpTheMagic->mURL );
+   mpFileName->setText( mpTheMagic->fileName() );
+   
+   if( mpTheMagic->ioDevice() )
    {
-      delete mpFile;
-      mpFile = 0;
+      emit downloadActive( true );
+      
+      mDownloading         = true;
+      mAborting            = false;
+      
+      QString url( mpTheMagic->mURL );
+      if( url.startsWith( "http://" ) )
+      {
+         url = url.mid( 7 );
+      }
+      int slash1 = url.indexOf('/');
+      
+      ProxyWidget::setProxy( mpHttp );
+      mpHttp->setHost( url.left(slash1) );
+      mHttpGetId = mpHttp->get( url.mid(slash1), mpTheMagic->ioDevice() );
+   }
+   else
+   {
+      delete mpTheMagic;
+      mpTheMagic = 0;
+      mpTimer->start();
+   }
+}
+
+
+void DownloadHandler::httpRequestFinished( int requestId, bool error )
+{
+   if ( requestId != mHttpGetId )
+   {
+      mpTimer->start();
       return;
    }
 
-   QString url( mURL );
-   if( url.startsWith( "http://" ) )
+   if ( mAborting )
    {
-      url = url.mid( 7 );
+      delete mpTheMagic;
+      mpTheMagic = 0;
+      mpTimer->start();
+      return;
    }
-   int slash1 = url.indexOf('/');
    
-   ProxyWidget::setProxy( mpHttp );
-   mpHttp->setHost( url.left(slash1) );
-   mHttpGetId = mpHttp->get( url.mid(slash1), mpFile );
+   mpTheMagic->postDownload( !error );
+   
+   if( error )
+   {
+      mpMagicQueue->addMagic( mpTheMagic );
+   }
+   else
+   {
+      delete mpTheMagic;
+   }
+   mpTheMagic = 0;
+   mpTimer->start();
 }

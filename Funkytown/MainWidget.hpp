@@ -27,11 +27,6 @@ class QPushButton;
 
 class ConfigDialog;
 class DownloadHandler;
-class PostDownloadHandler;
-class PostDownloadHandlerFLV;
-class PostDownloadHandlerHTML;
-class PostDownloadHandlerMP3;
-class PostDownloadHandlerXML;
 
 
 class MainWidget : public QWidget
@@ -71,6 +66,7 @@ private:
    QPushButton             *mpGoButton;
    QPushButton             *mpSetupButton;
    ConfigDialog            *mpConfigDialog;
+   DownloadHandler         *mpDownloadHandler;
 };
 
 #endif

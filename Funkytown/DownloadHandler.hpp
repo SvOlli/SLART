@@ -14,7 +14,6 @@
 
 #include "ProxyWidget.hpp"
 
-class QFile;
 class QHttp;
 class QHttpResponseHeader;
 class QListWidget;
@@ -22,7 +21,9 @@ class QProgressBar;
 class QTimer;
 class QVBoxLayout;
 
-class PostDownloadHandler;
+class MagicQueue;
+class ScrollLine;
+class TheMagic;
 
 
 class DownloadHandler : public QWidget
@@ -33,8 +34,7 @@ public:
    DownloadHandler( QWidget *parent = 0 );
    
    /* run a download request */
-   void run( const QString &url, const QString &filename,
-             PostDownloadHandler *postDownloadHandler, bool selected );
+   void run( const QString &url );
    
 public slots:
    /* callback for QHttp */
@@ -61,17 +61,13 @@ private:
    bool                         mAborting;
    
    QHttp                        *mpHttp;
-   QFile                        *mpFile;
+   ScrollLine                   *mpURL;
+   ScrollLine                   *mpFileName;
    QProgressBar                 *mpProgressBar;
    QListWidget                  *mpQueue;
    QTimer                       *mpTimer;
-   
-   PostDownloadHandler          *mPostDownloadHandler;
-   QList<PostDownloadHandler*>  mPostDownloadHandlers;
-   QString                      mURL;
-   QStringList                  mURLs;
-   QString                      mFileName;
-   QStringList                  mFileNames;
+   MagicQueue                   *mpMagicQueue;
+   TheMagic                     *mpTheMagic;
 };
 
 #endif
