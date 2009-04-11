@@ -15,7 +15,6 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QListWidgetItem>
 
 #include "Trace.hpp"
 
@@ -26,12 +25,12 @@ TheMagic::TheMagic( MagicQueue *magicQueue )
 , mStage( stageFresh )
 , mpMagicQueue( magicQueue )
 , mDownloadToFile( false )
+, mSuccess( false )
+, mSelected( false )
 , mMessage()
 , mBuffer()
 , mpFile( 0 )
 , mpBuffer( 0 )
-, mpListWidget( 0 )
-, mpListWidgetItem( 0 )
 , mMySpaceArtId()
 , mMySpaceProfId()
 , mMySpacePlaylistId()
@@ -50,10 +49,6 @@ TheMagic::~TheMagic()
    {
       delete mpBuffer;
    }
-   if( mpListWidgetItem )
-   {
-      delete mpListWidgetItem;
-   }
 }
 
 
@@ -61,7 +56,6 @@ TheMagic::~TheMagic()
  * Object that should not be copied from one object to another:
  * - mpFile
  * - mpBuffer
- * - mpListWidgetItem
  */
 
 TheMagic::TheMagic( const TheMagic &other )
@@ -70,63 +64,20 @@ TheMagic::TheMagic( const TheMagic &other )
 , mStage            ( other.mStage )
 , mpMagicQueue      ( other.mpMagicQueue )
 , mDownloadToFile   ( other.mDownloadToFile )
-, mMessage          ( other.mMessage )
+, mSuccess          ( other.mSuccess )
+, mSelected         ( other.mSelected )
+, mMessage          ( /*other.mMessage*/ )
 , mBuffer           ( other.mBuffer )
 , mpFile            ( 0 )
 , mpBuffer          ( 0 )
-, mpListWidget      ( other.mpListWidget )
-, mpListWidgetItem  ( new QListWidgetItem( mpListWidget ) )
 , mMySpaceArtId     ( other.mMySpaceArtId )
 , mMySpaceProfId    ( other.mMySpaceProfId )
 , mMySpacePlaylistId( other.mMySpacePlaylistId )
 , mMySpaceSongId    ( other.mMySpaceSongId )
 {
-   mpListWidgetItem->setSelected( other.mpListWidgetItem->isSelected() );
 }
 
 
-TheMagic &TheMagic::operator=( const TheMagic &other )
-{
-TRACESTART(TheMagic::operator=)
-   mURL               = other.mURL;
-   mStage             = other.mStage;
-   mpMagicQueue       = other.mpMagicQueue;
-   mDownloadToFile    = other.mDownloadToFile;
-   mMessage           = other.mMessage;
-   mBuffer            = other.mBuffer;
-   mpFile             = 0;
-   mpBuffer           = 0;
-   mpListWidget       = other.mpListWidget;
-   mpListWidgetItem   = new QListWidgetItem( mpListWidget );
-   mMySpaceArtId      = other.mMySpaceArtId;
-   mMySpaceProfId     = other.mMySpaceProfId;
-   mMySpacePlaylistId = other.mMySpacePlaylistId;
-   mMySpaceSongId     = other.mMySpaceSongId;
-   
-   mpListWidgetItem->setSelected( other.mpListWidgetItem->isSelected() );
-   
-   return *this;
-}
-
-
-bool TheMagic::operator==( const TheMagic &other ) const
-{
-   return (mURL == other.mURL) && (mStage == other.mStage);
-}
-
-
-QListWidgetItem *TheMagic::listWidgetItem()
-{
-   return mpListWidgetItem;
-}
-
-
-const QString &TheMagic::message()
-{
-   return mMessage;
-}
- 
- 
 QString TheMagic::fileName()
 {
    if( mDownloadToFile )
@@ -553,19 +504,16 @@ void TheMagic::parseMySpaceOldXML()
       {
          xmlName = dataList.at(i+1);
          xmlName.replace( QRegExp( "!\\[CDATA\\[(.*)\\]\\]" ), "\\1" );
-         //TRACEMSG << "name" << name;
       }
       if( dataList.at(i) == QString("song") )
       {
          xmlTitle = "";
          xmlUrl   = "";
-         //TRACEMSG << "song";
       }
       if( dataList.at(i).startsWith("title=") )
       {
          xmlTitle = dataList.at(i);
          xmlTitle.replace( QRegExp( ".*\"(.*)\".*" ), "\\1" );
-         //TRACEMSG << "title" << title;
       }
       if( dataList.at(i).startsWith("curl=") ||
           dataList.at(i).startsWith("durl=") || 
@@ -591,7 +539,6 @@ void TheMagic::parseMySpaceOldXML()
          magic->mFileName = xmlName+QString(" - ")+xmlTitle+QString(".mp3");
          magic->mStage = stageMySpaceMP3;
          mpMagicQueue->addMagic( magic );
-         
          xmlTitle = "";
          xmlUrl   = "";
       }
@@ -621,7 +568,7 @@ void TheMagic::parseMySpaceMP3()
       
       settings.sendNotification( QString("f0d\n") + 
                                  QDir::currentPath() + '/' + mFileName );
-      if( mpListWidgetItem->isSelected() )
+      if( mSelected )
       {
          settings.sendUdpMessage( QString("P0Q\n") + 
                                   QDir::currentPath() + '/' + mFileName, QString("Partyman") );
@@ -703,10 +650,12 @@ void TheMagic::parseMySpaceSong()
    const QString title("title");
    const QString link("link");
    const QString artist("artist");
+   const QString large("large");
    const QString name("name=");
    const QString endtrack("/track");
    QString xmlArtist;
    QString xmlTitle;
+   QString xmlCover;
    
    QStringList qsl( mBuffer.split( QRegExp("[<>]") ) );
    for( int i = 0; i < qsl.size() - 1; i++ )
@@ -732,21 +681,41 @@ void TheMagic::parseMySpaceSong()
          }
       }
       
+      if( line.startsWith( large, Qt::CaseInsensitive ) )
+      {
+         xmlCover = qsl.at(i+1);
+      }
+      
       pos = line.indexOf( endtrack, 0, Qt::CaseInsensitive );
       if( pos >= 0 )
       {
          if( !(xmlArtist.isEmpty()) && !(xmlTitle.isEmpty()) && !(mURL.isEmpty()) )
          {
+            QString fileName( xmlArtist );
+            fileName.append( QString(" - ") );
+            fileName.append( xmlTitle );
+            mURL.replace("std_","full_");
+            mURL.replace("&amp;","&");
+            
             TheMagic *magic = new TheMagic( *this );
-            magic->mFileName = xmlArtist;
-            magic->mFileName.append( QString(" - ") );
-            magic->mFileName.append( xmlTitle );
+            magic->mFileName = fileName;
             magic->mFileName.append( QString(".mp3") );
             magic->mStage = stageMySpaceMP3;
             mpMagicQueue->addMagic( magic );
+            
+            if( !(xmlCover.isEmpty()) )
+            {
+               TheMagic *magic = new TheMagic( *this );
+               magic->mURL = xmlCover.trimmed();
+               magic->mFileName = fileName;
+               magic->mFileName.append( QString(".jpg") );
+               magic->mStage = stageGenericFile;
+               mpMagicQueue->addMagic( magic );
+            }
          }
          xmlTitle.clear();
          xmlArtist.clear();
+         xmlCover.clear();
       }
    }
 }

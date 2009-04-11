@@ -15,14 +15,18 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QListWidget>
 #include <QListWidgetItem>
 
 #include "Trace.hpp"
 
 
-MagicQueue::MagicQueue()
-: mMagicList()
+MagicQueue::MagicQueue( QWidget *parent )
+: QListWidget( parent )
+, mMagicList()
 {
+   connect( this, SIGNAL(itemClicked(QListWidgetItem*)),
+            this, SLOT(handleSelect(QListWidgetItem*)) );
 }
 
 
@@ -31,12 +35,10 @@ MagicQueue::~MagicQueue()
 }
 
 
-void MagicQueue::addUrl( const QString &addurl, QListWidget *listWidget )
+void MagicQueue::addUrl( const QString &addurl )
 {
    TheMagic *magic = new TheMagic( this );
-   magic->mpListWidget = listWidget;
    magic->mURL = addurl;
-   magic->mpListWidgetItem = new QListWidgetItem( listWidget );
    addMagic( magic );
 }
 
@@ -45,7 +47,7 @@ void MagicQueue::addMagic( TheMagic *magic )
 {
    for( int i = 0; i < mMagicList.size(); i++ )
    {
-      if( mMagicList.at(i) == magic )
+      if( mMagicList.at(i)->mURL == magic->mURL )
       {
          /* already in list, no need to enqueue */
          delete magic;
@@ -57,28 +59,37 @@ void MagicQueue::addMagic( TheMagic *magic )
    {
       if( magic->mFileName.isEmpty() )
       {
-         magic->mpListWidgetItem->setText( magic->mURL );
+         magic->mMessage = magic->mURL;
       }
       else
       {
-         magic->mpListWidgetItem->setText( magic->mFileName );
+         magic->mMessage = magic->mFileName;
       }
    }
-   else
-   {
-      magic->mpListWidgetItem->setText( magic->mMessage );
-   }
    
-   if( magic->mDownloadToFile )
+   QListWidgetItem *qlwi = 0;
+   if( magic->mFileName.isEmpty() )
    {
-      magic->mpListWidget->addItem( magic->mpListWidgetItem );
-      mMagicList.append( magic );
+      int i;
+      for( i = 0; i < count(); i++ )
+      {
+         if( !(mMagicList.at(i)->mFileName.isEmpty()) )
+         {
+            break;
+         }
+      }
+      insertItem( i, magic->mMessage );
+      mMagicList.insert( i, magic );
+      qlwi = item( i );
    }
    else
    {
-      magic->mpListWidget->insertItem( 0, magic->mpListWidgetItem );
-      mMagicList.prepend( magic );
+      addItem( magic->mMessage );
+      mMagicList.append( magic );
+      qlwi = item( count() - 1 );
    }
+   qlwi->setSelected( magic->mSelected );
+//   updateList();
 }
 
 
@@ -88,10 +99,39 @@ TheMagic *MagicQueue::getMagic()
    
    if( mMagicList.size() > 0 )
    {
+#if 1
+      takeItem( 0 );
       magic = mMagicList.takeFirst();
-      magic->mpListWidget->takeItem( 0 );
+#else
+      QListWidgetItem *item = takeItem( 0 );
+      magic = mMagicList.takeFirst();
+      if( item->text() != magic->mMessage )
+      {
+TRACEMSG << item->text() << "!=" << magic->mMessage;
+      }
+#endif
    }
    
+//   updateList();
    return magic;
 }
 
+
+void MagicQueue::updateList()
+{
+   if( mMagicList.count() != count() )
+   {
+      clear();
+      for( int i = 0; i < mMagicList.count(); i++ )
+      {
+         addItem( mMagicList.at(i)->mMessage );
+      }
+   }
+}
+
+
+void MagicQueue::handleSelect( QListWidgetItem *item )
+{
+   TheMagic *magic = mMagicList.at( row( item ) );
+   magic->mSelected = item->isSelected();
+}

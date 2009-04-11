@@ -29,7 +29,7 @@ MainWidget::MainWidget( QWidget *parent )
 , mpDownloadHandler( new DownloadHandler() )
 {
    MySettings settings;
-   mpNameInput->setText("http://www.myspace.com/hertzinfarkt");
+   //mpNameInput->setText("http://www.myspace.com/hertzinfarkt");
    
 #if QT_VERSION < 0x040300
    mpLayout->setMargin( 3 );

@@ -64,7 +64,6 @@ private:
    ScrollLine                   *mpURL;
    ScrollLine                   *mpFileName;
    QProgressBar                 *mpProgressBar;
-   QListWidget                  *mpQueue;
    QTimer                       *mpTimer;
    MagicQueue                   *mpMagicQueue;
    TheMagic                     *mpTheMagic;

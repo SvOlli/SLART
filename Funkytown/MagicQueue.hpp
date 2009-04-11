@@ -9,30 +9,37 @@
 #define MAGICQUEUE_HPP MAGICQUEUE_HPP
 
 #include <QList>
+#include <QListWidget>
 
 class TheMagic;
 
-class QListWidget;
 
-
-class MagicQueue
+class MagicQueue : public QListWidget
 {
+Q_OBJECT
+   
 public:
-   MagicQueue();
+   MagicQueue( QWidget *parent = 0 );
    virtual ~MagicQueue();
    
    /*  */
-   void addUrl( const QString &addurl, QListWidget *listWidget );
+   void addUrl( const QString &addurl );
    /*  */
    void addMagic( TheMagic *addmagic );
    /*  */
    TheMagic *getMagic();
+
+public slots:
+   /*  */
+   void handleSelect( QListWidgetItem *item );
    
 private:
    MagicQueue( const MagicQueue &other );
    MagicQueue &operator=( const MagicQueue &other );
 
    QList<TheMagic*> mMagicList;
+   
+   void updateList();
 };
 
 

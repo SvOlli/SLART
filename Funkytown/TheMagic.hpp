@@ -30,19 +30,13 @@ public:
    virtual ~TheMagic();
    
    TheMagic( const TheMagic &other );
-   TheMagic &operator=( const TheMagic &other );
-   bool operator==( const TheMagic &other ) const;
-   
-   /*  */
-   QListWidgetItem *listWidgetItem();
+
    /*  */
    void preDownload();
    /*  */
    void postDownload( bool success );
    /*  */
    QIODevice *ioDevice();
-   /*  */
-   const QString &message();
 
    /*  */
    QString fileName();
@@ -52,6 +46,8 @@ public:
    
    
 private:
+   TheMagic &operator=( const TheMagic &other );
+
    /*  */
    enum { stageFresh, stageGenericFile, stageGenericHTML,
           stageMySpaceHTML, stageMySpaceOldXML,
@@ -63,13 +59,12 @@ private:
    MagicQueue       *mpMagicQueue;
    bool             mDownloadToFile;
    bool             mSuccess;
+   bool             mSelected;
    QString          mMessage;
    QString          mFileName;
    QString          mBuffer;
    QFile            *mpFile;
    QBuffer          *mpBuffer;
-   QListWidget      *mpListWidget;
-   QListWidgetItem  *mpListWidgetItem;
    QString          mMySpaceArtId;
    QString          mMySpaceProfId;
    QString          mMySpacePlaylistId;

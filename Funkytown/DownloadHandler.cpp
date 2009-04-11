@@ -27,9 +27,8 @@ DownloadHandler::DownloadHandler( QWidget *parent )
 , mpURL( new ScrollLine( this ) )
 , mpFileName( new ScrollLine( this ) )
 , mpProgressBar( new QProgressBar( this ) )
-, mpQueue( new QListWidget( this ) )
 , mpTimer( new QTimer( this ) )
-, mpMagicQueue( new MagicQueue() )
+, mpMagicQueue( new MagicQueue( this ) )
 , mpTheMagic( 0 )
 {
    QBoxLayout *layout      = new QVBoxLayout( this );
@@ -38,11 +37,11 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    
    if( MySettings().VALUE_SLARTCOMMUNICATION )
    {
-      mpQueue->setSelectionMode( QAbstractItemView::MultiSelection );
+      mpMagicQueue->setSelectionMode( QAbstractItemView::MultiSelection );
    }
    else
    {
-      mpQueue->setSelectionMode( QAbstractItemView::NoSelection );
+      mpMagicQueue->setSelectionMode( QAbstractItemView::NoSelection );
    }
 #if QT_VERSION < 0x040300
    layout->setMargin( 0 );
@@ -58,7 +57,7 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    groupBox->setLayout( groupLayout );
    
    layout->addWidget( groupBox );
-   layout->addWidget( mpQueue );
+   layout->addWidget( mpMagicQueue );
    setLayout( layout );
    
    connect( mpHttp, SIGNAL(requestFinished(int, bool)),
@@ -111,7 +110,7 @@ void DownloadHandler::run( const QString &url )
       return;
    }
 
-   mpMagicQueue->addUrl( url, mpQueue );
+   mpMagicQueue->addUrl( url );
 }
 
 
@@ -158,6 +157,7 @@ void DownloadHandler::startDownload()
    }
    else
    {
+      mpTheMagic->postDownload( true );
       delete mpTheMagic;
       mpTheMagic = 0;
       mpTimer->start();
