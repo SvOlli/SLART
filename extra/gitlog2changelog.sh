@@ -12,6 +12,9 @@ fi
 mode=0
 header=
 revision=$[revision+1]
+
+echo >&2 "generating changes info"
+
 (git-log 2>/dev/null;echo) | while read line; do
 case "${line}" in
 commit\ *)
@@ -49,6 +52,8 @@ Date:*)
   echo "  * ${line}" | fold -s -75 | sed 's/^[^ ]/    &/'
 ;;
 esac
+echo >&2 -en "\r${revision} "
 #echo "[${line}]"
 done
+echo >&2 -e "\rdone."
 
