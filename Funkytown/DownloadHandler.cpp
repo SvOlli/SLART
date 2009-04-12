@@ -87,10 +87,17 @@ void DownloadHandler::updateDataReadProgress( int bytesRead, int totalBytes )
 
 void DownloadHandler::readResponseHeader( const QHttpResponseHeader &responseHeader )
 {
+   const QString contentType("Content-Type");
+#if USE_TRACE
+TRACESTART(DownloadHandler::readResponseHeader)
+#endif
    if( (responseHeader.statusCode() >= 300) && (responseHeader.statusCode() < 400) )
    {
-      mpTheMagic->mURL = responseHeader.value("location");
-      mpMagicQueue->addMagic( mpTheMagic );
+      mpTheMagic->postDownload( false );
+      TheMagic *magic = new TheMagic( *mpTheMagic );
+      magic->mURL = responseHeader.value("location");
+      mpMagicQueue->addMagic( magic );
+      mpTheMagic->fail();
    }
    
    if( responseHeader.statusCode() != 200 )
@@ -98,6 +105,12 @@ void DownloadHandler::readResponseHeader( const QHttpResponseHeader &responseHea
       errorMessage( mpTheMagic->mURL+QString(":")+QString::number( responseHeader.statusCode() )+
                     QString(" ")+responseHeader.reasonPhrase() );
       mAborting = true;
+      mpTheMagic->fail();
+   }
+   
+   if( responseHeader.hasContentType() )
+   {
+      mpTheMagic->setContentType( responseHeader.contentType() );
    }
 }
 
@@ -116,6 +129,9 @@ void DownloadHandler::run( const QString &url )
 
 void DownloadHandler::startDownload()
 {
+#if USE_TRACE
+TRACESTART(DownloadHandler::startDownload)
+#endif
    if( mpTheMagic )
    {
       return;
@@ -167,6 +183,9 @@ void DownloadHandler::startDownload()
 
 void DownloadHandler::httpRequestFinished( int requestId, bool error )
 {
+#if USE_TRACE
+TRACESTART(DownloadHandler::httpRequestFinished)
+#endif
    if ( requestId != mHttpGetId )
    {
       mpTimer->start();

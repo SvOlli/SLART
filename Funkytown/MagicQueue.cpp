@@ -20,6 +20,8 @@
 
 #include "Trace.hpp"
 
+#define USE_TRACE 0
+
 
 MagicQueue::MagicQueue( QWidget *parent )
 : QListWidget( parent )
@@ -45,6 +47,9 @@ void MagicQueue::addUrl( const QString &addurl )
 
 void MagicQueue::addMagic( TheMagic *magic )
 {
+#if USE_TRACE
+TRACESTART(MagicQueue::addMagic)
+#endif
    for( int i = 0; i < mMagicList.size(); i++ )
    {
       if( mMagicList.at(i)->mURL == magic->mURL )
@@ -71,6 +76,7 @@ void MagicQueue::addMagic( TheMagic *magic )
    if( magic->mFileName.isEmpty() )
    {
       int i;
+      magic->mDownloadToFile = false;
       for( i = 0; i < count(); i++ )
       {
          if( !(mMagicList.at(i)->mFileName.isEmpty()) )
@@ -84,6 +90,7 @@ void MagicQueue::addMagic( TheMagic *magic )
    }
    else
    {
+      magic->mDownloadToFile = true;
       addItem( magic->mMessage );
       mMagicList.append( magic );
       qlwi = item( count() - 1 );
@@ -95,20 +102,23 @@ void MagicQueue::addMagic( TheMagic *magic )
 
 TheMagic *MagicQueue::getMagic()
 {
+#if USE_TRACE
+TRACESTART(MagicQueue::getMagic)
+#endif
    TheMagic *magic = 0;
    
    if( mMagicList.size() > 0 )
    {
-#if 1
-      takeItem( 0 );
-      magic = mMagicList.takeFirst();
-#else
+#if USE_TRACE
       QListWidgetItem *item = takeItem( 0 );
       magic = mMagicList.takeFirst();
       if( item->text() != magic->mMessage )
       {
 TRACEMSG << item->text() << "!=" << magic->mMessage;
       }
+#else
+      takeItem( 0 );
+      magic = mMagicList.takeFirst();
 #endif
    }
    

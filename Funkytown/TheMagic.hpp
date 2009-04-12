@@ -36,10 +36,13 @@ public:
    /*  */
    void postDownload( bool success );
    /*  */
-   QIODevice *ioDevice();
-
-   /*  */
    QString fileName();
+   /*  */
+   void fail();
+   /*  */
+   void setContentType( const QString &contentType );
+   /*  */
+   QIODevice *ioDevice();
    
    /*  */
    QString          mURL;
@@ -60,6 +63,7 @@ private:
    bool             mDownloadToFile;
    bool             mSuccess;
    bool             mSelected;
+   QString          mContentType;
    QString          mMessage;
    QString          mFileName;
    QString          mBuffer;

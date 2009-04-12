@@ -18,6 +18,8 @@
 
 #include "Trace.hpp"
 
+#define USE_TRACE 0
+
 
 TheMagic::TheMagic( MagicQueue *magicQueue )
 : QObject()
@@ -25,9 +27,11 @@ TheMagic::TheMagic( MagicQueue *magicQueue )
 , mStage( stageFresh )
 , mpMagicQueue( magicQueue )
 , mDownloadToFile( false )
-, mSuccess( false )
+, mSuccess( true )
 , mSelected( false )
+, mContentType()
 , mMessage()
+, mFileName()
 , mBuffer()
 , mpFile( 0 )
 , mpBuffer( 0 )
@@ -64,9 +68,11 @@ TheMagic::TheMagic( const TheMagic &other )
 , mStage            ( other.mStage )
 , mpMagicQueue      ( other.mpMagicQueue )
 , mDownloadToFile   ( other.mDownloadToFile )
-, mSuccess          ( other.mSuccess )
+, mSuccess          ( true )
 , mSelected         ( other.mSelected )
+, mContentType      ( other.mContentType )
 , mMessage          ( /*other.mMessage*/ )
+, mFileName         ( other.mFileName )
 , mBuffer           ( other.mBuffer )
 , mpFile            ( 0 )
 , mpBuffer          ( 0 )
@@ -92,15 +98,27 @@ QString TheMagic::fileName()
 }
 
 
+void TheMagic::fail()
+{
+   mSuccess = false;
+}
+
+
+void TheMagic::setContentType( const QString &contentType )
+{
+   mContentType = contentType;
+}
+
+   
 QIODevice *TheMagic::ioDevice()
 {
    if( mDownloadToFile )
    {
-      return static_cast<QIODevice*>(mpFile);
+      return reinterpret_cast<QIODevice*>(mpFile);
    }
    else
    {
-      return static_cast<QIODevice*>(mpBuffer);
+      return reinterpret_cast<QIODevice*>(mpBuffer);
    }
 }
 
@@ -154,7 +172,18 @@ void TheMagic::downloadClose()
    
    if( mpBuffer )
    {
-      mBuffer = QString::fromLatin1( mpBuffer->buffer() );
+      if( mContentType.contains( "UTF-8", Qt::CaseInsensitive ) || mContentType.contains( "UTF8", Qt::CaseInsensitive ) )
+      {
+         mBuffer = QString::fromUtf8( mpBuffer->buffer() );
+      }
+      else if( mContentType.contains( "8859-1", Qt::CaseInsensitive ) )
+      {
+         mBuffer = QString::fromLatin1( mpBuffer->buffer() );
+      }
+      else
+      {
+         mBuffer = QString::fromLocal8Bit( mpBuffer->buffer() );
+      }
       mpBuffer->close();
       delete mpBuffer;
       mpBuffer = 0;
@@ -181,6 +210,9 @@ QString TheMagic::xmlParam( const QString &string, int pos )
 
 void TheMagic::preDownload()
 {
+#if USE_TRACE
+TRACESTART(DownloadHandler::preDownload)
+#endif
    switch( mStage )
    {
       case stageFresh:
@@ -207,7 +239,10 @@ void TheMagic::preDownload()
 
 void TheMagic::postDownload( bool success )
 {
-   mSuccess = success;
+#if USE_TRACE
+TRACESTART(DownloadHandler::postDownload)
+#endif
+   mSuccess &= success;
    downloadClose();
    switch( mStage )
    {
@@ -248,6 +283,10 @@ void TheMagic::postDownload( bool success )
 
 void TheMagic::parseURL()
 {
+#if USE_TRACE
+TRACESTART(TheMagic::parseURL)
+TRACEMSG << mURL;
+#endif
    if( mURL.contains( QRegExp( "(.mp3|.ogg|.m4a)$", Qt::CaseInsensitive, QRegExp::RegExp2 ) ) )
    {
       mStage = stageGenericFile;
@@ -297,6 +336,9 @@ void TheMagic::processGenericFile()
 
 void TheMagic::parseGenericHTML()
 {
+#if USE_TRACE
+TRACESTART(DownloadHandler::parseGenericHTML)
+#endif
    int pos;
    QString param("http://www.youtube.com/v/");
    QString embed;
@@ -355,6 +397,9 @@ void TheMagic::parseGenericHTML()
 
 void TheMagic::parseYouTubeHTML()
 {
+#if USE_TRACE
+TRACESTART(DownloadHandler::parseYouTubeHTML)
+#endif
    int pos;
    QString line;
    QString youTube("fullscreenUrl");
@@ -395,6 +440,9 @@ void TheMagic::parseYouTubeHTML()
       TheMagic *magic = new TheMagic( *this );
       magic->mURL = QString("http://youtube.com/get_video?")+videoID+"&"+t;
       magic->mFileName = title+QString(".flv");
+#if USE_TRACE
+TRACEMSG << magic->mURL << magic->mFileName;
+#endif
       magic->mStage = stageGenericFile;
       mpMagicQueue->addMagic( magic );
    }
@@ -707,6 +755,7 @@ void TheMagic::parseMySpaceSong()
             {
                TheMagic *magic = new TheMagic( *this );
                magic->mURL = xmlCover.trimmed();
+               magic->mSelected = false;
                magic->mFileName = fileName;
                magic->mFileName.append( QString(".jpg") );
                magic->mStage = stageGenericFile;
