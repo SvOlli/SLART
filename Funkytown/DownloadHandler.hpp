@@ -14,6 +14,7 @@
 
 #include "ProxyWidget.hpp"
 
+class QCheckBox;
 class QHttp;
 class QHttpResponseHeader;
 class QListWidget;
@@ -45,6 +46,8 @@ public slots:
    void updateDataReadProgress( int bytesRead, int totalBytes );
    /* start the download */
    void startDownload();
+   /*  */
+   void handleEnqueue( bool checked );
    
 signals:
    /* signalize if download active or application is idle */
@@ -63,6 +66,7 @@ private:
    QHttp                        *mpHttp;
    ScrollLine                   *mpURL;
    ScrollLine                   *mpFileName;
+   QCheckBox                    *mpEnqueue;
    QProgressBar                 *mpProgressBar;
    QTimer                       *mpTimer;
    MagicQueue                   *mpMagicQueue;

@@ -46,6 +46,8 @@ public:
    
    /*  */
    QString          mURL;
+   /*  */
+   bool             mSelected;
    
    
 private:
@@ -62,7 +64,6 @@ private:
    MagicQueue       *mpMagicQueue;
    bool             mDownloadToFile;
    bool             mSuccess;
-   bool             mSelected;
    QString          mContentType;
    QString          mMessage;
    QString          mFileName;

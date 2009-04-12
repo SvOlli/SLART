@@ -24,11 +24,11 @@
 TheMagic::TheMagic( MagicQueue *magicQueue )
 : QObject()
 , mURL()
+, mSelected( false )
 , mStage( stageFresh )
 , mpMagicQueue( magicQueue )
 , mDownloadToFile( false )
 , mSuccess( true )
-, mSelected( false )
 , mContentType()
 , mMessage()
 , mFileName()
@@ -65,11 +65,11 @@ TheMagic::~TheMagic()
 TheMagic::TheMagic( const TheMagic &other )
 : QObject()
 , mURL              ( other.mURL )
+, mSelected         ( other.mSelected )
 , mStage            ( other.mStage )
 , mpMagicQueue      ( other.mpMagicQueue )
 , mDownloadToFile   ( other.mDownloadToFile )
 , mSuccess          ( true )
-, mSelected         ( other.mSelected )
 , mContentType      ( other.mContentType )
 , mMessage          ( /*other.mMessage*/ )
 , mFileName         ( other.mFileName )
@@ -244,39 +244,43 @@ TRACESTART(DownloadHandler::postDownload)
 #endif
    mSuccess &= success;
    downloadClose();
-   switch( mStage )
+   
+   if( mSuccess )
    {
-      case stageFresh:
-         break;
-      case stageGenericFile:
-         processGenericFile();
-         break;
-      case stageGenericHTML:
-         parseGenericHTML();
-         break;
-      case stageMySpaceHTML:
-         parseMySpaceHTML();
-         break;
-      case stageYouTubeHTML:
-         parseYouTubeHTML();
-         break;
-      case stageMySpaceOldXML:
-         parseMySpaceOldXML();
-         break;
-      case stageMySpaceMP3:
-         parseMySpaceMP3();
-         break;
-      case stageMySpacePlaylists:
-         parseMySpacePlaylists();
-         break;
-      case stageMySpaceArtistPlaylist:
-         parseMySpaceArtistPlaylist();
-         break;
-      case stageMySpaceSong:
-         parseMySpaceSong();
-         break;
-      default:
-         break;
+      switch( mStage )
+      {
+         case stageFresh:
+            break;
+         case stageGenericFile:
+            processGenericFile();
+            break;
+         case stageGenericHTML:
+            parseGenericHTML();
+            break;
+         case stageMySpaceHTML:
+            parseMySpaceHTML();
+            break;
+         case stageYouTubeHTML:
+            parseYouTubeHTML();
+            break;
+         case stageMySpaceOldXML:
+            parseMySpaceOldXML();
+            break;
+         case stageMySpaceMP3:
+            parseMySpaceMP3();
+            break;
+         case stageMySpacePlaylists:
+            parseMySpacePlaylists();
+            break;
+         case stageMySpaceArtistPlaylist:
+            parseMySpaceArtistPlaylist();
+            break;
+         case stageMySpaceSong:
+            parseMySpaceSong();
+            break;
+         default:
+            break;
+      }
    }
 }
 

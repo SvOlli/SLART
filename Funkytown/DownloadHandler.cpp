@@ -18,6 +18,8 @@
 
 #include "Trace.hpp"
 
+#define USE_TRACE 0
+
 
 DownloadHandler::DownloadHandler( QWidget *parent )
 : QWidget( parent )
@@ -26,6 +28,7 @@ DownloadHandler::DownloadHandler( QWidget *parent )
 , mpHttp( new QHttp( this ) )
 , mpURL( new ScrollLine( this ) )
 , mpFileName( new ScrollLine( this ) )
+, mpEnqueue( new QCheckBox( tr("Enqueue In Partyman"), this ) )
 , mpProgressBar( new QProgressBar( this ) )
 , mpTimer( new QTimer( this ) )
 , mpMagicQueue( new MagicQueue( this ) )
@@ -35,6 +38,7 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    QGroupBox  *groupBox    = new QGroupBox( tr("Now Processing:"), this );
    QBoxLayout *groupLayout = new QVBoxLayout();
    
+   mpEnqueue->setEnabled( false );
    if( MySettings().VALUE_SLARTCOMMUNICATION )
    {
       mpMagicQueue->setSelectionMode( QAbstractItemView::MultiSelection );
@@ -48,11 +52,14 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    groupLayout->setMargin( 5 );
 #else
    layout->setContentsMargins( 0, 0, 0, 0 );
+   layout->setSpacing( 1 );
    groupLayout->setContentsMargins( 5, 5, 5, 5 );
+   groupLayout->setSpacing( 1 );
 #endif
    
    groupLayout->addWidget( mpURL );
    groupLayout->addWidget( mpFileName );
+   groupLayout->addWidget( mpEnqueue );
    groupLayout->addWidget( mpProgressBar );
    groupBox->setLayout( groupLayout );
    
@@ -70,6 +77,12 @@ DownloadHandler::DownloadHandler( QWidget *parent )
             this, SLOT(startDownload()) );
    
    mpTimer->start( 1000 );
+}
+
+
+void DownloadHandler::handleEnqueue( bool checked )
+{
+   mpTheMagic->mSelected = checked;
 }
 
 
@@ -93,7 +106,6 @@ TRACESTART(DownloadHandler::readResponseHeader)
 #endif
    if( (responseHeader.statusCode() >= 300) && (responseHeader.statusCode() < 400) )
    {
-      mpTheMagic->postDownload( false );
       TheMagic *magic = new TheMagic( *mpTheMagic );
       magic->mURL = responseHeader.value("location");
       mpMagicQueue->addMagic( magic );
@@ -104,7 +116,6 @@ TRACESTART(DownloadHandler::readResponseHeader)
    {
       errorMessage( mpTheMagic->mURL+QString(":")+QString::number( responseHeader.statusCode() )+
                     QString(" ")+responseHeader.reasonPhrase() );
-      mAborting = true;
       mpTheMagic->fail();
    }
    
@@ -144,6 +155,8 @@ TRACESTART(DownloadHandler::startDownload)
       mpProgressBar->setValue(0);
       mpURL->clear();
       mpFileName->clear();
+      mpEnqueue->setChecked( false );
+      mpEnqueue->setEnabled( false );
       return;
    }
    mpTimer->stop();
@@ -152,7 +165,9 @@ TRACESTART(DownloadHandler::startDownload)
    
    mpURL->setText( mpTheMagic->mURL );
    mpFileName->setText( mpTheMagic->fileName() );
-   
+   mpEnqueue->setChecked( mpTheMagic->mSelected );
+   mpEnqueue->setEnabled( true );
+
    if( mpTheMagic->ioDevice() )
    {
       emit downloadActive( true );
@@ -185,18 +200,15 @@ void DownloadHandler::httpRequestFinished( int requestId, bool error )
 {
 #if USE_TRACE
 TRACESTART(DownloadHandler::httpRequestFinished)
+TRACEMSG << requestId << mHttpGetId;
 #endif
-   if ( requestId != mHttpGetId )
+   if( requestId != mHttpGetId )
    {
-      mpTimer->start();
       return;
    }
-
-   if ( mAborting )
+   
+   if( !mpTheMagic )
    {
-      delete mpTheMagic;
-      mpTheMagic = 0;
-      mpTimer->start();
       return;
    }
    
@@ -204,12 +216,10 @@ TRACESTART(DownloadHandler::httpRequestFinished)
    
    if( error )
    {
-      mpMagicQueue->addMagic( mpTheMagic );
+      TheMagic *magic = new TheMagic( *mpTheMagic );
+      mpMagicQueue->addMagic( magic );
    }
-   else
-   {
-      delete mpTheMagic;
-   }
+   delete mpTheMagic;
    mpTheMagic = 0;
    mpTimer->start();
 }

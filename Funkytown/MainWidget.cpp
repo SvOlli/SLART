@@ -35,6 +35,7 @@ MainWidget::MainWidget( QWidget *parent )
    mpLayout->setMargin( 3 );
 #else
    mpLayout->setContentsMargins( 3, 3, 3, 3 );
+   mpLayout->setSpacing( 3 );
 #endif
    
    QLabel *mpLogo = new QLabel( this );
