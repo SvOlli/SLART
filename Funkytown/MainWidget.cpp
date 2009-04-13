@@ -24,7 +24,7 @@ MainWidget::MainWidget( QWidget *parent )
 , mpNameText( new QLabel( tr("URL:"), this ) )
 , mpNameInput( new QLineEdit( this ) )
 , mpGoButton( new QPushButton( this ) )
-, mpSetupButton( new QPushButton( tr("Settings / Log"), this ) )
+, mpSetupButton( new QPushButton( tr("Settings / Log / Help"), this ) )
 , mpConfigDialog( new ConfigDialog( this ) )
 , mpDownloadHandler( new DownloadHandler() )
 {

@@ -128,7 +128,7 @@ void TheMagic::downloadToFile()
    sanitizeFileName();
    mpFile = new QFile( mFileName );
    
-   if( 1/* check for do not overwrite */ )
+   if( !(MySettings().VALUE_OVERWRITE) )
    {
       if( mpFile->exists() )
       {
@@ -325,12 +325,15 @@ void TheMagic::processGenericFile()
    if( mSuccess && (fileinfo.size() > 0) )
    {
       MySettings settings;
-      qulonglong total = settings.VALUE_BYTES;
-      total += fileinfo.size();
-      settings.setValue( "Bytes", total );
-      
-      unsigned int count = settings.VALUE_FILES + 1;
-      settings.setValue( "Files", count );
+      if( settings.VALUE_TOLLKEEP )
+      {
+         qulonglong total = settings.VALUE_BYTES;
+         total += fileinfo.size();
+         settings.setValue( "Bytes", total );
+         
+         unsigned int count = settings.VALUE_FILES + 1;
+         settings.setValue( "Files", count );
+      }
       
       settings.sendNotification( QString("f0v\n") + 
                                  QDir::currentPath() + '/' + mFileName );
@@ -611,12 +614,15 @@ void TheMagic::parseMySpaceMP3()
    if( mSuccess )
    {
       MySettings settings;
-      qulonglong total = settings.VALUE_BYTES;
-      total += fileinfo.size();
-      settings.setValue( "Bytes", total );
-      
-      unsigned int count = settings.VALUE_FILES + 1;
-      settings.setValue( "Files", count );
+      if( settings.VALUE_TOLLKEEP )
+      {
+         qulonglong total = settings.VALUE_BYTES;
+         total += fileinfo.size();
+         settings.setValue( "Bytes", total );
+         
+         unsigned int count = settings.VALUE_FILES + 1;
+         settings.setValue( "Files", count );
+      }
       
       settings.sendNotification( QString("f0d\n") + 
                                  QDir::currentPath() + '/' + mFileName );
@@ -755,7 +761,7 @@ void TheMagic::parseMySpaceSong()
             magic->mStage = stageMySpaceMP3;
             mpMagicQueue->addMagic( magic );
             
-            if( !(xmlCover.isEmpty()) )
+            if( !(xmlCover.isEmpty()) && MySettings().VALUE_COVERART )
             {
                TheMagic *magic = new TheMagic( *this );
                magic->mURL = xmlCover.trimmed();

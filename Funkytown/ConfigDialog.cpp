@@ -12,13 +12,27 @@
 
 #include <QtGui>
 
+#include "Trace.hpp"
+
 
 ConfigDialog::ConfigDialog( QWidget *parent )
 : QDialog( parent )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mpLogList( new QListWidget( this ) )
+, mpHelpText( new QTextBrowser( this ) )
+, mpOverwrite( new QCheckBox( tr("Overwrite Files During Download"), this ) )
+, mpCoverArt( new QCheckBox( tr("Download Cover-Like Artwork"), this ) )
+, mpTollKeep( new QCheckBox( tr("Count Downloaded Files And Bytes"), this ) )
+, mpDownloadedFiles( new QLabel( this ) )
+, mpDownloadedBytes( new QLabel( this ) )
+, mpClearButton( new QPushButton( tr("Clear"), this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   
+   mpHelpText->setReadOnly( true );
+   mpHelpText->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+   mpHelpText->setOpenExternalLinks( true );
+   mpHelpText->setSource( QUrl("qrc:/Usage.html") );
    
    AboutWidget *about( new AboutWidget( this ) );
    QPushButton *okButton( new QPushButton(tr("OK"), this) );
@@ -28,8 +42,22 @@ ConfigDialog::ConfigDialog( QWidget *parent )
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
    
+   QWidget     *settingsTab    = new QWidget( this );
+   QGridLayout *settingsLayout = new QGridLayout( settingsTab );
+   settingsLayout->addWidget( mpOverwrite, 0, 0, 1, 3 );
+   settingsLayout->addWidget( mpCoverArt,  1, 0, 1, 3 );
+   settingsLayout->addWidget( mpTollKeep,  2, 0, 1, 3 );
+   settingsLayout->addWidget( new QLabel( tr("Downloaded Files:"), this ), 3, 0 );
+   settingsLayout->addWidget( mpDownloadedFiles, 3, 1 );
+   settingsLayout->addWidget( new QLabel( tr("Downloaded Bytes:"), this ), 4, 0 );
+   settingsLayout->addWidget( mpDownloadedBytes, 4, 1 );
+   settingsLayout->addWidget( mpClearButton, 3, 2, 2, 1 );
+   settingsLayout->setRowStretch( 5, 1 );
+
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
+   tabs->addTab( mpHelpText,    QString(tr("Help")) );
+   tabs->addTab( settingsTab,   QString(tr("Funkytown")) );
    tabs->addTab( mpProxyWidget, QString(tr("Proxy")) );
    tabs->addTab( mpLogList,     QString(tr("Log")) );
    
@@ -39,6 +67,8 @@ ConfigDialog::ConfigDialog( QWidget *parent )
    
    setLayout( mainLayout );
    
+   connect( mpClearButton, SIGNAL(clicked()),
+            this, SLOT(handleClear()) );
    connect( okButton, SIGNAL(clicked()),
             this, SLOT(accept()) );
    connect( cancelButton, SIGNAL(clicked()),
@@ -68,12 +98,40 @@ void ConfigDialog::logMessage( const QString &message )
 
 void ConfigDialog::readSettings()
 {
+   MySettings settings;
+   
    mpProxyWidget->readSettings();
+   
+   mpOverwrite->setChecked( settings.VALUE_OVERWRITE );
+   mpCoverArt->setChecked( settings.VALUE_COVERART );
+   mpTollKeep->setChecked( settings.VALUE_TOLLKEEP );
+   mpDownloadedFiles->setText( QString::number( settings.VALUE_FILES ) );
+   mpDownloadedBytes->setText( QString::number( settings.VALUE_BYTES / 1048576 ) + "M" );
 }
 
 
 void ConfigDialog::writeSettings()
 {
+   MySettings settings;
+   
    mpProxyWidget->writeSettings();
+   
+   settings.setValue( "Overwrite", mpOverwrite->isChecked() );
+   settings.setValue( "CoverArt", mpCoverArt->isChecked() );
+   settings.setValue( "TollKeep", mpTollKeep->isChecked() );
 }
 
+
+void ConfigDialog::handleClear()
+{
+   if( QMessageBox::question( this, 
+         QApplication::applicationName()+tr(": Clear Statistics"),
+         tr("Do you really want to clear the statistics?"),
+         QMessageBox::Ok | QMessageBox::Cancel,
+         QMessageBox::Cancel ) == QMessageBox::Ok )
+   {
+      MySettings settings;
+      settings.remove( "Files" );
+      settings.remove( "Bytes" );
+   }
+}

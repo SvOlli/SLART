@@ -12,9 +12,11 @@
 
 #include "ProxyWidget.hpp"
 
-class QGridLayout;
+class QCheckBox;
+class QLabel;
 class QListWidget;
 class QPushButton;
+class QTextBrowser;
 
 
 class ConfigDialog : public QDialog
@@ -33,6 +35,8 @@ public slots:
    void writeSettings();
    /* send a message to log widget */
    void logMessage( const QString &message );
+   /*  */
+   void handleClear();
    
 private:
    ConfigDialog( const ConfigDialog &other );
@@ -40,12 +44,22 @@ private:
    
    ProxyWidget  *mpProxyWidget;
    QListWidget  *mpLogList;
+   QTextBrowser *mpHelpText;
+   QCheckBox    *mpOverwrite;
+   QCheckBox    *mpCoverArt;
+   QCheckBox    *mpTollKeep;
+   QLabel       *mpDownloadedFiles;
+   QLabel       *mpDownloadedBytes;
+   QPushButton  *mpClearButton;
 };
 
 /* defaults */
-#define VALUE_BYTES               value( "Bytes", 0 ).toULongLong()
+#define VALUE_BYTES               value("Bytes", 0).toULongLong()
+#define VALUE_COVERART            value("CoverArt", false).toBool()
 #define VALUE_DIRECTORY           value("Directory", QDir::currentPath()).toString()
-#define VALUE_FILES               value( "Files", 0 ).toUInt()
+#define VALUE_FILES               value("Files", 0).toUInt()
+#define VALUE_OVERWRITE           value("Overwrite", false).toBool()
 #define VALUE_SLARTCOMMUNICATION  value("SLARTCommunication", false).toBool()
+#define VALUE_TOLLKEEP            value("TollKeep", true).toBool()
 
 #endif

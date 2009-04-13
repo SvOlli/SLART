@@ -8,6 +8,8 @@ TEMPLATE = app
 TARGET = Funkytown
 
 # Input
+RESOURCES = qrc/Resources.qrc
+
 SOURCES += Application.cpp
 
 HEADERS += MainWindow.hpp

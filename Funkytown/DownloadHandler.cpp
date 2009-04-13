@@ -38,14 +38,15 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    QGroupBox  *groupBox    = new QGroupBox( tr("Now Processing:"), this );
    QBoxLayout *groupLayout = new QVBoxLayout();
    
-   mpEnqueue->setEnabled( false );
    if( MySettings().VALUE_SLARTCOMMUNICATION )
    {
       mpMagicQueue->setSelectionMode( QAbstractItemView::MultiSelection );
+      mpEnqueue->setEnabled( false );
    }
    else
    {
       mpMagicQueue->setSelectionMode( QAbstractItemView::NoSelection );
+      mpEnqueue->setHidden( true );
    }
 #if QT_VERSION < 0x040300
    layout->setMargin( 0 );
