@@ -112,8 +112,7 @@ TRACESTART(DownloadHandler::readResponseHeader)
       mpMagicQueue->addMagic( magic );
       mpTheMagic->fail();
    }
-   
-   if( responseHeader.statusCode() != 200 )
+   else if( responseHeader.statusCode() != 200 )
    {
       errorMessage( mpTheMagic->mURL+QString(":")+QString::number( responseHeader.statusCode() )+
                     QString(" ")+responseHeader.reasonPhrase() );

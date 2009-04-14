@@ -31,29 +31,29 @@ public:
    
    TheMagic( const TheMagic &other );
 
-   /*  */
+   /* the magic that gonna happen before the download */
    void preDownload();
-   /*  */
+   /* the magic that gonna happen after the download */
    void postDownload( bool success );
-   /*  */
+   /* return filename for the file that being downloaded, if any */
    QString fileName();
-   /*  */
+   /* note that the download has failed */
    void fail();
-   /*  */
+   /* sset the content (mime-)type, used for 8bit conversion */
    void setContentType( const QString &contentType );
-   /*  */
+   /* the device handler to write the data to */
    QIODevice *ioDevice();
    
-   /*  */
+   /* the url to download */
    QString          mURL;
-   /*  */
+   /* marker if the list entry has been selected (for sending to Partyman) */
    bool             mSelected;
    
    
 private:
    TheMagic &operator=( const TheMagic &other );
 
-   /*  */
+   /* the different states of downloading and analysing */
    enum { stageFresh, stageGenericFile, stageGenericHTML,
           stageMySpaceHTML, stageMySpaceOldXML,
           stageMySpacePlaylists, stageMySpaceArtistPlaylist,
@@ -93,6 +93,5 @@ private:
    void parseMySpaceArtistPlaylist();
    void parseMySpaceSong();
 };
-
 
 #endif
