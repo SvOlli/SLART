@@ -194,8 +194,12 @@ void TheMagic::downloadClose()
 
 void TheMagic::sanitizeFileName()
 {
+   // replace all html-escaped characters
+   mFileName.replace( QRegExp( "&[^&]*;" ), "_" );
+   // remove illegal characters
    mFileName.remove( QRegExp("[\\\\:?]") );
-   mFileName.replace( QRegExp("[\"|/\\*]"), "_" ); 
+   // replace other illegal characters
+   mFileName.replace( QRegExp("[<>;\"|/\\*]"), "_" ); 
 }
 
 

@@ -35,7 +35,7 @@ public slots:
    void writeSettings();
    /* send a message to log widget */
    void logMessage( const QString &message );
-   /*  */
+   /* handle the clear button */
    void handleClear();
    
 private:
