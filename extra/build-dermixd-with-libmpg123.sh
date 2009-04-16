@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 getversion()
 {
   if [ -d "$1/.svn" ]; then
@@ -68,7 +70,19 @@ cd "${mpg123_dir}"
 
 make distclean 2>/dev/null >/dev/null || true
 
-./configure --prefix=/usr/local --enable-largefile --enable-static --disable-shared
+if [ -x autogen.sh -a ! -x configure ]; then
+  ./autogen.sh \
+    --prefix=/usr/local \
+    --enable-largefile \
+    --enable-static \
+    --disable-shared
+else
+  ./configure \
+    --prefix=/usr/local \
+    --enable-largefile \
+    --enable-static \
+    --disable-shared
+fi
 make -j2
 
 echo
