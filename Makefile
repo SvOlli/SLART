@@ -38,22 +38,21 @@ install: strip
 	mkdir -p $(DESTDIR)/usr/share/doc/slart
 	cp -d $(PLATFORM)/bin/* $(DESTDIR)$(PREFIX)/bin
 	cp -d $(PLATFORM)/lib/* $(DESTDIR)$(PREFIX)/lib
-	[ -f $(PLATFORM)/README.DerMixD ] && \
+	[ ! -f $(PLATFORM)/README.DerMixD ] || \
 	  gzip -9 <$(PLATFORM)/README.DerMixD \
 	    >>$(DESTDIR)/usr/share/doc/slart/README.DerMixD.gz
 	for f in COPYING example.lircrc README.TagLib SLARTmessages.txt; do \
 	  gzip -9 <docs/$$f >$(DESTDIR)/usr/share/doc/slart/$$f.gz ; done
 
 tar:
-	ln -s SLART ../slart-$(VERSION)
+	[ -e ../slart-$(VERSION) ] || ln -s SLART ../slart-$(VERSION)
 	(cd ..;tar jcf slart-$(VERSION).tar.bz2 slart-$(VERSION)/{$(shell echo $(TARCONT)|tr ' ' ',')};ls -l slart-$(VERSION).tar.bz2)
 	rm ../slart-$(VERSION)
 
 deb:
-	[ -e ../slart-$(VERSION) ] || ln -sv SLART ../slart-$(VERSION)
-	[ -e debian ] || cp -r extra/debian debian
-	extra/gitlog2changelog.sh > debian/changelog
-	cd ../slart-$(VERSION) && dpkg-buildpackage -rfakeroot
-	rm -f *-stamp
-	[ ! -d debian ] || rm -r debian
-	[ ! -h ../slart-$(VERSION) ] || rm ../slart-$(VERSION)
+	extra/prepare-debian.sh
+	(cd ../slart-$(VERSION) && dpkg-buildpackage -b -rfakeroot)
+	extra/cleanup-debian.sh
+
+dist: tar deb
+
