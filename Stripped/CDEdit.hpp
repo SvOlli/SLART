@@ -84,6 +84,7 @@ private:
    QLineEdit    *mpGenre;
    QLabel       *mpLabelDiscID;
    QLabel       *mpDiscID;
+   QLabel       *mpDiscPlaytime;
    QLabel       *mpLabelTrackNr;
    QLabel       *mpLabelEnqueueTrack;
    QLabel       *mpLabelTrackArtist;

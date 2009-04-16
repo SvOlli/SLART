@@ -29,6 +29,7 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
 , mpGenre( new QLineEdit( this ) )
 , mpLabelDiscID( new QLabel( tr("DiscID"), this ) )
 , mpDiscID( new QLabel( this ) )
+, mpDiscPlaytime( new QLabel( this ) )
 , mpLabelTrackNr( new QLabel( tr("Nr"), this ) )
 , mpLabelEnqueueTrack( new QLabel( tr("NQ"), this ) )
 , mpLabelTrackArtist( new QLabel( tr("Artist"), this ) )
@@ -70,6 +71,7 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    mpLabelTrackTitle->setFrameShape( QFrame::Box );
    mpLabelTrackYear->setFrameShape( QFrame::Box );
    mpLabelTrackPlaytime->setFrameShape( QFrame::Box );
+   mpDiscPlaytime->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
 
    mpTrackNr       = new QCheckBox*[100];
    mpEnqueueTrack  = new QCheckBox*[100];
@@ -95,6 +97,7 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    mpMainLayout->addWidget( mpGenre,           2, 1, 1, 4 );
    mpMainLayout->addWidget( mpLabelDiscID,     0, 5 );
    mpMainLayout->addWidget( mpDiscID,          1, 5 );
+   mpMainLayout->addWidget( mpDiscPlaytime,    2, 5 );
    
    mpMainLayout->addWidget( mpLabelTrackNr,       3, 0 );
    mpMainLayout->addWidget( mpLabelEnqueueTrack,  3, 1 );
@@ -170,6 +173,7 @@ void CDEdit::clear()
    mpDiscTitle->clear();
    mpGenre->clear();
    mpDiscID->clear();
+   mpDiscPlaytime->clear();
    
    for( int i = 0; i < 100; i++ )
    {
@@ -331,6 +335,7 @@ void CDEdit::update( bool useCDDB )
    }
    mpScrollWidget->resize( mpScrollArea->width() - 20, count * 24 );
    mpDiscID->setText( mpToc->cddbDiscID() );
+   mpDiscPlaytime->setText( mpToc->length() );
    
    emit containsData( true );
 }
