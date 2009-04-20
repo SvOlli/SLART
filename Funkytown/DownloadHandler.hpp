@@ -46,7 +46,7 @@ public slots:
    void updateDataReadProgress( int bytesRead, int totalBytes );
    /* start the download */
    void startDownload();
-   /*  */
+   /* handle change of the enqueue checkbox */
    void handleEnqueue( bool checked );
    
 signals:

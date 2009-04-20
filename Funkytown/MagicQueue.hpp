@@ -11,6 +11,8 @@
 #include <QList>
 #include <QListWidget>
 
+#define LIST_NEEDS_FIXING 0
+
 class TheMagic;
 
 
@@ -39,7 +41,9 @@ private:
    
    QList<TheMagic*> mMagicList;
    
+#if LIST_NEEDS_FIXING
    void updateList();
+#endif
 };
 
 #endif

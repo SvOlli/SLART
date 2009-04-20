@@ -96,7 +96,9 @@ TRACESTART(MagicQueue::addMagic)
       qlwi = item( count() - 1 );
    }
    qlwi->setSelected( magic->mSelected );
-//   updateList();
+#if LIST_NEEDS_FIXING
+   updateList();
+#endif
 }
 
 
@@ -122,11 +124,14 @@ TRACEMSG << item->text() << "!=" << magic->mMessage;
 #endif
    }
    
-//   updateList();
+#if LIST_NEEDS_FIXING
+   updateList();
+#endif
    return magic;
 }
 
 
+#if LIST_NEEDS_FIXING
 void MagicQueue::updateList()
 {
    if( mMagicList.count() != count() )
@@ -138,6 +143,7 @@ void MagicQueue::updateList()
       }
    }
 }
+#endif
 
 
 void MagicQueue::handleSelect( QListWidgetItem *item )

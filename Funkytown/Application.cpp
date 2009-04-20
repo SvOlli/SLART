@@ -41,21 +41,17 @@ int main(int argc, char *argv[])
             line = QString::fromLocal8Bit( input.readLine() );
             if( line.startsWith("http") )
             {
-               if( line.right(1) == QChar('\n') )
-               {
-                  line.chop(1);
-               }
-               *startUrls << line;
+               *startUrls << line.trimmed();
             }
          }
          input.close();
       }
       else
       {
-         *startUrls << QString( argv[retval] );
+         *startUrls << QString::fromLocal8Bit( argv[retval] ).trimmed();
       }
    }
-
+   
    MainWindow window;
    for( retval = 0; retval < startUrls->size(); retval++ )
    {
