@@ -344,6 +344,17 @@ void MainWidget::handleImport( QAction *action )
       TrackInfo trackInfo;
       settings.setValue( "ImportDirectory", dialog.directory().absolutePath() );
       QString cwd( QDir::currentPath() );
+      
+      QString folder( action->text() );
+      if( action == mpImportFavorite )
+      {
+         folder = QChar(1);
+      }
+      else if( action == mpImportUnwanted )
+      {
+         folder = QChar(2);
+      }
+      
       if( settings.VALUE_CLEARBEFOREIMPORT )
       {
          QStringList entries( mpDatabase->getFolder( action->text() ) );
@@ -352,15 +363,27 @@ void MainWidget::handleImport( QAction *action )
          {
             if( mpDatabase->getTrackInfo( &trackInfo, entries.at(i) ) )
             {
-               trackInfo.setFolder( action->text(), false );
+               if( action == mpImportFavorite )
+               {
+                  trackInfo.setFlag( TrackInfo::Favorite, false );
+               }
+               else if( action == mpImportUnwanted )
+               {
+                  trackInfo.setFlag( TrackInfo::Unwanted, false );
+               }
+               else
+               {
+                  trackInfo.setFolder( folder, false );
+               }
                mpDatabase->updateTrackInfo( &trackInfo );
             }
          }
          mpDatabase->endTransaction( true );
       }
+      
       for( int i = 0; i < dialog.selectedFiles().count(); i++ )
       {
-         importM3u( action->text(), dialog.selectedFiles().at(i) );
+         importM3u( folder, dialog.selectedFiles().at(i) );
       }
       QDir::setCurrent( cwd );
    }
