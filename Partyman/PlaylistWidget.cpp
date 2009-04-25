@@ -219,7 +219,14 @@ void PlaylistWidget::addEntries( const QStringList &entries, bool atStart )
       }
    }
    mpPlaylistContent->addItems( checkedEntries, atStart );
-   mpPlaylistContent->scrollToBottom();
+   if( atStart )
+   {
+      mpPlaylistContent->scrollToTop();
+   }
+   else
+   {
+      mpPlaylistContent->scrollToBottom();
+   }
 }
 
 
