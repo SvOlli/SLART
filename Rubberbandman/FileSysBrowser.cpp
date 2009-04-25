@@ -286,7 +286,7 @@ void FileSysBrowser::scrollTo( const QString &fileName )
    QModelIndex qmi( mpModel->index( fileName ) );
    mpView->scrollTo( qmi, QAbstractItemView::PositionAtCenter );
    mpView->setCurrentIndex( qmi );
-   /* TODO: only emit if in visible area */
+   // TODO: only emit if in visible area
    emit clicked( fileName );
 }
 

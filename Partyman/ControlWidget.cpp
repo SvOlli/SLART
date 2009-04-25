@@ -226,7 +226,6 @@ void ControlWidget::initConnect()
          {
             args << params.split(' ');
          }
-         /* TODO: configure path to dermixd */
          mDerMixDprocess.start( settings.VALUE_DERMIXDCMD, args );
          /* block until dermixd is up an running */
          for( mWaitForDerMixD = true; mWaitForDerMixD; )

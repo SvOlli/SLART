@@ -41,7 +41,7 @@ Database::Database( const QString &fileName )
    
    if(!mpSqlDB->open())
    {
-      // todo: some error handling
+      // TODO: some error handling
       logError( QString("open() failed\nDatabase: ") + mpSqlDB->lastError().driverText() );
    }
    mpQuery = new QSqlQuery;

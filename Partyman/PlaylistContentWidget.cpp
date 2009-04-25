@@ -117,7 +117,7 @@ void PlaylistContentWidget::removeSelectedItems( QStringList *list )
    if( row >= 0 )
    {
       scrollToItem( item(row) );
-      // scroll to bottom if too big (todo)
+      // TODO: scroll to bottom if too big
    }
 }
 
