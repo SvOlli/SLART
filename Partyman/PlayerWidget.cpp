@@ -321,7 +321,7 @@ void PlayerWidget::setState( PlayerFSM::tState state )
 }
 
 
-void PlayerWidget::skip()
+bool PlayerWidget::skip()
 {
    switch( mpFSM->getState() )
    {
@@ -334,14 +334,20 @@ void PlayerWidget::skip()
          }
          setState( PlayerFSM::searching );
          break;
+      case PlayerFSM::ending:
       case PlayerFSM::searching:
       case PlayerFSM::loading:
+         mAutoPlay = true;
+         mStartOther = true;
+         return false;
+         break;
       case PlayerFSM::ready:
          setState( PlayerFSM::playing );
          break;
       default:
          break;
    }
+   return true;
 }
 
 

@@ -23,7 +23,6 @@ bool PlayerFSMSearching::enter()
    mpPlayerWidget->mTotalTime = 0;
    mpPlayerWidget->updateTime();
    mpPlayerWidget->sendCommand( "unwatch" );
-   mpPlayerWidget->mpControlWidget->disableSkip( true );
    mpPlayerWidget->disablePlayPosition( true );
    
    mpPlayerWidget->getNextTrack();

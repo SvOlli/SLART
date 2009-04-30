@@ -80,6 +80,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    mpConnectButton->setCheckable( true );
    mpConnectButton->setDisabled( true );
 
+   mpSkipButton->setCheckable( true );
    mpSkipButton->setDisabled( true );
    mpSkipAction->setDisabled( true );
    
@@ -249,6 +250,8 @@ void ControlWidget::initConnect()
       mpConnectButton->setMenu( mpDisconnectMenu );
       mpTrayIcon->setContextMenu( mpTrayIconPlayMenu );
       mpConnectButton->setChecked( true );
+      mpSkipButton->setDisabled( mKioskMode );
+      mpSkipAction->setDisabled( mKioskMode );
       emit signalConnected( true );
    }
    handlePause( true );
@@ -338,17 +341,26 @@ void ControlWidget::handleLoad()
 
 void ControlWidget::handleSkipTrack()
 {
-   mpSkipButton->clearFocus();
-   disableSkip( true );
-   mpPlayer[0]->disablePlayPosition( true );
-   mpPlayer[1]->disablePlayPosition( true );
-   log( "p0n", "skip" );
-   if( mPaused )
+   if( mpSkipButton->isChecked() )
    {
-      handlePause( true );
+      mpSkipButton->clearFocus();
+      mpPlayer[0]->disablePlayPosition( true );
+      mpPlayer[1]->disablePlayPosition( true );
+      log( "p0n", "skip" );
+      if( mPaused )
+      {
+         handlePause( true );
+      }
+      if( mpPlayer[0]->skip() &&
+          mpPlayer[1]->skip() )
+      {
+         mpSkipButton->setChecked( false );
+      }
    }
-   mpPlayer[0]->skip();
-   mpPlayer[1]->skip();
+   else
+   {
+      mpSkipButton->setChecked( true );
+   }
 }
 
 
@@ -503,13 +515,6 @@ void ControlWidget::changeOtherState( int player, PlayerFSM::tState state )
 }
 
 
-void ControlWidget::disableSkip( bool disable )
-{
-   mpSkipButton->setDisabled( disable | mKioskMode );
-   mpSkipAction->setDisabled( disable | mKioskMode );
-}
-
-
 void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
 {
    MySettings settings;
@@ -555,16 +560,9 @@ void ControlWidget::handleTrayIcon( QSystemTrayIcon::ActivationReason reason )
    if( reason == QSystemTrayIcon::DoubleClick )
    {
       mTrayIconClickTimer.stop();
-      if( !mKioskMode )
+      if( mpSkipButton->isEnabled() )
       {
-         if( mpSkipButton->isEnabled() )
-         {
-            handleSkipTrack();
-         }
-         else
-         {
-            mpTrayIcon->showMessage( tr("can't skip"), QString("still loading..."), QSystemTrayIcon::Warning, 2000 );
-         }
+         handleSkipTrack();
       }
    }
 }
@@ -587,4 +585,10 @@ void ControlWidget::handleKioskMode( bool enable )
    {
       mpSkipButton->setText( tr("Next") );
    }
+}
+
+
+void ControlWidget::allowSkip()
+{
+   mpSkipButton->setChecked( false );
 }

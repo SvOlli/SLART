@@ -63,7 +63,7 @@ public:
    /* disconnect from DerMixD */
    void disconnect();
    /* skip current track */
-   void skip();
+   bool skip();
    /* report playing state */
    PlayerFSM::tState getState() { return mpFSM->getState(); };
    /* toggle pause */

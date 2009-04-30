@@ -23,7 +23,6 @@ bool PlayerFSMEnding::enter()
 {
    mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("ending") );
    mpPlayerWidget->mpControlWidget->changeOtherState( mpPlayerWidget->mPlayer, PlayerFSM::playing );
-   mpPlayerWidget->mpControlWidget->disableSkip( true );
    mpPlayerWidget->disablePlayPosition( true );
    
    if( mpPlayerWidget->mTrackInfo.mID > 0 )

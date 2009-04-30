@@ -51,10 +51,10 @@ public:
    void changeOtherState( int player, PlayerFSM::tState state );
    /* add files to playlist (for unloading) */
    void addToPlaylist( const QStringList &entries );
-   /* (de)activate Skip/Next button and time sliders */
-   void disableSkip( bool disable );
    /* run SLARTCommunication & execute external logger */
    void log( const QString &udpEvent, const QString &logEvent, const QString &data = QString() );
+   /* signalise that skipping is possible again */
+   void allowSkip();
    
 private:
    /* save the current tracks for restart */
