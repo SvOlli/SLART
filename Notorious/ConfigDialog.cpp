@@ -1,0 +1,171 @@
+/**
+ * ConfigDialog.cpp
+ * written by Sven Oliver Moll
+ * 
+ * distributed under the terms of the GNU Public License (GPL)
+ */
+
+#include "ConfigDialog.hpp"
+
+#include "AboutWidget.hpp"
+#include "FreeDBImport.hpp"
+#include "MySettings.hpp"
+#include "ProxyWidget.hpp"
+
+#include <QtGui>
+
+#include "Trace.hpp"
+
+
+ConfigDialog::ConfigDialog( QWidget *parent )
+: QDialog( parent )
+, mpFreeDBImport( new FreeDBImport( this ) )
+, mpLogList( new QListWidget( this ) )
+, mpImportFile( new QLineEdit( this ) )
+, mpCount( new QLabel( this ) )
+, mpFileName( new QLabel( this ) )
+, mpImportButton( new QPushButton( tr("Run Import"), this ) )
+{
+   setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   
+   AboutWidget *about( new AboutWidget( this ) );
+   QLabel      *freedbInfo = new QLabel( tr("FreeDB database archives for import can be downloaded at "
+                                            "<a href='http://ftp.freedb.org/pub/freedb/'>freedb.org</a>."), this );
+   freedbInfo->setOpenExternalLinks( true );
+   QPushButton *okButton( new QPushButton(tr("OK"), this) );
+   QPushButton *cancelButton( new QPushButton(tr("Cancel"), this) );
+   QPushButton *browseButton = new QPushButton( tr("..."), this );
+   /* evil hack */
+   browseButton->setMaximumWidth( browseButton->height() );
+   mpImportFile->setText( "/media/share/freedb/" );
+
+   QHBoxLayout *buttonLayout = new QHBoxLayout;
+   buttonLayout->addWidget( okButton );
+   buttonLayout->addWidget( cancelButton );
+   
+   QWidget     *importTab    = new QWidget( this );
+   QGridLayout *importLayout = new QGridLayout( importTab );
+   importLayout->addWidget( freedbInfo, 0, 0, 1, 3 );
+   importLayout->addWidget( mpImportFile, 1, 0, 1, 2 );
+   importLayout->addWidget( browseButton, 1, 2 );
+   importLayout->addWidget( new QLabel( tr("Files Processed:"), this ), 2, 0 );
+   importLayout->addWidget( new QLabel( tr("File Name:"), this ),       3, 0 );
+   importLayout->addWidget( mpCount, 2, 1, 1, 2 );
+   importLayout->addWidget( mpFileName, 3, 1, 1, 2 );
+   importLayout->addWidget( mpImportButton, 5, 0, 1, 3 );
+   importLayout->setColumnStretch( 1, 1 );
+   importLayout->setRowStretch( 4, 1 );
+
+   QBoxLayout *mainLayout = new QVBoxLayout( this );
+   QTabWidget *tabs       = new QTabWidget( this );
+   tabs->addTab( importTab,     QString(tr("Import")) );
+   tabs->addTab( mpLogList,     QString(tr("Log")) );
+   
+   mainLayout->addWidget( about );
+   mainLayout->addWidget( tabs );
+   mainLayout->addLayout( buttonLayout );
+   
+   setLayout( mainLayout );
+   
+   connect( mpFreeDBImport, SIGNAL(processed(unsigned, const char *)),
+            this, SLOT(handleProgress(unsigned, const char *)) );
+   connect( browseButton, SIGNAL(clicked()),
+            this, SLOT(setFileName()) );
+   connect( mpImportFile, SIGNAL(textChanged(const QString &)),
+            this, SLOT(checkValidFile(const QString &)) );
+   connect( mpImportButton, SIGNAL(clicked()),
+            this, SLOT(handleImport()) );
+   connect( okButton, SIGNAL(clicked()),
+            this, SLOT(accept()) );
+   connect( cancelButton, SIGNAL(clicked()),
+            this, SLOT(reject()) );
+   connect( this, SIGNAL(accepted()),
+            this, SLOT(writeSettings()) );
+   connect( this, SIGNAL(rejected()),
+            this, SLOT(readSettings()) );
+   
+   readSettings();
+   checkValidFile( QString() );
+}
+
+
+void ConfigDialog::exec()
+{
+   readSettings();
+   QDialog::exec();
+}
+
+
+void ConfigDialog::logMessage( const QString &message )
+{
+   mpLogList->addItem( message );
+   mpLogList->scrollToBottom();
+}
+
+
+void ConfigDialog::handleProgress( unsigned count, const char *filename )
+{
+   mpCount->setText( QString::number( count ) );
+   mpFileName->setText( QString(filename) );
+}
+
+
+void ConfigDialog::readSettings()
+{
+   MySettings settings;
+   
+}
+
+
+void ConfigDialog::writeSettings()
+{
+   MySettings settings;
+   
+}
+
+
+void ConfigDialog::setFileName()
+{
+   QFileDialog fileDialog( this );
+
+   fileDialog.setFileMode( QFileDialog::ExistingFile );
+   fileDialog.setDirectory( mpImportFile->text() );
+   fileDialog.setNameFilter("FreeDB Dumps (*.tar.bz2)");
+   fileDialog.setReadOnly( true );
+
+   if( fileDialog.exec() )
+   {
+      QString result( fileDialog.selectedFiles().at(0) );
+      mpImportFile->setText( result );
+   }
+}
+
+
+void ConfigDialog::checkValidFile( const QString &fileName )
+{
+   QFileInfo qfi( fileName );
+   if( qfi.isFile() && qfi.isReadable() && fileName.endsWith( ".tar.bz2", Qt::CaseInsensitive ) )
+   {
+      mpImportButton->setDisabled( false );
+   }
+   else
+   {
+      mpImportButton->setDisabled( true );
+   }
+}
+
+
+void ConfigDialog::handleImport()
+{
+   if( mpFreeDBImport->isRunning() )
+   {
+      mpFreeDBImport->stop();
+      mpImportButton->setText( tr("Run Import") );
+   }
+   else
+   {
+      mpFreeDBImport->setFileName( mpImportFile->text() );
+      mpFreeDBImport->start();
+      mpImportButton->setText( tr("Cancel Import") );
+   }
+}
