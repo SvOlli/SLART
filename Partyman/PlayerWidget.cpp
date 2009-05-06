@@ -244,9 +244,9 @@ void PlayerWidget::seek()
 void PlayerWidget::playPosChange( int /*action*/ )
 {
    mPlayPosMoved = true;
-   if( mpPlayPosition->sliderPosition() >= mTotalTime - 2 * mHeadStart )
+   if( mpPlayPosition->sliderPosition() >= mTotalTime - 2 * mHeadStart - 1 )
    {
-      mpPlayPosition->setSliderPosition( mTotalTime - 2 * mHeadStart );
+      mpPlayPosition->setSliderPosition( mTotalTime - 2 * mHeadStart - 1 );
    }
    QString fakemsg( QString::number( mpPlayPosition->sliderPosition() ) );
    fakemsg.append( "s," );
