@@ -72,6 +72,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    mpNormalizeValue->setSingleStep( 0.01 );
    mpNormalizeValue->setRange( 0.0, 1.0 );
    mpNormalizeValue->setAlignment( Qt::AlignRight );
+   mpNormalizeValue->setDisabled( true );
    mpTrayIconBubbleTime->setDecimals( 1 );
    mpTrayIconBubbleTime->setSuffix( "s" );
    mpTrayIconBubbleTime->setSingleStep( 1.0 );
