@@ -43,7 +43,29 @@ end
 
 begin
    prog   = Creep
+   button = a
+   repeat = 0
+   config = Partyman P0C\n1
+end
+
+begin
+   prog   = Creep
+   button = b
+   repeat = 0
+   config = Partyman P0C\n2
+end
+
+begin
+   prog   = Creep
+   button = c
+   repeat = 0
+   config = Partyman P0C\n0
+end
+
+begin
+   prog   = Creep
    button = fforward
    repeat = 0
    config = Partyman P0N
 end
+

@@ -34,6 +34,8 @@ public slots:
    void handleFavoriteButton();
    /* handle the "No Auto" checkbox */
    void handleUnwantedButton();
+   /* remotely set both "Favorite" and "No Auto" checkboxes */
+   void setFavoriteUnwanted( bool favorite, bool unwanted );
    /* update the track data */
    void getTrack( const TrackInfo &trackInfo );
    /* update the displayed track info */

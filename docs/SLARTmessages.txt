@@ -12,7 +12,8 @@ Partyman
   - P0A: plAy / pAuse
   - P0S: Stop
   - P0N: skip to Next track
-  - P0R: re-send last "p0p" status message
+  - P0R: Re-send last "p0p" status message
+  - P0C: Check: 1: unwanted, 2: favorite, 0: uncheck
 - status messages
   - p0p: Playing track (parameter: complete filename)
   - p0s: Stopped

@@ -437,6 +437,27 @@ void ControlWidget::handleSLART( const QStringList &src )
       }
    }
    
+   if( src.at(0) == "P0C" )
+   {
+      bool favorite = false;
+      bool unwanted = false;
+      if( src.size() > 1 )
+      {
+         switch( src.at(1).toUInt() )
+         {
+            case 1:
+               favorite = true;
+               break;
+            case 2:
+               unwanted = true;
+               break;
+            default:
+               break;
+         }
+         mpPlaylist->setTrackInfoFavoriteUnwanted( favorite, unwanted );
+      }
+   }
+   
    if( (src.at(0) == "k0u") ||
        (src.at(0) == "r0u") )
    {

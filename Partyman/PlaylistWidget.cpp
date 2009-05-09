@@ -268,6 +268,12 @@ void PlaylistWidget::getNextTrack( QString *fileName )
 }
 
 
+void PlaylistWidget::setTrackInfoFavoriteUnwanted( bool favorite, bool unwanted )
+{
+   mpTrackInfo->setFavoriteUnwanted( favorite, unwanted );
+}
+
+
 bool PlaylistWidget::getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
                                      bool favoriteOnly, bool leastPlayed, const QString &playFolder )
 {

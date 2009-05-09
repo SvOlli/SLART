@@ -41,6 +41,8 @@ public:
    
    /* get name of next track either from playlist */
    void getNextTrack( QString *fileName );
+   /* set checkboxes of trackinfo */
+   void setTrackInfoFavoriteUnwanted( bool favorite, bool unwanted );
    
 protected:
    /* for drag & drop from external sources */

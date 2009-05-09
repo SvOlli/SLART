@@ -102,6 +102,29 @@ void TrackInfoWidget::handleUnwantedButton()
 }
 
 
+void TrackInfoWidget::setFavoriteUnwanted( bool favorite, bool unwanted )
+{
+   mTrackInfo.setFlag( TrackInfo::Unwanted, false );
+   if( favorite && unwanted )
+   {
+      favorite = false;
+      unwanted = false;
+   }
+   mpFavoriteButton->setChecked( favorite );
+   mpUnwantedButton->setChecked( unwanted );
+   if( favorite )
+   {
+      mTrackInfo.setFlag( TrackInfo::Favorite, true );
+   }
+   if( unwanted )
+   {
+      mTrackInfo.setFlag( TrackInfo::Unwanted, true );
+   }
+   mpDatabase->updateTrackInfo( &mTrackInfo );
+   MySettings().sendNotification( mUpdateCode );
+}
+
+
 void TrackInfoWidget::getTrack( const TrackInfo &trackInfo )
 {
    mTrackInfo = trackInfo;
