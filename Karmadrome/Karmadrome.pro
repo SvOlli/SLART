@@ -22,6 +22,9 @@ SOURCES += MainWindow.cpp
 HEADERS += MainWidget.hpp 
 SOURCES += MainWidget.cpp 
 
+HEADERS += ImportExport.hpp 
+SOURCES += ImportExport.cpp 
+
 HEADERS += AboutWidget.hpp
 SOURCES += AboutWidget.cpp
 

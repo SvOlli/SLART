@@ -29,6 +29,7 @@ class QTimer;
 class ButtonsWidget;
 class ConfigDialog;
 class Database;
+class ImportExport;
 class ScrollLine;
 
 
@@ -60,10 +61,6 @@ public slots:
    void updateLists();
    /* slot for timer to send out k0u notification */
    void sendK0u();
-   /* export a playlist to m3u file */
-   void exportM3u( const QString &folder, const QString &fileName );
-   /* import a playlist from m3u file */
-   void importM3u( const QString &folder, const QString &fileName );
    
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
@@ -73,6 +70,7 @@ private:
    MainWidget &operator=( const MainWidget &other );
    
    Database        *mpDatabase;
+   ImportExport    *mpImportExport;
    ScrollLine      *mpFileName;
    TrackInfoWidget *mpTrackInfo;
    QPushButton     *mpReadButton;

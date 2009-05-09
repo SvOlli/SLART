@@ -7,6 +7,7 @@
 
 #include "MainWidget.hpp"
 #include "ButtonsWidget.hpp"
+#include "ImportExport.hpp"
 #include "MySettings.hpp"
 #include "ConfigDialog.hpp"
 #include "GlobalConfigWidget.hpp"
@@ -19,9 +20,10 @@
 #include "Trace.hpp"
 
 
-MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
+MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( new Database() )
+, mpImportExport( new ImportExport( mpDatabase) )
 , mpFileName( new ScrollLine( this ) )
 , mpTrackInfo( new TrackInfoWidget( mpDatabase, QString("k0u"), this ) )
 , mpReadButton( new QPushButton( this ) )
@@ -151,18 +153,27 @@ void MainWidget::handleSLART( const QStringList &message )
       {
          if( message.at(2).startsWith( "/" ) )
          {
-            if( message.at(1).startsWith( "|F", Qt::CaseInsensitive ) )
+            QFileInfo qfi( message.at(2) );
+            if( qfi.isDir() )
             {
-               exportM3u( QChar(1), message.at(2) );
+               return;
             }
-            else if( message.at(1).startsWith( "|U", Qt::CaseInsensitive ) )
+            if( qfi.isFile() )
             {
-               exportM3u( QChar(2), message.at(2) );
+               QMessageBox::StandardButton button;
+               button = QMessageBox::question( this, QString( QApplication::applicationName() + tr(": Overwrite %1")).arg(message.at(2)),
+                                               QString(tr("Overwrite %1 ?")).arg(message.at(2)),
+                                               QMessageBox::Ok | QMessageBox::Cancel );
+               if( button != QMessageBox::Ok )
+               {
+                  return;
+               }
             }
-            else
-            {
-               exportM3u( message.at(1), message.at(2) );
-            }
+            
+            MySettings settings;
+            mpImportExport->exportM3u( message.at(1), message.at(2),
+                                       settings.VALUE_EXPORTASRELATIVE,
+                                       settings.VALUE_RANDOMIZEEXPORT );
          }
       }
       
@@ -170,18 +181,8 @@ void MainWidget::handleSLART( const QStringList &message )
       {
          if( message.at(2).startsWith( "/" ) )
          {
-            if( message.at(1).startsWith( "|F", Qt::CaseInsensitive ) )
-            {
-               importM3u( QChar(1), message.at(2) );
-            }
-            else if( message.at(1).startsWith( "|U", Qt::CaseInsensitive ) )
-            {
-               importM3u( QChar(2), message.at(2) );
-            }
-            else
-            {
-               importM3u( message.at(1), message.at(2) );
-            }
+            mpImportExport->importM3u( message.at(1), message.at(2),
+                                       MySettings().VALUE_CLEARBEFOREIMPORT );
          }
       }
    }
@@ -317,7 +318,9 @@ void MainWidget::handleExport( QAction *action )
       {
          folder = QChar(2);
       }
-      exportM3u( folder, fileName );
+      mpImportExport->exportM3u( folder, fileName, 
+                                 settings.VALUE_EXPORTASRELATIVE,
+                                 settings.VALUE_RANDOMIZEEXPORT );
    }
 }
 
@@ -355,35 +358,10 @@ void MainWidget::handleImport( QAction *action )
          folder = QChar(2);
       }
       
-      if( settings.VALUE_CLEARBEFOREIMPORT )
-      {
-         QStringList entries( mpDatabase->getFolder( action->text() ) );
-         mpDatabase->beginTransaction();
-         for( int i = 0; i < entries.count(); i++ )
-         {
-            if( mpDatabase->getTrackInfo( &trackInfo, entries.at(i) ) )
-            {
-               if( action == mpImportFavorite )
-               {
-                  trackInfo.setFlag( TrackInfo::Favorite, false );
-               }
-               else if( action == mpImportUnwanted )
-               {
-                  trackInfo.setFlag( TrackInfo::Unwanted, false );
-               }
-               else
-               {
-                  trackInfo.setFolder( folder, false );
-               }
-               mpDatabase->updateTrackInfo( &trackInfo );
-            }
-         }
-         mpDatabase->endTransaction( true );
-      }
-      
       for( int i = 0; i < dialog.selectedFiles().count(); i++ )
       {
-         importM3u( folder, dialog.selectedFiles().at(i) );
+         mpImportExport->importM3u( folder, dialog.selectedFiles().at(i),
+                                    (!i) ? settings.VALUE_CLEARBEFOREIMPORT : false );
       }
       QDir::setCurrent( cwd );
    }
@@ -443,105 +421,5 @@ void MainWidget::labelReadButton()
          mpReadButton->setText( QString() );
          mpReadButton->setHidden( true );
          break;
-   }
-}
-
-
-void MainWidget::exportM3u( const QString &folder, const QString &fileName )
-{
-   MySettings settings;
-   QFile m3uFile( fileName );
-   if( m3uFile.exists() )
-   {
-      QMessageBox::StandardButton button;
-      button = QMessageBox::question( this, QString( QApplication::applicationName() + tr(": Overwrite %1")).arg(fileName),
-                                      QString(tr("Overwrite %1 ?")).arg(fileName),
-                                      QMessageBox::Ok | QMessageBox::Cancel );
-      if( button != QMessageBox::Ok )
-      {
-         return;
-      }
-   }
-   if( !m3uFile.open( QIODevice::WriteOnly | QIODevice::Text ) )
-   {
-      return;
-   }
-   QDir dir( QFileInfo( m3uFile.fileName() ).absolutePath() );
-   QStringList entries( mpDatabase->getFolder( folder ) );
-   if( settings.VALUE_RANDOMIZEEXPORT )
-   {
-      QStringList randomized;
-      while( entries.count() )
-      {
-         randomized.append( entries.takeAt( qrand() % entries.count() ) );
-      }
-      entries = randomized;
-   }
-   if( settings.VALUE_EXPORTASRELATIVE )
-   {
-      for( int i = 0; i < entries.count(); i++ )
-      {
-         m3uFile.write( dir.relativeFilePath( entries.at(i) ).toLocal8Bit() );
-         m3uFile.write( "\n" );
-      }
-   }
-   else
-   {
-      for( int i = 0; i < entries.count(); i++ )
-      {
-         m3uFile.write( entries.at(i).toLocal8Bit() );
-         m3uFile.write( "\n" );
-      }
-   }
-   m3uFile.close();
-}
-
-
-void MainWidget::importM3u( const QString &folder, const QString &fileName )
-{
-   TrackInfo trackInfo;
-   QFile m3uFile( fileName );
-   if( m3uFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
-   {
-      QString fileName;
-      QString fileBase( m3uFile.fileName() + "/../" );
-      QFileInfo qfi;
-      mpDatabase->beginTransaction();
-      while( !m3uFile.atEnd() )
-      {
-         fileName = QString::fromLocal8Bit( m3uFile.readLine() );
-         if( !fileName.startsWith("#") )
-         {
-            if( fileName.right(1) == QChar('\n') )
-            {
-               fileName.chop(1);
-            }
-            if( !fileName.startsWith( "/" ) )
-            {
-               /* a bit of an ugly trick, but gets the job done better than most
-                  other solutions */
-               qfi.setFile( fileBase + fileName );
-               fileName = qfi.absoluteFilePath();
-            }
-            if( mpDatabase->getTrackInfo( &trackInfo, fileName ) )
-            {
-               if( folder == QChar(1) )
-               {
-                  trackInfo.setFlag( TrackInfo::Favorite, true );
-               }
-               else if( folder == QChar(2) )
-               {
-                  trackInfo.setFlag( TrackInfo::Unwanted, true );
-               }
-               else
-               {
-                  trackInfo.setFolder( folder, true );
-               }
-               mpDatabase->updateTrackInfo( &trackInfo );
-            }
-         }
-      }
-      mpDatabase->endTransaction( true );
-      m3uFile.close();
    }
 }
