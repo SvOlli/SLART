@@ -417,6 +417,7 @@ void ControlWidget::handleSLART( const QStringList &src )
    {
       if( mpSkipButton->isEnabled() )
       {
+         mpSkipButton->setChecked( true );
          handleSkipTrack();
       }
    }
