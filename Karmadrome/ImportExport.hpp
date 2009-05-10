@@ -24,6 +24,8 @@ public:
    void importM3u( QString folder, const QString &fileName, bool cleanImport );
    /* export a playlist to m3u file */
    void exportM3u( QString folder, const QString &fileName, bool relative, bool randomize );
+   /* print out a list of all folders */
+   void listFolders( const QString &fileName );
    
 private:
    ImportExport( const ImportExport &other );

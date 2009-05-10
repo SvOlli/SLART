@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
       bool relative    = false;
       bool doimport    = false;
       bool doexport    = false;
+      bool dolist      = false;
       char *foldername = (char*)0;
       char *filename   = (char*)0;
       int opt;
@@ -43,7 +44,7 @@ int main(int argc, char *argv[])
          return 1;
       }
       
-      while ((opt = getopt(argc, argv, "hcsrien:f:")) != -1)
+      while ((opt = getopt(argc, argv, "hcsrlien:f:")) != -1)
       {
          switch(opt)
          {
@@ -55,6 +56,9 @@ int main(int argc, char *argv[])
                break;
             case 'r':
                relative = true;
+               break;
+            case 'l':
+               dolist = true;
                break;
             case 'i':
                doimport = true;
@@ -74,39 +78,56 @@ int main(int argc, char *argv[])
          }
       }
       
-      if( !foldername )
+      if( dolist )
       {
-         fail = true;
+         if( foldername || doimport || doexport ||
+             clean || relative || shuffle )
+         {
+            fail = true;
+         }
       }
-      if( !filename )
+      else
       {
-         fail = true;
+         if( !foldername )
+         {
+            fail = true;
+         }
+         if( !filename )
+         {
+            fail = true;
+         }
+         if( doimport == doexport )
+         {
+            fail = true;
+         }
+         if( doimport && (relative || shuffle) )
+         {
+            fail = true;
+         }
+         if( doexport && clean )
+         {
+            fail = true;
+         }
       }
-      if( doimport == doexport )
-      {
-         fail = true;
-      }
-      if( doimport && (relative || shuffle) )
-      {
-         fail = true;
-      }
-      if( doexport && clean )
-      {
-         fail = true;
-      }
+      
       if( fail )
       {
          fprintf( stderr, "Usage:\t%s\n"
+                  "list:\t%s -l [-f filename ]\n"
                   "import:\t%s -i -n foldername -f list.m3u [-c]\n"
                   "export:\t%s -e -n foldername -f list.m3u [-r] [-s]\n",
-                  argv[0], argv[0], argv[0] );
+                  argv[0], argv[0], argv[0], argv[0] );
          exit(1);
       }
       
       Database     db;
       ImportExport ie( &db );
-
-      if( doimport )
+      
+      if( dolist )
+      {
+         ie.listFolders( QString( filename ) );
+      }
+      else if( doimport )
       {
          ie.importM3u( QString(foldername), QString(filename), clean );
       }

@@ -14,6 +14,7 @@
 #include <QFileInfo>
 #include <QString>
 
+#include <iostream>
 
 #include "Trace.hpp"
 
@@ -160,4 +161,36 @@ void ImportExport::exportM3u( QString folder, const QString &fileName, bool rela
       }
    }
    m3uFile.close();
+}
+
+
+void ImportExport::listFolders( const QString &fileName )
+{
+   QStringList folders( mpDatabase->getFolders() );
+   QFile file( fileName );
+   QString lf( "\n" );
+
+   if( !fileName.isEmpty() )
+   {
+      if( !file.open( QIODevice::WriteOnly | QIODevice::Text ) )
+      {
+         return;
+      }
+   }
+   for( int i = 0; i < folders.size(); i++ )
+   {
+      if( fileName.isEmpty() )
+      {
+         std::cout << folders.at(i).toLocal8Bit().constData() << std::endl;
+      }
+      else
+      {
+         file.write( folders.at(i).toLocal8Bit() );
+         file.write( lf.toLocal8Bit() );
+      }
+   }
+   if( !fileName.isEmpty() )
+   {
+      file.close();
+   }
 }
