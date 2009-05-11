@@ -274,6 +274,7 @@ void ConfigDialog::readSettings()
          mpPlayFolder->setCurrentIndex( i );
       }
    }
+   handleShowTrayIcon( mpTrayIcon->isChecked() );
    
    emit configChanged();
 }
@@ -348,6 +349,12 @@ void ConfigDialog::handleNormalizeMode( int mode )
 
 void ConfigDialog::handleShowTrayIcon( bool checked )
 {
+   if ( !QSystemTrayIcon::isSystemTrayAvailable() )
+   {
+      checked = false;
+      mpTrayIcon->setDisabled( !checked );
+   }
+   
    mpTrayIconBubble->setDisabled( !checked );
    mpTrayIconBubbleTime->setDisabled( !checked );
 }
