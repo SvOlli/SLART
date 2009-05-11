@@ -10,7 +10,7 @@ TARCONT = configure Makefile Global.pri TemplateApp Common \
 
 all:
 	for dir in $(SUBDIRS); do [ ! -d $$dir ] || make -C $$dir $@ ; done
-	ls -l $(PLATFORM)/{bin,lib} || true
+	ls -l $(PLATFORM)/bin $(PLATFORM)/lib || true
 
 clean:
 	for i in $(SUBDIRS); do rm -rf $(PLATFORM)/$$i $(PLATFORM)/{bin,lib}/*$$i*;done
@@ -51,8 +51,9 @@ tar:
 
 deb:
 	extra/prepare-debian.sh
-	(cd ../slart-$(VERSION) && dpkg-buildpackage -b -rfakeroot)
+	(cd ../slart-$(VERSION) && dpkg-buildpackage -uc -b -rfakeroot)
 	extra/cleanup-debian.sh
 
 dist: tar deb
+	ls -l ../slart?$(VERSION)*
 
