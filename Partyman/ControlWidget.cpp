@@ -584,6 +584,7 @@ void ControlWidget::handleTrayIcon( QSystemTrayIcon::ActivationReason reason )
       mTrayIconClickTimer.stop();
       if( mpSkipButton->isEnabled() )
       {
+         mpSkipButton->setChecked( true );
          handleSkipTrack();
       }
    }
