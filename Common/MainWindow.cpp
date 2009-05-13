@@ -124,6 +124,9 @@ bool MainWindow::invokeSetUp( QApplication *app )
    {
       return true;
    }
+   
+   QMessageBox::critical( 0, app->applicationName(),
+                          tr("Setup failed!\nCannot start.\nSorry.") );
    return false;
 }
 
@@ -150,11 +153,6 @@ bool MainWindow::trySorcerer( QApplication *app, const QDir &dir )
       }
    }
    
-   if( retval )
-   {
-      QMessageBox::critical( 0, app->applicationName(), tr("Setup failed!\nCannot start.\nSorry.") );
-      return false;
-   }
-   return true;
+   return retval == 0;
 }
 #endif
