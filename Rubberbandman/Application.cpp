@@ -11,29 +11,95 @@
 #include "MainWindow.hpp"
 #include "MySettings.hpp"
 #include "Database.hpp"
+#include "DatabaseWorker.hpp"
+#include "ConfigDialog.hpp"
 
 
 int main(int argc, char *argv[])
 {
    int retval = 0;
 
-   QApplication app(argc, argv);
+   QApplication::setOrganizationName("SLART");
+   QApplication::setOrganizationDomain("svolli.org");
+   QApplication::setApplicationName("Rubberbandman");
    
-   app.setOrganizationName("SLART");
-   app.setOrganizationDomain("svolli.org");
-   app.setApplicationName("Rubberbandman");
-   
-   if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
+   if( (argc > 1) && strcmp(argv[1],"-qws") )
    {
-      if( !MainWindow::invokeSetUp( &app ) )
+      QCoreApplication app(argc, argv);
+      bool fail    = false;
+      bool cleanup = false;
+      bool update  = false;
+      int opt;
+      
+      if( !Database::exists() )
       {
+         return 2;
+      }
+      
+      while ((opt = getopt(argc, argv, "hcu")) != -1)
+      {
+         switch(opt)
+         {
+            case 'c':
+               cleanup = true;
+               break;
+            case 'u':
+               update = true;
+               break;
+            case 'h':
+            default:
+               fail = true;
+         }
+      }
+      
+      if( fail )
+      {
+         fprintf( stderr, "Usage:\t%s\n"
+                  "cleanup:%s -c\n"
+                  "update:\t%s -u\n",
+                  argv[0], argv[0], argv[0] );
          return 1;
       }
+      
+      Database db;
+      DatabaseWorker *databaseWorker = new DatabaseWorker();
+      databaseWorker->prepare( &db );
+      
+      if( cleanup )
+      {
+         databaseWorker->initCleanup();
+         databaseWorker->start();
+         databaseWorker->wait();
+      }
+      
+      if( update )
+      {
+         QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
+         if( !baseDir.isEmpty() )
+         {
+            databaseWorker->initUpdate( baseDir );
+            databaseWorker->start();
+            databaseWorker->wait();
+         }
+      }
    }
+   else
+   {
+      QApplication app(argc, argv);
+      
+      if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
+      {
+         if( !MainWindow::invokeSetUp( &app ) )
+         {
+            return 2;
+         }
+      }
    
-   MainWindow window;
-   window.show();
-   retval = app.exec();
+      MainWindow window;
+      window.show();
+      
+      retval = app.exec();
+   }
    
    return retval;
 }
