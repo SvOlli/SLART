@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
       {
          if( !MainWindow::invokeSetUp( &app ) )
          {
-            return 1;
+            return 2;
          }
       }
       

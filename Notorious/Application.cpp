@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
       if( !MainWindow::invokeSetUp( &app ) )
       {
          QMessageBox::critical( 0, app.applicationName(), QObject::tr("Setup failed!\nCannot start.\nSorry.") );
-         return 1;
+         return 2;
       }
    }
 #endif

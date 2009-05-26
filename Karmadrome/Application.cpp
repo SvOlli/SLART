@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
       
       if( !Database::exists() )
       {
-         return 1;
+         return 2;
       }
       
       while ((opt = getopt(argc, argv, "hcsrlien:f:")) != -1)
@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
                   "import:\t%s -i -n foldername -f list.m3u [-c]\n"
                   "export:\t%s -e -n foldername -f list.m3u [-r] [-s]\n",
                   argv[0], argv[0], argv[0], argv[0] );
-         exit(1);
+         return 1;
       }
       
       Database     db;
@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
       {
          if( !MainWindow::invokeSetUp( &app ) )
          {
-            return 1;
+            return 2;
          }
       }
       

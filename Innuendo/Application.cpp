@@ -16,18 +16,19 @@ int main(int argc, char *argv[])
 {
    int retval = 0;
 
-   QApplication app(argc, argv);
-   app.setOrganizationName("SLART");
-   app.setOrganizationDomain("svolli.org");
-   app.setApplicationName("Innuendo");
+   QApplication::setOrganizationName("SLART");
+   QApplication::setOrganizationDomain("svolli.org");
+   QApplication::setApplicationName("Innuendo");
    
    if( argc == 1 )
    {
+      QApplication app(argc, argv);
+      
       if( !MySettings().contains( "SLARTCommunication" ) )
       {
          if( !MainWindow::invokeSetUp( &app ) )
          {
-            return 1;
+            return 2;
          }
       }
       
@@ -38,6 +39,8 @@ int main(int argc, char *argv[])
    }
    else if( argc > 2 )
    {
+      QCoreApplication app(argc, argv);
+      
       QString application( argv[1] );
       QStringList message;
       for( int i = 2; i < argc; i++ )
