@@ -139,6 +139,10 @@ void DatabaseWorker::run()
    }
    mpDatabase->endTransaction( true );
    emit progress( mChecked, mProcessed );
+   if( mMode == cleanup )
+   {
+      mpDatabase->cleanup();
+   }
    mMode = none;
 }
 

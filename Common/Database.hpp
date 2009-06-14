@@ -29,6 +29,8 @@ public:
    bool beginTransaction() { return mpSqlDB->transaction(); };
    /* end an encapsulated database transaction */
    bool endTransaction( bool commit ) { return commit ? mpSqlDB->commit() : mpSqlDB->rollback(); };
+   /* try to clean up and compress database */
+   void cleanup();
    
    /* get track information from database
       empty fileName: search for TrackInfo by trackInfo->mID

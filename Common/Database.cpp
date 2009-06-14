@@ -165,6 +165,12 @@ Database::~Database()
 }
 
 
+void Database::cleanup()
+{
+   mpQuery->exec( "VACUUM;" );
+}
+
+
 bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
 {
    QString sql( "SELECT id,Directory,FileName,Artist,Title,Album,"
