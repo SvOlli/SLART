@@ -14,7 +14,7 @@ WRITECACHE=no
 
 getrevision()
 {
-  revision=$(git-log 2>/dev/null | grep '^commit ' | wc -l)
+  revision=$(git log 2>/dev/null | grep '^commit ' | wc -l)
   if [ ${revision} -gt 0 ]; then
     echo ${revision}
   else
@@ -133,7 +133,7 @@ for arg; do
         exit 0;
       ;;
     --last-commit)
-        git-log 2>/dev/null | head -1 | sed 's/^commit \([0-9a-f]*\)/\1/'
+        git log 2>/dev/null | head -1 | sed 's/^commit \([0-9a-f]*\)/\1/'
         exit 0;
       ;;
     --prefix=*)
