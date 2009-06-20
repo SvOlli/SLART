@@ -124,6 +124,7 @@ private:
 #define VALUE_PLAYONLYLEASTPLAYED value("PlayOnlyLeastPlayed", false).toBool()
 #define VALUE_RANDOMTRIES         value("RandomTries", 10).toInt()
 #define VALUE_SLARTCOMMUNICATION  value("SLARTCommunication", false).toBool()
+#define VALUE_STYLESHEET          value("StyleSheet", QString()).toString()
 #define VALUE_TRAYICON            value("TrayIcon", false).toBool()
 #define VALUE_TRAYICONBUBBLE      value("TrayIconBubble", true).toBool()
 #define VALUE_TRAYICONBUBBLEICON  value("TrayIconBubbleIcon", 0).toInt()
