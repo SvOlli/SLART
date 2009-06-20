@@ -9,7 +9,12 @@
 #define DATABASE_HPP DATABASE_HPP
 
 #include <QStringList>
+#ifdef QT_GUI_LIB
 #include <QtSql>
+#else
+#define QSqlDatabase void
+#define QSqlQuery    void
+#endif
 
 #include "TrackInfo.hpp"
 
