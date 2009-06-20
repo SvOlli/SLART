@@ -14,6 +14,8 @@ LIBS += -lbz2
 
 SOURCES += Application.cpp
 
+HEADERS += Database.hpp
+
 HEADERS += AboutWidget.hpp
 SOURCES += AboutWidget.cpp
 

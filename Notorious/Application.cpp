@@ -8,6 +8,7 @@
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
 #include "MySettings.hpp"
+#include "ConfigDialog.hpp"
 #if MAINWINDOW_SORCERER
 #include "Database.hpp"
 #endif
@@ -23,6 +24,7 @@ int main(int argc, char *argv[])
    app.setOrganizationName("SLART");
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("Notorious");
+   MySettings settings;
 
 #if MAINWINDOW_SORCERER
    if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
@@ -30,10 +32,18 @@ int main(int argc, char *argv[])
       if( !MainWindow::invokeSetUp( &app ) )
       {
          QMessageBox::critical( 0, app.applicationName(), QObject::tr("Setup failed!\nCannot start.\nSorry.") );
-         return 2;
+         return 1;
       }
    }
 #endif
+   {
+      QFile qssFile( settings.VALUE_STYLESHEET );
+      if( qssFile.open( QIODevice::ReadOnly ) )
+      {
+         app.setStyleSheet( qssFile.readAll() );
+         qssFile.close();
+      }
+   }
    
    MainWindow window;
    window.show();

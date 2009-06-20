@@ -58,6 +58,7 @@ private:
 };
 
 /* defaults */
-#define VALUE_BYTES               value("Bytes", 0).toULongLong()
+#define VALUE_BYTES              value( "Bytes", 0 ).toULongLong()
+#define VALUE_STYLESHEET         value( "StyleSheet", QString() ).toString()
 
 #endif
