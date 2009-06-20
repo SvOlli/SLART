@@ -61,4 +61,5 @@ private:
 #define VALUE_BUFFERSIZE         value( "BufferSize", 500 ).toInt()
 #define VALUE_SLARTCOMMUNICATION value( "SLARTCommunication", false ).toBool()
 #define VALUE_STARTUP            value( "Startup", QStringList() ).toStringList()
+#define VALUE_STYLESHEET         value( "StyleSheet", QString() ).toString()
 #endif
