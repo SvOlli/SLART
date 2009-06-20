@@ -74,6 +74,7 @@ private:
 #define VALUE_MUSICBASE       value( "MusicBase", QString("/") ).toString()
 #define VALUE_PLAYINGPATTERN  value( "PlayingPattern", "NP: |$ARTIST| - |$TITLE|" ).toString()
 #define VALUE_ROOTDIRECTORY   value( "RootDirectory", QString("/") ).toString()
+#define VALUE_STYLESHEET      value( "StyleSheet", QString() ).toString()
 #define VALUE_WITHOUTTRACKNR  value( "WithoutTrackNr", "|$ARTIST| - |$TITLE|" ).toString()
 #define VALUE_WITHTRACKNR     value( "WithTrackNr", "(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString()
 
