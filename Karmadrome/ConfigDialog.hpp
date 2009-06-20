@@ -60,5 +60,6 @@ private:
 #define VALUE_IMPORTDIRECTORY    value( "ImportDirectory", QString() ).toString()
 #define VALUE_NUMBEROFCOLUMNS    value( "NumberOfColumns", 3 ).toInt()
 #define VALUE_RANDOMIZEEXPORT    value( "RandomizeExport", false ).toBool()
+#define VALUE_STYLESHEET         value( "StyleSheet", QString() ).toString()
 
 #endif

@@ -8,8 +8,11 @@
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
 #include "MySettings.hpp"
+#if MAINWINDOW_SORCERER
 #include "Database.hpp"
+#endif
 #include "ImportExport.hpp"
+#include "ConfigDialog.hpp"
 
 #include <QtGui>
 
@@ -138,13 +141,24 @@ int main(int argc, char *argv[])
    }
    else
    {
+      MySettings settings;
       QApplication app(argc, argv);
-
-      if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
+      
+#if MAINWINDOW_SORCERER
+      if( !settings.contains( "SLARTCommunication" ) || !Database::exists() )
       {
          if( !MainWindow::invokeSetUp( &app ) )
          {
             return 2;
+         }
+      }
+#endif
+      {
+         QFile qssFile( settings.VALUE_STYLESHEET );
+         if( qssFile.open( QIODevice::ReadOnly ) )
+         {
+            app.setStyleSheet( qssFile.readAll() );
+            qssFile.close();
          }
       }
       
