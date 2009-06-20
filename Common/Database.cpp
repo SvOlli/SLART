@@ -171,6 +171,18 @@ void Database::cleanup()
 }
 
 
+bool Database::beginTransaction()
+{ 
+   return mpSqlDB->transaction();
+}
+
+
+bool Database::endTransaction( bool commit )
+{ 
+   return commit ? mpSqlDB->commit() : mpSqlDB->rollback();
+}
+
+
 bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
 {
    QString sql( "SELECT id,Directory,FileName,Artist,Title,Album,"
@@ -550,23 +562,6 @@ void Database::logError( const QString &note )
       msg.append( mpQuery->lastQuery() );
    }
    MySettings().sendUdpMessage( msg, QString("Innuendo") );
-}
-
-
-bool Database::exists()
-{
-   return QFileInfo( getDatabaseFileName() ).isFile();
-}
-
-
-QString Database::getDatabaseFileName()
-{
-#ifdef _WIN32
-   QString slartdb( "/slart.db" );
-#else
-   QString slartdb( "/.slartdb" );
-#endif
-   return QDir::homePath() + slartdb;
 }
 
 

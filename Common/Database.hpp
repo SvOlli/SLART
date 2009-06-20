@@ -8,12 +8,14 @@
 #ifndef DATABASE_HPP
 #define DATABASE_HPP DATABASE_HPP
 
+#include <QDir>
+#include <QFileInfo>
 #include <QStringList>
-#ifdef QT_GUI_LIB
+#ifdef QT_SQL_LIB
 #include <QtSql>
 #else
-#define QSqlDatabase void
-#define QSqlQuery    void
+class QSqlDatabase;
+class QSqlQuery;
 #endif
 
 #include "TrackInfo.hpp"
@@ -26,14 +28,15 @@ public:
    virtual ~Database();
 
    /* test for the existance of the database file */
-   static bool exists();
+   static bool exists() 
+   {
+      return QFileInfo( getDatabaseFileName() ).isFile();
+   };
 
-   /* open the database file */
-   bool open();
    /* start an encapsulated database transaction */
-   bool beginTransaction() { return mpSqlDB->transaction(); };
+   bool beginTransaction();
    /* end an encapsulated database transaction */
-   bool endTransaction( bool commit ) { return commit ? mpSqlDB->commit() : mpSqlDB->rollback(); };
+   bool endTransaction( bool commit );
    /* try to clean up and compress database */
    void cleanup();
    
@@ -72,7 +75,15 @@ private:
    void logError( const QString &note = QString() );
    
    /* generate the filename for database */
-   static QString getDatabaseFileName();
+   static QString getDatabaseFileName()
+   {
+#ifdef _WIN32
+      QString slartdb( "/slart.db" );
+#else
+      QString slartdb( "/.slartdb" );
+#endif
+      return QDir::homePath() + slartdb;
+   };
 
    QSqlDatabase       *mpSqlDB;
    QSqlQuery          *mpQuery;
