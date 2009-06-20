@@ -12,6 +12,8 @@ RESOURCES = qrc/Resources.qrc
 
 SOURCES += Application.cpp
 
+HEADERS += Database.hpp
+
 HEADERS += MainWindow.hpp
 SOURCES += MainWindow.cpp
 

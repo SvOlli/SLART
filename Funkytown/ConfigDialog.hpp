@@ -60,6 +60,7 @@ private:
 #define VALUE_FILES               value("Files", 0).toUInt()
 #define VALUE_OVERWRITE           value("Overwrite", false).toBool()
 #define VALUE_SLARTCOMMUNICATION  value("SLARTCommunication", false).toBool()
+#define VALUE_STYLESHEET          value("StyleSheet", QString()).toString()
 #define VALUE_TOLLKEEP            value("TollKeep", true).toBool()
 
 #endif
