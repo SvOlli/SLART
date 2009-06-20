@@ -15,6 +15,8 @@ LIBS += $$system( sh ../configure --libs vorbisenc libcdio_paranoia libcdio )
 
 SOURCES += Application.cpp 
 
+HEADERS += Database.hpp
+
 HEADERS += MainWindow.hpp 
 SOURCES += MainWindow.cpp 
 
