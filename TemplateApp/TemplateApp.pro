@@ -12,6 +12,8 @@ TARGET = TemplateApp
 
 SOURCES += Application.cpp 
 
+HEADERS += Database.hpp
+
 HEADERS += MySettings.hpp 
 SOURCES += MySettings.cpp 
 

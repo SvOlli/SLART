@@ -12,6 +12,10 @@
 #include "Database.hpp"
 #endif
 
+#ifndef VALUE_STYLESHEET
+#define VALUE_STYLESHEET value("StyleSheet", QString()).toString()
+#endif
+
 #include <QtGui>
 
 
@@ -23,6 +27,7 @@ int main(int argc, char *argv[])
    app.setOrganizationName("SLART");
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("TemplateApp");
+   MySettings settings;
 
 #if MAINWINDOW_SORCERER
    if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
@@ -34,6 +39,14 @@ int main(int argc, char *argv[])
       }
    }
 #endif
+   {
+      QFile qssFile( settings.VALUE_STYLESHEET );
+      if( qssFile.open( QIODevice::ReadOnly ) )
+      {
+         app.setStyleSheet( qssFile.readAll() );
+         qssFile.close();
+      }
+   }
    
    MainWindow window;
    window.show();
