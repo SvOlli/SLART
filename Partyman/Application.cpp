@@ -24,32 +24,31 @@ int main(int argc, char *argv[])
    QApplication::setOrganizationDomain("svolli.org");
    QApplication::setApplicationName("Partyman");
    
-   if( argc > 1 )
+   MySettings settings;
+   QApplication app(argc, argv);
+   
+   if( !settings.contains( "SLARTCommunication" ) || !Database::exists() )
    {
-      QCoreApplication app(argc, argv);
-      
-      MySettings settings;
-      for( int i = 1; i < argc; i++ )
+      if( !MainWindow::invokeSetUp( &app ) )
       {
-         settings.sendUdpMessage( QFileInfo( QString::fromLocal8Bit(argv[i]) ).absoluteFilePath().prepend( "P0Q\n" ) );
+         return 2;
+      }
+   }
+   
+   QStringList args( QApplication::arguments() );
+   if( args.size() > 1 )
+   {
+      args.takeFirst();
+      while( args.size() > 0 )
+      {
+         settings.sendUdpMessage( QFileInfo( args.takeFirst() ).absoluteFilePath().prepend( "P0Q\n" ) );
       }
    }
    else
    {
-      MySettings settings;
-      QApplication app(argc, argv);
-   
-      if( !settings.contains( "SLARTCommunication" ) || !Database::exists() )
-      {
-         if( !MainWindow::invokeSetUp( &app ) )
-         {
-            return 2;
-         }
-      }
-      
       {
          QFile qssFile( settings.VALUE_STYLESHEET );
-         if( qssFile.open( QIODevice::ReadOnly ) )
+         if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
          {
             app.setStyleSheet( qssFile.readAll() );
             qssFile.close();
