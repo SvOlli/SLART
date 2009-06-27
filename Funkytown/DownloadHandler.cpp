@@ -186,10 +186,16 @@ TRACESTART(DownloadHandler::startDownload)
       mpHttp->setHost( url.left(slash1) );
       
       QHttpRequestHeader requestHeader( "GET", url.mid(slash1) );
+      QString referer( mpTheMagic->referer() );
+      QString userAgent( MySettings().VALUE_USERAGENT );
       requestHeader.setValue( "Host", url.left(slash1) );
-      if( mpTheMagic->referer().size() )
+      if( referer.size() )
       {
-         requestHeader.setValue( "Referer", mpTheMagic->referer() );
+         requestHeader.setValue( "Referer", referer );
+      }
+      if( userAgent.size() )
+      {
+         requestHeader.setValue( "User-Agent", userAgent );
       }
       mHttpGetId = mpHttp->request( requestHeader, 0, mpTheMagic->ioDevice() );
    }

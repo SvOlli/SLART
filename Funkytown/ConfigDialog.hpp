@@ -62,5 +62,6 @@ private:
 #define VALUE_SLARTCOMMUNICATION  value("SLARTCommunication", false).toBool()
 #define VALUE_STYLESHEET          value("StyleSheet", QString()).toString()
 #define VALUE_TOLLKEEP            value("TollKeep", true).toBool()
+#define VALUE_USERAGENT           value("UserAgent", QString("Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)")).toString()
 
 #endif

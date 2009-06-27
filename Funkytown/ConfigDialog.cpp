@@ -119,6 +119,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "Overwrite", mpOverwrite->isChecked() );
    settings.setValue( "CoverArt", mpCoverArt->isChecked() );
    settings.setValue( "TollKeep", mpTollKeep->isChecked() );
+   settings.setValue( "UserAgent", settings.VALUE_USERAGENT );
 }
 
 
