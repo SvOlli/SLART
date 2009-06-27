@@ -37,6 +37,8 @@ public:
    void postDownload( bool success );
    /* return filename for the file that being downloaded, if any */
    QString fileName();
+   /* return referer, if any */
+   QString referer();
    /* note that the download has failed */
    void fail();
    /* sset the content (mime-)type, used for 8bit conversion */
@@ -65,6 +67,7 @@ private:
    bool             mDownloadToFile;
    bool             mSuccess;
    QString          mContentType;
+   QString          mReferer;
    QString          mMessage;
    QString          mFileName;
    QString          mBuffer;

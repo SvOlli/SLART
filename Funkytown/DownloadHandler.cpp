@@ -184,7 +184,14 @@ TRACESTART(DownloadHandler::startDownload)
       
       ProxyWidget::setProxy( mpHttp );
       mpHttp->setHost( url.left(slash1) );
-      mHttpGetId = mpHttp->get( url.mid(slash1), mpTheMagic->ioDevice() );
+      
+      QHttpRequestHeader requestHeader( "GET", url.mid(slash1) );
+      requestHeader.setValue( "Host", url.left(slash1) );
+      if( mpTheMagic->referer().size() )
+      {
+         requestHeader.setValue( "Referer", mpTheMagic->referer() );
+      }
+      mHttpGetId = mpHttp->request( requestHeader, 0, mpTheMagic->ioDevice() );
    }
    else
    {

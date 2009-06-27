@@ -30,6 +30,7 @@ TheMagic::TheMagic( MagicQueue *magicQueue )
 , mDownloadToFile( false )
 , mSuccess( true )
 , mContentType()
+, mReferer()
 , mMessage()
 , mFileName()
 , mBuffer()
@@ -71,6 +72,7 @@ TheMagic::TheMagic( const TheMagic &other )
 , mDownloadToFile   ( other.mDownloadToFile )
 , mSuccess          ( true )
 , mContentType      ( other.mContentType )
+, mReferer          ( other.mReferer )
 , mMessage          ( /*other.mMessage*/ )
 , mFileName         ( other.mFileName )
 , mBuffer           ( other.mBuffer )
@@ -95,6 +97,12 @@ QString TheMagic::fileName()
    {
       return tr("*Buffer*");
    }
+}
+
+
+QString TheMagic::referer()
+{
+   return mReferer;
 }
 
 
@@ -369,8 +377,9 @@ TRACESTART(DownloadHandler::parseGenericHTML)
          embed.replace( "/v/", "/watch?v=" );
          
          TheMagic *magic = new TheMagic( *this );
-         magic->mURL   = embed;
+         magic->mURL = embed;
          magic->mStage = stageYouTubeHTML;
+         magic->mReferer = mURL;
          
          mpMagicQueue->addMagic( magic );
       }
@@ -397,8 +406,9 @@ TRACESTART(DownloadHandler::parseGenericHTML)
          filename.remove( QRegExp( "^.*/" ) );
          
          TheMagic *magic = new TheMagic( *this );
-         magic->mURL   = mp3ref;
+         magic->mURL = mp3ref;
          magic->mStage = stageGenericFile;
+         magic->mReferer = mURL;
          
          mpMagicQueue->addMagic( magic );
       }
@@ -455,6 +465,7 @@ TRACESTART(DownloadHandler::parseYouTubeHTML)
 TRACEMSG << magic->mURL << magic->mFileName;
 #endif
       magic->mStage = stageGenericFile;
+      magic->mReferer = mURL;
       mpMagicQueue->addMagic( magic );
    }
 }
@@ -503,6 +514,7 @@ void TheMagic::parseMySpaceHTML()
       magic->mURL = QString("http://mediaservices.myspace.com/services/media/musicplayerxml.ashx?b=");
       magic->mURL.append( mMySpaceProfId );
       magic->mStage = stageMySpaceOldXML;
+      magic->mReferer = mURL;
       mpMagicQueue->addMagic( magic );
       
       if( !mMySpaceArtId.isEmpty() )
@@ -512,6 +524,7 @@ void TheMagic::parseMySpaceHTML()
                                "action=getPlaylists&friendId=");
          magic->mURL.append( mMySpaceProfId );
          magic->mStage = stageMySpacePlaylists;
+         magic->mReferer = mURL;
          mpMagicQueue->addMagic( magic );
       }
    }
@@ -597,6 +610,7 @@ void TheMagic::parseMySpaceOldXML()
          magic->mURL = xmlUrl;
          magic->mFileName = xmlName+QString(" - ")+xmlTitle+QString(".mp3");
          magic->mStage = stageMySpaceMP3;
+         magic->mReferer = mURL;
          mpMagicQueue->addMagic( magic );
          xmlTitle = "";
          xmlUrl   = "";
@@ -674,6 +688,7 @@ void TheMagic::parseMySpacePlaylists()
          magic->mURL.append( "&artistUserId=" );
          magic->mURL.append( mMySpaceProfId );
          magic->mStage = stageMySpaceArtistPlaylist;
+         magic->mReferer = mURL;
          mpMagicQueue->addMagic( magic );
       }
    }
@@ -700,6 +715,7 @@ void TheMagic::parseMySpaceArtistPlaylist()
                                "action=getSong&songId=");
          magic->mURL.append( mMySpaceSongId );
          magic->mStage = stageMySpaceSong;
+         magic->mReferer = mURL;
          mpMagicQueue->addMagic( magic );
       }
    }
@@ -763,6 +779,7 @@ void TheMagic::parseMySpaceSong()
             magic->mFileName = fileName;
             magic->mFileName.append( QString(".mp3") );
             magic->mStage = stageMySpaceMP3;
+            magic->mReferer = mURL;
             mpMagicQueue->addMagic( magic );
             
             if( !(xmlCover.isEmpty()) && MySettings().VALUE_COVERART )
@@ -773,6 +790,7 @@ void TheMagic::parseMySpaceSong()
                magic->mFileName = fileName;
                magic->mFileName.append( QString(".jpg") );
                magic->mStage = stageGenericFile;
+               magic->mReferer = mURL;
                mpMagicQueue->addMagic( magic );
             }
          }
