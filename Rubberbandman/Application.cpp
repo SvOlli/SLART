@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
       
       {
          QFile qssFile( settings.VALUE_STYLESHEET );
-         if( qssFile.open( QIODevice::ReadOnly ) )
+         if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
          {
             app.setStyleSheet( qssFile.readAll() );
             qssFile.close();
