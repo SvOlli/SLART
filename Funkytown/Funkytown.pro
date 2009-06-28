@@ -29,6 +29,12 @@ SOURCES += AboutWidget.cpp
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp
 
+HEADERS += Cookie.hpp
+SOURCES += Cookie.cpp
+
+HEADERS += CookieJar.hpp
+SOURCES += CookieJar.cpp
+
 HEADERS += DownloadHandler.hpp
 SOURCES += DownloadHandler.cpp
 

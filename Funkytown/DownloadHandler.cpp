@@ -33,6 +33,7 @@ DownloadHandler::DownloadHandler( QWidget *parent )
 , mpTimer( new QTimer( this ) )
 , mpMagicQueue( new MagicQueue( this ) )
 , mpTheMagic( 0 )
+, mCookieJar()
 {
    QBoxLayout *layout      = new QVBoxLayout( this );
    QGroupBox  *groupBox    = new QGroupBox( tr("Now Processing:"), this );
@@ -123,6 +124,18 @@ TRACESTART(DownloadHandler::readResponseHeader)
    {
       mpTheMagic->setContentType( responseHeader.contentType() );
    }
+   
+   QList<QPair<QString, QString> > values( responseHeader.values() );
+   for( int i = 0; i < values.size(); i++ )
+   {
+      if( !QString::compare(values.at(i).first,QString("Set-Cookie"),Qt::CaseInsensitive) )
+      {
+#if USE_TRACE
+TRACEMSG << values.at(i).second;
+#endif
+         mCookieJar.store( values.at(i).second );
+      }
+   }
 }
 
 
@@ -185,18 +198,32 @@ TRACESTART(DownloadHandler::startDownload)
       ProxyWidget::setProxy( mpHttp );
       mpHttp->setHost( url.left(slash1) );
       
-      QHttpRequestHeader requestHeader( "GET", url.mid(slash1) );
       QString referer( mpTheMagic->referer() );
       QString userAgent( MySettings().VALUE_USERAGENT );
-      requestHeader.setValue( "Host", url.left(slash1) );
+      QStringList cookies( mCookieJar.take( url.left(slash1), url.mid(slash1) ) );
+      
+      QHttpRequestHeader requestHeader( "GET", url.mid(slash1) );
+      QList<QPair<QString, QString> > headers;
+      headers.append( qMakePair(QString("Host"), url.left(slash1)) );
       if( referer.size() )
       {
-         requestHeader.setValue( "Referer", referer );
+         headers.append( qMakePair(QString("Referer"), referer) );
       }
       if( userAgent.size() )
       {
-         requestHeader.setValue( "User-Agent", userAgent );
+         headers.append( qMakePair( QString("User-Agent"), userAgent ) );
       }
+      if( cookies.size() )
+      {
+         for( int i = 0; i < cookies.size(); i++ )
+         {
+            headers.append( qMakePair( QString("Cookie"), cookies.at(i) ) );
+         }
+      }
+      requestHeader.setValues( headers );
+#if USE_TRACE
+TRACEMSG << requestHeader.toString();
+#endif
       mHttpGetId = mpHttp->request( requestHeader, 0, mpTheMagic->ioDevice() );
    }
    else

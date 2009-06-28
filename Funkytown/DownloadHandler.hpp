@@ -13,6 +13,7 @@
 #include <QStringList>
 
 #include "ProxyWidget.hpp"
+#include "CookieJar.hpp"
 
 class QCheckBox;
 class QHttp;
@@ -71,6 +72,7 @@ private:
    QTimer                       *mpTimer;
    MagicQueue                   *mpMagicQueue;
    TheMagic                     *mpTheMagic;
+   CookieJar                    mCookieJar;
 };
 
 #endif
