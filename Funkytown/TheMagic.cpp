@@ -612,7 +612,6 @@ void TheMagic::parseMySpaceOldXML()
          magic->mURL = xmlUrl;
          magic->mFileName = xmlName+QString(" - ")+xmlTitle+QString(".mp3");
          magic->mStage = stageMySpaceMP3;
-         magic->mReferer = mURL;
          mpMagicQueue->addMagic( magic );
          xmlTitle = "";
          xmlUrl   = "";
@@ -690,7 +689,6 @@ void TheMagic::parseMySpacePlaylists()
          magic->mURL.append( "&artistUserId=" );
          magic->mURL.append( mMySpaceProfId );
          magic->mStage = stageMySpaceArtistPlaylist;
-         magic->mReferer = mURL;
          mpMagicQueue->addMagic( magic );
       }
    }
@@ -717,7 +715,6 @@ void TheMagic::parseMySpaceArtistPlaylist()
                                "action=getSong&songId=");
          magic->mURL.append( mMySpaceSongId );
          magic->mStage = stageMySpaceSong;
-         magic->mReferer = mURL;
          mpMagicQueue->addMagic( magic );
       }
    }
@@ -789,7 +786,6 @@ qDebug() << line;
             magic->mFileName = fileName;
             magic->mFileName.append( QString(".mp3") );
             magic->mStage = stageMySpaceMP3;
-            magic->mReferer = mURL;
             mpMagicQueue->addMagic( magic );
             
             if( !(xmlCover.isEmpty()) && MySettings().VALUE_COVERART )
@@ -800,7 +796,6 @@ qDebug() << line;
                magic->mFileName = fileName;
                magic->mFileName.append( QString(".jpg") );
                magic->mStage = stageGenericFile;
-               magic->mReferer = mURL;
                mpMagicQueue->addMagic( magic );
             }
          }
