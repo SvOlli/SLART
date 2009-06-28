@@ -20,6 +20,8 @@
 
 #define USE_TRACE 0
 
+#define RTMP_TO_STDOUT 0
+
 
 TheMagic::TheMagic( MagicQueue *magicQueue )
 : QObject()
@@ -730,6 +732,7 @@ void TheMagic::parseMySpaceSong()
    const QString artist("artist");
    const QString large("large");
    const QString name("name=");
+   const QString rtmp("rtmp:");
    const QString endtrack("/track");
    QString xmlArtist;
    QString xmlTitle;
@@ -757,6 +760,13 @@ void TheMagic::parseMySpaceSong()
          {
             xmlArtist = xmlParam( qsl.at(i), pos );
          }
+      }
+      
+      if( line.startsWith( rtmp, Qt::CaseInsensitive ) )
+      {
+#if RTMP_TO_STDOUT
+qDebug() << line;
+#endif
       }
       
       if( line.startsWith( large, Qt::CaseInsensitive ) )
