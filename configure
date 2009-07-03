@@ -14,7 +14,7 @@ WRITECACHE=no
 
 getrevision()
 {
-  revision=$(git log 2>/dev/null | grep '^commit ' | wc -l)
+  revision=$(git log --pretty=oneline 2>/dev/null | wc -l)
   if [ ${revision} -gt 0 ]; then
     echo ${revision}
   else
