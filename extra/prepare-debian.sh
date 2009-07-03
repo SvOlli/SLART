@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 program=slart
 version=$($(dirname $0)/../configure --version)
@@ -46,25 +46,27 @@ chmod a+x debian/rules
 #generate changelog
 mode=0
 header=
-revision=$[revision+1]
+revision="`expr ${revision} + 1`"
 
 echo >&2 "changelog..."
 
-(git-log 2>/dev/null;echo) | (while read line; do
+(git-log --date=rfc 2>/dev/null;echo) | (while read line; do
 case "${line}" in
 commit\ *)
   header=
-  revision=$[revision-1]
+  revision="`expr ${revision} - 1`"
 ;;
 Author:*)
-  author="$(echo ${line}|cut -f2- -d:)"
+  author="${line#*:}"
 ;;
 Date:*)
-  date="$(echo ${line}|cut -f2- -d:|sed 's/^\( *[A-Z][a-z][a-z]\),* \([A-Z][a-z][a-z]\) \([0-9]*\) \([0-9:]*\) \([0-9]*\) /\1, \3 \2 \5 \4 /')"
+  date="${line#*:  }"
 ;;
 "")
-  mode=$[1-mode]
   if [ ${mode} -eq 0 ]; then
+    mode=1
+  else
+    mode=0
     echo
     echo " --${author} ${date}"
     echo
@@ -87,7 +89,7 @@ Date:*)
   echo "  * ${line}" | fold -s -75 | sed 's/^[^ ]/    &/'
 ;;
 esac
-echo >&2 -en "\r${revision} "
+echo >&2 -n -e "\r${revision} "
 #echo "[${line}]"
 done) > debian/changelog
 echo >&2 -e "\rdone."
