@@ -20,76 +20,61 @@
 int main(int argc, char *argv[])
 {
    int retval = 0;
-
+   
    QApplication::setOrganizationName("SLART");
    QApplication::setOrganizationDomain("svolli.org");
    QApplication::setApplicationName("Rubberbandman");
    
-   if( (argc > 1) && strcmp(argv[1],"-qws") )
+   QApplication app(argc, argv);
+   
+   QStringList args( QApplication::arguments() );
+   if( args.size() > 1 )
    {
-      QCoreApplication app(argc, argv);
-      bool fail    = false;
-      bool cleanup = false;
-      bool update  = false;
-      int opt;
+      args.takeFirst(); // first argument is program name
+      const QString _cleanup( "-cleanup" );
+      const QString _update( "-update" );
       
       if( !Database::exists() )
       {
          return 2;
       }
       
-      while ((opt = getopt(argc, argv, "hcu")) != -1)
-      {
-         switch(opt)
-         {
-            case 'c':
-               cleanup = true;
-               break;
-            case 'u':
-               update = true;
-               break;
-            case 'h':
-            default:
-               fail = true;
-         }
-      }
-      
-      if( fail )
-      {
-         fprintf( stderr, "Usage:\t%s\n"
-                  "cleanup:%s -c\n"
-                  "update:\t%s -u\n",
-                  argv[0], argv[0], argv[0] );
-         return 1;
-      }
-      
+      QString arg;
       Database db;
       DatabaseWorker *databaseWorker = new DatabaseWorker();
       databaseWorker->prepare( &db );
-      
-      if( cleanup )
+      while( args.size() > 0 )
       {
-         databaseWorker->initCleanup();
-         databaseWorker->start();
-         databaseWorker->wait();
-      }
-      
-      if( update )
-      {
-         QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
-         if( !baseDir.isEmpty() )
+         arg = args.takeFirst();
+         if( arg == _cleanup )
          {
-            databaseWorker->initUpdate( baseDir );
+            databaseWorker->initCleanup();
             databaseWorker->start();
             databaseWorker->wait();
+         }
+         else if( arg == _update )
+         {
+            QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
+            if( !baseDir.isEmpty() )
+            {
+               databaseWorker->initUpdate( baseDir );
+               databaseWorker->start();
+               databaseWorker->wait();
+            }
+         }
+         else
+         {
+            fprintf( stderr, "%s: (%s) (%s)\n", 
+                     argv[0], _cleanup.toLocal8Bit().constData(), _update.toLocal8Bit().constData() );
+            return 1;
          }
       }
    }
    else
    {
       MySettings settings;
-      QApplication app(argc, argv);
    
+#if MAINWINDOW_SORCERER
       if( !settings.contains( "SLARTCommunication" ) || !Database::exists() )
       {
          if( !MainWindow::invokeSetUp( &app ) )
@@ -97,6 +82,7 @@ int main(int argc, char *argv[])
             return 2;
          }
       }
+#endif
       
       {
          QFile qssFile( settings.VALUE_STYLESHEET );
