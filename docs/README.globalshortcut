@@ -1,0 +1,17 @@
+
+The code in the globalshortcut handles keypresses even when the window is not
+active. It's been taken unchanged from the psi instant messenger. Thanks to
+Machekku who's provided the psi-im Team with the original code.
+
+From http://psi-im.org/ :
+
+***
+Psi is a free instant messaging application designed for the Jabber IM network
+(including Google Talk). Fast and lightweight, Psi is fully open-source and
+compatible with Windows, Linux, and Mac OS X.
+***
+
+Psi is free software; you can redistribute it and/or modify it under the terms
+of the GNU General Public License as published by the Free Software Foundation;
+either version 2 of the License, or (at your option) any later version.
+ 
