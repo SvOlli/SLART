@@ -55,6 +55,8 @@ public:
    void log( const QString &udpEvent, const QString &logEvent, const QString &data = QString() );
    /* signalise that skipping is possible again */
    void allowSkip();
+   /* check if skip button is locked in */
+   bool isSkipChecked();
    
 private:
    /* save the current tracks for restart */

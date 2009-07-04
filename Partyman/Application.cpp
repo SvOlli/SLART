@@ -6,7 +6,6 @@
  */
 
 #include "MainWindow.hpp"
-#include "MainWidget.hpp"
 #include "MySettings.hpp"
 #if MAINWINDOW_SORCERER
 #include "Database.hpp"
@@ -27,6 +26,7 @@ int main(int argc, char *argv[])
    MySettings settings;
    QApplication app(argc, argv);
    
+#if MAINWINDOW_SORCERER
    if( !settings.contains( "SLARTCommunication" ) || !Database::exists() )
    {
       if( !MainWindow::invokeSetUp( &app ) )
@@ -34,11 +34,12 @@ int main(int argc, char *argv[])
          return 2;
       }
    }
+#endif
    
    QStringList args( QApplication::arguments() );
    if( args.size() > 1 )
    {
-      args.takeFirst();
+      args.takeFirst(); // first argument is program name
       while( args.size() > 0 )
       {
          settings.sendUdpMessage( QFileInfo( args.takeFirst() ).absoluteFilePath().prepend( "P0Q\n" ) );

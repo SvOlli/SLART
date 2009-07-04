@@ -123,6 +123,13 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    connect( &mDerMixDprocess, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(handleDerMixDerror(QProcess::ProcessError)) );
 
+#if 0
+   QShortcut *skip = new QShortcut( QKeySequence(Qt::Key_F5), this );
+   
+   connect( skip, SIGNAL(activated()),
+            this, SLOT(handleSkipTrack()) );
+#endif
+   
    setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
 }
 
@@ -341,26 +348,34 @@ void ControlWidget::handleLoad()
 
 void ControlWidget::handleSkipTrack()
 {
-   if( mpSkipButton->isChecked() )
+   if( mpSkipButton->isEnabled() )
    {
+      bool checkstate = true;
+   
       mpSkipButton->clearFocus();
-      mpPlayer[0]->disablePlayPosition( true );
-      mpPlayer[1]->disablePlayPosition( true );
-      log( "p0n", "skip" );
-      if( mPaused )
+      if( (mpPlayer[0]->getState() == PlayerFSM::ready) ||
+          (mpPlayer[1]->getState() == PlayerFSM::ready) )
       {
-         handlePause( true );
+         log( "p0n", "skip" );
+         if( mPaused )
+         {
+            handlePause( true );
+         }
+         mpPlayer[0]->disablePlayPosition( true );
+         mpPlayer[1]->disablePlayPosition( true );
+         mpPlayer[0]->skip();
+         mpPlayer[1]->skip();
+         checkstate = false;
       }
-      if( mpPlayer[0]->skip() &&
-          mpPlayer[1]->skip() )
-      {
-         mpSkipButton->setChecked( false );
-      }
+      
+      mpSkipButton->setChecked( checkstate );
    }
-   else
-   {
-      mpSkipButton->setChecked( true );
-   }
+}
+
+
+bool ControlWidget::isSkipChecked()
+{
+   return mpSkipButton->isChecked();
 }
 
 
