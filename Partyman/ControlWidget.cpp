@@ -430,11 +430,7 @@ void ControlWidget::handleSLART( const QStringList &src )
    
    if( src.at(0) == "P0N" )
    {
-      if( mpSkipButton->isEnabled() )
-      {
-         mpSkipButton->setChecked( true );
-         handleSkipTrack();
-      }
+      handleSkipTrack();
    }
    
    if( src.at(0) == "P0S" )
@@ -597,11 +593,7 @@ void ControlWidget::handleTrayIcon( QSystemTrayIcon::ActivationReason reason )
    if( reason == QSystemTrayIcon::DoubleClick )
    {
       mTrayIconClickTimer.stop();
-      if( mpSkipButton->isEnabled() )
-      {
-         mpSkipButton->setChecked( true );
-         handleSkipTrack();
-      }
+      handleSkipTrack();
    }
 }
 
