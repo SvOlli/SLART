@@ -136,7 +136,6 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 
 ControlWidget::~ControlWidget()
 {
-   saveTracks();
    mpPlayer[0]->disconnect();
    mpPlayer[1]->disconnect();
    
@@ -153,7 +152,7 @@ ControlWidget::~ControlWidget()
 }
 
 
-void ControlWidget::saveTracks()
+void ControlWidget::saveTracks( bool unload )
 {
    int i;
    QString current;
@@ -177,13 +176,18 @@ void ControlWidget::saveTracks()
       }
    }
    
-   if( !next.isEmpty() )
+   mpPlaylist->savePlaylist( current, next );
+   
+   if( unload )
    {
-      mpPlaylist->addEntries( QStringList( next ), true );
-   }
-   if( !current.isEmpty() )
-   {
-      mpPlaylist->addEntries( QStringList( current ), true );
+      if( !next.isEmpty() )
+      {
+         mpPlaylist->addEntries( QStringList( next ), true );
+      }
+      if( !current.isEmpty() )
+      {
+         mpPlaylist->addEntries( QStringList( current ), true );
+      }
    }
 }
 
@@ -274,7 +278,7 @@ void ControlWidget::initDisconnect( eErrorCode errorcode )
    {
       mConnected = false;
       QString errorText;
-      saveTracks();
+      saveTracks( true );
       mpPlayer[0]->disconnect();
       mpPlayer[1]->disconnect();
       mpSkipButton->setDisabled( true );

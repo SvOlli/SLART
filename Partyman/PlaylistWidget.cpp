@@ -119,28 +119,12 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
 PlaylistWidget::~PlaylistWidget()
 {
    MySettings settings;
-   QStringList playlist;
-   int i;
    
    if( mpTreeUpdate->isRunning() )
    {
       mpTreeUpdate->cancel();
       mpTreeUpdate->quit();
       mpTreeUpdate->wait();
-   }
-   
-   for( i = 0; i < mpPlaylistContent->count(); i++ )
-   {
-      playlist.append( mpPlaylistContent->item(i)->toolTip() );
-   }
-   
-   if( playlist.count() > 0 )
-   {
-      settings.setValue( "Playlist", playlist );
-   }
-   else
-   {
-      settings.remove( "Playlist" );
    }
    
    QList<int> sizes = mpSplitter->sizes();
@@ -461,4 +445,34 @@ void PlaylistWidget::finishBrowserUpdate()
 void PlaylistWidget::updateTrackInfo()
 {
    mpTrackInfo->update();
+}
+
+
+void PlaylistWidget::savePlaylist( const QString &current, const QString &next )
+{
+   MySettings settings;
+   QStringList playlist;
+   
+   if( !current.isEmpty() )
+   {
+      playlist << current;
+   }
+   if( !next.isEmpty() )
+   {
+      playlist << next;
+   }
+   
+   for( int i = 0; i < mpPlaylistContent->count(); i++ )
+   {
+      playlist.append( mpPlaylistContent->item(i)->toolTip() );
+   }
+   
+   if( playlist.count() > 0 )
+   {
+      settings.setValue( "Playlist", playlist );
+   }
+   else
+   {
+      settings.remove( "Playlist" );
+   }
 }

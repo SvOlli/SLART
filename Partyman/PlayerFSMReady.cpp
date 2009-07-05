@@ -49,6 +49,9 @@ bool PlayerFSMReady::enter()
          mpPlayerWidget->mStartOther = false;
          mpPlayerWidget->mpControlWidget->changeOtherState( mpPlayerWidget->mPlayer, PlayerFSM::searching );
       }
+      
+      mpPlayerWidget->mpControlWidget->saveTracks( false );
+      
    }
    
    return true;

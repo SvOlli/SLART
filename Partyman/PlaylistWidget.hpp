@@ -43,6 +43,8 @@ public:
    void getNextTrack( QString *fileName );
    /* set checkboxes of trackinfo */
    void setTrackInfoFavoriteUnwanted( bool favorite, bool unwanted );
+   /* save the playlist to settings (prepend current and next, if any) */
+   void savePlaylist( const QString &current = QString(), const QString &next = QString() );
    
 protected:
    /* for drag & drop from external sources */

@@ -57,10 +57,10 @@ public:
    void allowSkip();
    /* check if skip button is locked in */
    bool isSkipChecked();
+   /* save the current tracks for restart */
+   void saveTracks( bool unload );
    
 private:
-   /* save the current tracks for restart */
-   void saveTracks();
    
 public slots:
    /* (re-)read configuration */
