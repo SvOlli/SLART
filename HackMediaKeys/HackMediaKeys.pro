@@ -4,6 +4,7 @@
 
 include ( ../Global.pri )
 
+DEFINES += EVIL_POWER_BUTTON_HACK=1
 TEMPLATE = app
 TARGET = HackMediaKeys
 DESTDIR = ../test

@@ -24,8 +24,10 @@ public:
    virtual ~EventHandler();
    
 public slots:
-   /* handle shortcut */
-   void handleShortcut();
+   /* handle shortcuts */
+   void actionNext();
+   void actionPause();
+   void actionPower();
 
 private:
    EventHandler( const EventHandler &other );

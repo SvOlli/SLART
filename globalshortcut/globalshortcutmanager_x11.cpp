@@ -87,6 +87,12 @@ protected:
 			if (k->modifiers() & Qt::MetaModifier)
 				qkey |= Qt::META;
 
+#ifdef EVIL_POWER_BUTTON_HACK
+                        if( qkey == -1 )
+                        {
+                           qkey = Qt::Key_Execute;
+                        }
+#endif
 			foreach(X11KeyTrigger* trigger, triggers_) {
 				if (trigger->isAccepted(qkey)) {
 					trigger->activate();
@@ -279,7 +285,7 @@ private:
 		// don't grab keys with empty code (because it means just the modifier key)
 		if (keysym && !code)
 			return;
-
+		
 		failed = false;
 		XErrorHandler savedErrorHandler = XSetErrorHandler(XGrabErrorHandler);
 		WId w = QX11Info::appRootWindow();
@@ -419,6 +425,9 @@ X11KeyTriggerManager::qt_xk_table[] = {
 	{ Qt::Key_Hyper_L,     {1, { XK_Hyper_L }}},
 	{ Qt::Key_Hyper_R,     {1, { XK_Hyper_R }}},
 	{ Qt::Key_Help,        {1, { XK_Help }}},
+#ifdef EVIL_POWER_BUTTON_HACK
+	{ Qt::Key_Execute,     {1, { XK_Execute }}},
+#endif
 	{ Qt::Key_Direction_L, {0, { 0 }}},
 	{ Qt::Key_Direction_R, {0, { 0 }}},
 
