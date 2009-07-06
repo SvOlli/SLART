@@ -202,9 +202,9 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
    layout->addLayout( topLayout );
    layout->addWidget( mpView );
 #if QT_VERSION < 0x040300
-   layout->setMargin( 2 );
+   layout->setMargin( 0 );
 #else
-   layout->setContentsMargins( 2, 2, 2, 2 );
+   layout->setContentsMargins( 0, 0, 0, 0 );
 #endif
    setLayout(layout);
    

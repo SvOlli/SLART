@@ -5,16 +5,15 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#include <unistd.h>
-
-#include <QtGui>
 #include "MainWindow.hpp"
 #include "MySettings.hpp"
 #if MAINWINDOW_SORCERER
 #include "Database.hpp"
 #endif
-#include "DatabaseWorker.hpp"
 #include "ConfigDialog.hpp"
+#include "DatabaseWorker.hpp"
+
+#include <QtGui>
 
 
 int main(int argc, char *argv[])
