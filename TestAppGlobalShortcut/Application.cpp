@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
    QApplication app(argc, argv);
    app.setOrganizationName("SLART");
    app.setOrganizationDomain("svolli.org");
-   app.setApplicationName("TemplateApp");
+   app.setApplicationName("TestAppGlobalShortcut");
    MySettings settings;
 
 #if MAINWINDOW_SORCERER
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
    }
 #endif
    {
-      QFile qssFile( settings.VALUE_STYLESHEET );
+      QFile qssFile( settings.styleSheetFile() );
       if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
       {
          app.setStyleSheet( qssFile.readAll() );

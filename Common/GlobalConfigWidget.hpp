@@ -13,6 +13,8 @@
 class QCheckBox;
 class QComboBox;
 class QLabel;
+class QLineEdit;
+class QPushButton;
 class QSpinBox;
 
 
@@ -42,8 +44,17 @@ public:
    void showNormalize( bool allow = true );
    /* show doubleclick interal options on panel */
    void showDoubleClickInterval( bool allow = true );
+
+public slots:
+   /* change the filename according to checkbox */
+   void updateStyleSheetFileName();
+   /* handle the click of the dots button */
+   void selectFile();
    
 private:
+   QCheckBox    *mpUseGlobalStyleSheetFile;
+   QLineEdit    *mpStyleSheetFileName;
+   QPushButton  *mpDotButton;
    QLabel       *mpClipboardLabel;
    QComboBox    *mpClipboardSelection;
    QCheckBox    *mpAnimateViews;
@@ -54,10 +65,12 @@ private:
 };
 
 /* defaults */
-#define VALUE_ANIMATEVIEWS        value("AnimateViews", false).toBool()
-#define VALUE_CLIPBOARDMODE       value("ClipboardMode", 0).toInt()
-#define VALUE_NORMALIZECASE       value("NormalizeCase", false ).toBool()
-#define VALUE_NORMALIZESPACES     value("NormalizeSpaces", false ).toBool()
-#define VALUE_DOUBLECLICKINTERVAL value("DoubleClickInterval", QApplication::doubleClickInterval() ).toInt()
+#define VALUE_ANIMATEVIEWS             value("AnimateViews", false).toBool()
+#define VALUE_CLIPBOARDMODE            value("ClipboardMode", 0).toInt()
+#define VALUE_DOUBLECLICKINTERVAL      value("DoubleClickInterval", QApplication::doubleClickInterval() ).toInt()
+#define VALUE_NORMALIZECASE            value("NormalizeCase", false ).toBool()
+#define VALUE_NORMALIZESPACES          value("NormalizeSpaces", false ).toBool()
+#define VALUE_USEGLOBALSTYLESHEETFILE  value("UseGlobalStyleSheetFile", true).toBool()
+#define VALUE_STYLESHEETFILE           value("StyleSheetFile", QString()).toString()
 
 #endif

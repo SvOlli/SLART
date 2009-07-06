@@ -32,6 +32,8 @@ public:
    void sendUdpMessage( const QString &data, const QString &application );
    /* send notification to all it may concern */
    void sendNotification( const QString &data );
+   /* get the filename of the style sheet to load */
+   QString styleSheetFile();
 };
 
 #endif

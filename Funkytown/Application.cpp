@@ -13,7 +13,6 @@
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
 #include "MySettings.hpp"
-#include "ConfigDialog.hpp"
 #if MAINWINDOW_SORCERER
 #include "Database.hpp"
 #endif
@@ -42,7 +41,7 @@ int main(int argc, char *argv[])
    }
 #endif
    {
-      QFile qssFile( settings.VALUE_STYLESHEET );
+      QFile qssFile( settings.styleSheetFile() );
       if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
       {
          app.setStyleSheet( qssFile.readAll() );

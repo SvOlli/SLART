@@ -110,3 +110,16 @@ void MySettings::saveMainWindow( QMainWindow *mainWindow )
    setValue( "MainWindowPosition", mainWindow->pos() );
    setValue( "MainWindowSize",    mainWindow->size() );
 }
+
+
+QString MySettings::styleSheetFile()
+{
+   if( value( "UseGlobalStyleSheetFile", true ).toBool() )
+   {
+      return MySettings( "Global" ).value( "StyleSheetFile", QString() ).toString();
+   }
+   else
+   {
+      return value( "StyleSheetFile", QString() ).toString();
+   }
+}

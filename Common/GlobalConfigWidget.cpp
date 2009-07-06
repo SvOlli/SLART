@@ -13,6 +13,9 @@
 
 GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
 : QWidget( parent )
+, mpUseGlobalStyleSheetFile( new QCheckBox( tr("Use Global Style Sheet File"), this ) )
+, mpStyleSheetFileName( new QLineEdit( this ) )
+, mpDotButton( new QPushButton( tr("..."), this ) )
 , mpClipboardLabel( new QLabel( tr("Use Clipboard: "), this ) )
 , mpClipboardSelection( new QComboBox( this ) )
 , mpAnimateViews( new QCheckBox( tr("Animate Views"), this ) )
@@ -33,23 +36,36 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
    mpDoubleClickInterval->setSuffix( tr("ms") );
    mpDoubleClickInterval->setAlignment( Qt::AlignRight );
    
+   /* evil hack */
+   mpDotButton->setMaximumWidth( mpDotButton->height() );
+   
    QStringList comboBoxText;
    comboBoxText << tr("None") 
                 << tr("Read/Write Selection Only") << tr("Read/Write Clipboard Only") 
                 << tr("Write Both/Read Selection") << tr("Write Both/Read Clipboard");
    mpClipboardSelection->addItems( comboBoxText );
    
-   mainLayout->addWidget( mpClipboardLabel,      0, 0 );
-   mainLayout->addWidget( mpClipboardSelection,  0, 1, 1, 2 );
-   mainLayout->addWidget( mpAnimateViews,        1, 0, 1, 3 );
-   mainLayout->addWidget( mpNormalizeCase,       2, 0, 1, 3 );
-   mainLayout->addWidget( mpNormalizeSpaces,     3, 0, 1, 3 );
-   mainLayout->addWidget( mpDoubleClickLabel,    4, 0, 1, 2 );
-   mainLayout->addWidget( mpDoubleClickInterval, 4, 2 );
+   mainLayout->addWidget( mpUseGlobalStyleSheetFile, 0, 0, 1, 4 );
+   mainLayout->addWidget( mpStyleSheetFileName,      1, 0, 1, 3 );
+   mainLayout->addWidget( mpDotButton,               1, 3 );
+   mainLayout->addWidget( mpClipboardLabel,          2, 0 );
+   mainLayout->addWidget( mpClipboardSelection,      2, 1, 1, 3 );
+   mainLayout->addWidget( mpAnimateViews,            3, 0, 1, 4 );
+   mainLayout->addWidget( mpNormalizeCase,           4, 0, 1, 4 );
+   mainLayout->addWidget( mpNormalizeSpaces,         5, 0, 1, 4 );
+   mainLayout->addWidget( mpDoubleClickLabel,        6, 0, 1, 2 );
+   mainLayout->addWidget( mpDoubleClickInterval,     6, 2, 1, 2 );
    
    readSettings();
    
-   mainLayout->setRowStretch( 5, 1 );
+   mainLayout->setRowStretch( 7, 1 );
+   mainLayout->setColumnStretch( 0, 1 );
+   mainLayout->setColumnStretch( 1, 1 );
+   
+   connect( mpUseGlobalStyleSheetFile, SIGNAL(clicked()),
+            this, SLOT(updateStyleSheetFileName()) );
+   connect( mpDotButton, SIGNAL(clicked()),
+            this, SLOT(selectFile()) );
    
    setLayout( mainLayout );
 }
@@ -63,6 +79,16 @@ GlobalConfigWidget::~GlobalConfigWidget()
 void GlobalConfigWidget::readSettings()
 {
    MySettings settings( "Global" );
+   MySettings appSettings;
+   mpUseGlobalStyleSheetFile->setChecked( appSettings.VALUE_USEGLOBALSTYLESHEETFILE );
+   if( mpUseGlobalStyleSheetFile->isChecked() )
+   {
+      mpStyleSheetFileName->setText( settings.VALUE_STYLESHEETFILE );
+   }
+   else
+   {
+      mpStyleSheetFileName->setText( appSettings.VALUE_STYLESHEETFILE );
+   }
    mpClipboardSelection->setCurrentIndex( settings.VALUE_CLIPBOARDMODE );
    mpAnimateViews->setChecked( settings.VALUE_ANIMATEVIEWS );
    mpNormalizeCase->setChecked( settings.VALUE_NORMALIZECASE );
@@ -71,15 +97,68 @@ void GlobalConfigWidget::readSettings()
 }
 
 
+void GlobalConfigWidget::updateStyleSheetFileName()
+{
+   if( mpUseGlobalStyleSheetFile->isChecked() )
+   {
+      mpStyleSheetFileName->setText( MySettings( "Global" ).VALUE_STYLESHEETFILE );
+   }
+   else
+   {
+      mpStyleSheetFileName->setText( MySettings().VALUE_STYLESHEETFILE );
+   }
+}
+
+
+void GlobalConfigWidget::selectFile()
+{
+   QFileDialog fileDialog( this );
+   
+   fileDialog.setFileMode( QFileDialog::ExistingFile );
+   QFileInfo qfi( mpStyleSheetFileName->text() );
+   fileDialog.setDirectory( qfi.absolutePath() );
+   fileDialog.setFilter("Playlists (*.qss)");
+   fileDialog.setReadOnly( true );
+   if( fileDialog.exec() )
+   {
+      mpStyleSheetFileName->setText( fileDialog.selectedFiles().at(0) );
+   }
+}
+
+
 void GlobalConfigWidget::writeSettings()
 {
    MySettings settings( "Global" );
+   MySettings appSettings;
+   appSettings.setValue( "UseGlobalStyleSheetFile", mpUseGlobalStyleSheetFile->isChecked() );
+   if( mpUseGlobalStyleSheetFile->isChecked() )
+   {
+      settings.setValue( "StyleSheetFile", mpStyleSheetFileName->text() );
+   }
+   else
+   {
+      appSettings.setValue( "StyleSheetFile", mpStyleSheetFileName->text() );
+   }
    settings.setValue( "ClipboardMode", mpClipboardSelection->currentIndex() );
    settings.setValue( "AnimateViews",  mpAnimateViews->isChecked() );
    settings.setValue( "NormalizeCase", mpNormalizeCase->isChecked() );
    settings.setValue( "NormalizeSpaces", mpNormalizeSpaces->isChecked() );
    settings.setValue( "DoubleClickInterval", mpDoubleClickInterval->value() );
+   
    QApplication::setDoubleClickInterval( mpDoubleClickInterval->value() );
+   
+   settings.sync();
+   
+   QFile qssFile( appSettings.styleSheetFile() );
+   if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
+   {
+      qApp->setStyleSheet( qssFile.readAll() );
+      qssFile.close();
+   }
+   else
+   {
+      qApp->setStyleSheet( QString() );
+   }
 }
 
 
