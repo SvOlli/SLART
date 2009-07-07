@@ -41,10 +41,10 @@ public:
 
 
 /* slightly modify the behaviour of the slider */
-class MySlider : public QSlider
+class TimeSlider : public QSlider
 {
 public:
-   MySlider( Qt::Orientation orientation, QWidget *parent = 0 ) :
+   TimeSlider( Qt::Orientation orientation, QWidget *parent = 0 ) :
    QSlider( orientation, parent )
    {
       mWheelTimeout.setSingleShot( true );
@@ -101,6 +101,18 @@ protected:
 };
 
 
+/* this is mainly for the style sheet */
+class BorderedLabel : public QLabel
+{
+public:
+   BorderedLabel( QWidget *parent )
+   : QLabel( parent )
+   {
+      setFrameShape( QFrame::Box );
+   }
+};
+
+
 PlayerWidget::PlayerWidget( int index, Database *database,
                             ControlWidget *controlWidget, Qt::WindowFlags flags )
 : QWidget( controlWidget, flags )
@@ -108,9 +120,9 @@ PlayerWidget::PlayerWidget( int index, Database *database,
 , mpDatabase( database )
 , mpControlWidget( controlWidget )
 , mpScrollLine( new ScrollLine( this ) )
-, mpStatusDisplay( new QLabel( this ) )
-, mpTimeDisplay( new QLabel( this ) )
-, mpPlayPosition( new MySlider( Qt::Horizontal, this ) )
+, mpStatusDisplay( new BorderedLabel( this ) )
+, mpTimeDisplay( new BorderedLabel( this ) )
+, mpPlayPosition( new TimeSlider( Qt::Horizontal, this ) )
 , mpSocket( new QTcpSocket( this ) )
 , mpFSM( new PlayerFSM( this ) )
 , mStartOther( false )
@@ -139,10 +151,8 @@ PlayerWidget::PlayerWidget( int index, Database *database,
    setLayout( mainLayout );
 
    mpStatusDisplay->setAlignment( Qt::AlignLeft );
-   mpStatusDisplay->setFrameShape( QFrame::Box );
    mpStatusDisplay->setContextMenuPolicy( Qt::CustomContextMenu );
    mpTimeDisplay->setAlignment( Qt::AlignRight );
-   mpTimeDisplay->setFrameShape( QFrame::Box );
    
    connect( mpSocket, SIGNAL(connected()),
             this, SLOT(handleConnect()) );
