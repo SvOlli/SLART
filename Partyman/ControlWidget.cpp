@@ -54,8 +54,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    mpPlayer[1] = new PlayerWidget(1, database, this);
    mTrayIconClickTimer.setSingleShot( true );
    
-   QHBoxLayout *mainLayout    = new QHBoxLayout( this );
-   QVBoxLayout *centralLayout = new QVBoxLayout( );
+   QGridLayout *mainLayout    = new QGridLayout( this );
    
 #if QT_VERSION < 0x040300
    mainLayout->setMargin( 0 );
@@ -63,12 +62,16 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
    mainLayout->setSpacing( 5 );
-   centralLayout->addWidget( mpLogo );
-   centralLayout->addWidget( mpConnectButton );
-   centralLayout->addWidget( mpSkipButton );
-   mainLayout->addWidget( mpPlayer[0] );
-   mainLayout->addLayout( centralLayout );
-   mainLayout->addWidget( mpPlayer[1] );
+   mainLayout->addWidget( mpPlayer[0],     0, 0, 4, 1 );
+   mainLayout->addWidget( mpPlayer[1],     0, 2, 4, 1 );
+   mainLayout->addWidget( mpLogo,          0, 1 );
+   mainLayout->addWidget( mpConnectButton, 2, 1 );
+   mainLayout->addWidget( mpSkipButton,    3, 1 );
+   
+   mainLayout->setColumnStretch( 0, 1 );
+   mainLayout->setColumnStretch( 2, 1 );
+   mainLayout->setRowStretch( 1, 1 );
+   mainLayout->setRowStretch( 2, 1 );
    
    setLayout( mainLayout );
    
