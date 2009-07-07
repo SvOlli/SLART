@@ -139,6 +139,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 
 ControlWidget::~ControlWidget()
 {
+   saveTracks( false );
    mpPlayer[0]->disconnect();
    mpPlayer[1]->disconnect();
    
