@@ -34,8 +34,6 @@ public:
    void startUp();
    
 protected:
-   /* handle resize event to place settings button */
-   void resizeEvent( QResizeEvent *event );
    
 public slots:
    /* handle request for new icon and title */
@@ -58,7 +56,6 @@ private:
    ConfigDialog    *mpConfig;
    PlaylistWidget  *mpPlaylist;
    ControlWidget   *mpControl;
-   QPushButton     *mpSettingsButton;
 };
 
 #endif

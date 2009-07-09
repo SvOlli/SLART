@@ -21,7 +21,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 : QWidget( parent, flags )
 , mpConfig( config )
 , mpPlaylist( playlist )
-, mpLogo( new QLabel( this ) )
+, mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpConnectButton( new QPushButton( tr("Connect"), this ) )
 , mpSkipButton( new QPushButton( tr("Next"), this ) )
 , mConnected( false )
@@ -62,11 +62,11 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
    mainLayout->setSpacing( 5 );
-   mainLayout->addWidget( mpPlayer[0],     0, 0, 4, 1 );
-   mainLayout->addWidget( mpPlayer[1],     0, 2, 4, 1 );
-   mainLayout->addWidget( mpLogo,          0, 1 );
-   mainLayout->addWidget( mpConnectButton, 2, 1 );
-   mainLayout->addWidget( mpSkipButton,    3, 1 );
+   mainLayout->addWidget( mpPlayer[0],      0, 0, 4, 1 );
+   mainLayout->addWidget( mpPlayer[1],      0, 2, 4, 1 );
+   mainLayout->addWidget( mpSettingsButton, 0, 1 );
+   mainLayout->addWidget( mpConnectButton,  2, 1 );
+   mainLayout->addWidget( mpSkipButton,     3, 1 );
    
    mainLayout->setColumnStretch( 0, 1 );
    mainLayout->setColumnStretch( 2, 1 );
@@ -74,11 +74,6 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    mainLayout->setRowStretch( 2, 1 );
    
    setLayout( mainLayout );
-   
-   mpLogo->setText( QApplication::applicationName() );
-   mpLogo->setAlignment( Qt::AlignCenter );
-   mpLogo->setFrameShadow( QFrame::Raised );
-   mpLogo->setFrameShape( QFrame::Box );
    
    mpConnectButton->setCheckable( true );
    mpConnectButton->setDisabled( true );
@@ -92,6 +87,8 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    mpTrayIconPlayMenu->addAction( mpPauseAction );
    mpTrayIconPlayMenu->addAction( mpDisconnectAction );
    
+   connect( mpSettingsButton, SIGNAL(clicked()),
+            mpConfig, SLOT(exec()) );
    connect( mpConnectButton, SIGNAL(clicked()),
             this, SLOT(initConnect()) );
    connect( mpPlayAction, SIGNAL(triggered()),

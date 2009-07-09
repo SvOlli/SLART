@@ -37,7 +37,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpConfig( new ConfigDialog( mpDatabase, this ) )
 , mpPlaylist( new PlaylistWidget( mpDatabase, mpConfig, this ) )
 , mpControl( new ControlWidget( mpDatabase, mpConfig, mpPlaylist, this ) )
-, mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 {
    mpMainWidget = this;
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
@@ -75,8 +74,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpPlaylist, SLOT(addEntries(QStringList,bool)) );
    connect( mpControl, SIGNAL(requestChangeTitle(QIcon,QString)),
             this, SLOT(changeTitle(QIcon,QString)) );
-   connect( mpSettingsButton, SIGNAL(clicked()),
-            mpConfig, SLOT(exec()) );
    connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
             mpControl, SLOT(allowConnect(bool)) );
    connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
@@ -91,10 +88,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SIGNAL(kioskMode(bool)) );
    
    setLayout( mainLayout );
-   
-   mpSettingsButton->setMaximumWidth( fontMetrics().width( mpSettingsButton->text() ) + 16 );
-   mpSettingsButton->setMaximumHeight( fontMetrics().height() + 8 );
-   mpSettingsButton->raise();
 }
 
 
@@ -149,15 +142,6 @@ void MainWidget::startUp()
    {
       mpControl->initDisconnect();
    }
-}
-
-
-void MainWidget::resizeEvent( QResizeEvent *event )
-{
-   QWidget::resizeEvent( event );
-   
-   mpSettingsButton->move( width()  - mpSettingsButton->width() - 3,
-                           height() - mpSettingsButton->height() );
 }
 
 

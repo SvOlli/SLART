@@ -108,7 +108,7 @@ private:
    
    ConfigDialog    *mpConfig;
    PlaylistWidget  *mpPlaylist;
-   QLabel          *mpLogo;
+   QPushButton     *mpSettingsButton;
    QPushButton     *mpConnectButton;
    QPushButton     *mpSkipButton;
    PlayerWidget    *mpPlayer[2];
