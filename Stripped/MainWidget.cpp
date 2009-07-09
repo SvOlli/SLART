@@ -46,12 +46,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 #endif
    QHBoxLayout *pathLayout   = new QHBoxLayout();
    
-   QLabel *mpLogo = new QLabel( this );
-   mpLogo->setText( QApplication::applicationName() );
-   mpLogo->setAlignment( Qt::AlignCenter );
-   mpLogo->setFrameShadow( QFrame::Raised );
-   mpLogo->setFrameShape( QFrame::Box );
-
    QLabel *targetDirLabel   = new QLabel( tr("Base Directory"), this );
    pathLayout->addWidget( targetDirLabel );
    pathLayout->addWidget( mpDirButton );
@@ -68,7 +62,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpButtonLayout->addWidget( mpRipButton );
    mpButtonLayout->addWidget( mpEjectButton );
 
-   mainLayout->addWidget( mpLogo );
    mainLayout->addLayout( pathLayout );
    mainLayout->addWidget( mpCDDB );
    mainLayout->addWidget( mpCDEdit );
