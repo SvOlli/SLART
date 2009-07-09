@@ -36,6 +36,8 @@ protected:
    void mousePressEvent( QMouseEvent *event );
    /* handle mouse event for correct copy'n'paste */
    void mouseReleaseEvent( QMouseEvent *event );
+   /*  */
+   void paintEvent( QPaintEvent *event );
    
 private:
    ScrollLine( const ScrollLine &other );

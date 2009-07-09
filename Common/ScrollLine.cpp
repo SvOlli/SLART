@@ -29,9 +29,6 @@ ScrollLine::ScrollLine( QWidget *parent, bool autoScroll )
       mpTimer->start();
    }
    
-   QPalette myPalette( palette() );
-   myPalette.setColor( QPalette::Base, myPalette.color( QPalette::Window ) );
-   setPalette( myPalette );
    setReadOnly( true );
    setContextMenuPolicy( Qt::NoContextMenu );
    
@@ -77,6 +74,15 @@ void ScrollLine::setText( const QString &text )
    mPosition = 0;
    setCursorPosition( mPosition );
    clearFocus();
+}
+
+
+void ScrollLine::paintEvent( QPaintEvent *event )
+{
+   QPalette myPalette( palette() );
+   myPalette.setColor( QPalette::Base, myPalette.color( QPalette::Window ) );
+   setPalette( myPalette );
+   QLineEdit::paintEvent( event );
 }
 
 
