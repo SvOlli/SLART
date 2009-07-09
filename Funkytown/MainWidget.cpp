@@ -37,12 +37,6 @@ MainWidget::MainWidget( QWidget *parent )
    mpLayout->setSpacing( 3 );
 #endif
    
-   QLabel *mpLogo = new QLabel( this );
-   mpLogo->setText( QApplication::applicationName() );
-   mpLogo->setAlignment( Qt::AlignCenter );
-   mpLogo->setFrameShadow( QFrame::Raised );
-   mpLogo->setFrameShape( QFrame::Box );
-
    mpDirText->setAcceptDrops( false );
    mpDirButton->setAcceptDrops( false );
    mpNameText->setAcceptDrops( false );
@@ -56,17 +50,15 @@ MainWidget::MainWidget( QWidget *parent )
    
    downloadActive( false );
    
-   mpLayout->addWidget( mpLogo,              0, 0, 1, 2 );
+   mpLayout->addWidget( mpDirText,           0, 0 );
+   mpLayout->addWidget( mpDirButton,         0, 1 );
    
-   mpLayout->addWidget( mpDirText,           1, 0 );
-   mpLayout->addWidget( mpDirButton,         1, 1 );
+   mpLayout->addWidget( mpNameText,          1, 0 );
+   mpLayout->addWidget( mpNameInput,         1, 1 );
    
-   mpLayout->addWidget( mpNameText,          2, 0 );
-   mpLayout->addWidget( mpNameInput,         2, 1 );
-   
-   mpLayout->addWidget( mpGoButton,          3, 0, 1, 2 );
-   mpLayout->addWidget( mpDownloadHandler,   4, 0, 1, 2 );
-   mpLayout->addWidget( mpSetupButton,       5, 0, 1, 2 );
+   mpLayout->addWidget( mpGoButton,          2, 0, 1, 2 );
+   mpLayout->addWidget( mpDownloadHandler,   3, 0, 1, 2 );
+   mpLayout->addWidget( mpSetupButton,       4, 0, 1, 2 );
    
    setLayout( mpLayout );
    
