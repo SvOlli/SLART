@@ -40,13 +40,6 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpTabs->addTab( mpDatabaseWidget, tr("Database") );
    mpTabs->setCurrentIndex( settings.VALUE_CURRENTTAB );
    
-   QLabel *mpLogo = new QLabel( this );
-   mpLogo->setText( QApplication::applicationName() );
-   mpLogo->setAlignment( Qt::AlignCenter );
-   mpLogo->setFrameShadow( QFrame::Raised );
-   mpLogo->setFrameShape( QFrame::Box );
-
-   mainLayout->addWidget( mpLogo );
    mainLayout->addWidget( mpTabs );
    mainLayout->addWidget( mpSettingsButton );
    
