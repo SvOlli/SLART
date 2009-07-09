@@ -58,33 +58,25 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpTimer->setSingleShot( true );
    mpTimer->setInterval( 2000 );
    
-   QLabel *pLogo = new QLabel( this );
-   pLogo->setText( QApplication::applicationName() );
-   pLogo->setAlignment( Qt::AlignCenter );
-   pLogo->setFrameShadow( QFrame::Raised );
-   pLogo->setFrameShape( QFrame::Box );
-   
    mpExportButton->setMenu( mpExportMenu );
    mpImportButton->setMenu( mpImportMenu );
    mpRemoveButton->setMenu( mpRemoveMenu );
 
-   mainLayout->addWidget( pLogo,            0, 0, 1, 3 );
-   mainLayout->addWidget( mpFileName,       1, 0, 1, 3 );
-   mainLayout->addWidget( mpTrackInfo,      2, 0, 1, 3 );
-   mainLayout->addWidget( mpReadButton,     3, 0 );
-   mainLayout->addWidget( mpExportButton,   3, 1 );
-   mainLayout->addWidget( mpImportButton,   3, 2 );
-   mainLayout->addWidget( mpListButtons,    4, 0, 1, 3 );
-   mainLayout->addWidget( mpSettingsButton, 5, 0 );
-   mainLayout->addWidget( mpAddButton,      5, 1 );
-   mainLayout->addWidget( mpRemoveButton,   5, 2 );
+   mainLayout->addWidget( mpFileName,       0, 0, 1, 3 );
+   mainLayout->addWidget( mpTrackInfo,      1, 0, 1, 3 );
+   mainLayout->addWidget( mpReadButton,     2, 0 );
+   mainLayout->addWidget( mpExportButton,   2, 1 );
+   mainLayout->addWidget( mpImportButton,   2, 2 );
+   mainLayout->addWidget( mpListButtons,    3, 0, 1, 3 );
+   mainLayout->addWidget( mpSettingsButton, 4, 0 );
+   mainLayout->addWidget( mpAddButton,      4, 1 );
+   mainLayout->addWidget( mpRemoveButton,   4, 2 );
    
    mainLayout->setRowStretch( 0, 0 );
    mainLayout->setRowStretch( 1, 0 );
    mainLayout->setRowStretch( 2, 0 );
-   mainLayout->setRowStretch( 3, 0 );
-   mainLayout->setRowStretch( 4, 1 );
-   mainLayout->setRowStretch( 5, 0 );
+   mainLayout->setRowStretch( 3, 1 );
+   mainLayout->setRowStretch( 4, 0 );
    
    setLayout( mainLayout );
    
