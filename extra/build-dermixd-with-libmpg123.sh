@@ -107,5 +107,6 @@ cp dermixd dermixd-oss
 
 strip -R .note -R .comment dermixd-alsa dermixd-oss
 
-cp -v dermixd-alsa dermixd-oss ${target_dir}/bin
+cp dermixd-alsa dermixd-oss ${target_dir}/bin
+ls -l ${target_dir}/bin/dermixd-alsa ${target_dir}/bin/dermixd-oss
 
