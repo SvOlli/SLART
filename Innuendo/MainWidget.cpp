@@ -59,22 +59,15 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mNumExecButtons = applications.count();
    mpExecButtons = new ExecButton*[mNumExecButtons];
    
-   QLabel *mpLogo = new QLabel( this );
-   mpLogo->setText( QApplication::applicationName() );
-   mpLogo->setAlignment( Qt::AlignCenter );
-   mpLogo->setFrameShadow( QFrame::Raised );
-   mpLogo->setFrameShape( QFrame::Box );
-
-   mainLayout->addWidget( mpLogo,            0, 0, 1, mNumExecButtons );
-   mainLayout->addWidget( mpMessageBuffer,   1, 0, 1, mNumExecButtons );
+   mainLayout->addWidget( mpMessageBuffer,   0, 0, 1, mNumExecButtons );
    for( int i = 0; i < mNumExecButtons; i++ )
    {
       mpExecButtons[i] = new ExecButton( applications.at(i), this );
       mpExecButtons[i]->setToolTip( toolTips.at(i) );
-      mainLayout->addWidget( mpExecButtons[i], 2, i );
+      mainLayout->addWidget( mpExecButtons[i], 1, i );
    }
-   mainLayout->addWidget( mpSettingsButton,  3, 0 );
-   mainLayout->addWidget( mpPingButton,      3, 1 );
+   mainLayout->addWidget( mpSettingsButton,  2, 0 );
+   mainLayout->addWidget( mpPingButton,      2, 1 );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfig, SLOT(exec()) );
