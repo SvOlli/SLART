@@ -130,6 +130,8 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
             this, SLOT(handleSkipTrack()) );
 #endif
    
+   mpSettingsButton->setObjectName( QString("SettingsButton") );
+   
    setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
 }
 
