@@ -56,6 +56,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    
    setLayout( mainLayout );
    
+   mpSettingsButton->setObjectName( QString("SettingsButton") );
+   
    settings.sendUdpMessage( "P0R", "Partyman" );
 }
 
