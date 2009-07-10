@@ -101,18 +101,6 @@ protected:
 };
 
 
-/* this is mainly for the style sheet */
-class BorderedLabel : public QLabel
-{
-public:
-   BorderedLabel( QWidget *parent )
-   : QLabel( parent )
-   {
-      setFrameShape( QFrame::Box );
-   }
-};
-
-
 PlayerWidget::PlayerWidget( int index, Database *database,
                             ControlWidget *controlWidget, Qt::WindowFlags flags )
 : QWidget( controlWidget, flags )
@@ -120,8 +108,8 @@ PlayerWidget::PlayerWidget( int index, Database *database,
 , mpDatabase( database )
 , mpControlWidget( controlWidget )
 , mpScrollLine( new ScrollLine( this ) )
-, mpStatusDisplay( new BorderedLabel( this ) )
-, mpTimeDisplay( new BorderedLabel( this ) )
+, mpStatusDisplay( new QLabel( this ) )
+, mpTimeDisplay( new QLabel( this ) )
 , mpPlayPosition( new TimeSlider( Qt::Horizontal, this ) )
 , mpSocket( new QTcpSocket( this ) )
 , mpFSM( new PlayerFSM( this ) )
@@ -151,8 +139,12 @@ PlayerWidget::PlayerWidget( int index, Database *database,
    setLayout( mainLayout );
 
    mpStatusDisplay->setAlignment( Qt::AlignLeft );
+   mpStatusDisplay->setFrameShape( QFrame::Box );
    mpStatusDisplay->setContextMenuPolicy( Qt::CustomContextMenu );
+   mpStatusDisplay->setObjectName( QString("StatusLabel") );
    mpTimeDisplay->setAlignment( Qt::AlignRight );
+   mpTimeDisplay->setFrameShape( QFrame::Box );
+   mpTimeDisplay->setObjectName( QString("TimeLabel") );
    
    connect( mpSocket, SIGNAL(connected()),
             this, SLOT(handleConnect()) );
