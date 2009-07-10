@@ -13,7 +13,7 @@
 
 GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
 : QWidget( parent )
-, mpUseGlobalStyleSheetFile( new QCheckBox( tr("Use Global Style Sheet File"), this ) )
+, mpUseGlobalStyleSheetFile( new QCheckBox( this ) )
 , mpStyleSheetFileName( new QLineEdit( this ) )
 , mpDotButton( new QPushButton( tr("..."), this ) )
 , mpClipboardLabel( new QLabel( tr("Use Clipboard: "), this ) )
@@ -83,10 +83,12 @@ void GlobalConfigWidget::readSettings()
    mpUseGlobalStyleSheetFile->setChecked( appSettings.VALUE_USEGLOBALSTYLESHEETFILE );
    if( mpUseGlobalStyleSheetFile->isChecked() )
    {
+      mpUseGlobalStyleSheetFile->setText( tr("Use Global Style Sheet File:") );
       mpStyleSheetFileName->setText( settings.VALUE_STYLESHEETFILE );
    }
    else
    {
+      mpUseGlobalStyleSheetFile->setText( tr("Use Application Style Sheet File:") );
       mpStyleSheetFileName->setText( appSettings.VALUE_STYLESHEETFILE );
    }
    mpClipboardSelection->setCurrentIndex( settings.VALUE_CLIPBOARDMODE );
@@ -101,10 +103,12 @@ void GlobalConfigWidget::updateStyleSheetFileName()
 {
    if( mpUseGlobalStyleSheetFile->isChecked() )
    {
+      mpUseGlobalStyleSheetFile->setText( tr("Use Global Style Sheet File:") );
       mpStyleSheetFileName->setText( MySettings( "Global" ).VALUE_STYLESHEETFILE );
    }
    else
    {
+      mpUseGlobalStyleSheetFile->setText( tr("Use Application Style Sheet File:") );
       mpStyleSheetFileName->setText( MySettings().VALUE_STYLESHEETFILE );
    }
 }
