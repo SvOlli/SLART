@@ -96,6 +96,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(working()) );
    connect( mpCDReader, SIGNAL(stopping()),
             this, SLOT(finished()) );
+   
+   mpSettingsButton->setObjectName( QString("SettingsButton") );
 }
 
 
