@@ -86,6 +86,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    
    setLayout( mainLayout );
    
+   mpSettingsButton->setObjectName( QString("SettingsButton") );
+   
    setAcceptDrops( true );
    
    QTimer::singleShot(333, this, SLOT(autostart()));
