@@ -22,11 +22,11 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpFound( new Foundlist( this ) )
 , mpCDInfo( new Foundlist( this ) )
 , mpConfig( new ConfigDialog( this ) )
+, mpSettingsButton( new QPushButton( tr("Settings / Import / Log"), this ) )
 {
    setMinimumSize( 600, 400 );
    QBoxLayout *mainLayout   = new QVBoxLayout( this );
    QSplitter  *splitter     = new QSplitter( this );
-   QPushButton *settingsButton = new QPushButton( tr("Settings / Import / Log"), this );
    
    splitter->setOrientation( Qt::Vertical );
    
@@ -41,7 +41,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    
    mainLayout->addWidget( mpSearch );
    mainLayout->addWidget( splitter );
-   mainLayout->addWidget( settingsButton );
+   mainLayout->addWidget( mpSettingsButton );
    
    setLayout( mainLayout );
    
@@ -53,8 +53,10 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             mpSearch, SLOT(query1Running(bool) ) );
    connect( mpCDInfo, SIGNAL( queryRunning(bool) ),
             mpSearch, SLOT(query2Running(bool) ) );
-   connect( settingsButton, SIGNAL( clicked() ),
+   connect( mpSettingsButton, SIGNAL( clicked() ),
             mpConfig, SLOT( exec() ) );
+   
+   mpSettingsButton->setObjectName( QString("SettingsButton") );
 }
 
 

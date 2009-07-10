@@ -16,6 +16,7 @@
 #include <QWidget>
 
 class QLineEdit;
+class QPushButton;
 
 class ConfigDialog;
 class FreeDB;
@@ -46,6 +47,7 @@ private:
    Foundlist    *mpFound;
    Foundlist    *mpCDInfo;
    ConfigDialog *mpConfig;
+   QPushButton  *mpSettingsButton;
 };
 
 #endif
