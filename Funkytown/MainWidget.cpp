@@ -24,7 +24,7 @@ MainWidget::MainWidget( QWidget *parent )
 , mpNameText( new QLabel( tr("URL:"), this ) )
 , mpNameInput( new QLineEdit( this ) )
 , mpGoButton( new QPushButton( this ) )
-, mpSetupButton( new QPushButton( tr("Settings / Log / Help"), this ) )
+, mpSettingsButton( new QPushButton( tr("Settings / Log / Help"), this ) )
 , mpConfigDialog( new ConfigDialog( this ) )
 , mpDownloadHandler( new DownloadHandler() )
 {
@@ -42,7 +42,7 @@ MainWidget::MainWidget( QWidget *parent )
    mpNameText->setAcceptDrops( false );
    mpNameInput->setAcceptDrops( false );
    mpGoButton->setAcceptDrops( false );
-   mpSetupButton->setAcceptDrops( false );
+   mpSettingsButton->setAcceptDrops( false );
    mpDownloadHandler->setAcceptDrops( false );
    
    mpDirButton->setText( settings.VALUE_DIRECTORY );
@@ -58,7 +58,7 @@ MainWidget::MainWidget( QWidget *parent )
    
    mpLayout->addWidget( mpGoButton,          2, 0, 1, 2 );
    mpLayout->addWidget( mpDownloadHandler,   3, 0, 1, 2 );
-   mpLayout->addWidget( mpSetupButton,       4, 0, 1, 2 );
+   mpLayout->addWidget( mpSettingsButton,       4, 0, 1, 2 );
    
    setLayout( mpLayout );
    
@@ -68,12 +68,14 @@ MainWidget::MainWidget( QWidget *parent )
             this, SLOT(downloadUserPage()) );
    connect( mpNameInput, SIGNAL(returnPressed()),
             this, SLOT(downloadUserPage()) );
-   connect( mpSetupButton, SIGNAL(clicked()),
+   connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfigDialog, SLOT(exec()) );
    connect( mpDownloadHandler, SIGNAL(downloadActive(bool)),
             this, SLOT(downloadActive(bool)) );
    connect( mpDownloadHandler, SIGNAL(errorMessage(const QString&)),
             mpConfigDialog, SLOT(logMessage(const QString&)) );
+   
+   mpSettingsButton->setObjectName( QString("SettingsButton") );
    
    setAcceptDrops( true );
 }

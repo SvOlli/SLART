@@ -64,7 +64,7 @@ private:
    QLabel                  *mpNameText;
    QLineEdit               *mpNameInput;
    QPushButton             *mpGoButton;
-   QPushButton             *mpSetupButton;
+   QPushButton             *mpSettingsButton;
    ConfigDialog            *mpConfigDialog;
    DownloadHandler         *mpDownloadHandler;
 };
