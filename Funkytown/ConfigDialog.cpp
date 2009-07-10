@@ -9,6 +9,7 @@
 #include "MySettings.hpp"
 #include "ProxyWidget.hpp"
 #include "AboutWidget.hpp"
+#include "GlobalConfigWidget.hpp"
 
 #include <QtGui>
 
@@ -20,6 +21,7 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mpLogList( new QListWidget( this ) )
 , mpHelpText( new QTextBrowser( this ) )
+, mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpOverwrite( new QCheckBox( tr("Overwrite Files During Download"), this ) )
 , mpCoverArt( new QCheckBox( tr("Download Cover-Like Artwork"), this ) )
 , mpTollKeep( new QCheckBox( tr("Count Downloaded Files And Bytes"), this ) )
@@ -56,10 +58,11 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
-   tabs->addTab( mpHelpText,    QString(tr("Help")) );
-   tabs->addTab( settingsTab,   QString(tr("Funkytown")) );
-   tabs->addTab( mpProxyWidget, QString(tr("Proxy")) );
-   tabs->addTab( mpLogList,     QString(tr("Log")) );
+   tabs->addTab( mpHelpText,           QString(tr("Help")) );
+   tabs->addTab( settingsTab,          QString(tr("Funkytown")) );
+   tabs->addTab( mpProxyWidget,        QString(tr("Proxy")) );
+   tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
+   tabs->addTab( mpLogList,            QString(tr("Log")) );
    
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );

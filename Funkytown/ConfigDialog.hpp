@@ -17,6 +17,7 @@ class QLabel;
 class QListWidget;
 class QPushButton;
 class QTextBrowser;
+class GlobalConfigWidget;
 
 
 class ConfigDialog : public QDialog
@@ -42,15 +43,16 @@ private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
    
-   ProxyWidget  *mpProxyWidget;
-   QListWidget  *mpLogList;
-   QTextBrowser *mpHelpText;
-   QCheckBox    *mpOverwrite;
-   QCheckBox    *mpCoverArt;
-   QCheckBox    *mpTollKeep;
-   QLabel       *mpDownloadedFiles;
-   QLabel       *mpDownloadedBytes;
-   QPushButton  *mpClearButton;
+   ProxyWidget        *mpProxyWidget;
+   QListWidget        *mpLogList;
+   QTextBrowser       *mpHelpText;
+   GlobalConfigWidget *mpGlobalConfigWidget;
+   QCheckBox          *mpOverwrite;
+   QCheckBox          *mpCoverArt;
+   QCheckBox          *mpTollKeep;
+   QLabel             *mpDownloadedFiles;
+   QLabel             *mpDownloadedBytes;
+   QPushButton        *mpClearButton;
 };
 
 /* defaults */
