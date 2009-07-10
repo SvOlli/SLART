@@ -68,6 +68,7 @@ void ButtonsWidget::updateButtons( const QStringList &fileNames )
       int lastDot   = fileNames.at(i).lastIndexOf( '.' );
       QString label( fileNames.at(i).mid( lastSlash+1, lastDot-lastSlash-1 ) );
       QPushButton *pb = new QPushButton( label, this );
+      pb->setObjectName( QString( "FolderButton" ) );
       pb->setCheckable( true );
       pb->setToolTip( fileNames.at(i) );
       mButtonList.append( pb );

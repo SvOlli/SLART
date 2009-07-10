@@ -110,6 +110,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    labelReadButton();
    mSLARTCom.resetReceiver();
    
+   mpSettingsButton->setObjectName( QString("SettingsButton") );
+   
    mpListButtons->setDisabled( true );
    MySettings().sendUdpMessage( "P0R", "Partyman" );
 }
@@ -246,6 +248,7 @@ void MainWidget::updateLists()
       mpImportMenu->addAction( mPlaylists.at(i) );
       mpRemoveMenu->addAction( mPlaylists.at(i) );
    }
+   mpListButtons->lockButtons( mTrackInfo.getFolders() );
 }
 
 
