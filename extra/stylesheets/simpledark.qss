@@ -1,0 +1,60 @@
+* {
+	background: #202020;
+	color: #F5DEB3;
+	border: 1px solid #F5DEB3;
+}
+
+#SettingsButton {
+	background: #401010;
+}
+
+#SettingsButton:hover {
+	background: #801010;
+}
+
+#SettingsButton:hover:pressed {
+	background: #601010;
+}
+
+QPushButton {
+	background: #404040;
+}
+
+QPushButton:closed {
+	background: #202020;
+}
+
+QPushButton:pressed {
+	background: #606060;
+}
+
+QPushButton:hover {
+	background: #808080;
+}
+
+QPushButton:hover:pressed {
+	background: #606060;
+}
+
+#TimeLabel, #StatusLabel {
+	border: 2px solid #F5DEB3;
+}
+
+QLabel {
+	border: 2px solid #202020;
+}
+
+ScrollLine {
+	border: 2px solid #202020;
+}
+
+QGroupBox {
+	margin-top: 1.5ex;
+}
+
+QGroupBox::title {
+     subcontrol-origin: margin;
+     subcontrol-position: top center;
+     padding: 0 3px;
+}
+

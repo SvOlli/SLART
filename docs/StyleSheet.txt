@@ -1,0 +1,19 @@
+
+These application is Qt Style Sheet aware since 0.7.4.
+
+The Qt Style Sheet documentation is available at:
+http://doc.trolltech.com/4.5/stylesheet.html
+
+
+Names used for better addressing of widgets via style sheets:
+
+all:
+#SettingsButton
+
+Karmadrome:
+#FolderButton
+
+Partyman:
+#TimeLabel
+#StatusLabel
+
