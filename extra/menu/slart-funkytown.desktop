@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=SLART: Funkytown
+GenericName=audio downloader
+Comment=audio downloader
+Type=Application
+Exec=Funkytown
+Icon=SLART
+Categories=AudioVideo;

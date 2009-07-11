@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=SLART: Innuendo
+GenericName=control center
+Comment=control center
+Type=Application
+Exec=Innuendo
+Icon=SLART
+Categories=AudioVideo;

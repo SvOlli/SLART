@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=SLART: Stripped
+GenericName=audio cd extractor
+Comment=audio cd extractor
+Type=Application
+Exec=Stripped
+Icon=SLART
+Categories=AudioVideo;

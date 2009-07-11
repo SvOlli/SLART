@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=SLART: Creep
+GenericName=remote control handler
+Comment=remote control handler
+Type=Application
+Exec=Creep
+Icon=SLART
+Categories=AudioVideo;

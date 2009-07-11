@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=SLART: Karmadrome
+GenericName=music categoriser
+Comment=music categoriser
+Type=Application
+Exec=Karmadrome
+Icon=SLART
+Categories=AudioVideo;

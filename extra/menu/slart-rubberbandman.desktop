@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=SLART: Rubberbandman
+GenericName=tag editor
+Comment=tag editor
+Type=Application
+Exec=Rubberbandman
+Icon=SLART
+Categories=AudioVideo;
