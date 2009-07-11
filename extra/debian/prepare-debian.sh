@@ -1,7 +1,7 @@
 #!/bin/sh
 
 program=slart
-version=$($(dirname $0)/../configure --version)
+version=$($(dirname $0)/../../configure --version)
 major=$(echo $version|cut -f1 -d-)
 revision=$(echo $version|cut -f2 -d-)
 
@@ -34,7 +34,7 @@ else
 fi
 
 echo >&2 "populating debian directory:"
-for i in $(cd extra/debian;echo *);do
+for i in $(cd extra/debian;ls *|grep -v '\.sh$');do
   echo >&2 -n "$i... "
   sed \
     -e "s@_QT4SQL_@${QT4SQL}@g" \

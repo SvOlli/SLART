@@ -1,7 +1,7 @@
 #!/bin/bash
 
 program=slart
-version=$($(dirname $0)/../configure --version)
+version=$($(dirname $0)/../../configure --version)
 major=$(echo $version|cut -f1 -d-)
 revision=$(echo $version|cut -f2 -d-)
 

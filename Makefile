@@ -7,6 +7,7 @@ SUBDIRS = taglib Funkytown Partyman Stripped Rubberbandman \
           Karmadrome Creep Innuendo Sorcerer
 TARCONT = configure Makefile Global.pri TemplateApp Common \
           $(SUBDIRS) extra/*.sh docs
+DOCS = COPYING example.lircrc README.TagLib SLARTmessages.txt StyleSheet.txt
 
 all:
 	for dir in $(SUBDIRS); do [ ! -d $$dir ] || make -C $$dir $@ ; done
@@ -24,25 +25,24 @@ distclean:
 strip: all
 	strip -R .note -R .comment $(PLATFORM)/bin/*
 
-tools:
-	(cd extra ; ./build-mpg123-dermixd.sh)
-
-toolchain:
-	(cd extra ; ./install-dev-packages.sh)
-
-everything: toolchain all tools
-
 install: strip
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
-	mkdir -p $(DESTDIR)/usr/share/doc/slart
+	mkdir -p $(DESTDIR)$(PREFIX)/doc/slart
+	mkdir -p $(DESTDIR)$(PREFIX)/share/slart/stylesheets
+	mkdir -p $(DESTDIR)$(PREFIX)/pixmaps
+	mkdir -p $(DESTDIR)$(PREFIX)/share/applications
 	cp -d $(PLATFORM)/bin/* $(DESTDIR)$(PREFIX)/bin
 	cp -d $(PLATFORM)/lib/* $(DESTDIR)$(PREFIX)/lib
+	cp -d extra/icons/* $(DESTDIR)$(PREFIX)/pixmaps
+	cp -d extra/menu/*.desktop $(DESTDIR)$(PREFIX)/share/applications
+	cp -d extra/stylesheets/* \
+          $(DESTDIR)$(PREFIX)/share/slart/stylesheets
 	[ ! -f $(PLATFORM)/README.DerMixD ] || \
 	  gzip -9 <$(PLATFORM)/README.DerMixD \
-	    >>$(DESTDIR)/usr/share/doc/slart/README.DerMixD.gz
-	for f in COPYING example.lircrc README.TagLib SLARTmessages.txt; do \
-	  gzip -9 <docs/$$f >$(DESTDIR)/usr/share/doc/slart/$$f.gz ; done
+	    >>$(DESTDIR)$(PREFIX)/doc/slart/README.DerMixD.gz
+	for f in $(DOCS); do \
+	  gzip -9 <docs/$$f >$(DESTDIR)$(PREFIX)/doc/slart/$$f.gz ; done
 
 tar:
 	[ -e ../slart-$(VERSION) ] || ln -s SLART ../slart-$(VERSION)
@@ -50,9 +50,9 @@ tar:
 	rm ../slart-$(VERSION)
 
 deb:
-	extra/prepare-debian.sh
+	extra/debian/prepare-debian.sh
 	(cd ../slart-$(VERSION) && dpkg-buildpackage -uc -b -rfakeroot)
-	extra/cleanup-debian.sh
+	extra/debian/cleanup-debian.sh
 
 dist: tar deb
 	ls -l ../slart?$(VERSION)*

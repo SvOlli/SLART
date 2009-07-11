@@ -1,0 +1,6 @@
+?package(slart):needs="X11" section="Applications/Sound" title="SLART: Funkytown" command="Funkytown"
+?package(slart):needs="X11" section="Applications/Sound" title="SLART: Innuendo" command="Innuendo"
+?package(slart):needs="X11" section="Applications/Sound" title="SLART: Karmadrome" command="Karmadrome"
+?package(slart):needs="X11" section="Applications/Sound" title="SLART: Partyman" command="Partyman"
+?package(slart):needs="X11" section="Applications/Sound" title="SLART: Rubberbandman" command="Rubberbandman"
+?package(slart):needs="X11" section="Applications/Sound" title="SLART: Stripped" command="Stripped"
