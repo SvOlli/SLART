@@ -1,3 +1,10 @@
+
+/*
+ * Example Qt Style Sheet for SLART
+ *
+ * hacked up by Sven Oliver Moll
+ */
+
 * {
 	background: #202020;
 	color: #F5DEB3;
@@ -37,15 +44,15 @@ QPushButton:hover:pressed {
 }
 
 #TimeLabel, #StatusLabel {
-	border: 2px solid #F5DEB3;
+	border: 1px solid #F5DEB3;
 }
 
 QLabel {
-	border: 2px solid #202020;
+	border: 1px solid #202020;
 }
 
 ScrollLine {
-	border: 2px solid #202020;
+	border: 1px solid #202020;
 }
 
 QGroupBox {
@@ -53,8 +60,96 @@ QGroupBox {
 }
 
 QGroupBox::title {
-     subcontrol-origin: margin;
-     subcontrol-position: top center;
-     padding: 0 3px;
+	subcontrol-origin: margin;
+	subcontrol-position: top center;
+	padding: 0 3px;
+}
+
+QMenu::item {
+	padding: 2px 5px 2px 16px;
+	border: 1px solid transparent;
+}
+
+QMenu::item:selected {
+	background-color: #606060;
+}
+
+QScrollBar:horizontal {
+	border: 0px;
+	height: 15px;
+	margin: 0px 20px 0 20px;
+}
+
+QScrollBar::handle:horizontal {
+	border: 1px solid #404040;
+	background: #F5DEB3;
+	min-width: 20px;
+}
+
+QScrollBar::add-line:horizontal {
+	border: 1px solid #F5DEB3;
+	background: #202020;
+	width: 17px;
+	subcontrol-position: right;
+	subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal {
+	border: 1px solid #F5DEB3;
+	background: #202020;
+	width: 17px;
+	subcontrol-position: left;
+	subcontrol-origin: margin;
+}
+
+QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
+	border: 2px solid #404040;
+	width: 3px;
+	height: 3px;
+	background: #F5DEB3;
+}
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+	background: #404040;
+}
+
+
+QScrollBar:vertical {
+	border: 0px;
+	width: 15px;
+	margin: 20px 0px 20px 0px;
+}
+
+QScrollBar::handle:vertical {
+	border: 1px solid #404040;
+	background: #F5DEB3;
+	min-height: 20px;
+}
+
+QScrollBar::add-line:vertical {
+	border: 1px solid #F5DEB3;
+	background: #202020;
+	height: 17px;
+	subcontrol-position: bottom;
+	subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+	border: 1px solid #F5DEB3;
+	background: #202020;
+	height: 17px;
+	subcontrol-position: top;
+	subcontrol-origin: margin;
+}
+
+QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical {
+	border: 2px solid #404040;
+	width: 3px;
+	height: 3px;
+	background: #F5DEB3;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: #404040;
 }
 
