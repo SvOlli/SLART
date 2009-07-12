@@ -28,21 +28,21 @@ strip: all
 install: strip
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
-	mkdir -p $(DESTDIR)$(PREFIX)/doc/slart
+	mkdir -p $(DESTDIR)$(PREFIX)/share/doc/slart
 	mkdir -p $(DESTDIR)$(PREFIX)/share/slart/stylesheets
-	mkdir -p $(DESTDIR)$(PREFIX)/pixmaps
+	mkdir -p $(DESTDIR)$(PREFIX)/share/pixmaps
 	mkdir -p $(DESTDIR)$(PREFIX)/share/applications
 	cp -d $(PLATFORM)/bin/* $(DESTDIR)$(PREFIX)/bin
 	cp -d $(PLATFORM)/lib/* $(DESTDIR)$(PREFIX)/lib
-	cp -d extra/icons/* $(DESTDIR)$(PREFIX)/pixmaps
+	cp -d extra/icons/* $(DESTDIR)$(PREFIX)/share/pixmaps
 	cp -d extra/menu/*.desktop $(DESTDIR)$(PREFIX)/share/applications
 	cp -d extra/stylesheets/* \
           $(DESTDIR)$(PREFIX)/share/slart/stylesheets
 	[ ! -f $(PLATFORM)/README.DerMixD ] || \
 	  gzip -9 <$(PLATFORM)/README.DerMixD \
-	    >>$(DESTDIR)$(PREFIX)/doc/slart/README.DerMixD.gz
+	    >>$(DESTDIR)$(PREFIX)/share/doc/slart/README.DerMixD.gz
 	for f in $(DOCS); do \
-	  gzip -9 <docs/$$f >$(DESTDIR)$(PREFIX)/doc/slart/$$f.gz ; done
+	  gzip -9 <docs/$$f >$(DESTDIR)$(PREFIX)/share/doc/slart/$$f.gz ; done
 
 tar:
 	[ -e ../slart-$(VERSION) ] || ln -s SLART ../slart-$(VERSION)
