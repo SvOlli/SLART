@@ -14,7 +14,24 @@
 
 #include "Trace.hpp"
 
-#define PROGNAME "Creep"
+static char PROGNAME[] = "Creep";
+
+
+static void send( const QString &application, const QString &data )
+{
+TRACESTART(send)
+TRACEMSG << application << data;
+   /* copy'n'paste from MySettings.cpp */
+   int port = QSettings( "SLART", application )
+                        .value( "UDPListenerPort", 0 ).toInt();
+   
+   if( (port < 1) || (port > 65535) )
+   {
+      return;
+   }
+   
+   QUdpSocket().writeDatagram( data.toUtf8(), QHostAddress::LocalHost, port );
+}
 
 
 int main(int argc, char *argv[])
@@ -27,7 +44,7 @@ int main(int argc, char *argv[])
       exit( EXIT_FAILURE );
    }
    
-   if( lirc_init( PROGNAME , 1 ) == -1)
+   if( lirc_init( &PROGNAME[0] , 1 ) == -1)
    {
       exit( EXIT_FAILURE );
    }
@@ -55,20 +72,17 @@ int main(int argc, char *argv[])
             
             if( application.startsWith( "System", Qt::CaseInsensitive ) )
             {
-               system( data.toUtf8().data() );
-               continue;
+               if( system( data.toUtf8().data() ) )
+               {
+                  data.prepend( QString("System call failed:\n") );
+                  send( QString("Innuendo"), data );
+               }
             }
-            
-            /* copy'n'paste from MySettings.cpp */
-            int port = QSettings( "SLART", application )
-                                 .value( "UDPListenerPort", 0 ).toInt();
-            
-            if( (port < 1) || (port > 65535) )
+            else
             {
-               continue;
+               send( application, data );
             }
             
-            QUdpSocket().writeDatagram( data.toUtf8(), QHostAddress::LocalHost, port );
          }
          
          free( code );
