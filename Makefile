@@ -5,8 +5,8 @@ PREFIX = $(shell sh configure --prefix)
 
 SUBDIRS = taglib Funkytown Partyman Stripped Rubberbandman \
           Karmadrome Creep Innuendo Sorcerer
-TARCONT = configure Makefile Global.pri TemplateApp Common \
-          $(SUBDIRS) extra/*.sh docs
+TARCONT = configure Makefile docs Global.pri TemplateApp Common \
+          $(SUBDIRS) extra/*.sh extra/icons extra/menu extra/stylesheets
 DOCS = COPYING example.lircrc README.TagLib SLARTmessages.txt StyleSheet.txt
 
 all:
@@ -46,7 +46,7 @@ install: strip
 
 tar:
 	[ -e ../slart-$(VERSION) ] || ln -s SLART ../slart-$(VERSION)
-	(cd ..;tar jcf slart-$(VERSION).tar.bz2 slart-$(VERSION)/{$(shell echo $(TARCONT)|tr ' ' ',')};ls -l slart-$(VERSION).tar.bz2)
+	(cd ..;tar jcf slart-$(VERSION).tar.bz2 $(foreach ent,$(TARCONT),slart-$(VERSION)/$(ent));ls -l slart-$(VERSION).tar.bz2)
 	rm ../slart-$(VERSION)
 
 deb:
