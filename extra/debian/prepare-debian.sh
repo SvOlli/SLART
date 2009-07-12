@@ -50,7 +50,7 @@ revision="`expr ${revision} + 1`"
 
 echo >&2 "changelog..."
 
-(git-log --date=rfc 2>/dev/null;echo) | (while read line; do
+(git log --date=rfc 2>/dev/null;echo) | (while read line; do
 case "${line}" in
 commit\ *)
   header=
