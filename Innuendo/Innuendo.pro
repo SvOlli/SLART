@@ -8,7 +8,7 @@ TEMPLATE = app
 TARGET = Innuendo
 
 # Input
-#RESOURCES = Resources.qrc
+RESOURCES = Resources/Common.qrc
 
 SOURCES += Application.cpp 
 
