@@ -11,7 +11,7 @@ TARGET = Stripped
 QMAKE_CXXFLAGS += $$system( sh ../configure --cflags vorbisenc )
 LIBS += $$system( sh ../configure --libs vorbisenc libcdio_paranoia libcdio )
 # Input
-#RESOURCES = Resources.qrc
+RESOURCES = Resources/Common.qrc
 
 SOURCES += Application.cpp 
 

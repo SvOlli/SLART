@@ -8,7 +8,8 @@ TEMPLATE = app
 TARGET = Funkytown
 
 # Input
-RESOURCES = qrc/Resources.qrc
+RESOURCES = Resources/Common.qrc
+RESOURCES += Resources/Funkytown.qrc
 
 SOURCES += Application.cpp
 

@@ -34,6 +34,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 #else
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
+   parent->setWindowIcon( QIcon( ":/SLART.gif" ) );
    
    mpTabs->addTab( mpBrowseWidget,   tr("Filesystem") );
    mpTabs->addTab( mpSLARTComWidget, tr("Partyman") );

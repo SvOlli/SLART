@@ -10,7 +10,7 @@ QT += sql
 LIBS += -lbz2
 
 # Input
-#RESOURCES = Resources.qrc
+RESOURCES = Resources/Common.qrc
 
 SOURCES += Application.cpp
 

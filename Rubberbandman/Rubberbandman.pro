@@ -12,7 +12,7 @@ LIBS += -L../taglib -ltag
 QT += sql
 
 # Input
-#RESOURCES = Resources.qrc
+RESOURCES = Resources/Common.qrc
 
 SOURCES += Application.cpp 
 

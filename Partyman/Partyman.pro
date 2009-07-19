@@ -9,7 +9,7 @@ TARGET = Partyman
 QT += sql
 
 # Input
-RESOURCES = qrc/Resources.qrc
+RESOURCES = Resources/Partyman.qrc
 
 SOURCES += Application.cpp 
 

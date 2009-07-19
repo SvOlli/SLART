@@ -16,7 +16,7 @@ INCLUDEPATH += ../taglib
 LIBS += -L../taglib -ltag
 
 # Input
-#RESOURCES = Resources.qrc
+RESOURCES = Resources/Common.qrc
 
 HEADERS += Interface.hpp
 
