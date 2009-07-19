@@ -26,6 +26,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mpSkipButton( new QPushButton( tr("Next"), this ) )
 , mConnected( false )
 , mPaused( false )
+, mPartymanIcon( QIcon(":/PartymanSmile.gif") )
 , mStopIcon( QIcon(":/Stop.gif") )
 , mPlayIcon( QIcon(":/Play.gif") )
 , mPauseIcon( QIcon(":/Pause.gif") )
@@ -274,7 +275,7 @@ void ControlWidget::initConnect()
 
 void ControlWidget::initDisconnect( eErrorCode errorcode )
 {
-   emit requestChangeTitle( mStopIcon, QApplication::applicationName()+tr(" (disconnected)") );
+   emit requestChangeTitle( mPartymanIcon, QApplication::applicationName()+tr(" (disconnected)") );
    mpTrayIcon->setToolTip( QString() );
    mpTrayIcon->setContextMenu( mpTrayIconStopMenu );
    if( mConnected )

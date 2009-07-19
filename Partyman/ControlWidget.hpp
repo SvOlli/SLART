@@ -114,6 +114,7 @@ private:
    PlayerWidget    *mpPlayer[2];
    bool            mConnected;
    bool            mPaused;
+   QIcon           mPartymanIcon;
    QIcon           mStopIcon;
    QIcon           mPlayIcon;
    QIcon           mPauseIcon;
