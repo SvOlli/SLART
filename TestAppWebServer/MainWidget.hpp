@@ -16,6 +16,7 @@
 #include <QWidget>
 
 class QIcon;
+class QListWidget;
 class QString;
 class QHttpRequestHeader;
 class QHttpResponseHeader;
@@ -44,7 +45,8 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
    
-   WebServer *mpWebServer;
+   WebServer   *mpWebServer;
+   QListWidget *mpMessageBuffer;
 };
 
 #endif
