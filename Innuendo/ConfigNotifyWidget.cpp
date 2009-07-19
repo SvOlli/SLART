@@ -31,7 +31,7 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
    QVBoxLayout *tabsLayout   = new QVBoxLayout();
    QHBoxLayout *buttonLayout = new QHBoxLayout;
 
-   mApplications << "Innuendo" << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome";
+   mApplications << "Innuendo" << "Partyman" << "Stripped" << "Funkytown" << "Rubberbandman" << "Karmadrome" << "Creep";
    mpApps = new QPushButton*[mApplications.count()];
    mpTabs = new ConfigNotifyApplicationWidget*[mApplications.count()];
    for( i = 0; i < mApplications.count(); i++ )
@@ -75,6 +75,13 @@ ConfigNotifyWidget::ConfigNotifyWidget( QWidget *parent )
    mpTabs[mApplications.indexOf("Karmadrome")]->allowNotify(mApplications.indexOf("Innuendo"));
    mpTabs[mApplications.indexOf("Karmadrome")]->allowNotify(mApplications.indexOf("Partyman"));
    mpTabs[mApplications.indexOf("Karmadrome")]->allowNotify(mApplications.indexOf("Rubberbandman"));
+   
+   mpTabs[mApplications.indexOf("Creep")]->allowNotify(mApplications.indexOf("Innuendo"));
+   mpTabs[mApplications.indexOf("Creep")]->allowNotify(mApplications.indexOf("Partyman"));
+   mpTabs[mApplications.indexOf("Creep")]->allowNotify(mApplications.indexOf("Stripped"));
+   mpTabs[mApplications.indexOf("Creep")]->allowNotify(mApplications.indexOf("Funkytown"));
+   mpTabs[mApplications.indexOf("Creep")]->allowNotify(mApplications.indexOf("Rubberbandman"));
+   mpTabs[mApplications.indexOf("Creep")]->allowNotify(mApplications.indexOf("Karmadrome"));
    
    QPushButton *allOnButton  = new QPushButton( tr("Full Communication"), this );
    QPushButton *allOffButton = new QPushButton( tr("No Communication"), this );
