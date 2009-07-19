@@ -14,7 +14,7 @@ all:
 	ls -l $(PLATFORM)/bin $(PLATFORM)/lib || true
 
 clean:
-	for i in $(SUBDIRS); do rm -rf $(PLATFORM)/$$i $(PLATFORM)/{bin,lib}/*$$i*;done
+	for i in $(SUBDIRS); do rm -rf $(PLATFORM)/$$i $(PLATFORM)/bin/*$$i* $(PLATFORM)/lib/*$$i*;done
 
 distclean:
 	rm -rf $(PLATFORM)
