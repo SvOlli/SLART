@@ -1,3 +1,12 @@
+/**
+ * tir.c
+ * written by Sven Oliver Moll
+ * 
+ * distributed under the terms of the GNU Public License (GPL)
+ *
+ * tir is a small "unTar In Ram" library that right now only unpacks tar.bz2
+ */
+
 
 #include <stdlib.h>
 #include <string.h>
@@ -9,12 +18,14 @@
 #define TAR_BLOCK_SIZE 0x00000200
 #define TAR_BLOCK_MASK 0xfffffe00
 
+
 /*
  * TODO:
  * - handle short reads on header
  * - handle short reads on data
  * - create better error reporting
  */
+
 
 int tir_open( const char *filename, tir_data *handle )
 {
@@ -28,6 +39,7 @@ int tir_open( const char *filename, tir_data *handle )
    handle->header = malloc( TAR_BLOCK_SIZE );
    return 0;
 }
+
 
 int tir_read( tir_data *handle )
 {
@@ -69,6 +81,7 @@ int tir_read( tir_data *handle )
    
    return 0;
 }
+
 
 int tir_close( tir_data *handle )
 {

@@ -1,3 +1,12 @@
+/**
+ * tir.h
+ * written by Sven Oliver Moll
+ * 
+ * distributed under the terms of the GNU Public License (GPL)
+ *
+ * tir is a small "unTar In Ram" library that right now only unpacks tar.bz2
+ */
+
 
 #ifndef TIR_H
 #define TIR_H TIR_H
@@ -5,10 +14,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#define TIR_OPEN_MODE_TAR 0
-#define TIR_OPEN_MODE_GZ  1
-#define TIR_OPEN_MODE_BZ2 2
 
 typedef struct 
 {
