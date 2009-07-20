@@ -45,6 +45,16 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 void MainWidget::request( QTcpSocket *id, 
                           const QHttpRequestHeader &header )
 {
+   if( header.path() == "/favicon.ico" )
+   {
+      QFile file( ":/favicon.ico" );
+      file.open( QIODevice::ReadOnly | QIODevice::Text );
+      emit response( id,
+                     QHttpResponseHeader( 200, "OK" ),
+                     file.readAll() );
+      file.close();
+      return;
+   }
    QString html("<h1>SvOlli was here...</h1>\n");
    html.append( header.method() );
    html.append( " " );

@@ -9,7 +9,7 @@ TARGET = TestAppWebServer
 DESTDIR = ../test
 
 # Input
-#RESOURCES = Resources.qrc
+RESOURCES = Resources/TestAppWebServer.qrc
 
 SOURCES += Application.cpp 
 
