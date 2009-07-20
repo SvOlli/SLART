@@ -36,7 +36,7 @@ MainWidget::MainWidget( QWidget *parent )
    mpLayout->setContentsMargins( 3, 3, 3, 3 );
    mpLayout->setSpacing( 3 );
 #endif
-   parent->setWindowIcon( QIcon( ":/SLART.gif" ) );
+   parent->setWindowIcon( QIcon( ":/SLART.png" ) );
    
    mpDirText->setAcceptDrops( false );
    mpDirButton->setAcceptDrops( false );

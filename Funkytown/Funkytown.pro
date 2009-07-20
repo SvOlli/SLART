@@ -10,6 +10,7 @@ TARGET = Funkytown
 # Input
 RESOURCES = Resources/Common.qrc
 RESOURCES += Resources/Funkytown.qrc
+RC_FILE = ../Common/Resources/WinIcon.rc
 
 SOURCES += Application.cpp
 

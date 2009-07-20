@@ -51,7 +51,7 @@ void FreeDBImport::run()
       {
          mTarEntry.setData( tarData.filename, tarData.data );
          q.exec( mTarEntry.sql() );
-         if( ++count % 1000 == 0)
+         if( ++count % 1000 == 0 )
          {
             q.exec( "COMMIT; BEGIN TRANSACTION;" );
             emit processed( count, tarData.filename );

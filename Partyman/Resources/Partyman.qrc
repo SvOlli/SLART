@@ -4,12 +4,12 @@
    <file>Usage.html</file>
    <file>Settings.html</file>
    <file>Pattern.html</file>
-   <file>PartymanSmile.gif</file>
-   <file>PartymanWriting.gif</file>
-   <file>Play.gif</file>
-   <file>Pause.gif</file>
-   <file>Skip.gif</file>
-   <file>Stop.gif</file>
-   <file>Load.gif</file>
+   <file>PartymanSmile.png</file>
+   <file>PartymanWriting.png</file>
+   <file>Play.png</file>
+   <file>Pause.png</file>
+   <file>Skip.png</file>
+   <file>Stop.png</file>
+   <file>Load.png</file>
 </qresource>
 </RCC>

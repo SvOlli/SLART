@@ -10,6 +10,7 @@ QT += sql
 
 # Input
 RESOURCES = Resources/Partyman.qrc
+RC_FILE = ../Partyman/Resources/WinIcon.rc
 
 SOURCES += Application.cpp 
 

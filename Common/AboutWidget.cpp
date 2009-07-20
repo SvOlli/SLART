@@ -25,7 +25,7 @@ AboutWidget::AboutWidget( QWidget *parent, const QString &aboutText )
    QLabel *aboutLabel = new QLabel( this );
    if( aboutText.isEmpty() )
    {
-      QString message( "<table><tr><td><img src=':/SLART.gif'></td><td>%1 Version %2 "
+      QString message( "<table><tr><td><img src=':/SLART.png'></td><td>%1 Version %2"
          " written by Sven Oliver Moll as a part of <a href='http://svolli.org/software/slart/'>"
          "%3</a>.<br>Distributed unter the terms of the "
          "<a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>. Based upon the "

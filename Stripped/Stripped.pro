@@ -12,6 +12,7 @@ QMAKE_CXXFLAGS += $$system( sh ../configure --cflags vorbisenc )
 LIBS += $$system( sh ../configure --libs vorbisenc libcdio_paranoia libcdio )
 # Input
 RESOURCES = Resources/Common.qrc
+RC_FILE = ../Common/Resources/WinIcon.rc
 
 SOURCES += Application.cpp 
 

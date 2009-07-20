@@ -36,7 +36,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 #else
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
-   parent->setWindowIcon( QIcon( ":/SLART.gif" ) );
+   parent->setWindowIcon( QIcon( ":/SLART.png" ) );
 
    QStringList applications;
    applications

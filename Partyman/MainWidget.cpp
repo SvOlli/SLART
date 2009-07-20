@@ -49,7 +49,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mainLayout->addWidget( mpControl );
    mainLayout->addWidget( mpPlaylist );
    mpParent->setAttribute( Qt::WA_AlwaysShowToolTips, true );
-   mpParent->setWindowIcon( QIcon( ":/PartymanSmile.gif" ) );
+   mpParent->setWindowIcon( QIcon( ":/PartymanSmile.png" ) );
 
 #if (!defined _WIN32) || (defined __MINGW32__)
    int i;
