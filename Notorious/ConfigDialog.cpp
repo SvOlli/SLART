@@ -27,6 +27,7 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 , mpImportButton( new QPushButton( tr("Run Import"), this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowIcon( QIcon(":/SLART.png") );
    
    AboutWidget *about( new AboutWidget( this ) );
    QLabel      *freedbInfo = new QLabel( tr("FreeDB database archives for import can be downloaded at "

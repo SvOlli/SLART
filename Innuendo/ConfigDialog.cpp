@@ -31,6 +31,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpAutostartCreep( new QPushButton( tr("Creep"), this) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowIcon( QIcon(":/SLART.png") );
+   
    mpAutostartPartyman->setCheckable( true );
    mpAutostartKarmadrome->setCheckable( true );
    mpAutostartRubberbandman->setCheckable( true );

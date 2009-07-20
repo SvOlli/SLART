@@ -31,6 +31,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mTagList()
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowIcon( QIcon(":/SLART.png") );
    
    mpWithTrackNrLabel->setAlignment( Qt::AlignTop );
    mpWithoutTrackNrLabel->setAlignment( Qt::AlignTop );

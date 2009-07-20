@@ -25,6 +25,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpRandomizeExport( new QCheckBox( tr("Randomize Output Of Export m3u"), this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowIcon( QIcon(":/SLART.png") );
    
    mpNumColumns->setRange( 1, 9 );
    

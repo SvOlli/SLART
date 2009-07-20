@@ -38,6 +38,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 {
    int i;
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowIcon( QIcon(":/SLART.png") );
 
    mEncoders.append( new OggEncoder( this ) );
    mEncoders.append( new RawEncoder( this ) );
