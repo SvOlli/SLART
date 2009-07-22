@@ -20,6 +20,7 @@ WebServer::WebServer( QObject *parent )
 , mpParent( parent )
 , mpTcpServer( 0 )
 , mpTcpSocket( 0 )
+, mWebDir()
 {
 }
 
@@ -30,12 +31,13 @@ WebServer::~WebServer()
 }
 
 
-bool WebServer::start( quint16 port )
+bool WebServer::start( quint16 port, const QString &webPath )
 {
 #if 0
 TRACESTART(WebServer::start)
 #endif
    bool success;
+   mWebDir.setPath( webPath );
    mpTcpServer = new QTcpServer( this );
    success = mpTcpServer->listen( QHostAddress::Any, port );
    if( !success )
@@ -92,42 +94,78 @@ void WebServer::handleNewConnection()
    {
       return;
    }
-   QHttpRequestHeader header( requestLine.at(0), requestLine.at(1) );
-   int colpos;
-   for(;;)
-   {
-      line = QString::fromUtf8(socket->readLine());
-      line.remove( "\n" );
-      line.remove( "\r" );
-      if( line.isEmpty() )
-      {
-         break;
-      }
-      colpos = line.indexOf( ": " );
-      key = line.left( colpos );
-      value = line.mid( colpos + 2 );
-      if( key == "Content-Length" )
-      {
-         content_length = value.toULong();
-      }
-      header.addValue( key, value );
-   }
-   data = socket->read( content_length );
    
-   if( content_length > 0 )
+   if( mWebDir.entryList().contains( requestLine.at(1).mid(1) ) )
    {
-      QStringList form( QString::fromUtf8( data ).split('&') );
-      for( int i = 0; i < form.size(); i++ )
+      QFile file( mWebDir.path() + requestLine.at(1) );
+      if( file.open( QIODevice::ReadOnly ) )
       {
-         colpos = form.at(i).indexOf( "=" );
-         key = form.at(i).left( colpos );
-         value = form.at(i).mid( colpos + 1 );
-         key.prepend( "POST: " );
+         response( socket,
+                   QHttpResponseHeader( 200, "OK" ),
+                   file.readAll() );
+         file.close();
+      }
+      else
+      {
+         int errcode;
+         switch( file.error() )
+         {
+            case QFile::ReadError:
+            case QFile::FatalError:
+            case QFile::OpenError:
+               errcode = 404;
+               break;
+            case QFile::PermissionsError:
+               errcode = 403;
+               break;
+            default:
+               errcode = 401;
+               break;
+         }
+         response( socket,
+                   QHttpResponseHeader( errcode, "Error" ),
+                   QByteArray( tr("An error occured").toUtf8() ) );
+      }
+   }
+   else
+   {
+      QHttpRequestHeader header( requestLine.at(0), requestLine.at(1) );
+      int colpos;
+      for(;;)
+      {
+         line = QString::fromUtf8(socket->readLine());
+         line.remove( "\n" );
+         line.remove( "\r" );
+         if( line.isEmpty() )
+         {
+            break;
+         }
+         colpos = line.indexOf( ": " );
+         key = line.left( colpos );
+         value = line.mid( colpos + 2 );
+         if( key == "Content-Length" )
+         {
+            content_length = value.toULong();
+         }
          header.addValue( key, value );
       }
+      data = socket->read( content_length );
+      
+      if( content_length > 0 )
+      {
+         QStringList form( QString::fromUtf8( data ).split('&') );
+         for( int i = 0; i < form.size(); i++ )
+         {
+            colpos = form.at(i).indexOf( "=" );
+            key = form.at(i).left( colpos );
+            value = form.at(i).mid( colpos + 1 );
+            key.prepend( "POST: " );
+            header.addValue( key, value );
+         }
+      }
+      
+      emit request( socket, header );
    }
-   
-   emit request( socket, header );
 }
 
 

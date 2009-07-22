@@ -15,6 +15,8 @@
 
 #include "WebServer.hpp"
 
+#include "Trace.hpp"
+
 
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
@@ -37,8 +39,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpWebServer, SLOT(response( QTcpSocket *, const QHttpResponseHeader &, const QByteArray & )) );
    
    mpMessageBuffer->setAlternatingRowColors( true );
-   mpWebServer->start( 22222 );
-   
+   mpWebServer->start( 22222, QString(":/web/") );
 }
 
 

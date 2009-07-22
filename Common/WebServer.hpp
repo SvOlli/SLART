@@ -14,6 +14,7 @@
  */
 
 #include <QObject>
+#include <QDir>
 
 class QHttpRequestHeader;
 class QHttpResponseHeader;
@@ -29,7 +30,7 @@ public:
    WebServer( QObject *parent = 0 );
    virtual ~WebServer();
    
-   bool start( quint16 port = 0 );
+   bool start( quint16 port = 0, const QString &webPath = QString() );
    void stop();
    
 public slots:
@@ -49,6 +50,7 @@ private:
    QObject      *mpParent;
    QTcpServer   *mpTcpServer;
    QTcpSocket   *mpTcpSocket;
+   QDir         mWebDir;
 };
 
 #endif
