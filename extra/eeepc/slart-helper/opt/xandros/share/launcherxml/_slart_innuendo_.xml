@@ -1,0 +1,7 @@
+<parcel simplecat="Play"
+        extraargs="/usr/bin/Innuendo"
+        icon="slart_norm.png"
+        selected_icon="slart_hi.png"
+        id="_slart_innuendo_">
+        <name lang="en">Innuendo</name>
+</parcel>

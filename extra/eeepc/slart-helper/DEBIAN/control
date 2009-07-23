@@ -1,11 +1,14 @@
 Package: slart-helper
 Maintainer: Sven Oliver Moll <svolli@svolli.org>
 Architecture: all
-Version: 0.1-1
+Version: 0.2-2
 Depends: slart
 Description: easy mode configuration for SLART
  icons and easy mode configuration files for the SLART applications:
  - Partyman
- .
- more to come
+ - Rubberbandman
+ - Stripped
+ - Funkytown
+ - Karmadrome
+ - Innuendo
 

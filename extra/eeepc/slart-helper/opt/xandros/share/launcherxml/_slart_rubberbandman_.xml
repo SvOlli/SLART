@@ -1,0 +1,7 @@
+<parcel simplecat="Play"
+        extraargs="/usr/bin/Rubberbandman"
+        icon="slart_norm.png"
+        selected_icon="slart_hi.png"
+        id="_slart_rubberbandman_">
+        <name lang="en">Rubberbandman</name>
+</parcel>
