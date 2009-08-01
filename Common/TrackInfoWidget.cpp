@@ -15,11 +15,12 @@
 #include "Trace.hpp"
 
 TrackInfoWidget::TrackInfoWidget( Database *database, const QString &updateCode,
-                                  QWidget *parent )
+                                  bool includeFolders, QWidget *parent )
 : QWidget( parent )
 , mpDatabase( database )
 , mTrackInfo()
 , mUpdateCode( updateCode )
+, mIncludeFolders( includeFolders )
 , mpTimesPlayed( new QLabel( this ) )
 , mpArtist( new ScrollLine( this ) )
 , mpTitle( new ScrollLine( this ) )
@@ -143,9 +144,15 @@ void TrackInfoWidget::update( bool reread )
    if( mTrackInfo.mID )
    {
       setDisabled( false );
+      QString folderToolTip( mTrackInfo.getFolders().join("\n") );
       mpArtist->setText( mTrackInfo.mArtist );
       mpTitle->setText( mTrackInfo.mTitle );
       mpAlbum->setText( mTrackInfo.mAlbum );
+      if( mIncludeFolders )
+      {
+         mpFavoriteButton->setToolTip( folderToolTip );
+         mpUnwantedButton->setToolTip( folderToolTip );
+      }
       if( mTrackInfo.mTrackNr < 0 )
       {
          mpTrackNr->clear();
@@ -182,5 +189,7 @@ void TrackInfoWidget::update( bool reread )
       mpAlbum->setText( empty );
       mpTrackNr->setText( empty );
       mpTimesPlayed->setText( empty );
+      mpFavoriteButton->setToolTip( empty );
+      mpUnwantedButton->setToolTip( empty );
    }
 }

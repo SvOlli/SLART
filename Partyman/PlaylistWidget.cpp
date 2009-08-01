@@ -32,7 +32,7 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
 , mpNextTreeModel( 0 )
 , mpTreeUpdate( new FileSysTreeUpdate() )
 , mpSearch( new SearchWidget( database, this ) )
-, mpTrackInfo( new TrackInfoWidget( database, QString("p0u"), this ) )
+, mpTrackInfo( new TrackInfoWidget( database, QString("p0u"), true, this ) )
 , mpHelpText( new QTextBrowser( this ) )
 , mpSplitter( new QSplitter( Qt::Vertical, parent ) )
 , mpFKeyMapper( new QSignalMapper( this ) )

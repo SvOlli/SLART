@@ -27,7 +27,7 @@ Q_OBJECT
    
 public:
    TrackInfoWidget( Database *database, const QString &updateCode,
-                    QWidget *parent = 0 );
+                    bool includeFolders, QWidget *parent = 0 );
    
 public slots:
    /* handle the "Favorite" checkbox */
@@ -50,6 +50,7 @@ private:
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;
    QString     mUpdateCode;
+   bool        mIncludeFolders;
    QLabel      *mpTimesPlayed;
    ScrollLine  *mpArtist;
    ScrollLine  *mpTitle;
