@@ -295,7 +295,7 @@ void CDEdit::setTrackDisabled( int track, bool disable )
    mpEnqueueTrack[track]->setDisabled( disable );
    mpTrackArtist[track]->setDisabled( disable );
    mpTrackTitle[track]->setDisabled( disable );
-   mpTrackYear[track]->setDisabled( disable && (track != 1) );
+   mpTrackYear[track]->setDisabled( disable && (track != (mpTrackYear[0]->isHidden() ? 1 : 0)) );
    mpTrackPlaytime[track]->setDisabled( disable );
 }
 
