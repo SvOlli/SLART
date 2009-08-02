@@ -54,8 +54,8 @@ SOURCES += CDDB.cpp
 HEADERS += Encoder.hpp 
 SOURCES += Encoder.cpp 
 
-HEADERS += RawEncoder.hpp 
-SOURCES += RawEncoder.cpp 
+HEADERS += WavEncoder.hpp 
+SOURCES += WavEncoder.cpp 
 
 HEADERS += OggEncoder.hpp 
 SOURCES += OggEncoder.cpp 

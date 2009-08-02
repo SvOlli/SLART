@@ -1,11 +1,11 @@
 /**
- * RawEncoder.cpp
+ * WavEncoder.cpp
  * written by Sven Oliver Moll
  * 
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#include "RawEncoder.hpp"
+#include "WavEncoder.hpp"
 #include "TagList.hpp"
 
 #include "Trace.hpp"
@@ -19,7 +19,7 @@ extern "C"
 
 #include <QtGui>
 
-RawEncoder::RawEncoder( QWidget *parent )
+WavEncoder::WavEncoder( QWidget *parent )
 : Encoder( parent, tr("wav") )
 {
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
@@ -36,14 +36,14 @@ RawEncoder::RawEncoder( QWidget *parent )
    
 }
 
-RawEncoder::~RawEncoder()
+WavEncoder::~WavEncoder()
 {
 }
 
 
-void RawEncoder::initialize( const QString &fileName )
+void WavEncoder::initialize( const QString &fileName )
 {
-TRACESTART(RawEncoder::initialize)
+TRACESTART(WavEncoder::initialize)
    char dummy[44];
    Encoder::initialize( fileName, ".wav" );
    /* write now, what later will become the header */
@@ -52,9 +52,9 @@ TRACESTART(RawEncoder::initialize)
 }
 
 
-void RawEncoder::finalize( bool enqueue, bool cancel )
+void WavEncoder::finalize( bool enqueue, bool cancel )
 {
-TRACESTART(RawEncoder::finalize)
+TRACESTART(WavEncoder::finalize)
    unsigned int size = (unsigned int) ::lseek( mFD, 0, SEEK_CUR );
    /* write the wave header */
    ::lseek( mFD, 0, SEEK_SET );
@@ -76,12 +76,12 @@ TRACESTART(RawEncoder::finalize)
 }
 
 
-void RawEncoder::setTags( const TagList &/*tagList*/ )
+void WavEncoder::setTags( const TagList &/*tagList*/ )
 {
 }
 
 
-bool RawEncoder::encodeCDAudio( const char* data, int size )
+bool WavEncoder::encodeCDAudio( const char* data, int size )
 {
    while( size > 0 )
    {

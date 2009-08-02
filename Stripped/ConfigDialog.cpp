@@ -16,7 +16,7 @@
 #include "SLARTCom.hpp"
 #include "CDReader.hpp"
 #include "OggEncoder.hpp"
-#include "RawEncoder.hpp"
+#include "WavEncoder.hpp"
 
 #include "Trace.hpp"
 
@@ -41,7 +41,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    setWindowIcon( QIcon(":/SLART.png") );
 
    mEncoders.append( new OggEncoder( this ) );
-   mEncoders.append( new RawEncoder( this ) );
+   mEncoders.append( new WavEncoder( this ) );
    
    mTagList.set("TRACKNUMBER","1");
    mTagList.set("ALBUMARTIST","AlbumArtist");

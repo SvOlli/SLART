@@ -1,25 +1,25 @@
 /**
- * RawEncoder.hpp
+ * WavEncoder.hpp
  * written by Sven Oliver Moll
  * 
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#ifndef RAWRawEncoder_HPP
-#define RAWRawEncoder_HPP RAWRawEncoder_HPP
+#ifndef WAVENCODER_HPP
+#define WAVENCODER_HPP WAVENCODER_HPP
 
 #include "Encoder.hpp"
 
 #include <QWidget>
 
 
-class RawEncoder : public Encoder
+class WavEncoder : public Encoder
 {
 Q_OBJECT
    
 public:
-   RawEncoder( QWidget *parent = 0 );
-   virtual ~RawEncoder();
+   WavEncoder( QWidget *parent = 0 );
+   virtual ~WavEncoder();
    
    /* initialize the encoder */
    void initialize( const QString &fileName );
@@ -31,8 +31,8 @@ public:
    bool encodeCDAudio( const char* data, int size );
    
 private:
-   RawEncoder( const RawEncoder &other );
-   RawEncoder &operator=( const RawEncoder &other );
+   WavEncoder( const WavEncoder &other );
+   WavEncoder &operator=( const WavEncoder &other );
 };
 
 #endif
