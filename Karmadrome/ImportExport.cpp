@@ -41,6 +41,7 @@ void ImportExport::importM3u( QString folder, const QString &fileName, bool clea
       folder = unwanted;
    }
    
+   mpDatabase->insertFolder( folder );
    if( cleanImport )
    {
       QStringList entries( folder );
