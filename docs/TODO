@@ -1,9 +1,18 @@
 
+all:
+- new application for handling global keys (or extend creep?)
+  - just task bar icon
+  - main screen == config settings
+- use QScript for generating filenames(?)
+- QSqlDatabasePrivate::removeDatabase: connection 'qt_sql_default_connection' is still in use, all queries will cease to work.
+
 extra:
 
 Common:
 - clean filename function
 - Database::deleteFolder: delete entries from slart_tracks
+
+Karmadrome:
 
 Funkytown:
 - improve url detecting
@@ -11,6 +20,9 @@ Funkytown:
 ? add rtmpdump
 
 Stripped:
+- add Stripped to cdrom-open dialog
+- move QHttp to an own thread
+- move ripping to an own thread
 - change freedb-handling to libcddb
 - auto read-toc
 - encode in mp3
@@ -24,6 +36,7 @@ Partyman:
 - check all error handling
 
 Rubberbandman:
+- dragging of filesystem-items
 - "add folder"/"remove folder"
 - improve Database Tab
 - search in "Partyman"-Tab
