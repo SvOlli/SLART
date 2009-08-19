@@ -40,6 +40,7 @@ Q_OBJECT
    
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   virtual ~MainWidget();
    
 public slots:
    /* add currently played track to the list */

@@ -118,6 +118,12 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 }
 
 
+MainWidget::~MainWidget()
+{
+   delete mpDatabase;
+}
+
+
 void MainWidget::addToList( QWidget *widget )
 {
    QPushButton *pb = (QPushButton*)widget;
