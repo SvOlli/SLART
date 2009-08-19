@@ -11,6 +11,7 @@
 #include "ConfigNotifyWidget.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "AboutWidget.hpp"
+#include "WidgetShot.hpp"
 
 
 #include <QtGui>
@@ -91,6 +92,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(readSettings()) );
    
    readSettings();
+   
+   WidgetShot::addWidget( "ConfigDialog", this );
 }
 
 

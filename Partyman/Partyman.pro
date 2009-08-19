@@ -17,6 +17,9 @@ SOURCES += Application.cpp
 HEADERS += MainWindow.hpp
 SOURCES += MainWindow.cpp
 
+HEADERS += WidgetShot.hpp
+SOURCES += WidgetShot.cpp
+
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
 

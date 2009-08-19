@@ -8,6 +8,7 @@
 #include "SLARTCom.hpp"
 #include "MySettings.hpp"
 
+#include "WidgetShot.hpp"
 #include "Trace.hpp"
 
 #include <QMessageBox>
@@ -119,6 +120,13 @@ void SLARTCom::handleReadyRead()
             return;
          }
          
+         if( src.at(0) == "SHT" )
+         {
+            if( src.count() > 0 )
+            {
+               WidgetShot::shootWidget( src.at(1), src.at(2) );
+            }
+         }
          emit packageRead( src );
       }
    }

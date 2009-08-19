@@ -44,6 +44,9 @@ SOURCES += MainWindow.cpp
 HEADERS += MainWidget.hpp 
 SOURCES += MainWidget.cpp 
 
+HEADERS += WidgetShot.hpp 
+SOURCES += WidgetShot.cpp 
+
 HEADERS += MySettings.hpp 
 SOURCES += MySettings.cpp 
 

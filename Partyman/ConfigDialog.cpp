@@ -11,6 +11,7 @@
 #include "MySettings.hpp"
 #include "AboutWidget.hpp"
 #include "Version.hpp"
+#include "WidgetShot.hpp"
 
 #include <QtGui>
 
@@ -210,6 +211,8 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
             this, SLOT(handleStartKiosk()) );
    
    readSettings();
+   
+   WidgetShot::addWidget( "ConfigDialog", this );
 }
 
 

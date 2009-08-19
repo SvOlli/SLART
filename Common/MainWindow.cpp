@@ -17,6 +17,7 @@
 #include <QtGui>
 
 #include "Trace.hpp"
+#include "WidgetShot.hpp"
 
 
 MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags )
@@ -43,6 +44,9 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
 #if MAINWINDOW_PROHIBITCLOSE
    connect( mpMainWidget, SIGNAL(kioskMode(bool)),
             this, SLOT(prohibitClose(bool)) );
+#endif
+#if MAINWIDGET_SCREENSHOT
+   WidgetShot::addWidget( "MainWidget", mpMainWidget );
 #endif
 }
 
