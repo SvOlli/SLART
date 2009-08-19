@@ -361,6 +361,16 @@ void PlaylistWidget::readConfig()
 
 void PlaylistWidget::handleTabChange( int tabNr )
 {
+   if( (tabNr < 0) || (tabNr >= mpTabs->count()) )
+   {
+      return;
+   }
+   if( mpTabs->currentIndex() != tabNr )
+   {
+      mpTabs->setCurrentIndex( tabNr );
+      return;
+   }
+   
    MySettings().setValue( "CurrentTab", tabNr );
    
    switch( tabNr )

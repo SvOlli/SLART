@@ -478,6 +478,14 @@ void ControlWidget::handleSLART( const QStringList &src )
       }
    }
    
+   if( src.at(0) == "P0T" )
+   {
+      if( src.size() > 1 )
+      {
+         emit requestTab( src.at(1).toInt() );
+      }
+   }
+   
    if( (src.at(0) == "k0u") ||
        (src.at(0) == "r0u") )
    {

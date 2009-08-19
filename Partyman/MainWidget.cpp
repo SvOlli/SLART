@@ -86,6 +86,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpControl, SLOT(handleKioskMode(bool)) );
    connect( mpConfig, SIGNAL(kioskMode(bool)),
             this, SIGNAL(kioskMode(bool)) );
+   connect( mpControl, SIGNAL(requestTab(int)),
+            mpPlaylist, SLOT(handleTabChange(int)) );
    
    setLayout( mainLayout );
 }

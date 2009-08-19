@@ -101,6 +101,8 @@ signals:
    void signalConnected( bool connected );
    /* signal to handle a "k0u" and "r0u" SLART message */
    void trackUpdate();
+   /* request to change the tab */
+   void requestTab( int tabNr );
    
 private:
    ControlWidget( const ControlWidget &other );

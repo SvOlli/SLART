@@ -14,6 +14,7 @@ Partyman
   - P0N: skip to Next track
   - P0R: Re-send last "p0p" status message
   - P0C: Check: 1: unwanted, 2: favorite, 0: uncheck
+  - P0T: change to Tab (count started with 0 from left)
 - status messages
   - p0p: Playing track (parameter: complete filename)
   - p0s: Stopped
