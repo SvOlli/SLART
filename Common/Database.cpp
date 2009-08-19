@@ -460,6 +460,10 @@ QStringList Database::getFolder( const QString &folder )
 
 void Database::insertFolder( const QString &folder )
 {
+   if( (folder == QChar(1)) || (folder == QChar(2)) )
+   {
+      return;
+   }
    mpQuery->prepare( "INSERT OR REPLACE INTO slart_folders( Name ) VALUES ( :name );" );
    mpQuery->bindValue( ":name", folder );
    if( !mpQuery->exec() )
