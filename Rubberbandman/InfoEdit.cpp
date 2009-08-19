@@ -671,7 +671,7 @@ void InfoEdit::saveFile()
    }
    else
    {
-      QFile::rename( tmppath, newpath );
+      QFile::rename( mFileName, newpath );
    }
    
    qfi.setFile( newpath );
