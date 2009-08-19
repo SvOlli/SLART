@@ -186,7 +186,8 @@ bool DatabaseWorker::updateTrackInfoFromFile( const QString &fileName )
 {
    QFileInfo fileInfo( fileName );
    
-   if( fileInfo.lastModified().toTime_t() > mTrackInfo.mLastTagsRead )
+   if( (fileInfo.lastModified().toTime_t() > mTrackInfo.mLastTagsRead ) ||
+       (mTrackInfo.mPlayTime == 0) )
    {
       TagLib::FileRef f( fileName.toLocal8Bit().data() );
       if( f.file() && f.tag() )
