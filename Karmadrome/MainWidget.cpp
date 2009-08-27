@@ -399,6 +399,7 @@ void MainWidget::handleReadButton()
    mpFileName->setText( GlobalConfigWidget::getClipboard() );
    mpListButtons->setDisabled( !mpDatabase->getTrackInfo( &mTrackInfo, GlobalConfigWidget::getClipboard() ) );
    mpTrackInfo->getTrack( mTrackInfo );
+   mpListButtons->lockButtons( mTrackInfo.getFolders() );
 }
 
 
