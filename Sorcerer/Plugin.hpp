@@ -14,7 +14,7 @@
 #include <QObject>
 
 
-class SorcererPlugin : public QObject, SorcererInterface
+class SorcererPlugin : public QObject, public SorcererInterface
 {
    Q_OBJECT
    Q_INTERFACES(SorcererInterface)
