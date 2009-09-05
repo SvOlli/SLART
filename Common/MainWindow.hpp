@@ -8,8 +8,6 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP MAINWINDOW_HPP
 
-#include <QMainWindow>
-
 #include "MainWidget.hpp"
 #ifndef MAINWINDOW_SORCERER
 #warning MAINWINDOW_SORCERER not defined
@@ -21,6 +19,10 @@
 #warning MAINWINDOW_PROHIBITCLOSE not defined
 #endif
 
+
+#include <QMainWindow>
+
+#include <QPoint>
 
 class QApplication;
 class QDir;
@@ -47,6 +49,8 @@ public slots:
    /* handle request for new icon and title */
    void changeTitle( const QIcon &icon, const QString &title );
 #endif
+   /* very ugly workaround for wrong position restoration on Ubuntu */
+   void resetPos(); 
 #if MAINWINDOW_PROHIBITCLOSE
    /* prohibit closing of window (Partyman kiosk mode) */
    void prohibitClose( bool prohibit ) { mProhibitCloseWindow = prohibit; };
@@ -66,6 +70,7 @@ private:
 #endif
    bool          mSaveWindow;
    MainWidget   *mpMainWidget;
+   QPoint        mPos;
 };
 
 #endif

@@ -35,6 +35,8 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
    if( mSaveWindow )
    {
       MySettings().setMainWindow( this );
+      mPos = pos();
+      QTimer::singleShot( 333, this, SLOT(resetPos()) );
    }
 
 #if MAINWINDOW_CHANGETITLE
@@ -64,6 +66,12 @@ void MainWindow::changeTitle( const QIcon &icon, const QString &title )
    }
 }
 #endif
+
+
+void MainWindow::resetPos()
+{
+   move( mPos );
+}
 
 
 MainWidget *MainWindow::mainWidget()
