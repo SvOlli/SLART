@@ -31,13 +31,6 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
    setCentralWidget( mpMainWidget );
    setWindowTitle( QApplication::applicationName() );
    QApplication::setDoubleClickInterval( MySettings( "Global" ).VALUE_DOUBLECLICKINTERVAL );
-   
-   if( mSaveWindow )
-   {
-      MySettings().setMainWindow( this );
-      mPos = pos();
-      QTimer::singleShot( 333, this, SLOT(resetPos()) );
-   }
 
 #if MAINWINDOW_CHANGETITLE
    connect( mpMainWidget, SIGNAL(requestChangeTitle(QIcon,QString)),
@@ -50,6 +43,19 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
 #if MAINWIDGET_SCREENSHOT
    WidgetShot::addWidget( "MainWidget", mpMainWidget );
 #endif
+   
+   if( mSaveWindow )
+   {
+      MySettings().setMainWindow( this );
+      mPos = pos();
+      QTimer::singleShot( 666, this, SLOT(resetPos()) );
+   }
+}
+
+
+void MainWindow::resetPos()
+{
+   move( mPos );
 }
 
 
@@ -66,12 +72,6 @@ void MainWindow::changeTitle( const QIcon &icon, const QString &title )
    }
 }
 #endif
-
-
-void MainWindow::resetPos()
-{
-   move( mPos );
-}
 
 
 MainWidget *MainWindow::mainWidget()
