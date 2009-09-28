@@ -27,3 +27,6 @@ SOURCES += MainWidget.cpp
 HEADERS += SLARTSock.hpp 
 SOURCES += SLARTSock.cpp 
 
+HEADERS += SLARTSockServer.hpp 
+SOURCES += SLARTSockServer.cpp 
+

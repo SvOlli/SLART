@@ -10,6 +10,7 @@
 #include <QtGui>
 
 #include "SLARTSock.hpp"
+#include "SLARTSockServer.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
@@ -29,14 +30,24 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    
    connect( mpInput, SIGNAL(returnPressed()),
             this, SLOT(handleInput()) );
+#ifdef SLARTSOCK_DEBUG
    connect( mpSLARTSock, SIGNAL(debug(const QString&)),
+            this, SLOT(addMessage(const QString&)) );
+#endif
+   connect( mpSLARTSock, SIGNAL(received(const QString&)),
             this, SLOT(addMessage(const QString&)) );
    connect( this, SIGNAL(sendText(const QString&)),
             mpSLARTSock, SLOT(send(const QString&)) );
    
    setLayout( mainLayout );
-   
-   mpSLARTSock->init();
+
+#if 0
+   SLARTSockServer *server = new SLARTSockServer( QDir::home().absolutePath() + "/.SLART.sock", this );
+   connect( server, SIGNAL(debug(const QString&)),
+            this, SLOT(addMessage(const QString&)) );
+   server->listen();
+#endif
+   mpSLARTSock->start();
 }
 
 

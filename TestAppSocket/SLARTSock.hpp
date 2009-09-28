@@ -19,6 +19,9 @@ class QListWidget;
 class QLineEdit;
 class QSignalMapper;
 
+class SLARTSockServer;
+
+#define SLARTSOCK_DEBUG SLARTSOCK_DEBUG
 
 class SLARTSock : public QObject
 {
@@ -27,35 +30,38 @@ Q_OBJECT
 public:
    SLARTSock( QObject *parent = 0 );
    virtual ~SLARTSock();
-   void init();
-   void deinit();
    
 public slots:
-   void send( const QString &message, QLocalSocket *omit = 0 );
-   void restart();
-   void serverDisconnect();
-   void serverConnectSuccess();
-   void serverConnectFail( QLocalSocket::LocalSocketError socketError );
-   void serverHasData();
-   void clientConnect();
-   void clientHasData( QObject *client );
-   void clientDisconnected( QObject *client );
+   /* start the client and connect to server */
+   void start();
+   /* send the message to all other clients */
+   void send( const QString &message );
+   
+private slots:
+   /* connection to server was successful */
+   void connectSuccess();
+   /* connection to server failed */
+   void connectFail( QLocalSocket::LocalSocketError socketError );
+   /* server has new data from another client */
+   void incomingData();
+   /* connection to server was closed */
+   void disconnected();
    
 signals:
+   /* the message send from another client */
+   void received( const QString &message );
+#ifdef SLARTSOCK_DEBUG
+   /* output debug messages (depricated) */
    void debug( const QString &message );
+#endif
    
 private:
    SLARTSock( const SLARTSock &other );
    SLARTSock &operator=( const SLARTSock &other );
    
-   bool                 mClientMode;
-   bool                 mServerMode;
-   QLocalSocket         *mpServerConnection;
-   QLocalServer         *mpServer;
-   QSignalMapper        *mpClientsReadMapper;
-   QSignalMapper        *mpClientsDisconnectMapper;
-   QList<QLocalSocket*> mClientConnections;
    QString              mPath;
+   QLocalSocket         *mpServerConnection;
+   SLARTSockServer      *mpServer;
 };
 
 #endif
