@@ -11,6 +11,7 @@
 #include <QDir>
 
 #ifndef Q_OS_WIN32
+/* includes for "unlocking shmem" workaround */
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
@@ -53,15 +54,15 @@ SLARTSockServer::~SLARTSockServer()
 
 bool SLARTSockServer::listen()
 {
-#ifdef SLARTSOCKSERVER_DEBUG
-   emit debug( QString( "running server on "+mPath ) );
+#if SLARTSOCKSERVER_DEBUG
+   emit debug( QString( "s:trying to run server on " + mPath ) );
 #endif
    /* the whole magic to creating only one server happens here:
       using a shared memory segment as semaphore */
    if( !mShMem.create( 242 ) )
    {
-#ifdef SLARTSOCKSERVER_DEBUG
-      emit debug( QString("shmem create failed %1: %2 (%3)")
+#if SLARTSOCKSERVER_DEBUG
+      emit debug( QString("s:shmem create failed %1: %2 (%3)")
                      .arg( mShMem.key(), mShMem.errorString() )
                      .arg( QString::number(mShMem.error()) ) );
 #endif
@@ -71,42 +72,51 @@ bool SLARTSockServer::listen()
    
    bool success = mpServer->listen( mPath );
    
-#if 0   
 #ifdef Q_OS_MACX
    /* workaround for mac os x: remove stale socket */
    if( !success )
    {
-      emit debug("removing stale socket");
+#if SLARTSOCKSERVER_DEBUG
+      emit debug( "s:removing stale socket" );
+#endif
       QFile::remove( mPath );
       success = mpServer->listen( mPath );
    }
 #endif
-#endif
    
 #ifndef Q_OS_WIN32
-   /* workaround for not deleting shm-segment on crash:
-      remove it immediantly after creation */
-   QDir tmpDir(QDir::temp());
-   
-   QString base( mPath );
-   base.replace( QRegExp(QLatin1String("[^A-Za-z]")), QString() );
-   base.prepend( "qipc_sharedmemory_" );
-   base.append("*");
-   
-   QStringList matchList(tmpDir.entryList(QStringList() << base));
-   
-   if( matchList.count() > 0 )
+   if( success )
    {
-      key_t key = ftok( QFile::encodeName(tmpDir.absoluteFilePath(matchList.at(0))).constData(), 'Q' );
-      int shmid = shmget( key, 0, 0660 );
-      if( !shmctl(shmid, IPC_RMID, NULL) )
+      /* workaround for not deleting shm-segment on crash:
+         remove it immediantly after creation */
+      QDir tmpDir(QDir::temp());
+      
+      QString base( mPath );
+      base.replace( QRegExp(QLatin1String("[^A-Za-z]")), QString() );
+      base.prepend( "qipc_sharedmemory_" );
+      base.append("*");
+      
+      QStringList matchList(tmpDir.entryList(QStringList() << base));
+      
+      if( matchList.count() > 0 )
       {
-         /* on success remove file as well */
-         QFile::remove( tmpDir.absoluteFilePath(matchList.at(0)) );
+         key_t key = ftok( QFile::encodeName(tmpDir.absoluteFilePath(matchList.at(0))).constData(), 'Q' );
+         int shmid = shmget( key, 0, 0660 );
+         if( !shmctl(shmid, IPC_RMID, NULL) )
+         {
+            /* on success remove file as well */
+            QFile::remove( tmpDir.absoluteFilePath(matchList.at(0)) );
+         }
       }
    }
 #endif
    
+#if SLARTSOCKSERVER_DEBUG
+   if( success )
+   {
+      emit debug( "s:server started successfully" );
+   }
+#endif
    return success;
 }
 
@@ -116,6 +126,9 @@ void SLARTSockServer::incomingData( QObject *client )
    QLocalSocket *socket = static_cast<QLocalSocket*>(client);
    QByteArray msg( socket->readAll() );
    
+#if SLARTSOCKSERVER_DEBUG
+   emit debug( QString("s:from client: ") + msg );
+#endif
    for( int i = 0; i < mClientConnections.count(); i++ )
    {
       QLocalSocket *current = mClientConnections.at(i);
@@ -124,10 +137,6 @@ void SLARTSockServer::incomingData( QObject *client )
          current->write( msg );
       }
    }
-#ifdef SLARTSOCKSERVER_DEBUG
-   msg.prepend("from client: ");
-   emit debug( msg );
-#endif
 }
 
 
@@ -141,8 +150,8 @@ void SLARTSockServer::connected()
            mpClientsDisconnectMapper, SLOT(map()));
    mpClientsDisconnectMapper->setMapping(socket, static_cast<QObject*>(socket));
    mClientConnections.append( socket );
-#ifdef SLARTSOCKSERVER_DEBUG
-   emit debug( QString("client connected, %2 clients active")
+#if SLARTSOCKSERVER_DEBUG
+   emit debug( QString("s:client connected, %2 clients active")
                .arg(QString::number(mClientConnections.count())) );
 #endif
 }
@@ -158,8 +167,8 @@ void SLARTSockServer::disconnected( QObject *client )
    mpClientsDisconnectMapper->removeMappings( client );
    QLocalSocket *socket = static_cast<QLocalSocket*>(client);
    mClientConnections.removeAll( socket );
-#ifdef SLARTSOCKSERVER_DEBUG
-   emit debug( QString("client disconnected, %1 clients active")
+#if SLARTSOCKSERVER_DEBUG
+   emit debug( QString("s:client disconnected, %1 clients active")
                .arg(QString::number(mClientConnections.count())) );
 #endif
 }

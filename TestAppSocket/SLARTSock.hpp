@@ -21,7 +21,7 @@ class QSignalMapper;
 
 class SLARTSockServer;
 
-#define SLARTSOCK_DEBUG SLARTSOCK_DEBUG
+#define SLARTSOCK_DEBUG 1
 
 class SLARTSock : public QObject
 {
@@ -38,8 +38,10 @@ public slots:
    void send( const QString &message );
    
 private slots:
+#if SLARTSOCK_DEBUG
    /* connection to server was successful */
    void connectSuccess();
+#endif
    /* connection to server failed */
    void connectFail( QLocalSocket::LocalSocketError socketError );
    /* server has new data from another client */
@@ -50,7 +52,7 @@ private slots:
 signals:
    /* the message send from another client */
    void received( const QString &message );
-#ifdef SLARTSOCK_DEBUG
+#if SLARTSOCK_DEBUG
    /* output debug messages (depricated) */
    void debug( const QString &message );
 #endif

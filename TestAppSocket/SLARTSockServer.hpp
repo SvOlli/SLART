@@ -20,7 +20,7 @@ class QListWidget;
 class QLineEdit;
 class QSignalMapper;
 
-#define SLARTSOCKSERVER_DEBUG SLARTSOCKSERVER_DEBUG
+#define SLARTSOCKSERVER_DEBUG 1
 
 class SLARTSockServer : public QObject
 {
@@ -41,7 +41,7 @@ private slots:
    void disconnected( QObject *client );
    
 signals:
-#ifdef SLARTSOCKSERVER_DEBUG
+#if SLARTSOCKSERVER_DEBUG
    /* output debug messages (depricated) */
    void debug( const QString &message );
 #endif

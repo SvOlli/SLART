@@ -30,7 +30,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    
    connect( mpInput, SIGNAL(returnPressed()),
             this, SLOT(handleInput()) );
-#ifdef SLARTSOCK_DEBUG
+#if SLARTSOCK_DEBUG
    connect( mpSLARTSock, SIGNAL(debug(const QString&)),
             this, SLOT(addMessage(const QString&)) );
 #endif
@@ -41,12 +41,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    
    setLayout( mainLayout );
 
-#if 0
-   SLARTSockServer *server = new SLARTSockServer( QDir::home().absolutePath() + "/.SLART.sock", this );
-   connect( server, SIGNAL(debug(const QString&)),
-            this, SLOT(addMessage(const QString&)) );
-   server->listen();
-#endif
    mpSLARTSock->start();
 }
 

@@ -30,8 +30,10 @@ SLARTSock::SLARTSock( QObject *parent )
 {
    connect( mpServerConnection, SIGNAL(error(QLocalSocket::LocalSocketError)),
             this, SLOT(connectFail(QLocalSocket::LocalSocketError)) );
+#if SLARTSOCK_DEBUG
    connect( mpServerConnection, SIGNAL(connected()),
             this, SLOT(connectSuccess()) );
+#endif
    connect( mpServerConnection, SIGNAL(disconnected()),
             this, SLOT(disconnected()) );
    connect( mpServerConnection, SIGNAL(readyRead()),
@@ -46,8 +48,8 @@ SLARTSock::~SLARTSock()
 
 void SLARTSock::start()
 {
-#ifdef SLARTSOCK_DEBUG
-   emit debug( "connecting to server" );
+#if SLARTSOCK_DEBUG
+   emit debug( "c:connecting to server" );
 #endif
    mpServerConnection->connectToServer( mPath );
 }
@@ -59,12 +61,12 @@ void SLARTSock::send( const QString &message )
 }
 
 
+#if SLARTSOCK_DEBUG
 void SLARTSock::connectSuccess()
 {
-#ifdef SLARTSOCK_DEBUG
-   emit debug( "connected to server in client mode" );
-#endif
+   emit debug( "c:connected to server in client mode" );
 }
+#endif
 
 
 void SLARTSock::connectFail( QLocalSocket::LocalSocketError socketError )
@@ -72,32 +74,29 @@ void SLARTSock::connectFail( QLocalSocket::LocalSocketError socketError )
    Q_UNUSED( socketError );
    if( socketError != QLocalSocket::PeerClosedError )
    {
-#ifdef SLARTSOCK_DEBUG
-      emit debug( QString("connect error %1").arg( socketError ) );
-#ifdef Q_OS_MACX
-      emit debug( strerror( errno ) );
-#endif
-      emit debug( "starting server" );
+#if SLARTSOCK_DEBUG
+      emit debug( QString("c:connect error %1").arg( socketError ) );
+      emit debug( "c:starting server" );
 #endif
       if( mpServer == 0 )
       {
          mpServer = new SLARTSockServer( mPath, this );
-#ifdef SLARTSOCKSERVER_DEBUG
+#if SLARTSOCK_DEBUG && SLARTSOCKSERVER_DEBUG
          connect( mpServer, SIGNAL(debug(const QString&)),
                   this,     SIGNAL(debug(const QString&)) );
 #endif
          if( !mpServer->listen() )
          {
-#ifdef SLARTSOCK_DEBUG
-            emit debug( "stopping server (listen failed)" );
+#if SLARTSOCK_DEBUG
+            emit debug( "c:stopping server (listen failed)" );
 #endif
             delete mpServer;
             mpServer = 0;
          }
       }
    }
-#ifdef SLARTSOCK_DEBUG
-   emit debug( "error connecting to server" );
+#if SLARTSOCK_DEBUG
+   emit debug( "c:error connecting to server" );
 #endif
    QTimer::singleShot( 1000, this, SLOT(start()) );
 }
@@ -105,20 +104,19 @@ void SLARTSock::connectFail( QLocalSocket::LocalSocketError socketError )
 
 void SLARTSock::disconnected()
 {
-#ifdef SLARTSOCK_DEBUG
-   emit debug( "disconnected from server" );
+#if SLARTSOCK_DEBUG
+   emit debug( "c:disconnected from server" );
 #endif
-   QTimer::singleShot( 1, this, SLOT(start()) );
+   QTimer::singleShot( 500, this, SLOT(start()) );
 }
 
 
 void SLARTSock::incomingData()
 {
    QString msg( QString::fromUtf8(mpServerConnection->readAll()) );
-   emit received( msg );
-#ifdef SLARTSOCK_DEBUG
-   msg.prepend("from server: ");
-   emit debug( msg );
+#if SLARTSOCK_DEBUG
+   emit debug( QString("c:from server: ") + msg );
 #endif
+   emit received( msg );
 }
 
