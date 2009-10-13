@@ -26,6 +26,7 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
 , mProhibitCloseWindow( false )
 #endif
 , mSaveWindow( saveWindow )
+, mForbidMove( 50 )
 , mpMainWidget( new MainWidget( this ) )
 {
    setCentralWidget( mpMainWidget );
@@ -47,15 +48,22 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
    if( mSaveWindow )
    {
       MySettings().setMainWindow( this );
-      mPos = pos();
-      QTimer::singleShot( 666, this, SLOT(resetPos()) );
    }
 }
 
 
-void MainWindow::resetPos()
+/* Evil workaround: in the first fifty events revert all move requests */
+bool MainWindow::event( QEvent *event )
 {
-   move( mPos );
+   if( mForbidMove > 0 )
+   {
+      if( (event->type() == QEvent::Move ) && mSaveWindow )
+      {
+         MySettings().setMainWindow( this );
+      }
+      mForbidMove--;
+   }
+   return QWidget::event( event );
 }
 
 

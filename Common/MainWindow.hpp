@@ -37,8 +37,6 @@ public:
    
    /* passing through the only widget of the window */
    MainWidget *mainWidget();
-   /* intercept for writing the settings */
-   void closeEvent( QCloseEvent *event );
 #if MAINWINDOW_SORCERER
    /* call Sorcerer for setting up */
    static bool invokeSetUp( QApplication *app );
@@ -49,12 +47,16 @@ public slots:
    /* handle request for new icon and title */
    void changeTitle( const QIcon &icon, const QString &title );
 #endif
-   /* very ugly workaround for wrong position restoration on Ubuntu */
-   void resetPos(); 
 #if MAINWINDOW_PROHIBITCLOSE
    /* prohibit closing of window (Partyman kiosk mode) */
    void prohibitClose( bool prohibit ) { mProhibitCloseWindow = prohibit; };
 #endif
+
+protected:
+   /* intercept for writing the settings */
+   virtual void closeEvent( QCloseEvent *event );
+   /* very ugly workaround for wrong position restoration on Ubuntu */
+   virtual bool event( QEvent *event );
    
 private:
    MainWindow( const MainWindow &other );
@@ -69,8 +71,8 @@ private:
    bool          mProhibitCloseWindow;
 #endif
    bool          mSaveWindow;
+   int           mForbidMove;
    MainWidget   *mpMainWidget;
-   QPoint        mPos;
 };
 
 #endif
