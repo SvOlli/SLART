@@ -14,6 +14,7 @@
 #include "DatabaseWorker.hpp"
 
 #include <QtGui>
+#include <stdlib.h>
 
 
 int main(int argc, char *argv[])
@@ -24,7 +25,12 @@ int main(int argc, char *argv[])
    QApplication::setOrganizationDomain("svolli.org");
    QApplication::setApplicationName("Rubberbandman");
    
-   QApplication app(argc, argv);
+#ifdef Q_WS_X11
+   bool useGUI = getenv("DISPLAY") != 0;
+#else
+   bool useGUI = true;
+#endif
+   QApplication app(argc, argv, useGUI);
    
    QStringList args( QApplication::arguments() );
    if( args.size() > 1 )
@@ -71,31 +77,34 @@ int main(int argc, char *argv[])
    }
    else
    {
-      MySettings settings;
-   
+      if( useGUI )
+      {
+         MySettings settings;
+         
 #if MAINWINDOW_SORCERER
-      if( !settings.contains( "SLARTCommunication" ) || !Database::exists() )
-      {
-         if( !MainWindow::invokeSetUp( &app ) )
+         if( !settings.contains( "SLARTCommunication" ) || !Database::exists() )
          {
-            return 2;
+            if( !MainWindow::invokeSetUp( &app ) )
+            {
+               return 2;
+            }
          }
-      }
 #endif
-      
-      {
-         QFile qssFile( settings.styleSheetFile() );
-         if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
+         
          {
-            app.setStyleSheet( qssFile.readAll() );
-            qssFile.close();
+            QFile qssFile( settings.styleSheetFile() );
+            if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
+            {
+               app.setStyleSheet( qssFile.readAll() );
+               qssFile.close();
+            }
          }
-      }
-   
-      MainWindow window;
-      window.show();
       
-      retval = app.exec();
+         MainWindow window;
+         window.show();
+         
+         retval = app.exec();
+      }
    }
    
    return retval;
