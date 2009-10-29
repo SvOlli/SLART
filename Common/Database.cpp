@@ -14,7 +14,7 @@
 
 
 Database::Database( const QString &fileName )
-: mpSqlDB( 0 )
+: mpSqlDB( new QSqlDatabase( QSqlDatabase::addDatabase( "QSQLITE" ) ) )
 , mpQuery( 0 )
 , mDatabaseVersion( 0 )
 , mCodeVersion( 1 )
@@ -22,7 +22,6 @@ Database::Database( const QString &fileName )
    int i;
    qsrand( time((time_t*)0) );
    
-   mpSqlDB = new QSqlDatabase( QSqlDatabase::addDatabase( "QSQLITE" ) );
    if( mpSqlDB->lastError().type() != QSqlError::NoError )
    {
       QMessageBox::critical( 0, QApplication::applicationName() + QWidget::tr(": Error"),
