@@ -178,7 +178,9 @@ void MainWidget::handlePingButton()
 
 void MainWidget::handleSLART( const QStringList &message )
 {
-   mpMessageBuffer->addItem( "> "+QDateTime::currentDateTime().toString() );
+   QListWidgetItem *item = new QListWidgetItem( QDateTime::currentDateTime().toString(), mpMessageBuffer );
+   item->setBackground( QBrush( mpMessageBuffer->palette().color( QPalette::AlternateBase ) ) );
+   mpMessageBuffer->addItem( item );
 
    for( int i = 0; i < message.size(); i++ )
    {
@@ -187,7 +189,7 @@ void MainWidget::handleSLART( const QStringList &message )
 
    while( mpMessageBuffer->count() > MySettings().VALUE_BUFFERSIZE )
    {
-      QListWidgetItem *item = mpMessageBuffer->takeItem(0);
+      item = mpMessageBuffer->takeItem(0);
       if( item )
       {
          delete item;
