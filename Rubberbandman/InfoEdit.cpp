@@ -85,6 +85,10 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    mpEditYear->setValidator( mpValidateYear );
    mpEditTrackNr->setMaxLength( 2 );
    mpEditYear->setMaxLength( 4 );
+   mpEditTrackNr->setMaximumWidth( QFontMetrics(mpEditTrackNr->font()).width("999 ") );
+   mpEditTrackNr->setMinimumWidth( mpEditTrackNr->maximumWidth() );
+   mpEditYear->setMaximumWidth( QFontMetrics(mpEditYear->font()).width("99999 ") );
+   mpEditYear->setMinimumWidth( mpEditYear->maximumWidth() );
    mpShowSize->setReadOnly( true );
    mpShowPlayTime->setReadOnly( true );
    
