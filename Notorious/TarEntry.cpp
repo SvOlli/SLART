@@ -156,7 +156,7 @@ TRACEMSG << linenr << mStartframe[linenr] << mPlaytime[linenr]/75 << mTitle[line
    
    for( int i = 0; i <= mTracks; i++ )
    {
-      mSQL.append( "REPLACE INTO \"freedb\" VALUES('" );
+      mSQL.append( "REPLACE INTO freedb(category,id,track,title,playtime,ext) VALUES('" );
       mSQL.append( mCategory );
       mSQL.append( "','" );
       mSQL.append( mID );

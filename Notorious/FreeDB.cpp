@@ -18,6 +18,7 @@
 
 #include "Trace.hpp"
 
+#define USE_SQLITE 1
 
 FreeDB::FreeDB( QObject *parent )
 : QObject( parent )
@@ -28,8 +29,12 @@ FreeDB::FreeDB( QObject *parent )
    MySettings settings;
    QString dbFileName( settings.value( "DatabaseFile", "freedb.sqlite" ).toString() );
    settings.setValue( "DatabaseFile", dbFileName );
-   
+
+#if USE_SQLITE
    mpSqlDB = new QSqlDatabase( QSqlDatabase::addDatabase( "QSQLITE" ) );
+#else
+   mpSqlDB = new QSqlDatabase( QSqlDatabase::addDatabase( "QMYSQL" ) );
+#endif
    
    if( mpSqlDB->lastError().type() != QSqlError::NoError )
    {
@@ -38,7 +43,13 @@ FreeDB::FreeDB( QObject *parent )
       exit(1);
    }
    
+#if USE_SQLITE
    mpSqlDB->setDatabaseName( dbFileName );
+#else
+   mpSqlDB->setDatabaseName( "freedb" );
+   mpSqlDB->setUserName( "svolli" );
+   mpSqlDB->setPassword( "svolli" );
+#endif
    
    if( !mpSqlDB->open() )
    {
@@ -48,15 +59,17 @@ FreeDB::FreeDB( QObject *parent )
    }
    
    QSqlQuery q;
+#if USE_SQLITE
    q.exec( "SELECT * FROM sqlite_master WHERE type = 'table' AND name = 'freedb';" );
    if( !(q.next()) )
    {
       q.clear();
       q.exec("CREATE TABLE freedb("
              "category VARCHAR,id VARCHAR,track INT,title VARCHAR,playtime INT,ext VARCHAR,"
-             "primary key(category,id,track));");
+             "PRIMARY KEY(category,id,track));");
       q.exec("CREATE INDEX freedb_title ON freedb(title);");
    }
+#endif
 }
 
 
