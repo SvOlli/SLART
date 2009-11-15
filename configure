@@ -6,9 +6,12 @@ if [ "`uname`" = "SunOS" -a -z "${BASH}" ]; then
 fi
 
 BASEDIR="`dirname ${0}`"
-BUILDARCH="`uname -s -m|tr ' ' _`"
+if [ -z "${BUILDARCH}" ]; then
+  BUILDARCH="`uname -m -s`"
+fi
+BUILDARCH="`echo ${BUILDARCH}|tr 'A-Z ' a-z_`"
 VERSION="`grep SLART_VERSION ${BASEDIR}/Common/Version.hpp|sed 's@.*"\([^"]*\)"@\1@'|tr -d '\n'`"
-CACHEFILE=${BASEDIR}/${BUILDARCH}/.config.cache
+CACHEFILE="${BASEDIR}/${BUILDARCH}/.config.cache"
 CONFIG=debug
 PREFIX=/usr/local
 QMAKE=
