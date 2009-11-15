@@ -356,6 +356,7 @@ void PlaylistWidget::dropEvent( QDropEvent *event )
 void PlaylistWidget::readConfig()
 {
    mpTreeView->setAnimated( MySettings("Global").VALUE_ANIMATEVIEWS );
+   mpSplitter->setOrientation( MySettings().VALUE_SPLITTERVERTICAL ? Qt::Horizontal : Qt::Vertical );
 }
 
 

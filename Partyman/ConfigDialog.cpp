@@ -50,6 +50,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpPlayerPattern( new QLineEdit( this ) )
 , mpListPattern( new QLineEdit( this ) )
 , mpTrayIconPattern( new QLineEdit( this ) )
+, mpSplitterVertical( new QCheckBox( tr("Use A Vertical Splitter Line"), this ) )
 , mpUpdateBrowserButton( new QPushButton( tr("Update Browser Tab"), this ) )
 , mpStartKioskButton( new QPushButton( tr("Start Kiosk Mode"), this ) )
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
@@ -130,7 +131,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    partymanLayout->addWidget( mpCountSkip,                          5, 0, 1, 5 );
    partymanLayout->setColumnStretch( 1, 1 );
    partymanLayout->setColumnStretch( 2, 1 );
-   partymanLayout->setRowStretch( 5, 1 );
+   partymanLayout->setRowStretch( 6, 1 );
    partymanTab->setLayout( partymanLayout );
    connect( mpTrayIcon, SIGNAL(clicked(bool)),
             this, SLOT(handleShowTrayIcon(bool)) );
@@ -158,10 +159,11 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    displayLayout->addWidget( mpPlayerPattern, 3, 1 );
    displayLayout->addWidget( new QLabel( tr("List:") ), 4, 0 );
    displayLayout->addWidget( mpListPattern, 4, 1 );
-   displayLayout->setRowStretch( 5, 1 );
+   displayLayout->addWidget( mpSplitterVertical, 5, 0, 1, 2 );
+   displayLayout->setRowStretch( 6, 1 );
    displayButtonLayout->addWidget( mpUpdateBrowserButton );
    displayButtonLayout->addWidget( mpStartKioskButton );
-   displayLayout->addLayout( displayButtonLayout, 6, 0, 1, 2 );
+   displayLayout->addLayout( displayButtonLayout, 7, 0, 1, 2 );
    displayTab->setLayout( displayLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -264,6 +266,7 @@ void ConfigDialog::readSettings()
    mpListPattern->setText( settings.VALUE_LISTPATTERN );
    mpNamePattern->setText( settings.VALUE_NAMEPATTERN );
    mpTrayIconPattern->setText( settings.VALUE_TRAYICONPATTERN );
+   mpSplitterVertical->setChecked( settings.VALUE_SPLITTERVERTICAL );
    handleUDPListen( mpSLARTCommunication->isChecked() );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    mpGlobalSettings->readSettings();
@@ -311,6 +314,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "ListPattern", mpListPattern->text() );
    settings.setValue( "NamePattern", mpNamePattern->text() );
    settings.setValue( "TrayIconPattern", mpTrayIconPattern->text() );
+   settings.setValue( "SplitterVertical", mpSplitterVertical->isChecked() );
    if( mpPlayFolder->currentIndex() )
    {
       settings.setValue( "PlayFolder", mpPlayFolder->currentText() );
