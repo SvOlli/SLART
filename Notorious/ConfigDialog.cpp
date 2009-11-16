@@ -24,7 +24,9 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 , mpImportFile( new QLineEdit( this ) )
 , mpCount( new QLabel( this ) )
 , mpFileName( new QLabel( this ) )
+, mpTimeSpent( new QLabel( this ) )
 , mpImportButton( new QPushButton( tr("Run Import"), this ) )
+, mTimeSpent()
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
@@ -51,11 +53,13 @@ ConfigDialog::ConfigDialog( QWidget *parent )
    importLayout->addWidget( browseButton, 1, 2 );
    importLayout->addWidget( new QLabel( tr("Files Processed:"), this ), 2, 0 );
    importLayout->addWidget( new QLabel( tr("File Name:"), this ),       3, 0 );
+   importLayout->addWidget( new QLabel( tr("Time Spent:"), this ),      4, 0 );
    importLayout->addWidget( mpCount, 2, 1, 1, 2 );
    importLayout->addWidget( mpFileName, 3, 1, 1, 2 );
-   importLayout->addWidget( mpImportButton, 5, 0, 1, 3 );
+   importLayout->addWidget( mpTimeSpent, 4, 1, 1, 2 );
+   importLayout->addWidget( mpImportButton, 6, 0, 1, 3 );
    importLayout->setColumnStretch( 1, 1 );
-   importLayout->setRowStretch( 4, 1 );
+   importLayout->setRowStretch( 5, 1 );
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
@@ -108,6 +112,7 @@ void ConfigDialog::handleProgress( unsigned count, const char *filename )
 {
    mpCount->setText( QString::number( count ) );
    mpFileName->setText( QString(filename) );
+   mpTimeSpent->setText( QTime(0,0).addMSecs( mTimeSpent.elapsed() ).toString("hh:mm:ss") );
 }
 
 
@@ -168,5 +173,6 @@ void ConfigDialog::handleImport()
       mpFreeDBImport->setFileName( mpImportFile->text() );
       mpFreeDBImport->start();
       mpImportButton->setText( tr("Cancel Import") );
+      mTimeSpent.start();
    }
 }

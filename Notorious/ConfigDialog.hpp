@@ -10,6 +10,8 @@
 
 #include <QDialog>
 
+#include <QTime>
+
 #include "ProxyWidget.hpp"
 
 class QCheckBox;
@@ -54,7 +56,9 @@ private:
    QLineEdit    *mpImportFile;
    QLabel       *mpCount;
    QLabel       *mpFileName;
+   QLabel       *mpTimeSpent;
    QPushButton  *mpImportButton;
+   QTime        mTimeSpent;
 };
 
 /* defaults */
