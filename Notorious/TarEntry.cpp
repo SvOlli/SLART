@@ -44,7 +44,7 @@ TRACESTART(TarEntry::setData)
 }
 
 
-QString TarEntry::sql()
+QStringList TarEntry::sql()
 {
 #if 0
 TRACESTART(TarEntry::sql)
@@ -154,27 +154,24 @@ TRACEMSG << linenr << mStartframe[linenr] << mPlaytime[linenr]/75 << mTitle[line
    }
 #endif
    
+   mSQL.clear();
    for( int i = 0; i <= mTracks; i++ )
    {
-      mSQL.append( "REPLACE INTO freedb(category,id,track,title,playtime,ext) VALUES('" );
-      mSQL.append( mCategory );
-      mSQL.append( "','" );
-      mSQL.append( mID );
-      mSQL.append( "'," );
-      mSQL.append( QString::number( i ) );
-      mSQL.append( ",'" );
-      mSQL.append( mTitle[i] );
-      mSQL.append( "'," );
-      mSQL.append( QString::number( mPlaytime[i] ) );
-      mSQL.append( ",'" );
-      mSQL.append( mExt[i] );
-      mSQL.append( "');\n" );
+      mSQLLine.clear();
+      mSQLLine.append( "REPLACE INTO freedb (category,id,track,title,playtime,ext) VALUES('" );
+      mSQLLine.append( mCategory );
+      mSQLLine.append( "','" );
+      mSQLLine.append( mID );
+      mSQLLine.append( "'," );
+      mSQLLine.append( QString::number( i ) );
+      mSQLLine.append( ",'" );
+      mSQLLine.append( mTitle[i] );
+      mSQLLine.append( "'," );
+      mSQLLine.append( QString::number( mPlaytime[i] ) );
+      mSQLLine.append( ",'" );
+      mSQLLine.append( mExt[i] );
+      mSQLLine.append( "');" );
+      mSQL.append( mSQLLine );
    }
    return mSQL;
-}
-
-
-QString TarEntry::sqlentry( )
-{
-   return "";
 }

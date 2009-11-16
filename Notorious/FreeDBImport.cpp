@@ -33,6 +33,7 @@ void FreeDBImport::run()
    unsigned long int count = 0;
    int               status;
    tir_data          tarData;
+   QStringList       l;
    QSqlQuery         q;
    
    status = tir_open( mFileName.toLocal8Bit().constData(), &tarData );
@@ -50,13 +51,20 @@ void FreeDBImport::run()
       if( (*(tarData.filetype) == '0') && (tarData.filesize > 0) )
       {
          mTarEntry.setData( tarData.filename, tarData.data );
-         q.exec( mTarEntry.sql() );
+         l = mTarEntry.sql();
+         for( int i = 0; i < l.count(); i++ )
+         {
+            q.exec( l.at(i) );
+         }
+//qDebug() << l << endl;
          if( ++count % 1000 == 0 )
          {
-            q.exec( "COMMIT; BEGIN TRANSACTION;" );
+            q.exec( "COMMIT;");
+            q.exec( "BEGIN TRANSACTION;" );
             emit processed( count, tarData.filename );
          }
       }
+//      if( count >= 10000 ) mBreak = true;
    }
    q.exec( "COMMIT;" );
    emit processed( count, "" );

@@ -12,13 +12,11 @@ public:
 
    void setData( const char *filename, const char *data );
 
-   QString sql();
+   QStringList sql();
 
 private:
    TarEntry( const TarEntry &other );
    TarEntry &operator=( const TarEntry &other );
-
-   QString sqlentry();
 
    bool          mDirty;
    const QChar   mCR;
@@ -29,7 +27,8 @@ private:
    QString     mCategory;
    QString     mID;
    QString     mData;
-   QString     mSQL;
+   QString     mSQLLine;
+   QStringList mSQL;
    QStringList mLines;
    int         mTracks;
 
