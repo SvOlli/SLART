@@ -1,0 +1,5 @@
+src/**/Makefile*
+.project
+.cproject
+workspace/
+build/

@@ -1,8 +1,0 @@
-<!DOCTYPE RCC>
-<RCC VERSION="1.0">
-<qresource>
-   <file alias="web/favicon.ico">../../Common/Resources/SLART.ico</file>
-   <file alias="web/SLART.png">../../Common/Resources/SLART.png</file>
-   <file alias="web/static.html">static.html</file>
-</qresource>
-</RCC>
