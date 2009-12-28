@@ -1,8 +1,9 @@
 /**
- * MainWindow.cpp
+ * src/libs/Common/MainWindow.cpp
  * written by Sven Oliver Moll
  * 
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU Lesser General Public License (LGPL)
+ * available at http://www.gnu.org/licenses/lgpl.html
  */
 
 #include "MainWindow.hpp"
@@ -35,6 +36,11 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
             this, SLOT(prohibitClose(bool)) );
  */
    
+}
+
+
+MainWindow::~MainWindow()
+{
 }
 
 
@@ -84,14 +90,6 @@ void MainWindow::changeTitle( const QIcon &icon, const QString &title )
 
 void MainWindow::closeEvent( QCloseEvent *event )
 {
-   if( mProhibitCloseWindow )
-   {
-      if( PasswordChecker::get()->unlock() )
-      {
-         event->ignore();
-         return;
-      }
-   }
    if( mSaveWindow )
    {
       MySettings().saveMainWindow( this );

@@ -26,6 +26,9 @@ SOURCES += GlobalConfigWidget.cpp
 HEADERS += MainWindow.hpp
 SOURCES += MainWindow.cpp
 
+HEADERS += MainWindowCheckClose.hpp
+SOURCES += MainWindowCheckClose.cpp
+
 HEADERS += MySettings.hpp
 SOURCES += MySettings.cpp
 

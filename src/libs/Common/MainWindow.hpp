@@ -1,8 +1,9 @@
 /**
- * MainWindow.hpp
+ * src/libs/Common/MainWindow.hpp
  * written by Sven Oliver Moll
  * 
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU Lesser General Public License (LGPL)
+ * available at http://www.gnu.org/licenses/lgpl.html
  */
 
 #ifndef MAINWINDOW_HPP
@@ -22,6 +23,7 @@ Q_OBJECT
 public:
    MainWindow( bool saveWindow = true,
                QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   virtual ~MainWindow();
    /*  */
    void setMainWidget( QWidget *mainWidget );
    /*  */
@@ -30,8 +32,6 @@ public:
 public slots:
    /* handle request for new icon and title */
    void changeTitle( const QIcon &icon, const QString &title );
-   /* prohibit closing of window (Partyman kiosk mode) */
-   void prohibitClose( bool prohibit ) { mProhibitCloseWindow = prohibit; };
 
 protected:
    /* intercept for writing the settings */
