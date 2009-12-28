@@ -1,8 +1,9 @@
 /**
- * TrackInfoWidget.cpp
+ * src/libs/Common/TrackInfoWidget.Cpp
  * written by Sven Oliver Moll
  * 
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
+ * available at http://www.gnu.org/licenses/gpl.html
  */
 
 #include "TrackInfoWidget.hpp"

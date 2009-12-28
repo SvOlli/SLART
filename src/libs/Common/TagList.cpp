@@ -1,8 +1,9 @@
 /**
- * TagList.cpp
+ * src/libs/Common/TagList.cpp
  * written by Sven Oliver Moll
  * 
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
+ * available at http://www.gnu.org/licenses/gpl.html
  */
 
 #include "TagList.hpp"
@@ -167,18 +168,12 @@ QString TagList::normalizeString( const QString &string )
    }
    
    newString.replace( "\"", "''" );
-   newString.replace( QChar::fromLatin1( '´' ), '\'' );
-   newString.replace( "`", "'" );
+   newString.replace( QString::fromLatin1( "\0xB4" ), "'" ); // accent acute
+   newString.replace( "\0x60", "'" );                        // accent grave
    if( settings.value( "NormalizeSpaces", false ).toBool() )
    {
       newString = newString.simplified();
    }
-#if 0
-   if( newString.startsWith( "The " ) && !newString.startsWith("The The ") )
-   {
-      newString = newString.mid(4);
-   }
-#endif
    
    return newString;
 }
