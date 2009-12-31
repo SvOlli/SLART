@@ -7,6 +7,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS += CommandLine
+SUBDIRS += Common
 SUBDIRS += SLARTCom
+SUBDIRS += TagLib
 SUBDIRS += WebServer
 
