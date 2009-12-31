@@ -9,7 +9,7 @@
 #ifndef COMMANDLINE_HPP
 #define COMMANDLINE_HPP COMMANDLINE_HPP
 
-class QStringList;
+#include <QStringList>
 
 class CommandLineOption;
 
