@@ -5,6 +5,8 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
+#include <QSlider>
+
 #include "ControlWidget.hpp"
 #include "PlayerFSMSearching.hpp"
 #include "PlayerWidget.hpp"
@@ -24,6 +26,7 @@ bool PlayerFSMSearching::enter()
    mpPlayerWidget->updateTime();
    mpPlayerWidget->sendCommand( "unwatch" );
    mpPlayerWidget->disablePlayPosition( true );
+   mpPlayerWidget->mpPlayPosition->setMaximum( 1 );
    
    mpPlayerWidget->getNextTrack();
    

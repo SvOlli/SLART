@@ -145,6 +145,9 @@ PlayerWidget::PlayerWidget( int index, Database *database,
    mpTimeDisplay->setAlignment( Qt::AlignRight );
    mpTimeDisplay->setFrameShape( QFrame::Box );
    mpTimeDisplay->setObjectName( QString("TimeLabel") );
+   mpPlayPosition->setTickPosition( QSlider::TicksBelow );
+   mpPlayPosition->setTickInterval( 60 );
+   mpPlayPosition->setMaximum( 1 );
    
    connect( mpSocket, SIGNAL(connected()),
             this, SLOT(handleConnect()) );
@@ -410,6 +413,7 @@ void PlayerWidget::disconnect()
    sendCommand( "stop" );
    mpSocket->disconnectFromHost();
    setState( PlayerFSM::disconnected );
+   mpPlayPosition->setMaximum( 1 );
 }
 
 
@@ -551,7 +555,7 @@ void PlayerWidget::handleScan( const QString &data )
       mTrackInfo.mPlayTime = mTotalTime;
       mpDatabase->updateTrackInfo( &mTrackInfo );
    }
-   mpPlayPosition->setRange( 0, mTotalTime );
+   mpPlayPosition->setMaximum( mTotalTime );
    updateTime();
 }
 
