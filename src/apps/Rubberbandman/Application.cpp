@@ -12,6 +12,7 @@
 #include "Database.hpp"
 #include "DatabaseWorker.hpp"
 #include "MainWindow.hpp"
+#include "MainWidget.hpp"
 #include "MySettings.hpp"
 #include "SorcererLoader.hpp"
 
@@ -90,6 +91,8 @@ int main(int argc, char *argv[])
          }
       
          MainWindow window;
+         MainWidget *mainWidget = new MainWidget( &window );
+         window.setMainWidget( mainWidget );
          window.show();
          
          retval = app.exec();
