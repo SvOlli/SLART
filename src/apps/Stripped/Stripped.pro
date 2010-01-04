@@ -7,6 +7,7 @@
 TEMPLATE = app
 TARGET = Stripped
 QT += sql network
+CONFIG += link_pkgconfig
 
 include( ../../config.pri )
 
