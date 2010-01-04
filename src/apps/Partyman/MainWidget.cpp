@@ -12,7 +12,7 @@
 #include "ControlWidget.hpp"
 #include "PasswordChecker.hpp"
 #include "PlaylistWidget.hpp"
-#include "MainWindow.hpp"
+#include "MainWindowCheckClose.hpp"
 #include "MySettings.hpp"
 
 #include <QtGui>
@@ -92,7 +92,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpControl, SIGNAL(requestTab(int)),
             mpPlaylist, SLOT(handleTabChange(int)) );
    
-   MainWindow *mainWindow = qobject_cast<MainWindow*>(parent);
+   MainWindowCheckClose *mainWindow = qobject_cast<MainWindowCheckClose*>(parent);
    if( mainWindow )
    {
       connect( this, SIGNAL(requestChangeTitle(QIcon,QString)),

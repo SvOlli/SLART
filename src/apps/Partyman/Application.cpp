@@ -9,7 +9,7 @@
 #include <stdlib.h>
 
 #include "MainWidget.hpp"
-#include "MainWindow.hpp"
+#include "MainWindowCheckClose.hpp"
 #include "MySettings.hpp"
 #include "SorcererLoader.hpp"
 
@@ -54,8 +54,9 @@ int main(int argc, char *argv[])
             }
          }
          
-         MainWindow window;
+         MainWindowCheckClose window;
          MainWidget *mainWidget = new MainWidget( &window );
+         window.setMainWidget( mainWidget );
          window.show();
          mainWidget->startUp();
          

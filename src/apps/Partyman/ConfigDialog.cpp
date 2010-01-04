@@ -55,7 +55,6 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpUpdateBrowserButton( new QPushButton( tr("Update Browser Tab"), this ) )
 , mpStartKioskButton( new QPushButton( tr("Start Kiosk Mode"), this ) )
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
-, mPassword()
 {
    gpConfig = this;
    
@@ -232,13 +231,9 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 
 void ConfigDialog::exec()
 {
-   if( !mPassword.isEmpty() )
+   if( !(PasswordChecker::get()->unlock()) )
    {
-      if( !checkPassword( false ) )
-      {
-         return;
-      }
-      mPassword.clear();
+      return;
    }
    emit kioskMode( false );
    readSettings();
@@ -385,42 +380,4 @@ void ConfigDialog::handleStartKiosk()
    {
       accept();
    }
-}
-
-
-bool ConfigDialog::checkPassword( bool lock )
-{
-   /* check if we want to lock instead of verify */
-   if( lock )
-   {
-      mPassword =
-         QInputDialog::getText( this, tr("Enter Password For Enableing Kiosk Mode"),
-                                tr("To enable Kiosk Mode enter a password that will be needed for unlocking.\n"
-                                   "(Empty password does not activate Kiosk Mode)"),
-                                QLineEdit::Password );
-      bool enable = !mPassword.isEmpty();
-      emit kioskMode( enable );
-      return enable;
-   }
-   
-   /* no password set -> no kiosk mode */
-   if( mPassword.isEmpty() )
-   {
-      return true;
-   }
-   
-   return mPassword ==
-      QInputDialog::getText( this, tr("Enter Password For Unlocking Kiosk Mode"),
-                             tr("The feature you've requested is not available in Kiosk Mode, enter password to disable."),
-                             QLineEdit::Password );
-}
-
-
-bool ConfigDialog::checkPassword()
-{
-   if( gpConfig )
-   {
-      return gpConfig->checkPassword( false );
-   }
-   return true;
 }

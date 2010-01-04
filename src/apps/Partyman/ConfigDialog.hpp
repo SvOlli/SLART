@@ -28,11 +28,6 @@ Q_OBJECT
 
 public:
    ConfigDialog( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
-   /* open the password dialog, default checks, true sets password */
-   bool checkPassword( bool lock );
-   /* wrapper for checking the password from anywhere in the code */
-   static bool checkPassword();
    
 public slots:
    /* execute the dialog */
@@ -100,7 +95,6 @@ private:
    QPushButton          *mpUpdateBrowserButton;
    QPushButton          *mpStartKioskButton;
    GlobalConfigWidget   *mpGlobalSettings;
-   QString              mPassword;
 };
 
 /* defaults */
