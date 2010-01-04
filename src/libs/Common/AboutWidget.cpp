@@ -38,7 +38,8 @@ AboutWidget::AboutWidget( QWidget *parent, const QString &aboutText )
    {
       aboutLabel->setText( aboutText );
    }
-   connect( aboutLabel, SIGNAL(linkActivated(QString)), this, SLOT(handleLink(QString)) );
+   connect( aboutLabel, SIGNAL(linkActivated(const QString&)),
+            this, SLOT(handleLink(const QString&)) );
 
    mainLayout->addWidget( aboutLabel );
    setLayout( mainLayout );
