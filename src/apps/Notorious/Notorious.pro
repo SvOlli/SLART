@@ -1,24 +1,29 @@
 ######################################################################
-# hand hacked by SvOlli
+# src/apps/Notorious/Notorious.pro
+# written by Sven Oliver Moll
+# distributed as public domain
 ######################################################################
-
-include ( ../Global.pri )
 
 TEMPLATE = app
 TARGET = Notorious
-QT += sql
+QT += sql network
 LIBS += -lbz2
 
+include( ../../config.pri )
+
+INCLUDEPATH += ../../libs/Common
+LIBS += -lCommon
+
 # Input
-RESOURCES = Resources/Common.qrc
-RC_FILE = ../Common/Resources/WinIcon.rc
+RESOURCES = ../../libs/Common/Resources/Common.qrc
+RC_FILE = ../../libs/Common/Resources/WinIcon.rc
 
 SOURCES += Application.cpp
 
-HEADERS += Database.hpp
+#HEADERS += Database.hpp
 
-HEADERS += AboutWidget.hpp
-SOURCES += AboutWidget.cpp
+#HEADERS += AboutWidget.hpp
+#SOURCES += AboutWidget.cpp
 
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp
@@ -41,11 +46,11 @@ SOURCES += FreeDBQuery.cpp
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
 
-HEADERS += MainWindow.hpp
-SOURCES += MainWindow.cpp
+#HEADERS += MainWindow.hpp
+#SOURCES += MainWindow.cpp
 
-HEADERS += MySettings.hpp
-SOURCES += MySettings.cpp
+#HEADERS += MySettings.hpp
+#SOURCES += MySettings.cpp
 
 HEADERS += SearchWidget.hpp
 SOURCES += SearchWidget.cpp

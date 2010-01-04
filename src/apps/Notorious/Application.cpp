@@ -45,6 +45,8 @@ int main(int argc, char *argv[])
    }
    
    MainWindow window;
+   MainWidget *mainWidget = new MainWidget( &window );
+   window.setMainWidget( mainWidget );
    window.show();
    
    retval = app.exec();
