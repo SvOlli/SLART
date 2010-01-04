@@ -78,7 +78,16 @@ bool PasswordChecker::unlock()
       return true;
    }
 
-   return mPassword ==
-      QInputDialog::getText( mpParent, mUnlockHeader, mUnlockMessage,
-                             QLineEdit::Password );
+   QString password( QInputDialog::getText( mpParent, mUnlockHeader, mUnlockMessage,
+                                            QLineEdit::Password ) );
+
+   if( mPassword == password )
+   {
+      mPassword.clear();
+      return true;
+   }
+   else
+   {
+      return false;
+   }
 }

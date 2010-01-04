@@ -30,7 +30,7 @@ void MainWindowCheckClose::closeEvent( QCloseEvent *event )
 {
    if( mProhibitCloseWindow )
    {
-      if( PasswordChecker::get()->unlock() )
+      if( !(PasswordChecker::get()->unlock()) )
       {
          event->ignore();
       }
