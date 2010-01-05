@@ -168,8 +168,8 @@ QString TagList::normalizeString( const QString &string )
    }
    
    newString.replace( "\"", "''" );
-   newString.replace( QString::fromLatin1( "\0xB4" ), "'" ); // accent acute
-   newString.replace( "\0x60", "'" );                        // accent grave
+   newString.replace( QChar::fromLatin1( '\xB4' ), '\'' ); // accent acute
+   newString.replace( QChar::fromLatin1( '\x60' ), '\'' ); // accent grave
    if( settings.value( "NormalizeSpaces", false ).toBool() )
    {
       newString = newString.simplified();
