@@ -1,5 +1,7 @@
 #!/bin/bash
 
+MAKEFLAGS="-j3"
+
 set -e
 
 getversion()
@@ -82,7 +84,7 @@ else
     --enable-static \
     --disable-shared
 fi
-make -j2
+make ${MAKEFLAGS}
 
 echo
 echo "==========="
@@ -98,10 +100,10 @@ sed -i Makefile \
     -e "s@^EXTRA_LIBS=.*\$@EXTRA_LIBS=-L${mpg123_dir}/src/libmpg123/.libs@" \
     -e 's@ \$(LDFLAGS) \(.*\)@ \1 $(LDFLAGS)@'
 
-make -j2 SNDFILE=yes VORBISFILE=yes LIBMPG123=yes clean gnu-alsa
+make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes clean gnu-alsa
 cp dermixd dermixd-alsa
 
-make -j2 SNDFILE=yes VORBISFILE=yes LIBMPG123=yes clean gnu-oss
+make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes clean gnu-oss
 cp dermixd dermixd-oss
 
 strip -R .note -R .comment dermixd-alsa dermixd-oss

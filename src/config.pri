@@ -29,12 +29,12 @@ contains(TEMPLATE,app) {
 LIBS           += -L$${TOPLEVEL}/build/$${TARGETARCH}/lib
 
 DLLDESTDIR     = $${TOPLEVEL}/build/$${TARGETARCH}/lib
-MOC_DIR        = $${TOPLEVEL}/build/$${TARGETARCH}/$${TARGET}/moc
-OBJECTS_DIR    = $${TOPLEVEL}/build/$${TARGETARCH}/$${TARGET}/objs
-RCC_DIR        = $${TOPLEVEL}/build/$${TARGETARCH}/$${TARGET}/rcc
-UI_DIR         = $${TOPLEVEL}/build/$${TARGETARCH}/$${TARGET}/ui
-UI_HEADERS_DIR = $${TOPLEVEL}/build/$${TARGETARCH}/$${TARGET}/ui_headers
-UI_SOURCES_DIR = $${TOPLEVEL}/build/$${TARGETARCH}/$${TARGET}/ui_sources
+MOC_DIR        = $${TOPLEVEL}/build/$${TARGETARCH}/tmp/$${TARGET}/moc
+OBJECTS_DIR    = $${TOPLEVEL}/build/$${TARGETARCH}/tmp/$${TARGET}/objs
+RCC_DIR        = $${TOPLEVEL}/build/$${TARGETARCH}/tmp/$${TARGET}/rcc
+UI_DIR         = $${TOPLEVEL}/build/$${TARGETARCH}/tmp/$${TARGET}/ui
+UI_HEADERS_DIR = $${TOPLEVEL}/build/$${TARGETARCH}/tmp/$${TARGET}/ui_headers
+UI_SOURCES_DIR = $${TOPLEVEL}/build/$${TARGETARCH}/tmp/$${TARGET}/ui_sources
 
 contains( QMAKE_CXX, g++ ) {
   QMAKE_CXXFLAGS_DEBUG += -pedantic -Wno-long-long

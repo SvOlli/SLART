@@ -10,3 +10,6 @@ SUBDIRS += libs
 SUBDIRS += apps
 SUBDIRS += tests
 
+apps.depends  = libs
+tests.depends = libs
+
