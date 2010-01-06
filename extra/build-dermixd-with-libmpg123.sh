@@ -13,7 +13,6 @@ getversion()
 
 mpg123_dir=""
 dermixd_dir=""
-target=$(uname -s -m|tr ' ' _)
 
 for arg; do
 case ${arg} in
@@ -35,14 +34,13 @@ done
 echo "building from dirs:"
 echo "mpg123:  ${mpg123_dir}"
 echo "dermixd: ${dermixd_dir}"
-echo "for target: ${target}"
 
 if [ -z "${mpg123_dir}" -o -z "${dermixd_dir}" ]; then
   echo usage $0 mpg123-dir dermixd-dir
   exit 0
 fi
 
-target_dir="${PWD%%/SLART*}/SLART/${target}"
+target_dir="$(echo ${PWD}|sed 's@^\(.*/SLART[^/]*\).*@\1@')/build/release"
 mpg123_version="$(getversion $mpg123_dir)"
 dermixd_version="$(getversion $dermixd_dir)"
 
@@ -53,7 +51,8 @@ echo "target directory: ${target_dir}"
 
 sleep 1
 
-cat <<EOF >${target_dir}/README.DerMixD
+mkdir -p "${target_dir}/share/doc/SLART"
+cat >"${target_dir}/share/doc/SLART/README.DerMixD" <<EOF
 This package contains DerMixD ${dermixd_version},
 which itself contains libmpg123 ${mpg123_version} statically linked in.
 
@@ -107,6 +106,6 @@ cp dermixd dermixd-oss
 
 strip -R .note -R .comment dermixd-alsa dermixd-oss
 
-cp dermixd-alsa dermixd-oss ${target_dir}/bin
-ls -l ${target_dir}/bin/dermixd-alsa ${target_dir}/bin/dermixd-oss
+cp dermixd-alsa dermixd-oss "${target_dir}/bin"
+ls -l "${target_dir}/bin/dermixd-alsa" "${target_dir}/bin/dermixd-oss"
 
