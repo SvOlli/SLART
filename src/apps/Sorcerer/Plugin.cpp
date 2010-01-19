@@ -7,7 +7,7 @@
  */
 
 #include "MainWindow.hpp"
-#include "MainWidget.hpp"
+#include "SorcererWidget.hpp"
 #include "MySettings.hpp"
 
 #include <QtGui>
@@ -17,14 +17,14 @@
 int SorcererPlugin::run( QApplication *app )
 {
    MainWindow window( false );
-   MainWidget *mainWidget = new MainWidget( &window );
-   window.setMainWidget( mainWidget );
+   SorcererWidget *sorcererWidget = new SorcererWidget( &window );
+   window.setMainWidget( sorcererWidget );
    window.changeTitle( QIcon(),
                        QString("Sorcerer (running for %1)").arg(app->applicationName()) );
    window.show();
    app->exec();
    
-   return mainWidget->errors();
+   return sorcererWidget->errors();
 }
 
 Q_EXPORT_PLUGIN2(Sorcerer, SorcererPlugin)

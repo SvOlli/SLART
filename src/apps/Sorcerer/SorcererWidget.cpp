@@ -1,12 +1,12 @@
 /**
- * src/apps/Sorcerer/MainWidget.cpp
+ * src/apps/Sorcerer/SorcererWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#include "MainWidget.hpp"
+#include "SorcererWidget.hpp"
 #include "AboutWidget.hpp"
 #include "../Rubberbandman/DatabaseWidget.hpp"
 #include "../Innuendo/ConfigNotifyWidget.hpp"
@@ -18,7 +18,7 @@
 #include <QtGui>
 
 
-MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
+SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( new Database() )
 , mpTabs( new QTabWidget( this ) )
@@ -90,19 +90,19 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 }
 
 
-MainWidget::~MainWidget()
+SorcererWidget::~SorcererWidget()
 {
    delete mpDatabase;
 }
 
 
-int MainWidget::errors()
+int SorcererWidget::errors()
 {
    return (mDatabaseOk ? 0 : 0x2) | (mCommunicationOk ? 0 : 0x4) | (mProxyOk ? 0 : 0x8);
 }
 
 
-void MainWidget::handleTabChange( int newTab )
+void SorcererWidget::handleTabChange( int newTab )
 {
    switch( mLastTab )
    {
@@ -164,7 +164,7 @@ void MainWidget::handleTabChange( int newTab )
 }
 
 
-void MainWidget::handleNextButton()
+void SorcererWidget::handleNextButton()
 {
    if( mLastTab < (mpTabs->count() - 1) )
    {
@@ -178,7 +178,7 @@ void MainWidget::handleNextButton()
 }
 
 
-void MainWidget::unlockDatabase()
+void SorcererWidget::unlockDatabase()
 {
    if( Database::exists() )
    {
@@ -191,7 +191,7 @@ void MainWidget::unlockDatabase()
 }
 
 
-void MainWidget::unlockCommunication()
+void SorcererWidget::unlockCommunication()
 {
    mCommunicationOk = true;
    mpNext->setDisabled( false );

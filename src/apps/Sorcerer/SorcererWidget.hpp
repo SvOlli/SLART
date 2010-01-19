@@ -1,19 +1,13 @@
 /**
- * src/apps/Sorcerer/MainWidget.hpp
+ * src/apps/Sorcerer/SorcererWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef MAINWIDGET_HPP
-#define MAINWIDGET_HPP MAINWIDGET_HPP
-
-/* define the features of main window to be used */
-#define MAINWINDOW_SORCERER      0
-#define MAINWINDOW_CHANGETITLE   1
-#define MAINWINDOW_PROHIBITCLOSE 0
-#define MAINWIDGET_SCREENSHOT    0
+#ifndef SorcererWidget_HPP
+#define SorcererWidget_HPP SorcererWidget_HPP
 
 #include <QWidget>
 
@@ -29,13 +23,13 @@ class DatabaseWidget;
 class ProxyWidget;
 
 
-class MainWidget : public QWidget
+class SorcererWidget : public QWidget
 {
 Q_OBJECT
    
 public:
-   MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   virtual ~MainWidget();
+   SorcererWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   virtual ~SorcererWidget();
    /* bitmask of errors occured */
    int errors();
    
@@ -54,8 +48,8 @@ signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
-   MainWidget( const MainWidget &other );
-   MainWidget &operator=( const MainWidget &other );
+   SorcererWidget( const SorcererWidget &other );
+   SorcererWidget &operator=( const SorcererWidget &other );
    
    Database             *mpDatabase;
    QTabWidget           *mpTabs;

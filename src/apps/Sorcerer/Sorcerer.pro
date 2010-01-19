@@ -22,8 +22,8 @@ HEADERS += Interface.hpp
 HEADERS += Plugin.hpp
 SOURCES += Plugin.cpp
 
-HEADERS += MainWidget.hpp 
-SOURCES += MainWidget.cpp 
+HEADERS += SorcererWidget.hpp 
+SOURCES += SorcererWidget.cpp 
 
 #HEADERS += MainWindow.hpp 
 #SOURCES += MainWindow.cpp 
