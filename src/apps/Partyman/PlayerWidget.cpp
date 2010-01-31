@@ -461,6 +461,7 @@ void PlayerWidget::sendCommand( const QString &command, const QString &parameter
       {
          if( mpFSM->getState() == PlayerFSM::playing )
          {
+            mpDatabase->getTrackInfo( &mTrackInfo );
             emit trackPlaying( mTrackInfo );
          }
       }
