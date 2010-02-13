@@ -88,6 +88,6 @@ private:
 
 #define VALUE_SATELLITE_HOST   value( "SatelliteHost", "127.0.0.1" ).toString()
 #define VALUE_SATELLITE_PORT   value( "SatellitePort", 24222 ).toInt()
-#define VALUE_USESATELLITE     value( "UseSatellite", false ).toBool()
+#define VALUE_USE_SATELLITE    value( "UseSatellite", false ).toBool()
 
 #endif

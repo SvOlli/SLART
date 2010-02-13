@@ -22,7 +22,7 @@
 
 void SorcererLoader::detect( QApplication *app, bool force )
 {
-   if( !MySettings("Global").contains( "UseSatellite" ) || !Database::exists() || force )
+   if( !MySettings().contains( "UseSatellite" ) || !Database::exists() || force )
    {
       if( !run( app ) )
       {

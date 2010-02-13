@@ -54,6 +54,11 @@ void Satellite::restart()
 #if SATELLITE_DEBUG
    emit debug( "c:connecting to server" );
 #endif
+   if( !MySettings().VALUE_USE_SATELLITE )
+   {
+      return;
+   }
+
    if( mpServerConnection->state() != QAbstractSocket::UnconnectedState )
    {
       if( (mpServerConnection->peerPort()    != mPort) ||

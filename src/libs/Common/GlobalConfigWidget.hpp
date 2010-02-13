@@ -51,7 +51,13 @@ public slots:
    void updateStyleSheetFileName();
    /* handle the click of the dots button */
    void selectFile();
+   /*  */
+   void setSatelliteClicked( bool isSet );
    
+signals:
+   /*  */
+   void useSatelliteClicked( bool isSet );
+
 private:
    QCheckBox    *mpUseSatellite;
    QLabel       *mpSatellitePortLabel;

@@ -79,6 +79,8 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
             this, SLOT(updateStyleSheetFileName()) );
    connect( mpDotButton, SIGNAL(clicked()),
             this, SLOT(selectFile()) );
+   connect( mpUseSatellite, SIGNAL(clicked(bool)),
+            this, SIGNAL(useSatelliteClicked(bool)) );
    
    setLayout( mainLayout );
 }
@@ -89,11 +91,18 @@ GlobalConfigWidget::~GlobalConfigWidget()
 }
 
 
+void GlobalConfigWidget::setSatelliteClicked( bool isSet )
+{
+   mpUseSatellite->setChecked( isSet );
+}
+
+
 void GlobalConfigWidget::readSettings()
 {
    MySettings settings( "Global" );
    MySettings appSettings;
-   mpUseSatellite->setChecked( settings.VALUE_USESATELLITE );
+   mpUseSatellite->setChecked( appSettings.VALUE_USE_SATELLITE );
+   mpSatellitePort->setEnabled( appSettings.VALUE_USE_SATELLITE );
    mpSatellitePort->setValue( settings.VALUE_SATELLITE_PORT );
    mpUseGlobalStyleSheetFile->setChecked( appSettings.VALUE_USEGLOBALSTYLESHEETFILE );
    if( mpUseGlobalStyleSheetFile->isChecked() )
@@ -114,42 +123,11 @@ void GlobalConfigWidget::readSettings()
 }
 
 
-void GlobalConfigWidget::updateStyleSheetFileName()
-{
-   if( mpUseGlobalStyleSheetFile->isChecked() )
-   {
-      mpUseGlobalStyleSheetFile->setText( tr("Use Global Style Sheet File:") );
-      mpStyleSheetFileName->setText( MySettings( "Global" ).VALUE_STYLESHEETFILE );
-   }
-   else
-   {
-      mpUseGlobalStyleSheetFile->setText( tr("Use Application Style Sheet File:") );
-      mpStyleSheetFileName->setText( MySettings().VALUE_STYLESHEETFILE );
-   }
-}
-
-
-void GlobalConfigWidget::selectFile()
-{
-   QFileDialog fileDialog( this );
-   
-   fileDialog.setFileMode( QFileDialog::ExistingFile );
-   QFileInfo qfi( mpStyleSheetFileName->text() );
-   fileDialog.setDirectory( qfi.absolutePath() );
-   fileDialog.setFilter("Playlists (*.qss)");
-   fileDialog.setReadOnly( true );
-   if( fileDialog.exec() )
-   {
-      mpStyleSheetFileName->setText( fileDialog.selectedFiles().at(0) );
-   }
-}
-
-
 void GlobalConfigWidget::writeSettings()
 {
    MySettings settings( "Global" );
    MySettings appSettings;
-   settings.setValue( "UseSatellite", mpUseSatellite->isChecked() );
+   appSettings.setValue( "UseSatellite", mpUseSatellite->isChecked() );
    settings.setValue( "SatellitePort", mpSatellitePort->value() );
    mpSatellitePort->setValue( settings.VALUE_SATELLITE_PORT );
    appSettings.setValue( "UseGlobalStyleSheetFile", mpUseGlobalStyleSheetFile->isChecked() );
@@ -180,6 +158,37 @@ void GlobalConfigWidget::writeSettings()
    else
    {
       qApp->setStyleSheet( QString() );
+   }
+}
+
+
+void GlobalConfigWidget::updateStyleSheetFileName()
+{
+   if( mpUseGlobalStyleSheetFile->isChecked() )
+   {
+      mpUseGlobalStyleSheetFile->setText( tr("Use Global Style Sheet File:") );
+      mpStyleSheetFileName->setText( MySettings( "Global" ).VALUE_STYLESHEETFILE );
+   }
+   else
+   {
+      mpUseGlobalStyleSheetFile->setText( tr("Use Application Style Sheet File:") );
+      mpStyleSheetFileName->setText( MySettings().VALUE_STYLESHEETFILE );
+   }
+}
+
+
+void GlobalConfigWidget::selectFile()
+{
+   QFileDialog fileDialog( this );
+
+   fileDialog.setFileMode( QFileDialog::ExistingFile );
+   QFileInfo qfi( mpStyleSheetFileName->text() );
+   fileDialog.setDirectory( qfi.absolutePath() );
+   fileDialog.setFilter("Playlists (*.qss)");
+   fileDialog.setReadOnly( true );
+   if( fileDialog.exec() )
+   {
+      mpStyleSheetFileName->setText( fileDialog.selectedFiles().at(0) );
    }
 }
 
