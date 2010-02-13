@@ -17,7 +17,6 @@
 
 #include <QWidget>
 
-#include "SLARTCom.hpp"
 #include "TrackInfoWidget.hpp"
 
 class QAction;
@@ -32,6 +31,7 @@ class ButtonsWidget;
 class ConfigDialog;
 class Database;
 class ImportExport;
+class Satellite;
 class ScrollLine;
 
 
@@ -47,7 +47,7 @@ public slots:
    /* add currently played track to the list */
    void addToList( QWidget *widget );
    /* handle SLART message */
-   void handleSLART( const QStringList &message );
+   void handleSatellite( const QByteArray &msg );
    /* handle adding of new playlist */
    void handleAdd();
    /* handle menu to export of playlist to m3u file */
@@ -73,6 +73,7 @@ private:
    MainWidget &operator=( const MainWidget &other );
    
    Database        *mpDatabase;
+   Satellite       *mpSatellite;
    ImportExport    *mpImportExport;
    ScrollLine      *mpFileName;
    TrackInfoWidget *mpTrackInfo;
@@ -94,7 +95,6 @@ private:
    ConfigDialog    *mpConfigDialog;
    QTimer          *mpTimer;
    
-   SLARTCom        mSLARTCom;
    QStringList     mPlaylists;
    TrackInfo       mTrackInfo;
 };

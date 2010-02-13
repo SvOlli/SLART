@@ -14,7 +14,6 @@
 
 
 #include <QtGui>
-#include "SLARTCom.hpp"
 
 
 ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )

@@ -7,16 +7,18 @@
  */
 
 #include "MainWidget.hpp"
-#include "ButtonsWidget.hpp"
-#include "ImportExport.hpp"
-#include "MySettings.hpp"
-#include "ConfigDialog.hpp"
-#include "GlobalConfigWidget.hpp"
-#include "ScrollLine.hpp"
-#include "TrackInfoWidget.hpp"
-#include "Database.hpp"
 
 #include <QtGui>
+
+#include "ButtonsWidget.hpp"
+#include "ConfigDialog.hpp"
+#include "Database.hpp"
+#include "GlobalConfigWidget.hpp"
+#include "ImportExport.hpp"
+#include "MySettings.hpp"
+#include "Satellite.hpp"
+#include "ScrollLine.hpp"
+#include "TrackInfoWidget.hpp"
 
 #include "Trace.hpp"
 
@@ -24,9 +26,10 @@
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( new Database() )
+, mpSatellite( Satellite::get( this ) )
 , mpImportExport( new ImportExport( mpDatabase) )
 , mpFileName( new ScrollLine( this ) )
-, mpTrackInfo( new TrackInfoWidget( mpDatabase, QString("k0u"), false, this ) )
+, mpTrackInfo( new TrackInfoWidget( mpDatabase, QByteArray("k0u"), false, this ) )
 , mpReadButton( new QPushButton( this ) )
 , mpExportButton( new QPushButton( tr("Export m3u"), this ) )
 , mpExportMenu( new QMenu( this ) )
@@ -43,7 +46,6 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpRemoveMenu( new QMenu( this ) )
 , mpConfigDialog( new ConfigDialog( this ) )
 , mpTimer( new QTimer( this ) )
-, mSLARTCom()
 , mPlaylists()
 , mTrackInfo()
 {
@@ -84,8 +86,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    
    updateLists();
 
-   connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
-            this, SLOT(handleSLART(QStringList)) );
+   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
+            this, SLOT(handleSatellite(const QByteArray &)) );
    
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfigDialog, SLOT(exec()) );
@@ -110,12 +112,12 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handleRemove(QAction *)) );
 
    labelReadButton();
-   mSLARTCom.resetReceiver();
    
    mpSettingsButton->setObjectName( QString("SettingsButton") );
    
    mpListButtons->setDisabled( true );
-   MySettings().sendUdpMessage( "P0R", "Partyman" );
+
+   mpSatellite->send( "P0R" );
 }
 
 
@@ -143,12 +145,13 @@ void MainWidget::addToList( QWidget *widget )
 
 void MainWidget::sendK0u()
 {
-   MySettings().sendNotification( QString("k0u") );
+   mpSatellite->send( QByteArray("k0u") );
 }
 
 
-void MainWidget::handleSLART( const QStringList &message )
+void MainWidget::handleSatellite( const QByteArray &msg )
 {
+   QStringList message( QString::fromUtf8( msg ).split('\n') );
    if( message.count() > 2 )
    {
       if( message.at(0) == "K0E" )
@@ -426,4 +429,5 @@ void MainWidget::labelReadButton()
          mpReadButton->setHidden( true );
          break;
    }
+   mpSatellite->restart();
 }
