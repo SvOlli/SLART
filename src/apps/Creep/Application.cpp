@@ -11,23 +11,32 @@
 #include <lirc/lirc_client.h>
 #include <QString>
 #include <QSettings>
-#include <QUdpSocket>
+#include <QHostAddress>
+#include <QTcpSocket>
 
+#include "../../libs/Common/Satellite.hpp"
+
+
+static char GROUPNAME[] = "SLART";
 static char PROGNAME[] = "Creep";
 
 
-static void send( const QString &application, const QString &data )
+static void send( const QString &data )
 {
-   /* copy'n'paste from MySettings.cpp */
-   int port = QSettings( "SLART", application )
-                        .value( "UDPListenerPort", 0 ).toInt();
-   
-   if( (port < 1) || (port > 65535) )
+   /* copy'n'paste from Satellite.cpp */
+   QTcpSocket socket;
+   QSettings  settings( GROUPNAME, "Global" );
+
+   QHostAddress host( settings.VALUE_SATELLITE_HOST );
+   qint16       port( settings.VALUE_SATELLITE_PORT );
+
+   socket.connectToHost( host, port, QIODevice::WriteOnly );
+   if( socket.waitForConnected( 1000 ) )
    {
-      return;
+      socket.write( data.toUtf8() );
+      socket.waitForBytesWritten( 1000 );
+      socket.disconnectFromHost();
    }
-   
-   QUdpSocket().writeDatagram( data.toUtf8(), QHostAddress::LocalHost, port );
 }
 
 
@@ -43,6 +52,12 @@ int main(int argc, char *argv[])
    
    if( lirc_init( &PROGNAME[0] , 1 ) == -1)
    {
+      exit( EXIT_FAILURE );
+   }
+
+   if( !QSettings( GROUPNAME, PROGNAME ).VALUE_USE_SATELLITE )
+   {
+      fprintf( stderr, "You need to enable \"Satellite\" (SLART's inter-process communication) for %s\n", PROGNAME );
       exit( EXIT_FAILURE );
    }
 
@@ -62,22 +77,19 @@ int main(int argc, char *argv[])
          while( (( ret = lirc_code2char( config, code, &c ) ) == 0) && (c != NULL) )
          {
             QString confline( c );
-            int pos = confline.indexOf( ' ' );
             
-            QString application( confline.left( pos ) );
-            QString data( confline.mid( pos + 1 ) );
-            
-            if( application.startsWith( "System", Qt::CaseInsensitive ) )
+            if( confline.startsWith( "SYS", Qt::CaseInsensitive ) )
             {
-               if( system( data.toUtf8().data() ) )
+               confline = confline.mid(confline.indexOf(' ')+1);
+               if( system( confline.toUtf8().constData() ) )
                {
-                  data.prepend( QString("System call failed:\n") );
-                  send( QString("Innuendo"), data );
+                  confline.prepend( QString("System call failed:\n") );
+                  send( confline );
                }
             }
             else
             {
-               send( application, data );
+               send( confline );
             }
             
          }

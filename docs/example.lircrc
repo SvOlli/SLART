@@ -3,69 +3,69 @@ begin
    prog   = Creep
    button = mute
    repeat = 0
-   config = System amixer -q set Front togglemute
+   config = SYS amixer -q set Master togglemute
 end
 
 begin
    prog   = Creep
    button = voldown
    repeat = 3
-   config = System amixer -q set Front 2dB-
+   config = SYS amixer -q set Master 5%-
 end
 
 begin
    prog   = Creep
    button = volup
    repeat = 3
-   config = System amixer -q set Front 2dB+
+   config = SYS amixer -q set Master 5%+
 end
 
 begin
    prog   = Creep
    button = power
    repeat = 0
-   config = system echo Power
+   config = SYS echo Power
 end
 
 begin
    prog   = Creep
    button = play
    repeat = 0
-   config = Partyman P0A
+   config = P0A
 end
 
 begin
    prog   = Creep
    button = stop
    repeat = 0
-   config = Partyman P0S
+   config = P0S
 end
 
 begin
    prog   = Creep
    button = a
    repeat = 0
-   config = Partyman P0C\n1
+   config = P0C\n1
 end
 
 begin
    prog   = Creep
    button = b
    repeat = 0
-   config = Partyman P0C\n2
+   config = P0C\n2
 end
 
 begin
    prog   = Creep
    button = c
    repeat = 0
-   config = Partyman P0C\n0
+   config = P0C\n0
 end
 
 begin
    prog   = Creep
    button = fforward
    repeat = 0
-   config = Partyman P0N
+   config = P0N
 end
 
