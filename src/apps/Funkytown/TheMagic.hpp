@@ -12,13 +12,13 @@
 #include <QStringList>
 #include <QHttp>
 
-class MagicQueue;
-
 class QBuffer;
 class QFile;
 class QListWidget;
 class QListWidgetItem;
 
+class MagicQueue;
+class Satellite;
 
 class TheMagic : public QObject
 {
@@ -65,6 +65,7 @@ private:
         } mStage;
    
    MagicQueue       *mpMagicQueue;
+   Satellite        *mpSatellite;
    bool             mDownloadToFile;
    bool             mSuccess;
    QString          mContentType;

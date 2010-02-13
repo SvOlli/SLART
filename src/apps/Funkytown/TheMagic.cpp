@@ -8,14 +8,15 @@
 
 #include "TheMagic.hpp"
 
-#include "ConfigDialog.hpp"
-#include "MagicQueue.hpp"
-#include "MySettings.hpp"
-
 #include <QBuffer>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+
+#include "ConfigDialog.hpp"
+#include "MagicQueue.hpp"
+#include "MySettings.hpp"
+#include "Satellite.hpp"
 
 #include "Trace.hpp"
 
@@ -30,6 +31,7 @@ TheMagic::TheMagic( MagicQueue *magicQueue )
 , mSelected( false )
 , mStage( stageFresh )
 , mpMagicQueue( magicQueue )
+, mpSatellite( Satellite::get( magicQueue ) )
 , mDownloadToFile( false )
 , mSuccess( true )
 , mContentType()
@@ -72,6 +74,7 @@ TheMagic::TheMagic( const TheMagic &other )
 , mSelected         ( other.mSelected )
 , mStage            ( other.mStage )
 , mpMagicQueue      ( other.mpMagicQueue )
+, mpSatellite       ( other.mpSatellite )
 , mDownloadToFile   ( other.mDownloadToFile )
 , mSuccess          ( true )
 , mContentType      ( other.mContentType )
@@ -350,8 +353,8 @@ void TheMagic::processGenericFile()
          settings.setValue( "Files", count );
       }
       
-      settings.sendNotification( QString("f0v\n") + 
-                                 QDir::currentPath() + '/' + mFileName );
+      mpSatellite->send( QByteArray("f0v\n") +
+                         QDir::current().absoluteFilePath( mFileName ).toUtf8() );
    }
 }
 
@@ -644,12 +647,12 @@ void TheMagic::parseMySpaceMP3()
          settings.setValue( "Files", count );
       }
       
-      settings.sendNotification( QString("f0d\n") + 
-                                 QDir::currentPath() + '/' + mFileName );
+      mpSatellite->send( QByteArray("f0d\n") +
+                         QDir::current().absoluteFilePath( mFileName ).toUtf8() );
       if( mSelected )
       {
-         settings.sendUdpMessage( QString("P0Q\n") + 
-                                  QDir::currentPath() + '/' + mFileName, QString("Partyman") );
+         mpSatellite->send( QByteArray("P0Q\n") +
+                            QDir::current().absoluteFilePath( mFileName ).toUtf8() );
       }
    }
    else
