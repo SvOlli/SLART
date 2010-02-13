@@ -18,7 +18,7 @@
 #include <QUdpSocket>
 
 #include "PlayerWidget.hpp"
-#include "SLARTCom.hpp"
+#include "Satellite.hpp"
 
 class QPushButton;
 class QMenu;
@@ -78,7 +78,7 @@ public slots:
    /* handle load from clipboard */
    void handleLoad();
    /* handle remote requests */
-   void handleSLART( const QStringList &package );
+   void handleSatellite( const QByteArray &message );
    /* handle process startup */
    void handleDerMixDstartup();
    /* handle process finish */
@@ -110,6 +110,7 @@ private:
    
    ConfigDialog    *mpConfig;
    PlaylistWidget  *mpPlaylist;
+   Satellite       *mpSatellite;
    QPushButton     *mpSettingsButton;
    QPushButton     *mpConnectButton;
    QPushButton     *mpSkipButton;
@@ -132,13 +133,12 @@ private:
    QAction         *mpDisconnectAction;
    QAction         *mpLoadAction;
    bool            mKioskMode;
-   SLARTCom        mSLARTCom;
    QTimer          mTrayIconClickTimer;
    QProcess        mDerMixDprocess;
    QProcess        mLoggerProcess;
    bool            mWaitForDerMixD;
    bool            mDerMixDstarted;
-   QString         mLastP0p;
+   QByteArray      mLastP0p;
 };
 
 #endif

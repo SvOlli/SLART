@@ -6,10 +6,12 @@
  */
 
 #include "ControlWidget.hpp"
-#include "PlaylistWidget.hpp"
+
 #include "ConfigDialog.hpp"
-#include "MySettings.hpp"
 #include "GlobalConfigWidget.hpp"
+#include "MySettings.hpp"
+#include "PlaylistWidget.hpp"
+#include "WidgetShot.hpp"
 
 #include <QtGui>
 
@@ -21,6 +23,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 : QWidget( parent, flags )
 , mpConfig( config )
 , mpPlaylist( playlist )
+, mpSatellite( Satellite::get( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpConnectButton( new QPushButton( tr("Connect"), this ) )
 , mpSkipButton( new QPushButton( tr("Next"), this ) )
@@ -42,7 +45,6 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mpDisconnectAction( mpDisconnectMenu->addAction( mStopIcon, tr("Disconnect" ) ) )
 , mpLoadAction( mpDisconnectMenu->addAction( mLoadIcon, tr("Load" ) ) )
 , mKioskMode( false )
-, mSLARTCom( this )
 , mTrayIconClickTimer( this )
 , mDerMixDprocess()
 , mLoggerProcess()
@@ -106,8 +108,8 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
             this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
-   connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
-            this, SLOT(handleSLART(QStringList)) );
+   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
+            this, SLOT(handleSatellite(const QByteArray &)) );
    connect( mpPlayer[0], SIGNAL(trackPlaying(const TrackInfo &)),
             this, SLOT(handleTrackPlaying(const TrackInfo &)) );
    connect( mpPlayer[1], SIGNAL(trackPlaying(const TrackInfo &)),
@@ -199,7 +201,7 @@ void ControlWidget::saveTracks( bool unload )
 void ControlWidget::readConfig()
 {
    MySettings settings;
-   mSLARTCom.resetReceiver();
+   mpSatellite->restart();
    mpPlayer[0]->readConfig();
    mpPlayer[1]->readConfig();
    if( settings.VALUE_DERMIXDRUN )
@@ -399,97 +401,124 @@ void ControlWidget::allowConnect( bool allowed )
 }
 
 
-void ControlWidget::handleSLART( const QStringList &src )
+void ControlWidget::handleSatellite( const QByteArray &message )
 {
-   if( src.at(0) == "P0Q" )
+   QStringList src( QString::fromUtf8(message).split('\n') );
+
+   if( src.size() > 0 )
    {
-      QStringList dest;
-      
-      /* convert from url to filename if necessary */
-      for( int i = 1; i < src.size(); i++ )
+      if( src.at(0) == "CFG" )
       {
-         QFileInfo qfi( src.at(i) );
-         if( qfi.isFile() )
+         mpConfig->readSettings();
+         return;
+      }
+
+      if( src.at(0) == "PNG" )
+      {
+         QString reply( "png\n%1" );
+         mpSatellite->send( reply.arg( QApplication::applicationName()).toUtf8() );
+         return;
+      }
+
+      if( src.at(0) == "SHT" )
+      {
+         if( src.count() > 2 )
          {
-            dest << qfi.absoluteFilePath();
+            WidgetShot::shootWidget( src.at(1), src.at(2) );
+         }
+         return;
+      }
+
+      if( src.at(0) == "P0Q" )
+      {
+         QStringList dest;
+
+         /* convert from url to filename if necessary */
+         for( int i = 1; i < src.size(); i++ )
+         {
+            QFileInfo qfi( src.at(i) );
+            if( qfi.isFile() )
+            {
+               dest << qfi.absoluteFilePath();
+            }
+         }
+
+         if( dest.size() > 0 )
+         {
+            emit requestAddToPlaylist( dest, false );
          }
       }
       
-      if( dest.size() > 0 )
+      if( src.at(0) == "P0A" )
       {
-         emit requestAddToPlaylist( dest, false );
-      }
-   }
-   
-   if( src.at(0) == "P0A" )
-   {
-      if( mConnected )
-      {
-         if( mPaused || !mKioskMode )
+         if( mConnected )
          {
-            handlePause();
+            if( mPaused || !mKioskMode )
+            {
+               handlePause();
+            }
+         }
+         else
+         {
+            initConnect();
          }
       }
-      else
+      
+      if( src.at(0) == "P0N" )
       {
-         initConnect();
+         handleSkipTrack();
       }
-   }
-   
-   if( src.at(0) == "P0N" )
-   {
-      handleSkipTrack();
-   }
-   
-   if( src.at(0) == "P0S" )
-   {
-      if( !mKioskMode )
+
+      if( src.at(0) == "P0S" )
       {
-         initDisconnect();
-      }
-   }
-   
-   if( src.at(0) == "P0R" )
-   {
-      if( !mLastP0p.isEmpty() )
-      {
-         MySettings().sendNotification( mLastP0p );
-      }
-   }
-   
-   if( src.at(0) == "P0C" )
-   {
-      bool favorite = false;
-      bool unwanted = false;
-      if( src.size() > 1 )
-      {
-         switch( src.at(1).toUInt() )
+         if( !mKioskMode )
          {
-            case 1:
-               favorite = true;
-               break;
-            case 2:
-               unwanted = true;
-               break;
-            default:
-               break;
+            initDisconnect();
          }
-         mpPlaylist->setTrackInfoFavoriteUnwanted( favorite, unwanted );
       }
-   }
-   
-   if( src.at(0) == "P0T" )
-   {
-      if( src.size() > 1 )
+
+      if( src.at(0) == "P0R" )
       {
-         emit requestTab( src.at(1).toInt() );
+         if( !mLastP0p.isEmpty() )
+         {
+            mpSatellite->send( mLastP0p );
+         }
       }
-   }
-   
-   if( (src.at(0) == "k0u") ||
-       (src.at(0) == "r0u") )
-   {
-      emit trackUpdate();
+
+      if( src.at(0) == "P0C" )
+      {
+         bool favorite = false;
+         bool unwanted = false;
+         if( src.size() > 1 )
+         {
+            switch( src.at(1).toUInt() )
+            {
+               case 1:
+                  favorite = true;
+                  break;
+               case 2:
+                  unwanted = true;
+                  break;
+               default:
+                  break;
+            }
+            mpPlaylist->setTrackInfoFavoriteUnwanted( favorite, unwanted );
+         }
+      }
+
+      if( src.at(0) == "P0T" )
+      {
+         if( src.size() > 1 )
+         {
+            emit requestTab( src.at(1).toInt() );
+         }
+      }
+
+      if( (src.at(0) == "k0u") ||
+          (src.at(0) == "r0u") )
+      {
+         emit trackUpdate();
+      }
    }
 }
 
@@ -498,16 +527,16 @@ void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const
 {
    MySettings settings;
 
-   QString udp( udpEvent );
+   QByteArray msg( udpEvent.toUtf8() );
    if( !data.isEmpty() )
    {
-      udp.append( '\n' );
-      udp.append( data );
+      msg.append( '\n' );
+      msg.append( data.toUtf8() );
    }
-   settings.sendNotification( udp );
+   mpSatellite->send( msg );
    if( udpEvent == "p0p" )
    {
-      mLastP0p = udp;
+      mLastP0p = msg;
    }
    if( udpEvent == "p0s" )
    {

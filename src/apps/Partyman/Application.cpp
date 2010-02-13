@@ -11,6 +11,7 @@
 #include "MainWidget.hpp"
 #include "MainWindowCheckClose.hpp"
 #include "MySettings.hpp"
+#include "Satellite.hpp"
 #include "SorcererLoader.hpp"
 
 
@@ -33,11 +34,13 @@ int main(int argc, char *argv[])
    QStringList args( QApplication::arguments() );
    if( args.size() > 1 )
    {
+      Satellite *satellite = Satellite::get();
       args.takeFirst(); // first argument is program name
       while( args.size() > 0 )
       {
-         settings.sendUdpMessage( QFileInfo( args.takeFirst() ).absoluteFilePath().prepend( "P0Q\n" ) );
+         satellite->send( QFileInfo( args.takeFirst() ).absoluteFilePath().prepend( "P0Q\n" ).toUtf8() );
       }
+      Satellite::destroy();
    }
    else
    {

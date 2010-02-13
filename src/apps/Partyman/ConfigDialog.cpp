@@ -13,6 +13,7 @@
 #include "Version.hpp"
 #include "WidgetShot.hpp"
 #include "PasswordChecker.hpp"
+#include "Satellite.hpp"
 
 #include <QtGui>
 
@@ -34,8 +35,6 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpDerMixDparams( new QLineEdit( this ) )
 , mpAutoConnect( new QCheckBox( tr("Connect On Startup"), this ) )
 , mpCrossfadeTime( new QSpinBox( this ) )
-, mpSLARTCommunication( new QCheckBox( tr("Use SLART UDP Communication"), this ) )
-, mpUDPListenerPort( new QSpinBox( this ) )
 , mpNormalizeMode( new QComboBox( this ) )
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
@@ -80,8 +79,6 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    mpTrayIconBubbleTime->setSingleStep( 1.0 );
    mpTrayIconBubbleTime->setRange( 1.0, 15.0 );
    mpTrayIconBubbleTime->setAlignment( Qt::AlignRight );
-   mpUDPListenerPort->setRange( 1, 65535 );
-   mpUDPListenerPort->setAlignment( Qt::AlignRight );
    mpDerMixDport->setRange( 1, 65535 );
    mpDerMixDport->setAlignment( Qt::AlignRight );
    mpCrossfadeTime->setRange( 1, 30 );
@@ -112,23 +109,18 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
             this, SLOT(handleNormalizeMode(int)) );
    connect( mpDerMixDrun, SIGNAL(clicked(bool)),
             this, SLOT(handleDerMixDrun(bool)) );
-   connect( mpSLARTCommunication, SIGNAL(clicked(bool)),
-            this, SLOT(handleUDPListen(bool)) );
    
    QWidget     *partymanTab    = new QWidget( this );
    QGridLayout *partymanLayout = new QGridLayout( partymanTab );
    partymanLayout->addWidget( mpAutoConnect,                        0, 0, 1, 5 );
    partymanLayout->addWidget( new QLabel( tr("Crossfade Time:") ),  1, 0, 1, 2 );
    partymanLayout->addWidget( mpCrossfadeTime,                      1, 4 );
-   partymanLayout->addWidget( mpSLARTCommunication,                 2, 0, 1, 3 );
-   partymanLayout->addWidget( new QLabel( tr("Port") ),             2, 3 );
-   partymanLayout->addWidget( mpUDPListenerPort,                    2, 4 );
-   partymanLayout->addWidget( mpTrayIcon,                           3, 0, 1, 2 );
-   partymanLayout->addWidget( mpTrayIconBubble,                     3, 2, 1, 2 );
-   partymanLayout->addWidget( mpTrayIconBubbleTime,                 3, 4 );
-   partymanLayout->addWidget( new QLabel( tr("External Logger:") ), 4, 0 );
-   partymanLayout->addWidget( mpLogCmd,                             4, 1, 1, 4 );
-   partymanLayout->addWidget( mpCountSkip,                          5, 0, 1, 5 );
+   partymanLayout->addWidget( mpTrayIcon,                           2, 0, 1, 2 );
+   partymanLayout->addWidget( mpTrayIconBubble,                     2, 2, 1, 2 );
+   partymanLayout->addWidget( mpTrayIconBubbleTime,                 2, 4 );
+   partymanLayout->addWidget( new QLabel( tr("External Logger:") ), 3, 0 );
+   partymanLayout->addWidget( mpLogCmd,                             3, 1, 1, 4 );
+   partymanLayout->addWidget( mpCountSkip,                          4, 0, 1, 5 );
    partymanLayout->setColumnStretch( 1, 1 );
    partymanLayout->setColumnStretch( 2, 1 );
    partymanLayout->setRowStretch( 6, 1 );
@@ -257,8 +249,6 @@ void ConfigDialog::readSettings()
    mpDerMixDparams->setText( settings.VALUE_DERMIXDPARAMS );
    mpAutoConnect->setChecked( settings.VALUE_AUTOCONNECT );
    mpCrossfadeTime->setValue( settings.VALUE_CROSSFADETIME );
-   mpSLARTCommunication->setChecked( settings.VALUE_SLARTCOMMUNICATION );
-   mpUDPListenerPort->setValue(settings.VALUE_UDPLISTENERPORT );
    mpNormalizeMode->setCurrentIndex( settings.VALUE_NORMALIZEMODE );
    mpNormalizeValue->setValue( settings.VALUE_NORMALIZEVALUE );
    mpLogCmd->setText( settings.VALUE_LOGCMD );
@@ -274,7 +264,6 @@ void ConfigDialog::readSettings()
    mpNamePattern->setText( settings.VALUE_NAMEPATTERN );
    mpTrayIconPattern->setText( settings.VALUE_TRAYICONPATTERN );
    mpSplitterVertical->setChecked( settings.VALUE_SPLITTERVERTICAL );
-   handleUDPListen( mpSLARTCommunication->isChecked() );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    mpGlobalSettings->readSettings();
    
@@ -305,8 +294,6 @@ void ConfigDialog::writeSettings()
    settings.setValue( "DerMixDparams", mpDerMixDparams->text() );
    settings.setValue( "AutoConnect", mpAutoConnect->isChecked() );
    settings.setValue( "CrossfadeTime", mpCrossfadeTime->value() );
-   settings.setValue( "SLARTCommunication", mpSLARTCommunication->isChecked() );
-   settings.setValue( "UDPListenerPort", mpUDPListenerPort->value() );
    settings.setValue( "NormalizeMode", mpNormalizeMode->currentIndex() );
    settings.setValue( "NormalizeValue", mpNormalizeValue->value() );
    settings.setValue( "LogCmd", mpLogCmd->text() );
@@ -332,7 +319,7 @@ void ConfigDialog::writeSettings()
    }
    mpGlobalSettings->writeSettings();
    settings.sync();
-   settings.sendNotification( "p0c" );
+   Satellite::get()->send( "p0c" );
 
    emit configChanged();
 }
@@ -346,12 +333,6 @@ void ConfigDialog::handleDerMixDrun( bool checked )
    mpDerMixDparams->setDisabled( !checked );
    mpDerMixDhostLabel->setDisabled( checked );
    mpDerMixDhost->setDisabled( checked );
-}
-
-
-void ConfigDialog::handleUDPListen( bool checked )
-{
-   mpUDPListenerPort->setDisabled( !checked );
 }
 
 

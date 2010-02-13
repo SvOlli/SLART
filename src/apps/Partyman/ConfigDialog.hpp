@@ -38,8 +38,6 @@ public slots:
    void writeSettings();
    /* handle "start DerMixD" checkbox */
    void handleDerMixDrun( bool checked );
-   /* handle "SLARTCom" checkbox */
-   void handleUDPListen( bool checked );
    /* handle "Nomalize" combobox */
    void handleNormalizeMode( int mode );
    /* handle "Show Tray Icon" checkbox */
@@ -73,8 +71,6 @@ private:
    QLineEdit            *mpDerMixDparams;
    QCheckBox            *mpAutoConnect;
    QSpinBox             *mpCrossfadeTime;
-   QCheckBox            *mpSLARTCommunication;
-   QSpinBox             *mpUDPListenerPort;
    QComboBox            *mpNormalizeMode;
    QDoubleSpinBox       *mpNormalizeValue;
    MyClipboard          *mpClipboard;
@@ -118,7 +114,6 @@ private:
 #define VALUE_PLAYONLYFAVORITE    value("PlayOnlyFavorite", false).toBool()
 #define VALUE_PLAYONLYLEASTPLAYED value("PlayOnlyLeastPlayed", false).toBool()
 #define VALUE_RANDOMTRIES         value("RandomTries", 10).toInt()
-#define VALUE_SLARTCOMMUNICATION  value("SLARTCommunication", false).toBool()
 #define VALUE_SPLITTERVERTICAL    value("SplitterVertical", false).toBool()
 #define VALUE_STYLESHEET          value("StyleSheet", QString()).toString()
 #define VALUE_TRAYICON            value("TrayIcon", false).toBool()
@@ -126,6 +121,5 @@ private:
 #define VALUE_TRAYICONBUBBLEICON  value("TrayIconBubbleIcon", 0).toInt()
 #define VALUE_TRAYICONBUBBLETIME  value("TrayIconBubbleTime", 4.0).toDouble()
 #define VALUE_TRAYICONPATTERN     value("TrayIconPattern", "|$ARTIST|#n|$TITLE|#n|$ALBUM|").toString()
-#define VALUE_UDPLISTENERPORT     value("UDPListenerPort", 24222).toInt()
 
 #endif
