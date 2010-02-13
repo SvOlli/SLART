@@ -7,19 +7,21 @@
  */
 
 #include "ConfigDialog.hpp"
-#include "MySettings.hpp"
-#include "ProxyWidget.hpp"
-#include "GlobalConfigWidget.hpp"
-#include "AboutWidget.hpp"
-#include "WidgetShot.hpp"
-
 
 #include <QtGui>
+
+#include "AboutWidget.hpp"
+#include "GlobalConfigWidget.hpp"
+#include "MySettings.hpp"
+#include "ProxyWidget.hpp"
+#include "WidgetShot.hpp"
 #include "Satellite.hpp"
+#include "SatelliteConfigWidget.hpp"
 
 
 ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
+, mpSatelliteConfigWidget( new SatelliteConfigWidget( this ) )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mpBufferSize( new QSpinBox( this ) )
@@ -71,9 +73,10 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
-   tabs->addTab( iTab,                 QString(tr("Innuendo")) );
-   tabs->addTab( mpProxyWidget,        QString(tr("Proxy")) );
-   tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
+   tabs->addTab( mpSatelliteConfigWidget, QString(tr("Satellite")) );
+   tabs->addTab( iTab,                    QString(tr("Innuendo")) );
+   tabs->addTab( mpProxyWidget,           QString(tr("Proxy")) );
+   tabs->addTab( mpGlobalConfigWidget,    QString(tr("Global")) );
    
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );
@@ -88,7 +91,10 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(writeSettings()) );
    connect( this, SIGNAL(rejected()),
             this, SLOT(readSettings()) );
-   
+   connect( mpSatelliteConfigWidget, SIGNAL(useInnuendoClicked(bool)),
+            mpGlobalConfigWidget, SLOT(setSatelliteClicked(bool)) );
+   connect( mpGlobalConfigWidget, SIGNAL(useSatelliteClicked(bool)),
+            mpSatelliteConfigWidget, SLOT(setInnuendoClicked(bool)) );
    readSettings();
    
    WidgetShot::addWidget( "ConfigDialog", this );
@@ -104,6 +110,7 @@ void ConfigDialog::exec()
 
 void ConfigDialog::readSettings()
 {
+   mpSatelliteConfigWidget->readSettings();
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
    
@@ -124,6 +131,7 @@ void ConfigDialog::readSettings()
 
 void ConfigDialog::writeSettings()
 {
+   mpSatelliteConfigWidget->writeSettings();
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
    

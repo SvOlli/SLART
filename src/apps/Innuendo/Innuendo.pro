@@ -42,6 +42,9 @@ SOURCES += ExecButton.cpp
 HEADERS += ConfigDialog.hpp 
 SOURCES += ConfigDialog.cpp 
 
+HEADERS += SatelliteConfigWidget.hpp 
+SOURCES += SatelliteConfigWidget.cpp 
+
 #HEADERS += ProxyWidget.hpp 
 #SOURCES += ProxyWidget.cpp 
 

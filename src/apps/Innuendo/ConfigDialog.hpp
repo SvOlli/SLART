@@ -18,8 +18,10 @@ class QLabel;
 class QLineEdit;
 class QSpinBox;
 
+class ConfigSatelliteWidget;
 class GlobalConfigWidget;
 class ProxyWidget;
+class SatelliteConfigWidget;
 
 
 class ConfigDialog : public QDialog
@@ -45,15 +47,16 @@ private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
    
-   GlobalConfigWidget   *mpGlobalConfigWidget;
-   ProxyWidget          *mpProxyWidget;
-   QSpinBox             *mpBufferSize;
-   QPushButton          *mpAutostartPartyman;
-   QPushButton          *mpAutostartKarmadrome;
-   QPushButton          *mpAutostartRubberbandman;
-   QPushButton          *mpAutostartStripped;
-   QPushButton          *mpAutostartFunkytown;
-   QPushButton          *mpAutostartCreep;
+   SatelliteConfigWidget   *mpSatelliteConfigWidget;
+   GlobalConfigWidget      *mpGlobalConfigWidget;
+   ProxyWidget             *mpProxyWidget;
+   QSpinBox                *mpBufferSize;
+   QPushButton             *mpAutostartPartyman;
+   QPushButton             *mpAutostartKarmadrome;
+   QPushButton             *mpAutostartRubberbandman;
+   QPushButton             *mpAutostartStripped;
+   QPushButton             *mpAutostartFunkytown;
+   QPushButton             *mpAutostartCreep;
 };
 
 /* defaults */
