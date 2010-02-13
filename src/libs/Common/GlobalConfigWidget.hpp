@@ -6,8 +6,8 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef GLBOALCONFIGWIDGET_HPP
-#define GLBOALCONFIGWIDGET_HPP GLBOALCONFIGWIDGET_HPP
+#ifndef GLOBALCONFIGWIDGET_HPP
+#define GLOBALCONFIGWIDGET_HPP GLOBALCONFIGWIDGET_HPP
 
 #include <QGroupBox>
 
@@ -53,6 +53,9 @@ public slots:
    void selectFile();
    
 private:
+   QCheckBox    *mpUseSatellite;
+   QLabel       *mpSatellitePortLabel;
+   QSpinBox     *mpSatellitePort;
    QCheckBox    *mpUseGlobalStyleSheetFile;
    QLineEdit    *mpStyleSheetFileName;
    QPushButton  *mpDotButton;

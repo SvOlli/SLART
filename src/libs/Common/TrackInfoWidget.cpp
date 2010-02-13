@@ -6,16 +6,17 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#include "TrackInfoWidget.hpp"
-#include "ScrollLine.hpp"
 #include "Database.hpp"
 #include "MySettings.hpp"
+#include "TrackInfoWidget.hpp"
+#include "Satellite.hpp"
+#include "ScrollLine.hpp"
 
 #include <QtGui>
 
 #include "Trace.hpp"
 
-TrackInfoWidget::TrackInfoWidget( Database *database, const QString &updateCode,
+TrackInfoWidget::TrackInfoWidget( Database *database, const QByteArray &updateCode,
                                   bool includeFolders, QWidget *parent )
 : QWidget( parent )
 , mpDatabase( database )
@@ -87,7 +88,7 @@ void TrackInfoWidget::handleFavoriteButton()
    }
    mTrackInfo.setFlag( TrackInfo::Favorite, checked );
    mpDatabase->updateTrackInfo( &mTrackInfo );
-   MySettings().sendNotification( mUpdateCode );
+   Satellite::send1( mUpdateCode );
 }
 
 
@@ -100,7 +101,7 @@ void TrackInfoWidget::handleUnwantedButton()
    }
    mTrackInfo.setFlag( TrackInfo::Unwanted, checked );
    mpDatabase->updateTrackInfo( &mTrackInfo );
-   MySettings().sendNotification( mUpdateCode );
+   Satellite::send1( mUpdateCode );
 }
 
 
@@ -123,7 +124,7 @@ void TrackInfoWidget::setFavoriteUnwanted( bool favorite, bool unwanted )
       mTrackInfo.setFlag( TrackInfo::Unwanted, true );
    }
    mpDatabase->updateTrackInfo( &mTrackInfo );
-   MySettings().sendNotification( mUpdateCode );
+   Satellite::send1( mUpdateCode );
 }
 
 

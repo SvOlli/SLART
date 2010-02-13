@@ -8,12 +8,16 @@
 
 #include "GlobalConfigWidget.hpp"
 #include "MySettings.hpp"
+#include "Satellite.hpp"
 
 #include <QtGui>
 
 
 GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
 : QWidget( parent )
+, mpUseSatellite( new QCheckBox( tr("Use Satellite (Inter-Process Communication)"), this ) )
+, mpSatellitePortLabel( new QLabel( tr("Satellite Port"), this ) )
+, mpSatellitePort( new QSpinBox( this ) )
 , mpUseGlobalStyleSheetFile( new QCheckBox( this ) )
 , mpStyleSheetFileName( new QLineEdit( this ) )
 , mpDotButton( new QPushButton( tr("..."), this ) )
@@ -31,7 +35,10 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
    showAnimate( false );
    showNormalize( false );
    showDoubleClickInterval( false );
-   
+
+   mpSatellitePort->setRange( 1025, 65535 );
+   mpSatellitePort->setAlignment( Qt::AlignRight );
+
    mpDoubleClickInterval->setRange( 100, 1000 );
    mpDoubleClickInterval->setSingleStep( 50 );
    mpDoubleClickInterval->setSuffix( tr("ms") );
@@ -46,16 +53,19 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
                 << tr("Write Both/Read Selection") << tr("Write Both/Read Clipboard");
    mpClipboardSelection->addItems( comboBoxText );
    
-   mainLayout->addWidget( mpUseGlobalStyleSheetFile, 0, 0, 1, 4 );
-   mainLayout->addWidget( mpStyleSheetFileName,      1, 0, 1, 3 );
-   mainLayout->addWidget( mpDotButton,               1, 3 );
-   mainLayout->addWidget( mpClipboardLabel,          2, 0 );
-   mainLayout->addWidget( mpClipboardSelection,      2, 1, 1, 3 );
-   mainLayout->addWidget( mpAnimateViews,            3, 0, 1, 4 );
-   mainLayout->addWidget( mpNormalizeCase,           4, 0, 1, 4 );
-   mainLayout->addWidget( mpNormalizeSpaces,         5, 0, 1, 4 );
-   mainLayout->addWidget( mpDoubleClickLabel,        6, 0, 1, 2 );
-   mainLayout->addWidget( mpDoubleClickInterval,     6, 2, 1, 2 );
+   mainLayout->addWidget( mpUseSatellite,            0, 0, 1, 4 );
+   mainLayout->addWidget( mpSatellitePortLabel,      1, 0, 1, 2 );
+   mainLayout->addWidget( mpSatellitePort,           1, 2, 1, 2 );
+   mainLayout->addWidget( mpUseGlobalStyleSheetFile, 2, 0, 1, 4 );
+   mainLayout->addWidget( mpStyleSheetFileName,      3, 0, 1, 3 );
+   mainLayout->addWidget( mpDotButton,               3, 3 );
+   mainLayout->addWidget( mpClipboardLabel,          4, 0 );
+   mainLayout->addWidget( mpClipboardSelection,      4, 1, 1, 3 );
+   mainLayout->addWidget( mpAnimateViews,            5, 0, 1, 4 );
+   mainLayout->addWidget( mpNormalizeCase,           6, 0, 1, 4 );
+   mainLayout->addWidget( mpNormalizeSpaces,         7, 0, 1, 4 );
+   mainLayout->addWidget( mpDoubleClickLabel,        8, 0, 1, 2 );
+   mainLayout->addWidget( mpDoubleClickInterval,     8, 2, 1, 2 );
    
    readSettings();
    
@@ -63,6 +73,8 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
    mainLayout->setColumnStretch( 0, 1 );
    mainLayout->setColumnStretch( 1, 1 );
    
+   connect( mpUseSatellite, SIGNAL(clicked(bool)),
+            mpSatellitePort, SLOT(setEnabled(bool)) );
    connect( mpUseGlobalStyleSheetFile, SIGNAL(clicked()),
             this, SLOT(updateStyleSheetFileName()) );
    connect( mpDotButton, SIGNAL(clicked()),
@@ -81,6 +93,8 @@ void GlobalConfigWidget::readSettings()
 {
    MySettings settings( "Global" );
    MySettings appSettings;
+   mpUseSatellite->setChecked( settings.VALUE_USESATELLITE );
+   mpSatellitePort->setValue( settings.VALUE_SATELLITE_PORT );
    mpUseGlobalStyleSheetFile->setChecked( appSettings.VALUE_USEGLOBALSTYLESHEETFILE );
    if( mpUseGlobalStyleSheetFile->isChecked() )
    {
@@ -135,6 +149,9 @@ void GlobalConfigWidget::writeSettings()
 {
    MySettings settings( "Global" );
    MySettings appSettings;
+   settings.setValue( "UseSatellite", mpUseSatellite->isChecked() );
+   settings.setValue( "SatellitePort", mpSatellitePort->value() );
+   mpSatellitePort->setValue( settings.VALUE_SATELLITE_PORT );
    appSettings.setValue( "UseGlobalStyleSheetFile", mpUseGlobalStyleSheetFile->isChecked() );
    if( mpUseGlobalStyleSheetFile->isChecked() )
    {

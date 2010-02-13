@@ -1,12 +1,14 @@
 /**
- * src/libs/SLARTCom/SLARTComServer.hpp
+ * src/libs/Common/SatelliteServer.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#ifndef SLARTCOMSERVER_HPP
-#define SLARTCOMSERVER_HPP SLARTCOMSERVER_HPP
+#ifndef SATELLITESERVER_HPP
+#define SATELLITESERVER_HPP SATELLITESERVER_HPP
+
+#define SATELLITESERVER_DEBUG 0
 
 #include <QThread>
 
@@ -19,16 +21,14 @@ class QListWidget;
 class QLineEdit;
 class QSignalMapper;
 
-#define SLARTCOMSERVER_DEBUG 1
 
-
-class SLARTComServer : public QObject
+class SatelliteServer : public QObject
 {
 Q_OBJECT
    
 public:
-   SLARTComServer( quint16 port, const QHostAddress &host, QObject *parent = 0 );
-   virtual ~SLARTComServer();
+   SatelliteServer( quint16 port, const QHostAddress &host, QObject *parent = 0 );
+   virtual ~SatelliteServer();
    /* start the server */
    bool listen();
    
@@ -41,14 +41,14 @@ private slots:
    void disconnected( QObject *client );
    
 signals:
-#if SLARTCOMSERVER_DEBUG
+#if SATELLITESERVER_DEBUG
    /* output debug messages (depricated) */
-   void debug( const QString &message );
+   void debug( const QByteArray &message );
 #endif
    
 private:
-   SLARTComServer( const SLARTComServer &other );
-   SLARTComServer &operator=( const SLARTComServer &other );
+   SatelliteServer( const SatelliteServer &other );
+   SatelliteServer &operator=( const SatelliteServer &other );
    
    QTcpServer           *mpServer;
    QSignalMapper        *mpClientsReadMapper;

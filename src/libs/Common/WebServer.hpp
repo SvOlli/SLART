@@ -1,5 +1,5 @@
 /**
- * src/libs/WebServer/WebServer.hpp
+ * src/libs/Common/WebServer.hpp
  * written by Sven Oliver Moll
  * 
  * distributed under the terms of the GNU Lesser General Public License (LGPL)

@@ -1,16 +1,16 @@
 /**
- * src/libs/SLARTCom/SLARTComServerRunner.cpp
+ * src/libs/Common/SatelliteServerRunner.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#include "SLARTComServerRunner.hpp"
+#include "SatelliteServerRunner.hpp"
 
-#include "SLARTComServer.hpp"
+#include "SatelliteServer.hpp"
 
 
-SLARTComServerRunner::SLARTComServerRunner( quint16 port, const QHostAddress &host )
+SatelliteServerRunner::SatelliteServerRunner( quint16 port, const QHostAddress &host )
 : QThread()
 , mPort( port )
 , mHost( host )
@@ -18,10 +18,10 @@ SLARTComServerRunner::SLARTComServerRunner( quint16 port, const QHostAddress &ho
 }
 
 
-void SLARTComServerRunner::run()
+void SatelliteServerRunner::run()
 {
-   SLARTComServer *mpServer = new SLARTComServer( mPort, mHost, 0 );
-#if SLARTCOMSERVER_DEBUG
+   SatelliteServer *mpServer = new SatelliteServer( mPort, mHost, 0 );
+#if SATELLITESERVER_DEBUG
    connect( mpServer, SIGNAL(debug(const QString&)),
             this,     SIGNAL(debug(const QString&)) );
 #endif

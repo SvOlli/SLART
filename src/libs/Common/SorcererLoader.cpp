@@ -22,7 +22,7 @@
 
 void SorcererLoader::detect( QApplication *app, bool force )
 {
-   if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() || force )
+   if( !MySettings("Global").contains( "UseSatellite" ) || !Database::exists() || force )
    {
       if( !run( app ) )
       {
@@ -36,6 +36,10 @@ void SorcererLoader::detect( QApplication *app, bool force )
 
 bool SorcererLoader::run( QApplication *app )
 {
+   if( !app )
+   {
+      app = qApp;
+   }
    QDir sorcererDir(app->applicationDirPath());
 #if defined Q_OS_MAC
    if( sorcererDir.dirName() == "MacOS" )
@@ -69,8 +73,11 @@ bool SorcererLoader::run( QApplication *app )
       return true;
    }
 
+#if 0
    QMessageBox::critical( 0, app->applicationName(),
                           QObject::tr("Setup failed!\nCannot start.\nSorry.") );
+#endif
+
    return false;
 }
 

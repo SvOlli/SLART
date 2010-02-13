@@ -7,9 +7,12 @@
  */
 
 #include "Database.hpp"
-#include "MySettings.hpp"
+
 #include <QApplication>
 #include <QMessageBox>
+
+#include "MySettings.hpp"
+#include "Satellite.hpp"
 
 #include "Trace.hpp"
 
@@ -565,7 +568,8 @@ void Database::logError( const QString &note )
       msg.append( "\nQuery: " );
       msg.append( mpQuery->lastQuery() );
    }
-   MySettings().sendUdpMessage( msg, QString("Innuendo") );
+
+   Satellite::send1( msg.toUtf8() );
 }
 
 

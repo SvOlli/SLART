@@ -1,17 +1,17 @@
 /**
- * src/libs/SLARTCom/SLARTComServer.cpp
+ * src/libs/Common/SatelliteServer.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
  */
 
 
-#include "SLARTComServer.hpp"
+#include "SatelliteServer.hpp"
 
 #include <QSignalMapper>
 
 
-SLARTComServer::SLARTComServer( quint16 port, const QHostAddress &host, QObject *parent )
+SatelliteServer::SatelliteServer( quint16 port, const QHostAddress &host, QObject *parent )
 : QObject( parent )
 , mpServer( new QTcpServer( this ) )
 , mpClientsReadMapper( new QSignalMapper( this ) )
@@ -29,17 +29,17 @@ SLARTComServer::SLARTComServer( quint16 port, const QHostAddress &host, QObject 
 }
 
 
-SLARTComServer::~SLARTComServer()
+SatelliteServer::~SatelliteServer()
 {
    mpServer->close();
 }
 
 
-bool SLARTComServer::listen()
+bool SatelliteServer::listen()
 {
-#if SLARTCOMSERVER_DEBUG
+#if SATELLITESERVER_DEBUG
    emit debug( "s:trying to run server on " + 
-               mHost.toString() + ":" + QString::number(mPort) );
+               mHost.toString().toAscii() + ":" + QByteArray::number(mPort) );
    bool success = mpServer->listen( mHost, mPort );
    
    if( success )
@@ -53,26 +53,28 @@ bool SLARTComServer::listen()
 }
 
 
-void SLARTComServer::incomingData( QObject *client )
+void SatelliteServer::incomingData( QObject *client )
 {
    QTcpSocket *socket = static_cast<QTcpSocket*>(client);
    QByteArray msg( socket->readAll() );
    
-#if SLARTCOMSERVER_DEBUG
-   emit debug( QString("s:from client: ") + msg );
+#if SATELLITESERVER_DEBUG
+   emit debug( QByteArray("s:from client: ") + msg );
 #endif
    for( int i = 0; i < mClientConnections.count(); i++ )
    {
       QTcpSocket *current = mClientConnections.at(i);
       if( current && (client != current) )
       {
+         /* make sure messages aren't merged */
+         current->waitForBytesWritten( 1000 );
          current->write( msg );
       }
    }
 }
 
 
-void SLARTComServer::connected()
+void SatelliteServer::connected()
 {
    QTcpSocket *socket = mpServer->nextPendingConnection();
    connect(socket, SIGNAL(readyRead()),
@@ -82,26 +84,26 @@ void SLARTComServer::connected()
            mpClientsDisconnectMapper, SLOT(map()));
    mpClientsDisconnectMapper->setMapping(socket, static_cast<QObject*>(socket));
    mClientConnections.append( socket );
-#if SLARTCOMSERVER_DEBUG
+#if SATELLITESERVER_DEBUG
    emit debug( QString("s:client connected, %1 clients active")
-                  .arg( mClientConnections.count() ) );
+                  .arg( mClientConnections.count() ).toAscii() );
 #endif
 }
 
 
-void SLARTComServer::disconnected( QObject *client )
+void SatelliteServer::disconnected( QObject *client )
 {
    disconnect(client, SIGNAL(readyRead()),
               mpClientsReadMapper, SLOT(map()));
    mpClientsReadMapper->removeMappings( client );
    disconnect(client, SIGNAL(disconnected()),
-             mpClientsDisconnectMapper, SLOT(map()));
+              mpClientsDisconnectMapper, SLOT(map()));
    mpClientsDisconnectMapper->removeMappings( client );
    QTcpSocket *socket = static_cast<QTcpSocket*>(client);
    mClientConnections.removeAll( socket );
    socket->deleteLater();
-#if SLARTCOMSERVER_DEBUG
+#if SATELLITESERVER_DEBUG
    emit debug( QString("s:client disconnected, %1 clients active")
-                  .arg( mClientConnections.count() ) );
+                  .arg( mClientConnections.count() ).toAscii() );
 #endif
 }

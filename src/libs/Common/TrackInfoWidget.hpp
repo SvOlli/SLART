@@ -27,7 +27,7 @@ class TrackInfoWidget : public QWidget
 Q_OBJECT
    
 public:
-   TrackInfoWidget( Database *database, const QString &updateCode,
+   TrackInfoWidget( Database *database, const QByteArray &updateCode,
                     bool includeFolders, QWidget *parent = 0 );
    
 public slots:
@@ -50,7 +50,7 @@ private:
    
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;
-   QString     mUpdateCode;
+   QByteArray  mUpdateCode;
    bool        mIncludeFolders;
    QLabel      *mpTimesPlayed;
    ScrollLine  *mpArtist;

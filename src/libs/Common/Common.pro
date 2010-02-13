@@ -38,11 +38,17 @@ SOURCES += ProxyWidget.cpp
 HEADERS += PasswordChecker.hpp
 SOURCES += PasswordChecker.cpp
 
+HEADERS += Satellite.hpp
+SOURCES += Satellite.cpp
+
+HEADERS += SatelliteServer.hpp
+SOURCES += SatelliteServer.cpp
+
+HEADERS += SatelliteServerRunner.hpp
+SOURCES += SatelliteServerRunner.cpp
+
 HEADERS += ScrollLine.hpp
 SOURCES += ScrollLine.cpp
-
-HEADERS += SLARTCom.hpp
-SOURCES += SLARTCom.cpp
 
 HEADERS += SorcererLoader.hpp
 SOURCES += SorcererLoader.cpp
@@ -58,6 +64,9 @@ SOURCES += TrackInfo.cpp
 
 HEADERS += TrackInfoWidget.hpp
 SOURCES += TrackInfoWidget.cpp
+
+HEADERS += WebServer.hpp
+SOURCES += WebServer.cpp
 
 HEADERS += WidgetShot.hpp
 SOURCES += WidgetShot.cpp

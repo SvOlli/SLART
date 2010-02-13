@@ -192,5 +192,8 @@ void ProxyWidget::writeSettings()
    settings.setValue( "Password", mpProxyPasswordInput->text() );
    settings.sync();
    
+#if 0
+   // TODO: adept to Satellite
    MySettings().sendUdpMessage( "CFG\n" );
+#endif
 }

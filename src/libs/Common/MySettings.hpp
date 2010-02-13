@@ -25,14 +25,6 @@ public:
    /* restore main window settings */
    void setMainWindow( QMainWindow *mainWindow );
    
-   /* check if the calling application listens on the provided application */
-   bool listensOn( const QString &application );
-   /* send a message to another application idenfied by port */
-   void sendUdpMessage( const QString &data, int port = 0 );
-   /* send a message to another application idenfied by application name */
-   void sendUdpMessage( const QString &data, const QString &application );
-   /* send notification to all it may concern */
-   void sendNotification( const QString &data );
    /* get the filename of the style sheet to load */
    QString styleSheetFile();
 };
