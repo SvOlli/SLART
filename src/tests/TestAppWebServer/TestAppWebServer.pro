@@ -12,16 +12,11 @@ include( ../../config.pri )
 
 INCLUDEPATH += ../../libs/Common
 LIBS += -lCommon
-INCLUDEPATH += ../../libs/WebServer
-LIBS += -lWebServer
 
 # Input
 RESOURCES = Resources/TestAppWebServer.qrc
 
 SOURCES += Application.cpp 
-
-//HEADERS += ../../libs/Common/MainWindow.hpp 
-//SOURCES += ../../libs/Common/MainWindow.cpp 
 
 HEADERS += MainWidget.hpp 
 SOURCES += MainWidget.cpp 
