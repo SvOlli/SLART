@@ -6,8 +6,8 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef SorcererWidget_HPP
-#define SorcererWidget_HPP SorcererWidget_HPP
+#ifndef SORCERERWIDGET_HPP
+#define SORCERERWIDGET_HPP SORCERERWIDGET_HPP
 
 #include <QWidget>
 
@@ -17,10 +17,10 @@ class QPushButton;
 class QString;
 class QTabWidget;
 
-class ConfigNotifyWidget;
 class Database;
 class DatabaseWidget;
 class ProxyWidget;
+class SatelliteConfigWidget;
 
 
 class SorcererWidget : public QWidget
@@ -51,19 +51,19 @@ private:
    SorcererWidget( const SorcererWidget &other );
    SorcererWidget &operator=( const SorcererWidget &other );
    
-   Database             *mpDatabase;
-   QTabWidget           *mpTabs;
-   QLabel               *mpHint;
-   QPushButton          *mpNext;
+   Database                *mpDatabase;
+   QTabWidget              *mpTabs;
+   QLabel                  *mpHint;
+   QPushButton             *mpNext;
    
-   DatabaseWidget       *mpDatabaseWidget;
-   ConfigNotifyWidget   *mpConfigCommunicationWidget;
-   ProxyWidget          *mpProxyWidget;
+   DatabaseWidget          *mpDatabaseWidget;
+   SatelliteConfigWidget   *mpSatelliteConfigWidget;
+   ProxyWidget             *mpProxyWidget;
    
-   int                  mLastTab;
-   bool                 mDatabaseOk;
-   bool                 mCommunicationOk;
-   bool                 mProxyOk;
+   int                     mLastTab;
+   bool                    mDatabaseOk;
+   bool                    mCommunicationOk;
+   bool                    mProxyOk;
 };
 
 #endif

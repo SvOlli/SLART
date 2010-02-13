@@ -34,12 +34,6 @@ SOURCES += SorcererWidget.cpp
 #HEADERS += AboutWidget.hpp
 #SOURCES += AboutWidget.cpp
 
-HEADERS += ../../apps/Innuendo/ConfigNotifyApplicationWidget.hpp
-SOURCES += ../../apps/Innuendo/ConfigNotifyApplicationWidget.cpp
-
-HEADERS += ../../apps/Innuendo/ConfigNotifyWidget.hpp
-SOURCES += ../../apps/Innuendo/ConfigNotifyWidget.cpp
-
 #HEADERS += ProxyWidget.hpp
 #SOURCES += ProxyWidget.cpp
 
@@ -48,6 +42,9 @@ SOURCES += ../../apps/Innuendo/ConfigNotifyWidget.cpp
 
 #HEADERS += TrackInfo.hpp
 #SOURCES += TrackInfo.cpp
+
+HEADERS += ../../apps/Innuendo/SatelliteConfigWidget.hpp
+SOURCES += ../../apps/Innuendo/SatelliteConfigWidget.cpp
 
 HEADERS += ../../apps/Rubberbandman/DatabaseWidget.hpp
 SOURCES += ../../apps/Rubberbandman/DatabaseWidget.cpp

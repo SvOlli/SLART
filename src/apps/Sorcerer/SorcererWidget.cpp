@@ -7,15 +7,18 @@
  */
 
 #include "SorcererWidget.hpp"
-#include "AboutWidget.hpp"
-#include "../Rubberbandman/DatabaseWidget.hpp"
-#include "../Innuendo/ConfigNotifyWidget.hpp"
-#include "ProxyWidget.hpp"
-#include "Database.hpp"
-#include "MySettings.hpp"
-#include "Trace.hpp"
 
 #include <QtGui>
+
+#include "AboutWidget.hpp"
+#include "Database.hpp"
+#include "ProxyWidget.hpp"
+#include "MySettings.hpp"
+
+#include "../../apps/Innuendo/SatelliteConfigWidget.hpp"
+#include "../../apps/Rubberbandman/DatabaseWidget.hpp"
+
+#include "Trace.hpp"
 
 
 SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
@@ -25,11 +28,11 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpHint( new QLabel( this ) )
 , mpNext( new QPushButton( tr("Next"), this ) )
 , mpDatabaseWidget( new DatabaseWidget( mpDatabase, this ) )
-, mpConfigCommunicationWidget( new ConfigNotifyWidget( this ) )
+, mpSatelliteConfigWidget( new SatelliteConfigWidget( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mLastTab( 0 )
 , mDatabaseOk( false )
-, mCommunicationOk( MySettings( "Innuendo" ).value( "SLARTCommunication" ).isValid() )
+, mCommunicationOk( MySettings().value( "SLARTCommunication" ).isValid() )
 , mProxyOk( MySettings( "Global" ).value( "Enable" ).isValid() )
 {
    int i;
@@ -42,9 +45,6 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
-   
-   mpConfigCommunicationWidget->readSettings();
-   mpProxyWidget->readSettings();
    
    AboutWidget *about = new AboutWidget( this );
    QLabel *welcome    = new QLabel( tr("Hello and welcome to SLART<hr>"
@@ -60,11 +60,11 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
    mpHint->setFrameShadow( QFrame::Raised );
    mpHint->setFrameShape( QFrame::Box );
    
-   mpTabs->addTab( welcome,                     QString(tr("Welcome")) );
-   mpTabs->addTab( mpDatabaseWidget,            QString(tr("Database")) );
-   mpTabs->addTab( mpConfigCommunicationWidget, QString(tr("Communication")) );
-   mpTabs->addTab( mpProxyWidget,               QString(tr("Proxy")) );
-   mpTabs->addTab( welldone,                    QString(tr("Done")) );
+   mpTabs->addTab( welcome,                 QString(tr("Welcome")) );
+   mpTabs->addTab( mpDatabaseWidget,        QString(tr("Database")) );
+   mpTabs->addTab( mpSatelliteConfigWidget, QString(tr("Communication")) );
+   mpTabs->addTab( mpProxyWidget,           QString(tr("Proxy")) );
+   mpTabs->addTab( welldone,                QString(tr("Done")) );
    for( i = 0; i < mpTabs->count(); i++ )
    {
       mpTabs->setTabEnabled( i, (i==0) );
@@ -80,7 +80,7 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(handleTabChange(int)) );
    connect( mpNext, SIGNAL(pressed()),
             this, SLOT(handleNextButton()) );
-   connect( mpConfigCommunicationWidget, SIGNAL(fullOrNoCommunication()),
+   connect( mpSatelliteConfigWidget, SIGNAL(fullOrNoCommunication()),
             this, SLOT(unlockCommunication()) );
    connect( mpDatabaseWidget, SIGNAL(databaseUpdated()),
             this, SLOT(unlockDatabase()) );
@@ -107,7 +107,7 @@ void SorcererWidget::handleTabChange( int newTab )
    switch( mLastTab )
    {
       case 2:
-         mpConfigCommunicationWidget->writeSettings();
+         mpSatelliteConfigWidget->writeSettings();
          break;
       case 3:
          mpProxyWidget->writeSettings();
@@ -132,7 +132,7 @@ void SorcererWidget::handleTabChange( int newTab )
          mpNext->setDisabled( !mDatabaseOk );
          break;
       case 2:
-         mpConfigCommunicationWidget->readSettings();
+         mpSatelliteConfigWidget->readSettings();
          mpHint->setText( tr("'Full Communication' is strongly recommended\nto take advantage of all SLART features.\n"
                              "So go ahead and press 'Full Communication' and 'Next'.") );
          mpNext->setDisabled( !mCommunicationOk );
