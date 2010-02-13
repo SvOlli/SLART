@@ -9,13 +9,13 @@
 
 #include <QtGui>
 
-#include <SLARTCom.hpp>
-#include <SLARTComServer.hpp>
+#include "Satellite.hpp"
+#include "SatelliteServer.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpSLARTCom( new SLARTCom( 24222, this ) )
+, mpSatellite( new Satellite( this ) )
 #if SLARTCOM_DEBUG
 , mpDebugBuffer( new QListWidget( this ) )
 #else
@@ -32,13 +32,13 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 #endif
    
 #if SLARTCOM_DEBUG
-   connect( mpSLARTCom, SIGNAL(debug(const QString&)),
+   connect( mpSatellite, SIGNAL(debug(const QString&)),
             this, SLOT(addDebug(const QString&)) );
    mainLayout->addWidget( mpDebugBuffer );
    mainLayout->setStretchFactor( mpDebugBuffer, 4 );
 #endif
    
-   connect( mpSLARTCom, SIGNAL(received(const QByteArray&)),
+   connect( mpSatellite, SIGNAL(received(const QByteArray&)),
             this, SLOT(addMessage(const QByteArray&)) );
    mainLayout->addWidget( mpMessageBuffer );
    mainLayout->setStretchFactor( mpMessageBuffer, 1 );
@@ -48,11 +48,11 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mainLayout->addWidget( mpInput );
    
    connect( this, SIGNAL(sendText(const QByteArray&)),
-            mpSLARTCom, SLOT(send(const QByteArray&)) );
+            mpSatellite, SLOT(send(const QByteArray&)) );
    
    setLayout( mainLayout );
    
-   mpSLARTCom->start();
+   mpSatellite->restart();
 }
 
 

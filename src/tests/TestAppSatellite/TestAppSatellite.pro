@@ -1,17 +1,17 @@
 ######################################################################
-# src/tests/TestAppSLARTCom/TestAppSLARTCom.pro
+# src/tests/TestAppSatellite/TestAppSatellite.pro
 # hand hacked by SvOlli
 # released as public domain
 ######################################################################
 
-TARGET = TestAppSLARTCom
+TARGET = TestAppSatellite
 TEMPLATE = app
 QT += network
 
 include( ../../config.pri )
 
-INCLUDEPATH += ../../libs/SLARTCom
-LIBS += -lSLARTCom
+INCLUDEPATH += ../../libs/Common
+LIBS += -lCommon
 
 # Input
 #RESOURCES = Resources.qrc

@@ -15,7 +15,7 @@ class QString;
 class QListWidget;
 class QLineEdit;
 
-class SLARTCom;
+class Satellite;
 
 class MainWidget : public QWidget
 {
@@ -36,7 +36,7 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
    
-   SLARTCom     *mpSLARTCom;
+   Satellite    *mpSatellite;
    QListWidget  *mpDebugBuffer;
    QListWidget  *mpMessageBuffer;
    QLineEdit    *mpInput;
