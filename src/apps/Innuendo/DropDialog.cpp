@@ -9,13 +9,11 @@
 #include "DropDialog.hpp"
 #include "MySettings.hpp"
 #include "ProxyWidget.hpp"
-#include "ConfigNotifyWidget.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "AboutWidget.hpp"
 
 
 #include <QtGui>
-#include "SLARTCom.hpp"
 
 #include "Trace.hpp"
 

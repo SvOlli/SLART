@@ -42,12 +42,6 @@ SOURCES += ExecButton.cpp
 HEADERS += ConfigDialog.hpp 
 SOURCES += ConfigDialog.cpp 
 
-HEADERS += ConfigNotifyWidget.hpp 
-SOURCES += ConfigNotifyWidget.cpp 
-
-HEADERS += ConfigNotifyApplicationWidget.hpp 
-SOURCES += ConfigNotifyApplicationWidget.cpp 
-
 #HEADERS += ProxyWidget.hpp 
 #SOURCES += ProxyWidget.cpp 
 

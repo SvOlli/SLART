@@ -9,19 +9,17 @@
 #include "ConfigDialog.hpp"
 #include "MySettings.hpp"
 #include "ProxyWidget.hpp"
-#include "ConfigNotifyWidget.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "AboutWidget.hpp"
 #include "WidgetShot.hpp"
 
 
 #include <QtGui>
-#include "SLARTCom.hpp"
+#include "Satellite.hpp"
 
 
 ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
-, mpNotifyWidget( new ConfigNotifyWidget( this ) )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mpBufferSize( new QSpinBox( this ) )
@@ -73,7 +71,6 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
-   tabs->addTab( mpNotifyWidget,       QString(tr("Communication")) );
    tabs->addTab( iTab,                 QString(tr("Innuendo")) );
    tabs->addTab( mpProxyWidget,        QString(tr("Proxy")) );
    tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
@@ -107,7 +104,6 @@ void ConfigDialog::exec()
 
 void ConfigDialog::readSettings()
 {
-   mpNotifyWidget->readSettings();
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
    
@@ -128,7 +124,6 @@ void ConfigDialog::readSettings()
 
 void ConfigDialog::writeSettings()
 {
-   mpNotifyWidget->writeSettings();
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
    

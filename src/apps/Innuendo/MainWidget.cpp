@@ -15,12 +15,14 @@
 #include "ExecButton.hpp"
 #include "DropDialog.hpp"
 #include "MySettings.hpp"
+#include "Satellite.hpp"
 
 #include "Trace.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
+, mpSatellite( Satellite::get( this ) )
 , mpMessageBuffer( new QListWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpPingButton( new QPushButton( tr("Ping"), this ) )
@@ -28,7 +30,6 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpDropDialog( new DropDialog( this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint ) )
 , mpExecButtons(0)
 , mNumExecButtons(0)
-, mSLARTCom()
 , mAutostart( MySettings().VALUE_STARTUP )
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
@@ -77,10 +78,12 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handlePingButton()) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
-   connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
-            this, SLOT(handleSLART(QStringList)) );
-   connect( &mSLARTCom, SIGNAL(updateConfig()),
-            mpConfig, SLOT(readSettings()) );
+   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
+            this, SLOT(handleSatellite(const QByteArray &)) );
+#if SATELLITE_DEBUG
+   connect( mpSatellite, SIGNAL(debug(const QByteArray &)),
+            this, SLOT(handleSatellite(const QByteArray &)) );
+#endif
    connect( mpMessageBuffer, SIGNAL(itemClicked(QListWidgetItem*)),
             this, SLOT(listWidgetItemToClipboard(QListWidgetItem*)) );
 
@@ -149,14 +152,15 @@ void MainWidget::autostart()
 
 void MainWidget::readConfig()
 {
-   mSLARTCom.resetReceiver();
+   mpSatellite->restart();
 }
 
 
 void MainWidget::handlePingButton()
 {
    MySettings settings;
-   mpMessageBuffer->addItem( "** pinging applications" );
+   mpMessageBuffer->addItem( "** pinging applications\n(not reimplemented yet)" );
+#if 0
    mpPingButton->setDisabled( true );
    for( int i = 0; i < mNumExecButtons; i++ )
    {
@@ -174,18 +178,20 @@ void MainWidget::handlePingButton()
       mpMessageBuffer->scrollToBottom();
    }
    mpPingButton->setDisabled( false );
+#endif
 }
 
 
-void MainWidget::handleSLART( const QStringList &message )
+void MainWidget::handleSatellite( const QByteArray &message )
 {
    QListWidgetItem *item = new QListWidgetItem( QDateTime::currentDateTime().toString(), mpMessageBuffer );
    item->setBackground( QBrush( mpMessageBuffer->palette().color( QPalette::AlternateBase ) ) );
    mpMessageBuffer->addItem( item );
 
-   for( int i = 0; i < message.size(); i++ )
+   QStringList lines( QString::fromUtf8( message ).split('\n') );
+   for( int i = 0; i < lines.size(); i++ )
    {
-      mpMessageBuffer->addItem( message.at(i) );
+      mpMessageBuffer->addItem( lines.at(i) );
    }
 
    while( mpMessageBuffer->count() > MySettings().VALUE_BUFFERSIZE )

@@ -19,8 +19,6 @@
 
 #include <QStringList>
 
-#include "SLARTCom.hpp"
-
 class QKeyEvent;
 class QLabel;
 class QListWidget;
@@ -33,6 +31,7 @@ class QStringList;
 class ConfigDialog;
 class DropDialog;
 class ExecButton;
+class Satellite;
 
 
 class MainWidget : public QWidget
@@ -49,7 +48,7 @@ public slots:
    /* handle the ping button */
    void handlePingButton();
    /* handle SLART message */
-   void handleSLART( const QStringList &message );
+   void handleSatellite( const QByteArray &message );
    /* copy clicked line of message buffer to clipboard */
    void listWidgetItemToClipboard( QListWidgetItem *item );
 
@@ -70,6 +69,7 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
 
+   Satellite    *mpSatellite;
    QListWidget  *mpMessageBuffer;
    QPushButton  *mpSettingsButton;
    QPushButton  *mpPingButton;
@@ -77,7 +77,6 @@ private:
    DropDialog   *mpDropDialog;
    ExecButton   **mpExecButtons;
    int          mNumExecButtons;
-   SLARTCom     mSLARTCom;
    QStringList  mAutostart;
 };
 

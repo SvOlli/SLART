@@ -18,9 +18,8 @@ class QLabel;
 class QLineEdit;
 class QSpinBox;
 
-class ProxyWidget;
-class ConfigNotifyWidget;
 class GlobalConfigWidget;
+class ProxyWidget;
 
 
 class ConfigDialog : public QDialog
@@ -46,7 +45,6 @@ private:
    ConfigDialog( const ConfigDialog &other );
    ConfigDialog &operator=( const ConfigDialog &other );
    
-   ConfigNotifyWidget   *mpNotifyWidget;
    GlobalConfigWidget   *mpGlobalConfigWidget;
    ProxyWidget          *mpProxyWidget;
    QSpinBox             *mpBufferSize;

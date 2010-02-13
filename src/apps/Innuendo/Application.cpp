@@ -10,6 +10,7 @@
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
 #include "MySettings.hpp"
+#include "Satellite.hpp"
 #include "SorcererLoader.hpp"
 
 #include <QtGui>
@@ -44,22 +45,17 @@ int main(int argc, char *argv[])
       
       retval = app.exec();
    }
-   else if( argc > 2 )
+   else
    {
       QCoreApplication app(argc, argv);
       
       QString application( argv[1] );
       QStringList message;
-      for( int i = 2; i < argc; i++ )
+      for( int i = 1; i < argc; i++ )
       {
          message.append( argv[i] );
       }
-      MySettings().sendUdpMessage( message.join("\n"), application );
-   }
-   else
-   {
-      fprintf( stderr, "Usage: %s (<application> <message>)\n", argv[0] );
-      retval = 1;
+      Satellite::send1( message.join("\n").toUtf8() );
    }
    
    return retval;
