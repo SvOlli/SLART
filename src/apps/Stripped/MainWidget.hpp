@@ -27,6 +27,7 @@ class CDToc;
 class CDDB;
 class CDEdit;
 class ConfigDialog;
+class Satellite;
 
 
 class MainWidget : public QWidget
@@ -54,6 +55,7 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
    
+   Satellite       *mpSatellite;
    QPushButton     *mpDirButton;
    CDToc           *mpToc;
    CDDB            *mpCDDB;

@@ -6,16 +6,15 @@
  */
 
 #include "ConfigDialog.hpp"
-#include "MySettings.hpp"
-#include "GlobalConfigWidget.hpp"
-#include "ProxyWidget.hpp"
-#include "AboutWidget.hpp"
-
 
 #include <QtGui>
-#include "SLARTCom.hpp"
+
+#include "AboutWidget.hpp"
 #include "CDReader.hpp"
+#include "GlobalConfigWidget.hpp"
+#include "MySettings.hpp"
 #include "OggEncoder.hpp"
+#include "ProxyWidget.hpp"
 #include "WavEncoder.hpp"
 
 #include "Trace.hpp"

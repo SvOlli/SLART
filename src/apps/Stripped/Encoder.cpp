@@ -7,10 +7,8 @@
 
 #include "Encoder.hpp"
 
-#include "Trace.hpp"
 #include <QDir>
 #include <QUdpSocket>
-#include "MySettings.hpp"
 
 extern "C"
 {
@@ -18,6 +16,11 @@ extern "C"
 #include <fcntl.h>
 #include <unistd.h>
 }
+
+#include "MySettings.hpp"
+#include "Satellite.hpp"
+
+#include "Trace.hpp"
 
 Encoder::Encoder( QWidget *parent, const QString &encoderName )
 : QWidget( parent )
@@ -54,11 +57,15 @@ void Encoder::finalize( bool enqueue, bool cancel )
    
    if( !cancel )
    {
-      MySettings settings;
-      settings.sendNotification( QString("s0d\n") + mFileName );
+      Satellite *satellite = Satellite::get();
+      QByteArray msg( "s0d\n" );
+      msg.append( mFileName.toUtf8() );
+      satellite->send( msg );
       if( enqueue )
       {
-         settings.sendUdpMessage( QString("P0Q\n") + mFileName, QString("Partyman") );
+         msg = "P0Q\n";
+         msg.append( mFileName.toUtf8() );
+         satellite->send( msg );
       }
    }
 }

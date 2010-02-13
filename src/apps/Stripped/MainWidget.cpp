@@ -15,12 +15,14 @@
 #include "CDDB.hpp"
 #include "ConfigDialog.hpp"
 #include "MySettings.hpp"
+#include "Satellite.hpp"
 
 #include "Trace.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
+, mpSatellite( Satellite::get( this ) )
 , mpDirButton( new QPushButton( this ) )
 , mpToc( new CDToc() )
 , mpCDDB( new CDDB( mpToc, this ) )
