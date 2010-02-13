@@ -12,7 +12,6 @@
 
 #include <QDir>
 
-#include "SLARTCom.hpp"
 #include "TrackInfo.hpp"
 
 class QCheckBox;
@@ -21,6 +20,7 @@ class QString;
 
 class Database;
 class InfoEdit;
+class Satellite;
 
 
 class SLARTComWidget : public QWidget
@@ -32,15 +32,13 @@ public:
    
 public slots:
    /* handle SLART message to read tags of current track */
-   void handleSLART( const QStringList &message );
+   void handleSatellite( const QByteArray &message );
    /* handle the now playing button */
    void handleNowPlaying();
    /* handle the show in filesystem button */
    void handleShowInFilesystem();
    /* handle the "Get Random Track" button */
    void handleGetRandom();
-   /* restart SLART receiver */
-   void readConfig();
    
 signals:
    /* emit track path from show in filesystem button */
@@ -54,10 +52,10 @@ private:
    
    Database       *mpDatabase;
    InfoEdit       *mpInfoEdit;
+   Satellite      *mpSatellite;
    QPushButton    *mpNowPlaying;
    QPushButton    *mpShowInFilesystem;
    QPushButton    *mpGetRandom;
-   SLARTCom       mSLARTCom;
    TrackInfo      mTrackInfo;
 };
 

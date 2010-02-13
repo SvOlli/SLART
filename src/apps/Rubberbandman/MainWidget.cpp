@@ -5,16 +5,17 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-#include <QtGui>
 #include "MainWidget.hpp"
 
-#include "Database.hpp"
+#include <QtGui>
+
 #include "BrowseWidget.hpp"
-#include "SLARTComWidget.hpp"
+#include "ConfigDialog.hpp"
+#include "Database.hpp"
 #include "DatabaseWidget.hpp"
-#include "ConfigDialog.hpp"
 #include "MySettings.hpp"
-#include "ConfigDialog.hpp"
+#include "Satellite.hpp"
+#include "SLARTComWidget.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
@@ -59,7 +60,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    
    mpSettingsButton->setObjectName( QString("SettingsButton") );
    
-   settings.sendUdpMessage( "P0R", "Partyman" );
+   Satellite::get()->send( "P0R" );
 }
 
 

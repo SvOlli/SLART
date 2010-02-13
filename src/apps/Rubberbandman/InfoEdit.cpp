@@ -5,16 +5,19 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
+#include "InfoEdit.hpp"
+
 #include <QtGui>
 
 #include <fileref.h>
 #include <tag.h>
 
-#include "InfoEdit.hpp"
-#include "MySettings.hpp"
 #include "ConfigDialog.hpp"
 #include "Database.hpp"
+#include "MySettings.hpp"
+#include "Satellite.hpp"
 #include "ScrollLine.hpp"
+
 #include "Trace.hpp"
 
 #define MODE_NOTHING     0
@@ -355,7 +358,7 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       
       mTrackInfo.clear();
       
-      settings.sendNotification( QString("r0u") );
+      Satellite::get()->send( QByteArray("r0u") );
       if( settings.VALUE_AUTORESCAN )
       {
          emit updated();
@@ -582,7 +585,7 @@ void InfoEdit::handleSetSave()
          mRecurseMode = MODE_NOTHING;
       }
       mpButtonSet->setDisabled( true );
-      MySettings().sendNotification( QString("r0u") );
+      Satellite::get()->send( QByteArray("r0u") );
    }
 }
 

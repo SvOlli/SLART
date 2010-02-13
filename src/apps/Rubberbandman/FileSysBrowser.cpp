@@ -6,13 +6,15 @@
  */
 
 #include "FileSysBrowser.hpp"
-#include "MySettings.hpp"
-#include "ConfigDialog.hpp"
-#include "Database.hpp"
-#include "DirWalker.hpp"
 
 #include <QtGui>
 #include <QString>
+
+#include "ConfigDialog.hpp"
+#include "Database.hpp"
+#include "DirWalker.hpp"
+#include "MySettings.hpp"
+#include "Satellite.hpp"
 
 #include "Trace.hpp"
 
@@ -329,7 +331,7 @@ void FileSysBrowser::menuSendToPartyman()
    {
       QString msg( mFileInfo.filePath() );
       msg.prepend( "P0Q\n" );
-      MySettings().sendUdpMessage( msg, "Partyman" );
+      Satellite::get()->send( msg.toUtf8() );
    }
 }
 

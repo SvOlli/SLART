@@ -6,14 +6,14 @@
  */
 
 #include "ConfigDialog.hpp"
-#include "MySettings.hpp"
-#include "GlobalConfigWidget.hpp"
+
 #include "AboutWidget.hpp"
+#include "GlobalConfigWidget.hpp"
+#include "MySettings.hpp"
 #include "WidgetShot.hpp"
 
 
 #include <QtGui>
-#include "SLARTCom.hpp"
 
 
 ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )

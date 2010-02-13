@@ -10,12 +10,13 @@
 #include <QtGui>
 #include <QString>
 
+#include "ConfigDialog.hpp"
 #include "Database.hpp"
 #include "FileSysBrowser.hpp"
-#include "InfoEdit.hpp"
 #include "GlobalConfigWidget.hpp"
+#include "InfoEdit.hpp"
 #include "MySettings.hpp"
-#include "ConfigDialog.hpp"
+#include "Satellite.hpp"
 
 #include "Trace.hpp"
 
@@ -24,10 +25,10 @@ SLARTComWidget::SLARTComWidget( Database *database, QWidget *parent, Qt::WindowF
 : QWidget( parent, flags )
 , mpDatabase( database )
 , mpInfoEdit( new InfoEdit( database ) )
+, mpSatellite( Satellite::get( this ) )
 , mpNowPlaying( new QPushButton( tr("NP: To Clipboard"), this ) )
 , mpShowInFilesystem( new QPushButton( tr("Show In Filesystem"), this ) )
 , mpGetRandom( new QPushButton( tr("Get Random Track"), this ) )
-, mSLARTCom()
 {
    QBoxLayout *mainLayout;
    QBoxLayout *buttonLayout;
@@ -52,10 +53,8 @@ SLARTComWidget::SLARTComWidget( Database *database, QWidget *parent, Qt::WindowF
    mainLayout->addWidget( mpInfoEdit );
    setLayout(mainLayout);
    
-   connect( &mSLARTCom, SIGNAL(packageRead(QStringList)),
-            this, SLOT(handleSLART(QStringList)) );
-   connect( &mSLARTCom, SIGNAL(updateConfig()),
-            this, SLOT(readConfig()) );
+   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
+            this, SLOT(handleSatellite(const QByteArray &)) );
    connect( mpNowPlaying, SIGNAL(clicked()),
             this, SLOT(handleNowPlaying()) );
    connect( mpShowInFilesystem, SIGNAL(clicked()),
@@ -63,23 +62,32 @@ SLARTComWidget::SLARTComWidget( Database *database, QWidget *parent, Qt::WindowF
    connect( mpGetRandom, SIGNAL(clicked()),
             this, SLOT(handleGetRandom()) );
    
-   readConfig();
+   mpSatellite->restart();
 }
 
 
-void SLARTComWidget::handleSLART( const QStringList &message )
+void SLARTComWidget::handleSatellite( const QByteArray &msg )
 {
-   if( (message.at(0) == "p0p") && (message.size() > 1) )
+   QStringList message( QString::fromUtf8( msg ).split('\n') );
+
+   if( message.size() > 0 )
    {
-      mpInfoEdit->load( message.at(1) );
-   }
-   if( (message.at(0) == "p0u") || (message.at(0) == "k0u") )
-   {
-      mpInfoEdit->load( QString("-") );
-   }
-   if( message.at(0) == "p0c" )
-   {
-      emit partymanConfigUpdate();
+      if( (message.at(0) == "CFG") )
+      {
+         mpSatellite->restart();
+      }
+      if( (message.at(0) == "p0p") && (message.size() > 1) )
+      {
+         mpInfoEdit->load( message.at(1) );
+      }
+      if( (message.at(0) == "p0u") || (message.at(0) == "k0u") )
+      {
+         mpInfoEdit->load( QString("-") );
+      }
+      if( message.at(0) == "p0c" )
+      {
+         emit partymanConfigUpdate();
+      }
    }
 }
 
@@ -109,10 +117,4 @@ TRACESTART(SLARTComWidget::handleGetRandom)
       mpInfoEdit->load( trackInfo.mDirectory + "/" + trackInfo.mFileName );
 TRACEMSG << trackInfo.toString();
    }
-}
-
-
-void SLARTComWidget::readConfig()
-{
-   mSLARTCom.resetReceiver();
 }
