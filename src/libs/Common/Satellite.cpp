@@ -202,3 +202,11 @@ void Satellite::destroy()
       gSatellite = 0;
    }
 }
+
+
+QStringList Satellite::split( const QByteArray &message )
+{
+   return QString::fromUtf8( message )
+            .remove('\r')
+            .split('\n', QString::SkipEmptyParts);
+}

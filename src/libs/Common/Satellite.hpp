@@ -43,6 +43,8 @@ public:
    static void destroy();
    /* send message without running a server */
    static void send1( const QByteArray &message );
+   /*  */
+   static QStringList split( const QByteArray &message );
    
 public slots:
    /* start the client and connect to server */

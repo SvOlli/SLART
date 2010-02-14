@@ -20,6 +20,9 @@ SOURCES += Database.cpp
 HEADERS += DirWalker.hpp
 SOURCES += DirWalker.cpp
 
+HEADERS += GenericSatMsgHandler.hpp
+SOURCES += GenericSatMsgHandler.cpp
+
 HEADERS += GlobalConfigWidget.hpp
 SOURCES += GlobalConfigWidget.cpp
 
