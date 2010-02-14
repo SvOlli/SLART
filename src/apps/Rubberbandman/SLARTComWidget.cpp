@@ -71,7 +71,7 @@ SLARTComWidget::SLARTComWidget( Database *database, QWidget *parent, Qt::WindowF
 
 void SLARTComWidget::handleSatellite( const QByteArray &msg )
 {
-   QStringList message( QString::fromUtf8( msg ).split('\n') );
+   QStringList message( Satellite::split( msg ) );
 
    if( message.size() > 0 )
    {

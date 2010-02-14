@@ -155,7 +155,7 @@ void MainWidget::sendK0u()
 
 void MainWidget::handleSatellite( const QByteArray &msg )
 {
-   QStringList message( QString::fromUtf8( msg ).split('\n') );
+   QStringList message( Satellite::split( msg ) );
    if( message.count() > 2 )
    {
       if( message.at(0) == "K0E" )

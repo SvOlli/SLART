@@ -408,32 +408,10 @@ void ControlWidget::allowConnect( bool allowed )
 
 void ControlWidget::handleSatellite( const QByteArray &message )
 {
-   QStringList src( QString::fromUtf8(message).split('\n') );
+   QStringList src( Satellite::split( message ) );
 
    if( src.size() > 0 )
    {
-      if( src.at(0) == "CFG" )
-      {
-         mpConfig->readSettings();
-         return;
-      }
-
-      if( src.at(0) == "PNG" )
-      {
-         QString reply( "png\n%1" );
-         mpSatellite->send( reply.arg( QApplication::applicationName()).toUtf8() );
-         return;
-      }
-
-      if( src.at(0) == "SHT" )
-      {
-         if( src.count() > 2 )
-         {
-            WidgetShot::shootWidget( src.at(1), src.at(2) );
-         }
-         return;
-      }
-
       if( src.at(0) == "P0Q" )
       {
          QStringList dest;
