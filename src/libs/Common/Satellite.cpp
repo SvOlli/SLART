@@ -40,6 +40,7 @@ Satellite::Satellite( QObject *parent )
 
 Satellite::~Satellite()
 {
+   mpServerConnection->waitForBytesWritten( 1000 );
 }
 
 
