@@ -32,6 +32,8 @@ signals:
    void reply( const QByteArray &msg );
    /*  */
    void updateConfig();
+   /*  */
+   void anotherInstance();
 
 private:
    GenericSatMsgHandler( const GenericSatMsgHandler &other );

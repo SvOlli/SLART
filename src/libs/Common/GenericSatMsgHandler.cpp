@@ -37,6 +37,7 @@ void GenericSatMsgHandler::handle( const QByteArray &msg )
    {
       if( src.at(0) == "CFG" )
       {
+         mpSatellite->restart();
          emit updateConfig();
          return;
       }
@@ -45,6 +46,18 @@ void GenericSatMsgHandler::handle( const QByteArray &msg )
       {
          emit reply( QByteArray("png\n") + QApplication::applicationName().toUtf8() );
          return;
+      }
+
+      if( src.at(0) == "png" )
+      {
+         if( src.size() > 1 )
+         {
+            if( src.at(1) == QApplication::applicationName() )
+            {
+               emit anotherInstance();
+               return;
+            }
+         }
       }
 
       if( src.at(0) == "SHT" )
