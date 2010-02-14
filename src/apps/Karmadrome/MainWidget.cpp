@@ -13,6 +13,7 @@
 #include "ButtonsWidget.hpp"
 #include "ConfigDialog.hpp"
 #include "Database.hpp"
+#include "GenericSatMsgHandler.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "ImportExport.hpp"
 #include "MySettings.hpp"
@@ -27,6 +28,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( new Database() )
 , mpSatellite( Satellite::get( this ) )
+, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite ) )
 , mpImportExport( new ImportExport( mpDatabase) )
 , mpFileName( new ScrollLine( this ) )
 , mpTrackInfo( new TrackInfoWidget( mpDatabase, QByteArray("k0u"), false, this ) )
@@ -95,6 +97,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(labelReadButton()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
             this, SLOT(updateLists()) );
+   connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
+            mpConfigDialog, SLOT(readSettings()) );
    connect( mpTimer, SIGNAL(timeout()),
             this, SLOT(sendK0u()) );
    

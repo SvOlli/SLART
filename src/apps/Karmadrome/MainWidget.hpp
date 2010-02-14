@@ -30,6 +30,7 @@ class QTimer;
 class ButtonsWidget;
 class ConfigDialog;
 class Database;
+class GenericSatMsgHandler;
 class ImportExport;
 class Satellite;
 class ScrollLine;
@@ -72,31 +73,32 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
    
-   Database        *mpDatabase;
-   Satellite       *mpSatellite;
-   ImportExport    *mpImportExport;
-   ScrollLine      *mpFileName;
-   TrackInfoWidget *mpTrackInfo;
-   QPushButton     *mpReadButton;
-   QPushButton     *mpExportButton;
-   QMenu           *mpExportMenu;
-   QAction         *mpExportFavorite;
-   QAction         *mpExportUnwanted;
-   QPushButton     *mpImportButton;
-   QMenu           *mpImportMenu;
-   QAction         *mpImportFavorite;
-   QAction         *mpImportUnwanted;
-   ButtonsWidget   *mpListButtons;
+   Database             *mpDatabase;
+   Satellite            *mpSatellite;
+   GenericSatMsgHandler *mpGenericSatMsgHandler;
+   ImportExport         *mpImportExport;
+   ScrollLine           *mpFileName;
+   TrackInfoWidget      *mpTrackInfo;
+   QPushButton          *mpReadButton;
+   QPushButton          *mpExportButton;
+   QMenu                *mpExportMenu;
+   QAction              *mpExportFavorite;
+   QAction              *mpExportUnwanted;
+   QPushButton          *mpImportButton;
+   QMenu                *mpImportMenu;
+   QAction              *mpImportFavorite;
+   QAction              *mpImportUnwanted;
+   ButtonsWidget        *mpListButtons;
    
-   QPushButton     *mpSettingsButton;
-   QPushButton     *mpAddButton;
-   QPushButton     *mpRemoveButton;
-   QMenu           *mpRemoveMenu;
-   ConfigDialog    *mpConfigDialog;
-   QTimer          *mpTimer;
+   QPushButton          *mpSettingsButton;
+   QPushButton          *mpAddButton;
+   QPushButton          *mpRemoveButton;
+   QMenu                *mpRemoveMenu;
+   ConfigDialog         *mpConfigDialog;
+   QTimer               *mpTimer;
    
-   QStringList     mPlaylists;
-   TrackInfo       mTrackInfo;
+   QStringList          mPlaylists;
+   TrackInfo            mTrackInfo;
 };
 
 #endif
