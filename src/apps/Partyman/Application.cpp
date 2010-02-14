@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
    if( args.size() > 1 )
    {
       Satellite *satellite = Satellite::get();
+      satellite->restart();
       args.takeFirst(); // first argument is program name
       while( args.size() > 0 )
       {
