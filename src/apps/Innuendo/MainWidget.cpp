@@ -11,6 +11,7 @@
 #include <QtGui>
 #include "MySettings.hpp"
 #include "ConfigDialog.hpp"
+#include "GenericSatMsgHandler.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "ExecButton.hpp"
 #include "DropDialog.hpp"
@@ -23,6 +24,7 @@
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get( this ) )
+, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite ) )
 , mpMessageBuffer( new QListWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpPingButton( new QPushButton( tr("Ping"), this ) )
@@ -80,6 +82,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(readConfig()) );
    connect( mpSatellite, SIGNAL(received(const QByteArray &)),
             this, SLOT(handleSatellite(const QByteArray &)) );
+   connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
+            mpConfig, SLOT(readSettings()) );
 #if SATELLITE_DEBUG
    connect( mpSatellite, SIGNAL(debug(const QByteArray &)),
             this, SLOT(handleSatellite(const QByteArray &)) );
@@ -188,7 +192,7 @@ void MainWidget::handleSatellite( const QByteArray &message )
    item->setBackground( QBrush( mpMessageBuffer->palette().color( QPalette::AlternateBase ) ) );
    mpMessageBuffer->addItem( item );
 
-   QStringList lines( QString::fromUtf8( message ).split('\n') );
+   QStringList lines( Satellite::split( message ) );
    for( int i = 0; i < lines.size(); i++ )
    {
       mpMessageBuffer->addItem( lines.at(i) );

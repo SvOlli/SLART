@@ -31,6 +31,7 @@ class QStringList;
 class ConfigDialog;
 class DropDialog;
 class ExecButton;
+class GenericSatMsgHandler;
 class Satellite;
 
 
@@ -69,15 +70,16 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
 
-   Satellite    *mpSatellite;
-   QListWidget  *mpMessageBuffer;
-   QPushButton  *mpSettingsButton;
-   QPushButton  *mpPingButton;
-   ConfigDialog *mpConfig;
-   DropDialog   *mpDropDialog;
-   ExecButton   **mpExecButtons;
-   int          mNumExecButtons;
-   QStringList  mAutostart;
+   Satellite            *mpSatellite;
+   GenericSatMsgHandler *mpGenericSatMsgHandler;
+   QListWidget          *mpMessageBuffer;
+   QPushButton          *mpSettingsButton;
+   QPushButton          *mpPingButton;
+   ConfigDialog         *mpConfig;
+   DropDialog           *mpDropDialog;
+   ExecButton           **mpExecButtons;
+   int                  mNumExecButtons;
+   QStringList          mAutostart;
 };
 
 #endif
