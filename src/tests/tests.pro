@@ -6,6 +6,6 @@
 
 TEMPLATE = subdirs
 
-SUBDIRS += TestAppSLARTCom
+SUBDIRS += TestAppSatellite
 SUBDIRS += TestAppWebServer
 
