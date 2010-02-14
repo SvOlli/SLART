@@ -12,6 +12,8 @@
 
 #include "ConfigDialog.hpp"
 #include "Database.hpp"
+#include "GenericSatMsgHandler.hpp"
+#include "GlobalConfigWidget.hpp"
 #include "FileSysBrowser.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "InfoEdit.hpp"
@@ -26,6 +28,7 @@ SLARTComWidget::SLARTComWidget( Database *database, QWidget *parent, Qt::WindowF
 , mpDatabase( database )
 , mpInfoEdit( new InfoEdit( database ) )
 , mpSatellite( Satellite::get( this ) )
+, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite ) )
 , mpNowPlaying( new QPushButton( tr("NP: To Clipboard"), this ) )
 , mpShowInFilesystem( new QPushButton( tr("Show In Filesystem"), this ) )
 , mpGetRandom( new QPushButton( tr("Get Random Track"), this ) )

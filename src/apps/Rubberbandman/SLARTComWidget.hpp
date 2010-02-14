@@ -19,6 +19,7 @@ class QPushButton;
 class QString;
 
 class Database;
+class GenericSatMsgHandler;
 class InfoEdit;
 class Satellite;
 
@@ -50,13 +51,14 @@ private:
    SLARTComWidget( const SLARTComWidget &other );
    SLARTComWidget &operator=( const SLARTComWidget &other );
    
-   Database       *mpDatabase;
-   InfoEdit       *mpInfoEdit;
-   Satellite      *mpSatellite;
-   QPushButton    *mpNowPlaying;
-   QPushButton    *mpShowInFilesystem;
-   QPushButton    *mpGetRandom;
-   TrackInfo      mTrackInfo;
+   Database             *mpDatabase;
+   InfoEdit             *mpInfoEdit;
+   Satellite            *mpSatellite;
+   GenericSatMsgHandler *mpGenericSatMsgHandler;
+   QPushButton          *mpNowPlaying;
+   QPushButton          *mpShowInFilesystem;
+   QPushButton          *mpGetRandom;
+   TrackInfo            mTrackInfo;
 };
 
 #endif
