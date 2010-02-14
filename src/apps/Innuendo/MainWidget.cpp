@@ -162,27 +162,7 @@ void MainWidget::readConfig()
 
 void MainWidget::handlePingButton()
 {
-   MySettings settings;
-   mpMessageBuffer->addItem( "** pinging applications\n(not reimplemented yet)" );
-#if 0
-   mpPingButton->setDisabled( true );
-   for( int i = 0; i < mNumExecButtons; i++ )
-   {
-      QString msg("* ");
-      msg.append( mpExecButtons[i]->text() );
-      if( mSLARTCom.ping( mpExecButtons[i]->text() ) )
-      {
-         msg.append( " has reponded" );
-      }
-      else
-      {
-         msg.append( " is not responing" );
-      }
-      mpMessageBuffer->addItem( msg );
-      mpMessageBuffer->scrollToBottom();
-   }
-   mpPingButton->setDisabled( false );
-#endif
+   mpSatellite->send( "PNG" );
 }
 
 
