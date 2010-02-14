@@ -18,7 +18,6 @@
 #include <QUdpSocket>
 
 #include "PlayerWidget.hpp"
-#include "Satellite.hpp"
 
 class QPushButton;
 class QMenu;
@@ -26,7 +25,9 @@ class QAction;
    
 class ConfigDialog;
 class Database;
+class GenericSatMsgHandler;
 class PlaylistWidget;
+class Satellite;
 class TrackInfo;
 
 class ControlWidget : public QWidget
@@ -108,37 +109,38 @@ private:
    ControlWidget( const ControlWidget &other );
    ControlWidget &operator=( const ControlWidget &other );
    
-   ConfigDialog    *mpConfig;
-   PlaylistWidget  *mpPlaylist;
-   Satellite       *mpSatellite;
-   QPushButton     *mpSettingsButton;
-   QPushButton     *mpConnectButton;
-   QPushButton     *mpSkipButton;
-   PlayerWidget    *mpPlayer[2];
-   bool            mConnected;
-   bool            mPaused;
-   QIcon           mPartymanIcon;
-   QIcon           mStopIcon;
-   QIcon           mPlayIcon;
-   QIcon           mPauseIcon;
-   QIcon           mSkipIcon;
-   QIcon           mLoadIcon;
-   QSystemTrayIcon *mpTrayIcon;
-   QMenu           *mpTrayIconStopMenu;
-   QMenu           *mpTrayIconPlayMenu;
-   QMenu           *mpDisconnectMenu;
-   QAction         *mpPlayAction;
-   QAction         *mpSkipAction;
-   QAction         *mpPauseAction;
-   QAction         *mpDisconnectAction;
-   QAction         *mpLoadAction;
-   bool            mKioskMode;
-   QTimer          mTrayIconClickTimer;
-   QProcess        mDerMixDprocess;
-   QProcess        mLoggerProcess;
-   bool            mWaitForDerMixD;
-   bool            mDerMixDstarted;
-   QByteArray      mLastP0p;
+   ConfigDialog         *mpConfig;
+   PlaylistWidget       *mpPlaylist;
+   Satellite            *mpSatellite;
+   GenericSatMsgHandler *mpGenericSatMsgHandler;
+   QPushButton          *mpSettingsButton;
+   QPushButton          *mpConnectButton;
+   QPushButton          *mpSkipButton;
+   PlayerWidget         *mpPlayer[2];
+   bool                 mConnected;
+   bool                 mPaused;
+   QIcon                mPartymanIcon;
+   QIcon                mStopIcon;
+   QIcon                mPlayIcon;
+   QIcon                mPauseIcon;
+   QIcon                mSkipIcon;
+   QIcon                mLoadIcon;
+   QSystemTrayIcon      *mpTrayIcon;
+   QMenu                *mpTrayIconStopMenu;
+   QMenu                *mpTrayIconPlayMenu;
+   QMenu                *mpDisconnectMenu;
+   QAction              *mpPlayAction;
+   QAction              *mpSkipAction;
+   QAction              *mpPauseAction;
+   QAction              *mpDisconnectAction;
+   QAction              *mpLoadAction;
+   bool                 mKioskMode;
+   QTimer               mTrayIconClickTimer;
+   QProcess             mDerMixDprocess;
+   QProcess             mLoggerProcess;
+   bool                 mWaitForDerMixD;
+   bool                 mDerMixDstarted;
+   QByteArray           mLastP0p;
 };
 
 #endif

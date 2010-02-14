@@ -8,9 +8,11 @@
 #include "ControlWidget.hpp"
 
 #include "ConfigDialog.hpp"
+#include "GenericSatMsgHandler.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "MySettings.hpp"
 #include "PlaylistWidget.hpp"
+#include "Satellite.hpp"
 #include "WidgetShot.hpp"
 
 #include <QtGui>
@@ -24,6 +26,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mpConfig( config )
 , mpPlaylist( playlist )
 , mpSatellite( Satellite::get( this ) )
+, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpConnectButton( new QPushButton( tr("Connect"), this ) )
 , mpSkipButton( new QPushButton( tr("Next"), this ) )
@@ -110,6 +113,8 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
             this, SLOT(readConfig()) );
    connect( mpSatellite, SIGNAL(received(const QByteArray &)),
             this, SLOT(handleSatellite(const QByteArray &)) );
+   connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
+            mpConfig, SLOT(readSettings()) );
    connect( mpPlayer[0], SIGNAL(trackPlaying(const TrackInfo &)),
             this, SLOT(handleTrackPlaying(const TrackInfo &)) );
    connect( mpPlayer[1], SIGNAL(trackPlaying(const TrackInfo &)),
