@@ -33,8 +33,10 @@ static void send( const QString &data )
    socket.connectToHost( host, port, QIODevice::WriteOnly );
    if( socket.waitForConnected( 1000 ) )
    {
+      int msgSize = data.size();
+      socket.write( (char*)(&msgSize), sizeof(msgSize) );
       socket.write( data.toUtf8() );
-      socket.waitForBytesWritten( 1000 );
+      socket.flush();
       socket.disconnectFromHost();
    }
 }

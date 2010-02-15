@@ -1,5 +1,12 @@
 
-Generic (handled by SLARTCom)
+To determine data packages from the datastream sent via Satellite, every data
+package is preceeded by the size of the package without the header. The header
+itself has a size of sizeof(int) and therefore determined at compile-time. As
+of writing this it should be 4 on all platforms capable of running Qt. This
+will not allow fragmentation of data packages; each one has to be send with
+one QTCPSocket::write().
+
+Generic (handled by GenericSatMsgHandler)
 - commands
   - CFG: re-read configuration
   - PNG: ping request

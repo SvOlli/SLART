@@ -59,15 +59,16 @@ void SatelliteServer::incomingData( QObject *client )
    QByteArray msg( socket->readAll() );
    
 #if SATELLITESERVER_DEBUG
-   emit debug( QByteArray("s:from client: ") + msg );
+   /* NOTE: this might only show the first message, if there are more than one
+    *       pending in the stream. No need to fix, cause it's debugging and
+    *       always disabled. */
+   emit debug( QByteArray("s:from client: ") + msg.mid(4) );
 #endif
    for( int i = 0; i < mClientConnections.count(); i++ )
    {
       QTcpSocket *current = mClientConnections.at(i);
       if( current && (client != current) )
       {
-         /* make sure messages aren't merged */
-         current->waitForBytesWritten( 1000 );
          current->write( msg );
       }
    }

@@ -81,8 +81,8 @@ void Satellite::send( const QByteArray &message )
 #if SATELLITE_DEBUG
    emit debug( QByteArray("c:to server: ") + message );
 #endif
-   /* make sure messages aren't merged */
-   mpServerConnection->waitForBytesWritten( 1000 );
+   int msgSize = message.size();
+   mpServerConnection->write( (char*)(&msgSize), sizeof(msgSize) );
    mpServerConnection->write( message );
 }
 
@@ -123,8 +123,8 @@ void Satellite::runServer()
       connect( mpServer, SIGNAL(finished()),
                this, SLOT(serverShutdown()) );
 #if SATELLITE_DEBUG && SATELLITESERVER_DEBUG
-      connect( mpServer, SIGNAL(debug(const QString&)),
-               this,     SIGNAL(debug(const QString&)) );
+      connect( mpServer, SIGNAL(debug(const QByteArray&)),
+               this,     SIGNAL(debug(const QByteArray&)) );
 #endif
    }
 }
@@ -150,13 +150,19 @@ void Satellite::disconnected()
 
 void Satellite::incomingData()
 {
-#if SATELLITE_DEBUG
+   int pos = 0;
    QByteArray msg( mpServerConnection->readAll() );
-   emit debug( QByteArray("c:from server: ") + msg );
-   emit received( msg );
-#else
-   emit received( mpServerConnection->readAll() );
+
+   while( pos < msg.size() )
+   {
+      int size = *((int*)msg.mid(pos,sizeof(size)).constData());
+      pos += sizeof( size );
+#if SATELLITE_DEBUG
+      emit debug( QByteArray("c:from server: ") + msg.mid(pos,size) );
 #endif
+      emit received( msg.mid(pos,size) );
+      pos += size;
+   }
 }
 
 
@@ -177,8 +183,10 @@ void Satellite::send1( const QByteArray &message )
       socket.connectToHost( host, port, QIODevice::WriteOnly );
       if( socket.waitForConnected( 1000 ) )
       {
+         int msgSize = message.size();
+         socket.write( (char*)(&msgSize), sizeof(msgSize) );
          socket.write( message );
-         socket.waitForBytesWritten( 1000 );
+         socket.flush();
          socket.disconnectFromHost();
       }
    }
