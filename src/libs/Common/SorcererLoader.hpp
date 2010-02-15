@@ -14,24 +14,28 @@
 class QApplication;
 class QDir;
 
-class SorcererLoader //: public QObject
-{
-//Q_OBJECT
+class MySettings;
 
+class SorcererLoader
+{
 public:
    /*  */
    static void detect( QApplication *app, bool force = false );
 
 private:
-   /*  */
-   static bool run( QApplication *app );
-   /*  */
-   static bool tryLoading( QApplication *app, const QDir &dir );
-
    SorcererLoader();
    virtual ~SorcererLoader();
    SorcererLoader( const SorcererLoader &other );
    SorcererLoader &operator=( const SorcererLoader &other );
+
+   /*  */
+   static bool run( QApplication *app );
+   /*  */
+   static bool tryLoading( QApplication *app, const QDir &dir );
+   /*  */
+   static void cleanupSettings();
+   /*  */
+   static void cleanupSettings( MySettings *settings );
 };
 
 #endif /* SORCERERLOADER_HPP */
