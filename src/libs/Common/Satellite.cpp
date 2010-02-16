@@ -81,8 +81,8 @@ void Satellite::send( const QByteArray &message )
 #if SATELLITE_DEBUG
    emit debug( QByteArray("c:to server: ") + message );
 #endif
-   int msgSize = message.size();
-   mpServerConnection->write( (char*)(&msgSize), sizeof(msgSize) );
+   SATELLITE_HEADER_TYPE msgSize = message.size();
+   mpServerConnection->write( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
    mpServerConnection->write( message );
 }
 
@@ -150,18 +150,23 @@ void Satellite::disconnected()
 
 void Satellite::incomingData()
 {
-   int pos = 0;
-   QByteArray msg( mpServerConnection->readAll() );
-
-   while( pos < msg.size() )
+   SATELLITE_HEADER_TYPE msgSize = 0;
+   while( mpServerConnection->bytesAvailable() > SATELLITE_HEADER_SIZE )
    {
-      int size = *((int*)msg.mid(pos,sizeof(size)).constData());
-      pos += sizeof( size );
+      mpServerConnection->peek( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
+      if( mpServerConnection->bytesAvailable() < (msgSize + SATELLITE_HEADER_SIZE) )
+      {
+         /* buffer incomplete */
+         break;
+      }
+      mpServerConnection->read( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
 #if SATELLITE_DEBUG
-      emit debug( QByteArray("c:from server: ") + msg.mid(pos,size) );
+      QByteArray msg( mpServerConnection->read( msgSize ) );
+      emit debug( QByteArray("c:from server: ") + msg );
+      emit received( msg );
+#else
+      emit received( mpServerConnection->read( msgSize ) );
 #endif
-      emit received( msg.mid(pos,size) );
-      pos += size;
    }
 }
 
@@ -183,8 +188,8 @@ void Satellite::send1( const QByteArray &message )
       socket.connectToHost( host, port, QIODevice::WriteOnly );
       if( socket.waitForConnected( 1000 ) )
       {
-         int msgSize = message.size();
-         socket.write( (char*)(&msgSize), sizeof(msgSize) );
+         SATELLITE_HEADER_TYPE msgSize = message.size();
+         socket.write( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
          socket.write( message );
          socket.flush();
          socket.disconnectFromHost();

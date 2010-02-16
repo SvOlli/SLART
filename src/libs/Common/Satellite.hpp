@@ -88,6 +88,9 @@ private:
    static QPointer<Satellite> gSatellite;
 };
 
+#define SATELLITE_HEADER_TYPE unsigned int
+#define SATELLITE_HEADER_SIZE (qint64)sizeof( SATELLITE_HEADER_TYPE )
+
 #define VALUE_SATELLITE_HOST   value( "SatelliteHost", "127.0.0.1" ).toString()
 #define VALUE_SATELLITE_PORT   value( "SatellitePort", 24222 ).toInt()
 #define VALUE_USE_SATELLITE    value( "UseSatellite", false ).toBool()
