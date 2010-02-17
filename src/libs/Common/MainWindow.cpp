@@ -8,7 +8,6 @@
 
 #include "MainWindow.hpp"
 #include "MySettings.hpp"
-#include "../../apps/Sorcerer/Interface.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "PasswordChecker.hpp"
 

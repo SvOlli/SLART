@@ -1,5 +1,5 @@
 /**
- * src/apps/Sorcerer/Plugin.cpp
+ * src/libs/Sorcerer/Plugin.cpp
  * written by Sven Oliver Moll
  * 
  * distributed under the terms of the GNU Public License (GPL)
@@ -19,8 +19,15 @@ int SorcererPlugin::run( QApplication *app )
    MainWindow window( false );
    SorcererWidget *sorcererWidget = new SorcererWidget( &window );
    window.setMainWidget( sorcererWidget );
-   window.changeTitle( QIcon(),
-                       QString("Sorcerer (running for %1)").arg(app->applicationName()) );
+   if( app->applicationName() == "Sorcerer" )
+   {
+      window.changeTitle( QIcon(), app->applicationName() );
+   }
+   else
+   {
+      window.changeTitle( QIcon(),
+                          QString("Sorcerer (running for %1)").arg(app->applicationName()) );
+   }
    window.show();
    app->exec();
    

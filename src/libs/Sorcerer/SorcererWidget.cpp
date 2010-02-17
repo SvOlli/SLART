@@ -1,5 +1,5 @@
 /**
- * src/apps/Sorcerer/SorcererWidget.cpp
+ * src/libs/Sorcerer/SorcererWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
@@ -34,6 +34,8 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
 , mDatabaseOk( false )
 , mCommunicationOk( MySettings( "Global" ).value( "SatellitePort" ).isValid() )
 , mProxyOk( MySettings( "Global/HTTPProxy" ).value( "Enable" ).isValid() )
+, mQuit( tr("quit") )
+, mStart( tr("start") )
 {
    int i;
    unlockDatabase();
@@ -52,8 +54,11 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
                                        "This little wizard will help you on this task. There's no need to worry,<br>"
                                        "anything you configure here can be configured in the appropriate<br>"
                                        "SLART application as well.").arg( QApplication::applicationName() ), this );
-   QLabel *welldone   = new QLabel( tr("Well, that's all. Wasn't so hard, was it?.<br><br>"
-                                       "Now, press 'Done' to start %1.").arg( QApplication::applicationName() ), this );
+   QLabel *welldone   = new QLabel( tr("Well, that's all. Wasn't so hard, was it?<br><br>"
+                                       "I also cleaned up any obsolete settings entries.<br><br>"
+                                       "Now, press 'Done' to %1 %2.").arg(
+                                             QApplication::applicationName() == "Sorcerer" ? mQuit : mStart,
+                                             QApplication::applicationName() ), this );
    welcome->setAlignment( Qt::AlignCenter );
    welldone->setAlignment( Qt::AlignCenter );
    mpHint->setAlignment( Qt::AlignCenter );
@@ -145,8 +150,9 @@ void SorcererWidget::handleTabChange( int newTab )
          mpNext->setDisabled( false );
          break;
       case 4:
-         mpHint->setText( tr("\n\nPress 'Done' blow to start %1.")
-                          .arg( QApplication::applicationName() ) );
+         mpHint->setText( tr("\n\nPress 'Done' now to %1 %2.")
+                          .arg( QApplication::applicationName() == "Sorcerer" ? mQuit : mStart,
+                                QApplication::applicationName() ) );
          mpNext->setDisabled( !mDatabaseOk || !mCommunicationOk || !mProxyOk );
          break;
    }

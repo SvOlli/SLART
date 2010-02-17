@@ -1,5 +1,5 @@
 /**
- * src/apps/Sorcerer/SorcererWidget.hpp
+ * src/libs/Sorcerer/SorcererWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
@@ -14,7 +14,6 @@
 class QIcon;
 class QLabel;
 class QPushButton;
-class QString;
 class QTabWidget;
 
 class Database;
@@ -22,6 +21,7 @@ class DatabaseWidget;
 class ProxyWidget;
 class SatelliteConfigWidget;
 
+#include "QString"
 
 class SorcererWidget : public QWidget
 {
@@ -64,6 +64,8 @@ private:
    bool                    mDatabaseOk;
    bool                    mCommunicationOk;
    bool                    mProxyOk;
+   const QString           mQuit;
+   const QString           mStart;
 };
 
 #endif

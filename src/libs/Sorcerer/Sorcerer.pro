@@ -1,5 +1,5 @@
 ######################################################################
-# src/apps/Sorcerer/Sorcerer.pro
+# src/libs/Sorcerer/Sorcerer.pro
 # written by Sven Oliver Moll
 # distributed as public domain
 ######################################################################

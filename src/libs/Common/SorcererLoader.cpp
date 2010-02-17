@@ -16,7 +16,7 @@
 
 #include <stdlib.h> // exit()
 
-#include "../../apps/Sorcerer/Interface.hpp"
+#include "../../libs/Sorcerer/Interface.hpp"
 #include "MySettings.hpp"
 #include "Database.hpp"
 #include "Version.hpp"

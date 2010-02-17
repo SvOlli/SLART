@@ -1,5 +1,5 @@
 /**
- * src/apps/Sorcerer/Interface.hpp
+ * src/libs/Sorcerer/Interface.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)

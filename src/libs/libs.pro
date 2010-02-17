@@ -11,3 +11,5 @@ SUBDIRS += Common
 SUBDIRS += Sorcerer
 SUBDIRS += TagLib
 
+Sorcerer.depends = Common
+

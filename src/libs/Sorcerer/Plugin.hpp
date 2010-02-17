@@ -1,5 +1,5 @@
 /**
- * src/apps/Sorcerer/Plugin.hpp
+ * src/libs/Sorcerer/Plugin.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
