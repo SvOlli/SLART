@@ -32,8 +32,8 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mLastTab( 0 )
 , mDatabaseOk( false )
-, mCommunicationOk( MySettings().value( "SLARTCommunication" ).isValid() )
-, mProxyOk( MySettings( "Global" ).value( "Enable" ).isValid() )
+, mCommunicationOk( MySettings( "Global" ).value( "SatellitePort" ).isValid() )
+, mProxyOk( MySettings( "Global/HTTPProxy" ).value( "Enable" ).isValid() )
 {
    int i;
    unlockDatabase();

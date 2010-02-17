@@ -8,5 +8,6 @@ TEMPLATE = subdirs
 
 SUBDIRS += CommandLine
 SUBDIRS += Common
+SUBDIRS += Sorcerer
 SUBDIRS += TagLib
 
