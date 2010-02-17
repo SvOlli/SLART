@@ -33,8 +33,8 @@ static void send( const QString &data )
    socket.connectToHost( host, port, QIODevice::WriteOnly );
    if( socket.waitForConnected( 1000 ) )
    {
-      int msgSize = data.size();
-      socket.write( (char*)(&msgSize), sizeof(msgSize) );
+      SATELLITE_HEADER_TYPE msgSize = data.size();
+      socket.write( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
       socket.write( data.toUtf8() );
       socket.flush();
       socket.disconnectFromHost();
