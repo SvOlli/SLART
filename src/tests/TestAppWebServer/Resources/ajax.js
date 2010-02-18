@@ -16,6 +16,7 @@ function useHttpResponse()
 {
    if( http.readyState == 4 )
    {
+      // var reply = http.responseText;
       window.location.reload();
    }
 }

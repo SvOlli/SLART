@@ -111,6 +111,6 @@ void MainWidget::newMsg( const QByteArray &msg )
       QTcpSocket *id = mDelayList.takeFirst();
       emit response( id,
                      QHttpResponseHeader( 200, "OK" ),
-                     "reply" );
+                     msg );
    }
 }
