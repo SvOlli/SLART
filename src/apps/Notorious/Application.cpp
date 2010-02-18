@@ -1,16 +1,16 @@
 /**
- * Application.cpp
+ * src/apps/Notorious/Application.cpp
  * written by Sven Oliver Moll
  * 
  * distributed under the terms of the GNU Public License (GPL)
+ * available at http://www.gnu.org/licenses/gpl.html
  */
 
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
 #include "MySettings.hpp"
-#if MAINWINDOW_SORCERER
-#include "Database.hpp"
-#endif
+
+#include "SorcererLoader.hpp"
 
 #include <QtGui>
 
@@ -25,16 +25,7 @@ int main(int argc, char *argv[])
    app.setApplicationName("Notorious");
    MySettings settings;
 
-#if MAINWINDOW_SORCERER
-   if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
-   {
-      if( !MainWindow::invokeSetUp( &app ) )
-      {
-         QMessageBox::critical( 0, app.applicationName(), QObject::tr("Setup failed!\nCannot start.\nSorry.") );
-         return 1;
-      }
-   }
-#endif
+   SorcererLoader::detect( &app );
    {
       QFile qssFile( settings.styleSheetFile() );
       if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
