@@ -1,8 +1,9 @@
 /**
- * PlayerFSMBase.hpp
+ * src/apps/Partyman/PlayerFSMBase.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
+ * available at http://www.gnu.org/licenses/gpl.html
  */
 
 #ifndef PLAYERFSMBASE_HPP
