@@ -55,7 +55,6 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
                                        "anything you configure here can be configured in the appropriate<br>"
                                        "SLART application as well.").arg( QApplication::applicationName() ), this );
    QLabel *welldone   = new QLabel( tr("Well, that's all. Wasn't so hard, was it?<br><br>"
-                                       "I also cleaned up any obsolete settings entries.<br><br>"
                                        "Now, press 'Done' to %1 %2.").arg(
                                              QApplication::applicationName() == "Sorcerer" ? mQuit : mStart,
                                              QApplication::applicationName() ), this );
