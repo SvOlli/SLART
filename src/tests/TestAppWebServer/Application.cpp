@@ -1,8 +1,9 @@
 /**
- * Application.cpp
+ * src/tests/TestAppWebServer/Application.cpp
  * written by Sven Oliver Moll
  * 
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the Lesser GNU Public License (LGPL)
+ * available at http://www.gnu.org/licenses/lgpl.html
  */
 
 #include "MainWindow.hpp"
@@ -20,8 +21,9 @@ int main(int argc, char *argv[])
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("TestAppWebServer");
 
-   MainWidget *mainWidget = new MainWidget();
-   MainWindow window( mainWidget );
+   MainWindow window;
+   MainWidget *mainWidget = new MainWidget( &window );
+   window.setMainWidget( mainWidget );
    window.show();
    
    retval = app.exec();

@@ -1,20 +1,18 @@
 /**
- * MainWidget.hpp
+ * src/tests/TestAppWebServer/MainWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
+ * available at http://www.gnu.org/licenses/lgpl.html
  */
 
 #ifndef MAINWIDGET_HPP
 #define MAINWIDGET_HPP MAINWIDGET_HPP
 
-/* define the features of main window to be used */
-#define MAINWINDOW_SORCERER      0
-#define MAINWINDOW_CHANGETITLE   0
-#define MAINWINDOW_PROHIBITCLOSE 0
-#define MAINWIDGET_SCREENSHOT    0
-
 #include <QWidget>
+
+#include <QByteArray>
+#include <QList>
 
 class QIcon;
 class QListWidget;
@@ -23,6 +21,7 @@ class QHttpRequestHeader;
 class QHttpResponseHeader;
 class QTcpSocket;
 
+class Satellite;
 class WebServer;
 
 class MainWidget : public QWidget
@@ -35,6 +34,7 @@ public:
 public slots:
    void request( QTcpSocket *id, 
                  const QHttpRequestHeader &header );
+   void newMsg( const QByteArray &msg );
    
 signals:
    void response( QTcpSocket *id,
@@ -48,6 +48,10 @@ private:
    
    WebServer   *mpWebServer;
    QListWidget *mpMessageBuffer;
+   Satellite   *mpSatellite;
+
+   QList<QTcpSocket*> mDelayList;
+   QByteArray  mMsg;
 };
 
 #endif
