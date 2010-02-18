@@ -13,6 +13,8 @@
 
 class QApplication;
 class QDir;
+class QString;
+class QVariant;
 
 class MySettings;
 
@@ -36,6 +38,9 @@ private:
    static void cleanupSettings();
    /*  */
    static void cleanupSettings( MySettings *settings );
+   /*  */
+   static void setDefault( MySettings *settings, const QString &name,
+                           const QVariant &value );
 };
 
 #endif /* SORCERERLOADER_HPP */

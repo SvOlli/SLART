@@ -56,12 +56,13 @@ void SorcererLoader::detect( QApplication *app, bool force )
 
    if( regVersion < thisVersion )
    {
-#if 0
-      QMessageBox::information( 0, app->applicationName(),
-                                QObject::tr("New version (%1 -> %2).\n"
-                                            "Cleaning up registry.")
-                                .arg(regVersions.join("."),thisVersions.join(".")) );
-#endif
+      if( settings.value( "ShowCleanupDialog", false ).toBool() )
+      {
+         QMessageBox::information( 0, app->applicationName(),
+                                   QObject::tr("New version (%1 -> %2).\n"
+                                               "Cleaning up registry.")
+                                   .arg(regVersions.join("."),thisVersions.join(".")) );
+      }
       cleanupSettings();
       global.setValue( "Version", SLART_VERSION );
    }
@@ -170,6 +171,11 @@ void SorcererLoader::cleanupSettings()
 
    MySettings Stripped("Stripped");
    cleanupSettings( &Stripped );
+
+   /* Create "hidden" entries, that can not be set via dialogs */
+   setDefault( &Global, "ShowCleanupDialog", false );
+
+   setDefault( &Funkytown, "UserAgent", "Funkytown" );
 }
 
 
@@ -181,5 +187,15 @@ void SorcererLoader::cleanupSettings( MySettings *settings )
       settings->remove( "SLARTCommunication" );
       settings->remove( "StyleSheet" );
       settings->remove( "UDPListenerPort" );
+   }
+}
+
+
+void SorcererLoader::setDefault( MySettings *settings, const QString &name,
+                                 const QVariant &value )
+{
+   if( !settings->contains( name ) )
+   {
+      settings->setValue( name, value );
    }
 }

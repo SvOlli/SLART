@@ -17,7 +17,9 @@ SLART/Global: (shared between all applications)
 * StyleSheetFile (QString)
 * SatelliteHost (QString)
 * SatellitePort (int)
+* ShowCleanupDialog (bool)
 - UseGlobalStyleSheetFile (bool)
+* Version (QString)
 
 SLART/*: (available in every application)
 - Listener/* (QString/int pairs)
@@ -72,7 +74,7 @@ SLART/Partyman:
 * DerMixDrun (bool)
 * ListPattern (QString)
 * LogCmd (QString)
-* NamePattern
+* NamePattern (QString)
 * NormalizeMode (int/enum)
 * NormalizeValue (double)
 * PlayNotAgainCount (int)
