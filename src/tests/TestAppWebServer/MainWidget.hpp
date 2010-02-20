@@ -13,6 +13,7 @@
 
 #include <QByteArray>
 #include <QList>
+#include <TrackInfo.hpp>
 
 class QIcon;
 class QListWidget;
@@ -21,6 +22,7 @@ class QHttpRequestHeader;
 class QHttpResponseHeader;
 class QTcpSocket;
 
+class Database;
 class Satellite;
 class WebServer;
 
@@ -30,6 +32,7 @@ Q_OBJECT
    
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   virtual ~MainWidget();
    
 public slots:
    void request( QTcpSocket *id, 
@@ -46,12 +49,13 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
    
-   WebServer   *mpWebServer;
-   QListWidget *mpMessageBuffer;
-   Satellite   *mpSatellite;
-
-   QList<QTcpSocket*> mDelayList;
-   QByteArray  mMsg;
+   Database             *mpDatabase;
+   WebServer            *mpWebServer;
+   QListWidget          *mpMessageBuffer;
+   Satellite            *mpSatellite;
+   QList<QTcpSocket*>   mDelayList;
+   QByteArray           mMsg;
+   TrackInfo            mTrackInfo;
 };
 
 #endif

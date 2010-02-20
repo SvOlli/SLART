@@ -6,7 +6,7 @@
 
 TARGET = TestAppWebServer
 TEMPLATE = app
-QT += network
+QT += sql network
 
 include( ../../config.pri )
 
