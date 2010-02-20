@@ -17,6 +17,8 @@
 #include <QString>
 #include <QTcpSocket>
 
+#include <QtEndian>
+
 class QIcon;
 class QListWidget;
 class QLineEdit;
@@ -88,11 +90,14 @@ private:
    static QPointer<Satellite> gSatellite;
 };
 
-#define SATELLITE_HEADER_TYPE unsigned int
-#define SATELLITE_HEADER_SIZE (qint64)sizeof( SATELLITE_HEADER_TYPE )
+#define SATELLITE_PKGINFO_HEADER_TYPE     quint64
+#define SATELLITE_PKGINFO_HEADER_SIZE     (qint64)sizeof( SATELLITE_PKGINFO_HEADER_TYPE )
+#define SATELLITE_PKGINFO_MAGIC_VALUE     qToBigEndian( (quint32)0x53415400 )
+#define SATELLITE_PKGINFO_CHECKSUM_TYPE   quint16
+#define SATELLITE_PKGINFO_CHECKSUM_SIZE   (qint64)sizeof( SATELLITE_PKGINFO_CHECKSUM_TYPE )
 
-#define VALUE_SATELLITE_HOST   value( "SatelliteHost", "127.0.0.1" ).toString()
-#define VALUE_SATELLITE_PORT   value( "SatellitePort", 24222 ).toInt()
-#define VALUE_USE_SATELLITE    value( "UseSatellite", false ).toBool()
+#define VALUE_SATELLITE_HOST  value( "SatelliteHost", "127.0.0.1" ).toString()
+#define VALUE_SATELLITE_PORT  value( "SatellitePort", 24222 ).toInt()
+#define VALUE_USE_SATELLITE   value( "UseSatellite", false ).toBool()
 
 #endif

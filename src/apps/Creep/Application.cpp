@@ -22,7 +22,7 @@ static char GROUPNAME[] = "SLART";
 static char PROGNAME[] = "Creep";
 
 
-static void send( const QByteArray &msg )
+static void send( const QByteArray &message )
 {
    /* copy'n'paste from Satellite.cpp */
    QTcpSocket socket;
@@ -30,15 +30,17 @@ static void send( const QByteArray &msg )
 
    QHostAddress host( settings.VALUE_SATELLITE_HOST );
    qint16       port( settings.VALUE_SATELLITE_PORT );
-   quint16      checksum( qChecksum( msg.constData(), msg.size() ) );
 
    socket.connectToHost( host, port, QIODevice::WriteOnly );
    if( socket.waitForConnected( 1000 ) )
    {
-      SATELLITE_HEADER_TYPE msgSize( msg.size() );
-      socket.write( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
-      socket.write( msg );
-      socket.write( (char*)(&checksum), sizeof(checksum) );
+      SATELLITE_PKGINFO_HEADER_TYPE   header( SATELLITE_PKGINFO_MAGIC_VALUE );
+      header <<= 32;
+      header |= message.size();
+      SATELLITE_PKGINFO_CHECKSUM_TYPE checksum( qChecksum( message.constData(), message.size() ) );
+      socket.write( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
+      socket.write( message );
+      socket.write( (char*)(&checksum), SATELLITE_PKGINFO_CHECKSUM_SIZE );
       socket.flush();
       socket.disconnectFromHost();
    }

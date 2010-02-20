@@ -81,11 +81,13 @@ void Satellite::send( const QByteArray &message )
 #if SATELLITE_DEBUG
    emit debug( QByteArray("c:to server: ") + message );
 #endif
-   SATELLITE_HEADER_TYPE msgSize( message.size() );
-   quint16 checksum( qChecksum( message.constData(), msgSize ) );
-   mpServerConnection->write( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
+   SATELLITE_PKGINFO_HEADER_TYPE   header( SATELLITE_PKGINFO_MAGIC_VALUE );
+   header <<= 32;
+   header |= message.size();
+   SATELLITE_PKGINFO_CHECKSUM_TYPE checksum( qChecksum( message.constData(), message.size() ) );
+   mpServerConnection->write( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
    mpServerConnection->write( message );
-   mpServerConnection->write( (char*)(&checksum), sizeof(checksum) );
+   mpServerConnection->write( (char*)(&checksum), SATELLITE_PKGINFO_CHECKSUM_SIZE );
 }
 
 
@@ -152,23 +154,29 @@ void Satellite::disconnected()
 
 void Satellite::incomingData()
 {
-   SATELLITE_HEADER_TYPE msgSize( 0 );
-   quint16 checksum( 0 );
-   while( mpServerConnection->bytesAvailable() > SATELLITE_HEADER_SIZE )
+   SATELLITE_PKGINFO_HEADER_TYPE   header( 0 );
+   SATELLITE_PKGINFO_CHECKSUM_TYPE checksum( 0 );
+   while( mpServerConnection->bytesAvailable() > SATELLITE_PKGINFO_HEADER_SIZE )
    {
-      mpServerConnection->peek( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
-      if( mpServerConnection->bytesAvailable() < (msgSize + SATELLITE_HEADER_SIZE) )
+      mpServerConnection->peek( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
+      if( (header >> 32) != SATELLITE_PKGINFO_MAGIC_VALUE )
+      {
+         mpServerConnection->readAll();
+         break;
+      }
+      if( mpServerConnection->bytesAvailable() <
+            ((qint32)(header & 0xFFFFFFFF) + SATELLITE_PKGINFO_HEADER_SIZE) )
       {
          /* buffer incomplete */
          break;
       }
-      mpServerConnection->read( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
-      QByteArray msg( mpServerConnection->read( msgSize ) );
-      mpServerConnection->read( (char*)(&checksum), sizeof(checksum) );
+      mpServerConnection->read( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
+      QByteArray msg( mpServerConnection->read( header & 0xFFFFFFFF ) );
+      mpServerConnection->read( (char*)(&checksum), SATELLITE_PKGINFO_CHECKSUM_SIZE );
 #if SATELLITE_DEBUG
       emit debug( QByteArray("c:from server: ") + msg );
 #endif
-      if( checksum == qChecksum( msg.constData(), msgSize ) )
+      if( checksum == qChecksum( msg.constData(), header & 0xFFFFFFFF ) )
       {
          emit received( msg );
       }
@@ -198,11 +206,13 @@ void Satellite::send1( const QByteArray &message )
       socket.connectToHost( host, port, QIODevice::WriteOnly );
       if( socket.waitForConnected( 1000 ) )
       {
-         SATELLITE_HEADER_TYPE msgSize( message.size() );
-         quint16 checksum( qChecksum( message.constData(), msgSize ) );
-         socket.write( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
+         SATELLITE_PKGINFO_HEADER_TYPE   header( SATELLITE_PKGINFO_MAGIC_VALUE );
+         header <<= 32;
+         header |= message.size();
+         SATELLITE_PKGINFO_CHECKSUM_TYPE checksum( qChecksum( message.constData(), message.size() ) );
+         socket.write( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
          socket.write( message );
-         socket.write( (char*)(&checksum), sizeof(checksum) );
+         socket.write( (char*)(&checksum), SATELLITE_PKGINFO_CHECKSUM_SIZE );
          socket.flush();
          socket.disconnectFromHost();
       }
