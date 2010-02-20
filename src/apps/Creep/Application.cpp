@@ -9,6 +9,7 @@
 //#include <unistd.h>
 
 #include <lirc/lirc_client.h>
+#include <QByteArray>
 #include <QString>
 #include <QSettings>
 #include <QHostAddress>
@@ -21,7 +22,7 @@ static char GROUPNAME[] = "SLART";
 static char PROGNAME[] = "Creep";
 
 
-static void send( const QString &data )
+static void send( const QByteArray &msg )
 {
    /* copy'n'paste from Satellite.cpp */
    QTcpSocket socket;
@@ -29,13 +30,15 @@ static void send( const QString &data )
 
    QHostAddress host( settings.VALUE_SATELLITE_HOST );
    qint16       port( settings.VALUE_SATELLITE_PORT );
+   quint16      checksum( qChecksum( msg.constData(), msg.size() ) );
 
    socket.connectToHost( host, port, QIODevice::WriteOnly );
    if( socket.waitForConnected( 1000 ) )
    {
-      SATELLITE_HEADER_TYPE msgSize = data.size();
+      SATELLITE_HEADER_TYPE msgSize( msg.size() );
       socket.write( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
-      socket.write( data.toUtf8() );
+      socket.write( msg );
+      socket.write( (char*)(&checksum), sizeof(checksum) );
       socket.flush();
       socket.disconnectFromHost();
    }
@@ -86,12 +89,12 @@ int main(int argc, char *argv[])
                if( system( confline.toUtf8().constData() ) )
                {
                   confline.prepend( QString("System call failed:\n") );
-                  send( confline );
+                  send( confline.toUtf8() );
                }
             }
             else
             {
-               send( confline );
+               send( confline.toUtf8() );
             }
             
          }

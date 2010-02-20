@@ -81,9 +81,11 @@ void Satellite::send( const QByteArray &message )
 #if SATELLITE_DEBUG
    emit debug( QByteArray("c:to server: ") + message );
 #endif
-   SATELLITE_HEADER_TYPE msgSize = message.size();
+   SATELLITE_HEADER_TYPE msgSize( message.size() );
+   quint16 checksum( qChecksum( message.constData(), msgSize ) );
    mpServerConnection->write( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
    mpServerConnection->write( message );
+   mpServerConnection->write( (char*)(&checksum), sizeof(checksum) );
 }
 
 
@@ -150,7 +152,8 @@ void Satellite::disconnected()
 
 void Satellite::incomingData()
 {
-   SATELLITE_HEADER_TYPE msgSize = 0;
+   SATELLITE_HEADER_TYPE msgSize( 0 );
+   quint16 checksum( 0 );
    while( mpServerConnection->bytesAvailable() > SATELLITE_HEADER_SIZE )
    {
       mpServerConnection->peek( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
@@ -160,13 +163,20 @@ void Satellite::incomingData()
          break;
       }
       mpServerConnection->read( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
-#if SATELLITE_DEBUG
       QByteArray msg( mpServerConnection->read( msgSize ) );
+      mpServerConnection->read( (char*)(&checksum), sizeof(checksum) );
+#if SATELLITE_DEBUG
       emit debug( QByteArray("c:from server: ") + msg );
-      emit received( msg );
-#else
-      emit received( mpServerConnection->read( msgSize ) );
 #endif
+      if( checksum == qChecksum( msg.constData(), msgSize ) )
+      {
+         emit received( msg );
+      }
+      else
+      {
+         /* checksum mismatch, an error occurred, flash all buffers */
+         mpServerConnection->readAll();
+      }
    }
 }
 
@@ -188,9 +198,11 @@ void Satellite::send1( const QByteArray &message )
       socket.connectToHost( host, port, QIODevice::WriteOnly );
       if( socket.waitForConnected( 1000 ) )
       {
-         SATELLITE_HEADER_TYPE msgSize = message.size();
+         SATELLITE_HEADER_TYPE msgSize( message.size() );
+         quint16 checksum( qChecksum( message.constData(), msgSize ) );
          socket.write( (char*)(&msgSize), SATELLITE_HEADER_SIZE );
          socket.write( message );
+         socket.write( (char*)(&checksum), sizeof(checksum) );
          socket.flush();
          socket.disconnectFromHost();
       }
