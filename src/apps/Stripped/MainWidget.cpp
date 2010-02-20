@@ -102,6 +102,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(finished()) );
    
    mpSettingsButton->setObjectName( QString("SettingsButton") );
+   mpSatellite->restart();
 }
 
 
