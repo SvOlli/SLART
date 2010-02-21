@@ -55,6 +55,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mTrackInfo.mTitle = "-";
    mTrackInfo.mAlbum = "-";
 
+   mpSatellite->waitForConnected();
    mpSatellite->send( "P0R" );
 }
 
@@ -110,7 +111,7 @@ void MainWidget::request( QTcpSocket *id,
                      " <album>%4</album>\n"
                      " <track>%5</track>\n"
                      "</response>\n" );
-      QByteArray replyMsg( reply.arg( QString::fromUtf8(mMsg),
+      QByteArray replyMsg( reply.arg( Qt::escape( QString::fromUtf8(mMsg) ),
                                       Qt::escape( mTrackInfo.mArtist ),
                                       Qt::escape( mTrackInfo.mTitle ),
                                       Qt::escape( mTrackInfo.mAlbum ),
