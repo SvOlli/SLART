@@ -38,6 +38,8 @@ public:
    virtual ~Satellite();
    /*  */
    bool isRunningServer();
+   /*  */
+   bool waitForConnected( int msecs = 30000 );
 
    /* get applications central Satellite */
    static Satellite* get( QObject *parent = 0 );
@@ -92,7 +94,7 @@ private:
 
 #define SATELLITE_PKGINFO_HEADER_TYPE     quint64
 #define SATELLITE_PKGINFO_HEADER_SIZE     (qint64)sizeof( SATELLITE_PKGINFO_HEADER_TYPE )
-#define SATELLITE_PKGINFO_MAGIC_VALUE     qToBigEndian( (quint32)0x53415400 )
+#define SATELLITE_PKGINFO_MAGIC_VALUE     (quint32)0x53415400
 #define SATELLITE_PKGINFO_CHECKSUM_TYPE   quint16
 #define SATELLITE_PKGINFO_CHECKSUM_SIZE   (qint64)sizeof( SATELLITE_PKGINFO_CHECKSUM_TYPE )
 

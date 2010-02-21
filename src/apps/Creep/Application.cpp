@@ -37,7 +37,9 @@ static void send( const QByteArray &message )
       SATELLITE_PKGINFO_HEADER_TYPE   header( SATELLITE_PKGINFO_MAGIC_VALUE );
       header <<= 32;
       header |= message.size();
+      header = qToBigEndian( header );
       SATELLITE_PKGINFO_CHECKSUM_TYPE checksum( qChecksum( message.constData(), message.size() ) );
+      checksum = qToBigEndian( checksum );
       socket.write( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
       socket.write( message );
       socket.write( (char*)(&checksum), SATELLITE_PKGINFO_CHECKSUM_SIZE );

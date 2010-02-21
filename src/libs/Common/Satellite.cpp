@@ -76,6 +76,12 @@ void Satellite::restart()
 }
 
 
+bool Satellite::waitForConnected( int msecs )
+{
+   return mpServerConnection->waitForConnected( msecs );
+}
+
+
 void Satellite::send( const QByteArray &message )
 {
 #if SATELLITE_DEBUG
@@ -84,7 +90,9 @@ void Satellite::send( const QByteArray &message )
    SATELLITE_PKGINFO_HEADER_TYPE   header( SATELLITE_PKGINFO_MAGIC_VALUE );
    header <<= 32;
    header |= message.size();
+   header = qToBigEndian( header );
    SATELLITE_PKGINFO_CHECKSUM_TYPE checksum( qChecksum( message.constData(), message.size() ) );
+   checksum = qToBigEndian( checksum );
    mpServerConnection->write( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
    mpServerConnection->write( message );
    mpServerConnection->write( (char*)(&checksum), SATELLITE_PKGINFO_CHECKSUM_SIZE );
@@ -159,6 +167,7 @@ void Satellite::incomingData()
    while( mpServerConnection->bytesAvailable() > SATELLITE_PKGINFO_HEADER_SIZE )
    {
       mpServerConnection->peek( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
+      header = qFromBigEndian( header );
       if( (header >> 32) != SATELLITE_PKGINFO_MAGIC_VALUE )
       {
          mpServerConnection->readAll();
@@ -171,8 +180,10 @@ void Satellite::incomingData()
          break;
       }
       mpServerConnection->read( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
+      header = qFromBigEndian( header );
       QByteArray msg( mpServerConnection->read( header & 0xFFFFFFFF ) );
       mpServerConnection->read( (char*)(&checksum), SATELLITE_PKGINFO_CHECKSUM_SIZE );
+      checksum = qFromBigEndian( checksum );
 #if SATELLITE_DEBUG
       emit debug( QByteArray("c:from server: ") + msg );
 #endif
@@ -209,7 +220,9 @@ void Satellite::send1( const QByteArray &message )
          SATELLITE_PKGINFO_HEADER_TYPE   header( SATELLITE_PKGINFO_MAGIC_VALUE );
          header <<= 32;
          header |= message.size();
+         header = qToBigEndian( header );
          SATELLITE_PKGINFO_CHECKSUM_TYPE checksum( qChecksum( message.constData(), message.size() ) );
+         checksum = qToBigEndian( checksum );
          socket.write( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
          socket.write( message );
          socket.write( (char*)(&checksum), SATELLITE_PKGINFO_CHECKSUM_SIZE );

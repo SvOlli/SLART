@@ -59,10 +59,8 @@ void SatelliteServer::incomingData( QObject *client )
    QByteArray msg( socket->readAll() );
    
 #if SATELLITESERVER_DEBUG
-   /* NOTE: this might only show the first message, if there are more than one
-    *       pending in the stream. No need to fix, cause it's debugging and
-    *       always disabled. */
-   emit debug( QByteArray("s:from client: ") + msg.mid(4) );
+   /* for debugging show raw message as hex dump */
+   emit debug( QByteArray("s:from client: ") + msg.toHex() );
 #endif
    for( int i = 0; i < mClientConnections.count(); i++ )
    {
