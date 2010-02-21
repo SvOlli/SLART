@@ -26,11 +26,11 @@ public:
    virtual ~OggEncoder();
    
    /* initialize the encoder */
-   void initialize( const QString &fileName );
+   bool initialize( const QString &fileName );
    /* finalize (clean up) the encoder */
-   void finalize( bool enqueue, bool cancel );
+   bool finalize( bool enqueue, bool cancel );
    /* set the tags of the encoded file */
-   void setTags( const TagList &tagList );
+   bool setTags( const TagList &tagList );
    /* encode raw cd audio data */
    bool encodeCDAudio( const char* data, int size );
    
@@ -45,13 +45,13 @@ private:
    /* ogg initialize helper function call on first encode */
    bool oggInit();
    
-   ::ogg_stream_state   mOS;
-   ::ogg_page           mOG;
-   ::ogg_packet         mOP;
-   ::vorbis_info        mVI;
-   ::vorbis_comment     mVC;
-   ::vorbis_dsp_state   mVD;
-   ::vorbis_block       mVB;
+   ::ogg_stream_state   mOggPagegStream;
+   ::ogg_page           mOggPage;
+   ::ogg_packet         mOggPacket;
+   ::vorbis_info        mVorbisInfo;
+   ::vorbis_comment     mVorbisComment;
+   ::vorbis_dsp_state   mVorbisDspState;
+   ::vorbis_block       mVorbisBlock;
    
    bool   mIsInit;
    float  mQuality;

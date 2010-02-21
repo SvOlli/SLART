@@ -22,7 +22,20 @@ extern "C"
 
 WavEncoder::WavEncoder( QWidget *parent )
 : Encoder( parent, tr("wav") )
+, mWavHeader( new unsigned int[11] )
 {
+   mWavHeader[ 0] = 0x46464952; // "RIFF"
+   mWavHeader[ 1] = 0;          // wave size
+   mWavHeader[ 2] = 0x45564157; // "WAVE"
+   mWavHeader[ 3] = 0x20746D66; // "fmt "
+   mWavHeader[ 4] = 0x00000010; // size of "fmt "-header
+   mWavHeader[ 5] = 0x00020001; // format PCM / Stereo
+   mWavHeader[ 6] = 44100;      // samplerate
+   mWavHeader[ 7] = 44100 * 4;  // bytes per second
+   mWavHeader[ 8] = 0x00100004; // 16 bit / bytes per sample
+   mWavHeader[ 9] = 0x61746164; // "data"
+   mWavHeader[10] = 0;          // data size
+
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
    QLabel      *label      = new QLabel( tr("no config"), this );
 
@@ -34,65 +47,57 @@ WavEncoder::WavEncoder( QWidget *parent )
    mainLayout->addWidget( label );
 
    setLayout( mainLayout );
-   
 }
 
 WavEncoder::~WavEncoder()
 {
+   delete[] mWavHeader;
 }
 
 
-void WavEncoder::initialize( const QString &fileName )
+bool WavEncoder::initialize( const QString &fileName )
 {
-TRACESTART(WavEncoder::initialize)
-   char dummy[44];
-   Encoder::initialize( fileName, ".wav" );
+   if( !Encoder::initialize( fileName, ".wav" ) )
+   {
+      return false;
+   }
+   mWavHeader[ 1] = 0;   // wave size
+   mWavHeader[10] = 0;   // data size
    /* write now, what later will become the header */
-   ::memset( &dummy[0], 0, 44 );
-   ::write( mFD, &dummy[0], 44 );
+   return mFile.write( (const char*)&mWavHeader[0], 44 );
 }
 
 
-void WavEncoder::finalize( bool enqueue, bool cancel )
+bool WavEncoder::finalize( bool enqueue, bool cancel )
 {
-TRACESTART(WavEncoder::finalize)
-   unsigned int size = (unsigned int) ::lseek( mFD, 0, SEEK_CUR );
+   unsigned int size = (mFile.pos() & 0xFFFFFFFF);
    /* write the wave header */
-   ::lseek( mFD, 0, SEEK_SET );
-   unsigned int header[11];
-   header[ 0] = 0x46464952; // "RIFF"
-   header[ 1] = size - 8;   // wave size
-   header[ 2] = 0x45564157; // "WAVE"
-   header[ 3] = 0x20746D66; // "fmt "
-   header[ 4] = 0x00000010; // size of "fmt "-header
-   header[ 5] = 0x00020001; // format PCM / Stereo
-   header[ 6] = 44100;      // samplerate
-   header[ 7] = 44100 * 4;  // bytes per second
-   header[ 8] = 0x00100004; // 16 bit / bytes per sample
-   header[ 9] = 0x61746164; // "data"
-   header[10] = size - 44;  // data size
+   if( !mFile.seek( 0 ) )
+   {
+      Encoder::finalize( false, true );
+      return false;
+   }
+   mWavHeader[ 1] = size - 8;   // wave size
+   mWavHeader[10] = size - 44;  // data size
    /* data needs to be written as little endian */
-   ::write( mFD, &header[0], 44 );
-   Encoder::finalize( enqueue, cancel );
+   if( !mFile.write( (const char*)&mWavHeader[0], 44 ) )
+   {
+      Encoder::finalize( false, true );
+      return false;
+   }
+   return Encoder::finalize( enqueue, cancel );
 }
 
 
-void WavEncoder::setTags( const TagList &/*tagList*/ )
+bool WavEncoder::setTags( const TagList &tagList )
 {
+   Q_UNUSED( tagList );
+   /* wav does not support tags */
+   return true;
 }
 
 
 bool WavEncoder::encodeCDAudio( const char* data, int size )
 {
-   while( size > 0 )
-   {
-      int written = ::write( mFD, data, size );
-      if( written < 0 )
-      {
-         return false;
-      }
-      size -= written;
-      data += written;
-   }
-   return true;
+   return Encoder::writeChunk( data, size );
 }

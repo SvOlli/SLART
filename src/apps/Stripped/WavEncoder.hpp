@@ -23,17 +23,19 @@ public:
    virtual ~WavEncoder();
    
    /* initialize the encoder */
-   void initialize( const QString &fileName );
+   bool initialize( const QString &fileName );
    /* finalize (clean up) the encoder */
-   void finalize( bool enqueue, bool cancel );
+   bool finalize( bool enqueue, bool cancel );
    /* set the tags of the encoded file */
-   void setTags( const TagList &tagList );
+   bool setTags( const TagList &tagList );
    /* encode raw cd audio data */
    bool encodeCDAudio( const char* data, int size );
    
 private:
    WavEncoder( const WavEncoder &other );
    WavEncoder &operator=( const WavEncoder &other );
+
+   unsigned int   *mWavHeader;
 };
 
 #endif

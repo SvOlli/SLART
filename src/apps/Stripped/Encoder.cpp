@@ -9,14 +9,6 @@
 #include "Encoder.hpp"
 
 #include <QDir>
-#include <QUdpSocket>
-
-extern "C"
-{
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-}
 
 #include "MySettings.hpp"
 #include "Satellite.hpp"
@@ -25,8 +17,8 @@ extern "C"
 
 Encoder::Encoder( QWidget *parent, const QString &encoderName )
 : QWidget( parent )
-, name( encoderName )
-, mFD( -1 )
+, mName( encoderName )
+, mFile()
 {
 }
 
@@ -36,25 +28,28 @@ Encoder::~Encoder()
 }
 
 
-void Encoder::initialize( const QString &fileName, const char *extension )
+bool Encoder::initialize( const QString &fileName, const char *extension )
 {
    QFileInfo qfi( fileName+extension );
    QDir dir( qfi.absoluteDir() );
    
    if( !dir.exists() )
    {
-      dir.mkpath( dir.absolutePath() );
+      if( !dir.mkpath( dir.absolutePath() ) )
+      {
+         return false;
+      }
    }
 
    mFileName = qfi.absoluteFilePath();
-   mFD = ::open( mFileName.toLocal8Bit().data(), O_WRONLY | O_CREAT | O_TRUNC, 0644 );
+   mFile.setFileName( mFileName );
+   return mFile.open( QIODevice::WriteOnly );
 }
 
 
-void Encoder::finalize( bool enqueue, bool cancel )
+bool Encoder::finalize( bool enqueue, bool cancel )
 {
-   ::close( mFD );
-   mFD = -1;
+   mFile.close();
    
    if( !cancel )
    {
@@ -69,4 +64,21 @@ void Encoder::finalize( bool enqueue, bool cancel )
          satellite->send( msg );
       }
    }
+   return !cancel;
+}
+
+
+bool Encoder::writeChunk( const char* buffer, qint64 size )
+{
+   while( size > 0 )
+   {
+      qint64 written = mFile.write( buffer, size );
+      if( written < 0 )
+      {
+         return false;
+      }
+      size   -= written;
+      buffer += written;
+   }
+   return true;
 }

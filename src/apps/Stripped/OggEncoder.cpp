@@ -59,27 +59,35 @@ void OggEncoder::setQuality( double quality )
 }
 
 
-void OggEncoder::initialize( const QString &fileName )
+bool OggEncoder::initialize( const QString &fileName )
 {
-   Encoder::initialize( fileName, ".ogg" );
+   if( !Encoder::initialize( fileName, ".ogg" ) )
+   {
+      return false;
+   }
    mIsInit = false;
    mQuality = 0.4;
-   vorbis_info_init( &mVI );
-   vorbis_comment_init( &mVC );
+   vorbis_info_init( &mVorbisInfo );
+   vorbis_comment_init( &mVorbisComment );
+   return true;
 }
 
 
-void OggEncoder::finalize( bool enqueue, bool cancel )
+bool OggEncoder::finalize( bool enqueue, bool cancel )
 {
-   encodeCDAudio( 0, 0 );
+   if( !encodeCDAudio( 0, 0 ) )
+   {
+      Encoder::finalize( false, true );
+      return false;
+   }
    
-   ::ogg_stream_clear( &mOS );
-   ::vorbis_block_clear( &mVB );
-   ::vorbis_dsp_clear( &mVD );
-   ::vorbis_comment_clear( &mVC );
-   ::vorbis_info_clear( &mVI );
+   ::ogg_stream_clear( &mOggPagegStream );
+   ::vorbis_block_clear( &mVorbisBlock );
+   ::vorbis_dsp_clear( &mVorbisDspState );
+   ::vorbis_comment_clear( &mVorbisComment );
+   ::vorbis_info_clear( &mVorbisInfo );
    
-   Encoder::finalize( enqueue, cancel );
+   return Encoder::finalize( enqueue, cancel );
 }
 
 
@@ -87,40 +95,43 @@ bool OggEncoder::oggInit()
 {
    int ret;
    
-   ret = ::vorbis_encode_init_vbr( &mVI, 2, 44100, mQuality );
+   ret = ::vorbis_encode_init_vbr( &mVorbisInfo, 2, 44100, mQuality );
    
    if( ret )
    {
-      exit(1);
+      Encoder::finalize( false, true );
+      return false;
    }
    
-   vorbis_analysis_init( &mVD, &mVI );
-   vorbis_block_init( &mVD, &mVB );
+   vorbis_analysis_init( &mVorbisDspState, &mVorbisInfo );
+   vorbis_block_init( &mVorbisDspState, &mVorbisBlock );
 
    srand(time(NULL));
-   ogg_stream_init( &mOS, rand() );
+   ogg_stream_init( &mOggPagegStream, rand() );
    
    ogg_packet header;
    ogg_packet header_comm;
    ogg_packet header_code;
 
-   vorbis_analysis_headerout( &mVD, &mVC, &header, &header_comm, &header_code );
-   ogg_stream_packetin( &mOS, &header );
-   ogg_stream_packetin( &mOS, &header_comm );
-   ogg_stream_packetin( &mOS, &header_code );
+   vorbis_analysis_headerout( &mVorbisDspState, &mVorbisComment, &header, &header_comm, &header_code );
+   ogg_stream_packetin( &mOggPagegStream, &header );
+   ogg_stream_packetin( &mOggPagegStream, &header_comm );
+   ogg_stream_packetin( &mOggPagegStream, &header_code );
    
    for(;;)
    {
-      if( 0 == ogg_stream_flush( &mOS, &mOG ) )
+      if( !ogg_stream_flush( &mOggPagegStream, &mOggPage ) )
       {
          break;
       }
-      if( ::write( mFD, mOG.header, mOG.header_len ) < 0 )
+      if( !Encoder::writeChunk( (const char*)mOggPage.header, mOggPage.header_len ) )
       {
+         Encoder::finalize( false, true );
          return false;
       }
-      if( ::write( mFD, mOG.body,   mOG.body_len ) < 0 )
+      if( !Encoder::writeChunk( (const char*)mOggPage.body,   mOggPage.body_len ) )
       {
+         Encoder::finalize( false, true );
          return false;
       }
    }
@@ -128,17 +139,18 @@ bool OggEncoder::oggInit()
 }
 
 
-void OggEncoder::setTags( const TagList &tagList )
+bool OggEncoder::setTags( const TagList &tagList )
 {
    for( int i = 0; i < tagList.count(); i++ )
    {
       if( !tagList.valueAt(i).isEmpty() )
       {
-         ::vorbis_comment_add_tag( &mVC, 
+         ::vorbis_comment_add_tag( &mVorbisComment,
                                    tagList.tagAt(i).toUtf8().data(),
                                    tagList.valueAt(i).toUtf8().data() );
       }
    }
+   return true;
 }
 
 
@@ -149,46 +161,53 @@ bool OggEncoder::encodeCDAudio( const char* data, int size )
       mIsInit = true;
       if( !oggInit() )
       {
+         Encoder::finalize( false, true );
          return false;
       }
    }
    
-   int i;
+   int i = 0;
    bool eos = false;
-   float **buffer = ::vorbis_analysis_buffer( &mVD, size/4 );
+   float **buffer = ::vorbis_analysis_buffer( &mVorbisDspState, size/4 );
    
    for( i = 0; i < size/4; i++ )
    {
       buffer[0][i]=((0x00ff&(int)data[i*4  ])|(data[i*4+1]<<8))/32768.f;
       buffer[1][i]=((0x00ff&(int)data[i*4+2])|(data[i*4+3]<<8))/32768.f;
    }
-   ::vorbis_analysis_wrote( &mVD, i );
+   ::vorbis_analysis_wrote( &mVorbisDspState, i );
    
-   while( ::vorbis_analysis_blockout( &mVD, &mVB ) == 1 )
+   while( ::vorbis_analysis_blockout( &mVorbisDspState, &mVorbisBlock ) == 1 )
    {
-      ::vorbis_analysis( &mVB, 0 );
-      ::vorbis_bitrate_addblock( &mVB );
+      ::vorbis_analysis( &mVorbisBlock, 0 );
+      ::vorbis_bitrate_addblock( &mVorbisBlock );
       
-      while( ::vorbis_bitrate_flushpacket( &mVD, &mOP ) )
+      while( ::vorbis_bitrate_flushpacket( &mVorbisDspState, &mOggPacket ) )
       {
-         ::ogg_stream_packetin( &mOS, &mOP );
+         ::ogg_stream_packetin( &mOggPagegStream, &mOggPacket );
          
          while( !eos )
          {
-            i = ::ogg_stream_pageout( &mOS, &mOG );
-            if( i == 0 ) break;
-            
-            if( ::write( mFD, mOG.header, mOG.header_len ) < 0 )
+            if( !::ogg_stream_pageout( &mOggPagegStream, &mOggPage ) )
             {
+               break;
+            }
+            if( !Encoder::writeChunk( (const char*)mOggPage.header, mOggPage.header_len ) )
+            {
+               Encoder::finalize( false, true );
                return false;
             }
-            if( ::write( mFD, mOG.body,   mOG.body_len ) < 0 )
+            if( !Encoder::writeChunk( (const char*)mOggPage.body,   mOggPage.body_len ) )
             {
+               Encoder::finalize( false, true );
                return false;
             }
          }
          
-         if( ::ogg_page_eos( &mOG ) ) eos = true;
+         if( ::ogg_page_eos( &mOggPage ) )
+         {
+            eos = true;
+         }
       }
    }
    return true;

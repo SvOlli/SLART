@@ -65,9 +65,9 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    strLayout->addWidget( mpEncodersBox,    3, 1 );
    for( i = 0; i < mEncoders.size(); i++ )
    {
-      strLayout->addWidget( new QLabel( (mEncoders.at(i)->name + tr(" Encoder") ) ), 4+i, 0 );
+      strLayout->addWidget( new QLabel( (mEncoders.at(i)->mName + tr(" Encoder") ) ), 4+i, 0 );
       strLayout->addWidget( mEncoders.at(i), 4+i, 1 );
-      mpEncodersBox->addItem( mEncoders.at(i)->name );
+      mpEncodersBox->addItem( mEncoders.at(i)->mName );
    }
    mpCDReader->getDevices( mpDevicesBox );
    if( !mpDevicesBox->count() )

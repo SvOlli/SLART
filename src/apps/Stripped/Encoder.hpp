@@ -26,21 +26,23 @@ public:
    virtual ~Encoder();
    
    /* initialize the encoder */
-   virtual void initialize( const QString &fileName) = 0;
+   virtual bool initialize( const QString &fileName) = 0;
    /* finalize (clean up) the encoder and close the file */
-   virtual void finalize( bool enqueue, bool cancel );
+   virtual bool finalize( bool enqueue, bool cancel );
    /* set the tags of the encoded file */
-   virtual void setTags( const TagList &tagList ) = 0;
+   virtual bool setTags( const TagList &tagList ) = 0;
    /* encode raw cd audio data */
    virtual bool encodeCDAudio( const char* data, int size ) = 0;
    /* name of the encoder */
-   const QString name;
-   
+   const QString mName;
+
 protected:
    /* initialize the encoder (create the output file) */
-   virtual void initialize( const QString &fileName, const char *extension );
+   virtual bool initialize( const QString &fileName, const char *extension );
+   /*  */
+   bool writeChunk( const char* buffer, qint64 size );
    
-   int mFD;
+   QFile mFile;
    
 private:
    Encoder( const Encoder &other );
