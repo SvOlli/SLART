@@ -26,24 +26,22 @@ extern "C"
 
 OggEncoder::OggEncoder( QWidget *parent )
 : Encoder( parent, tr("ogg") )
+, mpQuality( new QDoubleSpinBox( this ) )
 {
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
-   QDoubleSpinBox *quality = new QDoubleSpinBox( this );
-   quality->setValue( MySettings().VALUE_OGGQUALITY );
-   quality->setSingleStep( 0.01 );
-   quality->setMinimum( 0.0 );
-   quality->setMaximum( 1.0 );
+   mpQuality->setSingleStep( 0.01 );
+   mpQuality->setMinimum( 0.0 );
+   mpQuality->setMaximum( 1.0 );
 #if QT_VERSION < 0x040300
    mainLayout->setMargin( 0 );
 #else
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
-   mainLayout->addWidget( quality );
-
-   connect( quality, SIGNAL(valueChanged(double)), 
-            this, SLOT(setQuality(double)) );
+   mainLayout->addWidget( mpQuality );
 
    setLayout( mainLayout );
+
+   readSettings();
 }
 
 
@@ -52,10 +50,17 @@ OggEncoder::~OggEncoder()
 }
 
 
-void OggEncoder::setQuality( double quality )
+void OggEncoder::readSettings()
 {
-   MySettings().setValue( "OggQuality", quality );
-   mQuality = quality;
+   mQuality = MySettings().VALUE_OGGQUALITY;
+   mpQuality->setValue( mQuality );
+}
+
+
+void OggEncoder::writeSettings()
+{
+   mQuality = mpQuality->value();
+   MySettings().setValue( "OggQuality", mQuality );
 }
 
 

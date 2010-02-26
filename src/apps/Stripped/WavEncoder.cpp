@@ -48,6 +48,16 @@ WavEncoder::~WavEncoder()
 }
 
 
+void WavEncoder::readSettings()
+{
+}
+
+
+void WavEncoder::writeSettings()
+{
+}
+
+
 bool WavEncoder::initialize( const QString &fileName )
 {
    if( !Encoder::initialize( fileName, ".wav" ) )

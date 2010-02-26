@@ -145,6 +145,10 @@ void ConfigDialog::readSettings()
    
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
+   for( i = 0; i < mEncoders.size(); i++ )
+   {
+      mEncoders.at(i)->readSettings();
+   }
    
    emit configChanged();
 }
@@ -159,6 +163,10 @@ void ConfigDialog::writeSettings()
    
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
+   for( int i = 0; i < mEncoders.size(); i++ )
+   {
+      mEncoders.at(i)->writeSettings();
+   }
 
    emit configChanged();
 }

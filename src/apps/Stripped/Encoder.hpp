@@ -33,6 +33,10 @@ public:
    void setTags( const TagList &tagList );
    /* encode raw cd audio data */
    virtual bool encodeCDAudio( const char* data, int size ) = 0;
+   /* read settings from storage */
+   virtual void readSettings() = 0;
+   /* write settings to storage */
+   virtual void writeSettings() = 0;
    /* name of the encoder */
    const QString mName;
 

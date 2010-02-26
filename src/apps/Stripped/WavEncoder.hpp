@@ -28,6 +28,10 @@ public:
    bool finalize( bool enqueue, bool cancel );
    /* encode raw cd audio data */
    bool encodeCDAudio( const char* data, int size );
+   /* read settings from storage */
+   void readSettings();
+   /* write settings to storage */
+   void writeSettings();
    
 private:
    WavEncoder( const WavEncoder &other );

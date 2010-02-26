@@ -17,6 +17,9 @@ extern "C"
 #include "Encoder.hpp"
 
 
+class QDoubleSpinBox;
+
+
 class OggEncoder : public Encoder
 {
 Q_OBJECT
@@ -31,10 +34,10 @@ public:
    bool finalize( bool enqueue, bool cancel );
    /* encode raw cd audio data */
    bool encodeCDAudio( const char* data, int size );
-   
-public slots:
-   /* set the encoding quality */
-   void setQuality( double quality );
+   /* read settings from storage */
+   void readSettings();
+   /* write settings to storage */
+   void writeSettings();
    
 private:
    OggEncoder( const OggEncoder &other );
@@ -43,6 +46,7 @@ private:
    /* ogg initialize helper function call on first encode */
    bool oggInit();
    
+   QDoubleSpinBox       *mpQuality;
    ::ogg_stream_state   mOggPagegStream;
    ::ogg_page           mOggPage;
    ::ogg_packet         mOggPacket;

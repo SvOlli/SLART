@@ -16,6 +16,8 @@
 
 #include <QWidget>
 
+class QSpinBox;
+
 
 class FlacEncoder : public Encoder
 {
@@ -31,15 +33,16 @@ public:
    bool finalize( bool enqueue, bool cancel );
    /* encode raw cd audio data */
    bool encodeCDAudio( const char* data, int size );
-
-public slots:
-   /* set the encoding quality */
-   void setQuality( int quality );
+   /* read settings from storage */
+   void readSettings();
+   /* write settings to storage */
+   void writeSettings();
 
 private:
    FlacEncoder( const FlacEncoder &other );
    FlacEncoder &operator=( const FlacEncoder &other );
 
+   QSpinBox             *mpQuality;
    bool                 mUseOggContainer;
    FLAC::Encoder::File  *mpEncoder;
    FLAC__StreamMetadata *mpMetadata;

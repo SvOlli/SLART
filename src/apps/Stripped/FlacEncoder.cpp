@@ -20,6 +20,7 @@
 
 FlacEncoder::FlacEncoder( QWidget *parent )
 : Encoder( parent, tr("FLAC") )
+, mpQuality( new QSpinBox( this ) )
 , mUseOggContainer( false )
 , mpEncoder( 0 )
 , mpMetadata( 0 )
@@ -27,20 +28,20 @@ FlacEncoder::FlacEncoder( QWidget *parent )
 , mSize( 0 )
 {
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
-   QSpinBox    *quality = new QSpinBox( this );
-   quality->setValue( MySettings().VALUE_FLACQUALITY );
-   quality->setSingleStep( 1 );
-   quality->setMinimum( 0 );
-   quality->setMaximum( 8 );
+   mpQuality->setSingleStep( 1 );
+   mpQuality->setMinimum( 0 );
+   mpQuality->setMaximum( 8 );
 
 #if QT_VERSION < 0x040300
    mainLayout->setMargin( 0 );
 #else
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
-   mainLayout->addWidget( quality );
+   mainLayout->addWidget( mpQuality );
 
    setLayout( mainLayout );
+
+   readSettings();
 }
 
 
@@ -64,10 +65,17 @@ FlacEncoder::~FlacEncoder()
 }
 
 
-void FlacEncoder::setQuality( int quality )
+void FlacEncoder::readSettings()
 {
-   MySettings().setValue( "FlacQuality", quality );
-   mQuality = quality;
+   mQuality = MySettings().VALUE_FLACQUALITY;
+   mpQuality->setValue( mQuality );
+}
+
+
+void FlacEncoder::writeSettings()
+{
+   mQuality = mpQuality->value();
+   MySettings().setValue( "FlacQuality", mQuality );
 }
 
 
