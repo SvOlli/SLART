@@ -109,4 +109,5 @@ SLART/Stripped:
 * PlayingPattern (QString)
 * Directory (QString)
 * Encoder (QString)
+* FlacQuality (int)
 * OggQuality (double)

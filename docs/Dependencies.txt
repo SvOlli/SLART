@@ -1,0 +1,14 @@
+
+The following external additional libs are used:
+
+native:
+- libbz2           (Notorious)
+- liblirc_client   (Creep)
+- libmp3lame       (Stripped) (soon to come)
+- libFLAC++        (Stripped)
+
+via pkg-config:
+- vorbisenc        (Stripped)
+- libcdio_paranoia (Stripped)
+- libcdio          (Stripped)
+
