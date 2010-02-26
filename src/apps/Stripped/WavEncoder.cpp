@@ -11,30 +11,23 @@
 
 #include "Trace.hpp"
 
-extern "C"
-{
-#include <sys/types.h>
-#include <unistd.h>
-#include <string.h>
-}
-
 #include <QtGui>
 
 WavEncoder::WavEncoder( QWidget *parent )
 : Encoder( parent, tr("wav") )
-, mWavHeader( new unsigned int[11] )
+, mpWavHeader( new unsigned int[11] )
 {
-   mWavHeader[ 0] = 0x46464952; // "RIFF"
-   mWavHeader[ 1] = 0;          // wave size
-   mWavHeader[ 2] = 0x45564157; // "WAVE"
-   mWavHeader[ 3] = 0x20746D66; // "fmt "
-   mWavHeader[ 4] = 0x00000010; // size of "fmt "-header
-   mWavHeader[ 5] = 0x00020001; // format PCM / Stereo
-   mWavHeader[ 6] = 44100;      // samplerate
-   mWavHeader[ 7] = 44100 * 4;  // bytes per second
-   mWavHeader[ 8] = 0x00100004; // 16 bit / bytes per sample
-   mWavHeader[ 9] = 0x61746164; // "data"
-   mWavHeader[10] = 0;          // data size
+   mpWavHeader[ 0] = 0x46464952; // "RIFF"
+   mpWavHeader[ 1] = 0;          // wave size
+   mpWavHeader[ 2] = 0x45564157; // "WAVE"
+   mpWavHeader[ 3] = 0x20746D66; // "fmt "
+   mpWavHeader[ 4] = 0x00000010; // size of "fmt "-header
+   mpWavHeader[ 5] = 0x00020001; // format PCM / Stereo
+   mpWavHeader[ 6] = 44100;      // samplerate
+   mpWavHeader[ 7] = 44100 * 4;  // bytes per second
+   mpWavHeader[ 8] = 0x00100004; // 16 bit / bytes per sample
+   mpWavHeader[ 9] = 0x61746164; // "data"
+   mpWavHeader[10] = 0;          // data size
 
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
    QLabel      *label      = new QLabel( tr("no config"), this );
@@ -51,7 +44,7 @@ WavEncoder::WavEncoder( QWidget *parent )
 
 WavEncoder::~WavEncoder()
 {
-   delete[] mWavHeader;
+   delete[] mpWavHeader;
 }
 
 
@@ -61,10 +54,10 @@ bool WavEncoder::initialize( const QString &fileName )
    {
       return false;
    }
-   mWavHeader[ 1] = 0;   // wave size
-   mWavHeader[10] = 0;   // data size
+   mpWavHeader[ 1] = 0;   // wave size
+   mpWavHeader[10] = 0;   // data size
    /* write now, what later will become the header */
-   return mFile.write( (const char*)&mWavHeader[0], 44 );
+   return mFile.write( (const char*)&mpWavHeader[0], 44 );
 }
 
 
@@ -77,23 +70,15 @@ bool WavEncoder::finalize( bool enqueue, bool cancel )
       Encoder::finalize( false, true );
       return false;
    }
-   mWavHeader[ 1] = size - 8;   // wave size
-   mWavHeader[10] = size - 44;  // data size
+   mpWavHeader[ 1] = size - 8;   // wave size
+   mpWavHeader[10] = size - 44;  // data size
    /* data needs to be written as little endian */
-   if( !mFile.write( (const char*)&mWavHeader[0], 44 ) )
+   if( !mFile.write( (const char*)&mpWavHeader[0], 44 ) )
    {
       Encoder::finalize( false, true );
       return false;
    }
    return Encoder::finalize( enqueue, cancel );
-}
-
-
-bool WavEncoder::setTags( const TagList &tagList )
-{
-   Q_UNUSED( tagList );
-   /* wav does not support tags */
-   return true;
 }
 
 

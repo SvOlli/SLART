@@ -135,19 +135,14 @@ bool OggEncoder::oggInit()
          return false;
       }
    }
-   return true;
-}
 
-
-bool OggEncoder::setTags( const TagList &tagList )
-{
-   for( int i = 0; i < tagList.count(); i++ )
+   for( int i = 0; i < mTagList.count(); i++ )
    {
-      if( !tagList.valueAt(i).isEmpty() )
+      if( !mTagList.valueAt(i).isEmpty() )
       {
          ::vorbis_comment_add_tag( &mVorbisComment,
-                                   tagList.tagAt(i).toUtf8().data(),
-                                   tagList.valueAt(i).toUtf8().data() );
+                                    mTagList.tagAt(i).toUtf8().data(),
+                                    mTagList.valueAt(i).toUtf8().data() );
       }
    }
    return true;

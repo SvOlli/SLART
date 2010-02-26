@@ -245,11 +245,11 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
       int lastSector  = mpToc->lastSector( i );
       QString fileName( tagList.fileName( createPattern ) );
       
-      mpEncoder->initialize( fileName );
-      
       mpMessage->setText( fileName.mid( fileName.lastIndexOf('/')+1 ) );
       tagList.set( "ALBUMARTIST" );
       mpEncoder->setTags( tagList );
+      mpEncoder->initialize( fileName );
+
       ::cdio_paranoia_seek( mpParanoia, firstSector, SEEK_SET );
       mpProgress->setRange( firstSector, lastSector );
       for( sector = firstSector; sector <= lastSector; sector++ )

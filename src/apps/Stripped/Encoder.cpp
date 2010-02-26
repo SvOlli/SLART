@@ -82,3 +82,9 @@ bool Encoder::writeChunk( const char* buffer, qint64 size )
    }
    return true;
 }
+
+
+void Encoder::setTags( const TagList &tagList )
+{
+   mTagList = tagList;
+}

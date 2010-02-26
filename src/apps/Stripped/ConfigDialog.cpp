@@ -12,6 +12,7 @@
 
 #include "AboutWidget.hpp"
 #include "CDReader.hpp"
+#include "FlacEncoder.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "MySettings.hpp"
 #include "OggEncoder.hpp"
@@ -42,6 +43,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 
    mEncoders.append( new OggEncoder( this ) );
    mEncoders.append( new WavEncoder( this ) );
+   mEncoders.append( new FlacEncoder( this ) );
    
    mTagList.set("TRACKNUMBER","1");
    mTagList.set("ALBUMARTIST","AlbumArtist");

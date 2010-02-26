@@ -14,7 +14,7 @@
 #include <QFile>
 #include <QByteArray>
 
-class TagList;
+#include <TagList.hpp>
 
 
 class Encoder : public QWidget
@@ -30,7 +30,7 @@ public:
    /* finalize (clean up) the encoder and close the file */
    virtual bool finalize( bool enqueue, bool cancel );
    /* set the tags of the encoded file */
-   virtual bool setTags( const TagList &tagList ) = 0;
+   void setTags( const TagList &tagList );
    /* encode raw cd audio data */
    virtual bool encodeCDAudio( const char* data, int size ) = 0;
    /* name of the encoder */
@@ -42,7 +42,8 @@ protected:
    /*  */
    bool writeChunk( const char* buffer, qint64 size );
    
-   QFile mFile;
+   QFile   mFile;
+   TagList mTagList;
    
 private:
    Encoder( const Encoder &other );

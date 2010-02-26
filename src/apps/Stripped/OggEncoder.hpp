@@ -6,8 +6,8 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef RAWOggEncoder_HPP
-#define RAWOggEncoder_HPP RAWOggEncoder_HPP
+#ifndef OGGENCODER_HPP
+#define OGGENCODER_HPP OGGENCODER_HPP
 
 extern "C"
 {
@@ -29,8 +29,6 @@ public:
    bool initialize( const QString &fileName );
    /* finalize (clean up) the encoder */
    bool finalize( bool enqueue, bool cancel );
-   /* set the tags of the encoded file */
-   bool setTags( const TagList &tagList );
    /* encode raw cd audio data */
    bool encodeCDAudio( const char* data, int size );
    

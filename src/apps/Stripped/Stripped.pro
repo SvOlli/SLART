@@ -12,7 +12,7 @@ CONFIG += link_pkgconfig
 include( ../../config.pri )
 
 INCLUDEPATH += ../../libs/Common
-LIBS += -lCommon
+LIBS += -lCommon -lFLAC++
 PKGCONFIG += vorbisenc libcdio_paranoia libcdio
 
 # Input
@@ -64,6 +64,9 @@ SOURCES += WavEncoder.cpp
 
 HEADERS += OggEncoder.hpp 
 SOURCES += OggEncoder.cpp 
+
+HEADERS += FlacEncoder.hpp 
+SOURCES += FlacEncoder.cpp 
 
 #HEADERS += TagList.hpp 
 #SOURCES += TagList.cpp 
