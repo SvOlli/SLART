@@ -19,6 +19,15 @@ TagList::TagList()
 }
 
 
+TagList &TagList::operator=( const TagList &other )
+{
+   mTags   = other.mTags;
+   mValues = other.mValues;
+
+   return *this;
+}
+
+
 void TagList::set( const QString &tag, const QString &value )
 {
    int i = mTags.indexOf( tag.toUpper() );

@@ -16,6 +16,7 @@ class TagList
 {
 public:
    TagList();
+   TagList &operator=( const TagList &other );
    
    /* return number of tags */
    int count() const { return mTags.count(); };
@@ -38,7 +39,6 @@ public:
    
 private:
    TagList( const TagList &other );
-   TagList &operator=( const TagList &other );
    
    QStringList mTags;
    QStringList mValues;
