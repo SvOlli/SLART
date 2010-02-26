@@ -35,7 +35,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 #else
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
-   MySettings().setValue( "UseSatellite", true );
+   mpSatellite->setTestApp( true );
    mpSatellite->restart();
    
    mainLayout->addWidget( mpMessageBuffer );

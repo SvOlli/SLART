@@ -37,6 +37,8 @@ public:
    Satellite( QObject *parent = 0 );
    virtual ~Satellite();
    /*  */
+   void setTestApp( bool isTestApp );
+   /*  */
    bool isRunningServer();
    /*  */
    bool waitForConnected( int msecs = 30000 );
@@ -84,6 +86,7 @@ private:
    Satellite( const Satellite &other );
    Satellite &operator=( const Satellite &other );
    
+   bool                       mIsTestApp;
    QTcpSocket                 *mpServerConnection;
    SatelliteServerRunner      *mpServer;
    quint16                    mPort;

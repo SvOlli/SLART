@@ -16,6 +16,7 @@ QPointer<Satellite> Satellite::gSatellite = 0;
 
 Satellite::Satellite( QObject *parent )
 : QObject( parent )
+, mIsTestApp( false )
 , mpServerConnection( new QTcpSocket( this ) )
 , mpServer( 0 )
 , mPort( 0 )
@@ -44,6 +45,12 @@ Satellite::~Satellite()
 }
 
 
+void Satellite::setTestApp( bool isTestApp )
+{
+   mIsTestApp = isTestApp;
+}
+
+
 bool Satellite::isRunningServer()
 {
    return (mpServer != 0);
@@ -55,7 +62,7 @@ void Satellite::restart()
 #if SATELLITE_DEBUG
    emit debug( "c:connecting to server" );
 #endif
-   if( !MySettings().VALUE_USE_SATELLITE )
+   if( !mIsTestApp && !MySettings().VALUE_USE_SATELLITE )
    {
       return;
    }

@@ -52,6 +52,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    
    setLayout( mainLayout );
    
+   mpSatellite->setTestApp( true );
    mpSatellite->restart();
 }
 
