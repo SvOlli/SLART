@@ -6,9 +6,15 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* system headers */
+
+/* Qt headers */
 #include <QApplication>
 
-#include "SorcererLoader.hpp"
+/* local library headers */
+#include <SorcererLoader.hpp>
+
+/* local headers */
 
 
 int main(int argc, char *argv[])
