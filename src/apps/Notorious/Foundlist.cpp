@@ -6,11 +6,17 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "Foundlist.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
-#include "Trace.hpp"
+/* local library headers */
+
+/* local headers */
 
 
 Foundlist::Foundlist( QWidget *parent )

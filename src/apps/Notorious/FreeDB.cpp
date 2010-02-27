@@ -6,18 +6,24 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "FreeDB.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QApplication>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QMessageBox>
 
-#include "FreeDBQuery.hpp"
+/* local library headers */
 #include "MySettings.hpp"
 
-#include "Trace.hpp"
+/* local headers */
+#include "FreeDBQuery.hpp"
+
 
 #define USE_SQLITE 1
 

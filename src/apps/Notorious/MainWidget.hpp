@@ -9,21 +9,27 @@
 #ifndef MAINWIDGET_HPP
 #define MAINWIDGET_HPP MAINWIDGET_HPP
 
-/* define the features of main window to be used */
-#define MAINWINDOW_SORCERER      0
-#define MAINWINDOW_CHANGETITLE   0
-#define MAINWINDOW_PROHIBITCLOSE 0
-#define MAINWIDGET_SCREENSHOT    0
-
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QLineEdit;
 class QPushButton;
 
+/* forward declaration of local classes */
 class ConfigDialog;
 class FreeDB;
 class Foundlist;
 class SearchWidget;
+
 
 class MainWidget : public QWidget
 {

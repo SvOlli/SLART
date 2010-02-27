@@ -6,15 +6,21 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "FreeDBQuery.hpp"
-#include "Foundlist.hpp"
+
+/* system headers */
+
+/* Qt headers */
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QString>
 #include <QVariant>
-#include <qdebug.h>
 
-#include "Trace.hpp"
+/* local library headers */
+
+/* local headers */
+#include "Foundlist.hpp"
 
 
 FreeDBQuery::FreeDBQuery( Foundlist *parent )
@@ -22,6 +28,11 @@ FreeDBQuery::FreeDBQuery( Foundlist *parent )
 , mpParent( parent )
 {
 }
+
+#define USE_TRACE 0
+#if USE_TRACE
+#include <Trace.hpp>
+#endif
 
 
 FreeDBQuery::~FreeDBQuery()
@@ -31,12 +42,12 @@ FreeDBQuery::~FreeDBQuery()
 
 void FreeDBQuery::run()
 {
-#if 0
+#if USE_TRACE
 TRACESTART(FreeDBQuery::run)
 #endif
    QSqlQuery q( mQuery );
    
-#if 0
+#if USE_TRACE
    if( !q.exec() )
    {
 TRACEMSG << q.lastError().databaseText();

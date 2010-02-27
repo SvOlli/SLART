@@ -16,6 +16,8 @@
 extern "C" {
 #endif
 
+#include <sys/types.h>
+
 typedef struct 
 {
    void   *fp;

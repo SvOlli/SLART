@@ -6,14 +6,21 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "MainWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
+#include <QtGui>
+
+/* local library headers */
+
+/* local headers */
 #include "ConfigDialog.hpp"
 #include "FreeDB.hpp"
 #include "Foundlist.hpp"
 #include "SearchWidget.hpp"
-
-#include <QtGui>
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )

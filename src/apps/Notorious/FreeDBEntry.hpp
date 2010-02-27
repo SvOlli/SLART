@@ -9,7 +9,19 @@
 #ifndef FREEDBENTRY_HPP
 #define FREEDBENTRY_HPP FREEDBENTRY_HPP
 
+/* system headers */
+
+/* Qt headers */
 #include <QString>
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
+
 
 class FreeDBEntry
 {

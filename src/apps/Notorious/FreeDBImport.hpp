@@ -9,9 +9,23 @@
 #ifndef FREEDBIMPORT_HPP
 #define FREEDBIMPORT_HPP FREEDBIMPORT_HPP
 
+/* base class */
+
+/* system headers */
+
+/* Qt headers */
 #include <QThread>
 #include <QList>
+
+/* local library headers */
+
+/* local headers */
 #include "TarEntry.hpp"
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
+
 
 
 class QString;

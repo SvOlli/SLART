@@ -9,11 +9,23 @@
 #ifndef FREEDB_HPP
 #define FREEDB_HPP FREEDB_HPP
 
+/* base class */
 #include <QObject>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QSqlDatabase;
 
+/* forward declaration of local classes */
 class FreeDBQuery;
+
 
 class FreeDB : public QObject
 {

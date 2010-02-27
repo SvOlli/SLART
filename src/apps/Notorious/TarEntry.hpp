@@ -9,7 +9,19 @@
 #ifndef TARENTRY_HPP
 #define TARENTRY_HPP TARENTRY_HPP
 
+/* system headers */
+
+/* Qt headers */
 #include <QStringList>
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
+
 
 class TarEntry
 {

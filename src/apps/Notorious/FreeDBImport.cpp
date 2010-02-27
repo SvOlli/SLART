@@ -6,14 +6,20 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "FreeDBImport.hpp"
+
+/* system headers */
+
+/* Qt headers */
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QString>
 #include <QVariant>
 
-#include "Trace.hpp"
+/* local library headers */
 
+/* local headers */
 #include "tir.h"
 
 

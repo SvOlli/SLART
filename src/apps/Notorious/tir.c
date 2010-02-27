@@ -9,12 +9,14 @@
  */
 
 
+/* declarations */
+#include "tir.h"
+
+/* system headers */
 #include <stdlib.h>
 #include <string.h>
-
 #include <bzlib.h>
 
-#include "tir.h"
 
 #define TAR_BLOCK_SIZE 0x00000200
 #define TAR_BLOCK_MASK 0xfffffe00
