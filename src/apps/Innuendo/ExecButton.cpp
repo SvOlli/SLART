@@ -6,13 +6,23 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
 #include "ExecButton.hpp"
 
 #include <QtGui>
-#include "MySettings.hpp"
+
 #include "ConfigDialog.hpp"
 
-#include "Trace.hpp"
+#include <MySettings.hpp>
 
 
 ExecButton::ExecButton( const QString &name, QWidget *parent )

@@ -9,10 +9,24 @@
 #ifndef SATELLITECONFIGWIDGET_HPP
 #define SATELLITECONFIGWIDGET_HPP SATELLITECONFIGWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QCheckBox;
 class QSignalMapper;
+
+/* forward declaration of local classes */
+
+
 
 class SatelliteConfigWidget : public QWidget
 {

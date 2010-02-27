@@ -9,10 +9,22 @@
 #ifndef EXECBUTTON_HPP
 #define EXECBUTTON_HPP EXECBUTTON_HPP
 
+/* base class */
 #include <QPushButton>
 
+/* system headers */
+
+/* Qt headers */
 #include <QProcess>
 #include <QString>
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 
 
 class ExecButton : public QPushButton

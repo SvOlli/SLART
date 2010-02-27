@@ -9,10 +9,19 @@
 #ifndef DROPDIALOG_HPP
 #define DROPDIALOG_HPP DROPDIALOG_HPP
 
+/* base class */
 #include <QDialog>
 
+/* system headers */
+
+/* Qt headers */
 #include <QStringList>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QCheckBox;
 class QComboBox;
 class QLabel;
@@ -22,6 +31,7 @@ class QSignalMapper;
 class QSpinBox;
 class QTextBrowser;
 
+/* forward declaration of local classes */
 class ConfigNotifyWidget;
 class GlobalConfigWidget;
 class ProxyWidget;

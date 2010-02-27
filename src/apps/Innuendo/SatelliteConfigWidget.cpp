@@ -6,12 +6,19 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "SatelliteConfigWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
-#include "MySettings.hpp"
-#include "Satellite.hpp"
+/* local library headers */
+#include <MySettings.hpp>
+#include <Satellite.hpp>
+
+/* local headers */
 
 
 SatelliteConfigWidget::SatelliteConfigWidget( QWidget *parent )

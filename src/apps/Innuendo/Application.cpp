@@ -6,14 +6,20 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#include "Database.hpp"
-#include "MainWindow.hpp"
-#include "MainWidget.hpp"
-#include "MySettings.hpp"
-#include "Satellite.hpp"
-#include "SorcererLoader.hpp"
+/* system headers */
 
+/* Qt headers */
 #include <QtGui>
+
+/* local library headers */
+#include <Database.hpp>
+#include <MainWindow.hpp>
+#include <MySettings.hpp>
+#include <Satellite.hpp>
+#include <SorcererLoader.hpp>
+
+/* local headers */
+#include "MainWidget.hpp"
 
 
 int main(int argc, char *argv[])

@@ -6,16 +6,23 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "ConfigDialog.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
-#include "AboutWidget.hpp"
-#include "GlobalConfigWidget.hpp"
-#include "MySettings.hpp"
-#include "ProxyWidget.hpp"
-#include "WidgetShot.hpp"
-#include "Satellite.hpp"
+/* local library headers */
+#include <AboutWidget.hpp>
+#include <GlobalConfigWidget.hpp>
+#include <MySettings.hpp>
+#include <ProxyWidget.hpp>
+#include <Satellite.hpp>
+#include <WidgetShot.hpp>
+
+/* local headers */
 #include "SatelliteConfigWidget.hpp"
 
 

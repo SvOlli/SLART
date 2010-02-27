@@ -6,19 +6,24 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "MainWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
-#include "MySettings.hpp"
+
+/* local library headers */
+#include <GenericSatMsgHandler.hpp>
+#include <GlobalConfigWidget.hpp>
+#include <MySettings.hpp>
+#include <Satellite.hpp>
+
+/* local headers */
 #include "ConfigDialog.hpp"
-#include "GenericSatMsgHandler.hpp"
-#include "GlobalConfigWidget.hpp"
 #include "ExecButton.hpp"
 #include "DropDialog.hpp"
-#include "MySettings.hpp"
-#include "Satellite.hpp"
-
-#include "Trace.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
