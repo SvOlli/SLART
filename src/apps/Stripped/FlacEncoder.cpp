@@ -81,7 +81,9 @@ void FlacEncoder::writeSettings()
 
 bool FlacEncoder::initialize( const QString &fileName )
 {
-   bool ok( true );
+   bool                                     ok = true;
+   FLAC__StreamMetadata                     *metadata[2];
+   FLAC__StreamMetadata_VorbisComment_Entry entry;
 
    if( !mpEncoder )
    {
@@ -112,23 +114,11 @@ bool FlacEncoder::initialize( const QString &fileName )
    ok &= mpEncoder->set_bits_per_sample(16);
    ok &= mpEncoder->set_sample_rate(44100);
 
-   if( mUseOggContainer )
-   {
-      ok &= mpEncoder->init_ogg( ::fdopen( mFile.handle(), "w" ) );
-   }
-   else
-   {
-      ok &= mpEncoder->init( ::fdopen( mFile.handle(), "w" ) );
-   }
-
-   FLAC__StreamMetadata *metadata[1];
-   FLAC__StreamMetadata_VorbisComment_Entry entry;
-
+   metadata[0] = FLAC__metadata_object_new(FLAC__METADATA_TYPE_VORBIS_COMMENT);
    for( int i = 0; i < mTagList.count(); i++ )
    {
       if( !mTagList.valueAt(i).isEmpty() )
       {
-         metadata[0] = FLAC__metadata_object_new(FLAC__METADATA_TYPE_VORBIS_COMMENT);
          ok &= FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair(
                &entry,
                mTagList.tagAt(i).toUtf8().constData(),
@@ -138,12 +128,19 @@ bool FlacEncoder::initialize( const QString &fileName )
                /* copy=false: let metadata object take control of entry's allocated string */
       }
    }
-#if 0
-   metadata[1] = FLAC__metadata_object_new(FLAC__METADATA_TYPE_PADDING);
-   metadata[1]->length = 1234; /* set the padding length */
-#endif
 
    ok &= mpEncoder->set_metadata(metadata, 1);
+
+   if( mUseOggContainer )
+   {
+      /* not working yet, need to obtain ogg_serial */
+      mpEncoder->set_ogg_serial_number( 0 );
+      ok &= mpEncoder->init_ogg( ::fdopen( mFile.handle(), "w" ) );
+   }
+   else
+   {
+      ok &= mpEncoder->init( ::fdopen( mFile.handle(), "w" ) );
+   }
 
    return ok;
 }
