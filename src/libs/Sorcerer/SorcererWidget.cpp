@@ -6,19 +6,23 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "SorcererWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
-#include "AboutWidget.hpp"
-#include "Database.hpp"
-#include "ProxyWidget.hpp"
-#include "MySettings.hpp"
-
+/* local library headers */
+#include <AboutWidget.hpp>
+#include <Database.hpp>
+#include <ProxyWidget.hpp>
+#include <MySettings.hpp>
 #include "../../apps/Innuendo/SatelliteConfigWidget.hpp"
 #include "../../apps/Rubberbandman/DatabaseWidget.hpp"
 
-#include "Trace.hpp"
+/* local headers */
 
 
 SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )

@@ -6,13 +6,21 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#include "MainWindow.hpp"
-#include "SorcererWidget.hpp"
-#include "MySettings.hpp"
+/* class declaration */
+#include "Plugin.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
-#include "Plugin.hpp"
+/* local library headers */
+#include <MainWindow.hpp>
+#include <MySettings.hpp>
+
+/* local headers */
+#include "SorcererWidget.hpp"
+
 
 int SorcererPlugin::run( QApplication *app )
 {

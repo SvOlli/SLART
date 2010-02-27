@@ -9,7 +9,18 @@
 #ifndef SORCERERINTERFACE_HPP
 #define SORCERERINTERFACE_HPP SORCERERINTERFACE_HPP
 
+/* system headers */
+
+/* Qt headers */
 class QApplication;
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 
 
 class SorcererInterface

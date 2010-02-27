@@ -9,19 +9,30 @@
 #ifndef SORCERERWIDGET_HPP
 #define SORCERERWIDGET_HPP SORCERERWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
+#include <QString>
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QIcon;
 class QLabel;
 class QPushButton;
 class QTabWidget;
 
+/* forward declaration of local classes */
 class Database;
 class DatabaseWidget;
 class ProxyWidget;
 class SatelliteConfigWidget;
 
-#include "QString"
 
 class SorcererWidget : public QWidget
 {
