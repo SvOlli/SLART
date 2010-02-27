@@ -6,7 +6,16 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "CommandLineOptionString.hpp"
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
 
 
 CommandLineOptionString::CommandLineOptionString( const QString &name, const QString &desc, QString *value )

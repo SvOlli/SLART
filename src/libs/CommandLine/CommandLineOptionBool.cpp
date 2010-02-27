@@ -6,7 +6,16 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "CommandLineOptionBool.hpp"
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
 
 
 CommandLineOptionBool::CommandLineOptionBool( const QString &name, const QString &desc, bool *value, bool setTo )

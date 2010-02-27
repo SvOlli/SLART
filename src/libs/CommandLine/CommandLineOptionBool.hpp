@@ -9,7 +9,21 @@
 #ifndef COMMANDLINEOPTIONBOOL_HPP
 #define COMMANDLINEOPTIONBOOL_HPP COMMANDLINEOPTIONBOOL_HPP
 
+/* base class */
 #include "CommandLineOption.hpp"
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
+
 
 class CommandLineOptionBool : public CommandLineOption
 {

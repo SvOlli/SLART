@@ -8,7 +8,21 @@
 #ifndef COMMANDLINEOPTIONSTRING_HPP
 #define COMMANDLINEOPTIONSTRING_HPP COMMANDLINEOPTIONSTRING_HPP
 
+/* base class */
 #include "CommandLineOption.hpp"
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
+
 
 class CommandLineOptionString : public CommandLineOption
 {

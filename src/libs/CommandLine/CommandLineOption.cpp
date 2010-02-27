@@ -6,7 +6,17 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "CommandLineOption.hpp"
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
 
 
 CommandLineOption::CommandLineOption( const QString &name, const QString &type, const QString &desc )

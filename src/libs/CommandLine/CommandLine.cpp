@@ -6,14 +6,24 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
+#include "CommandLine.hpp"
+
+/* system headers */
+
+/* Qt headers */
 #include <QCoreApplication>
 #include <QStringList>
 
-#include "CommandLine.hpp"
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 #include "CommandLineOptionBool.hpp"
 #include "CommandLineOptionString.hpp"
-
-#include <QtDebug>
 
 
 CommandLine::CommandLine()

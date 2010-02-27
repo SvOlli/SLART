@@ -9,8 +9,18 @@
 #ifndef COMMANDLINE_HPP
 #define COMMANDLINE_HPP COMMANDLINE_HPP
 
+/* system headers */
+
+/* Qt headers */
 #include <QStringList>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 class CommandLineOption;
 
 
