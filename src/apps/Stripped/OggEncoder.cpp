@@ -71,9 +71,18 @@ bool OggEncoder::initialize( const QString &fileName )
       return false;
    }
    mIsInit = false;
-   mQuality = 0.4;
    vorbis_info_init( &mVorbisInfo );
    vorbis_comment_init( &mVorbisComment );
+
+   for( int i = 0; i < mTagList.count(); i++ )
+   {
+      if( !mTagList.valueAt(i).isEmpty() )
+      {
+         ::vorbis_comment_add_tag( &mVorbisComment,
+                                    mTagList.tagAt(i).toUtf8().data(),
+                                    mTagList.valueAt(i).toUtf8().data() );
+      }
+   }
    return true;
 }
 
@@ -141,15 +150,6 @@ bool OggEncoder::oggInit()
       }
    }
 
-   for( int i = 0; i < mTagList.count(); i++ )
-   {
-      if( !mTagList.valueAt(i).isEmpty() )
-      {
-         ::vorbis_comment_add_tag( &mVorbisComment,
-                                    mTagList.tagAt(i).toUtf8().data(),
-                                    mTagList.valueAt(i).toUtf8().data() );
-      }
-   }
    return true;
 }
 
