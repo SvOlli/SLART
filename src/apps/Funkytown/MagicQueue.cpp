@@ -6,12 +6,12 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "MagicQueue.hpp"
 
-#include "ConfigDialog.hpp"
-#include "MySettings.hpp"
-#include "TheMagic.hpp"
+/* system headers */
 
+/* Qt headers */
 #include <QBuffer>
 #include <QDir>
 #include <QFile>
@@ -19,9 +19,19 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 
-#include "Trace.hpp"
+/* local library headers */
+#include <MySettings.hpp>
+
+/* local headers */
+#include "ConfigDialog.hpp"
+#include "TheMagic.hpp"
+
 
 #define USE_TRACE 0
+
+#if USE_TRACE
+#include <Trace.hpp>
+#endif
 
 
 MagicQueue::MagicQueue( QWidget *parent )

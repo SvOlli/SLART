@@ -6,23 +6,32 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "TheMagic.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QBuffer>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 
+/* local library headers */
+#include <MySettings.hpp>
+#include <Satellite.hpp>
+
+/* local headers */
 #include "ConfigDialog.hpp"
 #include "MagicQueue.hpp"
-#include "MySettings.hpp"
-#include "Satellite.hpp"
-
-#include "Trace.hpp"
 
 #define USE_TRACE 0
 
 #define RTMP_TO_STDOUT 0
+
+#if USE_TRACE
+#include <Trace.hpp>
+#endif
 
 
 TheMagic::TheMagic( MagicQueue *magicQueue )

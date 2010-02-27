@@ -9,12 +9,25 @@
 #ifndef MAGICQUEUE_HPP
 #define MAGICQUEUE_HPP MAGICQUEUE_HPP
 
-#include <QList>
+/* base class */
 #include <QListWidget>
 
-#define LIST_NEEDS_FIXING 0
+/* system headers */
 
+/* Qt headers */
+#include <QList>
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 class TheMagic;
+
+
+#define LIST_NEEDS_FIXING 0
 
 
 class MagicQueue : public QListWidget

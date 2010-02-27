@@ -9,16 +9,29 @@
 #ifndef THEMAGIC_HPP
 #define THEMAGIC_HPP THEMAGIC_HPP
 
+/* base class */
+#include <QObject>
+
+/* system headers */
+
+/* Qt headers */
 #include <QStringList>
 #include <QHttp>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QBuffer;
 class QFile;
 class QListWidget;
 class QListWidgetItem;
 
+/* forward declaration of local classes */
 class MagicQueue;
 class Satellite;
+
 
 class TheMagic : public QObject
 {

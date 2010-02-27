@@ -6,11 +6,18 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "CookieJar.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QStringList>
 
-#include "Trace.hpp"
+/* local library headers */
+
+/* local headers */
+
 
 
 CookieJar::CookieJar()

@@ -9,7 +9,21 @@
 #ifndef COOKIE_HPP
 #define COOKIE_HPP COOKIE_HPP
 
+/* base class */
+
+/* system headers */
+
+/* Qt headers */
 #include <QString>
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
+
 
 class Cookie
 {

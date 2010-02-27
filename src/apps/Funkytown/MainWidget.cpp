@@ -6,18 +6,23 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#include <unistd.h>
-
+/* class declaration */
 #include "MainWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 #include <QtNetwork>
+
+/* local library headers */
+#include <DownloadHandler.hpp>
+#include <MySettings.hpp>
+
+/* local headers */
 #include "ConfigDialog.hpp"
 #include "MainWindow.hpp"
-#include "MySettings.hpp"
-#include "DownloadHandler.hpp"
 
-#include "Trace.hpp"
 
 MainWidget::MainWidget( QWidget *parent )
 : QWidget( parent )

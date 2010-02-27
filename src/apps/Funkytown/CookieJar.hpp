@@ -9,11 +9,23 @@
 #ifndef COOKIEJAR_HPP
 #define COOKIEJAR_HPP COOKIEJAR_HPP
 
+/* base class */
+
+/* system headers */
+
+/* Qt headers */
 #include <QStringList>
 
+/* local library headers */
+
+/* local headers */
 #include "Cookie.hpp"
 
+/* forward declaration of Qt classes */
 class QString;
+
+/* forward declaration of local classes */
+
 
 class CookieJar
 {

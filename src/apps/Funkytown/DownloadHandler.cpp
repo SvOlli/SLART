@@ -6,20 +6,30 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "DownloadHandler.hpp"
-#include "MySettings.hpp"
-#include "ConfigDialog.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 #include <QtNetwork>
 
+/* local library headers */
+#include <MySettings.hpp>
+#include <ScrollLine.hpp>
+
+/* local headers */
+#include "ConfigDialog.hpp"
 #include "MagicQueue.hpp"
-#include "ScrollLine.hpp"
 #include "TheMagic.hpp"
 
-#include "Trace.hpp"
 
 #define USE_TRACE 0
+
+#if USE_TRACE
+#include <Trace.hpp>
+#endif
 
 
 DownloadHandler::DownloadHandler( QWidget *parent )

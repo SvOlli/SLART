@@ -9,13 +9,21 @@
 #ifndef DOWNLOADHANDLER_HPP
 #define DOWNLOADHANDLER_HPP DOWNLOADHANDLER_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
 #include <QStringList>
 
-#include "ProxyWidget.hpp"
+/* local library headers */
+#include <ProxyWidget.hpp>
+
+/* local headers */
 #include "CookieJar.hpp"
 
+/* forward declaration of Qt classes */
 class QCheckBox;
 class QHttp;
 class QHttpResponseHeader;
@@ -24,6 +32,7 @@ class QProgressBar;
 class QTimer;
 class QVBoxLayout;
 
+/* forward declaration of local classes */
 class MagicQueue;
 class ScrollLine;
 class TheMagic;

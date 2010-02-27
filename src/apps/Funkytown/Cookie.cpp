@@ -6,9 +6,16 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "Cookie.hpp"
 
-#include "Trace.hpp"
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
 
 
 Cookie::Cookie( const QString domain,

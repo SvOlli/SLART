@@ -6,18 +6,19 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#include <unistd.h>
+/* system headers */
 
+/* Qt headers */
 #include <QApplication>
 #include <QFileInfo>
 
-#include "MainWindow.hpp"
+/* local library headers */
+#include <MainWindow.hpp>
+#include <MySettings.hpp>
+#include <SorcererLoader.hpp>
+
+/* local headers */
 #include "MainWidget.hpp"
-#include "MySettings.hpp"
-
-#include "SorcererLoader.hpp"
-
-//#include "Trace.hpp"
 
 
 int main(int argc, char *argv[])

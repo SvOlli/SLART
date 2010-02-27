@@ -9,15 +9,26 @@
 #ifndef CONFIGDIALOG_HPP
 #define CONFIGDIALOG_HPP CONFIGDIALOG_HPP
 
+/* base class */
 #include <QDialog>
 
-#include "ProxyWidget.hpp"
+/* system headers */
 
+/* Qt headers */
+
+/* local library headers */
+#include <ProxyWidget.hpp>
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QCheckBox;
 class QLabel;
 class QListWidget;
 class QPushButton;
 class QTextBrowser;
+
+/* forward declaration of local classes */
 class GlobalConfigWidget;
 
 
