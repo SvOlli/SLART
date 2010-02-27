@@ -8,6 +8,8 @@ TARGET = Creep
 TEMPLATE = app
 QT -= gui
 QT += network
+
+INCLUDEPATH += ../../libs/Common
 LIBS += -llirc_client
 
 include ( ../../config.pri )

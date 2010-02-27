@@ -6,16 +6,18 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-//#include <unistd.h>
-
+/* system headers */
 #include <lirc/lirc_client.h>
+
+/* Qt headers */
 #include <QByteArray>
 #include <QString>
 #include <QSettings>
 #include <QHostAddress>
 #include <QTcpSocket>
 
-#include "../../libs/Common/Satellite.hpp"
+/* local library headers */
+#include <Satellite.hpp>
 
 
 static char GROUPNAME[] = "SLART";
