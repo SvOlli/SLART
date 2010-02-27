@@ -15,6 +15,8 @@
 #include "Trace.hpp"
 
 
+
+
 CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpToc( toc )
@@ -37,6 +39,12 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
 , mpLabelTrackTitle( new QLabel( tr("Title"), this ) )
 , mpLabelTrackYear( new QLabel( tr("Year"), this ) )
 , mpLabelTrackPlaytime( new QLabel( tr("Playtime"), this ) )
+, mpTrackNr( 0 )
+, mpEnqueueTrack( 0 )
+, mpTrackArtist( 0 )
+, mpTrackTitle( 0 )
+, mpTrackYear( 0 )
+, mpTrackPlaytime( 0 )
 , mpSplitMode( new QComboBox( this ) )
 , mpSplitButton( new QPushButton( tr("Split Titles"), this ) )
 , mpToggleRipButton( new QPushButton( tr("Toggle Rip"), this ) )
