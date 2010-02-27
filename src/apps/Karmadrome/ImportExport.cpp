@@ -6,18 +6,23 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "ImportExport.hpp"
-#include "Database.hpp"
-#include "TrackInfo.hpp"
 
+/* system headers */
+#include <iostream>
+
+/* Qt headers */
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QString>
 
-#include <iostream>
+/* local library headers */
+#include <Database.hpp>
+#include <TrackInfo.hpp>
 
-#include "Trace.hpp"
+/* local headers */
 
 
 ImportExport::ImportExport( Database *database )

@@ -9,8 +9,18 @@
 #ifndef CONFIGDIALOG_HPP
 #define CONFIGDIALOG_HPP CONFIGDIALOG_HPP
 
+/* base class */
 #include <QDialog>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QCheckBox;
 class QComboBox;
 class QDoubleSpinBox;
@@ -18,6 +28,7 @@ class QLabel;
 class QLineEdit;
 class QSpinBox;
 
+/* forward declaration of local classes */
 class ConfigNotifyWidget;
 class GlobalConfigWidget;
 class ProxyWidget;

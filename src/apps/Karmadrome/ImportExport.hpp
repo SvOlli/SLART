@@ -9,9 +9,22 @@
 #ifndef IMPORTEXPORT_HPP
 #define IMPORTEXPORT_HPP IMPORTEXPORT_HPP
 
+/* base class */
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+class QString;
+
+/* forward declaration of local classes */
 class Database;
 
-class QString;
 
 
 class ImportExport

@@ -9,13 +9,24 @@
 #ifndef BUTTONSWIDGET_HPP
 #define BUTTONSWIDGET_HPP BUTTONSWIDGET_HPP
 
+/* base class */
 #include <QGroupBox>
 
+/* system headers */
+
+/* Qt headers */
 #include <QList>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QGridLayout;
 class QPushButton;
 class QSignalMapper;
+
+/* forward declaration of local classes */
 
 
 class ButtonsWidget : public QGroupBox

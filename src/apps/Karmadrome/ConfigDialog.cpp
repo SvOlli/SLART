@@ -6,14 +6,21 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "ConfigDialog.hpp"
-#include "MySettings.hpp"
-#include "GlobalConfigWidget.hpp"
-#include "AboutWidget.hpp"
-#include "WidgetShot.hpp"
 
+/* system headers */
 
+/* Qt headers */
 #include <QtGui>
+
+/* local library headers */
+#include <AboutWidget.hpp>
+#include <GlobalConfigWidget.hpp>
+#include <MySettings.hpp>
+#include <WidgetShot.hpp>
+
+/* local headers */
 
 
 ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )

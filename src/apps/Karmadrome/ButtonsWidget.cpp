@@ -6,11 +6,19 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "ButtonsWidget.hpp"
-#include "MySettings.hpp"
-#include "ConfigDialog.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
+
+/* local library headers */
+
+/* local headers */
+#include "ConfigDialog.hpp"
+#include "MySettings.hpp"
 
 
 ButtonsWidget::ButtonsWidget( QWidget *parent )
