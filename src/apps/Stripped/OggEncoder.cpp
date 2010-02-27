@@ -37,6 +37,7 @@ OggEncoder::OggEncoder( QWidget *parent )
 #else
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
+   mainLayout->addWidget( new QLabel( tr("Quality:"), this ) );
    mainLayout->addWidget( mpQuality );
 
    setLayout( mainLayout );
