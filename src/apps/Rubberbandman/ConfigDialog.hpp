@@ -71,7 +71,7 @@ private:
 /* defaults */
 #define VALUE_AUTORESCAN      value( "AutoRescan", true ).toBool()
 #define VALUE_CURRENTTAB      value( "CurrentTab", 0 ).toInt()
-#define VALUE_FILEEXTENSIONS  value( "FileExtensions", QStringList() << "*.mp3" << "*.ogg" << "*.flac" ).toStringList()
+#define VALUE_FILEEXTENSIONS  value( "FileExtensions", QStringList() << "*.mp3" << "*.ogg" << "*.oga" << "*.flac" ).toStringList()
 #define VALUE_MUSICBASE       value( "MusicBase", QString("/") ).toString()
 #define VALUE_PLAYINGPATTERN  value( "PlayingPattern", "NP: |$ARTIST| - |$TITLE|" ).toString()
 #define VALUE_ROOTDIRECTORY   value( "RootDirectory", QString("/") ).toString()
