@@ -73,6 +73,7 @@ private:
 #define VALUE_DIRECTORY      value( "Directory", QDir::current().absolutePath() ).toString()
 #define VALUE_ENCODER        value( "Encoder", QString() ).toString()
 #define VALUE_FLACQUALITY    value( "FlacQuality", 5 ).toInt()
+#define VALUE_FLACUSEOGA     value( "FlacUseOga", false ).toBool()
 #define VALUE_OGGQUALITY     value( "OggQuality", 0.4 ).toDouble()
 #define VALUE_STYLESHEET     value( "StyleSheet", QString() ).toString()
 

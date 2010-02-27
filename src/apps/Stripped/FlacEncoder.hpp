@@ -16,6 +16,7 @@
 
 #include <QWidget>
 
+class QCheckBox;
 class QSpinBox;
 
 
@@ -43,12 +44,13 @@ private:
    FlacEncoder &operator=( const FlacEncoder &other );
 
    QSpinBox             *mpQuality;
-   bool                 mUseOggContainer;
+   QCheckBox            *mpUseOga;
    FLAC::Encoder::File  *mpEncoder;
    FLAC__StreamMetadata *mpMetadata;
    FLAC__int32          *mpPcm;
    int                  mSize;
    int                  mQuality;
+   bool                 mUseOga;
 };
 
 #endif

@@ -21,12 +21,16 @@
 FlacEncoder::FlacEncoder( QWidget *parent )
 : Encoder( parent, tr("FLAC") )
 , mpQuality( new QSpinBox( this ) )
-, mUseOggContainer( false )
+, mpUseOga( new QCheckBox( tr("Use Ogg Container"), this ) )
 , mpEncoder( 0 )
 , mpMetadata( 0 )
 , mpPcm( 0 )
 , mSize( 0 )
+, mQuality( 0 )
+, mUseOga( false )
 {
+   qsrand( time((time_t*)0) );
+
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
    mpQuality->setSingleStep( 1 );
    mpQuality->setMinimum( 0 );
@@ -37,7 +41,9 @@ FlacEncoder::FlacEncoder( QWidget *parent )
 #else
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
+   mainLayout->addWidget( new QLabel( tr("Compression Level:"), this ) );
    mainLayout->addWidget( mpQuality );
+   mainLayout->addWidget( mpUseOga );
 
    setLayout( mainLayout );
 
@@ -67,15 +73,23 @@ FlacEncoder::~FlacEncoder()
 
 void FlacEncoder::readSettings()
 {
-   mQuality = MySettings().VALUE_FLACQUALITY;
+   MySettings settings;
+   mQuality = settings.VALUE_FLACQUALITY;
+   mUseOga  = settings.VALUE_FLACUSEOGA;
    mpQuality->setValue( mQuality );
+   mpUseOga->setChecked( mUseOga );
 }
 
 
 void FlacEncoder::writeSettings()
 {
+   MySettings settings;
    mQuality = mpQuality->value();
-   MySettings().setValue( "FlacQuality", mQuality );
+   mUseOga  = mpUseOga->isChecked();
+   settings.setValue( "FlacQuality", mQuality );
+   settings.setValue( "FlacUseOga", mUseOga );
+   delete mpEncoder;
+   mpEncoder = 0;
 }
 
 
@@ -90,15 +104,13 @@ bool FlacEncoder::initialize( const QString &fileName )
       mpEncoder = new FLAC::Encoder::File();
    }
 
-   if( mUseOggContainer )
+   if( mUseOga )
    {
       if( !Encoder::initialize( fileName, ".oga" ) )
       {
          return false;
-         long serial_number( 0 );
-         /* TODO: find out how to determine serial number */
-         mpEncoder->set_ogg_serial_number(serial_number);
       }
+      ok &= mpEncoder->set_ogg_serial_number( qrand() );
    }
    else
    {
@@ -131,7 +143,7 @@ bool FlacEncoder::initialize( const QString &fileName )
 
    ok &= mpEncoder->set_metadata(metadata, 1);
 
-   if( mUseOggContainer )
+   if( mUseOga )
    {
       /* not working yet, need to obtain ogg_serial */
       mpEncoder->set_ogg_serial_number( 0 );
