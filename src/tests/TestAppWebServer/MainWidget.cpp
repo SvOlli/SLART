@@ -6,18 +6,25 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "MainWidget.hpp"
 
-#include <QtGui>
+/* system headers */
 
+/* Qt headers */
+#include <QtGui>
 #include <QHttpRequestHeader>
 #include <QHttpResponseHeader>
 #include <QTcpSocket>
 
+/* local library headers */
 #include <Database.hpp>
 #include <Satellite.hpp>
 #include <WebServer.hpp>
 #include <MySettings.hpp>
+
+/* local headers */
+
 
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )

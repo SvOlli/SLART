@@ -9,12 +9,21 @@
 #ifndef MAINWIDGET_HPP
 #define MAINWIDGET_HPP MAINWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
 #include <QByteArray>
 #include <QList>
+
+/* local library headers */
 #include <TrackInfo.hpp>
 
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QIcon;
 class QListWidget;
 class QString;
@@ -22,9 +31,11 @@ class QHttpRequestHeader;
 class QHttpResponseHeader;
 class QTcpSocket;
 
+/* forward declaration of local classes */
 class Database;
 class Satellite;
 class WebServer;
+
 
 class MainWidget : public QWidget
 {

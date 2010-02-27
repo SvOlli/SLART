@@ -6,10 +6,16 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
-#include "MainWindow.hpp"
-#include "MainWidget.hpp"
+/* system headers */
 
+/* Qt headers */
 #include <QtGui>
+
+/* local library headers */
+#include <MainWindow.hpp>
+
+/* local headers */
+#include "MainWidget.hpp"
 
 
 int main(int argc, char *argv[])
