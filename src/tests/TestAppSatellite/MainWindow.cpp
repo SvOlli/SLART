@@ -5,10 +5,19 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
+/* class declaration */
 #include "MainWindow.hpp"
+
+/* system headers */
+
+/* Qt headers */
+#include <QtGui>
+
+/* local library headers */
+
+/* local headers */
 #include "MainWidget.hpp"
 
-#include <QtGui>
 
 
 MainWindow::MainWindow( QWidget *parent, Qt::WindowFlags flags )

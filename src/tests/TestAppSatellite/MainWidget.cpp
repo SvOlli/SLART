@@ -5,12 +5,19 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
+/* base class */
 #include "MainWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
-#include "Satellite.hpp"
-#include "SatelliteServer.hpp"
+/* local library headers */
+#include <Satellite.hpp>
+#include <SatelliteServer.hpp>
+
+/* local headers */
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )

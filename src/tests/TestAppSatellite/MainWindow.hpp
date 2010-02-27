@@ -8,11 +8,22 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP MAINWINDOW_HPP
 
-
+/* base class */
 #include <QMainWindow>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QApplication;
 class QDir;
+
+/* forward declaration of local classes */
 
 
 class MainWindow : public QMainWindow

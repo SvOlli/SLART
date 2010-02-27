@@ -5,10 +5,17 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
+/* system headers */
+
+/* Qt headers */
+#include <QtGui>
+
+/* local library headers */
+
+/* local headers */
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
 
-#include <QtGui>
 
 
 int main(int argc, char *argv[])

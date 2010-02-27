@@ -8,14 +8,26 @@
 #ifndef MAINWIDGET_HPP
 #define MAINWIDGET_HPP MAINWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QIcon;
 class QString;
 class QListWidget;
 class QLineEdit;
 
+/* forward declaration of local classes */
 class Satellite;
+
 
 class MainWidget : public QWidget
 {
