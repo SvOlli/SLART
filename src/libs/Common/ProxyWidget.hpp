@@ -9,13 +9,25 @@
 #ifndef PROXYWIDGET_HPP
 #define PROXYWIDGET_HPP PROXYWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QHttp;
 class QLabel;
 class QLineEdit;
 class QPushButton;
 class QSpinBox;
+
+/* forward declaration of local classes */
 
 
 class ProxyWidget : public QWidget
@@ -27,6 +39,8 @@ public:
    
    /* set proxy in QHttp class */
    static void setProxy( QHttp *http );
+   /* set proxy in QNetworkAccessManager class */
+   static void setProxy( QNetworkAccessManager *nam );
    /* read settings from storage */
    void readSettings();
    /* write settings from storage */

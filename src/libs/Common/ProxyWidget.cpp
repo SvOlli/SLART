@@ -6,11 +6,19 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "ProxyWidget.hpp"
-#include "MySettings.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 #include <QHttp>
+
+/* local library headers */
+
+/* local headers */
+#include "MySettings.hpp"
 
 
 ProxyWidget::ProxyWidget( QWidget *parent )
@@ -160,6 +168,32 @@ void ProxyWidget::setProxy( QHttp *http )
       }
    }
    http->setProxy( host, port, login, password );
+}
+
+
+void ProxyWidget::setProxy( QNetworkAccessManager *nam )
+{
+   MySettings settings( "Global" );
+
+   QNetworkProxy::ProxyType   type = QNetworkProxy::NoProxy;
+   QString                    host;
+   int                        port = 0;
+   QString                    login;
+   QString                    password;
+
+   settings.beginGroup( "HTTPProxy" );
+   if( settings.value("Enable", false).toBool() )
+   {
+      type = QNetworkProxy::HttpCachingProxy;
+      host = settings.value("Host", QString("proxy") ).toString();
+      port = settings.value("Port", 8080).toInt();
+      if( settings.value("Auth", false).toBool() )
+      {
+         login    = settings.value("Login",    QString("login") ).toString();
+         password = settings.value("Password", QString("password") ).toString();
+      }
+   }
+   nam->setProxy( QNetworkProxy( type, host, port, login, password ) );
 }
 
 
