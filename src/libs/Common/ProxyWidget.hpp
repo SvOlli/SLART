@@ -24,6 +24,9 @@
 class QHttp;
 class QLabel;
 class QLineEdit;
+#if QT_VERSION >= 0x040400
+class QNetworkAccessManager;
+#endif
 class QPushButton;
 class QSpinBox;
 
@@ -39,8 +42,10 @@ public:
    
    /* set proxy in QHttp class */
    static void setProxy( QHttp *http );
+#if QT_VERSION >= 0x040400
    /* set proxy in QNetworkAccessManager class */
    static void setProxy( QNetworkAccessManager *nam );
+#endif
    /* read settings from storage */
    void readSettings();
    /* write settings from storage */
