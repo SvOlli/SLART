@@ -55,7 +55,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpParent->setAttribute( Qt::WA_AlwaysShowToolTips, true );
    mpParent->setWindowIcon( QIcon( ":/PartymanSmile.png" ) );
 
-#if (!defined _WIN32) || (defined __MINGW32__)
+#if (!defined Q_OS_WIN32) || (defined __MINGW32__)
    int i;
    for( i = 1; i < 32; i++ )
    {
@@ -109,7 +109,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 MainWidget::~MainWidget()
 {
    mpMainWidget = 0;
-#if (!defined _WIN32) || (defined __MINGW32__)
+#if (!defined Q_OS_WIN32) || (defined __MINGW32__)
    int i;
    for( i = 1; i < 32; i++ )
    {

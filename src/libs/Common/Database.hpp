@@ -78,7 +78,7 @@ private:
    /* generate the filename for database */
    static QString getDatabaseFileName()
    {
-#ifdef _WIN32
+#ifdef Q_OS_WIN32
       QString slartdb( "/slart.db" );
 #else
       QString slartdb( "/.slartdb" );
