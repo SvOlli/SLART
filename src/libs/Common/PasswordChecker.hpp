@@ -9,9 +9,21 @@
 #ifndef PASSWORDCHECKER_HPP
 #define PASSWORDCHECKER_HPP
 
+/* base class */
 #include <QObject>
 
+/* system headers */
+
+/* Qt headers */
 #include <QString>
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 
 
 class PasswordChecker : public QObject
@@ -29,18 +41,19 @@ public:
    bool lock();
    /*  */
    bool unlock();
-   /* bad workaround: will not be linked in when declared private */
-   static PasswordChecker  *gpPasswordChecker;
 
 signals:
    void enabled( bool enabled );
 
 private:
    /*  */
-   PasswordChecker();
+   PasswordChecker( QWidget *parent = 0 );
    virtual ~PasswordChecker();
    PasswordChecker( const PasswordChecker &other );
    PasswordChecker &operator=( const PasswordChecker &other );
+
+   /*  */
+   static PasswordChecker  *gpPasswordChecker;
 
    QWidget                 *mpParent;
    QString                 mPassword;

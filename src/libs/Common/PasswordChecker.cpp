@@ -6,11 +6,21 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* base class */
 #include "PasswordChecker.hpp"
 
+/* class declaration */
+
+/* system headers */
+
+/* Qt headers */
 #include <QInputDialog>
 
+/* local library headers */
 
+/* local headers */
+
+/* class variables */
 PasswordChecker *PasswordChecker::gpPasswordChecker = 0;
 
 
@@ -18,15 +28,15 @@ PasswordChecker *PasswordChecker::get( QWidget *parent )
 {
    if( !gpPasswordChecker )
    {
-      gpPasswordChecker = new PasswordChecker();
+      gpPasswordChecker = new PasswordChecker( parent );
    }
-   gpPasswordChecker->mpParent = parent;
    return gpPasswordChecker;
 }
 
 
-PasswordChecker::PasswordChecker()
-: QObject()
+PasswordChecker::PasswordChecker( QWidget *parent )
+: QObject( parent )
+, mpParent( parent )
 , mPassword()
 , mLockHeader()
 , mLockMessage()

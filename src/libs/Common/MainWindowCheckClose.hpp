@@ -9,10 +9,22 @@
 #ifndef MAINWINDOWCHECKCLOSE_HPP
 #define MAINWINDOWCHECKCLOSE_HPP
 
+/* base class */
 #include "MainWindow.hpp"
 
+/* system headers */
+
+/* Qt headers */
 class QCloseEvent;
-class QWidget;
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
+
 
 class MainWindowCheckClose : public MainWindow
 {

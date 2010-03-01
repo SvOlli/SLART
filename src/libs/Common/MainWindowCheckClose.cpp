@@ -6,10 +6,17 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "MainWindowCheckClose.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QCloseEvent>
 
+/* local library headers */
+
+/* local headers */
 #include "PasswordChecker.hpp"
 
 
