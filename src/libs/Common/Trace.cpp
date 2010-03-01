@@ -7,19 +7,30 @@
  */
 
 #include "Trace.hpp"
+/* class declaration */
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* class variables */
 volatile unsigned int Trace::mDepth = 0;
+
 
 Trace::Trace( const QString &className )
 : mClassName( className )
 {
 mDepth++;
-qDebug() << QString(mDepth,'>').toLocal8Bit().data() << mClassName.toLocal8Bit().data();
+qDebug() << QString(mDepth,'>').toLocal8Bit().constData() << mClassName.toLocal8Bit().constData();
 }
 
 Trace::~Trace()
 {
-qDebug() << QString(mDepth,'<').toLocal8Bit().data() << mClassName.toLocal8Bit().data();
+qDebug() << QString(mDepth,'<').toLocal8Bit().constData() << mClassName.toLocal8Bit().constData();
 mDepth--;
 }
 
