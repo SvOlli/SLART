@@ -7,7 +7,7 @@
  */
 
 /* system headers */
-#include <stdlib.h>
+#include <cstdlib>
 
 /* Qt headers */
 #include <QtGui>

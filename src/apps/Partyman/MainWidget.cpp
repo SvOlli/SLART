@@ -18,7 +18,7 @@
 
 #include <QtGui>
 
-#include <signal.h>
+#include <csignal>
 
 #include "Trace.hpp"
 

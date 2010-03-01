@@ -7,7 +7,9 @@
  */
 
 /* system headers */
+extern "C" {
 #include <lirc/lirc_client.h>
+}
 
 /* Qt headers */
 #include <QByteArray>

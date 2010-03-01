@@ -10,8 +10,6 @@
 
 #include "Trace.hpp"
 
-#include <stdlib.h>
-
 #include <QDir>
 #include <QFileInfoList>
 

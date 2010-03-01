@@ -7,7 +7,7 @@
  */
 
 #include <QtGui>
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "ConfigDialog.hpp"
 #include "Database.hpp"

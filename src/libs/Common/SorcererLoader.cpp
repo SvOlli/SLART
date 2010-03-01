@@ -14,7 +14,7 @@
 #include <QPluginLoader>
 #include <QStringList>
 
-#include <stdlib.h> // exit()
+#include <cstdlib> // exit()
 
 #include "../../libs/Sorcerer/Interface.hpp"
 #include "MySettings.hpp"
@@ -143,7 +143,7 @@ bool SorcererLoader::tryLoading( QApplication *app, const QDir &dir )
 }
 
 
-void SorcererLoader::cleanupSettings()
+void SorcererLoader::cleanupSettings( bool withDefaults )
 {
    MySettings Global("Global");
    Global.remove("UseGlobalStyleSheetFile");
@@ -172,10 +172,17 @@ void SorcererLoader::cleanupSettings()
    MySettings Stripped("Stripped");
    cleanupSettings( &Stripped );
 
-   /* Create "hidden" entries, that can not be set via dialogs */
-   setDefault( &Global, "ShowCleanupDialog", false );
+   if( !withDefaults )
+   {
+      return;
+   }
 
+   /* Create "hidden" entries, that can not be set via dialogs */
    setDefault( &Funkytown, "UserAgent", "Funkytown" );
+
+   QStringList list;
+   list << "*.mp3" << "*.ogg" << "*.flac" << "*.oga";
+   setDefault( &Rubberbandman, "FileExtensions", list );
 }
 
 

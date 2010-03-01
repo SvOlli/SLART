@@ -13,15 +13,6 @@
 
 #include "Trace.hpp"
 
-extern "C"
-{
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <time.h>
-#include <math.h>
-}
-
 #include <QtGui>
 
 OggEncoder::OggEncoder( QWidget *parent )
@@ -72,8 +63,8 @@ bool OggEncoder::initialize( const QString &fileName )
       return false;
    }
    mIsInit = false;
-   vorbis_info_init( &mVorbisInfo );
-   vorbis_comment_init( &mVorbisComment );
+   ::vorbis_info_init( &mVorbisInfo );
+   ::vorbis_comment_init( &mVorbisComment );
 
    for( int i = 0; i < mTagList.count(); i++ )
    {
@@ -118,24 +109,24 @@ bool OggEncoder::oggInit()
       return false;
    }
    
-   vorbis_analysis_init( &mVorbisDspState, &mVorbisInfo );
-   vorbis_block_init( &mVorbisDspState, &mVorbisBlock );
+   ::vorbis_analysis_init( &mVorbisDspState, &mVorbisInfo );
+   ::vorbis_block_init( &mVorbisDspState, &mVorbisBlock );
 
    srand(time(NULL));
-   ogg_stream_init( &mOggPagegStream, rand() );
+   ::ogg_stream_init( &mOggPagegStream, rand() );
    
    ogg_packet header;
    ogg_packet header_comm;
    ogg_packet header_code;
 
-   vorbis_analysis_headerout( &mVorbisDspState, &mVorbisComment, &header, &header_comm, &header_code );
-   ogg_stream_packetin( &mOggPagegStream, &header );
-   ogg_stream_packetin( &mOggPagegStream, &header_comm );
-   ogg_stream_packetin( &mOggPagegStream, &header_code );
+   ::vorbis_analysis_headerout( &mVorbisDspState, &mVorbisComment, &header, &header_comm, &header_code );
+   ::ogg_stream_packetin( &mOggPagegStream, &header );
+   ::ogg_stream_packetin( &mOggPagegStream, &header_comm );
+   ::ogg_stream_packetin( &mOggPagegStream, &header_code );
    
    for(;;)
    {
-      if( !ogg_stream_flush( &mOggPagegStream, &mOggPage ) )
+      if( !::ogg_stream_flush( &mOggPagegStream, &mOggPage ) )
       {
          break;
       }

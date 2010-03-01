@@ -9,8 +9,7 @@
 #ifndef OGGENCODER_HPP
 #define OGGENCODER_HPP OGGENCODER_HPP
 
-extern "C"
-{
+extern "C" {
 #include <vorbis/vorbisenc.h>
 }
 

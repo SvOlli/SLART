@@ -35,7 +35,7 @@ private:
    /*  */
    static bool tryLoading( QApplication *app, const QDir &dir );
    /*  */
-   static void cleanupSettings();
+   static void cleanupSettings( bool withDefaults = false );
    /*  */
    static void cleanupSettings( MySettings *settings );
    /*  */

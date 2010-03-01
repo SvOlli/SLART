@@ -10,10 +10,10 @@
 #define TRACE_HPP TRACE_HPP
 
 #include <QString>
-#include <qdebug.h>
+#include <QtDebug>
 
-#ifndef WIN32
-#include <signal.h>
+#ifndef Q_OS_WIN32
+#include <csignal>
 #define TRACEALERT ::raise(SIGUSR1);
 #else
 #define TRACEALERT qDebug() << "!!!" << __FILE__ << ":" << __LINE__;

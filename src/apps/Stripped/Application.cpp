@@ -9,11 +9,7 @@
 #include "MainWindow.hpp"
 #include "MainWidget.hpp"
 #include "MySettings.hpp"
-#if MAINWINDOW_SORCERER
-#include "Database.hpp"
-#endif
 
-//#include <unistd.h>
 #include <QtGui>
 
 #include "Trace.hpp"

@@ -14,7 +14,7 @@
 
 #include "Trace.hpp"
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <QtGui>
 

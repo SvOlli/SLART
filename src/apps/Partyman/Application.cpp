@@ -7,7 +7,7 @@
  */
 
 #include <QtGui>
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "MainWidget.hpp"
 #include "MainWindowCheckClose.hpp"
