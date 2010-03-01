@@ -9,14 +9,27 @@
 #ifndef OGGENCODER_HPP
 #define OGGENCODER_HPP OGGENCODER_HPP
 
+/* base class */
+#include "Encoder.hpp"
+
+/* system headers */
 extern "C" {
 #include <vorbis/vorbisenc.h>
 }
 
-#include "Encoder.hpp"
+/* Qt headers */
 
+/* local library headers */
 
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QDoubleSpinBox;
+
+/* forward declaration of local classes */
+
+
+
 
 
 class OggEncoder : public Encoder

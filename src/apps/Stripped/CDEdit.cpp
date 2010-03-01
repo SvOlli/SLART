@@ -6,13 +6,21 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "CDEdit.hpp"
+
+/* system headers */
+
+/* Qt headers */
+#include <QtGui>
+
+/* local library headers */
+#include <TagList.hpp>
+
+/* local headers */
 #include "CDToc.hpp"
 #include "CDDB.hpp"
-#include "TagList.hpp"
 
-#include <QtGui>
-#include "Trace.hpp"
 
 
 

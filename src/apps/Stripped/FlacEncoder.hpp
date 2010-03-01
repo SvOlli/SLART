@@ -9,15 +9,24 @@
 #ifndef FLACENCODER_HPP
 #define FLACENCODER_HPP FLACENCODER_HPP
 
+/* base class */
 #include "Encoder.hpp"
 
+/* system headers */
 #include "FLAC++/metadata.h"
 #include "FLAC++/encoder.h"
 
-#include <QWidget>
+/* Qt headers */
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QCheckBox;
 class QSpinBox;
+
+/* forward declaration of local classes */
 
 
 class FlacEncoder : public Encoder

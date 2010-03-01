@@ -6,13 +6,18 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#include "MainWindow.hpp"
-#include "MainWidget.hpp"
-#include "MySettings.hpp"
+/* system headers */
 
+/* Qt headers */
 #include <QtGui>
 
-#include "Trace.hpp"
+/* local library headers */
+#include <MainWindow.hpp>
+#include <MySettings.hpp>
+
+/* local headers */
+#include "MainWidget.hpp"
+
 
 int main(int argc, char *argv[])
 {

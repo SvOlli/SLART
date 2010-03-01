@@ -9,12 +9,22 @@
 #ifndef ENCODER_HPP
 #define ENCODER_HPP ENCODER_HPP
 
+/* base class */
 #include <QWidget>
 
-#include <QFile>
-#include <QByteArray>
+/* system headers */
 
+/* Qt headers */
+#include <QFile>
+
+/* local library headers */
 #include <TagList.hpp>
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 
 
 class Encoder : public QWidget

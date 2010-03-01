@@ -6,14 +6,20 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "CDDB.hpp"
-#include "CDToc.hpp"
-#include "ProxyWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 #include <QHttp>
 
-#include "Trace.hpp"
+/* local library headers */
+#include <ProxyWidget.hpp>
+
+/* local headers */
+#include "CDToc.hpp"
 
 
 CDDB::CDDB( CDToc *toc, QWidget *parent , Qt::WindowFlags flags )

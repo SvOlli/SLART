@@ -6,28 +6,35 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "WavEncoder.hpp"
-#include "TagList.hpp"
 
-#include "Trace.hpp"
+/* system headers */
 
+/* Qt headers */
 #include <QtGui>
+
+/* local library headers */
+#include <TagList.hpp>
+
+/* local headers */
+
 
 WavEncoder::WavEncoder( QWidget *parent )
 : Encoder( parent, tr("wav") )
 , mpWavHeader( new unsigned int[11] )
 {
-   mpWavHeader[ 0] = 0x46464952; // "RIFF"
-   mpWavHeader[ 1] = 0;          // wave size
-   mpWavHeader[ 2] = 0x45564157; // "WAVE"
-   mpWavHeader[ 3] = 0x20746D66; // "fmt "
-   mpWavHeader[ 4] = 0x00000010; // size of "fmt "-header
-   mpWavHeader[ 5] = 0x00020001; // format PCM / Stereo
-   mpWavHeader[ 6] = 44100;      // samplerate
-   mpWavHeader[ 7] = 44100 * 4;  // bytes per second
-   mpWavHeader[ 8] = 0x00100004; // 16 bit / bytes per sample
-   mpWavHeader[ 9] = 0x61746164; // "data"
-   mpWavHeader[10] = 0;          // data size
+   mpWavHeader[ 0] = qToBigEndian( 0x52494646 ); // "RIFF"
+   mpWavHeader[ 1] = 0;                          // wave size
+   mpWavHeader[ 2] = qToBigEndian( 0x57415645 ); // "WAVE"
+   mpWavHeader[ 3] = qToBigEndian( 0x666D7420 ); // "fmt "
+   mpWavHeader[ 4] = 0x00000010;                 // size of "fmt "-header
+   mpWavHeader[ 5] = 0x00020001;                 // format PCM / Stereo
+   mpWavHeader[ 6] = 44100;                      // samplerate
+   mpWavHeader[ 7] = 44100 * 4;                  // bytes per second
+   mpWavHeader[ 8] = 0x00100004;                 // 16 bit / bytes per sample
+   mpWavHeader[ 9] = qToBigEndian( 0x64617461 ); // "data"
+   mpWavHeader[10] = 0;                          // data size
 
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
    QLabel      *label      = new QLabel( tr("no config"), this );

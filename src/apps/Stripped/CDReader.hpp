@@ -9,24 +9,34 @@
 #ifndef CDREADER_HPP
 #define CDREADER_HPP CDREADER_HPP
 
+/* base class */
+#include <QWidget>
+
+/* system headers */
 extern "C" {
 #include <cdio/cdio.h>
 #include <cdio/paranoia.h>
 }
 
-#include <QWidget>
-
+/* Qt headers */
 #include <QString>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+class QCheckBox;
+class QComboBox;
+class QLabel;
 class QProgressBar;
-   
+
+/* forward declaration of local classes */
 class CDToc;
 class CDEdit;
 class Encoder;
-class QLabel;
-class QComboBox;
-class QCheckBox;
    
+
 class CDReader : public QWidget
 {
 Q_OBJECT

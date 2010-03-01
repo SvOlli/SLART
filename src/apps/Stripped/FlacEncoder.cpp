@@ -6,17 +6,22 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "FlacEncoder.hpp"
 
-#include "ConfigDialog.hpp"
-#include "MySettings.hpp"
-#include "TagList.hpp"
-
-#include "Trace.hpp"
-
+/* system headers */
 #include <cstdio>
 
+/* Qt headers */
 #include <QtGui>
+
+/* local library headers */
+#include <MySettings.hpp>
+#include <TagList.hpp>
+
+/* local headers */
+#include "ConfigDialog.hpp"
+
 
 FlacEncoder::FlacEncoder( QWidget *parent )
 : Encoder( parent, tr("FLAC") )

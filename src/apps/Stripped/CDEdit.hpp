@@ -9,8 +9,18 @@
 #ifndef CDEDIT_HPP
 #define CDEDIT_HPP CDEDIT_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QCheckBox;
 class QComboBox;
 class QGridLayout;
@@ -19,6 +29,7 @@ class QLineEdit;
 class QPushButton;
 class QScrollArea;
 
+/* forward declaration of local classes */
 class CDToc;
 class CDDB;
 

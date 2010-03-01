@@ -6,14 +6,20 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "Encoder.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QDir>
 
-#include "MySettings.hpp"
-#include "Satellite.hpp"
+/* local library headers */
+#include <MySettings.hpp>
+#include <Satellite.hpp>
 
-#include "Trace.hpp"
+/* local headers */
+
 
 Encoder::Encoder( QWidget *parent, const QString &encoderName )
 : QWidget( parent )

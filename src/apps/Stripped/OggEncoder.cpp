@@ -6,14 +6,21 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "OggEncoder.hpp"
-#include "MySettings.hpp"
-#include "ConfigDialog.hpp"
-#include "TagList.hpp"
 
-#include "Trace.hpp"
+/* system headers */
 
+/* Qt headers */
 #include <QtGui>
+
+/* local library headers */
+#include <MySettings.hpp>
+#include <ConfigDialog.hpp>
+#include <TagList.hpp>
+
+/* local headers */
+
 
 OggEncoder::OggEncoder( QWidget *parent )
 : Encoder( parent, tr("ogg") )

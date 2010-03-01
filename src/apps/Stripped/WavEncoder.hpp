@@ -9,9 +9,21 @@
 #ifndef WAVENCODER_HPP
 #define WAVENCODER_HPP WAVENCODER_HPP
 
+/* base class */
 #include "Encoder.hpp"
 
-#include <QWidget>
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
+
 
 
 class WavEncoder : public Encoder

@@ -9,15 +9,25 @@
 #ifndef CDDB_HPP
 #define CDDB_HPP CDDB_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
 #include <QMutex>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QComboBox;
 class QFile;
 class QHttp;
 class QLabel;
 
+/* forward declaration of local classes */
 class CDToc;
 
 

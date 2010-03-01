@@ -9,20 +9,24 @@
 #ifndef MAINWIDGET_HPP
 #define MAINWIDGET_HPP MAINWIDGET_HPP
 
-/* define the features of main window to be used */
-#define MAINWINDOW_SORCERER      0
-#define MAINWINDOW_CHANGETITLE   0
-#define MAINWINDOW_PROHIBITCLOSE 0
-#define MAINWIDGET_SCREENSHOT    0
-
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
 #include <QList>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QComboBox;
 class QPushButton;
 class QHBoxLayout;
 
+/* forward declaration of local classes */
 class CDReader;
 class CDToc;
 class CDDB;

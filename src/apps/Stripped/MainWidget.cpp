@@ -6,19 +6,24 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "MainWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
+/* local library headers */
+#include <MySettings.hpp>
+#include <Satellite.hpp>
+
+/* local headers */
+#include "CDDB.hpp"
+#include "CDEdit.hpp"
 #include "CDReader.hpp"
 #include "CDToc.hpp"
-#include "CDEdit.hpp"
-#include "CDDB.hpp"
 #include "ConfigDialog.hpp"
-#include "MySettings.hpp"
-#include "Satellite.hpp"
-
-#include "Trace.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )

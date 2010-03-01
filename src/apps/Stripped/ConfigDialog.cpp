@@ -6,20 +6,25 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "ConfigDialog.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
-#include "AboutWidget.hpp"
+/* local library headers */
+#include <AboutWidget.hpp>
+#include <GlobalConfigWidget.hpp>
+#include <MySettings.hpp>
+#include <ProxyWidget.hpp>
+
+/* local headers */
 #include "CDReader.hpp"
 #include "FlacEncoder.hpp"
-#include "GlobalConfigWidget.hpp"
-#include "MySettings.hpp"
 #include "OggEncoder.hpp"
-#include "ProxyWidget.hpp"
 #include "WavEncoder.hpp"
-
-#include "Trace.hpp"
 
 
 ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags flags )
