@@ -66,8 +66,12 @@ public slots:
    void cancel();
    
 signals:
+   /*  */
    void starting();
+   /*  */
    void stopping();
+   /*  */
+   void message( const QString &message );
    
 private:
    CDReader( const CDReader &other );
@@ -82,7 +86,6 @@ private:
    CDToc                *mpToc;
    CDEdit               *mpCDEdit;
    Encoder              *mpEncoder;
-   QLabel               *mpMessage;
    QProgressBar         *mpProgress;
    unsigned int         mCallbackFunction[13];
    QString              mDevice;

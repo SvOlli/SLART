@@ -52,6 +52,8 @@ public slots:
 signals:
    /* toc has been updated */
    void tocUpdated();
+   /*  */
+   void message( const QString &message );
    
 private:
    CDDB( const CDDB &other );

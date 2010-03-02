@@ -65,7 +65,8 @@ void CDDB::query( const QString &querystring )
    mMutex.lock();
    mRequestIsQuery = true;
    mpHits->clear();
-   mpCount->setText( tr("q:" ) );
+   mpCount->setText( tr("0:" ) );
+   emit message( tr("Querying CDDB.") );
    genericrequest( querystring );
 }
 
@@ -85,7 +86,7 @@ void CDDB::read( const QString &querystring )
         + ' ' + list.at(2)
         + ' ' + list.at(3);
    mRequestIsQuery = false;
-   mpCount->setText( tr("r:" ) );
+   emit message( tr("Reading data from CDDB.") );
    genericrequest( readheader );
 }
 
@@ -190,6 +191,7 @@ TRACEMSG << response.at(i);
       emit tocUpdated();
    }
    mpCount->setText( QString::number( mpHits->count() ) + ":" );
+   emit message( tr("Reading CDDB done.") );
 }
 
 

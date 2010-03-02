@@ -34,6 +34,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpCDDB( new CDDB( mpToc, this ) )
 , mpCDEdit( new CDEdit( mpToc, mpCDDB, this ) )
 , mpCDReader( new CDReader( mpToc, mpCDEdit, this ) )
+, mpMessage( new QLabel( this ) )
 , mpConfigDialog( new ConfigDialog( mpCDReader, this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpCancelButton( new QPushButton( tr("Cancel"), this ) )
@@ -75,6 +76,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mainLayout->addWidget( mpCDDB );
    mainLayout->addWidget( mpCDEdit );
    mainLayout->addWidget( mpCDReader );
+   mainLayout->addWidget( mpMessage );
    mainLayout->addLayout( mpButtonLayout );
    
    setLayout( mainLayout );
@@ -106,6 +108,11 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpCDReader, SIGNAL(stopping()),
             this, SLOT(finished()) );
    
+   connect( mpCDDB, SIGNAL(message(const QString &)),
+            this, SLOT(showMessage(const QString &)) );
+   connect( mpCDReader, SIGNAL(message(const QString &)),
+            this, SLOT(showMessage(const QString &)) );
+
    mpSettingsButton->setObjectName( QString("SettingsButton") );
    mpSatellite->restart();
 }
@@ -164,4 +171,10 @@ void MainWidget::finished()
    mpCDTextButton->setDisabled( false );
    mpRipButton->setDisabled( mpCDEdit->isEmpty() );
    mpEjectButton->setDisabled( false );
+}
+
+
+void MainWidget::showMessage( const QString &message )
+{
+   mpMessage->setText( message );
 }

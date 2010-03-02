@@ -28,7 +28,7 @@
 //#define TRACETEXT(x) TRACEMSG << cdtext_field2str( x ) << cdtext_get( x, cdtext )
 
 
-static CDReader *gCDReader0;
+static CDReader *gCDReader0 = 0;
 
 
 static void callback0( long inpos, ::paranoia_cb_mode_t function )
@@ -57,7 +57,6 @@ CDReader::CDReader( CDToc *toc, CDEdit *edit, QWidget *parent , Qt::WindowFlags 
 , mpParanoia( 0 )
 , mpToc( toc )
 , mpCDEdit( edit )
-, mpMessage( new QLabel( this ) )
 , mpProgress( new QProgressBar( this ) )
 {
    gCDReader0 = this;
@@ -71,7 +70,6 @@ CDReader::CDReader( CDToc *toc, CDEdit *edit, QWidget *parent , Qt::WindowFlags 
 
    mainLayout->setColumnStretch ( 0, 1 );
    mainLayout->setColumnStretch ( 1, 0 );
-   mainLayout->addWidget( mpMessage, 0, 0, 1, 2 );
    mainLayout->addWidget( mpProgress, 1, 0, 1, 2 );
    
    setLayout( mainLayout );
@@ -90,7 +88,8 @@ void CDReader::setDevice( const QString &device )
 
 void CDReader::getDevices( QComboBox *comboBox )
 {
-   char **drives,**d;
+   char **drives = 0;
+   char **d = 0;
    
    comboBox->clear();
    
@@ -150,6 +149,7 @@ void CDReader::readToc()
    mpToc->calcCddbDiscID();
 }
 
+
 void CDReader::readTocCDDB()
 {
    emit starting();
@@ -160,6 +160,7 @@ void CDReader::readTocCDDB()
    
    emit stopping();
 }
+
 
 void CDReader::readTocCDText()
 {
@@ -253,7 +254,7 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
       int lastSector  = mpToc->lastSector( i );
       QString fileName( tagList.fileName( createPattern ) );
       
-      mpMessage->setText( fileName.mid( fileName.lastIndexOf('/')+1 ) );
+      emit message( fileName.mid( fileName.lastIndexOf('/')+1 ) );
       tagList.set( "ALBUMARTIST" );
       mpEncoder->setTags( tagList );
       mpEncoder->initialize( fileName );
@@ -263,7 +264,7 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
       for( sector = firstSector; sector <= lastSector; sector++ )
       {
          buffer = (char*)::cdio_paranoia_read( mpParanoia, callback0 );
-         if( !mpEncoder->encodeCDAudio( buffer, 2352 ) )
+         if( !mpEncoder->encodeCDAudio( buffer, CDIO_CD_FRAMESIZE_RAW/*2352*/ ) )
          {
             mCancel = true;
          }
@@ -280,7 +281,7 @@ TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
    {
       ::cdio_paranoia_free( mpParanoia );
    }
-   mpMessage->setText( tr("Done.") );
+   emit message( tr("Audio extraction completed.") );
    mpProgress->setValue( 0 );
    mpProgress->setRange( 0, 1 );
    if( mEject )

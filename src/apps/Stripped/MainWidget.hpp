@@ -23,6 +23,7 @@
 
 /* forward declaration of Qt classes */
 class QComboBox;
+class QLabel;
 class QPushButton;
 class QHBoxLayout;
 
@@ -51,6 +52,8 @@ public slots:
    void working( bool allowCancel = true );
    /* unset stuff done by settings to working state */
    void finished();
+   /*  */
+   void showMessage( const QString &message );
    
 signals:
    /* request a new icon and title */
@@ -66,6 +69,7 @@ private:
    CDDB            *mpCDDB;
    CDEdit          *mpCDEdit;
    CDReader        *mpCDReader;
+   QLabel          *mpMessage;
    ConfigDialog    *mpConfigDialog;
    QPushButton     *mpSettingsButton;
    QPushButton     *mpCancelButton;
