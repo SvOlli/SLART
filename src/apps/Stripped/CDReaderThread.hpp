@@ -78,9 +78,14 @@ signals:
    /*  */
    void progress( int percent );
    /*  */
+   void setTrackDisabled( int track, bool disabled );
+   /*  */
+   void ensureVisible( int track );
+   /*  */
    void encodeThis( const QByteArray &data );
    /*  */
    void encodeDone();
+
 
 private:
    CDReaderThread( const CDReaderThread &other );

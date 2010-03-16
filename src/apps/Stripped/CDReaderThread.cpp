@@ -296,8 +296,8 @@ void CDReaderThread::runReadAudioData()
    {
       mpCDEdit->trackInfo( i, &dorip, &doenqueue, &artist, &title,
                            &albumartist, &albumtitle, &genre, &year );
-      mpCDEdit->setTrackDisabled( i, true );
-      mpCDEdit->ensureVisible( i );
+      emit setTrackDisabled( i, true );
+      emit ensureVisible( i );
       if( !dorip )
       {
          continue;
@@ -337,8 +337,10 @@ void CDReaderThread::runReadAudioData()
       lastPercent = 0;
       for( sector = firstSector; sector <= lastSector; sector++ )
       {
+#if 0
 printf("reading: %02d:%02d.%02d\r", sector/75/60, (sector/75)%60, sector%75);
 fflush(stdout);
+#endif
          percent = (sector - firstSector) * 100 / (lastSector - firstSector);
          if( percent != lastPercent )
          {
@@ -360,7 +362,9 @@ fflush(stdout);
             break;
          }
       }
+#if 0
 printf("\n");
+#endif
       emit encodeDone();
       disconnect( this, SIGNAL(encodeThis(const QByteArray &)),
                   mpEncoder, SLOT(encodeCDAudio(const QByteArray &)) );
@@ -384,7 +388,7 @@ printf("\n");
    emit progress( 0 );
    for( i = 0; i < 100; i++ )
    {
-      mpCDEdit->setTrackDisabled( i, false );
+      emit setTrackDisabled( i, false );
    }
    emit stopping();
 }

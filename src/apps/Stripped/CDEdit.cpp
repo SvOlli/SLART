@@ -162,7 +162,8 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
    connect( mpCopyArtistButton,     SIGNAL(clicked()), this, SLOT(handleTrackArtist()) );
    connect( mpNormalizeTitleButton, SIGNAL(clicked()), this, SLOT(handleNormalizeTitle()) );
    connect( mpCopyYearButton,       SIGNAL(clicked()), this, SLOT(handleTrackYear()) );
-   
+
+   clear();
    setLayout( outerLayout );
 }
 
@@ -172,7 +173,7 @@ void CDEdit::clear()
    mpDiscArtist->clear();
    mpDiscTitle->clear();
    mpDiscGenre->clear();
-   mpDiscID->clear();
+   mpDiscID->setText( "00000000" );
    mpDiscPlaytime->clear();
    
    for( int i = 0; i < 100; i++ )

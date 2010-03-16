@@ -78,6 +78,10 @@ signals:
    void message( const QString &message = QString() );
    /*  */
    void progress( int percent );
+   /*  */
+   void setTrackDisabled( int track, bool disabled );
+   /*  */
+   void ensureVisible( int track );
    
 private:
    CDReader( const CDReader &other );

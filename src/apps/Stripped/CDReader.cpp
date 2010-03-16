@@ -39,6 +39,8 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
 , mpEncoder( 0 )
 , mpProgressBar( new QProgressBar( this ) )
 {
+   mpProgressBar->setRange( 0, 100 );
+
    QGridLayout *mainLayout = new QGridLayout( this );
 #if QT_VERSION < 0x040300
    mainLayout->setMargin( 0 );
@@ -58,8 +60,12 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
             this, SIGNAL(foundDevices(const QStringList &)) );
    connect( mpCDReaderThread, SIGNAL(message(const QString &)),
             this, SIGNAL(message(const QString &)) );
+   connect( mpCDReaderThread, SIGNAL(setTrackDisabled(int,bool)),
+            this, SIGNAL(setTrackDisabled(int,bool)) );
+   connect( mpCDReaderThread, SIGNAL(ensureVisible(int)),
+            this, SIGNAL(ensureVisible(int)) );
    connect( mpCDReaderThread, SIGNAL(progress(int)),
-            this, SIGNAL(progress(int)) );
+            mpProgressBar, SLOT(setValue(int)) );
 
    setLayout( mainLayout );
 }

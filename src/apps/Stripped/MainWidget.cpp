@@ -44,8 +44,13 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpEjectButton( new QPushButton( tr("Eject"), this ) )
 {
    MySettings settings;
+
    mpRipButton->setEnabled( false );
+   mpDirButton->setText( settings.VALUE_DIRECTORY );
    
+   /* for style sheets */
+   mpSettingsButton->setObjectName( QString("SettingsButton") );
+
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
 #if QT_VERSION < 0x040300
    mainLayout->setMargin( 3 );
@@ -60,7 +65,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    pathLayout->addWidget( mpDirButton );
    pathLayout->setStretchFactor( targetDirLabel,  0 );
    pathLayout->setStretchFactor( mpDirButton, 1 );
-   mpDirButton->setText( settings.VALUE_DIRECTORY );
 
    mpCancelButton->setDisabled( true );
    mpButtonLayout->addWidget( mpSettingsButton );
@@ -78,6 +82,10 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    
    setLayout( mainLayout );
 
+   /* buttons */
+   connect( mpDirButton, SIGNAL(clicked()),
+            this, SLOT(setRippingDir()) );
+
    connect( mpSettingsButton, SIGNAL(pressed()),
             mpConfigDialog, SLOT(exec()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
@@ -93,32 +101,32 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    connect( mpRipButton, SIGNAL(pressed()),
             mpCDReader, SLOT(readTracks()) );
+   connect( mpCDEdit, SIGNAL(containsData(bool)),
+            mpRipButton, SLOT(setEnabled(bool)) );
 
    connect( mpEjectButton, SIGNAL(pressed()),
             this, SLOT(eject()) );
 
-   connect( mpCDEdit, SIGNAL(containsData(bool)),
-            mpRipButton, SLOT(setEnabled(bool)) );
-
+   /* edit sheet interaction */
    connect( mpCDReader, SIGNAL(gotToc()),
             mpCDEdit, SLOT(update()) );
    connect( mpCDDBClient, SIGNAL(infoUpdated()),
             mpCDEdit, SLOT(update()) );
-   connect( mpDirButton, SIGNAL(clicked()),
-            this, SLOT(setRippingDir()) );
-   
-   
+   connect( mpCDReader, SIGNAL(setTrackDisabled(int,bool)),
+            mpCDEdit, SLOT(setTrackDisabled(int,bool)) );
+   connect( mpCDReader, SIGNAL(ensureVisible(int)),
+            mpCDEdit, SLOT(ensureVisible(int)) );
+
+   /* other interaction */
    connect( mpCDReader, SIGNAL(starting()),
             this, SLOT(working()) );
    connect( mpCDReader, SIGNAL(stopping()),
             this, SLOT(finished()) );
-   
    connect( mpCDDBClient, SIGNAL(message(const QString &)),
             this, SLOT(showMessage(const QString &)) );
    connect( mpCDReader, SIGNAL(message(const QString &)),
             this, SLOT(showMessage(const QString &)) );
 
-   mpSettingsButton->setObjectName( QString("SettingsButton") );
    mpSatellite->restart();
    handleConfigUpdate();
 }
