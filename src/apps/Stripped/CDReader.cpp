@@ -20,47 +20,25 @@
 #include <TagList.hpp>
 
 /* local headers */
-#include "CDToc.hpp"
+#include "CDInfo.hpp"
 #include "CDEdit.hpp"
+#include "CDReaderThread.hpp"
 #include "Encoder.hpp"
+
+
+#include <Trace.hpp>
 
 
 //#define TRACETEXT(x) TRACEMSG << cdtext_field2str( x ) << cdtext_get( x, cdtext )
 
-
-static CDReader *gCDReader0 = 0;
-
-
-static void callback0( long inpos, ::paranoia_cb_mode_t function )
-{
-   gCDReader0->callback( inpos, function );
-}
-
-
-void CDReader::callback( long /*inpos*/, ::paranoia_cb_mode_t function )
-{
-   if( function > 11 )
-   {
-      mCancel = true;
-      return;
-   }
-   
-   mCallbackFunction[(int)function]++;
-//   qDebug() << "callback:" << "inpos:" << inpos << "function:" << function << mCallbackFunction[function];
-}
-
-
-CDReader::CDReader( CDToc *toc, CDEdit *edit, QWidget *parent , Qt::WindowFlags flags )
-: QWidget( parent, flags )
-, mpCdIo( 0 )
-, mpDrive( 0 )
-, mpParanoia( 0 )
-, mpToc( toc )
+CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
+: QWidget( parent )
+, mpCDReaderThread( new CDReaderThread( this ) )
+, mpCDInfo( info )
 , mpCDEdit( edit )
-, mpProgress( new QProgressBar( this ) )
+, mpEncoder( 0 )
+, mpProgressBar( new QProgressBar( this ) )
 {
-   gCDReader0 = this;
-   
    QGridLayout *mainLayout = new QGridLayout( this );
 #if QT_VERSION < 0x040300
    mainLayout->setMargin( 0 );
@@ -68,231 +46,27 @@ CDReader::CDReader( CDToc *toc, CDEdit *edit, QWidget *parent , Qt::WindowFlags 
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
 
-   mainLayout->setColumnStretch ( 0, 1 );
-   mainLayout->setColumnStretch ( 1, 0 );
-   mainLayout->addWidget( mpProgress, 1, 0, 1, 2 );
+   mainLayout->addWidget( mpProgressBar, 0, 0 );
    
+   connect( mpCDReaderThread, SIGNAL(starting()),
+            this, SIGNAL(starting()) );
+   connect( mpCDReaderThread, SIGNAL(stopping()),
+            this, SIGNAL(stopping()) );
+   connect( mpCDReaderThread, SIGNAL(gotToc()),
+            this, SIGNAL(gotToc()) );
+   connect( mpCDReaderThread, SIGNAL(foundDevices(const QStringList &)),
+            this, SIGNAL(foundDevices(const QStringList &)) );
+   connect( mpCDReaderThread, SIGNAL(message(const QString &)),
+            this, SIGNAL(message(const QString &)) );
+   connect( mpCDReaderThread, SIGNAL(progress(int)),
+            this, SIGNAL(progress(int)) );
+
    setLayout( mainLayout );
-   if( !::cdio_init() )
-   {
-      fprintf( stderr, "cdio_init() failed\n" );
-   }
 }
 
 
-void CDReader::setDevice( const QString &device )
+CDReader::~CDReader()
 {
-   mDevice = device;
-}
-
-
-void CDReader::getDevices( QComboBox *comboBox )
-{
-   char **drives = 0;
-   char **d = 0;
-   
-   comboBox->clear();
-   
-   drives = ::cdio_get_devices( DRIVER_UNKNOWN );
-   if( !drives ) return;
-   
-   for( d = drives; *d; d++ )
-   {
-      comboBox->addItem( QString(*d) );
-   }
-}
-
-
-void CDReader::readToc()
-{
-   mCancel = false;
-   mpCDEdit->clear();
-   QCoreApplication::processEvents();
-   QCoreApplication::processEvents();
-   
-//   mpDrive = ::cdio_cddap_find_a_cdrom( CDDA_MESSAGE_PRINTIT, NULL );
-   mpCdIo  = ::cdio_open( mDevice.toLocal8Bit(), DRIVER_UNKNOWN );
-   mpDrive = ::cdio_cddap_identify_cdio( mpCdIo, CDDA_MESSAGE_PRINTIT, NULL );
-   
-   switch( ::cdio_cddap_open(mpDrive) )
-   {
-      case 0:
-         break;
-      case -2:case -3:case -4:case -5:
-         //puts("\nUnable to open disc.  Is there an audio CD in the drive?");
-         exit(1);
-      case -6:
-         //puts("\ncdparanoia could not find a way to read audio from this drive."
-         exit(1);
-      default:
-         //puts("\nUnable to open disc.");
-         exit(1);
-   }
-
-   mpToc->setDisc( mpDrive->tracks,
-                   ::cdio_cddap_disc_firstsector( mpDrive ), ::cdio_get_track_last_lsn( mpCdIo, mpDrive->tracks ) );
-   
-   for( int i = 1; i < 100; i++ )
-   {
-      if( i <= mpDrive->tracks )
-      {
-         mpToc->setEntry( i, ::cdio_cddap_track_firstsector( mpDrive, i ), ::cdio_cddap_track_lastsector( mpDrive, i ),
-                         ::cdio_cddap_track_audiop( mpDrive, i ) != 0, ::cdio_cddap_track_copyp( mpDrive, i ) != 0,
-                         ::cdio_cddap_track_preemp( mpDrive, i ) != 0, ::cdio_cddap_track_channels( mpDrive, i ) == 2 );
-      }
-      else
-      {
-         mpToc->setEntry( i, 0, 0, false, false, false, false ) ;
-      }
-   }
-   
-   mpToc->calcCddbDiscID();
-}
-
-
-void CDReader::readTocCDDB()
-{
-   emit starting();
-   
-   readToc();
-   
-   mpCDEdit->update( true );
-   
-   emit stopping();
-}
-
-
-void CDReader::readTocCDText()
-{
-   emit starting();
-   
-   readToc();
-   
-   QCoreApplication::processEvents();
-   QCoreApplication::processEvents();
-   
-   cdtext_t *cdtext;
-   track_t track, first, last;
-   
-   first = cdio_get_first_track_num( mpCdIo );
-   last  = cdio_get_last_track_num( mpCdIo );
-   
-   cdtext = cdio_get_cdtext( mpCdIo, 0 );
-   mpCDEdit->updateCDText( 0, 
-                         QString( cdtext_get( CDTEXT_PERFORMER, cdtext ) ),
-                         QString( cdtext_get( CDTEXT_TITLE, cdtext ) ) );
-   cdtext_destroy( cdtext );
-   
-   for( track = first; track <= last; track++ )
-   {
-      cdtext = cdio_get_cdtext( mpCdIo, track );
-      mpCDEdit->updateCDText( track, 
-                            QString( cdtext_get( CDTEXT_PERFORMER, cdtext ) ),
-                            QString( cdtext_get( CDTEXT_TITLE, cdtext ) ) );
-      cdtext_destroy( cdtext );
-   }
-   
-   mpCDEdit->update( false );
-   
-   emit stopping();
-}
-
-
-void CDReader::readTracks()
-{
-   int i;
-   int sector;
-   char *buffer = 0;
-   mCancel = false;
-   mEject  = true;
-   QString createPattern( MySettings().VALUE_CREATEPATTERN );
-   
-   QString artist, title, albumartist, albumtitle, genre;
-   bool dorip, doenqueue;
-   int year;
-   
-   for( i = 0; i < 13; i++ )
-   {
-      mCallbackFunction[i] = 0;
-   }
-   
-#if 0
-   for( i = 1; i < 53; i++ )
-   {
-TRACEMSG << "speed:" << i << ::cdio_cddap_speed_set( mpDrive, i );
-   }
-#endif
-   emit starting();
-   QCoreApplication::processEvents();
-   QCoreApplication::processEvents();
-   
-   mpParanoia = ::cdio_paranoia_init( mpDrive );
-   ::cdio_paranoia_modeset( mpParanoia, PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP );
-
-   for( i = 0; i < 100; i++ )
-   {
-      mpCDEdit->trackInfo( i, &dorip, &doenqueue, &artist, &title, 
-                           &albumartist, &albumtitle, &genre, &year );
-      mpCDEdit->setTrackDisabled( i, true );
-      mpCDEdit->ensureVisible( i );
-      if( !dorip ) 
-      {
-         continue;
-      }
-      
-      TagList tagList;
-      tagList.set( "ALBUMARTIST", albumartist );
-      tagList.set( "ALBUM",       albumtitle  );
-      tagList.set( "ARTIST",      artist      );
-      tagList.set( "TITLE",       title       );
-      tagList.set( "TRACKNUMBER", QString::number(i) );
-      tagList.set( "GENRE",       genre );
-      if( year > 0 )
-      tagList.set( "DATE",        QString::number(year) );
-      
-      int firstSector = mpToc->firstSector( i );
-      int lastSector  = mpToc->lastSector( i );
-      QString fileName( tagList.fileName( createPattern ) );
-      
-      emit message( fileName.mid( fileName.lastIndexOf('/')+1 ) );
-      tagList.set( "ALBUMARTIST" );
-      mpEncoder->setTags( tagList );
-      mpEncoder->initialize( fileName );
-
-      ::cdio_paranoia_seek( mpParanoia, firstSector, SEEK_SET );
-      mpProgress->setRange( firstSector, lastSector );
-      for( sector = firstSector; sector <= lastSector; sector++ )
-      {
-         buffer = (char*)::cdio_paranoia_read( mpParanoia, callback0 );
-         if( !mpEncoder->encodeCDAudio( buffer, CDIO_CD_FRAMESIZE_RAW/*2352*/ ) )
-         {
-            mCancel = true;
-         }
-         mpProgress->setValue( sector );
-         QCoreApplication::processEvents();
-         if( mCancel ) break;
-      }
-      
-      mpEncoder->finalize( doenqueue, mCancel );
-      if( mCancel ) break;
-   }
-   
-   if( buffer )
-   {
-      ::cdio_paranoia_free( mpParanoia );
-   }
-   emit message( tr("Audio extraction completed.") );
-   mpProgress->setValue( 0 );
-   mpProgress->setRange( 0, 1 );
-   if( mEject )
-   {
-      eject();
-   }
-   for( i = 0; i < 100; i++ )
-   {
-      mpCDEdit->setTrackDisabled( i, false );
-   }   
-   emit stopping();
 }
 
 
@@ -302,15 +76,47 @@ void CDReader::setEncoder( Encoder *encoder )
 }
 
 
+void CDReader::setDevice( const QString &device )
+{
+   mDevice = device;
+}
+
+
+void CDReader::getDevices()
+{
+   mpCDReaderThread->startGetDevices();
+}
+
+
+void CDReader::readToc()
+{
+   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mpEncoder, mDevice );
+   mpCDReaderThread->startReadToc();
+}
+
+
+void CDReader::readCDText()
+{
+   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mpEncoder, mDevice );
+   mpCDReaderThread->startReadCDText();
+}
+
+
+void CDReader::readTracks()
+{
+   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mpEncoder, mDevice );
+   mpCDReaderThread->startReadAudioData();
+}
+
+
 void CDReader::eject()
 {
-   mpCdIo  = ::cdio_open( mDevice.toLocal8Bit(), DRIVER_UNKNOWN );
-   ::cdio_eject_media( &mpCdIo );
+   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mpEncoder, mDevice );
+   mpCDReaderThread->startEject();
 }
 
 
 void CDReader::cancel()
 {
-   mCancel = true;
-   mEject  = false;
+   mpCDReaderThread->cancel();
 }

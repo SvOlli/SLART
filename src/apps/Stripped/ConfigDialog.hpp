@@ -19,7 +19,7 @@
 /* local library headers */
 
 /* local headers */
-#include "TagList.hpp"
+#include <TagList.hpp>
 
 /* forward declaration of Qt classes */
 class QCheckBox;
@@ -55,6 +55,8 @@ public slots:
    void changeEncoder( int id );
    /* update example */
    void updatePattern( const QString &text );
+   /*  */
+   void handleDevices( const QStringList &devices );
    
 signals:
    void configChanged();
@@ -68,18 +70,20 @@ private:
    ProxyWidget          *mpProxyWidget;
    QLabel               *mpDevicesLabel;
    QComboBox            *mpDevicesBox;
-   QLabel               *mpEncodersLabel;
-   QComboBox            *mpEncodersBox;
+   QCheckBox            *mpAutoFreeDB;
    QLabel               *mpPatternLabel;
    QLineEdit            *mpPattern;
    QLabel               *mpPatternExample;
+   QLabel               *mpEncodersLabel;
+   QComboBox            *mpEncodersBox;
    TagList              mTagList;
    QList<Encoder*>      mEncoders;
 };
 
 /* defaults */
+#define VALUE_AUTOFREEDB     value( "AutoFreeDB", true ).toBool()
 #define VALUE_CREATEPATTERN  value( "CreatePattern", "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString()
-#define VALUE_DEVICE         value( "Device", QString() ).toString()
+#define VALUE_DEVICE         value( "Device", QString("/dev/cdrom") ).toString()
 #define VALUE_DIRECTORY      value( "Directory", QDir::current().absolutePath() ).toString()
 #define VALUE_ENCODER        value( "Encoder", QString() ).toString()
 #define VALUE_FLACQUALITY    value( "FlacQuality", 5 ).toInt()

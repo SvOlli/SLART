@@ -39,17 +39,21 @@ Q_OBJECT
 public:
    OggEncoder( QWidget *parent = 0 );
    virtual ~OggEncoder();
-   
-   /* initialize the encoder */
-   bool initialize( const QString &fileName );
-   /* finalize (clean up) the encoder */
-   bool finalize( bool enqueue, bool cancel );
-   /* encode raw cd audio data */
-   bool encodeCDAudio( const char* data, int size );
+
+   /*  */
+   QWidget *configWidget();
    /* read settings from storage */
    void readSettings();
    /* write settings to storage */
    void writeSettings();
+   /* initialize the encoder */
+   bool initialize( const QString &fileName );
+   /* finalize (clean up) the encoder */
+   bool finalize( bool enqueue, bool cancel );
+
+public slots:
+   /* encode raw cd audio data */
+   void encodeCDAudio( const QByteArray &data );
    
 private:
    OggEncoder( const OggEncoder &other );
@@ -57,7 +61,10 @@ private:
    
    /* ogg initialize helper function call on first encode */
    bool oggInit();
+   /* encode raw cd audio data */
+   bool encodeCDAudio( const char *data, int size );
    
+   QWidget              *mpConfigWidget;
    QDoubleSpinBox       *mpQuality;
    ::ogg_stream_state   mOggPagegStream;
    ::ogg_page           mOggPage;

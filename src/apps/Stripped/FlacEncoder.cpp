@@ -25,8 +25,9 @@
 
 FlacEncoder::FlacEncoder( QWidget *parent )
 : Encoder( parent, tr("FLAC") )
-, mpQuality( new QSpinBox( this ) )
-, mpUseOga( new QCheckBox( tr("Use Ogg Container"), this ) )
+, mpConfigWidget( new QWidget( parent ) )
+, mpQuality( new QSpinBox( mpConfigWidget ) )
+, mpUseOga( new QCheckBox( tr("Use Ogg Container"), mpConfigWidget ) )
 , mpEncoder( 0 )
 , mpMetadata( 0 )
 , mpPcm( 0 )
@@ -36,7 +37,7 @@ FlacEncoder::FlacEncoder( QWidget *parent )
 {
    qsrand( time((time_t*)0) );
 
-   QHBoxLayout *mainLayout = new QHBoxLayout( this );
+   QHBoxLayout *mainLayout = new QHBoxLayout( mpConfigWidget );
    mpQuality->setSingleStep( 1 );
    mpQuality->setMinimum( 0 );
    mpQuality->setMaximum( 8 );
@@ -46,11 +47,11 @@ FlacEncoder::FlacEncoder( QWidget *parent )
 #else
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
-   mainLayout->addWidget( new QLabel( tr("Compression Level:"), this ) );
+   mainLayout->addWidget( new QLabel( tr("Compression Level:"), mpConfigWidget ) );
    mainLayout->addWidget( mpQuality );
    mainLayout->addWidget( mpUseOga );
 
-   setLayout( mainLayout );
+   mpConfigWidget->setLayout( mainLayout );
 
    readSettings();
 }
@@ -165,10 +166,22 @@ bool FlacEncoder::initialize( const QString &fileName )
 
 bool FlacEncoder::finalize( bool enqueue, bool cancel )
 {
+   /* make sure all data is processed */
+   wait();
+
    bool ok( true );
    ok &= mpEncoder->finish();
    ok &= Encoder::finalize( enqueue, cancel );
    return ok;
+}
+
+
+void FlacEncoder::encodeCDAudio( const QByteArray &data )
+{
+   if( !encodeCDAudio( data.constData(), data.size() ) )
+   {
+      emit encodingFail();
+   }
 }
 
 
@@ -197,4 +210,10 @@ bool FlacEncoder::encodeCDAudio( const char* data, int size )
    ok &= mpEncoder->process_interleaved(mpPcm, size/4);
 
    return ok;
+}
+
+
+QWidget *FlacEncoder::configWidget()
+{
+   return mpConfigWidget;
 }

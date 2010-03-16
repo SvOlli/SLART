@@ -19,10 +19,10 @@
 #include <Satellite.hpp>
 
 /* local headers */
-#include "CDDB.hpp"
+#include "CDDBClient.hpp"
 #include "CDEdit.hpp"
+#include "CDInfo.hpp"
 #include "CDReader.hpp"
-#include "CDToc.hpp"
 #include "ConfigDialog.hpp"
 
 
@@ -30,17 +30,16 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get( this ) )
 , mpDirButton( new QPushButton( this ) )
-, mpToc( new CDToc() )
-, mpCDDB( new CDDB( mpToc, this ) )
-, mpCDEdit( new CDEdit( mpToc, mpCDDB, this ) )
-, mpCDReader( new CDReader( mpToc, mpCDEdit, this ) )
+, mpCDInfo( new CDInfo() )
+, mpCDDBClient( new CDDBClient( mpCDInfo, this ) )
+, mpCDEdit( new CDEdit( mpCDInfo, mpCDDBClient, this ) )
+, mpCDReader( new CDReader( mpCDInfo, mpCDEdit, this ) )
 , mpMessage( new QLabel( this ) )
 , mpConfigDialog( new ConfigDialog( mpCDReader, this ) )
+, mpButtonLayout( new QHBoxLayout() )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpCancelButton( new QPushButton( tr("Cancel"), this ) )
-, mpButtonLayout( new QHBoxLayout() )
-, mpTocButton( new QPushButton( tr("Read Toc"), this ) )
-, mpCDTextButton( new QPushButton( tr("Read CDText"), this ) )
+, mpScanButton( new QPushButton( tr("Scan CD"), this ) )
 , mpRipButton( new QPushButton( tr("Rip Tracks"), this ) )
 , mpEjectButton( new QPushButton( tr("Eject"), this ) )
 {
@@ -62,18 +61,16 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    pathLayout->setStretchFactor( targetDirLabel,  0 );
    pathLayout->setStretchFactor( mpDirButton, 1 );
    mpDirButton->setText( settings.VALUE_DIRECTORY );
-   QDir::setCurrent( mpDirButton->text() );
 
    mpCancelButton->setDisabled( true );
    mpButtonLayout->addWidget( mpSettingsButton );
    mpButtonLayout->addWidget( mpCancelButton );
-   mpButtonLayout->addWidget( mpTocButton );
-   mpButtonLayout->addWidget( mpCDTextButton );
+   mpButtonLayout->addWidget( mpScanButton );
    mpButtonLayout->addWidget( mpRipButton );
    mpButtonLayout->addWidget( mpEjectButton );
 
    mainLayout->addLayout( pathLayout );
-   mainLayout->addWidget( mpCDDB );
+   mainLayout->addWidget( mpCDDBClient );
    mainLayout->addWidget( mpCDEdit );
    mainLayout->addWidget( mpCDReader );
    mainLayout->addWidget( mpMessage );
@@ -83,38 +80,64 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    connect( mpSettingsButton, SIGNAL(pressed()),
             mpConfigDialog, SLOT(exec()) );
-   connect( mpTocButton, SIGNAL(pressed()),
-            mpCDReader, SLOT(readTocCDDB()) );
-   connect( mpCDTextButton, SIGNAL(pressed()),
-            mpCDReader, SLOT(readTocCDText()) );
-   connect( mpRipButton, SIGNAL(pressed()),
-            mpCDReader, SLOT(readTracks()) );
-   connect( mpEjectButton, SIGNAL(pressed()),
-            this, SLOT(eject()) );
-   connect( mpCDDB, SIGNAL(tocUpdated()),
-            mpCDEdit, SLOT(updateCDDB()) );
-   connect( mpDirButton, SIGNAL(clicked()),
-            this, SLOT(setRippingDir()) );
-   connect( mpCDEdit, SIGNAL(containsData(bool)),
-            mpRipButton, SLOT(setEnabled(bool)) );
-   
+   connect( mpConfigDialog, SIGNAL(configChanged()),
+            this, SLOT(handleConfigUpdate()) );
+
    connect( mpCancelButton, SIGNAL(clicked()),
             mpCDReader, SLOT(cancel()) );
    connect( mpCancelButton, SIGNAL(clicked()),
-            mpCDDB, SLOT(cancel()) );
+            mpCDDBClient, SLOT(cancel()) );
+
+   connect( mpScanButton, SIGNAL(pressed()),
+            mpCDReader, SLOT(readToc()) );
+
+   connect( mpRipButton, SIGNAL(pressed()),
+            mpCDReader, SLOT(readTracks()) );
+
+   connect( mpEjectButton, SIGNAL(pressed()),
+            this, SLOT(eject()) );
+
+   connect( mpCDEdit, SIGNAL(containsData(bool)),
+            mpRipButton, SLOT(setEnabled(bool)) );
+
+   connect( mpCDReader, SIGNAL(gotToc()),
+            mpCDEdit, SLOT(update()) );
+   connect( mpCDDBClient, SIGNAL(infoUpdated()),
+            mpCDEdit, SLOT(update()) );
+   connect( mpDirButton, SIGNAL(clicked()),
+            this, SLOT(setRippingDir()) );
+   
    
    connect( mpCDReader, SIGNAL(starting()),
             this, SLOT(working()) );
    connect( mpCDReader, SIGNAL(stopping()),
             this, SLOT(finished()) );
    
-   connect( mpCDDB, SIGNAL(message(const QString &)),
+   connect( mpCDDBClient, SIGNAL(message(const QString &)),
             this, SLOT(showMessage(const QString &)) );
    connect( mpCDReader, SIGNAL(message(const QString &)),
             this, SLOT(showMessage(const QString &)) );
 
    mpSettingsButton->setObjectName( QString("SettingsButton") );
    mpSatellite->restart();
+   handleConfigUpdate();
+}
+
+
+void MainWidget::setState( enum operationState state )
+{
+   switch( state )
+   {
+      case stateInit:
+      case stateNoDrive:
+      case stateIdle:
+      case stateScan:
+      case stateNet:
+      case stateRip:
+      default:
+         break;
+   }
+   mState = state;
 }
 
 
@@ -133,22 +156,14 @@ void MainWidget::setRippingDir()
       mpDirButton->setText( result );
       settings.setValue( "Directory", result.replace('\\','/') );
    }
-
-   QDir::setCurrent( mpDirButton->text() );
 }
 
 
 void MainWidget::eject()
 {
-   working( false );
-   mpEjectButton->setCheckable( true );
-   mpEjectButton->setChecked( true );
-   QCoreApplication::processEvents();
-   mpCDReader->eject();
-   mpEjectButton->setChecked( false );
-   mpEjectButton->setCheckable( false );
-   finished();
+   mpCDDBClient->clear();
    mpCDEdit->clear();
+   mpCDReader->eject();
 }
 
 
@@ -156,8 +171,7 @@ void MainWidget::working( bool allowCancel )
 {
    mpCancelButton->setDisabled( !allowCancel );
    mpSettingsButton->setDisabled( true );
-   mpTocButton->setDisabled( true );
-   mpCDTextButton->setDisabled( true );
+   mpScanButton->setDisabled( true );
    mpRipButton->setDisabled( true );
    mpEjectButton->setDisabled( allowCancel );
 }
@@ -167,8 +181,7 @@ void MainWidget::finished()
 {
    mpCancelButton->setDisabled( true );
    mpSettingsButton->setDisabled( false );
-   mpTocButton->setDisabled( false );
-   mpCDTextButton->setDisabled( false );
+   mpScanButton->setDisabled( false );
    mpRipButton->setDisabled( mpCDEdit->isEmpty() );
    mpEjectButton->setDisabled( false );
 }
@@ -177,4 +190,20 @@ void MainWidget::finished()
 void MainWidget::showMessage( const QString &message )
 {
    mpMessage->setText( message );
+}
+
+
+void MainWidget::handleConfigUpdate()
+{
+   MySettings settings;
+   if( settings.VALUE_AUTOFREEDB )
+   {
+      connect( mpCDReader, SIGNAL(gotToc()),
+               mpCDDBClient, SLOT(handleComboBox()) );
+   }
+   else
+   {
+      disconnect( mpCDReader, SIGNAL(gotToc()),
+                  mpCDDBClient, SLOT(handleComboBox()) );
+   }
 }

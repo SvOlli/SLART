@@ -21,12 +21,14 @@
 
 /* local headers */
 
+#include <Trace.hpp>
 
 OggEncoder::OggEncoder( QWidget *parent )
 : Encoder( parent, tr("ogg") )
-, mpQuality( new QDoubleSpinBox( this ) )
+, mpConfigWidget( new QWidget( parent ) )
+, mpQuality( new QDoubleSpinBox( mpConfigWidget ) )
 {
-   QHBoxLayout *mainLayout = new QHBoxLayout( this );
+   QHBoxLayout *mainLayout = new QHBoxLayout( mpConfigWidget );
    mpQuality->setSingleStep( 0.01 );
    mpQuality->setMinimum( 0.0 );
    mpQuality->setMaximum( 1.0 );
@@ -35,10 +37,10 @@ OggEncoder::OggEncoder( QWidget *parent )
 #else
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 #endif
-   mainLayout->addWidget( new QLabel( tr("Quality:"), this ) );
+   mainLayout->addWidget( new QLabel( tr("Quality:"), mpConfigWidget ) );
    mainLayout->addWidget( mpQuality );
 
-   setLayout( mainLayout );
+   mpConfigWidget->setLayout( mainLayout );
 
    readSettings();
 }
@@ -88,6 +90,9 @@ bool OggEncoder::initialize( const QString &fileName )
 
 bool OggEncoder::finalize( bool enqueue, bool cancel )
 {
+   /* make sure all data is processed */
+   wait();
+
    if( !encodeCDAudio( 0, 0 ) )
    {
       Encoder::finalize( false, true );
@@ -153,6 +158,15 @@ bool OggEncoder::oggInit()
 }
 
 
+void OggEncoder::encodeCDAudio( const QByteArray &data )
+{
+   if( !encodeCDAudio( data.constData(), data.size() ) )
+   {
+      emit encodingFail();
+   }
+}
+
+
 bool OggEncoder::encodeCDAudio( const char* data, int size )
 {
    if( !mIsInit )
@@ -210,4 +224,10 @@ bool OggEncoder::encodeCDAudio( const char* data, int size )
       }
    }
    return true;
+}
+
+
+QWidget *OggEncoder::configWidget()
+{
+   return mpConfigWidget;
 }

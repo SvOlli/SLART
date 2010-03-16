@@ -37,21 +37,29 @@ public:
    FlacEncoder( QWidget *parent = 0 );
    virtual ~FlacEncoder();
 
-   /* initialize the encoder */
-   bool initialize( const QString &fileName );
-   /* finalize (clean up) the encoder */
-   bool finalize( bool enqueue, bool cancel );
-   /* encode raw cd audio data */
-   bool encodeCDAudio( const char* data, int size );
+   /*  */
+   QWidget *configWidget();
    /* read settings from storage */
    void readSettings();
    /* write settings to storage */
    void writeSettings();
+   /* initialize the encoder */
+   bool initialize( const QString &fileName );
+   /* finalize (clean up) the encoder */
+   bool finalize( bool enqueue, bool cancel );
+
+public slots:
+   /* encode raw cd audio data */
+   void encodeCDAudio( const QByteArray &data );
 
 private:
    FlacEncoder( const FlacEncoder &other );
    FlacEncoder &operator=( const FlacEncoder &other );
 
+   /* encode raw cd audio data */
+   bool encodeCDAudio( const char *data, int size );
+
+   QWidget              *mpConfigWidget;
    QSpinBox             *mpQuality;
    QCheckBox            *mpUseOga;
    FLAC::Encoder::File  *mpEncoder;

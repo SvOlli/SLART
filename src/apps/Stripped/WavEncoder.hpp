@@ -33,23 +33,28 @@ Q_OBJECT
 public:
    WavEncoder( QWidget *parent = 0 );
    virtual ~WavEncoder();
-   
-   /* initialize the encoder */
-   bool initialize( const QString &fileName );
-   /* finalize (clean up) the encoder */
-   bool finalize( bool enqueue, bool cancel );
-   /* encode raw cd audio data */
-   bool encodeCDAudio( const char* data, int size );
+
+   /*  */
+   QWidget *configWidget();
    /* read settings from storage */
    void readSettings();
    /* write settings to storage */
    void writeSettings();
+   /* initialize the encoder */
+   bool initialize( const QString &fileName );
+   /* finalize (clean up) the encoder */
+   bool finalize( bool enqueue, bool cancel );
+
+public slots:
+   /* encode raw cd audio data */
+   void encodeCDAudio( const QByteArray &data );
    
 private:
    WavEncoder( const WavEncoder &other );
    WavEncoder &operator=( const WavEncoder &other );
 
-   unsigned int   *mpWavHeader;
+   QWidget              *mpConfigWidget;
+   unsigned int         *mpWavHeader;
 };
 
 #endif

@@ -19,7 +19,7 @@ extern "C" {
 }
 
 /* Qt headers */
-#include <QString>
+#include <QStringList>
 
 /* local library headers */
 
@@ -32,8 +32,9 @@ class QLabel;
 class QProgressBar;
 
 /* forward declaration of local classes */
-class CDToc;
 class CDEdit;
+class CDInfo;
+class CDReaderThread;
 class Encoder;
    
 
@@ -42,20 +43,19 @@ class CDReader : public QWidget
 Q_OBJECT
    
 public:
-   CDReader( CDToc *toc, CDEdit *edit, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   CDReader( CDInfo *info, CDEdit *edit, QWidget *parent = 0 );
+   virtual ~CDReader();
    
-   /* callback for paranoia */
-   void callback( long inpos, ::paranoia_cb_mode_t function );
    /* set the encoder to use */
    void setEncoder( Encoder *encoder );
    /* insert available devices into given combobox */
-   void getDevices( QComboBox *comboBox );
+   void getDevices();
    
 public slots:
-   /* read the toc and get titles via CDDB */
-   void readTocCDDB();
-   /* read the toc and get titles via cdtext */
-   void readTocCDText();
+   /* read the toc */
+   void readToc();
+   /*  */
+   void readCDText();
    /* rip tracks */
    void readTracks();
    /* set the device to use */
@@ -71,26 +71,24 @@ signals:
    /*  */
    void stopping();
    /*  */
-   void message( const QString &message );
+   void gotToc();
+   /*  */
+   void foundDevices( const QStringList &devices );
+   /*  */
+   void message( const QString &message = QString() );
+   /*  */
+   void progress( int percent );
    
 private:
    CDReader( const CDReader &other );
    CDReader &operator=( const CDReader &other );
-   
-   /* read the toc */
-   void readToc();
-   
-   ::CdIo_t             *mpCdIo;
-   ::cdrom_drive_t      *mpDrive;
-   ::cdrom_paranoia_t   *mpParanoia;
-   CDToc                *mpToc;
+
+   CDReaderThread       *mpCDReaderThread;
+   CDInfo               *mpCDInfo;
    CDEdit               *mpCDEdit;
    Encoder              *mpEncoder;
-   QProgressBar         *mpProgress;
-   unsigned int         mCallbackFunction[13];
+   QProgressBar         *mpProgressBar;
    QString              mDevice;
-   bool                 mCancel;
-   bool                 mEject;
 };
 
 #endif

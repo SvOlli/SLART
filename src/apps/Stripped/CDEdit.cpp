@@ -18,17 +18,14 @@
 #include <TagList.hpp>
 
 /* local headers */
-#include "CDToc.hpp"
-#include "CDDB.hpp"
+#include "CDDBClient.hpp"
+#include "CDInfo.hpp"
 
 
-
-
-
-CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags )
-: QWidget( parent, flags )
-, mpToc( toc )
-, mpCDDB( cddb )
+CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
+: QWidget( parent )
+, mpCDInfo( info )
+, mpCDDBClient( cddbClient )
 , mpScrollArea( new QScrollArea( this ) )
 , mpScrollWidget( new QWidget( this ) )
 , mpMainLayout( new QGridLayout( mpScrollWidget ) )
@@ -37,7 +34,7 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
 , mpLabelGenre( new QLabel( tr("Genre:"), this ) )
 , mpDiscArtist( new QLineEdit( this ) )
 , mpDiscTitle( new QLineEdit( this ) )
-, mpGenre( new QLineEdit( this ) )
+, mpDiscGenre( new QLineEdit( this ) )
 , mpLabelDiscID( new QLabel( tr("DiscID"), this ) )
 , mpDiscID( new QLabel( this ) )
 , mpDiscPlaytime( new QLabel( this ) )
@@ -53,8 +50,6 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
 , mpTrackTitle( 0 )
 , mpTrackYear( 0 )
 , mpTrackPlaytime( 0 )
-, mpSplitMode( new QComboBox( this ) )
-, mpSplitButton( new QPushButton( tr("Split Titles"), this ) )
 , mpToggleRipButton( new QPushButton( tr("Toggle Rip"), this ) )
 , mpToggleEnqueueButton( new QPushButton( tr("Toggle Enqueue"), this ) )
 , mpCopyArtistButton( new QPushButton( tr("Copy Artist"), this ) )
@@ -100,10 +95,6 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    mpMainLayout->setSpacing( 1 );
    mpMainLayout->setColumnStretch( 2, 1 );
    mpMainLayout->setColumnStretch( 3, 1 );
-#if 0
-   mpDiscArtist->setText( tr("DiscArtist" ) );
-   mpDiscTitle->setText( tr("DiscTitle" ) );
-#endif
    mpLabelEnqueueTrack->setToolTip( tr("enqueue track in Partyman after ripping") );
    
    mpMainLayout->addWidget( mpLabelDiscArtist, 0, 0 );
@@ -111,7 +102,7 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    mpMainLayout->addWidget( mpLabelDiscTitle,  1, 0 );
    mpMainLayout->addWidget( mpDiscTitle,       1, 1, 1, 4 );
    mpMainLayout->addWidget( mpLabelGenre,      2, 0 );
-   mpMainLayout->addWidget( mpGenre,           2, 1, 1, 4 );
+   mpMainLayout->addWidget( mpDiscGenre,       2, 1, 1, 4 );
    mpMainLayout->addWidget( mpLabelDiscID,     0, 5 );
    mpMainLayout->addWidget( mpDiscID,          1, 5 );
    mpMainLayout->addWidget( mpDiscPlaytime,    2, 5 );
@@ -154,18 +145,11 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    }
    mpMainLayout->setRowStretch( 104, 1 );
    
-   mpSplitMode->addItem(" / ");
-   mpSplitMode->addItem(" - ");
-   mpSplitMode->addItem("/");
-   mpSplitMode->addItem("-");
-   buttonLayout->addWidget( mpSplitMode );
-   buttonLayout->addWidget( mpSplitButton );
    buttonLayout->addWidget( mpToggleRipButton );
    buttonLayout->addWidget( mpToggleEnqueueButton );
    buttonLayout->addWidget( mpCopyArtistButton );
    buttonLayout->addWidget( mpNormalizeTitleButton );
    buttonLayout->addWidget( mpCopyYearButton );
-   mpSplitMode->setMinimumHeight( mpSplitButton->minimumHeight() );
 
    mpScrollWidget->setLayout( mpMainLayout );
    mpScrollArea->setWidget( mpScrollWidget );
@@ -178,7 +162,6 @@ CDEdit::CDEdit( CDToc *toc, CDDB *cddb, QWidget *parent , Qt::WindowFlags flags 
    connect( mpCopyArtistButton,     SIGNAL(clicked()), this, SLOT(handleTrackArtist()) );
    connect( mpNormalizeTitleButton, SIGNAL(clicked()), this, SLOT(handleNormalizeTitle()) );
    connect( mpCopyYearButton,       SIGNAL(clicked()), this, SLOT(handleTrackYear()) );
-   connect( mpSplitButton,          SIGNAL(clicked()), this, SLOT(splitTitles()) );
    
    setLayout( outerLayout );
 }
@@ -188,7 +171,7 @@ void CDEdit::clear()
 {
    mpDiscArtist->clear();
    mpDiscTitle->clear();
-   mpGenre->clear();
+   mpDiscGenre->clear();
    mpDiscID->clear();
    mpDiscPlaytime->clear();
    
@@ -304,7 +287,7 @@ void CDEdit::setTrackHidden( int track, bool hide )
 void CDEdit::setTrackDisabled( int track, bool disable )
 {
    /* everything that's not an audio track is always disabled */
-   if( !mpToc->isAudio( track ) )
+   if( !mpCDInfo->isAudio( track ) )
    {
       disable = true;
    }
@@ -317,25 +300,36 @@ void CDEdit::setTrackDisabled( int track, bool disable )
 }
 
 
-void CDEdit::update( bool useCDDB )
+void CDEdit::update()
 {
-   int i, count = 4;
+   int i = 0;
+   int count = 4;
    QString length;
 
-   if( useCDDB )
-   {
-      mpCDDB->query( mpToc->query() );
-   }
-   
+   mpDiscArtist->setText( mpCDInfo->artist() );
+   mpDiscTitle->setText( mpCDInfo->title() );
+   mpDiscGenre->setText( mpCDInfo->genre() );
+   mpDiscID->setText( mpCDInfo->cddbDiscID() );
+   mpDiscPlaytime->setText( mpCDInfo->length() );
    for( i = 0; i < 100; i++ )
    {
-      length = mpToc->length( i );
+      length = mpCDInfo->length( i );
       mpTrackPlaytime[i]->setText( length );
       mpEnqueueTrack[i]->setChecked( false );
-      mpTrackNr[i]->setChecked( (i != 0) && mpToc->isAudio(i) );
-      setTrackDisabled( i, !mpToc->isAudio(i) );
+      mpTrackNr[i]->setChecked( (i != 0) && mpCDInfo->isAudio(i) );
+      setTrackDisabled( i, !mpCDInfo->isAudio(i) );
       bool empty = length.isEmpty();
       setTrackHidden( i, empty );
+      mpTrackArtist[i]->setText( mpCDInfo->artist(i) );
+      mpTrackTitle[i]->setText( mpCDInfo->title(i) );
+      if( mpCDInfo->year() <= 0 )
+      {
+         mpTrackYear[i]->setText( QString() );
+      }
+      else
+      {
+         mpTrackYear[i]->setText( QString::number( mpCDInfo->year() ) );
+      }
       if( !empty )
       {
          count++;
@@ -351,8 +345,6 @@ void CDEdit::update( bool useCDDB )
       mpTrackYear[0]->setDisabled( false );
    }
    mpScrollWidget->resize( mpScrollArea->width() - 20, count * 24 );
-   mpDiscID->setText( mpToc->cddbDiscID() );
-   mpDiscPlaytime->setText( mpToc->length() );
    
    emit containsData( true );
 }
@@ -371,65 +363,6 @@ void CDEdit::updateCDText( int track, const QString &artist, const QString &titl
       mpTrackTitle[track]->setText( title );
       mpTrackArtist[track]->setCursorPosition( 1 );
       mpTrackTitle[track]->setCursorPosition( 1 );
-   }
-}
-
-
-void CDEdit::updateCDDB()
-{
-   int i;
-   mpDiscTitle->setText( mpToc->mTitle[0] );
-   mpGenre->setText( mpToc->mGenre );
-
-   if( (mpToc->mYear >= 0) && (mpToc->mYear <= 9999) )
-   {
-      mpTrackYear[0]->setText( QString::number( mpToc->mYear ) );
-   }
-   else
-   {
-      mpTrackYear[0]->clear();
-   }
-   
-   for( i = 1; i < 100; i++ )
-   {
-      mpTrackTitle[i]->setText( mpToc->mTitle[i] );
-      mpTrackYear[i]->setText( mpTrackYear[0]->text() );
-   }
-   
-   splitTitles();
-}
-
-
-void CDEdit::splitTitles()
-{
-   QString splitMode( mpSplitMode->currentText() );
-   QString title( mpDiscTitle->text() );
-   int i;
-   int indexOfSplit = title.indexOf( splitMode );
-   
-   if( indexOfSplit > 0 )
-   {
-      mpDiscArtist->setText( title.left(indexOfSplit) );
-      mpDiscTitle->setText( title.mid( indexOfSplit + splitMode.size() ) );
-   }
-
-   for( i = 0; i < 100; i++ )
-   {
-      title = mpTrackTitle[i]->text();
-      indexOfSplit = title.indexOf( splitMode );
-      
-      if( indexOfSplit > 0 )
-      {
-         mpTrackArtist[i]->setText( title.left(indexOfSplit) );
-         mpTrackTitle[i]->setText( title.mid( indexOfSplit + splitMode.size() ) );
-         mpTrackArtist[i]->setCursorPosition( 1 );
-         mpTrackTitle[i]->setCursorPosition( 1 );
-      }
-      else
-      {
-         mpTrackArtist[i]->setText( mpDiscArtist->text() );
-         mpTrackArtist[i]->setCursorPosition( 1 );
-      }
    }
 }
 
@@ -457,7 +390,7 @@ void CDEdit::trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *arti
       *title        = mpTrackTitle[tracknr]->text();
       *albumartist  = mpDiscArtist->text();
       *albumtitle   = mpDiscTitle->text();
-      *genre        = mpGenre->text();
+      *genre        = mpDiscGenre->text();
       *year         = mpTrackYear[tracknr]->text().toLong();
    }
 }

@@ -10,7 +10,7 @@
 #define ENCODER_HPP ENCODER_HPP
 
 /* base class */
-#include <QWidget>
+#include <QThread>
 
 /* system headers */
 
@@ -27,28 +27,37 @@
 /* forward declaration of local classes */
 
 
-class Encoder : public QWidget
+class Encoder : public QThread
 {
 Q_OBJECT
    
 public:
-   Encoder( QWidget *parent, const QString &encoderName );
+   Encoder( QObject *parent, const QString &encoderName );
    virtual ~Encoder();
    
-   /* initialize the encoder */
-   virtual bool initialize( const QString &fileName) = 0;
-   /* finalize (clean up) the encoder and close the file */
-   virtual bool finalize( bool enqueue, bool cancel );
-   /* set the tags of the encoded file */
-   void setTags( const TagList &tagList );
-   /* encode raw cd audio data */
-   virtual bool encodeCDAudio( const char* data, int size ) = 0;
+   /*  */
+   virtual QWidget *configWidget() = 0;
+   /*  */
+   void run();
    /* read settings from storage */
    virtual void readSettings() = 0;
    /* write settings to storage */
    virtual void writeSettings() = 0;
    /* name of the encoder */
    const QString mName;
+   /* set the tags of the encoded file, always called before(!) initialize */
+   void setTags( const TagList &tagList );
+   /* initialize the encoder */
+   virtual bool initialize( const QString &fileName) = 0;
+   /* finalize (clean up) the encoder and close the file */
+   virtual bool finalize( bool enqueue, bool cancel );
+
+public slots:
+   /* encode raw cd audio data */
+   virtual void encodeCDAudio( const QByteArray &data ) = 0;
+
+signals:
+   void encodingFail();
 
 protected:
    /* initialize the encoder (create the output file) */
@@ -56,14 +65,14 @@ protected:
    /*  */
    bool writeChunk( const char* buffer, qint64 size );
    
-   QFile   mFile;
-   TagList mTagList;
+   QFile    mFile;
+   TagList  mTagList;
    
 private:
    Encoder( const Encoder &other );
    Encoder &operator=( const Encoder &other );
-   
-   QString mFileName;
+
+   QString  mFileName;
 };
 
 #endif

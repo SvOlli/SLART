@@ -15,14 +15,15 @@
 #include <QDir>
 
 /* local library headers */
+#include <ConfigDialog.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 
 /* local headers */
 
 
-Encoder::Encoder( QWidget *parent, const QString &encoderName )
-: QWidget( parent )
+Encoder::Encoder( QObject *parent, const QString &encoderName )
+: QThread( parent )
 , mName( encoderName )
 , mFile()
 {
@@ -34,9 +35,17 @@ Encoder::~Encoder()
 }
 
 
+void Encoder::run()
+{
+   /* when started just run event loop to handle messages */
+   exec();
+}
+
+
 bool Encoder::initialize( const QString &fileName, const char *extension )
 {
-   QFileInfo qfi( fileName+extension );
+   QFileInfo qfi( MySettings().VALUE_DIRECTORY + QDir::separator() +
+                  fileName + extension );
    QDir dir( qfi.absoluteDir() );
    
    if( !dir.exists() )

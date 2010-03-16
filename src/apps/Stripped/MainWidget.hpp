@@ -28,10 +28,11 @@ class QPushButton;
 class QHBoxLayout;
 
 /* forward declaration of local classes */
-class CDReader;
-class CDToc;
-class CDDB;
+class CDDBClient;
 class CDEdit;
+class CDInfo;
+class CDList;
+class CDReader;
 class ConfigDialog;
 class Satellite;
 
@@ -41,8 +42,21 @@ class MainWidget : public QWidget
 Q_OBJECT
    
 public:
+   enum operationState
+   {
+      stateInit,
+      stateNoDrive,
+      stateIdle,
+      stateScan,
+      stateNet,
+      stateRip
+   };
+
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    
+   /*  */
+   void setState( enum operationState state );
+
 public slots:
    /* set the directory where the ripped tracks go to */
    void setRippingDir();
@@ -54,6 +68,8 @@ public slots:
    void finished();
    /*  */
    void showMessage( const QString &message );
+   /* update configuration changes */
+   void handleConfigUpdate();
    
 signals:
    /* request a new icon and title */
@@ -63,21 +79,23 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
    
+public:
+private:
    Satellite       *mpSatellite;
    QPushButton     *mpDirButton;
-   CDToc           *mpToc;
-   CDDB            *mpCDDB;
+   CDInfo          *mpCDInfo;
+   CDDBClient      *mpCDDBClient;
    CDEdit          *mpCDEdit;
    CDReader        *mpCDReader;
    QLabel          *mpMessage;
    ConfigDialog    *mpConfigDialog;
+   QHBoxLayout     *mpButtonLayout;
    QPushButton     *mpSettingsButton;
    QPushButton     *mpCancelButton;
-   QHBoxLayout     *mpButtonLayout;
-   QPushButton     *mpTocButton;
-   QPushButton     *mpCDTextButton;
+   QPushButton     *mpScanButton;
    QPushButton     *mpRipButton;
    QPushButton     *mpEjectButton;
+   enum operationState  mState;
 };
 
 #endif

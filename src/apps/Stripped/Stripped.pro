@@ -21,40 +21,26 @@ RC_FILE = ../../libs/Common/Resources/WinIcon.rc
 
 SOURCES += Application.cpp 
 
-#HEADERS += Database.hpp
-
-#HEADERS += MainWindow.hpp 
-#SOURCES += MainWindow.cpp 
-
 HEADERS += MainWidget.hpp 
 SOURCES += MainWidget.cpp 
 
 HEADERS += ConfigDialog.hpp 
 SOURCES += ConfigDialog.cpp 
 
-#HEADERS += GlobalConfigWidget.hpp 
-#SOURCES += GlobalConfigWidget.cpp 
-
-#HEADERS += ProxyWidget.hpp 
-#SOURCES += ProxyWidget.cpp 
-
-#HEADERS += MySettings.hpp 
-#SOURCES += MySettings.cpp 
-
-#HEADERS += AboutWidget.hpp
-#SOURCES += AboutWidget.cpp
-
 HEADERS += CDReader.hpp 
 SOURCES += CDReader.cpp 
+
+HEADERS += CDReaderThread.hpp 
+SOURCES += CDReaderThread.cpp 
 
 HEADERS += CDEdit.hpp 
 SOURCES += CDEdit.cpp 
 
-HEADERS += CDToc.hpp 
-SOURCES += CDToc.cpp 
+HEADERS += CDInfo.hpp 
+SOURCES += CDInfo.cpp 
 
-HEADERS += CDDB.hpp 
-SOURCES += CDDB.cpp 
+HEADERS += CDDBClient.hpp 
+SOURCES += CDDBClient.cpp 
 
 HEADERS += Encoder.hpp 
 SOURCES += Encoder.cpp 
@@ -67,7 +53,4 @@ SOURCES += OggEncoder.cpp
 
 HEADERS += FlacEncoder.hpp 
 SOURCES += FlacEncoder.cpp 
-
-#HEADERS += TagList.hpp 
-#SOURCES += TagList.cpp 
 

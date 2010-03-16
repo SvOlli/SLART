@@ -22,6 +22,7 @@
 
 WavEncoder::WavEncoder( QWidget *parent )
 : Encoder( parent, tr("wav") )
+, mpConfigWidget( new QWidget( parent ) )
 , mpWavHeader( new unsigned int[11] )
 {
    mpWavHeader[ 0] = qToBigEndian( 0x52494646 ); // "RIFF"
@@ -36,8 +37,8 @@ WavEncoder::WavEncoder( QWidget *parent )
    mpWavHeader[ 9] = qToBigEndian( 0x64617461 ); // "data"
    mpWavHeader[10] = 0;                          // data size
 
-   QHBoxLayout *mainLayout = new QHBoxLayout( this );
-   QLabel      *label      = new QLabel( tr("no config"), this );
+   QHBoxLayout *mainLayout = new QHBoxLayout( mpConfigWidget );
+   QLabel      *label      = new QLabel( tr("no config"), mpConfigWidget );
 
 #if QT_VERSION < 0x040300
    mainLayout->setMargin( 0 );
@@ -46,7 +47,7 @@ WavEncoder::WavEncoder( QWidget *parent )
 #endif
    mainLayout->addWidget( label );
 
-   setLayout( mainLayout );
+   mpConfigWidget->setLayout( mainLayout );
 }
 
 WavEncoder::~WavEncoder()
@@ -80,6 +81,9 @@ bool WavEncoder::initialize( const QString &fileName )
 
 bool WavEncoder::finalize( bool enqueue, bool cancel )
 {
+   /* make sure all data is processed */
+   wait();
+
    unsigned int size = (mFile.pos() & 0xFFFFFFFF);
    /* write the wave header */
    if( !mFile.seek( 0 ) )
@@ -99,7 +103,16 @@ bool WavEncoder::finalize( bool enqueue, bool cancel )
 }
 
 
-bool WavEncoder::encodeCDAudio( const char* data, int size )
+void WavEncoder::encodeCDAudio( const QByteArray &data )
 {
-   return Encoder::writeChunk( data, size );
+   if (!Encoder::writeChunk( data.constData(), data.size() ) )
+   {
+      emit encodingFail();
+   }
+}
+
+
+QWidget *WavEncoder::configWidget()
+{
+   return mpConfigWidget;
 }
