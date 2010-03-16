@@ -15,6 +15,8 @@ if [ -x /usr/bin/apt-get ]; then
     libvorbis-dev libsndfile1-dev \
     libcdio-paranoia-dev \
     liblircclient-dev \
+    libflac++-dev \
+    libbz2-dev \
     dpkg-buildpackage \
     build-essentials \
     fakeroot \
@@ -25,21 +27,23 @@ fi
 
 # Tiny Core Linux
 if [ -x /usr/bin/tce-wget ]; then
-  tce=tce
+  tce=tcz
   /usr/bin/tce-wget alsa.${tce}l
   /usr/bin/tce-wget alsa-devs.${tce}
   /usr/bin/tce-wget compiletc.${tce}
-  /usr/bin/tce-wget fontconfig.${tce}l
+  /usr/bin/tce-wget fontconfig.${tce}
   /usr/bin/tce-wget fontconfig-devs.${tce}
-  /usr/bin/tce-wget libcdio.${tce}l
+  /usr/bin/tce-wget libcdio.${tce}
   /usr/bin/tce-wget libcdio-devs.${tce}
-  /usr/bin/tce-wget libsndfile.${tce}l
+  /usr/bin/tce-wget libsndfile.${tce}
   /usr/bin/tce-wget libsndfile-devs.${tce}
-  /usr/bin/tce-wget lirc.${tce}ml
-  /usr/bin/tce-wget ogg-vorbis.${tce}l
+  /usr/bin/tce-wget libFLAC++.${tce}
+  /usr/bin/tce-wget libFLAC++-devs.${tce}
+  /usr/bin/tce-wget lirc.${tce}
+  /usr/bin/tce-wget ogg-vorbis.${tce}
   /usr/bin/tce-wget ogg-vorbis-devs.${tce}
-  /usr/bin/tce-wget qt-4.5-sql.${tce}l
-  /usr/bin/tce-wget qt-4.5-devs.${tce}l
+  /usr/bin/tce-wget qt-4.5-sql.${tce}
+  /usr/bin/tce-wget qt-4.5-devs.${tce}
   
   exit 0
 fi

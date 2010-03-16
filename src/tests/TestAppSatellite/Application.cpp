@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
    QApplication app(argc, argv);
    app.setOrganizationName("SLART");
    app.setOrganizationDomain("svolli.org");
-   app.setApplicationName("TestApp");
+   app.setApplicationName("TestAppSatellite");
 
    MainWindow window;
    window.show();

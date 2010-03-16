@@ -8,6 +8,7 @@ all:
 - rename "Folder(s)" to "Label(s)"
 
 extra:
+- complete script to build deb (and rpm?) packages
 
 Common:
 - clean filename function
@@ -16,17 +17,17 @@ Common:
 Karmadrome:
 
 Funkytown:
+- change from QHttp to QNetworkManager
 - improve url detecting
 - handle authentification
 ? add rtmpdump
 
 Stripped:
 - add Stripped to cdrom-open dialog
-- move QHttp to an own thread
-  ? replace own implementation with libcddb
-- move ripping to an own thread
-- change freedb-handling to libcddb
+  - implement as a setting
+? change freedb-handling to libcddb
 - auto read-toc
+  - with cdrom-dialog and Satellite
 ? encode in mp3
 - request on overwrite
 - use Notorious database
@@ -34,8 +35,10 @@ Stripped:
 
 Partyman:
 ? better random init via /dev/urandom
+  - only if exists
 ? auto-switch to info
 - check all error handling
+- change "now playing" popup, when track is not in database
 
 Rubberbandman:
 - dragging of filesystem-items
@@ -46,5 +49,4 @@ Rubberbandman:
 
 Innuendo:
 - reorder application start buttons
-- add Sorcerer
 
