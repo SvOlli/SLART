@@ -59,6 +59,9 @@ public slots:
    void handleDevices( const QStringList &devices );
    
 signals:
+   /*  */
+   void stateNoDrive();
+   /*  */
    void configChanged();
    
 private:

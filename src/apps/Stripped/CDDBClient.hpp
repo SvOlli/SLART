@@ -57,6 +57,10 @@ public slots:
 
 signals:
    /*  */
+   void stateNet();
+   /*  */
+   void stateDisc();
+   /*  */
    void infoUpdated();
    /*  */
    void requestCDText();

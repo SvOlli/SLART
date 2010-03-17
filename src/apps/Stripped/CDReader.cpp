@@ -49,11 +49,15 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
 #endif
 
    mainLayout->addWidget( mpProgressBar, 0, 0 );
-   
-   connect( mpCDReaderThread, SIGNAL(starting()),
-            this, SIGNAL(starting()) );
-   connect( mpCDReaderThread, SIGNAL(stopping()),
-            this, SIGNAL(stopping()) );
+
+   connect( mpCDReaderThread, SIGNAL(stateNoDisc()),
+            this, SIGNAL(stateNoDisc()) );
+   connect( mpCDReaderThread, SIGNAL(stateDisc()),
+            this, SIGNAL(stateDisc()) );
+   connect( mpCDReaderThread, SIGNAL(stateScan()),
+            this, SIGNAL(stateScan()) );
+   connect( mpCDReaderThread, SIGNAL(stateRip()),
+            this, SIGNAL(stateRip()) );
    connect( mpCDReaderThread, SIGNAL(gotToc()),
             this, SIGNAL(gotToc()) );
    connect( mpCDReaderThread, SIGNAL(foundDevices(const QStringList &)),
@@ -96,6 +100,8 @@ void CDReader::getDevices()
 
 void CDReader::readToc()
 {
+   mpCDInfo->clear();
+   mpCDEdit->clear();
    mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mpEncoder, mDevice );
    mpCDReaderThread->startReadToc();
 }

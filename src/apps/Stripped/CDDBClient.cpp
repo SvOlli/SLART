@@ -135,6 +135,7 @@ void CDDBClient::handleComboBox( int index )
       /* request from FreeDB */
       if( !mpCDInfo->tracks() )
       {
+         emit stateNet();
          return;
       }
       QStringList parameters;
@@ -161,6 +162,7 @@ void CDDBClient::handleComboBox( int index )
             parameters.removeLast();
          }
          emit message( tr("Reading data from CDDB.") );
+         emit stateNet();
          startRequest( "read", parameters );
       }
    }
@@ -224,6 +226,7 @@ void CDDBClient::handleQueryData( QNetworkReply *reply )
          {
             mpCDInfo->setTitle( i, QString(), true );
          }
+         emit stateDisc();
          emit infoUpdated();
          break;
       case 210:
@@ -242,9 +245,13 @@ void CDDBClient::handleQueryData( QNetworkReply *reply )
    }
    QTimer::singleShot( 1500, this, SIGNAL( message() ) );
    mpCount->setText( QString::number( mpHits->count() - 3 ) + ":" );
-   if( MySettings().VALUE_AUTOFREEDB )
+   if( MySettings().VALUE_AUTOFREEDB && (mpHits->count() > 3) )
    {
       handleComboBox( 3 );
+   }
+   else
+   {
+      emit stateDisc();
    }
 }
 
@@ -304,6 +311,7 @@ void CDDBClient::handleReadData( QNetworkReply *reply )
    }
    QTimer::singleShot( 1500, this, SIGNAL( message() ) );
 
+   emit stateDisc();
    handleSplit();
 }
 

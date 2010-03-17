@@ -42,34 +42,29 @@ class MainWidget : public QWidget
 Q_OBJECT
    
 public:
-   enum operationState
-   {
-      stateInit,
-      stateNoDrive,
-      stateIdle,
-      stateScan,
-      stateNet,
-      stateRip
-   };
-
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   
-   /*  */
-   void setState( enum operationState state );
 
 public slots:
    /* set the directory where the ripped tracks go to */
    void setRippingDir();
    /* handle eject button */
    void eject();
-   /* handle working state (disable buttons) */
-   void working( bool allowCancel = true );
-   /* unset stuff done by settings to working state */
-   void finished();
    /*  */
    void showMessage( const QString &message );
    /* update configuration changes */
    void handleConfigUpdate();
+   /*  */
+   void stateNoDrive();
+   /*  */
+   void stateNoDisc();
+   /*  */
+   void stateDisc();
+   /*  */
+   void stateScan();
+   /*  */
+   void stateNet();
+   /*  */
+   void stateRip();
    
 signals:
    /* request a new icon and title */
@@ -95,7 +90,6 @@ private:
    QPushButton     *mpScanButton;
    QPushButton     *mpRipButton;
    QPushButton     *mpEjectButton;
-   enum operationState  mState;
 };
 
 #endif

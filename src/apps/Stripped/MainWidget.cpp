@@ -25,6 +25,7 @@
 #include "CDReader.hpp"
 #include "ConfigDialog.hpp"
 
+#include <QTimer>
 
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
@@ -118,10 +119,25 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpCDEdit, SLOT(ensureVisible(int)) );
 
    /* other interaction */
-   connect( mpCDReader, SIGNAL(starting()),
-            this, SLOT(working()) );
-   connect( mpCDReader, SIGNAL(stopping()),
-            this, SLOT(finished()) );
+   connect( mpConfigDialog, SIGNAL(stateNoDrive()),
+            this, SLOT(stateNoDrive()) );
+
+   connect( mpCDReader, SIGNAL(stateNoDisc()),
+            this, SLOT(stateNoDisc()) );
+   connect( mpCDReader, SIGNAL(stateDisc()),
+            this, SLOT(stateDisc()) );
+   connect( mpCDReader, SIGNAL(stateScan()),
+            this, SLOT(stateScan()) );
+   connect( mpCDReader, SIGNAL(stateRip()),
+            this, SLOT(stateRip()) );
+
+   connect( mpCDDBClient, SIGNAL(stateNet()),
+            this, SLOT(stateNet()) );
+   connect( mpCDDBClient, SIGNAL(stateDisc()),
+            this, SLOT(stateDisc()) );
+
+   connect( mpCDDBClient, SIGNAL(requestCDText()),
+            mpCDReader, SLOT(readCDText()) );
    connect( mpCDDBClient, SIGNAL(message(const QString &)),
             this, SLOT(showMessage(const QString &)) );
    connect( mpCDReader, SIGNAL(message(const QString &)),
@@ -129,23 +145,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    mpSatellite->restart();
    handleConfigUpdate();
-}
-
-
-void MainWidget::setState( enum operationState state )
-{
-   switch( state )
-   {
-      case stateInit:
-      case stateNoDrive:
-      case stateIdle:
-      case stateScan:
-      case stateNet:
-      case stateRip:
-      default:
-         break;
-   }
-   mState = state;
+   stateNoDisc();
+   QTimer::singleShot( 2000, this, SLOT(stateNoDisc()) );
 }
 
 
@@ -175,26 +176,6 @@ void MainWidget::eject()
 }
 
 
-void MainWidget::working( bool allowCancel )
-{
-   mpCancelButton->setDisabled( !allowCancel );
-   mpSettingsButton->setDisabled( true );
-   mpScanButton->setDisabled( true );
-   mpRipButton->setDisabled( true );
-   mpEjectButton->setDisabled( allowCancel );
-}
-
-
-void MainWidget::finished()
-{
-   mpCancelButton->setDisabled( true );
-   mpSettingsButton->setDisabled( false );
-   mpScanButton->setDisabled( false );
-   mpRipButton->setDisabled( mpCDEdit->isEmpty() );
-   mpEjectButton->setDisabled( false );
-}
-
-
 void MainWidget::showMessage( const QString &message )
 {
    mpMessage->setText( message );
@@ -214,4 +195,80 @@ void MainWidget::handleConfigUpdate()
       disconnect( mpCDReader, SIGNAL(gotToc()),
                   mpCDDBClient, SLOT(handleComboBox()) );
    }
+}
+
+
+void MainWidget::stateNoDrive()
+{
+   mpCDEdit->clear();
+   mpCDEdit->setDisabled( true );
+   mpCDDBClient->setDisabled( true );
+   mpSettingsButton->setDisabled( false );
+   mpCancelButton->setDisabled( true );
+   mpScanButton->setDisabled( true );
+   mpRipButton->setDisabled( true );
+   mpEjectButton->setDisabled( true );
+   QMessageBox::critical(this, QApplication::applicationName(),
+         tr("No drive found capable of reading audio CDs.") );
+}
+
+
+void MainWidget::stateNoDisc()
+{
+   mpCDEdit->clear();
+   mpCDEdit->setDisabled( true );
+   mpCDDBClient->setDisabled( true );
+   mpSettingsButton->setDisabled( false );
+   mpCancelButton->setDisabled( true );
+   mpScanButton->setDisabled( false );
+   mpRipButton->setDisabled( true );
+   mpEjectButton->setDisabled( false );
+}
+
+
+void MainWidget::stateDisc()
+{
+   mpCDEdit->setDisabled( false );
+   mpCDDBClient->setDisabled( false );
+   mpSettingsButton->setDisabled( false );
+   mpCancelButton->setDisabled( true );
+   mpScanButton->setDisabled( false );
+   mpRipButton->setDisabled( false );
+   mpEjectButton->setDisabled( false );
+}
+
+
+void MainWidget::stateScan()
+{
+   mpCDEdit->setDisabled( false );
+   mpCDDBClient->setDisabled( false );
+   mpSettingsButton->setDisabled( true );
+   mpCancelButton->setDisabled( false );
+   mpScanButton->setDisabled( true );
+   mpRipButton->setDisabled( true );
+   mpEjectButton->setDisabled( true );
+}
+
+
+void MainWidget::stateNet()
+{
+   mpCDEdit->setDisabled( false );
+   mpCDDBClient->setDisabled( false );
+   mpSettingsButton->setDisabled( true );
+   mpCancelButton->setDisabled( false );
+   mpScanButton->setDisabled( true );
+   mpRipButton->setDisabled( true );
+   mpEjectButton->setDisabled( true );
+}
+
+
+void MainWidget::stateRip()
+{
+   mpCDEdit->setDisabled( false );
+   mpCDDBClient->setDisabled( false );
+   mpSettingsButton->setDisabled( true );
+   mpCancelButton->setDisabled( false );
+   mpScanButton->setDisabled( true );
+   mpRipButton->setDisabled( true );
+   mpEjectButton->setDisabled( true );
 }

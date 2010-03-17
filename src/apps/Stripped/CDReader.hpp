@@ -67,9 +67,13 @@ public slots:
    
 signals:
    /*  */
-   void starting();
+   void stateNoDisc();
    /*  */
-   void stopping();
+   void stateDisc();
+   /*  */
+   void stateScan();
+   /*  */
+   void stateRip();
    /*  */
    void gotToc();
    /*  */

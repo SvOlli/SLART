@@ -169,6 +169,7 @@ void CDReaderThread::runGetDevices()
 
    mDevices.clear();
 
+   emit stateScan();
    drives = ::cdio_get_devices( DRIVER_UNKNOWN );
    if( !drives )
    {
@@ -181,6 +182,7 @@ void CDReaderThread::runGetDevices()
    }
 
    emit foundDevices( mDevices );
+   emit stateNoDisc();
 }
 
 
@@ -190,7 +192,10 @@ void CDReaderThread::runReadToc()
    mpCdIo  = ::cdio_open( mDevice.toLocal8Bit(), DRIVER_UNKNOWN );
    mpDrive = ::cdio_cddap_identify_cdio( mpCdIo, CDDA_MESSAGE_PRINTIT, NULL );
 
-   switch( ::cdio_cddap_open(mpDrive) )
+   emit stateScan();
+
+   int retval = ::cdio_cddap_open(mpDrive);
+   switch( retval )
    {
       case 0:
          break;
@@ -198,14 +203,17 @@ void CDReaderThread::runReadToc()
       case -3:
       case -4:
       case -5:
-         //puts("\nUnable to open disc.  Is there an audio CD in the drive?");
-         exit(1);
+         emit stateNoDisc();
+         emit message( tr("Unable to open disc. Is there an audio CD in the drive?") );
+         return;
       case -6:
-         //puts("\ncdparanoia could not find a way to read audio from this drive."
-         exit(1);
+         emit stateNoDisc();
+         emit message( tr("cdparanoia could not find a way to read audio from this drive." ) );
+         return;
       default:
-         //puts("\nUnable to open disc.");
-         exit(1);
+         emit stateNoDisc();
+         emit message( tr("Unable to open disc.") );
+         return;
    }
 
    mpCDInfo->setDisc( mpDrive->tracks,
@@ -230,8 +238,17 @@ void CDReaderThread::runReadToc()
       }
    }
 
-   mpCDInfo->calcCddbDiscID();
-   emit gotToc();
+   if( mpDrive->tracks )
+   {
+      mpCDInfo->calcCddbDiscID();
+      emit stateDisc();
+      emit gotToc();
+   }
+   else
+   {
+      mpCDInfo->clear();
+      emit stateNoDisc();
+   }
 }
 
 
@@ -244,6 +261,8 @@ void CDReaderThread::runReadCDText()
    {
       return;
    }
+
+   emit stateScan();
 
    first = cdio_get_first_track_num( mpCdIo );
    last  = cdio_get_last_track_num( mpCdIo );
@@ -261,6 +280,8 @@ void CDReaderThread::runReadCDText()
       mpCDInfo->setTitle( track, QString::fromUtf8( cdtext_get_const( CDTEXT_TITLE, cdtext ) ) );
       cdtext_destroy( cdtext );
    }
+   emit gotToc();
+   emit stateDisc();
 }
 
 
@@ -287,7 +308,7 @@ void CDReaderThread::runReadAudioData()
       mpCallbackFunction[i] = 0;
    }
 
-   emit starting();
+   emit stateRip();
 
    mpParanoia = ::cdio_paranoia_init( mpDrive );
    ::cdio_paranoia_modeset( mpParanoia, PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP );
@@ -390,8 +411,9 @@ printf("\n");
    {
       emit setTrackDisabled( i, false );
    }
-   emit stopping();
+   emit stateDisc();
 }
+
 
 void CDReaderThread::runEject()
 {
@@ -416,6 +438,7 @@ void CDReaderThread::runEject()
    }
 #endif
    QTimer::singleShot( 1000, this, SIGNAL(message()) );
+   emit stateNoDisc();
 }
 
 

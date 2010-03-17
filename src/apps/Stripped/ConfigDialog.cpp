@@ -183,8 +183,15 @@ void ConfigDialog::writeSettings()
 void ConfigDialog::handleDevices( const QStringList &devices )
 {
    mpDevicesBox->clear();
-   mpDevicesBox->addItems( devices );
-   mpDevicesBox->setCurrentIndex( mpDevicesBox->findText( MySettings().VALUE_DEVICE ) );
+   if( devices.size() )
+   {
+      mpDevicesBox->addItems( devices );
+      mpDevicesBox->setCurrentIndex( mpDevicesBox->findText( MySettings().VALUE_DEVICE ) );
+   }
+   else
+   {
+      emit stateNoDrive();
+   }
 }
 
 
