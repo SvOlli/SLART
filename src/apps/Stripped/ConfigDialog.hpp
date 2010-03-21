@@ -74,6 +74,7 @@ private:
    QLabel               *mpDevicesLabel;
    QComboBox            *mpDevicesBox;
    QCheckBox            *mpAutoFreeDB;
+   QCheckBox            *mpAutoEject;
    QLabel               *mpPatternLabel;
    QLineEdit            *mpPattern;
    QLabel               *mpPatternExample;
@@ -84,6 +85,7 @@ private:
 };
 
 /* defaults */
+#define VALUE_AUTOEJECT      value( "AutoEject", false ).toBool()
 #define VALUE_AUTOFREEDB     value( "AutoFreeDB", true ).toBool()
 #define VALUE_CREATEPATTERN  value( "CreatePattern", "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString()
 #define VALUE_DEVICE         value( "Device", QString("/dev/cdrom") ).toString()

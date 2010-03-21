@@ -158,7 +158,6 @@ void CDReaderThread::run()
          break;
    }
    mMode = modeUndefined;
-   emit message();
 }
 
 
@@ -412,6 +411,10 @@ printf("\n");
       emit setTrackDisabled( i, false );
    }
    emit stateDisc();
+   if( MySettings().VALUE_AUTOEJECT )
+   {
+      runEject();
+   }
 }
 
 

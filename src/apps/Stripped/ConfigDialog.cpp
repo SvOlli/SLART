@@ -37,6 +37,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 , mpDevicesLabel( new QLabel( tr("Device:"), this ) )
 , mpDevicesBox( new QComboBox( this ) )
 , mpAutoFreeDB( new QCheckBox( tr("Automatically run FreeDB query"), this ) )
+, mpAutoEject( new QCheckBox( tr("Automatically eject CD when done"), this ) )
 , mpPatternLabel( new QLabel( tr("File Create Pattern"), this ) )
 , mpPattern( new QLineEdit( this ) )
 , mpPatternExample( new QLabel( tr(""), this ) )
@@ -72,12 +73,13 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    strLayout->addWidget( mpPattern,        1, 1 );
    strLayout->addWidget( mpPatternExample, 2, 1 );
    strLayout->addWidget( mpAutoFreeDB,     3, 0, 1, 2 );
-   strLayout->addWidget( mpEncodersLabel,  4, 0 );
-   strLayout->addWidget( mpEncodersBox,    4, 1 );
+   strLayout->addWidget( mpAutoEject,      4, 0, 1, 2 );
+   strLayout->addWidget( mpEncodersLabel,  5, 0 );
+   strLayout->addWidget( mpEncodersBox,    5, 1 );
    for( i = 0; i < mEncoders.size(); i++ )
    {
-      strLayout->addWidget( new QLabel( (mEncoders.at(i)->mName + tr(" Encoder") ) ), 5+i, 0 );
-      strLayout->addWidget( mEncoders.at(i)->configWidget(), 5+i, 1 );
+      strLayout->addWidget( new QLabel( (mEncoders.at(i)->mName + tr(" Encoder") ) ), 6+i, 0 );
+      strLayout->addWidget( mEncoders.at(i)->configWidget(), 6+i, 1 );
       mpEncodersBox->addItem( mEncoders.at(i)->mName );
    }
    strLayout->setRowStretch( 4+i, 1 );
@@ -141,6 +143,7 @@ void ConfigDialog::readSettings()
       mpDevicesBox->setCurrentIndex( i );
    }
    mpAutoFreeDB->setChecked( settings.VALUE_AUTOFREEDB );
+   mpAutoEject->setChecked( settings.VALUE_AUTOEJECT );
    i = mpEncodersBox->findText( settings.VALUE_ENCODER );
    if( i < 0 )
    {
@@ -166,6 +169,7 @@ void ConfigDialog::writeSettings()
    MySettings settings;
    settings.setValue( "Device", mpDevicesBox->currentText() );
    settings.setValue( "AutoFreeDB", mpAutoFreeDB->isChecked() );
+   settings.setValue( "AutoEject", mpAutoEject->isChecked() );
    settings.setValue( "CreatePattern", mpPattern->text() );
    settings.setValue( "Encoder", mpEncodersBox->currentText() );
    
