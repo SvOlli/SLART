@@ -50,6 +50,8 @@ public:
    void clear();
    /* check if the sheet is empty */
    bool isEmpty();
+   /*  */
+   void keyUpDown( QWidget *widget, bool isUp );
    
 signals:
    /* signalize if the TOC contains data */
@@ -74,11 +76,11 @@ public slots:
    void update();
    /* ensure that a certain track is visible on sheet */
    void ensureVisible( int tracknr );
-   
+
 private:
    CDEdit( const CDEdit &other );
    CDEdit &operator=( const CDEdit &other );
-   
+
    CDInfo       *mpCDInfo;
    CDDBClient   *mpCDDBClient;
    QScrollArea  *mpScrollArea;
@@ -86,7 +88,7 @@ private:
    QGridLayout  *mpMainLayout;
    QLabel       *mpLabelDiscArtist;
    QLabel       *mpLabelDiscTitle;
-   QLabel       *mpLabelGenre;
+   QLabel       *mpLabelDiscGenre;
    QLineEdit    *mpDiscArtist;
    QLineEdit    *mpDiscTitle;
    QLineEdit    *mpDiscGenre;
@@ -110,6 +112,7 @@ private:
    QPushButton  *mpCopyArtistButton;
    QPushButton  *mpNormalizeTitleButton;
    QPushButton  *mpCopyYearButton;
+   int          mLastColumn;
 };
 
 #endif

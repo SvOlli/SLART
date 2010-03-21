@@ -36,6 +36,12 @@ SOURCES += CDReaderThread.cpp
 HEADERS += CDEdit.hpp 
 SOURCES += CDEdit.cpp 
 
+HEADERS += CDEditCheckBox.hpp 
+SOURCES += CDEditCheckBox.cpp 
+
+HEADERS += CDEditLineEdit.hpp 
+SOURCES += CDEditLineEdit.cpp 
+
 HEADERS += CDInfo.hpp 
 SOURCES += CDInfo.cpp 
 

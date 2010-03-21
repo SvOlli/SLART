@@ -19,6 +19,8 @@
 
 /* local headers */
 #include "CDDBClient.hpp"
+#include "CDEditCheckBox.hpp"
+#include "CDEditLineEdit.hpp"
 #include "CDInfo.hpp"
 
 
@@ -31,10 +33,10 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
 , mpMainLayout( new QGridLayout( mpScrollWidget ) )
 , mpLabelDiscArtist( new QLabel( tr("Artist:"), this ) )
 , mpLabelDiscTitle( new QLabel( tr("Title:"), this ) )
-, mpLabelGenre( new QLabel( tr("Genre:"), this ) )
-, mpDiscArtist( new QLineEdit( this ) )
-, mpDiscTitle( new QLineEdit( this ) )
-, mpDiscGenre( new QLineEdit( this ) )
+, mpLabelDiscGenre( new QLabel( tr("Genre:"), this ) )
+, mpDiscArtist( new CDEditLineEdit( this ) )
+, mpDiscTitle( new CDEditLineEdit( this ) )
+, mpDiscGenre( new CDEditLineEdit( this ) )
 , mpLabelDiscID( new QLabel( tr("DiscID"), this ) )
 , mpDiscID( new QLabel( this ) )
 , mpDiscPlaytime( new QLabel( this ) )
@@ -55,10 +57,12 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
 , mpCopyArtistButton( new QPushButton( tr("Copy Artist"), this ) )
 , mpNormalizeTitleButton( new QPushButton( tr("Norm. Title"), this ) )
 , mpCopyYearButton( new QPushButton( tr("Copy Year"), this ) )
+, mLastColumn( 3 )
 {
    QVBoxLayout *outerLayout  = new QVBoxLayout( this );
    QHBoxLayout *buttonLayout = new QHBoxLayout();
    
+   setFocusPolicy(Qt::StrongFocus);
 #if QT_VERSION < 0x040300
    outerLayout->setMargin( 0 );
 #else
@@ -101,7 +105,7 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
    mpMainLayout->addWidget( mpDiscArtist,      0, 1, 1, 4 );
    mpMainLayout->addWidget( mpLabelDiscTitle,  1, 0 );
    mpMainLayout->addWidget( mpDiscTitle,       1, 1, 1, 4 );
-   mpMainLayout->addWidget( mpLabelGenre,      2, 0 );
+   mpMainLayout->addWidget( mpLabelDiscGenre,  2, 0 );
    mpMainLayout->addWidget( mpDiscGenre,       2, 1, 1, 4 );
    mpMainLayout->addWidget( mpLabelDiscID,     0, 5 );
    mpMainLayout->addWidget( mpDiscID,          1, 5 );
@@ -118,21 +122,21 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
    {
       if( i < 10 )
       {
-         mpTrackNr[i]       = new QCheckBox( QString("  ")+QString::number(i), this );
+         mpTrackNr[i]       = new CDEditCheckBox( QString("  ")+QString::number(i), this );
       }
       else
       {
-         mpTrackNr[i]       = new QCheckBox( QString::number(i), this );
+         mpTrackNr[i]       = new CDEditCheckBox( QString::number(i), this );
       }
-      mpEnqueueTrack[i]  = new QCheckBox( this );
-      mpTrackArtist[i]   = new QLineEdit( this );
-      mpTrackTitle[i]    = new QLineEdit( this );
-      mpTrackYear[i]     = new QLineEdit( this );
+      mpEnqueueTrack[i]  = new CDEditCheckBox( this );
+      mpTrackArtist[i]   = new CDEditLineEdit( this );
+      mpTrackTitle[i]    = new CDEditLineEdit( this );
+      mpTrackYear[i]     = new CDEditLineEdit( this );
       mpTrackPlaytime[i] = new QLabel( this );
       mpTrackPlaytime[i]->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
       
       mpMainLayout->addWidget( mpTrackNr[i],       4+i, 0 );
-      mpMainLayout->addWidget( mpEnqueueTrack[i]  ,4+i, 1 );
+      mpMainLayout->addWidget( mpEnqueueTrack[i],  4+i, 1 );
       mpMainLayout->addWidget( mpTrackArtist[i],   4+i, 2 );
       mpMainLayout->addWidget( mpTrackTitle[i],    4+i, 3 );
       mpMainLayout->addWidget( mpTrackYear[i],     4+i, 4 );
@@ -246,11 +250,18 @@ void CDEdit::handleTrackArtist()
 
 void CDEdit::handleNormalizeTitle()
 {
-   mpDiscTitle->setText( TagList::normalizeString( mpDiscTitle->text() ) );
+   if( mpDiscTitle->isEnabled() )
+   {
+      mpDiscTitle->setText( TagList::normalizeString( mpDiscTitle->text() ) );
+      mpDiscTitle->setCursorPosition( 0 );
+   }
    for( int i = 0; i < 100; i++ )
    {
-      mpTrackTitle[i]->setText( TagList::normalizeString( mpTrackTitle[i]->text() ) );
-      mpTrackTitle[i]->setCursorPosition( 1 );
+      if( mpTrackTitle[i]->isEnabled() )
+      {
+         mpTrackTitle[i]->setText( TagList::normalizeString( mpTrackTitle[i]->text() ) );
+         mpTrackTitle[i]->setCursorPosition( 0 );
+      }
    }
 }
 
@@ -287,6 +298,14 @@ void CDEdit::setTrackHidden( int track, bool hide )
 
 void CDEdit::setTrackDisabled( int track, bool disable )
 {
+   if( track < 0 )
+   {
+      mpDiscArtist->setDisabled( disable );
+      mpDiscTitle->setDisabled( disable );
+      mpDiscGenre->setDisabled( disable );
+      return;
+   }
+
    /* everything that's not an audio track is always disabled */
    if( !mpCDInfo->isAudio( track ) )
    {
@@ -400,4 +419,120 @@ void CDEdit::trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *arti
 void CDEdit::ensureVisible( int tracknr )
 {
    mpScrollArea->ensureWidgetVisible( mpTrackTitle[tracknr], 1, 1 );
+}
+
+
+void CDEdit::keyUpDown( QWidget *widget, bool isUp )
+{
+   int firstLine = mpTrackNr[0]->isVisible() ? 0 : 1;
+   if( widget == mpDiscArtist )
+   {
+      if( !isUp )
+      {
+         mpDiscTitle->setFocus();
+      }
+      return;
+   }
+   if( widget == mpDiscTitle )
+   {
+      if( isUp )
+      {
+         mpDiscArtist->setFocus();
+      }
+      else
+      {
+         mpDiscGenre->setFocus();
+      }
+      return;
+   }
+   if( widget == mpDiscGenre )
+   {
+      if( isUp )
+      {
+         mpDiscTitle->setFocus();
+      }
+      else
+      {
+         switch( mLastColumn )
+         {
+            case 0:
+               mpTrackNr[firstLine]->setFocus();
+               break;
+            case 1:
+               mpEnqueueTrack[firstLine]->setFocus();
+               break;
+            case 2:
+               mpTrackArtist[firstLine]->setFocus();
+               break;
+            case 3:
+               mpTrackTitle[firstLine]->setFocus();
+               break;
+            case 4:
+               mpTrackYear[firstLine]->setFocus();
+               break;
+            default:
+               break;
+         }
+      }
+      return;
+   }
+
+   if( isUp && (mpTrackNr[firstLine] == widget) )
+   {
+      mLastColumn = 0;
+      mpDiscGenre->setFocus();
+      return;
+   }
+   if( isUp && (mpEnqueueTrack[firstLine] == widget) )
+   {
+      mLastColumn = 1;
+      mpDiscGenre->setFocus();
+      return;
+   }
+   if( isUp && (mpTrackArtist[firstLine] == widget) )
+   {
+      mLastColumn = 2;
+      mpDiscGenre->setFocus();
+      return;
+   }
+   if( isUp && (mpTrackTitle[firstLine] == widget) )
+   {
+      mLastColumn = 3;
+      mpDiscGenre->setFocus();
+      return;
+   }
+   if( isUp && (mpTrackYear[firstLine] == widget) )
+   {
+      mLastColumn = 4;
+      mpDiscGenre->setFocus();
+      return;
+   }
+   for( int i = isUp ? 1 : 0; i < (isUp ? 100 : 99); i++ )
+   {
+      if( mpTrackNr[i] == widget )
+      {
+         mpTrackNr[isUp ? i-1 : i+1]->setFocus();
+         return;
+      }
+      if( mpEnqueueTrack[i] == widget )
+      {
+         mpEnqueueTrack[isUp ? i-1 : i+1]->setFocus();
+         return;
+      }
+      if( mpTrackArtist[i] == widget )
+      {
+         mpTrackArtist[isUp ? i-1 : i+1]->setFocus();
+         return;
+      }
+      if( mpTrackTitle[i] == widget )
+      {
+         mpTrackTitle[isUp ? i-1 : i+1]->setFocus();
+         return;
+      }
+      if( mpTrackYear[i] == widget )
+      {
+         mpTrackYear[isUp ? i-1 : i+1]->setFocus();
+         return;
+      }
+   }
 }

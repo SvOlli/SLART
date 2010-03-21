@@ -158,6 +158,7 @@ void CDReaderThread::run()
          break;
    }
    mMode = modeUndefined;
+   QTimer::singleShot( 5000, this, SIGNAL(message()) );
 }
 
 
@@ -312,6 +313,7 @@ void CDReaderThread::runReadAudioData()
    mpParanoia = ::cdio_paranoia_init( mpDrive );
    ::cdio_paranoia_modeset( mpParanoia, PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP );
 
+   emit setTrackDisabled( -1, true );
    for( i = 0; i < 100; i++ )
    {
       mpCDEdit->trackInfo( i, &dorip, &doenqueue, &artist, &title,
@@ -410,8 +412,9 @@ printf("\n");
    {
       emit setTrackDisabled( i, false );
    }
+   emit setTrackDisabled( -1, false );
    emit stateDisc();
-   if( MySettings().VALUE_AUTOEJECT )
+   if( MySettings().VALUE_AUTOEJECT && !mCancel )
    {
       runEject();
    }
