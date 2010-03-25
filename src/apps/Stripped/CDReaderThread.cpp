@@ -68,10 +68,6 @@ CDReaderThread::CDReaderThread( QObject *parent )
 , mDevice()
 , mDevices()
 {
-   if( !::cdio_init() )
-   {
-      fprintf( stderr, "cdio_init() failed\n" );
-   }
 }
 
 
@@ -165,24 +161,33 @@ void CDReaderThread::run()
 void CDReaderThread::runGetDevices()
 {
    char **drives = 0;
-   char **d = 0;
+   char **drive = 0;
 
    mDevices.clear();
 
    emit stateScan();
-   drives = ::cdio_get_devices( DRIVER_UNKNOWN );
-   if( !drives )
+   if( ::cdio_init() )
    {
-      return;
-   }
-
-   for( d = drives; *d; d++ )
-   {
-      mDevices.append( QString(*d) );
+      drives = ::cdio_get_devices( DRIVER_DEVICE );
+      if( drives )
+      {
+         for( drive = drives; *drive; drive++ )
+         {
+            mDevices.append( QString(*drive) );
+         }
+      }
+      ::cdio_free_device_list( drives );
    }
 
    emit foundDevices( mDevices );
-   emit stateNoDisc();
+   if( mDevices.count() )
+   {
+      emit stateNoDisc();
+   }
+   else
+   {
+      emit message( tr("No drive found.") );
+   }
 }
 
 

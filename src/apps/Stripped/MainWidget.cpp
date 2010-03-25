@@ -13,6 +13,7 @@
 
 /* Qt headers */
 #include <QtGui>
+#include <QTimer>
 
 /* local library headers */
 #include <MySettings.hpp>
@@ -25,7 +26,6 @@
 #include "CDReader.hpp"
 #include "ConfigDialog.hpp"
 
-#include <QTimer>
 
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
@@ -46,7 +46,13 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 {
    MySettings settings;
 
-   mpRipButton->setEnabled( false );
+   mpCDEdit->setDisabled( true );
+   mpCDDBClient->setDisabled( true );
+   mpSettingsButton->setDisabled( false );
+   mpCancelButton->setDisabled( true );
+   mpScanButton->setDisabled( true );
+   mpRipButton->setDisabled( true );
+   mpEjectButton->setDisabled( true );
    mpDirButton->setText( settings.VALUE_DIRECTORY );
    
    /* for style sheets */
@@ -145,8 +151,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    mpSatellite->restart();
    handleConfigUpdate();
-   stateNoDisc();
-   QTimer::singleShot( 2000, this, SLOT(stateNoDisc()) );
 }
 
 
