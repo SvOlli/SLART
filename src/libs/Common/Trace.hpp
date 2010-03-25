@@ -33,6 +33,13 @@
 #define TRACEMSG qDebug() << Trace::indent(' ') << TRACEOBJECT.mClassName.toLocal8Bit().data()
 /* write the current position with 'TRACECP' */
 #define TRACECP  qDebug() << Trace::indent('#') << __FILE__ << ":" << __LINE__;
+/* write the backtrace */
+#ifdef Q_OS_WIN32
+#define TRACEBACK /* no implemented */
+#else
+#define TRACEBACK qDebug() << Trace::indent('-') << TRACEOBJECT.mClassName.toLocal8Bit().data() \
+                           << Trace::backtrace().toAscii().constData();
+#endif
 /* don't use the tracing class directly */
 #ifndef Q_OS_WIN32
 #include <csignal>
@@ -49,6 +56,9 @@ public:
    Trace( const QString &className );
    virtual ~Trace();
    static const char* indent(QChar c);
+#ifndef Q_OS_WIN32
+   static QString backtrace();
+#endif
    const QString mClassName;
 private:
    static volatile unsigned int mDepth;
