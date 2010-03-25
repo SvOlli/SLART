@@ -246,7 +246,13 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
    {
       if( trackInfo )
       {
-         trackInfo->clear();
+         trackInfo->mID = 0;
+         trackInfo->mArtist.clear();
+         trackInfo->mTitle.clear();
+         trackInfo->mAlbum.clear();
+         trackInfo->mTrackNr = -1;
+         trackInfo->mYear = -1;
+         trackInfo->mGenre.clear();
       }
       
       mpQuery->clear();
