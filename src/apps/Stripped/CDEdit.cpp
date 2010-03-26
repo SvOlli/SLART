@@ -252,7 +252,12 @@ void CDEdit::handleNormalizeTitle()
 {
    if( mpDiscTitle->isEnabled() )
    {
-      mpDiscTitle->setText( TagList::normalizeString( mpDiscTitle->text() ) );
+      QString title( mpDiscTitle->text() );
+      /* protect the term "CD" from turning into "Cd" */
+      title.replace( "CD", "\x01\x01" );
+      title = TagList::normalizeString( title );
+      title.replace( "\x01\x01", "CD" );
+      mpDiscTitle->setText( title );
       mpDiscTitle->setCursorPosition( 0 );
    }
    for( int i = 0; i < 100; i++ )
