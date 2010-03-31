@@ -5,8 +5,16 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
+/* class declaration */
 #include "SatelliteServerRunner.hpp"
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
 #include "SatelliteServer.hpp"
 
 

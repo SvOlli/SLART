@@ -5,10 +5,18 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
-
+/* class declaration */
 #include "SatelliteServer.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QSignalMapper>
+
+/* local library headers */
+
+/* local headers */
+#include "Satellite.hpp"
 
 
 SatelliteServer::SatelliteServer( quint16 port, const QHostAddress &host, QObject *parent )
@@ -56,18 +64,45 @@ bool SatelliteServer::listen()
 void SatelliteServer::incomingData( QObject *client )
 {
    QTcpSocket *socket = static_cast<QTcpSocket*>(client);
-   QByteArray msg( socket->readAll() );
-   
-#if SATELLITESERVER_DEBUG
-   /* for debugging show raw message as hex dump */
-   emit debug( QByteArray("s:from client: ") + msg.toHex() );
-#endif
-   for( int i = 0; i < mClientConnections.count(); i++ )
+
+   while( socket->bytesAvailable() > SATELLITE_PKGINFO_HEADER_SIZE )
    {
-      QTcpSocket *current = mClientConnections.at(i);
-      if( current && (client != current) )
+      SATELLITE_PKGINFO_HEADER_TYPE   header( 0 );
+
+      socket->peek( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
+      header = qFromBigEndian( header );
+      if( (header >> 32) != SATELLITE_PKGINFO_MAGIC_VALUE )
       {
-         current->write( msg );
+         /* invalid data, flush */
+         socket->readAll();
+#if SATELLITESERVER_DEBUG
+         emit debug( "s:got bad data, flushing" );
+#endif
+         break;
+      }
+      qint64 datasize = (header & 0xFFFFFFFF) +
+         SATELLITE_PKGINFO_CHECKSUM_SIZE + SATELLITE_PKGINFO_HEADER_SIZE;
+      if( socket->bytesAvailable() < datasize )
+      {
+         /* buffer incomplete, let the try at next signal */
+#if SATELLITESERVER_DEBUG
+         emit debug( "s:got incomplete data" );
+#endif
+         break;
+      }
+      QByteArray msg( socket->read( datasize ) );
+
+#if SATELLITESERVER_DEBUG
+      /* for debugging show raw message as hex dump */
+      emit debug( QByteArray("s:from client: ") + msg.toHex() );
+#endif
+      for( int i = 0; i < mClientConnections.count(); i++ )
+      {
+         QTcpSocket *current = mClientConnections.at(i);
+         if( current && (client != current) )
+         {
+            current->write( msg );
+         }
       }
    }
 }

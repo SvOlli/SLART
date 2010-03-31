@@ -10,23 +10,31 @@
 
 #define SATELLITE_DEBUG 0
 
+/* base class */
 #include <QObject>
 
+/* system headers */
+
+/* Qt headers */
 #include <QHostAddress>
 #include <QPointer>
 #include <QString>
 #include <QTcpSocket>
-
 #include <QtEndian>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QIcon;
 class QListWidget;
 class QLineEdit;
 class QSignalMapper;
 
+/* forward declaration of local classes */
 class SatelliteServer;
 class SatelliteServerRunner;
-
 
 
 class Satellite : public QObject

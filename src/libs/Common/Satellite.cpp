@@ -5,12 +5,21 @@
  * distributed under the terms of the GNU Public License (GPL)
  */
 
+/* class declaration */
 #include "Satellite.hpp"
+
+/* system headers */
+
+/* Qt headers */
+#include <QtGui>
+#include <QDir>
+
+/* local library headers */
+
+/* local headers */
 #include "SatelliteServerRunner.hpp"
 #include "MySettings.hpp"
 
-#include <QtGui>
-#include <QDir>
 
 QPointer<Satellite> Satellite::gSatellite = 0;
 
@@ -177,13 +186,14 @@ void Satellite::incomingData()
       header = qFromBigEndian( header );
       if( (header >> 32) != SATELLITE_PKGINFO_MAGIC_VALUE )
       {
+         /* invalid data, flush */
          mpServerConnection->readAll();
          break;
       }
       if( mpServerConnection->bytesAvailable() <
             ((qint32)(header & 0xFFFFFFFF) + SATELLITE_PKGINFO_HEADER_SIZE) )
       {
-         /* buffer incomplete */
+         /* buffer incomplete, let the try at next signal */
          break;
       }
       mpServerConnection->read( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
@@ -200,7 +210,7 @@ void Satellite::incomingData()
       }
       else
       {
-         /* checksum mismatch, an error occurred, flash all buffers */
+         /* checksum mismatch, an error occurred, flush all buffers */
          mpServerConnection->readAll();
       }
    }
