@@ -189,6 +189,7 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
    
    mpView->setContextMenuPolicy( Qt::CustomContextMenu );
    mpView->setModel( mpModel );
+   mpView->setDragDropMode( QAbstractItemView::DragOnly );
    
    QVBoxLayout *layout = new QVBoxLayout( this );
    QHBoxLayout *topLayout = new QHBoxLayout;
