@@ -1,6 +1,7 @@
 #!/bin/bash
 
-MAKEFLAGS="-j3"
+jobs="$(grep "processor	:" /proc/cpuinfo|wc -l)"
+[ ${jobs} -gt 0] && MAKEFLAGS="-j${jobs}"
 
 set -e
 
@@ -42,7 +43,7 @@ if [ -z "${mpg123_dir}" -o -z "${dermixd_dir}" ]; then
   exit 0
 fi
 
-target_dir="$(echo ${PWD}|sed 's@^\(.*/SLART[^/]*\).*@\1@')/build/release"
+target_dir="$(echo ${PWD}|sed -e 's@^\(.*/SLART[^/]*\).*@\1@' -e 's@^\(.*/slart[^/]*\).*@\1@')/build/release"
 mpg123_version="$(getversion $mpg123_dir)"
 dermixd_version="$(getversion $dermixd_dir)"
 
@@ -84,6 +85,7 @@ else
     --enable-static \
     --disable-shared
 fi
+find . -name Makefile | xargs sed -i 's/^CFLAGS = /CFLAGS = -D_FILE_OFFSET_BITS=64 /g'
 make ${MAKEFLAGS}
 
 echo
@@ -100,10 +102,12 @@ sed -i Makefile \
     -e "s@^EXTRA_LIBS=.*\$@EXTRA_LIBS=-L${mpg123_dir}/src/libmpg123/.libs@" \
     -e 's@ \$(LDFLAGS) \(.*\)@ \1 $(LDFLAGS)@'
 
-make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes clean gnu-alsa
+make clean
+make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes gnu-alsa
 cp dermixd dermixd-alsa
 
-make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes clean gnu-oss
+rm -f param_init.o output.o
+make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes gnu-oss
 cp dermixd dermixd-oss
 
 strip -R .note -R .comment dermixd-alsa dermixd-oss
