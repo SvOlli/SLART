@@ -31,6 +31,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpClearBeforeImport( new QCheckBox( tr("Clear Folder Before Import"), this ) )
 , mpExportAsRelative( new QCheckBox( tr("Export m3u With Relative Entries"), this ) )
 , mpRandomizeExport( new QCheckBox( tr("Randomize Output Of Export m3u"), this ) )
+, mpUseCheckBoxes( new QCheckBox( tr("Use Checkboxes Instead Of Buttons For Folders"), this ) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
@@ -47,7 +48,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    kmdLayout->addWidget( mpClearBeforeImport, 1, 0, 1, 2 );
    kmdLayout->addWidget( mpExportAsRelative,  2, 0, 1, 2 );
    kmdLayout->addWidget( mpRandomizeExport,   3, 0, 1, 2 );
-   kmdLayout->setRowStretch( 4, 1 );
+   kmdLayout->addWidget( mpUseCheckBoxes,     4, 0, 1, 2 );
+   kmdLayout->setRowStretch( 5, 1 );
    kmdTab->setLayout( kmdLayout );
    
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -97,6 +99,7 @@ void ConfigDialog::readSettings()
    mpClearBeforeImport->setChecked( settings.VALUE_CLEARBEFOREIMPORT );
    mpExportAsRelative->setChecked( settings.VALUE_EXPORTASRELATIVE );
    mpRandomizeExport->setChecked( settings.VALUE_RANDOMIZEEXPORT );
+   mpUseCheckBoxes->setChecked( settings.VALUE_USECHECKBOXES );
    
    mpGlobalConfigWidget->readSettings();
    
@@ -111,6 +114,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "ClearBeforeImport", mpClearBeforeImport->isChecked() );
    settings.setValue( "ExportAsRelative",  mpExportAsRelative->isChecked() );
    settings.setValue( "RandomizeExport",   mpRandomizeExport->isChecked() );
+   settings.setValue( "UseCheckBoxes",     mpUseCheckBoxes->isChecked() );
    
    mpGlobalConfigWidget->writeSettings();
 

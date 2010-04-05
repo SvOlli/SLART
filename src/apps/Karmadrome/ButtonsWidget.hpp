@@ -22,8 +22,8 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QAbstractButton;
 class QGridLayout;
-class QPushButton;
 class QSignalMapper;
 
 /* forward declaration of local classes */
@@ -50,9 +50,9 @@ private:
    ButtonsWidget( const ButtonsWidget &other );
    ButtonsWidget &operator=( const ButtonsWidget &other );
    
-   QGridLayout          *mpMainLayout;
-   QSignalMapper        *mpSignalMapper;
-   QList<QPushButton*>  mButtonList;
+   QGridLayout             *mpMainLayout;
+   QSignalMapper           *mpSignalMapper;
+   QList<QAbstractButton*> mButtonList;
 };
 
 #endif

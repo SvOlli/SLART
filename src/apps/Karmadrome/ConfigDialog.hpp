@@ -63,6 +63,7 @@ private:
    QCheckBox            *mpClearBeforeImport;
    QCheckBox            *mpExportAsRelative;
    QCheckBox            *mpRandomizeExport;
+   QCheckBox            *mpUseCheckBoxes;
 };
 
 /* defaults */
@@ -73,5 +74,6 @@ private:
 #define VALUE_NUMBEROFCOLUMNS    value( "NumberOfColumns", 3 ).toInt()
 #define VALUE_RANDOMIZEEXPORT    value( "RandomizeExport", false ).toBool()
 #define VALUE_STYLESHEET         value( "StyleSheet", QString() ).toString()
+#define VALUE_USECHECKBOXES      value( "UseCheckBoxes", false ).toBool()
 
 #endif

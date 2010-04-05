@@ -61,8 +61,9 @@ ButtonsWidget::ButtonsWidget( const QString &title, QWidget *parent )
 
 void ButtonsWidget::updateButtons( const QStringList &fileNames )
 {
-   int i;
-   int rows = MySettings().VALUE_NUMBEROFCOLUMNS;
+   int i = 0;
+   MySettings settings;
+   int rows = settings.VALUE_NUMBEROFCOLUMNS;
    
    for( i = 0; i < mButtonList.count(); i++ )
    {
@@ -71,19 +72,27 @@ void ButtonsWidget::updateButtons( const QStringList &fileNames )
    }
    mButtonList.clear();
    
+   QAbstractButton *button = 0;
    for( i = 0; i < fileNames.count(); i++ )
    {
       int lastSlash = fileNames.at(i).lastIndexOf( '/' );
       int lastDot   = fileNames.at(i).lastIndexOf( '.' );
       QString label( fileNames.at(i).mid( lastSlash+1, lastDot-lastSlash-1 ) );
-      QPushButton *pb = new QPushButton( label, this );
-      pb->setObjectName( QString( "FolderButton" ) );
-      pb->setCheckable( true );
-      pb->setToolTip( fileNames.at(i) );
-      mButtonList.append( pb );
-      connect( pb, SIGNAL(clicked()), mpSignalMapper, SLOT(map()) );
-      mpSignalMapper->setMapping( pb, (QWidget*)pb );
-      mpMainLayout->addWidget( pb, i / rows, i % rows );
+      if( settings.VALUE_USECHECKBOXES )
+      {
+         button = new QCheckBox( label, this );
+      }
+      else
+      {
+         button = new QPushButton( label, this );
+      }
+      button->setObjectName( QString( "FolderButton" ) );
+      button->setCheckable( true );
+      button->setToolTip( fileNames.at(i) );
+      mButtonList.append( button );
+      connect( button, SIGNAL(clicked()), mpSignalMapper, SLOT(map()) );
+      mpSignalMapper->setMapping( button, static_cast<QWidget*>(button) );
+      mpMainLayout->addWidget( button, i / rows, i % rows );
       mpMainLayout->setRowStretch( i / rows, 0 );
    }
    mpMainLayout->setRowStretch( (i / rows) + 1, 1 );
