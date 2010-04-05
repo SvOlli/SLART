@@ -6,31 +6,42 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "SorcererLoader.hpp"
 
+/* system headers */
+#include <cstdlib> // exit(), getenv()
+
+/* Qt headers */
 #include <QApplication>
 #include <QDir>
 #include <QMessageBox>
 #include <QPluginLoader>
 #include <QStringList>
 
-#include <cstdlib> // exit()
+/* local library headers */
+#include "../../libs/Sorcerer/SorcererInterface.hpp"
 
-#include "../../libs/Sorcerer/Interface.hpp"
-#include "MySettings.hpp"
+/* local headers */
 #include "Database.hpp"
+#include "MySettings.hpp"
 #include "Version.hpp"
+
+
+QPluginLoader *SorcererLoader::cpPluginLoader = 0;
 
 
 void SorcererLoader::detect( QApplication *app, bool force )
 {
+   SorcererInterface *sorcerer = 0;
    MySettings settings;
-   MySettings global("Global");
+   MySettings global( "Global" );
    QStringList regVersions( global.value("Version","0").toString().split('.') );
    QStringList thisVersions( QString( SLART_VERSION ).split('.') );
    unsigned long regVersion = 0;
    unsigned long thisVersion = 0;
-   for( int i = 0; i < (int)sizeof(long); i++ )
+
+   for( int i = 0; i < (int)sizeof(unsigned long); i++ )
    {
       regVersion <<= 8;
       thisVersion <<= 8;
@@ -44,33 +55,60 @@ void SorcererLoader::detect( QApplication *app, bool force )
       }
    }
 
-   if( !settings.contains( "UseSatellite" ) || !Database::exists() || force )
+   bool setup = force;
+   bool cleanup = ( regVersion < thisVersion );
+   bool hidden = ( ::getenv( "SLART_ADD_HIDDEN_REGISTRY_SETTINGS" ) != 0 );
+   if( !settings.contains( "UseSatellite" ) || !Database::exists() )
    {
-      if( !run( app ) )
+      setup = true;
+   }
+#if 0
+   /* not needed right now, Satellite check is above */
+   if( regVersion < 0x00075b00 )
+   {
+      /* Satellite came up with 0.7.91 */
+      setup = true;
+   }
+#endif
+
+   if( setup || cleanup || hidden )
+   {
+      sorcerer = tryLoading( app );
+      if( !sorcerer )
       {
          QMessageBox::critical( 0, app->applicationName(),
-                                QObject::tr("Setup failed!\nCannot start.\nSorry.") );
+                                QObject::tr("Loading Sorcerer failed!\nCannot start.\nSorry.") );
          ::exit( 1 );
       }
-   }
 
-   if( regVersion < thisVersion )
-   {
-      if( settings.value( "ShowCleanupDialog", false ).toBool() )
+      if( setup )
       {
-         QMessageBox::information( 0, app->applicationName(),
-                                   QObject::tr("New version (%1 -> %2).\n"
-                                               "Cleaning up registry.")
-                                   .arg(regVersions.join("."),thisVersions.join(".")) );
+         if( sorcerer->setup( app ) )
+         {
+            if( !force)
+            {
+               QMessageBox::critical( 0, app->applicationName(),
+                                      QObject::tr("Setup failed!\nCannot start.\nSorry.") );
+            }
+            ::exit( 1 );
+         }
       }
-      cleanupSettings();
-      global.setValue( "Version", SLART_VERSION );
+      if( cleanup )
+      {
+         sorcerer->cleanup( app );
+      }
+      if( hidden )
+      {
+         sorcerer->hidden();
+      }
+      unload();
    }
 }
 
 
-bool SorcererLoader::run( QApplication *app )
+SorcererInterface *SorcererLoader::tryLoading( QApplication *app )
 {
+   SorcererInterface *sorcerer = 0;
    if( !app )
    {
       app = qApp;
@@ -83,9 +121,10 @@ bool SorcererLoader::run( QApplication *app )
       searchDir.cdUp();
       if( searchDir.cd( "PlugIns" ) )
       {
-         if( tryLoading( app, searchDir ) )
+         sorcerer = tryLoading( searchDir );
+         if( sorcerer )
          {
-            return true;
+            return sorcerer;
          }
       }
    }
@@ -96,30 +135,20 @@ bool SorcererLoader::run( QApplication *app )
       searchDir.cdUp();
       if( searchDir.cd( "lib" ) )
       {
-         if( tryLoading( app, searchDir ) )
+         sorcerer = tryLoading( searchDir );
+         if( sorcerer )
          {
-            return true;
+            return sorcerer;
          }
       }
    }
 #endif
-   if( tryLoading( app, sorcererDir ) )
-   {
-      return true;
-   }
-
-#if 0
-   QMessageBox::critical( 0, app->applicationName(),
-                          QObject::tr("Setup failed!\nCannot start.\nSorry.") );
-#endif
-
-   return false;
+   return tryLoading( sorcererDir );
 }
 
 
-bool SorcererLoader::tryLoading( QApplication *app, const QDir &dir )
+SorcererInterface *SorcererLoader::tryLoading(const QDir &dir )
 {
-   int retval = 1;
    QString path( dir.absolutePath() );
 #if defined Q_OS_WIN
    path.append( "/Sorcerer.dll" );
@@ -128,81 +157,26 @@ bool SorcererLoader::tryLoading( QApplication *app, const QDir &dir )
 #else
    path.append( "/libSorcerer.so" );
 #endif
-   QPluginLoader pluginLoader( path );
-   QObject *plugin = pluginLoader.instance();
+   if( !cpPluginLoader )
+   {
+      cpPluginLoader = new QPluginLoader();
+   }
+   cpPluginLoader->setFileName( path );
+   QObject *plugin = cpPluginLoader->instance();
    if( plugin )
    {
-      SorcererInterface *sorcerer = qobject_cast<SorcererInterface *>(plugin);
-      if( sorcerer )
-      {
-         retval = sorcerer->run( app );
-      }
+      return qobject_cast<SorcererInterface *>(plugin);
    }
-
-   return retval == 0;
+   return 0;
 }
 
 
-void SorcererLoader::cleanupSettings( bool withDefaults )
+void SorcererLoader::unload()
 {
-   MySettings Global("Global");
-   Global.remove("UseGlobalStyleSheetFile");
-
-   MySettings Funkytown("Funkytown");
-   cleanupSettings( &Funkytown );
-   Funkytown.remove( "flv2mpeg4" );
-
-   MySettings Innuendo("Innuendo");
-   cleanupSettings( &Innuendo );
-   Innuendo.remove( "Next" );
-   Innuendo.remove( "Play" );
-   Innuendo.remove( "Stop" );
-
-   MySettings Karmadrome("Karmadrome");
-   cleanupSettings( &Karmadrome );
-   Karmadrome.remove("ButtonRows");
-
-   MySettings Partyman("Partyman");
-   cleanupSettings( &Partyman );
-   Partyman.remove("DatabaseFilename");
-
-   MySettings Rubberbandman("Rubberbandman");
-   cleanupSettings( &Rubberbandman );
-
-   MySettings Stripped("Stripped");
-   cleanupSettings( &Stripped );
-
-   if( !withDefaults )
+   if( cpPluginLoader )
    {
-      return;
-   }
-
-   /* Create "hidden" entries, that can not be set via dialogs */
-   setDefault( &Funkytown, "UserAgent", "Funkytown" );
-
-   QStringList list;
-   list << "*.mp3" << "*.ogg" << "*.flac" << "*.oga";
-   setDefault( &Rubberbandman, "FileExtensions", list );
-}
-
-
-void SorcererLoader::cleanupSettings( MySettings *settings )
-{
-   if( settings )
-   {
-      settings->remove( "Listener" );
-      settings->remove( "SLARTCommunication" );
-      settings->remove( "StyleSheet" );
-      settings->remove( "UDPListenerPort" );
-   }
-}
-
-
-void SorcererLoader::setDefault( MySettings *settings, const QString &name,
-                                 const QVariant &value )
-{
-   if( !settings->contains( name ) )
-   {
-      settings->setValue( name, value );
+      cpPluginLoader->unload();
+      delete cpPluginLoader;
+      cpPluginLoader = 0;
    }
 }

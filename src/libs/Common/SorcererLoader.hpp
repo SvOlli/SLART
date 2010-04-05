@@ -9,14 +9,25 @@
 #ifndef SORCERERLOADER_HPP
 #define SORCERERLOADER_HPP
 
-//#include <QObject>
+/* base class */
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QApplication;
 class QDir;
-class QString;
-class QVariant;
+class QPluginLoader;
 
+/* forward declaration of local classes */
+class SorcererInterface;
 class MySettings;
+
 
 class SorcererLoader
 {
@@ -31,16 +42,13 @@ private:
    SorcererLoader &operator=( const SorcererLoader &other );
 
    /*  */
-   static bool run( QApplication *app );
+   static QPluginLoader *cpPluginLoader;
    /*  */
-   static bool tryLoading( QApplication *app, const QDir &dir );
+   static SorcererInterface *tryLoading( QApplication *app );
    /*  */
-   static void cleanupSettings( bool withDefaults = false );
+   static SorcererInterface *tryLoading( const QDir &dir );
    /*  */
-   static void cleanupSettings( MySettings *settings );
-   /*  */
-   static void setDefault( MySettings *settings, const QString &name,
-                           const QVariant &value );
+   static void unload();
 };
 
 #endif /* SORCERERLOADER_HPP */

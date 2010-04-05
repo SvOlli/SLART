@@ -1,5 +1,5 @@
 /**
- * src/libs/Sorcerer/Interface.hpp
+ * src/libs/Sorcerer/SorcererInterface.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -27,7 +27,9 @@ class SorcererInterface
 {
 public:
    virtual ~SorcererInterface() {}
-   virtual int run( QApplication *app ) = 0;
+   virtual int setup( QApplication *app ) = 0;
+   virtual void cleanup( QApplication *app ) = 0;
+   virtual void hidden() = 0;
 };
 
 Q_DECLARE_INTERFACE(SorcererInterface,

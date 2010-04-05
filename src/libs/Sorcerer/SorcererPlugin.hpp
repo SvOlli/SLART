@@ -1,5 +1,5 @@
 /**
- * src/libs/Sorcerer/Plugin.hpp
+ * src/libs/Sorcerer/SorcererPlugin.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
@@ -20,11 +20,12 @@
 /* local library headers */
 
 /* local headers */
-#include "Interface.hpp"
+#include "SorcererInterface.hpp"
 
 /* forward declaration of Qt classes */
 
 /* forward declaration of local classes */
+class MySettings;
 
 
 class SorcererPlugin : public QObject, public SorcererInterface
@@ -33,7 +34,19 @@ class SorcererPlugin : public QObject, public SorcererInterface
    Q_INTERFACES(SorcererInterface)
    
 public:
-   int run( QApplication *app );
+   /* run main setup */
+   virtual int setup( QApplication *app );
+   /* run cleanup of obsolete registry settings */
+   virtual void cleanup( QApplication *app );
+   /* run installation of hidden registry settings */
+   virtual void hidden();
+
+private:
+   /*  */
+   void cleanupSettings( MySettings *settings );
+   /*  */
+   void setDefault( MySettings *settings, const QString &name,
+                    const QVariant &value );
 };
 
 #endif
