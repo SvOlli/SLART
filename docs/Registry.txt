@@ -56,6 +56,7 @@ SLART/Karmadrome:
 * ImportDirectory (QString)
 * NumberOfColumns (int)
 * RandomizeExport (bool)
+* UseCheckBoxes (bool)
 
 SLART/Notorious:
 * DatabaseFile (QString)
@@ -108,6 +109,27 @@ SLART/Stripped:
 * CreatePattern (QString)
 * PlayingPattern (QString)
 * Directory (QString)
-* Encoder (QString)
+- Encoder (QString)
+
+SLART/Stripped/FLAC:
+* Directory (QString)
+* DirectoryOverride (bool)
 * FlacQuality (int)
+* FlacUseOga (bool)
+* UseEncoder (bool)
+
+SLART/Stripped/mp3:
+* Directory (QString)
+* DirectoryOverride (bool)
+* UseEncoder (bool)
+
+SLART/Stripped/ogg:
+* Directory (QString)
+* DirectoryOverride (bool)
 * OggQuality (double)
+* UseEncoder (bool)
+
+SLART/Stripped/wav:
+* Directory (QString)
+* DirectoryOverride (bool)
+* UseEncoder (bool)
