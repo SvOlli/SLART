@@ -15,14 +15,21 @@
 #include <QtGui>
 
 /* local library headers */
+#include <MySettings.hpp>
+#include <ScrollLine.hpp>
 #include <TagList.hpp>
 
 /* local headers */
+#include "ConfigDialog.hpp"
 
 
 WavEncoder::WavEncoder( QWidget *parent )
 : Encoder( parent, tr("wav") )
 , mpConfigWidget( new QWidget( parent ) )
+, mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
+, mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
+, mpDirectory( new ScrollLine( mpConfigWidget ) )
+, mpDotButton( new QPushButton( tr("..."), mpConfigWidget ) )
 , mpWavHeader( new unsigned int[11] )
 {
    mpWavHeader[ 0] = qToBigEndian( 0x52494646 ); // "RIFF"
@@ -37,18 +44,28 @@ WavEncoder::WavEncoder( QWidget *parent )
    mpWavHeader[ 9] = qToBigEndian( 0x64617461 ); // "data"
    mpWavHeader[10] = 0;                          // data size
 
-   QHBoxLayout *mainLayout = new QHBoxLayout( mpConfigWidget );
-   QLabel      *label      = new QLabel( tr("no config"), mpConfigWidget );
-
+   QGridLayout *mainLayout = new QGridLayout( mpConfigWidget );
 #if QT_VERSION < 0x040300
-   mainLayout->setMargin( 0 );
+   mainLayout->setMargin( 3 );
 #else
-   mainLayout->setContentsMargins( 0, 0, 0, 0 );
+   mainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
-   mainLayout->addWidget( label );
+   mainLayout->addWidget( mpUseEncoder, 0, 0, 1, 3 );
+   mainLayout->addWidget( mpDirOverride, 1, 0, 1, 3 );
+   mainLayout->addWidget( new QLabel( tr("Base Directory:") ), 2, 0 );
+   mainLayout->addWidget( mpDirectory, 2, 1 );
+   mainLayout->addWidget( mpDotButton, 2, 2 );
+   mainLayout->setColumnStretch( 1, 1 );
+   mainLayout->setRowStretch( 3, 1 );
+
+   connect( mpUseEncoder, SIGNAL(clicked(bool)),
+            this, SIGNAL(useEncoderClicked(bool)) );
+   connect( mpDotButton, SIGNAL(clicked()),
+            this, SLOT(handleDotButton()) );
 
    mpConfigWidget->setLayout( mainLayout );
 }
+
 
 WavEncoder::~WavEncoder()
 {
@@ -56,13 +73,37 @@ WavEncoder::~WavEncoder()
 }
 
 
+void WavEncoder::setUseEncoder( bool on )
+{
+   mpUseEncoder->setChecked( on );
+}
+
+
 void WavEncoder::readSettings()
 {
+   MySettings settings;
+   settings.beginGroup( mName );
+   mUseEncoder  = settings.VALUE_USE_ENCODER;
+   mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
+   mDirectory   = settings.VALUE_DIRECTORY;
+   mpUseEncoder->setChecked( mUseEncoder );
+   mpDirOverride->setChecked( mDirOverride );
+   mpDirectory->setText( mDirectory );
+   settings.endGroup();
 }
 
 
 void WavEncoder::writeSettings()
 {
+   MySettings settings;
+   settings.beginGroup( mName );
+   mUseEncoder  = mpUseEncoder->isChecked();
+   mDirOverride = mpDirOverride->isChecked();
+   mDirectory   = mpDirectory->text();
+   settings.setValue( "UseEncoder", mUseEncoder );
+   settings.setValue( "DirectoryOverride", mDirOverride );
+   settings.setValue( "Directory", mDirectory );
+   settings.endGroup();
 }
 
 
@@ -115,4 +156,10 @@ void WavEncoder::encodeCDAudio( const QByteArray &data )
 QWidget *WavEncoder::configWidget()
 {
    return mpConfigWidget;
+}
+
+
+void WavEncoder::handleDotButton()
+{
+   Encoder::setDirectory( mpDirectory );
 }

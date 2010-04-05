@@ -23,6 +23,7 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
+class ScrollLine;
 
 /* forward declaration of local classes */
 
@@ -47,6 +48,10 @@ public:
    const QString mName;
    /* set the tags of the encoded file, always called before(!) initialize */
    void setTags( const TagList &tagList );
+   /*  */
+   bool useEncoder();
+   /*  */
+   void setDirectory( ScrollLine *dirOverride );
    /* initialize the encoder */
    virtual bool initialize( const QString &fileName) = 0;
    /* finalize (clean up) the encoder and close the file */
@@ -55,9 +60,14 @@ public:
 public slots:
    /* encode raw cd audio data */
    virtual void encodeCDAudio( const QByteArray &data ) = 0;
+   /*  */
+   virtual void setUseEncoder( bool on ) = 0;
 
 signals:
+   /*  */
    void encodingFail();
+   /*  */
+   virtual void useEncoderClicked( bool on );
 
 protected:
    /* initialize the encoder (create the output file) */
@@ -65,6 +75,11 @@ protected:
    /*  */
    bool writeChunk( const char* buffer, qint64 size );
    
+   /* settings */
+   bool     mUseEncoder;
+   bool     mDirOverride;
+   QString  mDirectory;
+   /*  */
    QFile    mFile;
    TagList  mTagList;
    

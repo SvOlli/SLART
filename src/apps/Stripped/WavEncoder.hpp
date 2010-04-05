@@ -21,9 +21,11 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QCheckBox;
+class QPushButton;
 
 /* forward declaration of local classes */
-
+class ScrollLine;
 
 
 class WavEncoder : public Encoder
@@ -48,12 +50,22 @@ public:
 public slots:
    /* encode raw cd audio data */
    void encodeCDAudio( const QByteArray &data );
+   /*  */
+   virtual void setUseEncoder( bool on );
+   /*  */
+   void handleDotButton();
    
 private:
    WavEncoder( const WavEncoder &other );
    WavEncoder &operator=( const WavEncoder &other );
 
+   /* configuration widget */
    QWidget              *mpConfigWidget;
+   QCheckBox            *mpUseEncoder;
+   QCheckBox            *mpDirOverride;
+   ScrollLine           *mpDirectory;
+   QPushButton          *mpDotButton;
+
    unsigned int         *mpWavHeader;
 };
 

@@ -24,9 +24,11 @@
 
 /* forward declaration of Qt classes */
 class QCheckBox;
+class QPushButton;
 class QSpinBox;
 
 /* forward declaration of local classes */
+class ScrollLine;
 
 
 class FlacEncoder : public Encoder
@@ -51,6 +53,10 @@ public:
 public slots:
    /* encode raw cd audio data */
    void encodeCDAudio( const QByteArray &data );
+   /*  */
+   virtual void setUseEncoder( bool on );
+   /*  */
+   void handleDotButton();
 
 private:
    FlacEncoder( const FlacEncoder &other );
@@ -59,15 +65,22 @@ private:
    /* encode raw cd audio data */
    bool encodeCDAudio( const char *data, int size );
 
+   /* settings */
+   int                  mQuality;
+   bool                 mUseOga;
+   /* configuration widget */
    QWidget              *mpConfigWidget;
+   QCheckBox            *mpUseEncoder;
+   QCheckBox            *mpDirOverride;
+   ScrollLine           *mpDirectory;
+   QPushButton          *mpDotButton;
    QSpinBox             *mpQuality;
    QCheckBox            *mpUseOga;
+   /* encoder internal data */
    FLAC::Encoder::File  *mpEncoder;
    FLAC__StreamMetadata *mpMetadata;
    FLAC__int32          *mpPcm;
    int                  mSize;
-   int                  mQuality;
-   bool                 mUseOga;
 };
 
 #endif

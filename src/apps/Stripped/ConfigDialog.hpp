@@ -28,6 +28,7 @@ class QDoubleSpinBox;
 class QLabel;
 class QLineEdit;
 class QSpinBox;
+class QTabWidget;
 
 /* forward declaration of local classes */
 class CDReader;
@@ -51,8 +52,6 @@ public slots:
    void readSettings();
    /* write settings to storage */
    void writeSettings();
-   /* dis-/enable settings according to selected encoder */
-   void changeEncoder( int id );
    /* update example */
    void updatePattern( const QString &text );
    /*  */
@@ -78,22 +77,22 @@ private:
    QLabel               *mpPatternLabel;
    QLineEdit            *mpPattern;
    QLabel               *mpPatternExample;
-   QLabel               *mpEncodersLabel;
-   QComboBox            *mpEncodersBox;
+   QTabWidget           *mpEncoderTabs;
    TagList              mTagList;
    QList<Encoder*>      mEncoders;
 };
 
 /* defaults */
-#define VALUE_AUTOEJECT      value( "AutoEject", false ).toBool()
-#define VALUE_AUTOFREEDB     value( "AutoFreeDB", true ).toBool()
-#define VALUE_CREATEPATTERN  value( "CreatePattern", "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString()
-#define VALUE_DEVICE         value( "Device", QString("/dev/cdrom") ).toString()
-#define VALUE_DIRECTORY      value( "Directory", QDir::current().absolutePath() ).toString()
-#define VALUE_ENCODER        value( "Encoder", QString() ).toString()
-#define VALUE_FLACQUALITY    value( "FlacQuality", 5 ).toInt()
-#define VALUE_FLACUSEOGA     value( "FlacUseOga", false ).toBool()
-#define VALUE_OGGQUALITY     value( "OggQuality", 0.4 ).toDouble()
-#define VALUE_STYLESHEET     value( "StyleSheet", QString() ).toString()
+#define VALUE_AUTOEJECT          value( "AutoEject", false ).toBool()
+#define VALUE_AUTOFREEDB         value( "AutoFreeDB", true ).toBool()
+#define VALUE_CREATEPATTERN      value( "CreatePattern", "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString()
+#define VALUE_DEVICE             value( "Device", QString("/dev/cdrom") ).toString()
+#define VALUE_DIRECTORY          value( "Directory", QDir::current().absolutePath() ).toString()
+#define VALUE_DIRECTORY_OVERRIDE value( "DirectoryOverride", false ).toBool()
+#define VALUE_FLACQUALITY        value( "FlacQuality", 5 ).toInt()
+#define VALUE_FLACUSEOGA         value( "FlacUseOga", false ).toBool()
+#define VALUE_OGGQUALITY         value( "OggQuality", 0.4 ).toDouble()
+#define VALUE_STYLESHEET         value( "StyleSheet", QString() ).toString()
+#define VALUE_USE_ENCODER        value( "UseEncoder", false ).toBool()
 
 #endif

@@ -36,8 +36,9 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
 , mpCDReaderThread( new CDReaderThread( this ) )
 , mpCDInfo( info )
 , mpCDEdit( edit )
-, mpEncoder( 0 )
 , mpProgressBar( new QProgressBar( this ) )
+, mEncoders()
+, mDevice()
 {
    mpProgressBar->setRange( 0, 100 );
 
@@ -80,9 +81,9 @@ CDReader::~CDReader()
 }
 
 
-void CDReader::setEncoder( Encoder *encoder )
+void CDReader::setEncoders( const QList<Encoder*> &encoders )
 {
-   mpEncoder = encoder;
+   mEncoders = encoders;
 }
 
 
@@ -102,28 +103,28 @@ void CDReader::readToc()
 {
    mpCDInfo->clear();
    mpCDEdit->clear();
-   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mpEncoder, mDevice );
+   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mEncoders, mDevice );
    mpCDReaderThread->startReadToc();
 }
 
 
 void CDReader::readCDText()
 {
-   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mpEncoder, mDevice );
+   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mEncoders, mDevice );
    mpCDReaderThread->startReadCDText();
 }
 
 
 void CDReader::readTracks()
 {
-   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mpEncoder, mDevice );
+   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mEncoders, mDevice );
    mpCDReaderThread->startReadAudioData();
 }
 
 
 void CDReader::eject()
 {
-   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mpEncoder, mDevice );
+   mpCDReaderThread->setup( mpCDInfo, mpCDEdit, mEncoders, mDevice );
    mpCDReaderThread->startEject();
 }
 

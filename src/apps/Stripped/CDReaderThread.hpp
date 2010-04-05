@@ -43,7 +43,7 @@ public:
 
    /*  */
    void setup( CDInfo *info, CDEdit *edit,
-               Encoder *encoder, const QString &device );
+               const QList<Encoder*> &encoders, const QString &device );
    /*  */
    void startGetDevices();
    /*  */
@@ -115,11 +115,11 @@ private:
    ::cdrom_paranoia_t   *mpParanoia;
    CDInfo               *mpCDInfo;
    CDEdit               *mpCDEdit;
-   Encoder              *mpEncoder;
    unsigned long        *mpCallbackFunction;
    bool                 mCancel;
    QString              mDevice;
    QStringList          mDevices;
+   QList<Encoder*>      mEncoders;
 };
 
 #endif

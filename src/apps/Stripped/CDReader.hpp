@@ -47,7 +47,7 @@ public:
    virtual ~CDReader();
    
    /* set the encoder to use */
-   void setEncoder( Encoder *encoder );
+   void setEncoders( const QList<Encoder*> &encoders );
    /* insert available devices into given combobox */
    void getDevices();
    
@@ -94,8 +94,8 @@ private:
    CDReaderThread       *mpCDReaderThread;
    CDInfo               *mpCDInfo;
    CDEdit               *mpCDEdit;
-   Encoder              *mpEncoder;
    QProgressBar         *mpProgressBar;
+   QList<Encoder*>      mEncoders;
    QString              mDevice;
 };
 

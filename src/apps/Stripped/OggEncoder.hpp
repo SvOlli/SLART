@@ -24,12 +24,12 @@ extern "C" {
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QCheckBox;
 class QDoubleSpinBox;
+class QPushButton;
 
 /* forward declaration of local classes */
-
-
-
+class ScrollLine;
 
 
 class OggEncoder : public Encoder
@@ -54,6 +54,10 @@ public:
 public slots:
    /* encode raw cd audio data */
    void encodeCDAudio( const QByteArray &data );
+   /*  */
+   virtual void setUseEncoder( bool on );
+   /*  */
+   void handleDotButton();
    
 private:
    OggEncoder( const OggEncoder &other );
@@ -64,8 +68,17 @@ private:
    /* encode raw cd audio data */
    bool encodeCDAudio( const char *data, int size );
    
+   /* settings */
+   float                mQuality;
+   /* configuration widget */
    QWidget              *mpConfigWidget;
+   QCheckBox            *mpUseEncoder;
+   QCheckBox            *mpDirOverride;
+   ScrollLine           *mpDirectory;
+   QPushButton          *mpDotButton;
    QDoubleSpinBox       *mpQuality;
+   /* encoder internal data */
+   bool                 mIsInit;
    ::ogg_stream_state   mOggPagegStream;
    ::ogg_page           mOggPage;
    ::ogg_packet         mOggPacket;
@@ -74,8 +87,6 @@ private:
    ::vorbis_dsp_state   mVorbisDspState;
    ::vorbis_block       mVorbisBlock;
    
-   bool   mIsInit;
-   float  mQuality;
 };
 
 #endif

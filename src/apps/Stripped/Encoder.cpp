@@ -13,11 +13,13 @@
 
 /* Qt headers */
 #include <QDir>
+#include <QFileDialog>
 
 /* local library headers */
 #include <ConfigDialog.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <ScrollLine.hpp>
 
 /* local headers */
 
@@ -25,7 +27,11 @@
 Encoder::Encoder( QObject *parent, const QString &encoderName )
 : QThread( parent )
 , mName( encoderName )
+, mUseEncoder( false )
+, mDirOverride( false )
+, mDirectory()
 , mFile()
+, mTagList()
 {
 }
 
@@ -44,7 +50,9 @@ void Encoder::run()
 
 bool Encoder::initialize( const QString &fileName, const char *extension )
 {
-   QFileInfo qfi( MySettings().VALUE_DIRECTORY + QDir::separator() +
+   QString directory = mDirOverride ? mDirectory : MySettings().VALUE_DIRECTORY;
+
+   QFileInfo qfi( directory + QDir::separator() +
                   fileName + extension );
    QDir dir( qfi.absoluteDir() );
    
@@ -102,4 +110,26 @@ bool Encoder::writeChunk( const char* buffer, qint64 size )
 void Encoder::setTags( const TagList &tagList )
 {
    mTagList = tagList;
+}
+
+
+bool Encoder::useEncoder()
+{
+   return mUseEncoder;
+}
+
+
+void Encoder::setDirectory( ScrollLine *dirOverride )
+{
+   QFileDialog fileDialog( dirOverride );
+
+   fileDialog.setFileMode( QFileDialog::DirectoryOnly );
+   fileDialog.setDirectory( dirOverride->text() );
+   fileDialog.setReadOnly( false );
+
+   if( fileDialog.exec() )
+   {
+      QString result( fileDialog.selectedFiles().at(0) );
+      dirOverride->setText( result );
+   }
 }

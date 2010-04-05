@@ -17,6 +17,7 @@
 
 /* local library headers */
 #include <MySettings.hpp>
+#include <ScrollLine.hpp>
 #include <TagList.hpp>
 
 /* local headers */
@@ -25,33 +26,50 @@
 
 FlacEncoder::FlacEncoder( QWidget *parent )
 : Encoder( parent, tr("FLAC") )
+, mQuality( 0 )
+, mUseOga( false )
 , mpConfigWidget( new QWidget( parent ) )
+, mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
+, mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
+, mpDirectory( new ScrollLine( mpConfigWidget ) )
+, mpDotButton( new QPushButton( tr("..."), mpConfigWidget ) )
 , mpQuality( new QSpinBox( mpConfigWidget ) )
 , mpUseOga( new QCheckBox( tr("Use Ogg Container"), mpConfigWidget ) )
 , mpEncoder( 0 )
 , mpMetadata( 0 )
 , mpPcm( 0 )
 , mSize( 0 )
-, mQuality( 0 )
-, mUseOga( false )
 {
    qsrand( time((time_t*)0) );
 
-   QHBoxLayout *mainLayout = new QHBoxLayout( mpConfigWidget );
    mpQuality->setSingleStep( 1 );
    mpQuality->setMinimum( 0 );
    mpQuality->setMaximum( 8 );
+   mpQuality->setToolTip( tr("0 = fastest; 8 = best") );
 
+   QGridLayout *mainLayout = new QGridLayout( mpConfigWidget );
+   mainLayout->setRowStretch( 5, 1 );
+   mainLayout->setColumnStretch( 1, 1 );
 #if QT_VERSION < 0x040300
-   mainLayout->setMargin( 0 );
+   mainLayout->setMargin( 3 );
 #else
-   mainLayout->setContentsMargins( 0, 0, 0, 0 );
+   mainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
-   mainLayout->addWidget( new QLabel( tr("Compression Level:"), mpConfigWidget ) );
-   mainLayout->addWidget( mpQuality );
-   mainLayout->addWidget( mpUseOga );
+   mainLayout->addWidget( mpUseEncoder, 0, 0, 1, 3 );
+   mainLayout->addWidget( mpDirOverride, 1, 0, 1, 3 );
+   mainLayout->addWidget( new QLabel( tr("Base Directory:") ), 2, 0 );
+   mainLayout->addWidget( mpDirectory, 2, 1 );
+   mainLayout->addWidget( mpDotButton, 2, 2 );
+   mainLayout->addWidget( new QLabel( tr("Compression Level:"), mpConfigWidget ), 3, 0 );
+   mainLayout->addWidget( mpQuality, 3, 1, 1, 2 );
+   mainLayout->addWidget( mpUseOga,  4, 0 );
 
    mpConfigWidget->setLayout( mainLayout );
+
+   connect( mpUseEncoder, SIGNAL(clicked(bool)),
+            this, SIGNAL(useEncoderClicked(bool)) );
+   connect( mpDotButton, SIGNAL(clicked()),
+            this, SLOT(handleDotButton()) );
 
    readSettings();
 }
@@ -77,25 +95,50 @@ FlacEncoder::~FlacEncoder()
 }
 
 
+void FlacEncoder::setUseEncoder( bool on )
+{
+   mpUseEncoder->setChecked( on );
+}
+
+
 void FlacEncoder::readSettings()
 {
    MySettings settings;
-   mQuality = settings.VALUE_FLACQUALITY;
-   mUseOga  = settings.VALUE_FLACUSEOGA;
+   settings.beginGroup( mName );
+   mUseEncoder  = settings.VALUE_USE_ENCODER;
+   mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
+   mDirectory   = settings.VALUE_DIRECTORY;
+   mQuality     = settings.VALUE_FLACQUALITY;
+   mUseOga      = settings.VALUE_FLACUSEOGA;
+   mpUseEncoder->setChecked( mUseEncoder );
+   mpDirOverride->setChecked( mDirOverride );
+   mpDirectory->setText( mDirectory );
    mpQuality->setValue( mQuality );
    mpUseOga->setChecked( mUseOga );
+   settings.endGroup();
 }
 
 
 void FlacEncoder::writeSettings()
 {
    MySettings settings;
-   mQuality = mpQuality->value();
-   mUseOga  = mpUseOga->isChecked();
+   settings.beginGroup( mName );
+   mUseEncoder  = mpUseEncoder->isChecked();
+   mDirOverride = mpDirOverride->isChecked();
+   mDirectory   = mpDirectory->text();
+   mQuality     = mpQuality->value();
+   mUseOga      = mpUseOga->isChecked();
+   settings.setValue( "UseEncoder", mUseEncoder );
+   settings.setValue( "DirectoryOverride", mDirOverride );
+   settings.setValue( "Directory", mDirectory );
    settings.setValue( "FlacQuality", mQuality );
    settings.setValue( "FlacUseOga", mUseOga );
-   delete mpEncoder;
-   mpEncoder = 0;
+   settings.endGroup();
+   if( mpEncoder )
+   {
+      delete mpEncoder;
+      mpEncoder = 0;
+   }
 }
 
 
@@ -216,4 +259,10 @@ bool FlacEncoder::encodeCDAudio( const char* data, int size )
 QWidget *FlacEncoder::configWidget()
 {
    return mpConfigWidget;
+}
+
+
+void FlacEncoder::handleDotButton()
+{
+   Encoder::setDirectory( mpDirectory );
 }

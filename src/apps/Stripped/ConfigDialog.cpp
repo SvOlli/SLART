@@ -23,6 +23,7 @@
 /* local headers */
 #include "CDReader.hpp"
 #include "FlacEncoder.hpp"
+//#include "Mp3Encoder.hpp"
 #include "OggEncoder.hpp"
 #include "WavEncoder.hpp"
 
@@ -41,18 +42,19 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 , mpPatternLabel( new QLabel( tr("File Create Pattern"), this ) )
 , mpPattern( new QLineEdit( this ) )
 , mpPatternExample( new QLabel( tr(""), this ) )
-, mpEncodersLabel( new QLabel( tr("Encoder:"), this ) )
-, mpEncodersBox( new QComboBox( this ) )
+, mpEncoderTabs( new QTabWidget( this ) )
 , mTagList()
 , mEncoders()
 {
-   int i;
+   int i = 0;
+   int encodersActive = 0;
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
+   //mEncoders.append( new Mp3Encoder( this ) );
    mEncoders.append( new OggEncoder( this ) );
-   mEncoders.append( new WavEncoder( this ) );
    mEncoders.append( new FlacEncoder( this ) );
+   mEncoders.append( new WavEncoder( this ) );
    
    mTagList.set("TRACKNUMBER","1");
    mTagList.set("ALBUMARTIST","Album_Artist");
@@ -65,6 +67,32 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showNormalize();
    
+   readSettings();
+   QWidget *encoders = new QWidget( this );
+   QBoxLayout *encodersLayout = new QVBoxLayout( encoders );
+   encodersLayout->addWidget( new QLabel( tr("Encoders used during ripping (select at least one):"), encoders ) );
+   mpEncoderTabs->addTab( encoders, tr("Encoders") );
+   for( i = 0; i < mEncoders.size(); i++ )
+   {
+      mpEncoderTabs->addTab( mEncoders.at(i)->configWidget(), mEncoders.at(i)->mName );
+      QCheckBox *encoder = new QCheckBox( mEncoders.at(i)->mName, encoders );
+      if( mEncoders.at(i)->useEncoder() )
+      {
+         encoder->setChecked( true );
+         encodersActive++;
+      }
+      encodersLayout->addWidget( encoder );
+      connect( encoder, SIGNAL(clicked(bool)),
+               mEncoders.at(i), SLOT(setUseEncoder(bool)) );
+      connect( mEncoders.at(i), SIGNAL(useEncoderClicked(bool)),
+               encoder, SLOT(setChecked(bool)) );
+   }
+   encodersLayout->addStretch( 1 );
+   if( !encodersActive )
+   {
+      QTimer::singleShot( 100, this, SLOT(exec()) );
+   }
+
    QWidget     *strTab    = new QWidget( this );
    QGridLayout *strLayout = new QGridLayout( strTab );
    strLayout->addWidget( mpDevicesLabel,   0, 0 );
@@ -74,15 +102,8 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    strLayout->addWidget( mpPatternExample, 2, 1 );
    strLayout->addWidget( mpAutoFreeDB,     3, 0, 1, 2 );
    strLayout->addWidget( mpAutoEject,      4, 0, 1, 2 );
-   strLayout->addWidget( mpEncodersLabel,  5, 0 );
-   strLayout->addWidget( mpEncodersBox,    5, 1 );
-   for( i = 0; i < mEncoders.size(); i++ )
-   {
-      strLayout->addWidget( new QLabel( (mEncoders.at(i)->mName + tr(" Encoder") ) ), 6+i, 0 );
-      strLayout->addWidget( mEncoders.at(i)->configWidget(), 6+i, 1 );
-      mpEncodersBox->addItem( mEncoders.at(i)->mName );
-   }
-   strLayout->setRowStretch( 4+i, 1 );
+   strLayout->addWidget( mpEncoderTabs,    5, 0, 1, 2 );
+   strLayout->setRowStretch( 5, 1 );
    strTab->setLayout( strLayout );
       
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -108,8 +129,6 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
             mpCDReader, SLOT(setDevice(const QString&)) );
    connect( mpCDReader, SIGNAL(foundDevices(const QStringList &)),
             this, SLOT(handleDevices(const QStringList &)) );
-   connect( mpEncodersBox, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(changeEncoder(int)) );
    connect( okButton, SIGNAL(clicked()),
             this, SLOT(accept()) );
    connect( cancelButton, SIGNAL(clicked()),
@@ -121,7 +140,6 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    connect( mpPattern, SIGNAL(textChanged(const QString&)),
             this, SLOT(updatePattern(const QString &)) );
    
-   readSettings();
    mpCDReader->getDevices();
 }
 
@@ -130,6 +148,19 @@ void ConfigDialog::exec()
 {
    readSettings();
    QDialog::exec();
+
+   int encodersActive = 0;
+   for( int i = 0; i < mEncoders.size(); i++ )
+   {
+      if( mEncoders.at(i)->useEncoder() )
+      {
+         encodersActive++;
+      }
+   }
+   if( !encodersActive )
+   {
+      QTimer::singleShot( 100, this, SLOT(exec()) );
+   }
 }
 
 
@@ -144,13 +175,10 @@ void ConfigDialog::readSettings()
    }
    mpAutoFreeDB->setChecked( settings.VALUE_AUTOFREEDB );
    mpAutoEject->setChecked( settings.VALUE_AUTOEJECT );
-   i = mpEncodersBox->findText( settings.VALUE_ENCODER );
    if( i < 0 )
    {
       i = 0;
    }
-   mpEncodersBox->setCurrentIndex( i );
-   changeEncoder( i );
    mpPattern->setText( settings.VALUE_CREATEPATTERN );
    
    mpGlobalConfigWidget->readSettings();
@@ -159,6 +187,7 @@ void ConfigDialog::readSettings()
    {
       mEncoders.at(i)->readSettings();
    }
+   mpCDReader->setEncoders( mEncoders );
    
    emit configChanged();
 }
@@ -171,7 +200,6 @@ void ConfigDialog::writeSettings()
    settings.setValue( "AutoFreeDB", mpAutoFreeDB->isChecked() );
    settings.setValue( "AutoEject", mpAutoEject->isChecked() );
    settings.setValue( "CreatePattern", mpPattern->text() );
-   settings.setValue( "Encoder", mpEncodersBox->currentText() );
    
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
@@ -179,6 +207,7 @@ void ConfigDialog::writeSettings()
    {
       mEncoders.at(i)->writeSettings();
    }
+   mpCDReader->setEncoders( mEncoders );
 
    emit configChanged();
 }
@@ -195,16 +224,6 @@ void ConfigDialog::handleDevices( const QStringList &devices )
    else
    {
       emit stateNoDrive();
-   }
-}
-
-
-void ConfigDialog::changeEncoder( int id )
-{
-   mpCDReader->setEncoder( mEncoders.at(id) );
-   for( int i = 0; i < mEncoders.size(); i++ )
-   {
-      mEncoders.at(i)->configWidget()->setDisabled( i != id );
    }
 }
 

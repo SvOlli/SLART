@@ -31,11 +31,11 @@
 #define MAX_PARANOIA_FUNCTION 13
 
 
-static CDReaderThread *gCDReaderThread0 = 0;
+static CDReaderThread *gpCDReaderThread0 = 0;
 
 static void callback0( long inpos, ::paranoia_cb_mode_t function )
 {
-   gCDReaderThread0->callback( inpos, function );
+   gpCDReaderThread0->callback( inpos, function );
 }
 
 
@@ -62,11 +62,11 @@ CDReaderThread::CDReaderThread( QObject *parent )
 , mpParanoia( 0 )
 , mpCDInfo( 0 )
 , mpCDEdit( 0 )
-, mpEncoder( 0 )
 , mpCallbackFunction( new unsigned long[ MAX_PARANOIA_FUNCTION ] )
 , mCancel( false )
 , mDevice()
 , mDevices()
+, mEncoders()
 {
 }
 
@@ -81,12 +81,12 @@ CDReaderThread::~CDReaderThread()
 
 
 void CDReaderThread::setup( CDInfo *info, CDEdit *edit,
-                            Encoder *encoder, const QString &device )
+                            const QList<Encoder*> &encoders, const QString &device )
 {
-   gCDReaderThread0  = this;
+   gpCDReaderThread0 = this;
    mpCDInfo          = info;
    mpCDEdit          = edit;
-   mpEncoder         = encoder;
+   mEncoders         = encoders;
    mDevice           = device;
 }
 
@@ -349,15 +349,21 @@ void CDReaderThread::runReadAudioData()
       emit message( fileName.mid( fileName.lastIndexOf('/')+1 ) );
       /* remove ALBUMARTIST that was only used for filename creation */
       tagList.set( "ALBUMARTIST" );
-      mpEncoder->setTags( tagList );
-      mpEncoder->initialize( fileName );
-      connect( this, SIGNAL(encodeThis(const QByteArray &)),
-               mpEncoder, SLOT(encodeCDAudio(const QByteArray &)) );
-      connect( this, SIGNAL(encodeDone()),
-               mpEncoder, SLOT(quit()) );
-      connect( mpEncoder, SIGNAL(encodingFail()),
-               this, SLOT(cancel()) );
-      mpEncoder->start();
+      for( int n = 0; n < mEncoders.size(); n++ )
+      {
+         if( mEncoders.at(n)->useEncoder() )
+         {
+            mEncoders.at(n)->setTags( tagList );
+            mEncoders.at(n)->initialize( fileName );
+            connect( this, SIGNAL(encodeThis(const QByteArray &)),
+                     mEncoders.at(n), SLOT(encodeCDAudio(const QByteArray &)) );
+            connect( this, SIGNAL(encodeDone()),
+                     mEncoders.at(n), SLOT(quit()) );
+            connect( mEncoders.at(n), SIGNAL(encodingFail()),
+                     this, SLOT(cancel()) );
+            mEncoders.at(n)->start();
+         }
+      }
 
       ::cdio_paranoia_seek( mpParanoia, firstSector, SEEK_SET );
       percent = 0;
@@ -393,14 +399,20 @@ fflush(stdout);
 printf("\n");
 #endif
       emit encodeDone();
-      disconnect( this, SIGNAL(encodeThis(const QByteArray &)),
-                  mpEncoder, SLOT(encodeCDAudio(const QByteArray &)) );
-      disconnect( this, SIGNAL(encodeDone()),
-                  mpEncoder, SLOT(quit()) );
-      disconnect( mpEncoder, SIGNAL(encodingFail()),
-                  this, SLOT(cancel()) );
+      for( int n = 0; n < mEncoders.size(); n++ )
+      {
+         if( mEncoders.at(n)->useEncoder() )
+         {
+            disconnect( this, SIGNAL(encodeThis(const QByteArray &)),
+                        mEncoders.at(n), SLOT(encodeCDAudio(const QByteArray &)) );
+            disconnect( this, SIGNAL(encodeDone()),
+                        mEncoders.at(n), SLOT(quit()) );
+            disconnect( mEncoders.at(n), SIGNAL(encodingFail()),
+                        this, SLOT(cancel()) );
 
-      mpEncoder->finalize( doenqueue, mCancel );
+            mEncoders.at(n)->finalize( doenqueue, mCancel );
+         }
+      }
       if( mCancel )
       {
          break;
