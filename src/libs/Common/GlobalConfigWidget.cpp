@@ -69,7 +69,7 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
    
    readSettings();
    
-   mainLayout->setRowStretch( 7, 1 );
+   mainLayout->setRowStretch( 9, 1 );
    mainLayout->setColumnStretch( 0, 1 );
    mainLayout->setColumnStretch( 1, 1 );
    
