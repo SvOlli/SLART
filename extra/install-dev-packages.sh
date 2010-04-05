@@ -16,6 +16,7 @@ if [ -x /usr/bin/apt-get ]; then
     libcdio-paranoia-dev \
     liblircclient-dev \
     libflac++-dev \
+    libmp3lame-dev \
     libbz2-dev \
     dpkg-buildpackage \
     build-essentials \
@@ -39,6 +40,8 @@ if [ -x /usr/bin/tce-load -w -i ]; then
   /usr/bin/tce-load -w -i libsndfile-devs.tcz
   /usr/bin/tce-load -w -i libFLAC++.tcz
   /usr/bin/tce-load -w -i libFLAC++-devs.tcz
+  /usr/bin/tce-load -w -i lame.tcz
+  /usr/bin/tce-load -w -i lame-dev.tcz
   /usr/bin/tce-load -w -i lirc.tcz
   /usr/bin/tce-load -w -i ogg-vorbis.tcz
   /usr/bin/tce-load -w -i ogg-vorbis-devs.tcz
