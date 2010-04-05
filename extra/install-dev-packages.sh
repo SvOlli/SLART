@@ -7,7 +7,7 @@ if [ -x /usr/bin/apt-get ]; then
     exit 1
   fi
 
-  /usr/bin/apt-get install \
+  for pkg in \
     g++ \
     libqt4-dev \
     libqt4-sql-sqlite \
@@ -22,33 +22,36 @@ if [ -x /usr/bin/apt-get ]; then
     fakeroot \
     debhelper \
 
+  do /usr/bin/apt-get install -y ${pkg}; done
   exit 0
 fi
 
 # Tiny Core Linux
-if [ -x /usr/bin/tce-wget ]; then
-  tce=tcz
-  /usr/bin/tce-wget alsa.${tce}l
-  /usr/bin/tce-wget alsa-devs.${tce}
-  /usr/bin/tce-wget compiletc.${tce}
-  /usr/bin/tce-wget fontconfig.${tce}
-  /usr/bin/tce-wget fontconfig-devs.${tce}
-  /usr/bin/tce-wget libcdio.${tce}
-  /usr/bin/tce-wget libcdio-devs.${tce}
-  /usr/bin/tce-wget libsndfile.${tce}
-  /usr/bin/tce-wget libsndfile-devs.${tce}
-  /usr/bin/tce-wget libFLAC++.${tce}
-  /usr/bin/tce-wget libFLAC++-devs.${tce}
-  /usr/bin/tce-wget lirc.${tce}
-  /usr/bin/tce-wget ogg-vorbis.${tce}
-  /usr/bin/tce-wget ogg-vorbis-devs.${tce}
-  /usr/bin/tce-wget qt-4.5-sql.${tce}
-  /usr/bin/tce-wget qt-4.5-devs.${tce}
+if [ -x /usr/bin/tce-load -w -i ]; then
+  /usr/bin/tce-load -w -i alsa.tcz
+  /usr/bin/tce-load -w -i alsa-devs.tcz
+  /usr/bin/tce-load -w -i compiletc.tcz
+  /usr/bin/tce-load -w -i fontconfig.tcz
+  /usr/bin/tce-load -w -i fontconfig-devs.tcz
+  /usr/bin/tce-load -w -i libcdio.tcz
+  /usr/bin/tce-load -w -i libcdio-devs.tcz
+  /usr/bin/tce-load -w -i libsndfile.tcz
+  /usr/bin/tce-load -w -i libsndfile-devs.tcz
+  /usr/bin/tce-load -w -i libFLAC++.tcz
+  /usr/bin/tce-load -w -i libFLAC++-devs.tcz
+  /usr/bin/tce-load -w -i lirc.tcz
+  /usr/bin/tce-load -w -i ogg-vorbis.tcz
+  /usr/bin/tce-load -w -i ogg-vorbis-devs.tcz
+  /usr/bin/tce-load -w -i qt-4.5-sql.tcz
+  /usr/bin/tce-load -w -i qt-4.5-devs.tcz
   
   exit 0
 fi
 
-echo "Sorry, you're using a distribution that's unknown to this script."
-echo "Feel free to add the necessary code and submit it to me."
-echo "Thanks, SvOlli"
+cat <<EOF
+Sorry, you're using a distribution that's unknown to this script.
+Feel free to add the necessary code and submit it to me.
 
+Thanks,
+  SvOlli
+EOF
