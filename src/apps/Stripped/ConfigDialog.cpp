@@ -23,7 +23,9 @@
 /* local headers */
 #include "CDReader.hpp"
 #include "FlacEncoder.hpp"
-//#include "Mp3Encoder.hpp"
+#if USE_MP3
+#include "Mp3Encoder.hpp"
+#endif
 #include "OggEncoder.hpp"
 #include "WavEncoder.hpp"
 
@@ -51,7 +53,9 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
-   //mEncoders.append( new Mp3Encoder( this ) );
+#if USE_MP3
+   mEncoders.append( new Mp3Encoder( this ) );
+#endif
    mEncoders.append( new OggEncoder( this ) );
    mEncoders.append( new FlacEncoder( this ) );
    mEncoders.append( new WavEncoder( this ) );
