@@ -253,6 +253,10 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
          trackInfo->mTrackNr = -1;
          trackInfo->mYear = -1;
          trackInfo->mGenre.clear();
+         trackInfo->mTimesPlayed = 0;
+         trackInfo->mVolume = 0.0;
+         trackInfo->mFolders.clear();
+         trackInfo->mFlags = 0;
       }
       
       mpQuery->clear();
