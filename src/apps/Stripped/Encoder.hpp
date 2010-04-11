@@ -51,6 +51,8 @@ public:
    /*  */
    bool useEncoder();
    /*  */
+   void setEnqueue( bool activate );
+   /*  */
    void setDirectory( ScrollLine *dirOverride );
    /* initialize the encoder */
    virtual bool initialize( const QString &fileName) = 0;
@@ -67,7 +69,7 @@ signals:
    /*  */
    void encodingFail();
    /*  */
-   virtual void useEncoderClicked( bool on );
+   void useEncoderClicked( bool on );
 
 protected:
    /* initialize the encoder (create the output file) */
@@ -77,6 +79,7 @@ protected:
    
    /* settings */
    bool     mUseEncoder;
+   bool     mEnqueue;
    bool     mDirOverride;
    QString  mDirectory;
    /*  */

@@ -28,6 +28,7 @@ Encoder::Encoder( QObject *parent, const QString &encoderName )
 : QThread( parent )
 , mName( encoderName )
 , mUseEncoder( false )
+, mEnqueue( false )
 , mDirOverride( false )
 , mDirectory()
 , mFile()
@@ -80,7 +81,7 @@ bool Encoder::finalize( bool enqueue, bool cancel )
       QByteArray msg( "s0d\n" );
       msg.append( mFileName.toUtf8() );
       satellite->send( msg );
-      if( enqueue )
+      if( enqueue && mEnqueue )
       {
          msg = "P0Q\n";
          msg.append( mFileName.toUtf8() );
@@ -116,6 +117,12 @@ void Encoder::setTags( const TagList &tagList )
 bool Encoder::useEncoder()
 {
    return mUseEncoder;
+}
+
+
+void Encoder::setEnqueue( bool activate )
+{
+   mEnqueue = activate;
 }
 
 

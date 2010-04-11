@@ -349,6 +349,7 @@ void CDReaderThread::runReadAudioData()
       emit message( fileName.mid( fileName.lastIndexOf('/')+1 ) );
       /* remove ALBUMARTIST that was only used for filename creation */
       tagList.set( "ALBUMARTIST" );
+      bool setEnqueue = true;
       for( int n = 0; n < mEncoders.size(); n++ )
       {
          if( mEncoders.at(n)->useEncoder() )
@@ -361,6 +362,8 @@ void CDReaderThread::runReadAudioData()
                      mEncoders.at(n), SLOT(quit()) );
             connect( mEncoders.at(n), SIGNAL(encodingFail()),
                      this, SLOT(cancel()) );
+            mEncoders.at(n)->setEnqueue( setEnqueue );
+            setEnqueue = false;
             mEncoders.at(n)->start();
          }
       }
