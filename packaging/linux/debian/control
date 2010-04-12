@@ -1,0 +1,18 @@
+Source: slart
+Section: unknown
+Priority: extra
+Maintainer: Sven Oliver Moll <svolli@svolli.org>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: slart
+Architecture: ${arch}
+Installed-Size: ${size}
+Depends: ${shlibs:Depends}
+Description: SvOlli's Little Audio Related Thingies
+ SvOlli's Little Audio Related Thingies, or SLART for short, is a compilation
+ of rather simple programs that are related to audio files: it consists of a
+ player (Partyman), a CD ripper, a tag editor, a downloader for music files
+ that also works with MySpace, and some other tools. These programs can
+ communicate with each other, so a newly ripped track can be automatically
+ queued in the player, for example. 
