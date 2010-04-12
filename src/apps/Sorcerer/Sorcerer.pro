@@ -6,7 +6,6 @@
 
 TARGET = Sorcerer
 TEMPLATE = app
-QT += network
 
 include( ../../config.pri )
 

@@ -6,7 +6,7 @@
 
 TEMPLATE = app
 TARGET = Notorious
-QT += sql network
+QT += sql
 LIBS += -lbz2
 
 include( ../../config.pri )

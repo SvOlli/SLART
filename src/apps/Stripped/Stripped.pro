@@ -6,7 +6,7 @@
 
 TEMPLATE = app
 TARGET = Stripped
-QT += sql network
+QT += network
 CONFIG += link_pkgconfig
 
 win32 {
