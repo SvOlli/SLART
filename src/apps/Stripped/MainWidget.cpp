@@ -30,7 +30,6 @@
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get( this ) )
-, mpDirButton( new QPushButton( this ) )
 , mpCDInfo( new CDInfo() )
 , mpCDDBClient( new CDDBClient( mpCDInfo, this ) )
 , mpCDEdit( new CDEdit( mpCDInfo, mpCDDBClient, this ) )
@@ -53,7 +52,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpScanButton->setDisabled( true );
    mpRipButton->setDisabled( true );
    mpEjectButton->setDisabled( true );
-   mpDirButton->setText( settings.VALUE_DIRECTORY );
    
    /* for style sheets */
    mpSettingsButton->setObjectName( QString("SettingsButton") );
@@ -65,14 +63,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
 #endif
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
-   QHBoxLayout *pathLayout   = new QHBoxLayout();
    
-   QLabel *targetDirLabel   = new QLabel( tr("Base Directory"), this );
-   pathLayout->addWidget( targetDirLabel );
-   pathLayout->addWidget( mpDirButton );
-   pathLayout->setStretchFactor( targetDirLabel,  0 );
-   pathLayout->setStretchFactor( mpDirButton, 1 );
-
    mpCancelButton->setDisabled( true );
    mpButtonLayout->addWidget( mpSettingsButton );
    mpButtonLayout->addWidget( mpCancelButton );
@@ -80,7 +71,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpButtonLayout->addWidget( mpRipButton );
    mpButtonLayout->addWidget( mpEjectButton );
 
-   mainLayout->addLayout( pathLayout );
    mainLayout->addWidget( mpCDDBClient );
    mainLayout->addWidget( mpCDEdit );
    mainLayout->addWidget( mpCDReader );
@@ -90,9 +80,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    setLayout( mainLayout );
 
    /* buttons */
-   connect( mpDirButton, SIGNAL(clicked()),
-            this, SLOT(setRippingDir()) );
-
    connect( mpSettingsButton, SIGNAL(pressed()),
             mpConfigDialog, SLOT(exec()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
@@ -151,24 +138,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    mpSatellite->restart();
    handleConfigUpdate();
-}
-
-
-void MainWidget::setRippingDir()
-{
-   QFileDialog fileDialog( this );
-
-   fileDialog.setFileMode( QFileDialog::DirectoryOnly );
-   fileDialog.setDirectory( mpDirButton->text() );
-   fileDialog.setReadOnly( false );
-
-   if( fileDialog.exec() )
-   {
-      MySettings settings;
-      QString result( fileDialog.selectedFiles().at(0) );
-      mpDirButton->setText( result );
-      settings.setValue( "Directory", result.replace('\\','/') );
-   }
 }
 
 

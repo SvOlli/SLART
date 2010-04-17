@@ -45,8 +45,6 @@ public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
-   /* set the directory where the ripped tracks go to */
-   void setRippingDir();
    /* handle eject button */
    void eject();
    /*  */
@@ -77,7 +75,6 @@ private:
 public:
 private:
    Satellite       *mpSatellite;
-   QPushButton     *mpDirButton;
    CDInfo          *mpCDInfo;
    CDDBClient      *mpCDDBClient;
    CDEdit          *mpCDEdit;

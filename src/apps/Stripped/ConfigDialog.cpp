@@ -41,7 +41,9 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 , mpDevicesBox( new QComboBox( this ) )
 , mpAutoFreeDB( new QCheckBox( tr("Automatically run FreeDB query"), this ) )
 , mpAutoEject( new QCheckBox( tr("Automatically eject CD when done"), this ) )
-, mpPatternLabel( new QLabel( tr("File Create Pattern"), this ) )
+, mpDirButtonLabel( new QLabel( tr("Base Directory:"), this ) )
+, mpDirButton( new QPushButton( this ) )
+, mpPatternLabel( new QLabel( tr("File Create Pattern:"), this ) )
 , mpPattern( new QLineEdit( this ) )
 , mpPatternExample( new QLabel( tr(""), this ) )
 , mpEncoderTabs( new QTabWidget( this ) )
@@ -101,13 +103,15 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    QGridLayout *strLayout = new QGridLayout( strTab );
    strLayout->addWidget( mpDevicesLabel,   0, 0 );
    strLayout->addWidget( mpDevicesBox,     0, 1 );
-   strLayout->addWidget( mpPatternLabel,   1, 0 );
-   strLayout->addWidget( mpPattern,        1, 1 );
-   strLayout->addWidget( mpPatternExample, 2, 1 );
-   strLayout->addWidget( mpAutoFreeDB,     3, 0, 1, 2 );
-   strLayout->addWidget( mpAutoEject,      4, 0, 1, 2 );
-   strLayout->addWidget( mpEncoderTabs,    5, 0, 1, 2 );
-   strLayout->setRowStretch( 5, 1 );
+   strLayout->addWidget( mpDirButtonLabel, 1, 0 );
+   strLayout->addWidget( mpDirButton,      1, 1 );
+   strLayout->addWidget( mpPatternLabel,   2, 0 );
+   strLayout->addWidget( mpPattern,        2, 1 );
+   strLayout->addWidget( mpPatternExample, 3, 1 );
+   strLayout->addWidget( mpAutoFreeDB,     4, 0, 1, 2 );
+   strLayout->addWidget( mpAutoEject,      5, 0, 1, 2 );
+   strLayout->addWidget( mpEncoderTabs,    6, 0, 1, 2 );
+   strLayout->setRowStretch( 6, 1 );
    strTab->setLayout( strLayout );
       
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -133,6 +137,10 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
             mpCDReader, SLOT(setDevice(const QString&)) );
    connect( mpCDReader, SIGNAL(foundDevices(const QStringList &)),
             this, SLOT(handleDevices(const QStringList &)) );
+   connect( mpDirButton, SIGNAL(clicked()),
+            this, SLOT(setRippingDir()) );
+   connect( mpPattern, SIGNAL(textChanged(const QString&)),
+            this, SLOT(updatePattern(const QString &)) );
    connect( okButton, SIGNAL(clicked()),
             this, SLOT(accept()) );
    connect( cancelButton, SIGNAL(clicked()),
@@ -141,8 +149,6 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
             this, SLOT(writeSettings()) );
    connect( this, SIGNAL(rejected()),
             this, SLOT(readSettings()) );
-   connect( mpPattern, SIGNAL(textChanged(const QString&)),
-            this, SLOT(updatePattern(const QString &)) );
    
    mpCDReader->getDevices();
 }
@@ -168,6 +174,23 @@ void ConfigDialog::exec()
 }
 
 
+void ConfigDialog::setRippingDir()
+{
+   QFileDialog fileDialog( this );
+
+   fileDialog.setFileMode( QFileDialog::DirectoryOnly );
+   fileDialog.setDirectory( mpDirButton->text() );
+   fileDialog.setReadOnly( false );
+
+   if( fileDialog.exec() )
+   {
+      MySettings settings;
+      QString result( fileDialog.selectedFiles().at(0) );
+      mpDirButton->setText( result );
+   }
+}
+
+
 void ConfigDialog::readSettings()
 {
    MySettings settings;
@@ -183,6 +206,7 @@ void ConfigDialog::readSettings()
    {
       i = 0;
    }
+   mpDirButton->setText( settings.VALUE_DIRECTORY.replace( '/', QDir::separator() ) );
    mpPattern->setText( settings.VALUE_CREATEPATTERN );
    
    mpGlobalConfigWidget->readSettings();
@@ -204,6 +228,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "AutoFreeDB", mpAutoFreeDB->isChecked() );
    settings.setValue( "AutoEject", mpAutoEject->isChecked() );
    settings.setValue( "CreatePattern", mpPattern->text() );
+   settings.setValue( "Directory", mpDirButton->text().replace('\\','/') );
    
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();

@@ -48,6 +48,8 @@ public:
 public slots:
    /* execute the dialog */
    void exec();
+   /* set the directory where the ripped tracks go to */
+   void setRippingDir();
    /* read settings from storage */
    void readSettings();
    /* write settings to storage */
@@ -74,6 +76,8 @@ private:
    QComboBox            *mpDevicesBox;
    QCheckBox            *mpAutoFreeDB;
    QCheckBox            *mpAutoEject;
+   QLabel               *mpDirButtonLabel;
+   QPushButton          *mpDirButton;
    QLabel               *mpPatternLabel;
    QLineEdit            *mpPattern;
    QLabel               *mpPatternExample;
