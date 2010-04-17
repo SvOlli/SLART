@@ -427,6 +427,16 @@ void CDEdit::ensureVisible( int tracknr )
 }
 
 
+void CDEdit::ensureVisibleFocus( QWidget *widget )
+{
+   if( widget->isVisible() )
+   {
+      widget->setFocus();
+      mpScrollArea->ensureWidgetVisible( widget );
+   }
+}
+
+
 void CDEdit::keyUpDown( QWidget *widget, bool isUp )
 {
    int firstLine = mpTrackNr[0]->isVisible() ? 0 : 1;
@@ -434,7 +444,7 @@ void CDEdit::keyUpDown( QWidget *widget, bool isUp )
    {
       if( !isUp )
       {
-         mpDiscTitle->setFocus();
+         ensureVisibleFocus( mpDiscTitle );
       }
       return;
    }
@@ -442,11 +452,11 @@ void CDEdit::keyUpDown( QWidget *widget, bool isUp )
    {
       if( isUp )
       {
-         mpDiscArtist->setFocus();
+         ensureVisibleFocus( mpDiscArtist );
       }
       else
       {
-         mpDiscGenre->setFocus();
+         ensureVisibleFocus( mpDiscGenre );
       }
       return;
    }
@@ -454,26 +464,26 @@ void CDEdit::keyUpDown( QWidget *widget, bool isUp )
    {
       if( isUp )
       {
-         mpDiscTitle->setFocus();
+         ensureVisibleFocus( mpDiscTitle );
       }
       else
       {
          switch( mLastColumn )
          {
             case 0:
-               mpTrackNr[firstLine]->setFocus();
+               ensureVisibleFocus( mpTrackNr[firstLine] );
                break;
             case 1:
-               mpEnqueueTrack[firstLine]->setFocus();
+               ensureVisibleFocus( mpEnqueueTrack[firstLine] );
                break;
             case 2:
-               mpTrackArtist[firstLine]->setFocus();
+               ensureVisibleFocus( mpTrackArtist[firstLine] );
                break;
             case 3:
-               mpTrackTitle[firstLine]->setFocus();
+               ensureVisibleFocus( mpTrackTitle[firstLine] );
                break;
             case 4:
-               mpTrackYear[firstLine]->setFocus();
+               ensureVisibleFocus( mpTrackYear[firstLine] );
                break;
             default:
                break;
@@ -485,58 +495,58 @@ void CDEdit::keyUpDown( QWidget *widget, bool isUp )
    if( isUp && (mpTrackNr[firstLine] == widget) )
    {
       mLastColumn = 0;
-      mpDiscGenre->setFocus();
+      ensureVisibleFocus( mpDiscGenre );
       return;
    }
    if( isUp && (mpEnqueueTrack[firstLine] == widget) )
    {
       mLastColumn = 1;
-      mpDiscGenre->setFocus();
+      ensureVisibleFocus( mpDiscGenre );
       return;
    }
    if( isUp && (mpTrackArtist[firstLine] == widget) )
    {
       mLastColumn = 2;
-      mpDiscGenre->setFocus();
+      ensureVisibleFocus( mpDiscGenre );
       return;
    }
    if( isUp && (mpTrackTitle[firstLine] == widget) )
    {
       mLastColumn = 3;
-      mpDiscGenre->setFocus();
+      ensureVisibleFocus( mpDiscGenre );
       return;
    }
    if( isUp && (mpTrackYear[firstLine] == widget) )
    {
       mLastColumn = 4;
-      mpDiscGenre->setFocus();
+      ensureVisibleFocus( mpDiscGenre );
       return;
    }
    for( int i = isUp ? 1 : 0; i < (isUp ? 100 : 99); i++ )
    {
       if( mpTrackNr[i] == widget )
       {
-         mpTrackNr[isUp ? i-1 : i+1]->setFocus();
+         ensureVisibleFocus( mpTrackNr[isUp ? i-1 : i+1] );
          return;
       }
       if( mpEnqueueTrack[i] == widget )
       {
-         mpEnqueueTrack[isUp ? i-1 : i+1]->setFocus();
+         ensureVisibleFocus( mpEnqueueTrack[isUp ? i-1 : i+1] );
          return;
       }
       if( mpTrackArtist[i] == widget )
       {
-         mpTrackArtist[isUp ? i-1 : i+1]->setFocus();
+         ensureVisibleFocus( mpTrackArtist[isUp ? i-1 : i+1] );
          return;
       }
       if( mpTrackTitle[i] == widget )
       {
-         mpTrackTitle[isUp ? i-1 : i+1]->setFocus();
+         ensureVisibleFocus( mpTrackTitle[isUp ? i-1 : i+1] );
          return;
       }
       if( mpTrackYear[i] == widget )
       {
-         mpTrackYear[isUp ? i-1 : i+1]->setFocus();
+         ensureVisibleFocus( mpTrackYear[isUp ? i-1 : i+1] );
          return;
       }
    }

@@ -81,6 +81,8 @@ private:
    CDEdit( const CDEdit &other );
    CDEdit &operator=( const CDEdit &other );
 
+   void ensureVisibleFocus( QWidget *widget );
+
    CDInfo       *mpCDInfo;
    CDDBClient   *mpCDDBClient;
    QScrollArea  *mpScrollArea;
