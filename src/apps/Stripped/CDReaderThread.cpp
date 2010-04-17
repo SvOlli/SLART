@@ -131,7 +131,7 @@ void CDReaderThread::run()
    switch( mMode )
    {
       case modeGetDevices:
-         emit message( tr("Gettings devices.") );
+         emit message( tr("Getting devices.") );
          runGetDevices();
          break;
       case modeReadToc:
@@ -183,6 +183,7 @@ void CDReaderThread::runGetDevices()
    if( mDevices.count() )
    {
       emit stateNoDisc();
+      emit message( tr("Insert CD to scan.") );
    }
    else
    {

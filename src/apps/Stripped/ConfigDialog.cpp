@@ -133,8 +133,6 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    
    setLayout( mainLayout );
 
-   connect( mpDevicesBox, SIGNAL(currentIndexChanged(const QString&)),
-            mpCDReader, SLOT(setDevice(const QString&)) );
    connect( mpCDReader, SIGNAL(foundDevices(const QStringList &)),
             this, SLOT(handleDevices(const QStringList &)) );
    connect( mpDirButton, SIGNAL(clicked()),
@@ -244,15 +242,34 @@ void ConfigDialog::writeSettings()
 
 void ConfigDialog::handleDevices( const QStringList &devices )
 {
+   disconnect( mpDevicesBox, SIGNAL(currentIndexChanged(const QString&)),
+               this, SLOT(handleDevice(const QString&)) );
    mpDevicesBox->clear();
    if( devices.size() )
    {
       mpDevicesBox->addItems( devices );
       mpDevicesBox->setCurrentIndex( mpDevicesBox->findText( MySettings().VALUE_DEVICE ) );
+      mpDevicesBox->insertSeparator( mpDevicesBox->count() );
    }
    else
    {
       emit stateNoDrive();
+   }
+   mpDevicesBox->addItem( tr("Rescan") );
+   connect( mpDevicesBox, SIGNAL(currentIndexChanged(const QString&)),
+            this, SLOT(handleDevice(const QString&)) );
+}
+
+
+void ConfigDialog::handleDevice( const QString &device )
+{
+   if( mpDevicesBox->findText( device ) == mpDevicesBox->count() - 1 )
+   {
+      mpCDReader->getDevices();
+   }
+   else
+   {
+      mpCDReader->setDevice( device );
    }
 }
 

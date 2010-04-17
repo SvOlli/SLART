@@ -58,6 +58,8 @@ public slots:
    void updatePattern( const QString &text );
    /*  */
    void handleDevices( const QStringList &devices );
+   /*  */
+   void handleDevice( const QString &device );
    
 signals:
    /*  */
