@@ -44,6 +44,7 @@ Q_OBJECT
    
 public:
    ConfigDialog( CDReader *cdreader, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   virtual ~ConfigDialog();
    
 public slots:
    /* execute the dialog */

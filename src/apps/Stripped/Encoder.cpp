@@ -16,16 +16,16 @@
 #include <QFileDialog>
 
 /* local library headers */
-#include <ConfigDialog.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 #include <ScrollLine.hpp>
 
 /* local headers */
+#include "ConfigDialog.hpp"
 
 
 Encoder::Encoder( QObject *parent, const QString &encoderName )
-: QThread( parent )
+: QThread( 0 )
 , mName( encoderName )
 , mUseEncoder( false )
 , mEnqueue( false )

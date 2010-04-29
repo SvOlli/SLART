@@ -365,7 +365,6 @@ void CDReaderThread::runReadAudioData()
                      this, SLOT(cancel()) );
             mEncoders.at(n)->setEnqueue( setEnqueue );
             setEnqueue = false;
-            mEncoders.at(n)->start();
          }
       }
 
