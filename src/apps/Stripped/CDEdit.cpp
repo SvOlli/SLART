@@ -423,7 +423,10 @@ void CDEdit::trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *arti
 
 void CDEdit::ensureVisible( int tracknr )
 {
-   mpScrollArea->ensureWidgetVisible( mpTrackTitle[tracknr], 1, 1 );
+   if( mpTrackTitle[tracknr]->isVisible() )
+   {
+      mpScrollArea->ensureWidgetVisible( mpTrackTitle[tracknr], 5, 5 );
+   }
 }
 
 
@@ -432,7 +435,7 @@ void CDEdit::ensureVisibleFocus( QWidget *widget )
    if( widget->isVisible() )
    {
       widget->setFocus();
-      mpScrollArea->ensureWidgetVisible( widget );
+      mpScrollArea->ensureWidgetVisible( widget, 5, 5 );
    }
 }
 
