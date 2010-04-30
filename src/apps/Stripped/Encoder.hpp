@@ -60,6 +60,8 @@ public:
    virtual bool finalize( bool enqueue, bool cancel );
 
 public slots:
+   /*  */
+   virtual void start();
    /* encode raw cd audio data */
    virtual void encodeCDAudio( const QByteArray &data ) = 0;
    /*  */

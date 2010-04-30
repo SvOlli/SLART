@@ -355,6 +355,7 @@ void CDReaderThread::runReadAudioData()
       {
          if( mEncoders.at(n)->useEncoder() )
          {
+            mEncoders.at(n)->start();
             mEncoders.at(n)->setTags( tagList );
             mEncoders.at(n)->initialize( fileName );
             connect( this, SIGNAL(encodeThis(const QByteArray &)),

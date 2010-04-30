@@ -92,8 +92,6 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
                mEncoders.at(i), SLOT(setUseEncoder(bool)) );
       connect( mEncoders.at(i), SIGNAL(useEncoderClicked(bool)),
                encoder, SLOT(setChecked(bool)) );
-      mEncoders.at(i)->start();
-      mEncoders.at(i)->moveToThread( mEncoders.at(i) );
    }
    encodersLayout->addStretch( 1 );
    if( !encodersActive )

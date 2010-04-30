@@ -42,6 +42,13 @@ Encoder::~Encoder()
 }
 
 
+void Encoder::start()
+{
+   QThread::start();
+   moveToThread( this );
+}
+
+
 void Encoder::run()
 {
    /* when started just run event loop to handle messages */
