@@ -54,17 +54,21 @@ protected:
 public slots:
    /* handle the dropdown list containing mime types */
    void mimeDataByIndex( int index );
+   /* target for clipboard button */
+   void handleClipboard();
 
 private:
    DropDialog( const DropDialog &other );
    DropDialog &operator=( const DropDialog &other );
    /* handle the drop */
    void handleDropData();
+   /* analyse the mime data */
+   void getMimeData( const QMimeData *mimeData );
 
    QComboBox       *mpMimeTypes;
+   QPushButton     *mpClipboard;
    QPushButton     *mpColor;
    QPushButton     *mpHtml;
-   QPushButton     *mpImage;
    QPushButton     *mpText;
    QPushButton     *mpUrls;
    QTextBrowser    *mpTextBrowser;

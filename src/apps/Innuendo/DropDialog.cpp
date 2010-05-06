@@ -26,9 +26,9 @@
 DropDialog::DropDialog( QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpMimeTypes( new QComboBox( this ) )
+, mpClipboard( new QPushButton( tr("Get Clipboard"), this ) )
 , mpColor( new QPushButton( tr("Color"), this ) )
 , mpHtml( new QPushButton( tr("Html"), this ) )
-, mpImage( new QPushButton( tr("Image"), this ) )
 , mpText( new QPushButton( tr("Text"), this ) )
 , mpUrls( new QPushButton( tr("Urls"), this ) )
 , mpTextBrowser( new QTextBrowser( this ) )
@@ -37,6 +37,8 @@ DropDialog::DropDialog( QWidget *parent, Qt::WindowFlags flags )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Drop Info") );
    QPushButton *okButton = new QPushButton( tr("OK"), this );
+   connect( mpClipboard, SIGNAL(clicked()),
+            this, SLOT(handleClipboard()) );
    connect( mpColor, SIGNAL(clicked()),
             mpSignalMapper, SLOT(map()) );
    connect( mpHtml, SIGNAL(clicked()),
@@ -45,11 +47,15 @@ DropDialog::DropDialog( QWidget *parent, Qt::WindowFlags flags )
             mpSignalMapper, SLOT(map()) );
    connect( mpUrls, SIGNAL(clicked()),
             mpSignalMapper, SLOT(map()) );
-   
+   mpSignalMapper->setMapping( mpColor, mpMimeTypes->findText( "application/x-color" ) );
+   mpSignalMapper->setMapping( mpHtml,  mpMimeTypes->findText( "text/html" ) );
+   mpSignalMapper->setMapping( mpText,  mpMimeTypes->findText( "text/plain" ) );
+   mpSignalMapper->setMapping( mpUrls,  mpMimeTypes->findText( tr("Urls List") ) );
+
    QBoxLayout *buttonLayout = new QHBoxLayout;
+   buttonLayout->addWidget( mpClipboard );
    buttonLayout->addWidget( mpColor );
    buttonLayout->addWidget( mpHtml );
-   buttonLayout->addWidget( mpImage );
    buttonLayout->addWidget( mpText );
    buttonLayout->addWidget( mpUrls );
    
@@ -92,19 +98,20 @@ void DropDialog::dragEnterEvent( QDragEnterEvent *event )
 }
 
 
-void DropDialog::dropEvent( QDropEvent *event )
+void DropDialog::getMimeData( const QMimeData *remoteMimeData )
 {
    int i;
    QByteArray mimeData;
    mpMimeTypes->clear();
    mMimeDataCache.clear();
-   if( event->mimeData()->hasUrls() )
+
+   if( remoteMimeData->hasUrls() )
    {
       mpMimeTypes->addItem( tr("Urls List") );
    }
-   mpMimeTypes->addItems( event->mimeData()->formats() );
+   mpMimeTypes->addItems( remoteMimeData->formats() );
    
-   QList<QUrl> urls = event->mimeData()->urls();
+   QList<QUrl> urls = remoteMimeData->urls();
    QString text;
    for( i = 0; i < urls.size(); i++ )
    {
@@ -115,7 +122,7 @@ void DropDialog::dropEvent( QDropEvent *event )
 
    for( i = 1; i < mpMimeTypes->count(); i++ )
    {
-      mimeData = event->mimeData()->data( mpMimeTypes->itemText(i) );
+      mimeData = remoteMimeData->data( mpMimeTypes->itemText(i) );
       int size = mimeData.size();
       if( !size || (size % 2) || mimeData.at(1) )
       {
@@ -126,18 +133,28 @@ void DropDialog::dropEvent( QDropEvent *event )
          mMimeDataCache.append( QString("UTF16:\n")+QString::fromUtf16( (const ushort*)mimeData.constData(), size/2 ) );
       }
    }
-   mpColor->setDisabled( !event->mimeData()->hasColor() );
-   mpHtml->setDisabled( !event->mimeData()->hasHtml() );
-   mpImage->setDisabled( !event->mimeData()->hasImage() );
-   mpText->setDisabled( !event->mimeData()->hasText() );
-   mpUrls->setDisabled( !event->mimeData()->hasUrls() );
-
-   mpSignalMapper->setMapping( mpColor, mpMimeTypes->findText( "application/x-color" ) );
-   mpSignalMapper->setMapping( mpHtml,  mpMimeTypes->findText( "text/html" ) );
-   mpSignalMapper->setMapping( mpText,  mpMimeTypes->findText( "text/plain" ) );
-   mpSignalMapper->setMapping( mpUrls,  mpMimeTypes->findText( tr("Urls List") ) );
+   mpColor->setDisabled( !remoteMimeData->hasColor() );
+   mpHtml->setDisabled( !remoteMimeData->hasHtml() );
+   mpText->setDisabled( !remoteMimeData->hasText() );
+   mpUrls->setDisabled( !remoteMimeData->hasUrls() );
 
    mimeDataByIndex( 0 );
+}
+
+
+void DropDialog::dropEvent( QDropEvent *event )
+{
+   getMimeData( event->mimeData() );
    
    event->acceptProposedAction();
+}
+
+
+void DropDialog::handleClipboard()
+{
+   QClipboard *clipboard = QApplication::clipboard();
+   if( clipboard->mimeData()->formats().size() > 0 )
+   {
+      getMimeData( clipboard->mimeData() );
+   }
 }
