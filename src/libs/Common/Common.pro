@@ -77,3 +77,6 @@ SOURCES += WebServer.cpp
 HEADERS += WidgetShot.hpp
 SOURCES += WidgetShot.cpp
 
+HEADERS += Xxtea.hpp
+SOURCES += Xxtea.cpp
+
