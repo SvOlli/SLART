@@ -6,6 +6,8 @@
 
 TEMPLATE = subdirs
 
+SUBDIRS += TestAppCommandLine
 SUBDIRS += TestAppSatellite
 SUBDIRS += TestAppWebServer
+SUBDIRS += TestAppXxtea
 
