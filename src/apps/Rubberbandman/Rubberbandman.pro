@@ -8,7 +8,7 @@ TEMPLATE = app
 TARGET = Rubberbandman
 QT += sql network
 
-include( ../../config.pri )
+include( ../../buildconfig.pri )
 
 INCLUDEPATH += ../../libs/Common ../../libs/TagLib
 LIBS += -lCommon -lTag

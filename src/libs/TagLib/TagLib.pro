@@ -11,7 +11,7 @@ CONFIG += staticlib
 INCLUDEPATH += .
 QMAKE_CXXFLAGS += -DNDEBUG=NDEBUG
 
-include( ../../config.pri )
+include( ../../buildconfig.pri )
 
 SOURCES = \
   apefooter.cpp \

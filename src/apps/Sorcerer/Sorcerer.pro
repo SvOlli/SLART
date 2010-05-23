@@ -7,7 +7,7 @@
 TARGET = Sorcerer
 TEMPLATE = app
 
-include( ../../config.pri )
+include( ../../buildconfig.pri )
 
 INCLUDEPATH += ../../libs/Common
 LIBS += -lCommon

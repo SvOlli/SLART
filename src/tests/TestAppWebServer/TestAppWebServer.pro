@@ -8,7 +8,7 @@ TARGET = TestAppWebServer
 TEMPLATE = app
 QT += sql network
 
-include( ../../config.pri )
+include( ../../buildconfig.pri )
 
 INCLUDEPATH += ../../libs/Common
 LIBS += -lCommon

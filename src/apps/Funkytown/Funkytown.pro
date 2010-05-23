@@ -8,7 +8,7 @@ TARGET = Funkytown
 TEMPLATE = app
 QT += network
 
-include( ../../config.pri )
+include( ../../buildconfig.pri )
 
 INCLUDEPATH += ../../libs/Common
 LIBS += -lCommon

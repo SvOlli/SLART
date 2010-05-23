@@ -8,7 +8,7 @@ TARGET = TestAppCommandLine
 TEMPLATE = app
 QT -= gui
 
-include( ../../config.pri )
+include( ../../buildconfig.pri )
 
 INCLUDEPATH += ../../libs/CommandLine
 LIBS += -lCommandLine

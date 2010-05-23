@@ -12,7 +12,7 @@ QT += network
 INCLUDEPATH += ../../libs/Common
 LIBS += -llirc_client
 
-include ( ../../config.pri )
+include ( ../../buildconfig.pri )
 
 # Input
 SOURCES += Application.cpp 

@@ -9,7 +9,7 @@ TARGET = Notorious
 QT += sql
 LIBS += -lbz2
 
-include( ../../config.pri )
+include( ../../buildconfig.pri )
 
 INCLUDEPATH += ../../libs/Common
 LIBS += -lCommon

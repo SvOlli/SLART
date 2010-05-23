@@ -15,7 +15,7 @@ win32 {
    MP3 = yes
 }
 
-include( ../../config.pri )
+include( ../../buildconfig.pri )
 
 INCLUDEPATH += ../../libs/Common
 LIBS += -lCommon -lFLAC++

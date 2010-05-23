@@ -8,7 +8,7 @@ TARGET = CommandLine
 TEMPLATE = lib
 CONFIG += qt staticlib
 
-include( ../../config.pri )
+include( ../../buildconfig.pri )
 
 HEADERS += CommandLine.hpp
 SOURCES += CommandLine.cpp

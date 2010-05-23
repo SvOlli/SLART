@@ -9,7 +9,7 @@ TEMPLATE = lib
 CONFIG += qt staticlib
 QT += sql network
 
-include( ../../config.pri )
+include( ../../buildconfig.pri )
 
 HEADERS += AboutWidget.hpp
 SOURCES += AboutWidget.cpp

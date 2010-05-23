@@ -9,7 +9,7 @@ TARGET = $$qtLibraryTarget(Sorcerer)
 QT += sql network
 CONFIG += plugin
 
-include( ../../config.pri )
+include( ../../buildconfig.pri )
 
 INCLUDEPATH += ../../libs/Common ../../libs/TagLib
 LIBS += -lCommon -lTag
