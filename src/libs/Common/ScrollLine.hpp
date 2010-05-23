@@ -9,11 +9,23 @@
 #ifndef SCROLLLINE_HPP
 #define SCROLLLINE_HPP SCROLLLINE_HPP
 
+/* base class */
 #include <QLineEdit>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QMouseEvent;
 class QString;
 class QTimer;
+
+/* forward declaration of local classes */
 
 
 class ScrollLine : public QLineEdit
@@ -44,7 +56,7 @@ private:
    ScrollLine( const ScrollLine &other );
    ScrollLine &operator=( const ScrollLine &other );
    
-   static QTimer        *mpTimer;
+   static QTimer        *cpTimer;
    bool                 mClicked;
    int                  mDirection;
    int                  mPosition;

@@ -33,6 +33,7 @@ Q_OBJECT
 
 public:
    SatelliteServerRunner( quint16 port, const QHostAddress &host );
+   virtual ~SatelliteServerRunner();
    /*  */
    void run();
 

@@ -89,6 +89,8 @@ void WebServer::handleNewConnection()
    {
       return;
    }
+   connect( socket, SIGNAL(disconnected()),
+            socket, SLOT(deleteLater()) );
    socket->waitForReadyRead();
    line = QString::fromUtf8( socket->readLine() );
    QStringList requestLine( line.split( QString(" ") ) );
@@ -179,5 +181,6 @@ void WebServer::response( QTcpSocket *id,
    responseHeader.addValue( "Size", QString::number( data.size() ) );
    id->write( responseHeader.toString().toUtf8() );
    id->write( data );
+   id->waitForBytesWritten( -1 );
    id->close();
 }

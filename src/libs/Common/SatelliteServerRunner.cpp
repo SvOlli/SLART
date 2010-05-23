@@ -20,9 +20,19 @@
 
 SatelliteServerRunner::SatelliteServerRunner( quint16 port, const QHostAddress &host )
 : QThread()
+, mpServer( 0 )
 , mPort( port )
 , mHost( host )
 {
+}
+
+
+SatelliteServerRunner::~SatelliteServerRunner()
+{
+   if( mpServer )
+   {
+      mpServer->deleteLater();
+   }
 }
 
 
@@ -38,5 +48,6 @@ void SatelliteServerRunner::run()
       exec();
    }
    mpServer->deleteLater();
+   mpServer = 0;
    this->deleteLater();
 }

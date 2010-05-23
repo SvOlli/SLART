@@ -75,9 +75,9 @@ private slots:
    void disconnected();
    /*  */
    void runServer();
+#if SATELLITE_DEBUG
    /*  */
    void serverShutdown();
-#if SATELLITE_DEBUG
    /* connection to server was successful */
    void connectSuccess();
 #endif
@@ -94,13 +94,13 @@ private:
    Satellite( const Satellite &other );
    Satellite &operator=( const Satellite &other );
    
-   bool                       mIsTestApp;
-   QTcpSocket                 *mpServerConnection;
-   SatelliteServerRunner      *mpServer;
-   quint16                    mPort;
-   QHostAddress               mHost;
+   bool                             mIsTestApp;
+   QTcpSocket                       *mpServerConnection;
+   QPointer<SatelliteServerRunner>  mpServer;
+   quint16                          mPort;
+   QHostAddress                     mHost;
 
-   static QPointer<Satellite> gSatellite;
+   static QPointer<Satellite>       cpSatellite;
 };
 
 #define SATELLITE_PKGINFO_HEADER_TYPE     quint64

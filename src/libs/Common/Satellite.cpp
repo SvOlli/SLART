@@ -20,8 +20,9 @@
 #include "SatelliteServerRunner.hpp"
 #include "MySettings.hpp"
 
+/* class variable instantiation */
+QPointer<Satellite> Satellite::cpSatellite = 0;
 
-QPointer<Satellite> Satellite::gSatellite = 0;
 
 Satellite::Satellite( QObject *parent )
 : QObject( parent )
@@ -148,23 +149,24 @@ void Satellite::runServer()
    {
       mpServer = new SatelliteServerRunner( mPort, mHost );
       mpServer->start();
+#if SATELLITE_DEBUG
       connect( mpServer, SIGNAL(finished()),
                this, SLOT(serverShutdown()) );
-#if SATELLITE_DEBUG && SATELLITESERVER_DEBUG
+#if SATELLITESERVER_DEBUG
       connect( mpServer, SIGNAL(debug(const QByteArray&)),
                this,     SIGNAL(debug(const QByteArray&)) );
+#endif
 #endif
    }
 }
 
 
+#if SATELLITE_DEBUG
 void Satellite::serverShutdown()
 {
-#if SATELLITE_DEBUG
    emit debug( "c:stopping server (listen failed)" );
-#endif
-   mpServer = 0;
 }
+#endif
 
 
 void Satellite::disconnected()
@@ -219,9 +221,9 @@ void Satellite::incomingData()
 
 void Satellite::send1( const QByteArray &message )
 {
-   if( gSatellite )
+   if( cpSatellite )
    {
-      gSatellite->send( message );
+      cpSatellite->send( message );
    }
    else
    {
@@ -252,20 +254,20 @@ void Satellite::send1( const QByteArray &message )
 
 Satellite *Satellite::get( QObject *parent )
 {
-   if( !gSatellite )
+   if( !cpSatellite )
    {
-      gSatellite = new Satellite( parent );
+      cpSatellite = new Satellite( parent );
    }
-   return gSatellite;
+   return cpSatellite;
 }
 
 
 void Satellite::destroy()
 {
-   if( gSatellite )
+   if( cpSatellite )
    {
-      delete gSatellite;
-      gSatellite = 0;
+      delete cpSatellite;
+      cpSatellite = 0;
    }
 }
 

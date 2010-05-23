@@ -6,8 +6,8 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
-#include "Trace.hpp"
 /* class declaration */
+#include "Trace.hpp"
 
 /* system headers */
 #ifndef Q_OS_WIN32

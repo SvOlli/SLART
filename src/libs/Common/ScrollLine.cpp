@@ -6,15 +6,23 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "ScrollLine.hpp"
-#include "GlobalConfigWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
+
+/* local library headers */
+
+/* local headers */
+#include "GlobalConfigWidget.hpp"
 
 #include "Trace.hpp"
 
 
-QTimer *ScrollLine::mpTimer = 0;
+QTimer *ScrollLine::cpTimer = 0;
 
 ScrollLine::ScrollLine( QWidget *parent, bool autoScroll )
 : QLineEdit( parent )
@@ -22,20 +30,19 @@ ScrollLine::ScrollLine( QWidget *parent, bool autoScroll )
 , mDirection( 1 )
 , mPosition( 0 )
 {
-   if( !mpTimer )
-   {
-      mpTimer = new QTimer;
-      mpTimer->setSingleShot( false );
-      mpTimer->setInterval( 333 );
-      mpTimer->start();
-   }
-   
    setReadOnly( true );
    setContextMenuPolicy( Qt::NoContextMenu );
    
    if( autoScroll )
    {
-      connect( mpTimer, SIGNAL(timeout()),
+      if( !cpTimer )
+      {
+         cpTimer = new QTimer( qApp );
+         cpTimer->setSingleShot( false );
+         cpTimer->setInterval( 333 );
+         cpTimer->start();
+      }
+      connect( cpTimer, SIGNAL(timeout()),
                this, SLOT(scrolling()) );
    }
 }
@@ -43,8 +50,6 @@ ScrollLine::ScrollLine( QWidget *parent, bool autoScroll )
 
 ScrollLine::~ScrollLine()
 {
-   disconnect( mpTimer, SIGNAL(timeout()),
-               this, SLOT(scrolling()) );
 }
 
 
