@@ -26,6 +26,9 @@ SOURCES += GenericSatMsgHandler.cpp
 HEADERS += GlobalConfigWidget.hpp
 SOURCES += GlobalConfigWidget.cpp
 
+HEADERS += ImageWidget.hpp
+SOURCES += ImageWidget.cpp
+
 HEADERS += MainWindow.hpp
 SOURCES += MainWindow.cpp
 
