@@ -14,6 +14,7 @@
 #include <QCoreApplication>
 #include <QCryptographicHash>
 #include <QFile>
+#include <QFileInfo>
 #include <QSettings>
 #include <QStringList>
 #include <QTextStream>
@@ -38,16 +39,17 @@ int main(int argc, char *argv[])
    QTextStream qStdErr( stderr );
    QSettings   settings;
 
+   QString progName( QFileInfo( QCoreApplication::arguments().at(0) ).fileName() );
    bool help = false;
    bool encrypt = false;
    bool decrypt = false;
    QString key;
    QStringList files;
    CommandLine cl;
-   cl.option( "-help",    "show help",          &help,    true );
-   cl.option( "-encrypt", "boolean test set",   &encrypt, true );
-   cl.option( "-decrypt", "boolean test unset", &decrypt, true );
-   cl.option( "-setkey",  "string test",        &key );
+   cl.option( "-help",    "show help",     &help,    true );
+   cl.option( "-encrypt", "encrypt files", &encrypt, true );
+   cl.option( "-decrypt", "decrypt files", &decrypt, true );
+   cl.option( "-key",     "set key",       &key );
    cl.parse( &files );
 
    if( cl.check() )
@@ -58,10 +60,14 @@ int main(int argc, char *argv[])
 
    if( help )
    {
-      qStdErr
-      << "options:\n"
-      << "-encrypt, -decrypt: encrypt or decrypt files (you need to specify one of those)\n"
-      << "-setkey <key>: set the key to use (cached in registry, key will be md5'ed)\n"
+      qStdErr <<
+      "\nthis program encrypts and decrypts files using the xxtea algorithm\n"
+      "see http://en.wikipedia.org/wiki/XXTEA for details\n"
+      "\noptions:\n" << cl.help() << "\n\nexamples:\n"
+      << progName << " -key secret               # writes the key secret in the registry\n"
+      << progName << " -encrypt file1 file2      # encryptes the files\n"
+      << progName << " -decrypt file1 file2      # decryptes the files\n"
+      << progName << " -key secret -encrypt file # set key and encrypt in one pass\n\n"
       ;
       return 0;
    }
@@ -93,9 +99,8 @@ int main(int argc, char *argv[])
 
    if( encrypt == decrypt )
    {
-      qStdErr
-      << "you need to specify exactly one of -encrypt or -decrypt\n"
-      ;
+      qStdErr << "you need to specify exactly one of -encrypt or -decrypt\n";
+      return 1;
    }
 
    QFile       file;
@@ -103,7 +108,17 @@ int main(int argc, char *argv[])
    Xxtea       xxtea;
    bool        success;
 
-   xxtea.setKey( settings.value( "Key" ).toByteArray() );
+   QByteArray hashedKey( settings.value( "Key" ).toByteArray() );
+   if( hashedKey.size() != 16 )
+   {
+      qStdOut << "key is invalid\n";
+      return 1;
+   }
+   else
+   {
+      qStdOut << "key is: " << hashedKey.toHex() << "\n";
+   }
+   xxtea.setKey( hashedKey );
    xxtea.setData( &fileData );
    for( int i = 0; i < files.size(); i++ )
    {
@@ -124,7 +139,7 @@ int main(int argc, char *argv[])
       }
       if( !success )
       {
-         qStdOut << "not all data could be processed, ";
+         qStdOut << "some or all data could not be processed, ";
       }
       file.seek( 0 );
       qStdOut << "writing, ";
