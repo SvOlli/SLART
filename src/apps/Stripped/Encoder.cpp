@@ -34,6 +34,7 @@ Encoder::Encoder( QObject *parent, const QString &encoderName )
 , mFile()
 , mTagList()
 {
+   Q_UNUSED( parent )
 }
 
 
