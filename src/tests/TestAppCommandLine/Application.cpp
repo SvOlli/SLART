@@ -1,16 +1,22 @@
 /**
- * main.cpp
+ * src/tests/TestAppCommandLine/Application.cpp
  * written by Sven Oliver Moll
- * 
- * distributed under the terms of the GNU Public License (GPL)
- * available at http://www.gnu.org/licenses/gpl.html
+ *
+ * distributed under the terms of the Lesser GNU Public License (LGPL)
+ * available at http://www.gnu.org/licenses/lgpl.html
  */
 
-#include <CommandLine.hpp>
+/* system headers */
 
+/* Qt headers */
 #include <QCoreApplication>
 #include <QtDebug>
 #include <QStringList>
+
+/* local library headers */
+#include <CommandLine.hpp>
+
+/* local headers */
 
 
 int main( int argc, char *argv[] )
