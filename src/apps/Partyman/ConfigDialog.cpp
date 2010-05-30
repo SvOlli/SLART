@@ -228,7 +228,6 @@ void ConfigDialog::exec()
    {
       return;
    }
-   emit kioskMode( false );
    readSettings();
    QDialog::exec();
 }

@@ -51,8 +51,6 @@ signals:
    void configChanged();
    /* update of browser tree requested */
    void updateBrowser();
-   /* propagate if running in kiosk mode */
-   void kioskMode( bool on );
 
 private:
    ConfigDialog( const ConfigDialog &other );

@@ -94,6 +94,7 @@ bool PasswordChecker::unlock()
    if( mPassword == password )
    {
       mPassword.clear();
+      emit enabled( false );
       return true;
    }
    else

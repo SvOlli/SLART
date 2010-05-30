@@ -86,7 +86,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpPlaylist, SLOT(updateTrackInfo()) );
    connect( mpConfig, SIGNAL(updateBrowser()),
             mpPlaylist, SLOT(startBrowserUpdate()) );
-   connect( mpConfig, SIGNAL(kioskMode(bool)),
+   connect( PasswordChecker::get(), SIGNAL(enabled(bool)),
             mpControl, SLOT(handleKioskMode(bool)) );
    connect( mpConfig, SIGNAL(kioskMode(bool)),
             this, SIGNAL(kioskMode(bool)) );
