@@ -68,12 +68,13 @@ private:
 
    volatile lame_t      mLame;
    bool                 mUseAbr;
-   bool                 mTagsUtf8;
+   bool                 mUseLatin1;
    QWidget              *mpConfigWidget;
    QCheckBox            *mpUseEncoder;
    QCheckBox            *mpDirOverride;
    ScrollLine           *mpDirectory;
    QPushButton          *mpDotButton;
+   QCheckBox            *mpUseLatin1;
    const int            mMp3BufferSize;
    unsigned char        *mpMp3Buffer;
 };

@@ -32,12 +32,13 @@ Mp3Encoder::Mp3Encoder( QWidget *parent )
 : Encoder( parent, tr("mp3") )
 , mLame( 0 )
 , mUseAbr( false )
-, mTagsUtf8( false )
+, mUseLatin1( false )
 , mpConfigWidget( new QWidget( parent ) )
 , mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
 , mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
 , mpDirectory( new ScrollLine( mpConfigWidget ) )
 , mpDotButton( new QPushButton( tr("..."), mpConfigWidget ) )
+, mpUseLatin1( new QCheckBox( tr("Use Latin1 instead of Utf-8"), mpConfigWidget ) )
 , mMp3BufferSize( 8192 )
 , mpMp3Buffer( (unsigned char*)malloc(mMp3BufferSize) )
 {
@@ -59,8 +60,9 @@ Mp3Encoder::Mp3Encoder( QWidget *parent )
    mainLayout->addWidget( new QLabel( tr("Base Directory:") ), 2, 0 );
    mainLayout->addWidget( mpDirectory, 2, 1 );
    mainLayout->addWidget( mpDotButton, 2, 2 );
+   mainLayout->addWidget( mpUseLatin1, 3, 0, 1, 3 );
    mainLayout->setColumnStretch( 1, 1 );
-   mainLayout->setRowStretch( 3, 1 );
+   mainLayout->setRowStretch( 4, 1 );
 
    mpConfigWidget->setLayout( mainLayout );
 
@@ -93,9 +95,11 @@ void Mp3Encoder::readSettings()
    mUseEncoder  = settings.VALUE_USE_ENCODER;
    mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
    mDirectory   = settings.VALUE_DIRECTORY;
+   mUseLatin1   = settings.VALUE_USE_LATIN1;
    mpUseEncoder->setChecked( mUseEncoder );
    mpDirOverride->setChecked( mDirOverride );
    mpDirectory->setText( mDirectory );
+   mpUseLatin1->setChecked( mUseLatin1 );
    settings.endGroup();
 }
 
@@ -107,9 +111,11 @@ void Mp3Encoder::writeSettings()
    mUseEncoder  = mpUseEncoder->isChecked();
    mDirOverride = mpDirOverride->isChecked();
    mDirectory   = mpDirectory->text();
+   mUseLatin1   = mpUseLatin1->isChecked();
    settings.setValue( "UseEncoder", mUseEncoder );
    settings.setValue( "DirectoryOverride", mDirOverride );
    settings.setValue( "Directory", mDirectory );
+   settings.setValue( "UseLatin1", mUseLatin1 );
    settings.endGroup();
 }
 
@@ -140,27 +146,69 @@ bool Mp3Encoder::initialize( const QString &fileName )
       {
          if( mTagList.tagAt(i) == "ALBUM" )
          {
-            ::id3tag_set_album(mLame, mTagList.valueAt(i).toUtf8() );
+            if( mUseLatin1 )
+            {
+               ::id3tag_set_album(mLame, mTagList.valueAt(i).toLatin1() );
+            }
+            else
+            {
+               ::id3tag_set_album(mLame, mTagList.valueAt(i).toUtf8() );
+            }
          }
          else if( mTagList.tagAt(i) == "ARTIST" )
          {
-            ::id3tag_set_artist(mLame, mTagList.valueAt(i).toUtf8() );
+            if( mUseLatin1 )
+            {
+               ::id3tag_set_artist(mLame, mTagList.valueAt(i).toUtf8() );
+            }
+            else
+            {
+               ::id3tag_set_artist(mLame, mTagList.valueAt(i).toLatin1() );
+            }
          }
          else if( mTagList.tagAt(i) == "TITLE" )
          {
-            ::id3tag_set_title(mLame, mTagList.valueAt(i).toUtf8() );
+            if( mUseLatin1 )
+            {
+               ::id3tag_set_title(mLame, mTagList.valueAt(i).toUtf8() );
+            }
+            else
+            {
+               ::id3tag_set_title(mLame, mTagList.valueAt(i).toLatin1() );
+            }
          }
          else if( mTagList.tagAt(i) == "TRACKNUMBER" )
          {
-            ::id3tag_set_track(mLame, mTagList.valueAt(i).toUtf8() );
+            if( mUseLatin1 )
+            {
+               ::id3tag_set_track(mLame, mTagList.valueAt(i).toUtf8() );
+            }
+            else
+            {
+               ::id3tag_set_track(mLame, mTagList.valueAt(i).toLatin1() );
+            }
          }
          else if( mTagList.tagAt(i) == "GENRE" )
          {
-            ::id3tag_set_genre(mLame, mTagList.valueAt(i).toUtf8() );
+            if( mUseLatin1 )
+            {
+               ::id3tag_set_genre(mLame, mTagList.valueAt(i).toUtf8() );
+            }
+            else
+            {
+               ::id3tag_set_genre(mLame, mTagList.valueAt(i).toLatin1() );
+            }
          }
          else if( mTagList.tagAt(i) == "DATE" )
          {
-            ::id3tag_set_year(mLame, mTagList.valueAt(i).toUtf8() );
+            if( mUseLatin1 )
+            {
+               ::id3tag_set_year(mLame, mTagList.valueAt(i).toUtf8() );
+            }
+            else
+            {
+               ::id3tag_set_year(mLame, mTagList.valueAt(i).toLatin1() );
+            }
          }
       }
    }
