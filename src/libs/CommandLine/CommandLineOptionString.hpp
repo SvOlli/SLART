@@ -30,6 +30,7 @@ public:
    CommandLineOptionString( const QString &name, const QString &desc, QString *value );
    virtual bool parse( const QString &name );
    virtual bool parse( const QString &name, const QString &option );
+   virtual QString help();
 
 private:
    QString *mValue;

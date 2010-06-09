@@ -48,3 +48,16 @@ bool CommandLineOptionString::parse( const QString &name, const QString &option 
       return false;
    }
 }
+
+
+QString CommandLineOptionString::help()
+{
+   if( mValue->isEmpty() )
+   {
+      return CommandLineOption::help();
+   }
+   else
+   {
+      return CommandLineOption::help() + QString(" (default: \"%1\")").arg( *mValue );
+   }
+}

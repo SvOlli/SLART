@@ -31,8 +31,8 @@ public:
    CommandLineOption( const QString &name, const QString &type, const QString &desc );
    virtual bool parse( const QString &name ) = 0;
    virtual bool parse( const QString &name, const QString &option ) = 0;
-   bool check();
-   QString help();
+   virtual bool check();
+   virtual QString help();
 
    const QString mName;
    const QString mType;

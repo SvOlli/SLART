@@ -50,6 +50,7 @@ void CommandLine::parse( QStringList *nonOptions )
    /* remove program name */
    args.removeFirst();
 
+   /* remove all options with parameter */
    for( opt = 0; opt < mOptions.count(); opt++ )
    {
       for( arg = 0; arg < args.count() - 1; arg++ )
@@ -63,6 +64,7 @@ void CommandLine::parse( QStringList *nonOptions )
       }
    }
 
+   /* remove all options without parameter */
    for( opt = 0; opt < mOptions.count(); opt++ )
    {
       for( arg = 0; arg < args.count(); arg++ )
