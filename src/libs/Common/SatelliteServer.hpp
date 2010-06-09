@@ -17,9 +17,6 @@
 
 /* Qt headers */
 #include <QHostAddress>
-#include <QString>
-#include <QTcpServer>
-#include <QTcpSocket>
 
 /* local library headers */
 
@@ -29,6 +26,8 @@
 class QLineEdit;
 class QListWidget;
 class QSignalMapper;
+class QTcpServer;
+class QTcpSocket;
 
 /* forward declaration of local classes */
 
@@ -61,7 +60,7 @@ private:
    SatelliteServer( const SatelliteServer &other );
    SatelliteServer &operator=( const SatelliteServer &other );
    
-   QTcpServer           *mpServer;
+   QTcpServer           *mpTcpServer;
    QSignalMapper        *mpClientsReadMapper;
    QSignalMapper        *mpClientsDisconnectMapper;
    QList<QTcpSocket*>   mClientConnections;

@@ -29,16 +29,17 @@ SatelliteServerRunner::SatelliteServerRunner( quint16 port, const QHostAddress &
 
 SatelliteServerRunner::~SatelliteServerRunner()
 {
-   if( mpServer )
+   if( isRunning() )
    {
-      mpServer->deleteLater();
+      quit();
+      wait();
    }
 }
 
 
 void SatelliteServerRunner::run()
 {
-   SatelliteServer *mpServer = new SatelliteServer( mPort, mHost, 0 );
+   SatelliteServer *mpServer = new SatelliteServer( mPort, mHost );
 #if SATELLITESERVER_DEBUG
    connect( mpServer, SIGNAL(debug(const QByteArray&)),
             this,     SIGNAL(debug(const QByteArray&)) );
