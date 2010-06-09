@@ -24,15 +24,17 @@ int main( int argc, char *argv[] )
    QCoreApplication app( argc, argv );
    CommandLine cl;
    QString stringtest;
+   QString stringdefaulttest("defaultstring");
    QStringList otherArgs;
    bool booltest = false;
    bool help = false;
    
-   cl.option( "-help",        "show help",          &help,      true );
-   cl.option( "-enablebool",  "boolean test set",   &booltest,  true );
-   cl.option( "-disablebool", "boolean test unset", &booltest,  false );
-   cl.option( "-string",      "string test",        &stringtest );
-   
+   cl.option( "-help",        "show help",                &help,      true );
+   cl.option( "-enablebool",  "boolean test set",         &booltest,  true );
+   cl.option( "-disablebool", "boolean test unset",       &booltest,  false );
+   cl.option( "-string",      "string test",              &stringtest );
+   cl.option( "-default",     "string with default test", &stringdefaulttest );
+
    cl.parse( &otherArgs );
    
    if( cl.check() )
@@ -47,9 +49,10 @@ int main( int argc, char *argv[] )
       return 0;
    }
    
-   qDebug() << "booltest:"        << booltest;
-   qDebug() << "stringtest:"      << stringtest;
-   qDebug() << "other arguments:" << otherArgs;
+   qDebug() << "booltest:"         << booltest;
+   qDebug() << "stringtest:"       << stringtest;
+   qDebug() << "stringdefaultest:" << stringdefaulttest;
+   qDebug() << "other arguments:"  << otherArgs;
    
    return 0;
 }
