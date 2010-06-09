@@ -64,10 +64,10 @@ int main(int argc, char *argv[])
       "\nthis program encrypts and decrypts files using the xxtea algorithm\n"
       "see http://en.wikipedia.org/wiki/XXTEA for details\n"
       "\noptions:\n" << cl.help() << "\n\nexamples:\n"
-      << progName << " -key secret               # writes the key secret in the registry\n"
-      << progName << " -encrypt file1 file2      # encryptes the files\n"
-      << progName << " -decrypt file1 file2      # decryptes the files\n"
-      << progName << " -key secret -encrypt file # set key and encrypt in one pass\n\n"
+      << progName << " -key secret                # writes the key secret in the registry\n"
+      << progName << " -encrypt file1 (file2 ...) # encryptes the files\n"
+      << progName << " -decrypt file1 (file2 ...) # decryptes the files\n"
+      << progName << " -key secret -encrypt file  # set key and encrypt in one pass\n\n"
       ;
       return 0;
    }
@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
    QFile       file;
    QByteArray  fileData;
    Xxtea       xxtea;
-   bool        success;
+   bool        success = false;
 
    QByteArray hashedKey( settings.value( "Key" ).toByteArray() );
    if( hashedKey.size() != 16 )
