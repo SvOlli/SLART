@@ -554,9 +554,9 @@ void File::setValid(bool valid)
   d->valid = valid;
 }
 
-void File::truncate(long length)
+bool File::truncate(long length)
 {
-  ftruncate(fileno(d->file), length);
+  return ftruncate(fileno(d->file), length) == 0;
 }
 
 TagLib::uint File::bufferSize()

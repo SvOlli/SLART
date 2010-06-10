@@ -251,7 +251,7 @@ namespace TagLib {
     /*!
      * Truncates the file to a \a length.
      */
-    void truncate(long length);
+    bool truncate(long length);
 
     /*!
      * Returns the buffer size that is used for internal buffering.
