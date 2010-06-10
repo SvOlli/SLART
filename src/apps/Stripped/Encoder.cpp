@@ -24,7 +24,10 @@
 #include "ConfigDialog.hpp"
 
 
-Encoder::Encoder( QObject *parent, const QString &encoderName )
+#include <Trace.hpp>
+
+
+Encoder::Encoder( const QString &encoderName )
 : QThread( 0 )
 , mName( encoderName )
 , mUseEncoder( false )
@@ -34,7 +37,7 @@ Encoder::Encoder( QObject *parent, const QString &encoderName )
 , mFile()
 , mTagList()
 {
-   Q_UNUSED( parent )
+   moveToThread( this );
 }
 
 
@@ -46,7 +49,6 @@ Encoder::~Encoder()
 void Encoder::start()
 {
    QThread::start();
-   moveToThread( this );
 }
 
 

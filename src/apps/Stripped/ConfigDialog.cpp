@@ -154,6 +154,15 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 
 ConfigDialog::~ConfigDialog()
 {
+   for( int i = 0; i < mEncoders.size(); i++ )
+   {
+      if( mEncoders.at(i)->isRunning() )
+      {
+         mEncoders.at(i)->quit();
+         mEncoders.at(i)->wait();
+      }
+      delete mEncoders.at(i);
+   }
 }
 
 

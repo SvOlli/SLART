@@ -25,7 +25,7 @@
 
 
 FlacEncoder::FlacEncoder( QWidget *parent )
-: Encoder( parent, tr("FLAC") )
+: Encoder( tr("FLAC") )
 , mQuality( 0 )
 , mUseOga( false )
 , mpConfigWidget( new QWidget( parent ) )

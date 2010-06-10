@@ -33,7 +33,7 @@
 
 CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
 : QWidget( parent )
-, mpCDReaderThread( new CDReaderThread( this ) )
+, mpCDReaderThread( new CDReaderThread() )
 , mpCDInfo( info )
 , mpCDEdit( edit )
 , mpProgressBar( new QProgressBar( this ) )
@@ -78,6 +78,12 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
 
 CDReader::~CDReader()
 {
+   if( mpCDReaderThread->isRunning() )
+   {
+      mpCDReaderThread->quit();
+      mpCDReaderThread->wait();
+   }
+   delete mpCDReaderThread;
 }
 
 

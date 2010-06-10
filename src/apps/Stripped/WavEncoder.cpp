@@ -24,7 +24,7 @@
 
 
 WavEncoder::WavEncoder( QWidget *parent )
-: Encoder( parent, tr("wav") )
+: Encoder( tr("wav") )
 , mpConfigWidget( new QWidget( parent ) )
 , mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
 , mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )

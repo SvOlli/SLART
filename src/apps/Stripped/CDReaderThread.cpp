@@ -55,8 +55,8 @@ void CDReaderThread::callback( long /*inpos*/, ::paranoia_cb_mode_t function )
 }
 
 
-CDReaderThread::CDReaderThread( QObject *parent )
-: QThread( parent )
+CDReaderThread::CDReaderThread()
+: QThread( 0 )
 , mpCdIo( 0 )
 , mpDrive( 0 )
 , mpParanoia( 0 )
@@ -68,6 +68,7 @@ CDReaderThread::CDReaderThread( QObject *parent )
 , mDevices()
 , mEncoders()
 {
+   moveToThread( this );
 }
 
 

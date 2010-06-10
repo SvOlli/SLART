@@ -29,7 +29,7 @@ extern "C" {
 #include <Trace.hpp>
 
 Mp3Encoder::Mp3Encoder( QWidget *parent )
-: Encoder( parent, tr("mp3") )
+: Encoder( tr("mp3") )
 , mLame( 0 )
 , mUseAbr( false )
 , mUseLatin1( false )

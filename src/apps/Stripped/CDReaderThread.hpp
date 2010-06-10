@@ -38,7 +38,7 @@ class CDReaderThread : public QThread
 Q_OBJECT
 
 public:
-   CDReaderThread( QObject *parent = 0 );
+   CDReaderThread();
    virtual ~CDReaderThread();
 
    /*  */

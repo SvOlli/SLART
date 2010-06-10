@@ -33,7 +33,7 @@ class Encoder : public QThread
 Q_OBJECT
    
 public:
-   Encoder( QObject *parent, const QString &encoderName );
+   Encoder( const QString &encoderName );
    virtual ~Encoder();
    
    /*  */

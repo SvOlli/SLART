@@ -26,7 +26,7 @@
 #include <Trace.hpp>
 
 OggEncoder::OggEncoder( QWidget *parent )
-: Encoder( parent, tr("ogg") )
+: Encoder( tr("ogg") )
 , mQuality( 0.0 )
 , mpConfigWidget( new QWidget( parent ) )
 , mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
