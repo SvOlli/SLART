@@ -143,8 +143,8 @@ void DatabaseWidget::handleCleanup( bool checked )
       return;
    }
    disableButtons( true );
-   mCheckedText   = tr(" entries checked, ");
-   mProcessedText = tr(" cleaned.");
+   mCheckedText   = tr( "entries checked" );
+   mProcessedText = tr( "cleaned" );
    mpDatabaseWorker->initCleanup();
    mpDatabaseWorker->start();
 }
@@ -166,8 +166,8 @@ void DatabaseWidget::handleImport( bool checked )
    fileDialog.setReadOnly( true );
    if( fileDialog.exec() )
    {
-      mCheckedText   = tr(" files scanned, ");
-      mProcessedText = tr(" added.");
+      mCheckedText   = tr( "files scanned" );
+      mProcessedText = tr( "added" );
       mpDatabaseWorker->initImport( fileDialog.selectedFiles().at(0) );
       mpDatabaseWorker->start();
    }
@@ -214,8 +214,9 @@ void DatabaseWidget::checkValidDir( const QString &dirName )
 
 void DatabaseWidget::handleProgress( int checked, int processed )
 {
-   mpMessage->setText( QString::number( checked ) + mCheckedText + 
-                       QString::number( processed ) + mProcessedText );
+   mpMessage->setText(
+         QString("%1 %2, %3 %4.").arg( checked ).arg( mCheckedText )
+                                 .arg( processed ).arg( mProcessedText ) );
 }
 
 

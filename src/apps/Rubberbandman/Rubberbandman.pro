@@ -22,6 +22,9 @@ SOURCES += Application.cpp
 HEADERS += BrowseWidget.hpp 
 SOURCES += BrowseWidget.cpp 
 
+HEADERS += Console.hpp 
+SOURCES += Console.cpp 
+
 HEADERS += SLARTComWidget.hpp 
 SOURCES += SLARTComWidget.cpp 
 

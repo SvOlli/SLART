@@ -10,6 +10,7 @@
 #include <cstdlib>
 
 #include "ConfigDialog.hpp"
+#include "Console.hpp"
 #include "Database.hpp"
 #include "DatabaseWorker.hpp"
 #include "MainWindow.hpp"
@@ -54,18 +55,32 @@ int main(int argc, char *argv[])
          arg = args.takeFirst();
          if( arg == _cleanup )
          {
+            Console console( QObject::tr( "entries checked" ),
+                             QObject::tr( "cleaned" ) );
+            QObject::connect( databaseWorker, SIGNAL(progress(int,int)),
+                              &console, SLOT(handleProgress(int,int)) );
             databaseWorker->initCleanup();
             databaseWorker->start();
-            databaseWorker->wait();
+            while( !databaseWorker->wait( 333 ) )
+            {
+               QApplication::processEvents();
+            }
          }
          else if( arg == _update )
          {
             QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
             if( !baseDir.isEmpty() )
             {
+               Console console( QObject::tr( "files scanned" ),
+                                QObject::tr( "updated" ) );
+               QObject::connect( databaseWorker, SIGNAL(progress(int,int)),
+                                 &console, SLOT(handleProgress(int,int)) );
                databaseWorker->initUpdate( baseDir );
                databaseWorker->start();
-               databaseWorker->wait();
+               while( !databaseWorker->wait( 333 ) )
+               {
+                  QApplication::processEvents();
+               }
             }
          }
          else
