@@ -9,12 +9,20 @@
 #ifndef DATABASEWIDGET_HPP
 #define DATABASEWIDGET_HPP DATABASEWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
 #include <QHostInfo>
 
-#include "TrackInfo.hpp"
+/* local library headers */
+#include <TrackInfo.hpp>
 
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QFileInfo;
 class QLabel;
 class QLineEdit;
@@ -23,6 +31,7 @@ class QSqlTableModel;
 class QString;
 class QTableView;
 
+/* forward declaration of local classes */
 class Database;
 class DatabaseWorker;
 

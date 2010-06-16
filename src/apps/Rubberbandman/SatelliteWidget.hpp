@@ -9,28 +9,37 @@
 #ifndef SLARTCOMWIDGET_HPP
 #define SLARTCOMWIDGET_HPP SLARTCOMWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
 #include <QDir>
 
-#include "TrackInfo.hpp"
+/* local library headers */
+#include <TrackInfo.hpp>
 
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QCheckBox;
 class QPushButton;
 class QString;
 
+/* forward declaration of local classes */
 class Database;
 class GenericSatMsgHandler;
 class InfoEdit;
 class Satellite;
 
 
-class SLARTComWidget : public QWidget
+class SatelliteWidget : public QWidget
 {
 Q_OBJECT
    
 public:
-   SLARTComWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   SatelliteWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    
 public slots:
    /* handle SLART message to read tags of current track */
@@ -49,8 +58,8 @@ signals:
    void partymanConfigUpdate();
    
 private:
-   SLARTComWidget( const SLARTComWidget &other );
-   SLARTComWidget &operator=( const SLARTComWidget &other );
+   SatelliteWidget( const SatelliteWidget &other );
+   SatelliteWidget &operator=( const SatelliteWidget &other );
    
    Database             *mpDatabase;
    InfoEdit             *mpInfoEdit;

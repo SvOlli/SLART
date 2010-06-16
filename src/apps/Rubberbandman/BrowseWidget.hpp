@@ -9,16 +9,26 @@
 #ifndef BROWSEWIDGET_HPP
 #define BROWSEWIDGET_HPP BROWSEWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
 #include <QDir>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+class QPushButton;
+class QString;
+
+/* forward declaration of local classes */
 class Database;
 class FileSysBrowser;
 class InfoEdit;
-
-class QPushButton;
-class QString;
 
 
 class BrowseWidget : public QWidget

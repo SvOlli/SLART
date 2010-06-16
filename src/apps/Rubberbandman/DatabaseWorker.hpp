@@ -9,15 +9,24 @@
 #ifndef DATABASEWORKER_HPP
 #define DATABASEWORKER_HPP DATABASEWORKER_HPP
 
+/* base class */
 #include <QThread>
 
+/* system headers */
+
+/* Qt headers */
 #include <QString>
 
-#include "TrackInfo.hpp"
-#include "DirWalker.hpp"
+/* local library headers */
+#include <TrackInfo.hpp>
+#include <DirWalker.hpp>
 
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QFileInfo;
 
+/* forward declaration of local classes */
 class Database;
 class FileSysTreeModel;
 

@@ -6,14 +6,23 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+
+/* class declaration */
 #include "BrowseWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 #include <QString>
 
-#include "Database.hpp"
+/* local library headers */
+#include <Database.hpp>
+
+/* local headers */
 #include "FileSysBrowser.hpp"
 #include "InfoEdit.hpp"
+
 
 BrowseWidget::BrowseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )

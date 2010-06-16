@@ -1,30 +1,36 @@
 /**
- * src/apps/Rubberbandman/SLARTComWidget.cpp
+ * src/apps/Rubberbandman/SatelliteWidget.cpp
  * written by Sven Oliver Moll
  * 
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#include "SLARTComWidget.hpp"
+/* class declaration */
+#include "SatelliteWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 #include <QString>
 
+/* local library headers */
+#include <Database.hpp>
+#include <GenericSatMsgHandler.hpp>
+#include <GlobalConfigWidget.hpp>
+#include <MySettings.hpp>
+#include <Satellite.hpp>
+
+/* local headers */
 #include "ConfigDialog.hpp"
-#include "Database.hpp"
-#include "GenericSatMsgHandler.hpp"
-#include "GlobalConfigWidget.hpp"
 #include "FileSysBrowser.hpp"
-#include "GlobalConfigWidget.hpp"
 #include "InfoEdit.hpp"
-#include "MySettings.hpp"
-#include "Satellite.hpp"
 
 #include "Trace.hpp"
 
 
-SLARTComWidget::SLARTComWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
+SatelliteWidget::SatelliteWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( database )
 , mpInfoEdit( new InfoEdit( database ) )
@@ -70,7 +76,7 @@ SLARTComWidget::SLARTComWidget( Database *database, QWidget *parent, Qt::WindowF
 }
 
 
-void SLARTComWidget::handleSatellite( const QByteArray &msg )
+void SatelliteWidget::handleSatellite( const QByteArray &msg )
 {
    QStringList message( Satellite::split( msg ) );
 
@@ -96,14 +102,14 @@ void SLARTComWidget::handleSatellite( const QByteArray &msg )
 }
 
 
-void SLARTComWidget::handleNowPlaying()
+void SatelliteWidget::handleNowPlaying()
 {
    GlobalConfigWidget::setClipboard( mpInfoEdit->tagsFileName( 
       MySettings().VALUE_PLAYINGPATTERN ) );
 }
 
 
-void SLARTComWidget::handleShowInFilesystem()
+void SatelliteWidget::handleShowInFilesystem()
 {
    if( !(mpInfoEdit->fileName().isEmpty()) )
    {
@@ -112,9 +118,9 @@ void SLARTComWidget::handleShowInFilesystem()
 }
 
 
-void SLARTComWidget::handleGetRandom()
+void SatelliteWidget::handleGetRandom()
 {
-TRACESTART(SLARTComWidget::handleGetRandom)
+TRACESTART(SatelliteWidget::handleGetRandom)
    TrackInfo trackInfo;
    if( mpDatabase->getRandomTrack( &trackInfo, false, true ) )
    {

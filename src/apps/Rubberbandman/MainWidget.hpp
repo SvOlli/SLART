@@ -9,22 +9,27 @@
 #ifndef MAINWIDGET_HPP
 #define MAINWIDGET_HPP MAINWIDGET_HPP
 
-/* define the features of main window to be used */
-#define MAINWINDOW_SORCERER      1
-#define MAINWINDOW_CHANGETITLE   0
-#define MAINWINDOW_PROHIBITCLOSE 0
-#define MAINWIDGET_SCREENSHOT    1
-
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QTabWidget;
 class QPushButton;
 
+/* forward declaration of local classes */
 class BrowseWidget;
 class ConfigDialog;
 class Database;
 class DatabaseWidget;
-class SLARTComWidget;
+class SatelliteWidget;
 
 
 class MainWidget : public QWidget
@@ -48,13 +53,13 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
    
-   Database       *mpDatabase;
-   BrowseWidget   *mpBrowseWidget;
-   SLARTComWidget *mpSLARTComWidget;
-   DatabaseWidget *mpDatabaseWidget;
-   QTabWidget     *mpTabs;
-   QPushButton    *mpSettingsButton;
-   ConfigDialog   *mpConfigDialog;
+   Database          *mpDatabase;
+   BrowseWidget      *mpBrowseWidget;
+   SatelliteWidget   *mpSatelliteWidget;
+   DatabaseWidget    *mpDatabaseWidget;
+   QTabWidget        *mpTabs;
+   QPushButton       *mpSettingsButton;
+   ConfigDialog      *mpConfigDialog;
 };
 
 #endif

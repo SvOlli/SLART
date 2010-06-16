@@ -6,20 +6,24 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "InfoEdit.hpp"
 
-#include <QtGui>
-
+/* system headers */
 #include <fileref.h>
 #include <tag.h>
 
-#include "ConfigDialog.hpp"
-#include "Database.hpp"
-#include "MySettings.hpp"
-#include "Satellite.hpp"
-#include "ScrollLine.hpp"
+/* Qt headers */
+#include <QtGui>
 
-#include "Trace.hpp"
+/* local library headers */
+#include <Database.hpp>
+#include <MySettings.hpp>
+#include <Satellite.hpp>
+#include <ScrollLine.hpp>
+
+/* local headers */
+#include "ConfigDialog.hpp"
 
 #define MODE_NOTHING     0
 #define MODE_SETTAGS     1

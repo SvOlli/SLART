@@ -6,24 +6,31 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "MainWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
+/* local library headers */
+#include <Database.hpp>
+#include <MySettings.hpp>
+#include <Satellite.hpp>
+
+/* local headers */
 #include "BrowseWidget.hpp"
 #include "ConfigDialog.hpp"
-#include "Database.hpp"
 #include "DatabaseWidget.hpp"
-#include "MySettings.hpp"
-#include "Satellite.hpp"
-#include "SLARTComWidget.hpp"
+#include "SatelliteWidget.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( new Database() )
 , mpBrowseWidget( new BrowseWidget( mpDatabase, this ) )
-, mpSLARTComWidget( new SLARTComWidget( mpDatabase, this ) )
+, mpSatelliteWidget( new SatelliteWidget( mpDatabase, this ) )
 , mpDatabaseWidget( new DatabaseWidget( mpDatabase, this ) )
 , mpTabs( new QTabWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
@@ -39,22 +46,22 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
    
    mpTabs->addTab( mpBrowseWidget,   tr("Filesystem") );
-   mpTabs->addTab( mpSLARTComWidget, tr("Partyman") );
+   mpTabs->addTab( mpSatelliteWidget, tr("Partyman") );
    mpTabs->addTab( mpDatabaseWidget, tr("Database") );
    mpTabs->setCurrentIndex( settings.VALUE_CURRENTTAB );
    
    mainLayout->addWidget( mpTabs );
    mainLayout->addWidget( mpSettingsButton );
    
-   connect( mpSLARTComWidget, SIGNAL( showInFilesystem(const QString&) ),
+   connect( mpSatelliteWidget, SIGNAL( showInFilesystem(const QString&) ),
             mpBrowseWidget, SLOT(scrollTo(const QString&)) );
-   connect( mpSLARTComWidget, SIGNAL( showInFilesystem(const QString&) ),
+   connect( mpSatelliteWidget, SIGNAL( showInFilesystem(const QString&) ),
             this, SLOT( goToFilesystem() ) );
    connect( mpTabs, SIGNAL(currentChanged(int)),
             this, SLOT(handleTabChange(int)) );
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfigDialog, SLOT(exec()) );
-   connect( mpSLARTComWidget, SIGNAL(partymanConfigUpdate()),
+   connect( mpSatelliteWidget, SIGNAL(partymanConfigUpdate()),
             mpDatabaseWidget, SLOT(readPartymanConfig()) );
    
    setLayout( mainLayout );

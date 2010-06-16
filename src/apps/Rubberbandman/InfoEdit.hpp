@@ -9,13 +9,21 @@
 #ifndef INFOEDIT_HPP
 #define INFOEDIT_HPP INFOEDIT_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
 #include <QStringList>
 
-#include "TagList.hpp"
-#include "TrackInfo.hpp"
-   
+/* local library headers */
+#include <TagList.hpp>
+#include <TrackInfo.hpp>
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QAction;
 class QCheckBox;
 class QComboBox;
@@ -27,6 +35,7 @@ class QLineEdit;
 class QMenu;
 class QPushButton;
 
+/* forward declaration of local classes */
 class Database;
 class ScrollLine;
 

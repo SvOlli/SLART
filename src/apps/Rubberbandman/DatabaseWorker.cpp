@@ -6,18 +6,26 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+
+/* class declaration */
 #include "DatabaseWorker.hpp"
-#include "Database.hpp"
 
-#include <QtGui>
-#include <QFileInfo>
-
+/* system headers */
 #include <fileref.h>
 #include <tag.h>
 
-#include "Trace.hpp"
+/* Qt headers */
+#include <QtGui>
+#include <QFileInfo>
+
+/* local library headers */
+#include <Database.hpp>
+
+/* local headers */
+
 
 static const int UPDATE_INCREMENT = 200;
+
 
 /* helper class for DirWalker updating database */
 class DirWalkerDatabaseUpdate : public DirWalkerCallbacks

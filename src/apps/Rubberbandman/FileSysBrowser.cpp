@@ -6,18 +6,23 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "FileSysBrowser.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 #include <QString>
 
-#include "ConfigDialog.hpp"
-#include "Database.hpp"
-#include "DirWalker.hpp"
-#include "MySettings.hpp"
-#include "Satellite.hpp"
+/* local library headers */
+#include <Database.hpp>
+#include <DirWalker.hpp>
+#include <MySettings.hpp>
+#include <Satellite.hpp>
 
-#include "Trace.hpp"
+/* local headers */
+#include "ConfigDialog.hpp"
 
 
 class DirWalkerDelete : public DirWalkerCallbacks

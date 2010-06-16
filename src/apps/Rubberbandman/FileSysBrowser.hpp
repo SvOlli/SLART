@@ -9,11 +9,20 @@
 #ifndef FILESYSBROWSER_HPP
 #define FILESYSBROWSER_HPP FILESYSBROWSER_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
 #include <QModelIndex>
 #include <QFileInfo>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QAction;
 class QDirModel;
 class QLineEdit;
@@ -22,6 +31,7 @@ class QModelIndex;
 class QShowEvent;
 class QTreeView;
 
+/* forward declaration of local classes */
 class Database;
 
 

@@ -6,19 +6,24 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "DatabaseWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 #include <QString>
 #include <QSqlTableModel>
 #include <QTableView>
 
-#include "Database.hpp"
-#include "DatabaseWorker.hpp"
-#include "MySettings.hpp"
-#include "ConfigDialog.hpp"
+/* local library headers */
+#include <Database.hpp>
+#include <MySettings.hpp>
 
-#include "Trace.hpp"
+/* local headers */
+#include "DatabaseWorker.hpp"
+#include "ConfigDialog.hpp"
 
 
 DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
