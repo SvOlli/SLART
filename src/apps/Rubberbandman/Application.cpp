@@ -11,6 +11,7 @@
 
 /* Qt headers */
 #include <QtGui>
+#include <QTimer>
 
 /* local library headers */
 #include <Database.hpp>
@@ -61,32 +62,30 @@ int main(int argc, char *argv[])
          arg = args.takeFirst();
          if( arg == _cleanup )
          {
+            databaseWorker->initCleanup();
             Console console( QObject::tr( "entries checked" ),
                              QObject::tr( "cleaned" ) );
             QObject::connect( databaseWorker, SIGNAL(progress(int,int)),
                               &console, SLOT(handleProgress(int,int)) );
-            databaseWorker->initCleanup();
-            databaseWorker->start();
-            while( !databaseWorker->wait( 333 ) )
-            {
-               QApplication::processEvents();
-            }
+            QObject::connect( databaseWorker, SIGNAL(finished()),
+                              qApp, SLOT(quit()) );
+            QTimer::singleShot( 1, databaseWorker, SLOT(start()) );
+            app.exec();
          }
          else if( arg == _update )
          {
             QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
             if( !baseDir.isEmpty() )
             {
+               databaseWorker->initUpdate( baseDir );
                Console console( QObject::tr( "files scanned" ),
                                 QObject::tr( "updated" ) );
                QObject::connect( databaseWorker, SIGNAL(progress(int,int)),
                                  &console, SLOT(handleProgress(int,int)) );
-               databaseWorker->initUpdate( baseDir );
-               databaseWorker->start();
-               while( !databaseWorker->wait( 333 ) )
-               {
-                  QApplication::processEvents();
-               }
+               QObject::connect( databaseWorker, SIGNAL(finished()),
+                                 qApp, SLOT(quit()) );
+               QTimer::singleShot( 1, databaseWorker, SLOT(start()) );
+               app.exec();
             }
          }
          else

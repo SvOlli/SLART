@@ -32,7 +32,7 @@ Console::Console( const QString &checkedText,
 
 Console::~Console()
 {
-   mStdOut << "Done.\n";
+   mStdOut << tr( "Done." ) << "\n";
    mStdOut.flush();
 }
 
