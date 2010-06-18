@@ -66,6 +66,8 @@ private:
    bool initialize();
    /* encode raw cd audio data */
    bool encodeCDAudio( const char *data, int size );
+   /* convert tag #i to latin1 or utf8 */
+   QByteArray tagTo8Bit( int i );
 
    /* settings */
    bool                 mUseAbr;

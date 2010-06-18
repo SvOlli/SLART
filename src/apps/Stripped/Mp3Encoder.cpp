@@ -127,6 +127,19 @@ void Mp3Encoder::writeSettings()
 }
 
 
+QByteArray Mp3Encoder::tagTo8Bit( int i )
+{
+   if( mUseLatin1 )
+   {
+      return mTagList.valueAt(i).toLatin1();
+   }
+   else
+   {
+      return mTagList.valueAt(i).toUtf8();
+   }
+}
+
+
 bool Mp3Encoder::initialize( const QString &fileName )
 {
    if( !Encoder::initialize( fileName, ".mp3" ) )
@@ -153,69 +166,27 @@ bool Mp3Encoder::initialize( const QString &fileName )
       {
          if( mTagList.tagAt(i) == "ALBUM" )
          {
-            if( mUseLatin1 )
-            {
-               ::id3tag_set_album(mLame, mTagList.valueAt(i).toLatin1() );
-            }
-            else
-            {
-               ::id3tag_set_album(mLame, mTagList.valueAt(i).toUtf8() );
-            }
+            ::id3tag_set_album(mLame, tagTo8Bit(i) );
          }
          else if( mTagList.tagAt(i) == "ARTIST" )
          {
-            if( mUseLatin1 )
-            {
-               ::id3tag_set_artist(mLame, mTagList.valueAt(i).toUtf8() );
-            }
-            else
-            {
-               ::id3tag_set_artist(mLame, mTagList.valueAt(i).toLatin1() );
-            }
+            ::id3tag_set_artist(mLame, tagTo8Bit(i) );
          }
          else if( mTagList.tagAt(i) == "TITLE" )
          {
-            if( mUseLatin1 )
-            {
-               ::id3tag_set_title(mLame, mTagList.valueAt(i).toUtf8() );
-            }
-            else
-            {
-               ::id3tag_set_title(mLame, mTagList.valueAt(i).toLatin1() );
-            }
+            ::id3tag_set_title(mLame, tagTo8Bit(i) );
          }
          else if( mTagList.tagAt(i) == "TRACKNUMBER" )
          {
-            if( mUseLatin1 )
-            {
-               ::id3tag_set_track(mLame, mTagList.valueAt(i).toUtf8() );
-            }
-            else
-            {
-               ::id3tag_set_track(mLame, mTagList.valueAt(i).toLatin1() );
-            }
+            ::id3tag_set_track(mLame, tagTo8Bit(i) );
          }
          else if( mTagList.tagAt(i) == "GENRE" )
          {
-            if( mUseLatin1 )
-            {
-               ::id3tag_set_genre(mLame, mTagList.valueAt(i).toUtf8() );
-            }
-            else
-            {
-               ::id3tag_set_genre(mLame, mTagList.valueAt(i).toLatin1() );
-            }
+            ::id3tag_set_genre(mLame, tagTo8Bit(i) );
          }
          else if( mTagList.tagAt(i) == "DATE" )
          {
-            if( mUseLatin1 )
-            {
-               ::id3tag_set_year(mLame, mTagList.valueAt(i).toUtf8() );
-            }
-            else
-            {
-               ::id3tag_set_year(mLame, mTagList.valueAt(i).toLatin1() );
-            }
+            ::id3tag_set_year(mLame, tagTo8Bit(i) );
          }
       }
    }
