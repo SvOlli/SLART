@@ -25,6 +25,7 @@ extern "C" {
 
 /* forward declaration of Qt classes */
 class QCheckBox;
+class QDoubleSpinBox;
 class QPushButton;
 
 /* forward declaration of local classes */
@@ -66,15 +67,20 @@ private:
    /* encode raw cd audio data */
    bool encodeCDAudio( const char *data, int size );
 
-   volatile lame_t      mLame;
+   /* settings */
    bool                 mUseAbr;
    bool                 mUseLatin1;
+   float                mQuality;
+   /* configuration widget */
    QWidget              *mpConfigWidget;
    QCheckBox            *mpUseEncoder;
    QCheckBox            *mpDirOverride;
    ScrollLine           *mpDirectory;
    QPushButton          *mpDotButton;
+   QDoubleSpinBox       *mpQuality;
    QCheckBox            *mpUseLatin1;
+   /* encoder internal data */
+   volatile lame_t      mLame;
    const int            mMp3BufferSize;
    unsigned char        *mpMp3Buffer;
 };

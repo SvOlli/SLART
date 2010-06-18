@@ -30,24 +30,25 @@ extern "C" {
 
 Mp3Encoder::Mp3Encoder( QWidget *parent )
 : Encoder( tr("mp3") )
-, mLame( 0 )
 , mUseAbr( false )
 , mUseLatin1( false )
+, mQuality( 4.0 )
 , mpConfigWidget( new QWidget( parent ) )
 , mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
 , mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
 , mpDirectory( new ScrollLine( mpConfigWidget ) )
 , mpDotButton( new QPushButton( tr("..."), mpConfigWidget ) )
-, mpUseLatin1( new QCheckBox( tr("Use Latin1 instead of Utf-8"), mpConfigWidget ) )
+, mpQuality( new QDoubleSpinBox( mpConfigWidget ) )
+, mpUseLatin1( new QCheckBox( tr("Use Latin1 instead of Utf-8 for tags"), mpConfigWidget ) )
+, mLame( 0 )
 , mMp3BufferSize( 8192 )
 , mpMp3Buffer( (unsigned char*)malloc(mMp3BufferSize) )
 {
-#if 0
-   mpQuality->setSingleStep( 0.01 );
+   mpQuality->setDecimals( 1 );
+   mpQuality->setSingleStep( 0.1 );
    mpQuality->setMinimum( 0.0 );
-   mpQuality->setMaximum( 1.0 );
-   mpQuality->setToolTip( tr("0 = low & short, 1 = high & long") );
-#endif
+   mpQuality->setMaximum( 9.9 );
+   mpQuality->setToolTip( tr("0 = high & long, 9 = low & short") );
 
    QGridLayout *mainLayout = new QGridLayout( mpConfigWidget );
 #if QT_VERSION < 0x040300
@@ -60,9 +61,11 @@ Mp3Encoder::Mp3Encoder( QWidget *parent )
    mainLayout->addWidget( new QLabel( tr("Base Directory:") ), 2, 0 );
    mainLayout->addWidget( mpDirectory, 2, 1 );
    mainLayout->addWidget( mpDotButton, 2, 2 );
-   mainLayout->addWidget( mpUseLatin1, 3, 0, 1, 3 );
+   mainLayout->addWidget( new QLabel( tr("VBR Quality:"), mpConfigWidget ), 3, 0 );
+   mainLayout->addWidget( mpQuality, 3, 1, 1, 2 );
+   mainLayout->addWidget( mpUseLatin1, 4, 0, 1, 3 );
    mainLayout->setColumnStretch( 1, 1 );
-   mainLayout->setRowStretch( 4, 1 );
+   mainLayout->setRowStretch( 5, 1 );
 
    mpConfigWidget->setLayout( mainLayout );
 
@@ -96,9 +99,11 @@ void Mp3Encoder::readSettings()
    mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
    mDirectory   = settings.VALUE_DIRECTORY;
    mUseLatin1   = settings.VALUE_USE_LATIN1;
+   mQuality     = settings.VALUE_VBRQUALITY;
    mpUseEncoder->setChecked( mUseEncoder );
    mpDirOverride->setChecked( mDirOverride );
    mpDirectory->setText( mDirectory );
+   mpQuality->setValue( mQuality );
    mpUseLatin1->setChecked( mUseLatin1 );
    settings.endGroup();
 }
@@ -111,10 +116,12 @@ void Mp3Encoder::writeSettings()
    mUseEncoder  = mpUseEncoder->isChecked();
    mDirOverride = mpDirOverride->isChecked();
    mDirectory   = mpDirectory->text();
+   mQuality     = mpQuality->value();
    mUseLatin1   = mpUseLatin1->isChecked();
    settings.setValue( "UseEncoder", mUseEncoder );
    settings.setValue( "DirectoryOverride", mDirOverride );
    settings.setValue( "Directory", mDirectory );
+   settings.setValue( "VBRQuality", mQuality );
    settings.setValue( "UseLatin1", mUseLatin1 );
    settings.endGroup();
 }
@@ -136,7 +143,7 @@ bool Mp3Encoder::initialize( const QString &fileName )
 //   ::lame_set_brate( mLame, 128 );
 //   ::lame_set_compression_ratio( mLame, 11.0 );
    ::lame_set_VBR( mLame, mUseAbr ? vbr_abr : vbr_default );
-//   ::lame_set_VBR_quality( mLame, 9.9 );  /* 0..9 0:high 9:low */
+   ::lame_set_VBR_quality( mLame, mQuality );  /* 0..9 0:high 9:low */
    ::lame_init_params( mLame );
 
    id3tag_init( mLame );

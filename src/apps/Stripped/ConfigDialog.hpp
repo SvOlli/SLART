@@ -102,5 +102,6 @@ private:
 #define VALUE_STYLESHEET         value( "StyleSheet", QString() ).toString()
 #define VALUE_USE_ENCODER        value( "UseEncoder", false ).toBool()
 #define VALUE_USE_LATIN1         value( "UseLatin1", false ).toBool()
+#define VALUE_VBRQUALITY         value( "VBRQuality", 4.0 ).toDouble()
 
 #endif
