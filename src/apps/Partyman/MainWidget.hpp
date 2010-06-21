@@ -46,7 +46,6 @@ public slots:
 signals:
    /* request a new icon and title */
    void requestChangeTitle( const QIcon &icon, const QString &title );
-   void kioskMode( bool prohibit );
    
 private:
    MainWidget( const MainWidget &other );
