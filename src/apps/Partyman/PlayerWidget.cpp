@@ -503,7 +503,7 @@ void PlayerWidget::pause()
          mpFSM->changeState( PlayerFSM::endingpaused );
          break;
       case PlayerFSM::endingpaused:
-         mpFSM->changeState( PlayerFSM::ending );
+         mpFSM->changeState( PlayerFSM::playing );
          break;
       default:
          break;
