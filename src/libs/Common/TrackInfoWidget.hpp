@@ -43,6 +43,8 @@ public slots:
    void update( bool reread = true );
    
 signals:
+   /* either "Favorite" or "No Auto" checkbox has been clicked */
+   void checkboxClicked( const TrackInfo &trackInfo );
    
 private:
    TrackInfoWidget( const TrackInfoWidget &other );

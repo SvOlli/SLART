@@ -87,6 +87,7 @@ void TrackInfoWidget::handleFavoriteButton()
       mpUnwantedButton->setChecked( false );
    }
    mTrackInfo.setFlag( TrackInfo::Favorite, checked );
+   emit checkboxClicked( mTrackInfo );
    mpDatabase->updateTrackInfo( &mTrackInfo );
    Satellite::send1( mUpdateCode );
 }
@@ -100,6 +101,7 @@ void TrackInfoWidget::handleUnwantedButton()
       mpFavoriteButton->setChecked( false );
    }
    mTrackInfo.setFlag( TrackInfo::Unwanted, checked );
+   emit checkboxClicked( mTrackInfo );
    mpDatabase->updateTrackInfo( &mTrackInfo );
    Satellite::send1( mUpdateCode );
 }

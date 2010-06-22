@@ -160,26 +160,33 @@ QString TrackInfo::filePath() const
 
 void TrackInfo::setFolder( const QString &folder, bool add )
 {
-   QStringList folders( mFolders.split('|', QString::SkipEmptyParts) );
-   int i = folders.indexOf( folder );
+   QStringList folderList( mFolders.split('|', QString::SkipEmptyParts) );
+   int i = folderList.indexOf( folder );
    if( add )
    {
       if( i < 0 )
       {
-         folders.append( QString(folder).replace('|','\\') );
-         folders.sort();
+         folderList.append( QString(folder).replace('|','\\') );
+         folderList.sort();
       }
    }
    else
    {
       if( i >= 0 )
       {
-         folders.removeAt( i );
+         folderList.removeAt( i );
       }
    }
-   mFolders = folders.join( "|" );
-   mFolders.prepend( "|" );
-   mFolders.append( "|" );
+   if( folderList.count() )
+   {
+      mFolders = folderList.join( "|" );
+      mFolders.prepend( "|" );
+      mFolders.append( "|" );
+   }
+   else
+   {
+      mFolders.clear();
+   }
 }
 
 
