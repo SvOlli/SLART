@@ -89,10 +89,6 @@ MainWidget::MainWidget( QWidget *parent )
    {
       connect( this, SIGNAL(requestChangeTitle(QIcon,QString)),
                mainWindow, SLOT(changeTitle(QIcon,QString)) );
-/*
-      connect( this, SIGNAL(kioskMode(bool)),
-               mainWindow, SLOT(prohibitClose(bool)) );
-*/
    }
 
    mpSettingsButton->setObjectName( QString("SettingsButton") );
