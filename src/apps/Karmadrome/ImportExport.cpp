@@ -50,7 +50,7 @@ void ImportExport::importM3u( QString folder, const QString &fileName, bool clea
    mpDatabase->insertFolder( folder );
    if( cleanImport )
    {
-      QStringList entries( folder );
+      QStringList entries( mpDatabase->getFolder( folder ) );
       mpDatabase->beginTransaction();
       for( int i = 0; i < entries.count(); i++ )
       {
