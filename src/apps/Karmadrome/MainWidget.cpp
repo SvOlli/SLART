@@ -119,6 +119,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handleAdd()) );
    connect( mpRemoveMenu, SIGNAL(triggered(QAction *)),
             this, SLOT(handleRemove(QAction *)) );
+   connect( mpTrackInfo, SIGNAL(checkboxClicked(const TrackInfo&)),
+            this, SLOT(updateTrackInfo(const TrackInfo &)));
 
    labelReadButton();
    
@@ -143,6 +145,7 @@ void MainWidget::addToList( QWidget *widget )
    {
       mTrackInfo.setFolder( pb->text(), pb->isChecked() );
       mpDatabase->updateTrackInfo( &mTrackInfo );
+      mpTrackInfo->getTrack( mTrackInfo );
       mpTimer->start();
    }
    else
@@ -439,4 +442,10 @@ void MainWidget::labelReadButton()
          break;
    }
    mpSatellite->restart();
+}
+
+
+void MainWidget::updateTrackInfo( const TrackInfo &trackInfo )
+{
+   mTrackInfo = trackInfo;
 }

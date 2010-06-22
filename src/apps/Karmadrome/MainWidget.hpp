@@ -69,6 +69,8 @@ public slots:
    void updateLists();
    /* slot for timer to send out k0u notification */
    void sendK0u();
+   /* sync TrackInfo data */
+   void updateTrackInfo( const TrackInfo &trackInfo );
    
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
