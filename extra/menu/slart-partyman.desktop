@@ -6,4 +6,4 @@ Comment=audio player
 Type=Application
 Exec=Partyman
 Icon=Partyman
-Categories=AudioVideo;
+Categories=AudioVideo;Audio;Qt;SLART;

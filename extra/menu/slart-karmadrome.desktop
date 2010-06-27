@@ -6,4 +6,4 @@ Comment=music categoriser
 Type=Application
 Exec=Karmadrome
 Icon=SLART
-Categories=AudioVideo;
+Categories=AudioVideo;Audio;Qt;SLART;

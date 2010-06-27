@@ -6,4 +6,4 @@ Comment=control center
 Type=Application
 Exec=Innuendo
 Icon=SLART
-Categories=AudioVideo;
+Categories=AudioVideo;Audio;Qt;SLART;

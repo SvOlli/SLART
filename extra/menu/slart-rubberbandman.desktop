@@ -6,4 +6,4 @@ Comment=tag editor
 Type=Application
 Exec=Rubberbandman
 Icon=SLART
-Categories=AudioVideo;
+Categories=AudioVideo;Audio;Qt;SLART;

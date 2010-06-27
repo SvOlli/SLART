@@ -6,4 +6,4 @@ Comment=audio downloader
 Type=Application
 Exec=Funkytown
 Icon=SLART
-Categories=AudioVideo;
+Categories=AudioVideo;Audio;Qt;SLART;

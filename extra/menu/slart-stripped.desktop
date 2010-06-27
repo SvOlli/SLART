@@ -6,4 +6,4 @@ Comment=audio cd extractor
 Type=Application
 Exec=Stripped
 Icon=SLART
-Categories=AudioVideo;
+Categories=AudioVideo;Audio;Qt;SLART;

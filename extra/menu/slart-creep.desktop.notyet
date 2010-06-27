@@ -6,4 +6,4 @@ Comment=remote control handler
 Type=Application
 Exec=Creep
 Icon=SLART
-Categories=AudioVideo;
+Categories=AudioVideo;Audio;Qt;SLART;
