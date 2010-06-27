@@ -67,14 +67,21 @@ FreeDB::FreeDB( QObject *parent )
    
    QSqlQuery q;
 #if USE_SQLITE
-   q.exec( "SELECT * FROM sqlite_master WHERE type = 'table' AND name = 'freedb';" );
-   if( !(q.next()) )
+   QStringList categories( Categories() );
+   for( int i = 0; i < categories.size(); i++ )
    {
-      q.clear();
-      q.exec("CREATE TABLE freedb("
-             "category VARCHAR,id VARCHAR,track INT,title VARCHAR,playtime INT,ext VARCHAR,"
-             "PRIMARY KEY(category,id,track));");
-      q.exec("CREATE INDEX freedb_title ON freedb(title);");
+      q.exec( QString("SELECT * FROM sqlite_master WHERE type = 'table' AND name = 'freedb_%1';").arg(categories.at(i)) );
+      if( !(q.next()) )
+      {
+         q.clear();
+         q.exec(QString("CREATE TABLE freedb_%1("
+#if INCLUDE_EXT
+                "id VARCHAR,track INT,title VARCHAR,playtime INT,ext VARCHAR,"
+#else
+                "id VARCHAR,track INT,title VARCHAR,playtime INT,"
+#endif
+                "PRIMARY KEY(id,track));").arg(categories.at(i)));
+      }
    }
 #endif
 }
@@ -86,4 +93,10 @@ FreeDB::~FreeDB()
    mpSqlDB->close();
    *mpSqlDB = QSqlDatabase();
    delete mpSqlDB;
+}
+
+
+QStringList FreeDB::Categories()
+{
+   return QString("blues classical country data folk jazz misc newage reggae rock soundtrack").split(' ');
 }

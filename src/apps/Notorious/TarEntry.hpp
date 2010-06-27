@@ -38,15 +38,16 @@ private:
    TarEntry &operator=( const TarEntry &other );
 
    bool          mDirty;
+   const QString mSQLLine;
    const QChar   mCR;
    const QChar   mLF;
+   const QChar   mBadData;
    const QChar   mQuote;
    const QString mDoubleQuote;
    
    QString     mCategory;
    QString     mID;
    QString     mData;
-   QString     mSQLLine;
    QStringList mSQL;
    QStringList mLines;
    int         mTracks;
@@ -54,7 +55,9 @@ private:
    int     mStartframe[100];
    int     mPlaytime[100];
    QString mTitle[100];
+#if INCLUDE_EXT
    QString mExt[100];
+#endif
 };
 
 #endif

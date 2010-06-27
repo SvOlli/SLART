@@ -18,10 +18,20 @@
 /* local headers */
 
 
+#include <Trace.hpp>
+
 TarEntry::TarEntry()
 : mDirty( false )
+#if INCLUDE_EXT
+, mSQLLine( "REPLACE INTO freedb_%1(id,track,title,playtime,ext)"
+            "VALUES('%2',%3,'%4',%5,'%6');" )
+#else
+, mSQLLine( "REPLACE INTO freedb_%1(id,track,title,playtime)"
+            "VALUES('%2',%3,'%4',%5);" )
+#endif
 , mCR( '\r' )
 , mLF( '\n' )
+, mBadData( 0xFFFD )
 , mQuote( '\'' )
 , mDoubleQuote( "\'\'" )
 {
@@ -43,11 +53,23 @@ TRACESTART(TarEntry::setData)
    
    mCategory = filename;
    slashpos  = mCategory.indexOf('/');
+   if( slashpos < 1 )
+   {
+      mSQL.clear();
+      mDirty = false;
+      mTracks = -1;
+      return;
+   }
    p         = filename + slashpos + 1;
    mID       = p;
    mCategory = mCategory.left( slashpos );
-   mData     = data;
-   
+   // add some magical "guess what 8bit encoding it is"-code
+   mData     = QString::fromUtf8(data);
+   if( mData.contains( mBadData ) )
+   {
+      mData     = QString::fromLatin1(data);
+   }
+
    mData.remove( mCR );
    mLines = mData.split( mLF );
    
@@ -66,8 +88,10 @@ TRACESTART(TarEntry::sql)
 #endif
    const QRegExp reLength("^# Disc length:[ \t]*");
    const QRegExp reAfterSpace( " .*" );
+#if INCLUDE_EXT
    const QRegExp reExtD("^EXTD=");
    const QRegExp reExtT("^EXTT[0-9]*=");
+#endif
    const QRegExp reDTitle("^DTITLE=");
    const QRegExp reTTitle("^TTITLE[0-9]*=");
    
@@ -94,7 +118,9 @@ TRACESTART(TarEntry::sql)
             timescan = 0;
             for( int i = 0; i <= mTracks; i++ )
             {
+#if INCLUDE_EXT
                mExt[i].clear();
+#endif
                mTitle[i].clear();
             }
          }
@@ -121,6 +147,7 @@ TRACESTART(TarEntry::sql)
                line.remove( reTTitle );
                mTitle[1+tracknr].append( line );
             }
+#if INCLUDE_EXT
             else if( line.contains( reExtT ) )
             {
                int tracknr = line.mid(4,2).toInt( &ok );
@@ -131,16 +158,19 @@ TRACESTART(TarEntry::sql)
                line.remove( reExtT );
                mExt[1+tracknr].append( line );
             }
+#endif
             else if( line.contains( reDTitle ) )
             {
                line.remove( reDTitle );
                mTitle[0].append( line );
             }
+#if INCLUDE_EXT
             else if( line.contains( reExtD ) )
             {
                line.remove( reExtD );
                mExt[0].append( line );
             }
+#endif
          }
          
          if( line.startsWith( "# Track frame offsets:" ) )
@@ -158,7 +188,9 @@ TRACESTART(TarEntry::sql)
       for( int i = 0; i <= mTracks; i++ )
       {
          mTitle[i].replace( mQuote, mDoubleQuote );
+#if INCLUDE_EXT
          mExt[i].replace( mQuote, mDoubleQuote );
+#endif
       }
    }
 #if 0
@@ -172,21 +204,11 @@ TRACEMSG << linenr << mStartframe[linenr] << mPlaytime[linenr]/75 << mTitle[line
    mSQL.clear();
    for( int i = 0; i <= mTracks; i++ )
    {
-      mSQLLine.clear();
-      mSQLLine.append( "REPLACE INTO freedb (category,id,track,title,playtime,ext) VALUES('" );
-      mSQLLine.append( mCategory );
-      mSQLLine.append( "','" );
-      mSQLLine.append( mID );
-      mSQLLine.append( "'," );
-      mSQLLine.append( QString::number( i ) );
-      mSQLLine.append( ",'" );
-      mSQLLine.append( mTitle[i] );
-      mSQLLine.append( "'," );
-      mSQLLine.append( QString::number( mPlaytime[i] ) );
-      mSQLLine.append( ",'" );
-      mSQLLine.append( mExt[i] );
-      mSQLLine.append( "');" );
-      mSQL.append( mSQLLine );
+#if INCLUDE_EXT
+      mSQL.append( mSQLLine.arg(mCategory,mID,QString::number(i),mTitle[i],QString::number(mPlaytime[i]),mExt[i]) );
+#else
+      mSQL.append( mSQLLine.arg(mCategory,mID,QString::number(i),mTitle[i],QString::number(mPlaytime[i])) );
+#endif
    }
    return mSQL;
 }

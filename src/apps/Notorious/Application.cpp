@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
    app.setApplicationName("Notorious");
    MySettings settings;
 
-   SorcererLoader::detect( &app );
+   //SorcererLoader::detect( &app );
    {
       QFile qssFile( settings.styleSheetFile() );
       if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )

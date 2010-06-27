@@ -87,6 +87,7 @@ void Foundlist::handleNewData( int i )
    playtimeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
    setItem( i, 4, playtimeItem );
 
+#if INCLUDE_EXT
    if( mQuery.mEntries.count() > 5 )
    {
       QTableWidgetItem *extItem =
@@ -94,12 +95,13 @@ void Foundlist::handleNewData( int i )
       categoryItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
       setItem( i, 5, extItem );
    }
-   
+#endif
+
    resizeColumnsToContents();
 }
 
 
-void Foundlist::runQuery( const QString &query )
+void Foundlist::runQuery( const QString &query, const QString &category )
 {
    QStringList labels;
    labels 
@@ -108,7 +110,10 @@ void Foundlist::runQuery( const QString &query )
       << tr("Track")
       << tr("Title")
       << tr("Playtime")
-      << tr("Ext");
+#if INCLUDE_EXT
+      << tr("Ext")
+#endif
+      ;
    
    if( !mQuery.isFinished() )
    {
@@ -117,11 +122,15 @@ void Foundlist::runQuery( const QString &query )
    }
    
    clear();
+#if INCLUDE_EXT
    setColumnCount( 6 );
+#else
+   setColumnCount( 5 );
+#endif
    setRowCount( 0 );
    setHorizontalHeaderLabels( labels );
    
-   mQuery.setQuery( query );
+   mQuery.setQuery( query, category );
    mQuery.start();
 }
 

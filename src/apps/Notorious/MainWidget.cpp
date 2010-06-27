@@ -77,10 +77,8 @@ void MainWidget::runQuery( const QString &query )
 
 void MainWidget::handleClicked( const QString &category, const QString &id )
 {
-   QString query( "category = '" );
-   query.append( category );
-   query.append( "' AND id = '");
+   QString query( "id = '" );
    query.append( id );
    query.append( "'" );
-   mpCDInfo->runQuery( query );
+   mpCDInfo->runQuery( query, category );
 }

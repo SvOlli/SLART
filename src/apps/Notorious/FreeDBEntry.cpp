@@ -24,7 +24,9 @@ FreeDBEntry::FreeDBEntry()
 , track(-1)
 , title()
 , playtime(-1)
+#if INCLUDE_EXT
 , ext()
+#endif
 {
 }
 
@@ -35,18 +37,26 @@ FreeDBEntry::FreeDBEntry( const FreeDBEntry &other )
 , track( other.track )
 , title( other.title )
 , playtime( other.playtime )
+#if INCLUDE_EXT
 , ext( other.ext )
+#endif
 {
 }
 
 
+#if INCLUDE_EXT
 FreeDBEntry::FreeDBEntry( QString Category, QString ID, int Track, QString Title, int Playtime, QString Ext )
+#else
+FreeDBEntry::FreeDBEntry( QString Category, QString ID, int Track, QString Title, int Playtime )
+#endif
 : category( Category )
 , id( ID )
 , track( Track )
 , title( Title )
 , playtime( Playtime )
+#if INCLUDE_EXT
 , ext( Ext )
+#endif
 {
 }
 
@@ -58,6 +68,8 @@ FreeDBEntry& FreeDBEntry::operator= (const FreeDBEntry& other)
    track    = other.track;
    title    = other.title;
    playtime = other.playtime;
+#if INCLUDE_EXT
    ext      = other.ext;
+#endif
    return *this;
 }

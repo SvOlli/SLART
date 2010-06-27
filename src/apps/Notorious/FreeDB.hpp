@@ -33,7 +33,9 @@ Q_OBJECT
    
 public:
    FreeDB( QObject *parent = 0 );
-   ~FreeDB();
+   virtual ~FreeDB();
+
+   static QStringList Categories();
    
 private:
    FreeDB( const FreeDB &other );

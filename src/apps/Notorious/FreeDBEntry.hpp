@@ -28,7 +28,11 @@ class FreeDBEntry
 public:
    FreeDBEntry();
    FreeDBEntry( const FreeDBEntry &other );
+#if INCLUDE_EXT
    FreeDBEntry( QString Category, QString ID, int Track, QString Title, int Playtime, QString Ext );
+#else
+   FreeDBEntry( QString Category, QString ID, int Track, QString Title, int Playtime );
+#endif
    FreeDBEntry& operator=(const FreeDBEntry& other);
    
    QString category;
@@ -36,7 +40,9 @@ public:
    int     track;
    QString title;
    int     playtime;
+#if INCLUDE_EXT
    QString ext;
+#endif
 };
 
 #endif

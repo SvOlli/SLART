@@ -12,9 +12,11 @@
 /* system headers */
 
 /* Qt headers */
+#include <QMessageBox>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QString>
+#include <QTextStream>
 #include <QVariant>
 
 /* local library headers */
@@ -61,7 +63,11 @@ void FreeDBImport::run()
          l = mTarEntry.sql();
          for( int i = 0; i < l.count(); i++ )
          {
-            q.exec( l.at(i) );
+            if( !q.exec( l.at(i) ) )
+            {
+               QTextStream qStdOut( stdout );
+               qStdOut << tr("Problem importing from %1: %2\n").arg(tarData.filename,l.at(i));
+            }
          }
 //qDebug() << l << endl;
          if( ++count % 1000 == 0 )

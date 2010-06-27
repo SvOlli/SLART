@@ -37,7 +37,7 @@ public:
 public slots:
    void handleNewData( int i );
    void handleClicked( QTableWidgetItem *clickedItem );
-   void runQuery( const QString &query );
+   void runQuery( const QString &query, const QString &category = QString() );
 
 signals:
    void clicked( const QString &category, const QString &id );

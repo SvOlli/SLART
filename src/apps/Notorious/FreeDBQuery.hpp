@@ -40,7 +40,7 @@ public:
    virtual ~FreeDBQuery();
 
    void run();
-   void setQuery( const QString &query );
+   void setQuery( const QString &query, const QString &category = QString() );
    void stop() { mBreak = true; };
 
    QList<FreeDBEntry> mEntries;
@@ -53,6 +53,7 @@ private:
    Foundlist  *mpParent;
    bool       mBreak;
    QString    mQuery;
+   QString    mCategory;
 
 };
 
