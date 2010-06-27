@@ -63,11 +63,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    
    QGridLayout *mainLayout    = new QGridLayout( this );
    
-#if QT_VERSION < 0x040300
-   mainLayout->setMargin( 0 );
-#else
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
-#endif
    mainLayout->setSpacing( 5 );
    mainLayout->addWidget( mpPlayer[0],      0, 0, 4, 1 );
    mainLayout->addWidget( mpPlayer[1],      0, 2, 4, 1 );

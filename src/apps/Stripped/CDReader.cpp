@@ -43,11 +43,7 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
    mpProgressBar->setRange( 0, 100 );
 
    QGridLayout *mainLayout = new QGridLayout( this );
-#if QT_VERSION < 0x040300
-   mainLayout->setMargin( 0 );
-#else
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
-#endif
 
    mainLayout->addWidget( mpProgressBar, 0, 0 );
 

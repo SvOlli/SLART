@@ -61,13 +61,8 @@ SearchWidget::SearchWidget( Database *database, PlaylistWidget *parent )
    MySettings settings;
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    QHBoxLayout *lineLayout = new QHBoxLayout;
-#if QT_VERSION < 0x040300
-   mainLayout->setMargin( 1 );
-   lineLayout->setMargin( 0 );
-#else
    mainLayout->setContentsMargins( 1, 1, 1, 1 );
    lineLayout->setContentsMargins( 0, 0, 0, 0 );
-#endif
    lineLayout->addWidget( mpInput );
    lineLayout->addWidget( mpFound );
    mpFound->setHidden( true );

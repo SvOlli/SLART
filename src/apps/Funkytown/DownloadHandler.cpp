@@ -60,15 +60,10 @@ DownloadHandler::DownloadHandler( QWidget *parent )
       mpMagicQueue->setSelectionMode( QAbstractItemView::NoSelection );
       mpEnqueue->setHidden( true );
    }
-#if QT_VERSION < 0x040300
-   layout->setMargin( 0 );
-   groupLayout->setMargin( 5 );
-#else
    layout->setContentsMargins( 0, 0, 0, 0 );
    layout->setSpacing( 1 );
    groupLayout->setContentsMargins( 5, 5, 5, 5 );
    groupLayout->setSpacing( 1 );
-#endif
    
    groupLayout->addWidget( mpURL );
    groupLayout->addWidget( mpFileName );

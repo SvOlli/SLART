@@ -63,11 +63,7 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
    QHBoxLayout *buttonLayout = new QHBoxLayout();
    
    setFocusPolicy(Qt::StrongFocus);
-#if QT_VERSION < 0x040300
-   outerLayout->setMargin( 0 );
-#else
    outerLayout->setContentsMargins( 0, 0, 0, 0 );
-#endif
 #if 0
    mpLabelTrackNr->setFlat( true );
    mpLabelTrackArtist->setFlat( true );

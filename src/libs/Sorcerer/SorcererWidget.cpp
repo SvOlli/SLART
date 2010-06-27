@@ -45,11 +45,7 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
    unlockDatabase();
    
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
-#if QT_VERSION < 0x040300
-   mainLayout->setMargin( 3 );
-#else
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-#endif
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
    
    AboutWidget *about = new AboutWidget( this );

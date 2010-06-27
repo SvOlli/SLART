@@ -57,11 +57,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpSettingsButton->setObjectName( QString("SettingsButton") );
 
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
-#if QT_VERSION < 0x040300
-   mainLayout->setMargin( 3 );
-#else
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-#endif
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
    
    mpCancelButton->setDisabled( true );

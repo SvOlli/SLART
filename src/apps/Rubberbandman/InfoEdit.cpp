@@ -115,12 +115,8 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    
    fileLayout->setColumnStretch( 2, 1 );
    
-#if QT_VERSION < 0x040300
-   fileLayout->setMargin( 2 );
-#else
    fileLayout->setVerticalSpacing( 0 );
    fileLayout->setContentsMargins( 2, 2, 2, 2 );
-#endif
    mpFileGroupBox->setLayout( fileLayout );
    
    mpTagGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
@@ -147,12 +143,8 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    tagLayout->setColumnStretch( 4,  1 );
    tagLayout->setColumnStretch( 5, 80 );
 
-#if QT_VERSION < 0x040300
-   tagLayout->setMargin( 2 );
-#else
    tagLayout->setVerticalSpacing( 0 );
    tagLayout->setContentsMargins( 2, 2, 2, 2 );
-#endif
    mpTagGroupBox->setLayout( tagLayout );
    
    mpDatabaseGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
@@ -161,12 +153,8 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    databaseLayout->addWidget( mpShowTimesPlayed, 0, 1 );
    databaseLayout->addWidget( mpButtonFolders,   0, 2 );
    
-#if QT_VERSION < 0x040300
-   databaseLayout->setMargin( 2 );
-#else
    databaseLayout->setVerticalSpacing( 0 );
    databaseLayout->setContentsMargins( 2, 2, 2, 2 );
-#endif
    mpDatabaseGroupBox->setLayout( databaseLayout );
    
    QHBoxLayout *hlayout = new QHBoxLayout;
@@ -184,11 +172,7 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    vlayout->addWidget( mpFileGroupBox );
    vlayout->addWidget( mpTagGroupBox );
    vlayout->addWidget( mpDatabaseGroupBox );
-#if QT_VERSION < 0x040300
-   vlayout->setMargin( 2 );
-#else
    vlayout->setContentsMargins( 2, 2, 2, 2 );
-#endif
    setLayout( vlayout );
    
    setMaximumHeight( vlayout->minimumSize().height() );

@@ -45,11 +45,7 @@ SearchWidget::SearchWidget( QWidget *parent, Qt::WindowFlags flags )
    mpQuery1Info->setAlignment( Qt::AlignCenter );
    mpQuery2Info->setAlignment( Qt::AlignCenter );
    
-#if QT_VERSION < 0x040300
-   layout->setMargin( 0 );
-#else
    layout->setContentsMargins( 0, 0, 0, 0 );
-#endif
    
    layout->addWidget( new QLabel( tr("Title") ), 0, 0 );
    layout->addWidget( mpTitle, 0, 1, 1, 5 );

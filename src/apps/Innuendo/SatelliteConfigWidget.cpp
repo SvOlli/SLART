@@ -47,11 +47,7 @@ SatelliteConfigWidget::SatelliteConfigWidget( QWidget *parent )
    }
 
    QBoxLayout *buttonLayout = new QHBoxLayout();
-#if QT_VERSION < 0x040300
-   buttonLayout->setMargin( 0 );
-#else
    buttonLayout->setContentsMargins( 0, 0, 0, 0 );
-#endif
    QPushButton *fullCom = new QPushButton( tr("Full Communication"), this );
    QPushButton *noCom = new QPushButton( tr("No Communication"), this );
    buttonLayout->addWidget( fullCom );

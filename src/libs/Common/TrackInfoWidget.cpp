@@ -34,13 +34,9 @@ TrackInfoWidget::TrackInfoWidget( Database *database, const QByteArray &updateCo
    mpFavoriteButton->setCheckable( true );
    mpUnwantedButton->setCheckable( true );
    QGridLayout *mainLayout = new QGridLayout( this );
-#if QT_VERSION < 0x040300
-   mainLayout->setMargin( 1 );
-#else
    mainLayout->setContentsMargins( 1, 1, 1, 1 );
    mainLayout->setVerticalSpacing( 0 );
    mainLayout->setHorizontalSpacing( 1 );
-#endif
    
    mainLayout->addWidget( new QLabel( tr("Artist:"), this ), 1, 0 );
    mainLayout->addWidget( new QLabel( tr("Title:"), this ),  2, 0 );

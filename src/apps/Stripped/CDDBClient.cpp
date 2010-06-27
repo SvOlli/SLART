@@ -42,11 +42,7 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
 {
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
 
-#if QT_VERSION < 0x040300
-   mainLayout->setMargin( 0 );
-#else
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
-#endif
 
    mpSplit->addItem( " / " );
    mpSplit->addItem( " - " );

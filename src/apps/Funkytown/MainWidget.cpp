@@ -38,12 +38,8 @@ MainWidget::MainWidget( QWidget *parent )
 {
    MySettings settings;
    
-#if QT_VERSION < 0x040300
-   mpLayout->setMargin( 3 );
-#else
    mpLayout->setContentsMargins( 3, 3, 3, 3 );
    mpLayout->setSpacing( 3 );
-#endif
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
    
    mpDirText->setAcceptDrops( false );

@@ -43,11 +43,7 @@ OggEncoder::OggEncoder( QWidget *parent )
    QGridLayout *mainLayout = new QGridLayout( mpConfigWidget );
    mainLayout->setRowStretch( 4, 1 );
    mainLayout->setColumnStretch( 1, 1 );
-#if QT_VERSION < 0x040300
-   mainLayout->setMargin( 3 );
-#else
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-#endif
    mainLayout->addWidget( mpUseEncoder, 0, 0, 1, 3 );
    mainLayout->addWidget( mpDirOverride, 1, 0, 1, 3 );
    mainLayout->addWidget( new QLabel( tr("Base Directory:") ), 2, 0 );

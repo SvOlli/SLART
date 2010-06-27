@@ -45,11 +45,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpMainWidget = this;
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
    
-#if QT_VERSION < 0x040300
-   mainLayout->setMargin( 3 );
-#else
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-#endif
    mainLayout->addWidget( mpControl );
    mainLayout->addWidget( mpPlaylist );
    mpParent->setAttribute( Qt::WA_AlwaysShowToolTips, true );

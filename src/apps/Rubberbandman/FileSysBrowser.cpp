@@ -202,19 +202,11 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
    topLayout->addWidget( new QLabel(tr("Root:")) );
    topLayout->addWidget( mpRootDir );
    topLayout->addWidget( mpDotButton );
-#if QT_VERSION < 0x040300
-   topLayout->setMargin( 0 );
-#else
    topLayout->setContentsMargins( 0, 0, 0, 0 );
-#endif
    
    layout->addLayout( topLayout );
    layout->addWidget( mpView );
-#if QT_VERSION < 0x040300
-   layout->setMargin( 0 );
-#else
    layout->setContentsMargins( 0, 0, 0, 0 );
-#endif
    setLayout(layout);
    
    /* evil hack */

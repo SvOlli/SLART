@@ -70,11 +70,7 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
    sizes << regSizes.x() << regSizes.y();
    mpSplitter->setSizes( sizes );
    layout->addWidget( mpSplitter );
-#if QT_VERSION < 0x040300
-   layout->setMargin( 0 );
-#else
    layout->setContentsMargins( 0, 0, 0, 0 );
-#endif
    
    connect( mpTreeView, SIGNAL(context(QModelIndex)),
             this, SLOT(addEntries(QModelIndex)) );

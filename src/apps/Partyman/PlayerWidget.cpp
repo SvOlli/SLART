@@ -127,11 +127,7 @@ PlayerWidget::PlayerWidget( int index, Database *database,
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    
-#if QT_VERSION < 0x040300
-   mainLayout->setMargin( 0 );
-#else
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
-#endif
    mainLayout->setSpacing( 5 );
    mainLayout->addWidget( mpScrollLine );
    mainLayout->addWidget( mpTimeDisplay );

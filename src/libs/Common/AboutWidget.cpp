@@ -17,11 +17,7 @@ AboutWidget::AboutWidget( QWidget *parent, const QString &aboutText )
 : QWidget( parent )
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
-#if QT_VERSION < 0x040300
-   mainLayout->setMargin( 1 );
-#else
    mainLayout->setContentsMargins( 1, 1, 1, 1 );
-#endif
    
    QLabel *aboutLabel = new QLabel( this );
    if( aboutText.isEmpty() )

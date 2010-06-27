@@ -27,11 +27,7 @@ ButtonsWidget::ButtonsWidget( QWidget *parent )
 , mpSignalMapper( new QSignalMapper( this ) )
 , mButtonList()
 {
-#if QT_VERSION < 0x040300
-   mpMainLayout->setMargin( 3 );
-#else
    mpMainLayout->setContentsMargins( 3, 3, 3, 3 );
-#endif
    
    connect( mpSignalMapper, SIGNAL(mapped(QWidget*)),
             this, SIGNAL(clicked(QWidget*)) );
@@ -46,11 +42,7 @@ ButtonsWidget::ButtonsWidget( const QString &title, QWidget *parent )
 , mpSignalMapper( new QSignalMapper( this ) )
 , mButtonList()
 {
-#if QT_VERSION < 0x040300
-   mpMainLayout->setMargin( 3 );
-#else
    mpMainLayout->setContentsMargins( 3, 3, 3, 3 );
-#endif
    
    connect( mpSignalMapper, SIGNAL(mapped(QWidget*)),
             this, SIGNAL(clicked(QWidget*)) );
