@@ -7,7 +7,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += TestAppCommandLine
+SUBDIRS += TestAppDatabaseBrowser
 SUBDIRS += TestAppSatellite
 SUBDIRS += TestAppWebServer
 SUBDIRS += TestAppXxtea
-
