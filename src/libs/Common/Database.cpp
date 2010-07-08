@@ -576,7 +576,16 @@ void Database::logError( const QString &note )
       msg.append( "\nDriver: " );
       msg.append( mpQuery->lastError().driverText() );
       msg.append( "\nQuery: " );
-      msg.append( mpQuery->lastQuery() );
+
+      QString query( mpQuery->lastQuery() );
+      QMapIterator<QString, QVariant> i( mpQuery->boundValues() );
+      while (i.hasNext())
+      {
+         i.next();
+         query.replace( i.key(), i.value().toString() );
+      }
+
+      msg.append( query );
    }
 
    Satellite::send1( msg.toUtf8() );
