@@ -125,8 +125,8 @@ void DatabaseWidget::handleUpdate( bool checked )
       return;
    }
    disableButtons( true );
-   mCheckedText   = tr(" files scanned, ");
-   mProcessedText = tr(" updated.");
+   mCheckedText   = tr( "files scanned" );
+   mProcessedText = tr( "updated" );
    QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
    if( !baseDir.isEmpty() )
    {
