@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QTime>
 
 /* local library headers */
 
@@ -68,6 +69,8 @@ private:
    QLabel      *mpSQLClause;
    QLabel      *mpQuery1Info;
    QLabel      *mpQuery2Info;
+   QTime       mTime1;
+   QTime       mTime2;
    QString     mSQL;
 };
 

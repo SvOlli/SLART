@@ -33,8 +33,10 @@ SearchWidget::SearchWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpSearchButton( new QPushButton( tr("Search"), this ) )
 //, mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpSQLClause( new QLabel( this ) )
-, mpQuery1Info( new QLabel( tr("stopped"), this ) )
-, mpQuery2Info( new QLabel( tr("stopped"), this ) )
+, mpQuery1Info( new QLabel( tr("search 1"), this ) )
+, mpQuery2Info( new QLabel( tr("search 2"), this ) )
+, mTime1()
+, mTime2()
 , mSQL()
 {
    QGridLayout *layout = new QGridLayout( this );
@@ -199,11 +201,12 @@ void SearchWidget::query1Running( bool r )
 {
    if( r )
    {
+      mTime1.start();
       mpQuery1Info->setText( "running" );
    }
    else
    {
-      mpQuery1Info->setText( "stopped" );
+      mpQuery1Info->setText( QString("ok:%1s").arg( (float)mTime1.elapsed()/1000 ) );
    }
 }
 
@@ -212,10 +215,11 @@ void SearchWidget::query2Running( bool r )
 {
    if( r )
    {
+      mTime2.start();
       mpQuery2Info->setText( "running" );
    }
    else
    {
-      mpQuery2Info->setText( "stopped" );
+      mpQuery2Info->setText( QString("ok:%1s").arg( (float)mTime2.elapsed()/1000 ) );
    }
 }
