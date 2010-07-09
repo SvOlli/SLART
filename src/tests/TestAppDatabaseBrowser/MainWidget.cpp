@@ -76,7 +76,7 @@ void MainWidget::fillTableFull()
    }
    else
    {
-      mpInfo->setText( tr("Reading database done: %1ms").arg( (float)mTime.elapsed()/1000 ) );
+      mpInfo->setText( tr("Reading database done: %1s").arg( (float)mTime.elapsed()/1000 ) );
    }
 }
 
