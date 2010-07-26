@@ -12,7 +12,7 @@
 #include "GenericSatMsgHandler.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "MySettings.hpp"
-#include "PlaylistWidget.hpp"
+#include "PlaylistControlWidget.hpp"
 #include "Satellite.hpp"
 #include "WidgetShot.hpp"
 
@@ -22,7 +22,7 @@
 
 
 ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
-                              PlaylistWidget *playlist, QWidget *parent, Qt::WindowFlags flags )
+                              PlaylistControlWidget *playlist, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpConfig( config )
 , mpPlaylist( playlist )

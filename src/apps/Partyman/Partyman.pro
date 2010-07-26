@@ -19,41 +19,17 @@ RC_FILE = Resources/WinIcon.rc
 
 SOURCES += Application.cpp 
 
-#HEADERS += MainWindow.hpp
-#SOURCES += MainWindow.cpp
-
-#HEADERS += WidgetShot.hpp
-#SOURCES += WidgetShot.cpp
-
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
-
-#HEADERS += MySettings.hpp
-#SOURCES += MySettings.cpp
-
-#HEADERS += Database.hpp
-#SOURCES += Database.cpp
-
-#HEADERS += TrackInfo.hpp
-#SOURCES += TrackInfo.cpp
-
-#HEADERS += SLARTCom.hpp
-#SOURCES += SLARTCom.cpp
 
 HEADERS += ControlWidget.hpp
 SOURCES += ControlWidget.cpp
 
-#HEADERS += AboutWidget.hpp
-#SOURCES += AboutWidget.cpp
-
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp
 
-#HEADERS += GlobalConfigWidget.hpp
-#SOURCES += GlobalConfigWidget.cpp
-
-HEADERS += PlaylistWidget.hpp
-SOURCES += PlaylistWidget.cpp
+HEADERS += PlaylistControlWidget.hpp
+SOURCES += PlaylistControlWidget.cpp
 
 HEADERS += PlaylistContentWidget.hpp
 SOURCES += PlaylistContentWidget.cpp
@@ -73,14 +49,8 @@ SOURCES += FileSysTreeUpdate.cpp
 HEADERS += FileSysTreeView.hpp
 SOURCES += FileSysTreeView.cpp
 
-#HEADERS += ScrollLine.hpp
-#SOURCES += ScrollLine.cpp
-
 HEADERS += SearchWidget.hpp
 SOURCES += SearchWidget.cpp
-
-#HEADERS += TrackInfoWidget.hpp
-#SOURCES += TrackInfoWidget.cpp
 
 HEADERS += PlayerFSM.hpp
 SOURCES += PlayerFSM.cpp

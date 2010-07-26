@@ -10,7 +10,7 @@
 
 #include "FileSysTreeModel.hpp"
 #include "PlaylistContentWidget.hpp"
-#include "PlaylistWidget.hpp"
+#include "PlaylistControlWidget.hpp"
 #include "SearchWidget.hpp"
 #include "TrackInfoWidget.hpp"
 #include "GlobalConfigWidget.hpp"
@@ -21,7 +21,7 @@
 #include "Trace.hpp"
 
 
-PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
+PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *config,
                                 QWidget *parent, Qt::WindowFlags f )
 : QWidget( parent, f )
 , mpDatabase( database )
@@ -113,7 +113,7 @@ PlaylistWidget::PlaylistWidget( Database *database, ConfigDialog *config,
 }
 
 
-PlaylistWidget::~PlaylistWidget()
+PlaylistControlWidget::~PlaylistControlWidget()
 {
    MySettings settings;
    
@@ -132,7 +132,7 @@ PlaylistWidget::~PlaylistWidget()
 }
 
 
-void PlaylistWidget::deleteEntry( const QModelIndex &/*index*/, int key )
+void PlaylistControlWidget::deleteEntry( const QModelIndex &/*index*/, int key )
 {
    switch( key )
    {
@@ -146,7 +146,7 @@ void PlaylistWidget::deleteEntry( const QModelIndex &/*index*/, int key )
 }
 
 
-void PlaylistWidget::addEntries( QStringList *list, const QModelIndex &index )
+void PlaylistControlWidget::addEntries( QStringList *list, const QModelIndex &index )
 {
    QModelIndex qmi;
    if( index.child(0,0).isValid() )
@@ -167,7 +167,7 @@ void PlaylistWidget::addEntries( QStringList *list, const QModelIndex &index )
 }
 
 
-void PlaylistWidget::addEntries( const QModelIndex &index )
+void PlaylistControlWidget::addEntries( const QModelIndex &index )
 {
    QStringList entries;
    
@@ -183,7 +183,7 @@ void PlaylistWidget::addEntries( const QModelIndex &index )
 }
 
 
-void PlaylistWidget::addEntries( const QStringList &entries, bool atStart )
+void PlaylistControlWidget::addEntries( const QStringList &entries, bool atStart )
 {
    int i;
    QStringList checkedEntries;
@@ -211,7 +211,7 @@ void PlaylistWidget::addEntries( const QStringList &entries, bool atStart )
 }
 
 
-void PlaylistWidget::getNextTrack( QString *fileName )
+void PlaylistControlWidget::getNextTrack( QString *fileName )
 {
    if( mpPlaylistContent->count() > 0 )
    {
@@ -249,13 +249,13 @@ void PlaylistWidget::getNextTrack( QString *fileName )
 }
 
 
-void PlaylistWidget::setTrackInfoFavoriteUnwanted( bool favorite, bool unwanted )
+void PlaylistControlWidget::setTrackInfoFavoriteUnwanted( bool favorite, bool unwanted )
 {
    mpTrackInfo->setFavoriteUnwanted( favorite, unwanted );
 }
 
 
-bool PlaylistWidget::getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
+bool PlaylistControlWidget::getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
                                      bool favoriteOnly, bool leastPlayed, const QString &playFolder )
 {
    TrackInfo trackInfo;
@@ -278,7 +278,7 @@ bool PlaylistWidget::getRandomTrack( QString *fileName, QStringList *playedArtis
 }
 
 
-void PlaylistWidget::dragEnterEvent( QDragEnterEvent *event )
+void PlaylistControlWidget::dragEnterEvent( QDragEnterEvent *event )
 {
    if( event->mimeData()->hasFormat("text/uri-list") )
    {
@@ -287,7 +287,7 @@ void PlaylistWidget::dragEnterEvent( QDragEnterEvent *event )
 }
 
 
-void PlaylistWidget::dropEvent( QDropEvent *event )
+void PlaylistControlWidget::dropEvent( QDropEvent *event )
 {
    const QMimeData *mimeData = event->mimeData();
    
@@ -311,7 +311,7 @@ void PlaylistWidget::dropEvent( QDropEvent *event )
                
                QByteArray line;
                QString filename;
-               QString filebase( qfi.canonicalFilePath() + "/../" );
+               QString filebase( qfi.canonicalPath() );
                while( !qf.atEnd() )
                {
                   line = qf.readLine();
@@ -324,7 +324,7 @@ void PlaylistWidget::dropEvent( QDropEvent *event )
                      }
                      if( !filename.startsWith( "/" ) )
                      {
-                        qfi.setFile( filebase + filename );
+                        qfi.setFile( QDir(filebase), filename );
                         filename = qfi.absoluteFilePath();
                      }
                      if( qfi.isFile() )
@@ -345,19 +345,20 @@ void PlaylistWidget::dropEvent( QDropEvent *event )
       if( dest.size() > 0 )
       {
          addEntries( dest );
+         event->acceptProposedAction();
       }
    }
 }
 
 
-void PlaylistWidget::readConfig()
+void PlaylistControlWidget::readConfig()
 {
    mpTreeView->setAnimated( MySettings("Global").VALUE_ANIMATEVIEWS );
    mpSplitter->setOrientation( MySettings().VALUE_SPLITTERVERTICAL ? Qt::Horizontal : Qt::Vertical );
 }
 
 
-void PlaylistWidget::handleTabChange( int tabNr )
+void PlaylistControlWidget::handleTabChange( int tabNr )
 {
    if( (tabNr < 0) || (tabNr >= mpTabs->count()) )
    {
@@ -391,13 +392,13 @@ void PlaylistWidget::handleTabChange( int tabNr )
 }
 
 
-void PlaylistWidget::getTrack( const TrackInfo &trackInfo )
+void PlaylistControlWidget::getTrack( const TrackInfo &trackInfo )
 {
    mpTrackInfo->getTrack( trackInfo );
 }
 
 
-void PlaylistWidget::startBrowserUpdate()
+void PlaylistControlWidget::startBrowserUpdate()
 {
    if( mpNextTreeModel )
    {
@@ -418,7 +419,7 @@ void PlaylistWidget::startBrowserUpdate()
 }
 
 
-void PlaylistWidget::finishBrowserUpdate()
+void PlaylistControlWidget::finishBrowserUpdate()
 {
    int i;
    QModelIndex root, qmi;
@@ -450,13 +451,13 @@ void PlaylistWidget::finishBrowserUpdate()
 }
 
 
-void PlaylistWidget::updateTrackInfo()
+void PlaylistControlWidget::updateTrackInfo()
 {
    mpTrackInfo->update();
 }
 
 
-void PlaylistWidget::savePlaylist( const QString &current, const QString &next )
+void PlaylistControlWidget::savePlaylist( const QString &current, const QString &next )
 {
    MySettings settings;
    QStringList playlist;

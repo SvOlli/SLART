@@ -22,7 +22,7 @@ class QPushButton;
 class ConfigDialog;
 class ControlWidget;
 class Database;
-class PlaylistWidget;
+class PlaylistControlWidget;
 
 class MainWidget : public QWidget
 {
@@ -51,12 +51,12 @@ private:
    MainWidget( const MainWidget &other );
    MainWidget &operator=( const MainWidget &other );
    
-   bool            mAllowAutostart;
-   QWidget         *mpParent;
-   Database        *mpDatabase;
-   ConfigDialog    *mpConfig;
-   PlaylistWidget  *mpPlaylist;
-   ControlWidget   *mpControl;
+   bool                    mAllowAutostart;
+   QWidget                 *mpParent;
+   Database                *mpDatabase;
+   ConfigDialog            *mpConfig;
+   PlaylistControlWidget   *mpPlaylist;
+   ControlWidget           *mpControl;
 };
 
 #endif

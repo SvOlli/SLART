@@ -12,7 +12,7 @@
 #include "ConfigDialog.hpp"
 #include "ControlWidget.hpp"
 #include "PasswordChecker.hpp"
-#include "PlaylistWidget.hpp"
+#include "PlaylistControlWidget.hpp"
 #include "MainWindowCheckClose.hpp"
 #include "MySettings.hpp"
 
@@ -39,7 +39,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpParent( parent )
 , mpDatabase( new Database() )
 , mpConfig( new ConfigDialog( mpDatabase, this ) )
-, mpPlaylist( new PlaylistWidget( mpDatabase, mpConfig, this ) )
+, mpPlaylist( new PlaylistControlWidget( mpDatabase, mpConfig, this ) )
 , mpControl( new ControlWidget( mpDatabase, mpConfig, mpPlaylist, this ) )
 {
    mpMainWidget = this;

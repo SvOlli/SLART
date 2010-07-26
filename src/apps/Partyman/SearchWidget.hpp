@@ -17,7 +17,7 @@ class QModelIndex;
 
 class Database;
 class PlaylistContentWidget;
-class PlaylistWidget;
+class PlaylistControlWidget;
 
 
 class SearchWidget : public QWidget
@@ -25,7 +25,7 @@ class SearchWidget : public QWidget
 Q_OBJECT
    
 public:
-   SearchWidget( Database *database, PlaylistWidget *parent );
+   SearchWidget( Database *database, PlaylistControlWidget *parent );
    virtual ~SearchWidget();
    
 public slots:
@@ -41,7 +41,7 @@ private:
    SearchWidget &operator=( const SearchWidget &other );
    
    Database              *mpDatabase;
-   PlaylistWidget        *mpPlaylist;
+   PlaylistControlWidget *mpPlaylist;
    PlaylistContentWidget *mpResults;
    QLineEdit             *mpInput;
    QLabel                *mpFound;

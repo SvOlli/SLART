@@ -7,8 +7,8 @@
  */
 
 #include "SearchWidget.hpp"
-#include "PlaylistWidget.hpp"
 #include "PlaylistContentWidget.hpp"
+#include "PlaylistControlWidget.hpp"
 #include "Database.hpp"
 #include "MySettings.hpp"
 
@@ -50,7 +50,7 @@ void SearchLineEdit::keyPressEvent( QKeyEvent *event )
 }
 
 
-SearchWidget::SearchWidget( Database *database, PlaylistWidget *parent )
+SearchWidget::SearchWidget( Database *database, PlaylistControlWidget *parent )
 : QWidget( parent )
 , mpDatabase( database )
 , mpPlaylist( parent )

@@ -31,14 +31,14 @@ class TrackInfo;
 class TrackInfoWidget;
 
 
-class PlaylistWidget : public QWidget
+class PlaylistControlWidget : public QWidget
 {
 Q_OBJECT
    
 public:
-   PlaylistWidget( Database *database, ConfigDialog *config,
+   PlaylistControlWidget( Database *database, ConfigDialog *config,
                    QWidget *parent = 0, Qt::WindowFlags f = 0 );
-   virtual ~PlaylistWidget();
+   virtual ~PlaylistControlWidget();
    
    /* get name of next track either from playlist */
    void getNextTrack( QString *fileName );
@@ -80,8 +80,8 @@ signals:
    void playlistIsValid( bool isValid );
    
 private:
-   PlaylistWidget( const PlaylistWidget &other );
-   PlaylistWidget &operator=( const PlaylistWidget &other );
+   PlaylistControlWidget( const PlaylistControlWidget &other );
+   PlaylistControlWidget &operator=( const PlaylistControlWidget &other );
    
    /* add entries to a stringlist */
    void addEntries( QStringList *list, const QModelIndex &qmi );
