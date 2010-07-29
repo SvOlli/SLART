@@ -327,6 +327,52 @@ int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QString &sea
 }
 
 
+int Database::getPathNameList( QStringList* pathNameList, const QString &search )
+{
+   if( pathNameList )
+   {
+      QString sqlSearch( "%" );
+      if( !search.isEmpty() )
+      {
+         sqlSearch.append( search );
+         sqlSearch.replace( "*", "%" );
+         sqlSearch.replace( "?", "_" );
+         sqlSearch.append( "%" );
+      }
+      mpQuery->clear();
+      mpQuery->prepare( "SELECT Directory,FileName"
+                        " FROM slart_tracks WHERE Directory LIKE :directory OR FileName LIKE :fileName;" );
+      mpQuery->bindValue( ":directory", sqlSearch );
+      mpQuery->bindValue( ":fileName", sqlSearch );
+      if( !mpQuery->exec() )
+      {
+         logError();
+      }
+
+      pathNameList->clear();
+      while( mpQuery->next() )
+      {
+         (*pathNameList) << mpQuery->value( 0).toString()
+                    + "/" + mpQuery->value( 1).toString();
+      }
+      mpQuery->clear();
+      return pathNameList->size();
+   }
+   else
+   {
+      mpQuery->prepare( "SELECT COUNT(id) FROM slart_tracks;" );
+      if( !mpQuery->exec() )
+      {
+         logError();
+      }
+      mpQuery->next();
+      int tracks = mpQuery->value(0).toInt();
+      mpQuery->clear();
+      return tracks;
+   }
+}
+
+
 void Database::updateTrackInfo( const TrackInfo *trackInfo, bool allowinsert )
 {
    if( trackInfo->mID )
