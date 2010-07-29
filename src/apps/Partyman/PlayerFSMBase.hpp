@@ -9,10 +9,22 @@
 #ifndef PLAYERFSMBASE_HPP
 #define PLAYERFSMBASE_HPP PLAYERFSMBASE_HPP
 
+/* base class */
+
+/* system headers */
+
+/* Qt headers */
 #include <QLabel>
 
+/* local library headers */
+
+/* local headers */
 #include "PlayerWidget.hpp"
 #include "PlayerFSM.hpp"
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 
 
 class PlayerFSMBase

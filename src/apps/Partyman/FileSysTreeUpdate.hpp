@@ -9,10 +9,21 @@
 #ifndef FILESYSTREEUPDATE_HPP
 #define FILESYSTREEUPDATE_HPP FILESYSTREEUPDATE_HPP
 
+/* base class */
 #include <QThread>
 
-#include "TrackInfo.hpp"
+/* system headers */
 
+/* Qt headers */
+
+/* local library headers */
+#include <TrackInfo.hpp>
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 class Database;
 class FileSysTreeModel;
 

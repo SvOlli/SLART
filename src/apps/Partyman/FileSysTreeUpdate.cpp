@@ -6,13 +6,19 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "FileSysTreeUpdate.hpp"
-#include "FileSysTreeModel.hpp"
-#include "Database.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
-#include "Trace.hpp"
+/* local library headers */
+#include <Database.hpp>
+
+/* local headers */
+#include "FileSysTreeModel.hpp"
 
 
 int FileSysTreeUpdate::prepare( Database *database, FileSysTreeModel *treeModel )

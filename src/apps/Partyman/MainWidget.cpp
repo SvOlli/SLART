@@ -6,23 +6,28 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "MainWidget.hpp"
 
-#include "Database.hpp"
-#include "ConfigDialog.hpp"
-#include "ControlWidget.hpp"
-#include "PasswordChecker.hpp"
-#include "PlaylistControlWidget.hpp"
-#include "MainWindowCheckClose.hpp"
-#include "MySettings.hpp"
-
-#include <QtGui>
-
+/* system headers */
 #include <csignal>
 
-#include "Trace.hpp"
+/* Qt headers */
+#include <QtGui>
 
-static MainWidget *mpMainWidget;
+/* local library headers */
+#include "Database.hpp"
+#include "MainWindowCheckClose.hpp"
+#include "MySettings.hpp"
+#include "PasswordChecker.hpp"
+
+/* local headers */
+#include "ConfigDialog.hpp"
+#include "ControlWidget.hpp"
+#include "PlaylistControlWidget.hpp"
+
+
+static MainWidget *mpMainWidget = 0;
 
 
 static void signalHandler( int signum )

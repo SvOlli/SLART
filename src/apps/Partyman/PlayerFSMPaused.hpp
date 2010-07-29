@@ -9,7 +9,20 @@
 #ifndef PLAYERFSMPAUSED_HPP
 #define PLAYERFSMPAUSED_HPP PLAYERFSMPAUSED_HPP
 
+/* base class */
 #include "PlayerFSMBase.hpp"
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 
 
 class PlayerFSMPaused : public PlayerFSMBase

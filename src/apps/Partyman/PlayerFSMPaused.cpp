@@ -6,9 +6,18 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "PlayerFSMPaused.hpp"
-#include "PlayerWidget.hpp"
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
 #include "ControlWidget.hpp"
+#include "PlayerWidget.hpp"
 
 
 PlayerFSMPaused::PlayerFSMPaused( PlayerWidget *playerWidget )

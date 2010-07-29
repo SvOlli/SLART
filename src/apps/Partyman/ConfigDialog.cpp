@@ -6,17 +6,25 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "ConfigDialog.hpp"
-#include "Database.hpp"
-#include "GlobalConfigWidget.hpp"
-#include "MySettings.hpp"
-#include "AboutWidget.hpp"
-#include "Version.hpp"
-#include "WidgetShot.hpp"
-#include "PasswordChecker.hpp"
-#include "Satellite.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
+
+/* local library headers */
+#include <AboutWidget.hpp>
+#include <Database.hpp>
+#include <GlobalConfigWidget.hpp>
+#include <MySettings.hpp>
+#include <PasswordChecker.hpp>
+#include <Satellite.hpp>
+#include <Version.hpp>
+#include <WidgetShot.hpp>
+
+/* local headers */
 
 
 static ConfigDialog *gpConfig = 0;

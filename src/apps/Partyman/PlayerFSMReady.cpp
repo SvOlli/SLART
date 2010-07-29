@@ -6,9 +6,17 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
+#include "PlayerFSMReady.hpp"
+
+/* system headers */
+
+/* Qt headers */
 #include <QSlider>
 
-#include "PlayerFSMReady.hpp"
+/* local library headers */
+
+/* local headers */
 #include "PlayerWidget.hpp"
 #include "ControlWidget.hpp"
 

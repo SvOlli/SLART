@@ -6,12 +6,21 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "PlayerFSMPlaying.hpp"
-#include "PlayerWidget.hpp"
-#include "ControlWidget.hpp"
-#include "ScrollLine.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QSlider>
+
+/* local library headers */
+#include <ScrollLine.hpp>
+
+/* local headers */
+#include "ControlWidget.hpp"
+#include "PlayerWidget.hpp"
+#include "TimeSlider.hpp"
 
 
 PlayerFSMPlaying::PlayerFSMPlaying( PlayerWidget *playerWidget )

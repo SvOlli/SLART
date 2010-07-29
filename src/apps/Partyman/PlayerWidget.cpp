@@ -6,100 +6,26 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "PlayerWidget.hpp"
-#include "ControlWidget.hpp"
-#include "Database.hpp"
-#include "MySettings.hpp"
-#include "ConfigDialog.hpp"
 
+/* system headers */
 #include <iostream>
+
+/* Qt headers */
 #include <QtGui>
 #include <QTcpSocket>
 
-#include "Trace.hpp"
-#include "ScrollLine.hpp"
+/* local library headers */
+#include <Database.hpp>
+#include <MySettings.hpp>
+#include <ScrollLine.hpp>
+
+/* local headers */
+#include "ConfigDialog.hpp"
+#include "ControlWidget.hpp"
 #include "PlayerFSM.hpp"
-
-
-/* a very nasty hack to change the protected button variables */
-class MyMouseEvent : public QMouseEvent
-{
-private:
-   MyMouseEvent();
-   MyMouseEvent &operator=( const MyMouseEvent &other );
-   virtual ~MyMouseEvent();
-public:
-   void setMouseButton( Qt::MouseButton bt )
-   {
-      if( mouseState & b )
-      {
-         mouseState &= ~b;
-         mouseState |= bt;
-      }
-      b = bt;
-   }
-};
-
-
-/* slightly modify the behaviour of the slider */
-class TimeSlider : public QSlider
-{
-public:
-   TimeSlider( Qt::Orientation orientation, QWidget *parent = 0 ) :
-   QSlider( orientation, parent )
-   {
-      mWheelTimeout.setSingleShot( true );
-      mWheelTimeout.setInterval( 333 );
-      setInvertedControls( true );
-      connect( &mWheelTimeout, SIGNAL(timeout()),
-               this, SIGNAL(sliderReleased()) );
-   };
-protected:
-   QTimer mWheelTimeout;
-   void mousePressEvent( QMouseEvent *event )
-   {
-      if( event->button() == Qt::LeftButton )
-      {
-         MyMouseEvent *myevent = reinterpret_cast<MyMouseEvent*>(event);
-         myevent->setMouseButton( Qt::MidButton );
-      }
-      QSlider::mousePressEvent( event );
-   }
-   void mouseReleaseEvent( QMouseEvent *event )
-   {
-      if( event->button() == Qt::LeftButton )
-      {
-         MyMouseEvent *myevent = reinterpret_cast<MyMouseEvent*>(event);
-         myevent->setMouseButton( Qt::MidButton );
-      }
-      QSlider::mouseReleaseEvent( event );
-   }
-   void wheelEvent( QWheelEvent *event )
-   {
-      if( !mWheelTimeout.isActive() )
-      {
-         emit sliderPressed();
-      }
-      mWheelTimeout.start();
-      QSlider::wheelEvent( event );
-   }
-   void keyPressEvent( QKeyEvent *event )
-   {
-      QSlider::keyPressEvent( event );
-      if( !event->isAutoRepeat() )
-      {
-         emit sliderPressed();
-      }
-   }
-   void keyReleaseEvent( QKeyEvent *event )
-   {
-      QSlider::keyReleaseEvent( event );
-      if( !event->isAutoRepeat() )
-      {
-         emit sliderReleased();
-      }
-   }
-};
+#include "TimeSlider.hpp"
 
 
 PlayerWidget::PlayerWidget( int index, Database *database,

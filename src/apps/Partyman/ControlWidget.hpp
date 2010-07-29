@@ -9,8 +9,13 @@
 #ifndef CONTROLWIDGET_HPP
 #define CONTROLWIDGET_HPP CONTROLWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+//#include <stdio.h>
+
+/* Qt headers */
 #include <QIcon>
 #include <QProcess>
 #include <QString>
@@ -18,18 +23,24 @@
 #include <QTimer>
 #include <QUdpSocket>
 
+/* local library headers */
+
+/* local headers */
 #include "PlayerWidget.hpp"
 
+/* forward declaration of Qt classes */
 class QPushButton;
 class QMenu;
 class QAction;
-   
+
+/* forward declaration of local classes */
 class ConfigDialog;
 class Database;
 class GenericSatMsgHandler;
 class PlaylistControlWidget;
 class Satellite;
 class TrackInfo;
+
 
 class ControlWidget : public QWidget
 {

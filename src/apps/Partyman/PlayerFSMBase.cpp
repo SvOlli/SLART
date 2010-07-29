@@ -6,8 +6,16 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "PlayerFSMBase.hpp"
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
 #include "PlayerWidget.hpp"
 
 

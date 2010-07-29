@@ -9,12 +9,23 @@
 #ifndef SEARCHWIDGET_HPP
 #define SEARCHWIDGET_HPP SEARCHWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QLabel;
 class QLineEdit;
 class QModelIndex;
 
+/* forward declaration of local classes */
 class Database;
 class PlaylistContentWidget;
 class PlaylistControlWidget;
@@ -35,7 +46,9 @@ public slots:
    void selectedEntries( const QModelIndex &index, int key );
    /* handle focus */
    void setFocus();
-   
+   /*  */
+   void updateCounter();
+
 private:
    SearchWidget( const SearchWidget &other );
    SearchWidget &operator=( const SearchWidget &other );

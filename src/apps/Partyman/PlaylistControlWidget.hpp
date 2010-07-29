@@ -1,27 +1,36 @@
 /**
- * src/apps/Partyman/PlaylistWidget.hpp
+ * src/apps/Partyman/PlaylistControlWidget.hpp
  * written by Sven Oliver Moll
  * 
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef PLAYLISTWIDGET_HPP
-#define PLAYLISTWIDGET_HPP PLAYLISTWIDGET_HPP
+#ifndef PLAYLISTCONTROLWIDGET_HPP
+#define PLAYLISTCONTROLWIDGET_HPP PLAYLISTCONTROLWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
 #include <QStringList>
 
+/* local library headers */
+
+/* local headers */
 #include "FileSysTreeView.hpp"
 #include "FileSysTreeUpdate.hpp"
 
+/* forward declaration of Qt classes */
 class QLabel;
 class QSignalMapper;
 class QSplitter;
 class QTabWidget;
 class QTextBrowser;
-   
+
+/* forward declaration of local classes */
 class ConfigDialog;
 class Database;
 class FileSysTreeModel;
@@ -46,12 +55,6 @@ public:
    void setTrackInfoFavoriteUnwanted( bool favorite, bool unwanted );
    /* save the playlist to settings (prepend current and next, if any) */
    void savePlaylist( const QString &current = QString(), const QString &next = QString() );
-   
-protected:
-   /* for drag & drop from external sources */
-   void dragEnterEvent( QDragEnterEvent *event );
-   /* for drag & drop from external sources */
-   void dropEvent( QDropEvent *event );
    
 public slots:
    /* add internal entries */

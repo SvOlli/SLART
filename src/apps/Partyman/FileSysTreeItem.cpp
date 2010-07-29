@@ -6,10 +6,17 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "FileSysTreeItem.hpp"
-#include "Trace.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QVariant>
+
+/* local library headers */
+
+/* local headers */
 
 
 FileSysTreeItem::FileSysTreeItem( const QVariant &data, FileSysTreeItem *parent )

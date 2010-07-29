@@ -9,7 +9,20 @@
 #ifndef PLAYERFSMENDINGPAUSED_HPP
 #define PLAYERFSMENDINGPAUSED_HPP PLAYERFSMENDINGPAUSED_HPP
 
+/* base class */
 #include "PlayerFSMBase.hpp"
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 
 
 class PlayerFSMEndingPaused : public PlayerFSMBase

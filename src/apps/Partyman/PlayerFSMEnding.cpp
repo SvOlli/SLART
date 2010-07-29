@@ -6,13 +6,21 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "PlayerFSMEnding.hpp"
-#include "PlayerWidget.hpp"
-#include "ControlWidget.hpp"
-#include "Database.hpp"
-#include "TrackInfo.hpp"
 
-#include "Trace.hpp"
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+#include <Database.hpp>
+#include <TrackInfo.hpp>
+
+/* local headers */
+#include "ControlWidget.hpp"
+#include "PlayerWidget.hpp"
+
 
 PlayerFSMEnding::PlayerFSMEnding( PlayerWidget *playerWidget )
 : PlayerFSMBase( playerWidget )

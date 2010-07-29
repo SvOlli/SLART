@@ -2,156 +2,142 @@
  * src/apps/Partyman/PlaylistContentWidget.cpp
  * written by Sven Oliver Moll
  * 
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#include <QContextMenuEvent>
-#include <QScrollBar>
-#include <QApplication>
-#include <QClipboard>
-
+/* class declaration */
 #include "PlaylistContentWidget.hpp"
-#include "GlobalConfigWidget.hpp"
-#include "ConfigDialog.hpp"
-#include "MySettings.hpp"
 
-#include "Trace.hpp"
+/* system headers */
+
+/* Qt headers */
+#include <QtGui>
+
+/* local library headers */
+#include <Database.hpp>
+#include <GlobalConfigWidget.hpp>
+#include <MySettings.hpp>
+#include <Trace.hpp>
+
+/* local headers */
+#include "TrackInfoListModel.hpp"
 
 
 PlaylistContentWidget::PlaylistContentWidget( Database *database, bool allowResort, QWidget *parent )
-: QListWidget( parent )
+: QListView( parent )
 , mpDatabase( database )
-, mMovingItem( false )
-, mLeftButton( false )
+, mpPlaylistModel( new TrackInfoListModel( mpDatabase, this ) )
 {
-   setSelectionMode( QAbstractItemView::ExtendedSelection );
-   setSortingEnabled ( false );
+   setEditTriggers( QAbstractItemView::NoEditTriggers );
    setMouseTracking( true );
+   setAlternatingRowColors( true );
+   setSelectionMode( QAbstractItemView::ExtendedSelection );
+   setDragEnabled( true );
+   setAcceptDrops( true );
+   setDropIndicatorShown( true );
+   viewport()->setAcceptDrops( true );
+   setModel( mpPlaylistModel );
    if( allowResort )
    {
-      connect( this, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
-               this, SLOT(moveItem(QListWidgetItem*,QListWidgetItem*)));
+      setDragDropMode( QAbstractItemView::DragDrop );
    }
-   connect( this, SIGNAL(itemClicked(QListWidgetItem *)),
-            this, SLOT(handleClick(QListWidgetItem *)) );
-   connect( this, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
-            this, SLOT(handleDoubleClick(QListWidgetItem *)) );
+   else
+   {
+      setDragDropMode( QAbstractItemView::DragOnly );
+   }
+#if USE_DRAG_WORKAROUND
+#else
+   setDefaultDropAction( Qt::MoveAction );
+#endif
+   connect( this, SIGNAL(clicked(const QModelIndex&)),
+            this, SLOT(handleClick(const QModelIndex&)) );
+   connect( this, SIGNAL(doubleClicked(const QModelIndex&)),
+            this, SLOT(handleDoubleClick(const QModelIndex&)) );
+   connect( mpPlaylistModel, SIGNAL(rowsRemoved(const QModelIndex&,int,int)),
+            this, SIGNAL(dataRemoved()) );
+}
+
+
+PlaylistContentWidget::~PlaylistContentWidget()
+{
 }
 
 
 void PlaylistContentWidget::addItems( const QStringList &items, bool atStart )
 {
-   int i;
-   TrackInfoList trackInfoList;
-   for( i = 0; i < items.count(); i++ )
+   if( !items.size() )
    {
-      TrackInfo trackInfo;
-      if( !mpDatabase->getTrackInfo( &trackInfo, items.at(i) ) )
-      {
-         int lastSlash = items.at(i).lastIndexOf("/");
-         trackInfo.mDirectory = items.at(i).left(lastSlash);
-         trackInfo.mFileName  = items.at(i).mid(lastSlash+1);
-      }
-      trackInfoList.append( trackInfo );
+      return;
    }
-   addItems( trackInfoList, atStart );
-}
-
-
-void PlaylistContentWidget::addItems( const TrackInfoList &trackInfoList, bool atStart )
-{
-   QString pattern( MySettings().VALUE_LISTPATTERN );
-   int i;
-   for( i = 0; i < trackInfoList.count(); i++ )
+   QModelIndex idx;
+   int startRow = atStart ? 0 : mpPlaylistModel->rowCount();
+   mpPlaylistModel->insertRows( startRow, items.count() );
+   for( int i = 0; i < items.count(); i++ )
    {
-      QListWidgetItem *item = 0;
-      if( !trackInfoList.at(i).mArtist.isEmpty() && !trackInfoList.at(i).mTitle.isEmpty() )
-      {
-         item = new QListWidgetItem( trackInfoList.at(i).displayString( pattern ) );
-      }
-      else
-      {
-         item = new QListWidgetItem( trackInfoList.at(i).mFileName );
-      }
-      item->setToolTip( trackInfoList.at(i).filePath() );
-      insertItem( atStart ? 0 : count(), item );
+      idx = mpPlaylistModel->index( startRow + i );
+      mpPlaylistModel->setData( idx, items.at(i) );
    }
-}
-
-
-void PlaylistContentWidget::handleClick( QListWidgetItem *item )
-{
-   GlobalConfigWidget::setClipboard( item->toolTip() );
-}
-
-
-void PlaylistContentWidget::handleDoubleClick( QListWidgetItem *item )
-{
-   emit context( indexFromItem( item ), 0 );
-}
-
-
-void PlaylistContentWidget::contextMenuEvent( QContextMenuEvent *event )
-{
-   emit context( indexAt(event->pos()), 0 );
 }
 
 
 void PlaylistContentWidget::removeSelectedItems( QStringList *list )
 {
-   QList<QListWidgetItem *> items = selectedItems();
-   int row = -1;
-   if( items.size() > 0 )
+   QModelIndexList indexes = selectedIndexes();
+   QModelIndex idx;
+   if (indexes.count() > 0)
    {
-      row = indexFromItem( items.at(0) ).row();
-   }
-   for(int i = 0; i < items.size(); i++ )
-   {
-      QListWidgetItem *item = takeItem( indexFromItem( items.at(i) ).row() );
-      if( list )
+      for (int i = 0; i<indexes.count(); i++)
       {
-         (*list) << item->toolTip();
+         idx = indexes.at(i);
+         if( idx.isValid() )
+         {
+            if( list )
+            {
+               (*list) << mpPlaylistModel->data( idx, Qt::ToolTipRole ).toString();
+            }
+            mpPlaylistModel->removeRow( idx.row(), idx.parent() );
+         }
+         else
+         {
+            mpPlaylistModel->removeRow( idx.row(), QModelIndex() );
+         }
       }
-      delete item;
    }
-   if( row >= 0 )
+   return;
+}
+
+
+QStringList PlaylistContentWidget::allFilePaths()
+{
+   TrackInfoList til( mpPlaylistModel->list() );
+   QStringList filePaths;
+   for( int i = 0; i < til.size(); i++ )
    {
-      scrollToItem( item(row) );
-      // TODO: scroll to bottom if too big
+      filePaths << til.at(i).mDirectory + "/" + til.at(i).mFileName;
    }
+   return filePaths;
 }
 
 
-void PlaylistContentWidget::mouseReleaseEvent( QMouseEvent *event )
+QString PlaylistContentWidget::takeFilePath( int i )
 {
-   QListWidget::mouseReleaseEvent( event );
-   mLeftButton = (event->buttons() & Qt::LeftButton);
+   QModelIndex idx( mpPlaylistModel->index( i ) );
+   QString filePath( mpPlaylistModel->data( idx, Qt::ToolTipRole ).toString() );
+   mpPlaylistModel->removeRow( i );
+   return filePath;
 }
 
 
-void PlaylistContentWidget::mouseMoveEvent( QMouseEvent *event )
+int PlaylistContentWidget::count()
 {
-   QListWidget::mouseMoveEvent( event );
-   mLeftButton = (event->buttons() & Qt::LeftButton);
+   return mpPlaylistModel->rowCount();
 }
 
 
-void PlaylistContentWidget::moveItem( QListWidgetItem *a, QListWidgetItem *b )
+void PlaylistContentWidget::clear()
 {
-   int rowa = row(a);
-   int rowb = row(b);
-   
-   if( !a || !b || mMovingItem || !mLeftButton )
-   {
-      return;
-   }
-   
-   mMovingItem = true;
-   QListWidgetItem *temp = takeItem( rowb );
-   insertItem( rowa, temp );
-   setCurrentItem( temp );
-   mMovingItem = false;
+   mpPlaylistModel->setList( TrackInfoList() );
 }
 
 
@@ -161,5 +147,77 @@ void PlaylistContentWidget::keyPressEvent( QKeyEvent *event )
    {
       emit context( currentIndex(), event->key() );
    }
-   QListWidget::keyPressEvent( event );
+   QListView::keyPressEvent( event );
 }
+
+
+void PlaylistContentWidget::handleClick( const QModelIndex &idx )
+{
+   GlobalConfigWidget::setClipboard( mpPlaylistModel->data( idx, Qt::ToolTipRole ).toString() );
+}
+
+
+void PlaylistContentWidget::handleDoubleClick( const QModelIndex &idx )
+{
+   emit context( idx, 0 );
+}
+
+
+void PlaylistContentWidget::contextMenuEvent( QContextMenuEvent *event )
+{
+   emit context( indexAt( event->pos() ), 0 );
+}
+
+
+#if USE_DRAG_WORKAROUND
+void PlaylistWidget::startDrag( Qt::DropActions supportedActions )
+{
+   QModelIndexList indexes = selectedIndexes();
+   if (indexes.count() > 0)
+   {
+      QList<QPersistentModelIndex> persistentIndexes;
+      QMimeData *data = mpPlaylistModel->mimeData( indexes );
+      if (!data)
+      {
+         return;
+      }
+      for (int i = 0; i<indexes.count(); i++)
+      {
+         persistentIndexes.append( QPersistentModelIndex( indexes.at(i) ) );
+      }
+
+      QDrag *drag = new QDrag( this );
+#if 0
+      QImage image;
+      QPixmap pixmap( QPixmap::fromImage( image ) );
+      drag->setPixmap( pixmap );
+#endif
+      drag->setMimeData( data );
+      drag->setHotSpot( QPoint(0, 0) );
+
+      Qt::DropAction defaultDropAction = Qt::IgnoreAction;
+      if( (supportedActions & Qt::MoveAction) &&
+          (dragDropMode() != QAbstractItemView::InternalMove) )
+      {
+         defaultDropAction = Qt::MoveAction;
+      }
+
+      if ( drag->exec( supportedActions, defaultDropAction ) == Qt::MoveAction )
+      {
+         QPersistentModelIndex idx;
+         for (int i = 0; i<indexes.count(); i++)
+         {
+            idx = persistentIndexes.at(i);
+            if (idx.isValid())
+            {
+               mpPlaylistModel->removeRow( idx.row(), idx.parent() );
+            }
+            else
+            {
+               mpPlaylistModel->removeRow( idx.row(), QModelIndex() );
+            }
+         }
+      }
+   }
+}
+#endif

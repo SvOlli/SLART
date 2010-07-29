@@ -6,12 +6,21 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
+#include "PlayerFSMSearching.hpp"
+
+/* system headers */
+
+/* Qt headers */
 #include <QSlider>
 
+/* local library headers */
+#include <ScrollLine.hpp>
+
+/* local headers */
 #include "ControlWidget.hpp"
-#include "PlayerFSMSearching.hpp"
 #include "PlayerWidget.hpp"
-#include "ScrollLine.hpp"
+#include "TimeSlider.hpp"
 
 
 PlayerFSMSearching::PlayerFSMSearching( PlayerWidget *playerWidget )

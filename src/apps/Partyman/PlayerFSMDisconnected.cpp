@@ -6,12 +6,19 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
+#include "PlayerFSMDisconnected.hpp"
+
+/* system headers */
+
+/* Qt headers */
 #include <QSlider>
 
-#include "PlayerFSMDisconnected.hpp"
-#include "PlayerWidget.hpp"
+/* local library headers */
 
-#include "Trace.hpp"
+/* local headers */
+#include "PlayerWidget.hpp"
+#include "TimeSlider.hpp"
 
 
 PlayerFSMDisconnected::PlayerFSMDisconnected( PlayerWidget *playerWidget )

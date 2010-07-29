@@ -9,10 +9,21 @@
 #ifndef FILESYSTREEMODEL_HPP
 #define FILESYSTREEMODEL_HPP FILESYSTREEMODEL_HPP
 
+/* base class */
 #include <QAbstractItemModel>
 
+/* system headers */
+
+/* Qt headers */
 #include <QWidget>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 class FileSysTreeItem;
 
 

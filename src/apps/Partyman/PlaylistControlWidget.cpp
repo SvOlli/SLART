@@ -1,24 +1,30 @@
 /**
- * src/apps/Partyman/PlaylistWidget.cpp
+ * src/apps/Partyman/PlaylistControlWidget.cpp
  * written by Sven Oliver Moll
  * 
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
+#include "PlaylistControlWidget.hpp"
+
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
+/* local library headers */
+#include <TrackInfoWidget.hpp>
+#include <GlobalConfigWidget.hpp>
+#include <Database.hpp>
+#include <MySettings.hpp>
+
+/* local headers */
+#include "ConfigDialog.hpp"
 #include "FileSysTreeModel.hpp"
 #include "PlaylistContentWidget.hpp"
-#include "PlaylistControlWidget.hpp"
 #include "SearchWidget.hpp"
-#include "TrackInfoWidget.hpp"
-#include "GlobalConfigWidget.hpp"
-#include "ConfigDialog.hpp"
-#include "Database.hpp"
-#include "MySettings.hpp"
-
-#include "Trace.hpp"
 
 
 PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *config,
@@ -43,7 +49,6 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
    
    mpTreeView->header()->hide();
    
-   mpPlaylistContent->setSortingEnabled( false );
    mpPlaylistContent->setAlternatingRowColors( true );
    mpPlaylistContent->setAutoFillBackground( false );
    mpPlaylistContent->setHidden( false );
@@ -108,7 +113,6 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
    
    readConfig();
    
-   setAcceptDrops( true );
    setLayout( layout );
 }
 
@@ -215,9 +219,7 @@ void PlaylistControlWidget::getNextTrack( QString *fileName )
 {
    if( mpPlaylistContent->count() > 0 )
    {
-      QListWidgetItem *qlwi = mpPlaylistContent->takeItem(0);
-      *fileName = qlwi->toolTip();
-      delete qlwi;
+      *fileName = mpPlaylistContent->takeFilePath(0);
    }
    else
    {
@@ -275,79 +277,6 @@ bool PlaylistControlWidget::getRandomTrack( QString *fileName, QStringList *play
       }
    }
    return false;
-}
-
-
-void PlaylistControlWidget::dragEnterEvent( QDragEnterEvent *event )
-{
-   if( event->mimeData()->hasFormat("text/uri-list") )
-   {
-      event->acceptProposedAction();
-   }
-}
-
-
-void PlaylistControlWidget::dropEvent( QDropEvent *event )
-{
-   const QMimeData *mimeData = event->mimeData();
-   
-   if( mimeData->hasUrls() )
-   {
-      int i;
-      
-      QStringList dest;
-      QFileInfo qfi;
-      
-      for( i = 0; i < mimeData->urls().size(); i++ )
-      {
-         qfi.setFile( mimeData->urls().at(i).toLocalFile() );
-         
-         if( qfi.isFile() )
-         {
-            if( qfi.suffix().startsWith( "m3u" ) )
-            {
-               QFile qf( qfi.canonicalFilePath() );
-               qf.open( QIODevice::ReadOnly | QIODevice::Text );
-               
-               QByteArray line;
-               QString filename;
-               QString filebase( qfi.canonicalPath() );
-               while( !qf.atEnd() )
-               {
-                  line = qf.readLine();
-                  filename = QString::fromLocal8Bit( line );
-                  if( !filename.startsWith("#") )
-                  {
-                     if( filename.right(1) == QChar('\n') )
-                     {
-                        filename.chop(1);
-                     }
-                     if( !filename.startsWith( "/" ) )
-                     {
-                        qfi.setFile( QDir(filebase), filename );
-                        filename = qfi.absoluteFilePath();
-                     }
-                     if( qfi.isFile() )
-                     {
-                        dest << filename;
-                     }
-                  }
-               }
-               qf.close();
-            }
-            else
-            {
-               dest << qfi.absoluteFilePath();
-            }
-         }
-      }
-      
-      if( dest.size() > 0 )
-      {
-         addEntries( dest );
-         event->acceptProposedAction();
-      }
-   }
 }
 
 
@@ -470,12 +399,16 @@ void PlaylistControlWidget::savePlaylist( const QString &current, const QString 
    {
       playlist << next;
    }
-   
+
+#if OLDPLAYLSIT
    for( int i = 0; i < mpPlaylistContent->count(); i++ )
    {
       playlist.append( mpPlaylistContent->item(i)->toolTip() );
    }
-   
+#else
+   playlist << mpPlaylistContent->allFilePaths();
+#endif
+
    if( playlist.count() > 0 )
    {
       settings.setValue( "Playlist", playlist );

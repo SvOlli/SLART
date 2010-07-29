@@ -6,9 +6,17 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "FileSysTreeView.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QContextMenuEvent>
+
+/* local library headers */
+
+/* local headers */
 
 
 FileSysTreeView::FileSysTreeView( QWidget *parent )

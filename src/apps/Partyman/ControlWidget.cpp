@@ -6,19 +6,24 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "ControlWidget.hpp"
 
-#include "ConfigDialog.hpp"
-#include "GenericSatMsgHandler.hpp"
-#include "GlobalConfigWidget.hpp"
-#include "MySettings.hpp"
-#include "PlaylistControlWidget.hpp"
-#include "Satellite.hpp"
-#include "WidgetShot.hpp"
+/* system headers */
 
+/* Qt headers */
 #include <QtGui>
 
-#include "Trace.hpp"
+/* local library headers */
+#include <GenericSatMsgHandler.hpp>
+#include <GlobalConfigWidget.hpp>
+#include <MySettings.hpp>
+#include <Satellite.hpp>
+#include <WidgetShot.hpp>
+
+/* local headers */
+#include "ConfigDialog.hpp"
+#include "PlaylistControlWidget.hpp"
 
 
 ControlWidget::ControlWidget( Database *database, ConfigDialog *config,

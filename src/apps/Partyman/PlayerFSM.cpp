@@ -6,10 +6,17 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "PlayerFSM.hpp"
-#include "PlayerWidget.hpp"
-#include "ControlWidget.hpp"
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+#include "ControlWidget.hpp"
 #include "PlayerFSMDisconnected.hpp"
 #include "PlayerFSMSearching.hpp"
 #include "PlayerFSMLoading.hpp"
@@ -18,6 +25,7 @@
 #include "PlayerFSMPlaying.hpp"
 #include "PlayerFSMPaused.hpp"
 #include "PlayerFSMEndingPaused.hpp"
+#include "PlayerWidget.hpp"
 
 
 PlayerFSM::PlayerFSM( PlayerWidget *playerWidget )

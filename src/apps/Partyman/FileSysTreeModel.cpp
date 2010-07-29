@@ -6,13 +6,18 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "FileSysTreeModel.hpp"
-#include "FileSysTreeItem.hpp"
 
-#include <QtDebug>
+/* system headers */
+
+/* Qt headers */
 #include <QTreeView>
 
-#include "Trace.hpp"
+/* local library headers */
+
+/* local headers */
+#include "FileSysTreeItem.hpp"
 
 
 FileSysTreeModel::FileSysTreeModel( QObject *parent )

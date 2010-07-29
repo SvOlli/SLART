@@ -37,6 +37,12 @@ SOURCES += PlaylistContentWidget.cpp
 HEADERS += PlayerWidget.hpp
 SOURCES += PlayerWidget.cpp
 
+HEADERS += TimeSlider.hpp
+SOURCES += TimeSlider.cpp
+
+HEADERS += MyMouseEvent.hpp
+SOURCES += MyMouseEvent.cpp
+
 HEADERS += FileSysTreeItem.hpp
 SOURCES += FileSysTreeItem.cpp
 
@@ -49,8 +55,14 @@ SOURCES += FileSysTreeUpdate.cpp
 HEADERS += FileSysTreeView.hpp
 SOURCES += FileSysTreeView.cpp
 
+HEADERS += SearchLineEdit.hpp
+SOURCES += SearchLineEdit.cpp
+
 HEADERS += SearchWidget.hpp
 SOURCES += SearchWidget.cpp
+
+HEADERS += TrackInfoListModel.hpp
+SOURCES += TrackInfoListModel.cpp
 
 HEADERS += PlayerFSM.hpp
 SOURCES += PlayerFSM.cpp

@@ -9,23 +9,33 @@
 #ifndef PLAYERWIDGET_HPP
 #define PLAYERWIDGET_HPP PLAYERWIDGET_HPP
 
+/* base class */
 #include <QWidget>
 
+/* system headers */
+
+/* Qt headers */
 #include <QMutex>
 #include <QString>
 
-#include "PlayerFSM.hpp"
+/* local library headers */
 #include "TrackInfo.hpp"
 
+/* local headers */
+#include "PlayerFSM.hpp"
+
+/* forward declaration of Qt classes */
 class QLabel;
 class QLineEdit;
 class QScrollArea;
 class QSlider;
 class QTcpSocket;
 
+/* forward declaration of local classes */
 class ControlWidget;
-class ScrollLine;
 class Database;
+class ScrollLine;
+class TimeSlider;
 
 
 class PlayerWidget : public QWidget
@@ -119,7 +129,7 @@ private:
    ScrollLine    *mpScrollLine;
    QLabel        *mpStatusDisplay;
    QLabel        *mpTimeDisplay;
-   QSlider       *mpPlayPosition;
+   TimeSlider    *mpPlayPosition;
    QTcpSocket    *mpSocket;
    PlayerFSM     *mpFSM;
    bool          mStartOther;

@@ -6,48 +6,22 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "SearchWidget.hpp"
-#include "PlaylistContentWidget.hpp"
-#include "PlaylistControlWidget.hpp"
-#include "Database.hpp"
-#include "MySettings.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QtGui>
 
+/* local library headers */
+#include <Database.hpp>
+#include <MySettings.hpp>
 
-class SearchLineEdit : public QLineEdit
-{
-public:
-   SearchLineEdit( SearchWidget *parent );
-protected:
-   virtual void keyPressEvent( QKeyEvent *event );
-private:
-   SearchWidget *mpSearchWidget;
-};
-
-
-SearchLineEdit::SearchLineEdit( SearchWidget *parent )
-: QLineEdit( parent )
-, mpSearchWidget( parent )
-{
-}
-
-
-void SearchLineEdit::keyPressEvent( QKeyEvent *event )
-{
-   if( event->key() == Qt::Key_Escape )
-   {
-      if( text().count() > 0 )
-      {
-         clear();
-      }
-      else
-      {
-         mpSearchWidget->selectedEntries( QModelIndex(), Qt::Key_Escape );
-      }
-   }
-   QLineEdit::keyPressEvent( event );
-}
+/* local headers */
+#include "PlaylistContentWidget.hpp"
+#include "PlaylistControlWidget.hpp"
+#include "SearchLineEdit.hpp"
 
 
 SearchWidget::SearchWidget( Database *database, PlaylistControlWidget *parent )
@@ -79,6 +53,8 @@ SearchWidget::SearchWidget( Database *database, PlaylistControlWidget *parent )
             this, SLOT(selectedEntries(QModelIndex,int)) );
    connect( mpFound, SIGNAL(customContextMenuRequested(QPoint)),
             mpInput, SLOT(clear()) );
+   connect( mpResults, SIGNAL(dataRemoved()),
+            this, SLOT(updateCounter()) );
    
    mpInput->setText( settings.value( "Search", QString()).toString() );
    settings.remove( "Search" );
@@ -100,17 +76,24 @@ void SearchWidget::search()
    mpResults->clear();
    if( mpInput->text().size() > 0 )
    {
-      TrackInfoList til;
-      int count;
-      
-      count = mpDatabase->getTrackInfoList( &til, mpInput->text() );
-      mpFound->setText( QString::number(count) + 
-                        " Found" );
-      mpResults->addItems( til );
+      QStringList found;
+      int count = mpDatabase->getPathNameList( &found, mpInput->text() );
+      mpFound->setText( tr("%1 Found").arg(count) );
+      mpResults->addItems( found );
       mpFound->setHidden( false );
       mpResults->setFocus();
    }
    else
+   {
+      mpFound->setHidden( true );
+   }
+}
+
+
+void SearchWidget::updateCounter()
+{
+   mpFound->setText( tr("%1 Left").arg(mpResults->count()) );
+   if( !mpResults->count() )
    {
       mpFound->setHidden( true );
    }
@@ -127,12 +110,7 @@ void SearchWidget::selectedEntries( const QModelIndex &/*index*/, int key )
       case Qt::Key_Return:
       case Qt::Key_Enter:
          mpResults->removeSelectedItems( &entries );
-         mpFound->setText( QString::number(mpResults->count()) + 
-                           " Left" );
-         if( !mpResults->count() )
-         {
-            mpFound->setHidden( true );
-         }
+         updateCounter();
          if( key == Qt::Key_Delete ) break;
          mpPlaylist->addEntries( entries );
          break;

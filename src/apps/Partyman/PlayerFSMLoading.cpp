@@ -6,12 +6,21 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "PlayerFSMLoading.hpp"
-#include "PlayerWidget.hpp"
-#include "ScrollLine.hpp"
-#include "Database.hpp"
 
-#include "Trace.hpp"
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+#include <Database.hpp>
+#include <ScrollLine.hpp>
+
+/* local headers */
+#include "PlayerWidget.hpp"
+#include "TimeSlider.hpp"
+
 
 PlayerFSMLoading::PlayerFSMLoading( PlayerWidget *playerWidget )
 : PlayerFSMBase( playerWidget )

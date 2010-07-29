@@ -9,12 +9,22 @@
 #ifndef PLAYERFSM_HPP
 #define PLAYERFSM_HPP PLAYERFSM_HPP
 
+/* base class */
+
+/* system headers */
+
+/* Qt headers */
 #include <QMutex>
 #include <QTcpSocket>
 #include <QWidget>
 
-class PlayerWidget;
+/* local library headers */
 
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 class PlayerFSMBase;
 class PlayerFSMDisconnected;
 class PlayerFSMSearching;
@@ -24,6 +34,7 @@ class PlayerFSMEnding;
 class PlayerFSMPlaying;
 class PlayerFSMPaused;
 class PlayerFSMEndingPaused;
+class PlayerWidget;
 
 
 class PlayerFSM

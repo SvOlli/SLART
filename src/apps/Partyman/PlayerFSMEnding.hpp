@@ -9,7 +9,20 @@
 #ifndef PLAYERFSMENDING_HPP
 #define PLAYERFSMENDING_HPP PLAYERFSMENDING_HPP
 
+/* base class */
 #include "PlayerFSMBase.hpp"
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 
 
 class PlayerFSMEnding : public PlayerFSMBase
