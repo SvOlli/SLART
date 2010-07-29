@@ -29,6 +29,7 @@ ScrollLine::ScrollLine( QWidget *parent, bool autoScroll )
 , mClicked( false )
 , mDirection( 1 )
 , mPosition( 0 )
+, mDragFileName()
 {
    setReadOnly( true );
    setContextMenuPolicy( Qt::NoContextMenu );
@@ -50,6 +51,12 @@ ScrollLine::ScrollLine( QWidget *parent, bool autoScroll )
 
 ScrollLine::~ScrollLine()
 {
+}
+
+
+void ScrollLine::setDragFileName( const QString &fileName )
+{
+   mDragFileName = fileName;
 }
 
 
@@ -103,8 +110,27 @@ void ScrollLine::mouseDoubleClickEvent( QMouseEvent *event )
 void ScrollLine::mousePressEvent( QMouseEvent *event )
 {
    mClicked = true;
-   setCursorPosition( cursorPositionAt( event->pos() ) );
-   QLineEdit::mousePressEvent( event );
+   QString dragFileName( mDragFileName );
+   if( dragFileName.isEmpty() )
+   {
+      setCursorPosition( cursorPositionAt( event->pos() ) );
+      QLineEdit::mousePressEvent( event );
+   }
+   else
+   {
+      QMimeData *mimeData = new QMimeData;
+      mimeData->setText( dragFileName );
+      QList<QUrl> urls;
+      urls << QUrl::fromLocalFile( dragFileName );
+      mimeData->setUrls( urls );
+
+      QDrag *drag = new QDrag( this );
+      drag->setMimeData( mimeData );
+      drag->setPixmap( QPixmap::grabWidget( this ) );
+      drag->setHotSpot( QPoint( 0, 0 ) );
+
+      drag->exec( Qt::CopyAction );
+   }
 }
 
 

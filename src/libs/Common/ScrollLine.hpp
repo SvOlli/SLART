@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QString>
 
 /* local library headers */
 
@@ -22,7 +23,6 @@
 
 /* forward declaration of Qt classes */
 class QMouseEvent;
-class QString;
 class QTimer;
 
 /* forward declaration of local classes */
@@ -35,6 +35,9 @@ Q_OBJECT
 public:
    ScrollLine( QWidget *parent, bool autoScroll = true );
    virtual ~ScrollLine();
+
+   /*  */
+   void setDragFileName( const QString &fileName = QString() );
    
 public slots:
    /* callback for timer to scroll */
@@ -51,7 +54,7 @@ protected:
    void mouseReleaseEvent( QMouseEvent *event );
    /*  */
    void paintEvent( QPaintEvent *event );
-   
+
 private:
    ScrollLine( const ScrollLine &other );
    ScrollLine &operator=( const ScrollLine &other );
@@ -60,6 +63,7 @@ private:
    bool                 mClicked;
    int                  mDirection;
    int                  mPosition;
+   QString              mDragFileName;
 };
 
 #endif
