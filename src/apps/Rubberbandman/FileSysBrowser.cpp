@@ -24,6 +24,7 @@
 /* local headers */
 #include "ConfigDialog.hpp"
 
+#include <Trace.hpp>
 
 class DirWalkerDelete : public DirWalkerCallbacks
 {
@@ -237,6 +238,8 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
             this, SLOT(menuRename()) );
    connect( mpMenuDelete, SIGNAL(triggered()),
             this, SLOT(menuDelete()) );
+
+   setAcceptDrops( true );
 }
 
 
@@ -455,4 +458,36 @@ void FileSysBrowser::menuDelete()
          handleRootDir();
       }
    }
+}
+
+
+void FileSysBrowser::dragEnterEvent( QDragEnterEvent *event )
+{
+TRACESTART(FileSysBrowser::dragEnterEvents)
+   const QMimeData *mimeData = event->mimeData();
+   if( mimeData->hasUrls() && (mimeData->urls().size() == 1) )
+   {
+      if( !mimeData->urls().at(0).toLocalFile().isEmpty() )
+      {
+         event->acceptProposedAction();
+         return;
+      }
+   }
+   event->ignore();
+}
+
+
+void FileSysBrowser::dropEvent( QDropEvent *event )
+{
+   const QMimeData *mimeData = event->mimeData();
+   if( mimeData->hasUrls() && (mimeData->urls().size() == 1) )
+   {
+      if( !mimeData->urls().at(0).toLocalFile().isEmpty() )
+      {
+         event->accept();
+         scrollTo( mimeData->urls().at(0).toLocalFile() );
+         return;
+      }
+   }
+   event->ignore();
 }

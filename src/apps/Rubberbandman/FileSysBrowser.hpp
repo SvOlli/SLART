@@ -68,6 +68,12 @@ signals:
    /* emit the path of clicked entry */
    void clicked( const QString &path );
    
+protected:
+   /*  */
+   virtual void dragEnterEvent( QDragEnterEvent *event );
+   /*  */
+   virtual void dropEvent( QDropEvent *event );
+
 private:
    FileSysBrowser( const FileSysBrowser &other );
    FileSysBrowser &operator=( const FileSysBrowser &other );
