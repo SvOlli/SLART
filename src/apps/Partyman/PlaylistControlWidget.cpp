@@ -400,14 +400,7 @@ void PlaylistControlWidget::savePlaylist( const QString &current, const QString 
       playlist << next;
    }
 
-#if OLDPLAYLSIT
-   for( int i = 0; i < mpPlaylistContent->count(); i++ )
-   {
-      playlist.append( mpPlaylistContent->item(i)->toolTip() );
-   }
-#else
    playlist << mpPlaylistContent->allFilePaths();
-#endif
 
    if( playlist.count() > 0 )
    {
