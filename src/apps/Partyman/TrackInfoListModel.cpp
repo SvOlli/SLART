@@ -95,7 +95,12 @@ bool TrackInfoListModel::setData( const QModelIndex &index, const QVariant &valu
        ( (role == Qt::EditRole) || (role == Qt::DisplayRole) ) )
    {
       TrackInfo ti;
-      mpDatabase->getTrackInfo( &ti, value.toString() );
+      if( !mpDatabase->getTrackInfo( &ti, value.toString() ) )
+      {
+         QFileInfo fi( value.toString() );
+         ti.mDirectory = fi.absolutePath();
+         ti.mFileName  = fi.fileName();
+      }
       mList.replace( index.row(), ti );
       emit dataChanged( index, index );
       return true;
