@@ -215,6 +215,7 @@ void MainWidget::handleSatellite( const QByteArray &msg )
       if( message.at(0) == "p0p" )
       {
          mpFileName->setText( message.at(1) );
+         mpFileName->setDragFileName( mpFileName->text() );
          mpListButtons->setDisabled( !mpDatabase->getTrackInfo( &mTrackInfo, message.at(1) ) );
          mpTrackInfo->getTrack( mTrackInfo );
          mpListButtons->lockButtons( mTrackInfo.getFolders() );
@@ -225,6 +226,7 @@ void MainWidget::handleSatellite( const QByteArray &msg )
    {
       mTrackInfo.clear();
       mpFileName->clear();
+      mpFileName->setDragFileName();
       mpListButtons->setDisabled( true );
       mpTrackInfo->getTrack( mTrackInfo );
    }
@@ -409,6 +411,7 @@ void MainWidget::handleRemove( QAction *action )
 void MainWidget::handleReadButton()
 {
    mpFileName->setText( GlobalConfigWidget::getClipboard() );
+   mpFileName->setDragFileName( mpFileName->text() );
    mpListButtons->setDisabled( !mpDatabase->getTrackInfo( &mTrackInfo, GlobalConfigWidget::getClipboard() ) );
    mpTrackInfo->getTrack( mTrackInfo );
    mpListButtons->lockButtons( mTrackInfo.getFolders() );
