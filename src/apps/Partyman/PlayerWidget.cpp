@@ -131,6 +131,7 @@ void PlayerWidget::getNextTrack( bool armed )
       }
    }
    mpScrollLine->setToolTip( fileName );
+   mpScrollLine->setDragFileName( fileName );
    sendCommand( "preread", fileName );
 }
 
