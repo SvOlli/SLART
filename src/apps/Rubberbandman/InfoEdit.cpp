@@ -455,12 +455,14 @@ void InfoEdit::loadFile( const QString &fullpath )
             mpShowPlayTime->setText( time );
          }
          
-         QString artist = QString::fromUtf8( f.tag()->artist().toCString( true ) );
-         QString title  = QString::fromUtf8( f.tag()->title().toCString( true ) );
-         QString album  = QString::fromUtf8( f.tag()->album().toCString( true ) );
-         int tracknr    = f.tag()->track();
-         int year       = f.tag()->year();
-         QString genre  = QString::fromUtf8( f.tag()->genre().toCString( true ) );
+         QString artist    = QString::fromUtf8( f.tag()->artist().toCString( true ) );
+         QString title     = QString::fromUtf8( f.tag()->title().toCString( true ) );
+         QString album     = QString::fromUtf8( f.tag()->album().toCString( true ) );
+         int tracknr       = f.tag()->track();
+         int year          = f.tag()->year();
+         QString genre     = QString::fromUtf8( f.tag()->genre().toCString( true ) );
+         QString directory = fileInfo.absolutePath();
+         QString filename  = fileInfo.fileName();
          
          mpEditArtist->setText( artist );
          mpEditTitle->setText( title );
@@ -489,6 +491,8 @@ void InfoEdit::loadFile( const QString &fullpath )
          mTagList.set( "TRACKNUMBER", (tracknr < 0) ? QString() : QString::number(tracknr) );
          mTagList.set( "DATE", (year < 0) ? QString() : QString::number(year) );
          mTagList.set( "GENRE", genre );
+         mTagList.set( "DIRECTORY", directory );
+         mTagList.set( "FILENAME", filename );
       }
       else
       {

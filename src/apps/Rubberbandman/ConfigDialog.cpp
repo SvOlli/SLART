@@ -52,6 +52,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    mTagList.set("TITLE","Title");
    mTagList.set("GENRE","Genre");
    mTagList.set("DATE","1986");
+   mTagList.set("DIRECTORY","/path/to");
+   mTagList.set("FILENAME","filename.ext");
    
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showClipboard();
@@ -74,7 +76,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    rbmLayout->addWidget( mpPlayingPatternLabel, 5, 0, 2, 1 );
    rbmLayout->addWidget( mpPlayingPattern, 5, 1 );
    rbmLayout->addWidget( mpPlayingPatternExample, 6, 1 );
-   rbmLayout->setRowStretch( 6, 1 );
+   rbmLayout->setRowStretch( 7, 1 );
    rbmTab->setLayout( rbmLayout );
    
    QHBoxLayout *buttonLayout = new QHBoxLayout;
