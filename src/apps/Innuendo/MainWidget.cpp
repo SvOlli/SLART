@@ -46,34 +46,36 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    QStringList applications;
    applications
       << "Partyman"
+      << "Karmadrome"
+      << "Rubberbandman"
       << "Stripped"
       << "Funkytown"
-      << "Rubberbandman"
-      << "Karmadrome"
+      << "Notorious"
       << "Creep"
       ;
    QStringList toolTips;
    toolTips 
       << "Audio Player"
-      << "CD Ripper"
-      << "MySpace Downloader"
-      << "Tag Editor"
       << "Playlist Organizer"
+      << "Tag Editor"
+      << "CD Ripper"
+      << "Downloader"
+      << "FreeDB Search Tool"
       << "Remote Control Daemon"
       ;
    
    mNumExecButtons = applications.count();
    mpExecButtons = new ExecButton*[mNumExecButtons];
    
-   mainLayout->addWidget( mpMessageBuffer,   0, 0, 1, mNumExecButtons );
+   mainLayout->addWidget( mpMessageBuffer,   0, 0, 1, 3 );
    for( int i = 0; i < mNumExecButtons; i++ )
    {
       mpExecButtons[i] = new ExecButton( applications.at(i), this );
       mpExecButtons[i]->setToolTip( toolTips.at(i) );
-      mainLayout->addWidget( mpExecButtons[i], 1, i );
+      mainLayout->addWidget( mpExecButtons[i], 1 + i/3, i%3 );
    }
-   mainLayout->addWidget( mpSettingsButton,  2, 0 );
-   mainLayout->addWidget( mpPingButton,      2, 1 );
+   mainLayout->addWidget( mpSettingsButton,  2 + (mNumExecButtons-1)/3, 0, 1, 2 );
+   mainLayout->addWidget( mpPingButton,      2 + (mNumExecButtons-1)/3, 2 );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfig, SLOT(exec()) );

@@ -32,6 +32,7 @@ SatelliteConfigWidget::SatelliteConfigWidget( QWidget *parent )
          << "Karmadrome"
          << "Stripped"
          << "Funkytown"
+         << "Notorious"
          << "Creep"
          ;
 

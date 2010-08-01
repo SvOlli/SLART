@@ -67,6 +67,7 @@ private:
    QPushButton             *mpAutostartRubberbandman;
    QPushButton             *mpAutostartStripped;
    QPushButton             *mpAutostartFunkytown;
+   QPushButton             *mpAutostartNotorious;
    QPushButton             *mpAutostartCreep;
 };
 

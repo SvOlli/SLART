@@ -37,6 +37,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpAutostartRubberbandman( new QPushButton( tr("Rubberbandman"), this) )
 , mpAutostartStripped( new QPushButton( tr("Stripped"), this) )
 , mpAutostartFunkytown( new QPushButton( tr("Funkytown"), this) )
+, mpAutostartNotorious( new QPushButton( tr("Notorious"), this) )
 , mpAutostartCreep( new QPushButton( tr("Creep"), this) )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
@@ -66,7 +67,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    autostartLayout->addWidget( mpAutostartRubberbandman, 0, 2 );
    autostartLayout->addWidget( mpAutostartStripped, 1, 0 );
    autostartLayout->addWidget( mpAutostartFunkytown, 1, 1 );
-   autostartLayout->addWidget( mpAutostartCreep, 1, 2 );
+   autostartLayout->addWidget( mpAutostartNotorious, 1, 2 );
+   autostartLayout->addWidget( mpAutostartCreep, 2, 0 );
    autostartBox->setLayout( autostartLayout );
    
    QWidget     *iTab    = new QWidget( this );
@@ -130,6 +132,7 @@ void ConfigDialog::readSettings()
    mpAutostartRubberbandman->setChecked( autostart.contains( "Rubberbandman" ) );
    mpAutostartStripped->setChecked( autostart.contains( "Stripped" ) );
    mpAutostartFunkytown->setChecked( autostart.contains( "Funkytown" ) );
+   mpAutostartNotorious->setChecked( autostart.contains( "Notorious" ) );
    mpAutostartCreep->setChecked( autostart.contains( "Creep" ) );
    
    emit configChanged();
@@ -149,6 +152,7 @@ void ConfigDialog::writeSettings()
    if( mpAutostartRubberbandman->isChecked() ) { autostart.append( "Rubberbandman" ); }
    if( mpAutostartStripped->isChecked() ) { autostart.append( "Stripped" ); }
    if( mpAutostartFunkytown->isChecked() ) { autostart.append( "Funkytown" ); }
+   if( mpAutostartNotorious->isChecked() ) { autostart.append( "Notorious" ); }
    if( mpAutostartCreep->isChecked() ) { autostart.append( "Creep" ); }
    settings.setValue( "BufferSize", mpBufferSize->value() );
    if( autostart.isEmpty() )
