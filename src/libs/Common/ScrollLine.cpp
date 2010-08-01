@@ -127,9 +127,9 @@ void ScrollLine::mousePressEvent( QMouseEvent *event )
       QDrag *drag = new QDrag( this );
       drag->setMimeData( mimeData );
       drag->setPixmap( QPixmap::grabWidget( this ) );
-      drag->setHotSpot( QPoint( 0, 0 ) );
+      drag->setHotSpot( QPoint( 2, 2 ) );
 
-      drag->exec( Qt::CopyAction );
+      drag->exec( Qt::CopyAction, Qt::CopyAction );
    }
 }
 
