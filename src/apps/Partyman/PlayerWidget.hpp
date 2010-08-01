@@ -107,6 +107,12 @@ public slots:
 signals:
    /* signal the track playing on start/resume */
    void trackPlaying( const TrackInfo &trackInfo );
+
+protected:
+   /*  */
+   void dragEnterEvent( QDragEnterEvent *event );
+   /*  */
+   void dropEvent( QDropEvent *event );
    
 private:
    enum eDerMixD { inNormal, inFullstat, inScan };

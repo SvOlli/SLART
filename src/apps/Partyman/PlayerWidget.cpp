@@ -90,6 +90,7 @@ PlayerWidget::PlayerWidget( int index, Database *database,
    connect( mpStatusDisplay, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(unload()) );
    
+   setAcceptDrops( true );
    mpFSM->changeState( PlayerFSM::disconnected );
 }
 
@@ -526,4 +527,47 @@ void PlayerWidget::handleKioskMode( bool enable )
    {
       mpPlayPosition->setDisabled( mKioskMode );
    }
+}
+
+
+void PlayerWidget::dragEnterEvent( QDragEnterEvent *event )
+{
+   if( mpFSM->getState() == PlayerFSM::ready )
+   {
+      const QMimeData *mimeData = event->mimeData();
+      if( mimeData->hasUrls() )
+      {
+         event->acceptProposedAction();
+         return;
+      }
+   }
+   event->ignore();
+}
+
+
+void PlayerWidget::dropEvent( QDropEvent *event )
+{
+   if( mpFSM->getState() == PlayerFSM::ready )
+   {
+      const QMimeData *mimeData = event->mimeData();
+      if( mimeData->hasUrls() )
+      {
+         QString fileName;
+         QStringList fileNames;
+         for( int i = 0; i < mimeData->urls().size(); i++ )
+         {
+            fileName = mimeData->urls().at(i).toLocalFile();
+            if( !fileName.isEmpty() )
+            {
+               fileNames << fileName;
+            }
+         }
+         fileNames << mpScrollLine->toolTip();
+         mpControlWidget->addToPlaylist( fileNames );
+         mpFSM->changeState( PlayerFSM::searching );
+         event->acceptProposedAction();
+         return;
+      }
+   }
+   event->ignore();
 }
