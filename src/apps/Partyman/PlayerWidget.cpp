@@ -532,7 +532,7 @@ void PlayerWidget::handleKioskMode( bool enable )
 
 void PlayerWidget::dragEnterEvent( QDragEnterEvent *event )
 {
-   if( mpFSM->getState() == PlayerFSM::ready )
+   if( (event->source() != mpScrollLine) && (mpFSM->getState() == PlayerFSM::ready) )
    {
       const QMimeData *mimeData = event->mimeData();
       if( mimeData->hasUrls() )
