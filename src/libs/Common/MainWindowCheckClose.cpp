@@ -40,6 +40,8 @@ void MainWindowCheckClose::closeEvent( QCloseEvent *event )
       if( !(PasswordChecker::get()->unlock()) )
       {
          event->ignore();
+         return;
       }
    }
+   MainWindow::closeEvent( event );
 }
