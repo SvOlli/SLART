@@ -9,17 +9,27 @@
 #ifndef DATABASE_HPP
 #define DATABASE_HPP DATABASE_HPP
 
-#include <QDir>
-#include <QFileInfo>
+/* base class */
+#include <QDialog>
+
+/* system headers */
+
+/* Qt headers */
 #include <QStringList>
-#ifdef QT_SQL_LIB
-#include <QtSql>
-#else
+
+/* local library headers */
+
+/* local headers */
+#include "TrackInfo.hpp"
+
+/* forward declaration of Qt classes */
 class QSqlDatabase;
 class QSqlQuery;
-#endif
 
-#include "TrackInfo.hpp"
+/* forward declaration of local classes */
+class Database;
+class GlobalConfigWidget;
+class MyClipboard;
 
 
 class Database
@@ -29,10 +39,7 @@ public:
    virtual ~Database();
 
    /* test for the existance of the database file */
-   static bool exists() 
-   {
-      return QFileInfo( getDatabaseFileName() ).isFile();
-   };
+   static bool exists();
 
    /* start an encapsulated database transaction */
    bool beginTransaction();
@@ -78,15 +85,7 @@ private:
    void logError( const QString &note = QString() );
    
    /* generate the filename for database */
-   static QString getDatabaseFileName()
-   {
-#ifdef Q_OS_WIN32
-      QString slartdb( "/slart.db" );
-#else
-      QString slartdb( "/.slartdb" );
-#endif
-      return QDir::homePath() + slartdb;
-   };
+   static QString getDatabaseFileName();
 
    QSqlDatabase       *mpSqlDB;
    QSqlQuery          *mpQuery;

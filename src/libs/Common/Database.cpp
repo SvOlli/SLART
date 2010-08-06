@@ -6,15 +6,47 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+/* class declaration */
 #include "Database.hpp"
 
-#include <QApplication>
-#include <QMessageBox>
+/* system headers */
 
+/* Qt headers */
+#include <QApplication>
+#include <QDir>
+#include <QFileInfo>
+#include <QMessageBox>
+#include <QtSql>
+
+/* local library headers */
+
+/* local headers */
 #include "MySettings.hpp"
 #include "Satellite.hpp"
 
+#ifndef SQLITE_BUSY
+#define SQLITE_BUSY    5
+#define SQLITE_LOCKED  6
+#endif
+
 #include "Trace.hpp"
+
+
+bool Database::exists()
+{
+   return QFileInfo( getDatabaseFileName() ).isFile();
+}
+
+
+QString Database::getDatabaseFileName()
+{
+#ifdef Q_OS_WIN32
+   QString slartdb( "/slart.db" );
+#else
+   QString slartdb( "/.slartdb" );
+#endif
+   return QDir::homePath() + slartdb;
+}
 
 
 Database::Database( const QString &fileName )
@@ -621,6 +653,14 @@ void Database::logError( const QString &note )
    {
       msg.append( "\nDriver: " );
       msg.append( mpQuery->lastError().driverText() );
+      msg.append( QString( "\nType: %1; Number: %2" )
+                  .arg( mpQuery->lastError().type() )
+                  .arg( mpQuery->lastError().number() )
+                       );
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         msg.append( "\nShould implement retry!" );
+      }
       msg.append( "\nQuery: " );
 
       QString query( mpQuery->lastQuery() );
