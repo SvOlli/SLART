@@ -130,6 +130,7 @@ void ScrollLine::mousePressEvent( QMouseEvent *event )
       drag->setHotSpot( QPoint( 2, 2 ) );
 
       drag->exec( Qt::CopyAction, Qt::CopyAction );
+      mClicked = false;
    }
 }
 
