@@ -40,9 +40,6 @@ SOURCES += PlayerWidget.cpp
 HEADERS += TimeSlider.hpp
 SOURCES += TimeSlider.cpp
 
-HEADERS += MyMouseEvent.hpp
-SOURCES += MyMouseEvent.cpp
-
 HEADERS += FileSysTreeItem.hpp
 SOURCES += FileSysTreeItem.cpp
 

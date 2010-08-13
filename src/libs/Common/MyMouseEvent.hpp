@@ -28,11 +28,13 @@
 /* a very nasty hack to change the protected button variables */
 class MyMouseEvent : public QMouseEvent
 {
+   /* everything private, usage only via reinterpret_cast */
 private:
    MyMouseEvent();
    MyMouseEvent &operator=( const MyMouseEvent &other );
    virtual ~MyMouseEvent();
 public:
+   /*  */
    void setMouseButton( Qt::MouseButton bt );
 };
 

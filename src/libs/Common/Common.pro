@@ -35,6 +35,9 @@ SOURCES += MainWindow.cpp
 HEADERS += MainWindowCheckClose.hpp
 SOURCES += MainWindowCheckClose.cpp
 
+HEADERS += MyMouseEvent.hpp
+SOURCES += MyMouseEvent.cpp
+
 HEADERS += MySettings.hpp
 SOURCES += MySettings.cpp
 
