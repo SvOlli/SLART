@@ -29,7 +29,11 @@ contains(TEMPLATE,app) {
     DESTDIR    = $${TOPLEVEL}/build/$${TARGETARCH}/bin
   }
 } else {
-  DESTDIR      = $${TOPLEVEL}/build/$${TARGETARCH}/tmp/lib
+  contains( CONFIG, plugin ) {
+    DESTDIR    = $${TOPLEVEL}/build/$${TARGETARCH}/lib
+  } else {
+    DESTDIR    = $${TOPLEVEL}/build/$${TARGETARCH}/tmp/lib
+  }
 }
 LIBS           += -L$${TOPLEVEL}/build/$${TARGETARCH}/tmp/lib
 
