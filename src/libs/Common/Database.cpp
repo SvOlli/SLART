@@ -10,6 +10,7 @@
 #include "Database.hpp"
 
 /* system headers */
+#include <time.h>
 
 /* Qt headers */
 #include <QApplication>

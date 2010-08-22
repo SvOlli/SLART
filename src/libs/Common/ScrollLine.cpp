@@ -18,6 +18,7 @@
 
 /* local headers */
 #include "GlobalConfigWidget.hpp"
+#include "MyMouseEvent.hpp"
 
 #include "Trace.hpp"
 
