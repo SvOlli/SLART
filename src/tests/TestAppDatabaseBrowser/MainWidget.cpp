@@ -13,6 +13,7 @@
 
 /* Qt headers */
 #include <QtGui>
+#include <QSqlQueryModel>
 #include <QTimer>
 
 /* local library headers */
