@@ -12,6 +12,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QFileInfo>
 #include <QMimeData>
 #include <QUrl>
 

@@ -12,6 +12,8 @@
 /* system headers */
 
 /* Qt headers */
+#include <QDateTime>
+#include <QFileInfo>
 
 /* local library headers */
 #include <Database.hpp>

@@ -14,9 +14,9 @@
 /* Qt headers */
 
 /* local library headers */
+#include <MyMouseEvent.hpp>
 
 /* local headers */
-#include "MyMouseEvent.hpp"
 
 
 TimeSlider::TimeSlider( Qt::Orientation orientation, QWidget *parent )
