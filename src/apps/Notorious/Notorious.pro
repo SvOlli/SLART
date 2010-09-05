@@ -11,7 +11,7 @@ LIBS += -lbz2
 
 include( ../../buildconfig.pri )
 
-INCLUDEPATH += ../../libs/Common
+INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
 
 # Input

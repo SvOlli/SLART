@@ -9,10 +9,10 @@ TEMPLATE = app
 QT -= gui
 QT += network
 
-INCLUDEPATH += ../../libs/Common
-LIBS += -llirc_client
-
 include ( ../../buildconfig.pri )
+
+INCLUDEPATH += $${TOPSRC}/libs/Common
+LIBS += -llirc_client
 
 # Input
 SOURCES += Application.cpp 

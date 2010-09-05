@@ -10,7 +10,7 @@ QT -= gui
 
 include( ../../buildconfig.pri )
 
-INCLUDEPATH += ../../libs/Common ../../libs/CommandLine
+INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/CommandLine
 LIBS += -lCommon -lCommandLine
 
 # Input

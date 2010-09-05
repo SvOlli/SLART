@@ -17,7 +17,7 @@ win32 {
 
 include( ../../buildconfig.pri )
 
-INCLUDEPATH += ../../libs/Common
+INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon -lFLAC++
 PKGCONFIG += vorbisenc libcdio_paranoia libcdio
 

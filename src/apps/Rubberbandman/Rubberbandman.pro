@@ -10,7 +10,7 @@ QT += sql network
 
 include( ../../buildconfig.pri )
 
-INCLUDEPATH += ../../libs/Common ../../libs/TagLib
+INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib
 LIBS += -lCommon -lTag
 
 # Input

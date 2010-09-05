@@ -8,7 +8,7 @@ TEMPLATE = app
 QT += sql \
     network
 include( ../../buildconfig.pri )
-INCLUDEPATH += ../../libs/Common
+INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
 
 # Input
