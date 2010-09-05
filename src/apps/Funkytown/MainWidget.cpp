@@ -63,7 +63,7 @@ MainWidget::MainWidget( QWidget *parent )
    
    mpLayout->addWidget( mpGoButton,          2, 0, 1, 2 );
    mpLayout->addWidget( mpDownloadHandler,   3, 0, 1, 2 );
-   mpLayout->addWidget( mpSettingsButton,       4, 0, 1, 2 );
+   mpLayout->addWidget( mpSettingsButton,    4, 0, 1, 2 );
    
    setLayout( mpLayout );
    

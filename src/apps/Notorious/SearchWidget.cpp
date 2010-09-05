@@ -153,7 +153,7 @@ void SearchWidget::generateSQL()
       frames = (mins * 60 + secs) * 75;
       if( frames > 0 )
       {
-         mSQL.append( " and playtime <= " );
+         mSQL.append( " and playtime >= " );
          mSQL.append( QString::number( frames ) );
       }
    }
@@ -176,7 +176,7 @@ void SearchWidget::generateSQL()
       frames = (mins * 60 + secs) * 75;
       if( frames > 0 )
       {
-         mSQL.append( " and playtime >= " );
+         mSQL.append( " and playtime <= " );
          mSQL.append( QString::number( frames ) );
       }
    }
