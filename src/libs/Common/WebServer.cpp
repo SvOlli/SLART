@@ -182,5 +182,5 @@ void WebServer::response( QTcpSocket *id,
    id->write( responseHeader.toString().toUtf8() );
    id->write( data );
    id->waitForBytesWritten( -1 );
-   id->close();
+   id->disconnectFromHost();
 }
