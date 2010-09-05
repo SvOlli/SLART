@@ -157,4 +157,4 @@ void SorcererPlugin::setDefault( MySettings *settings, const QString &name,
 }
 
 
-Q_EXPORT_PLUGIN2(Sorcerer, SorcererPlugin)
+Q_EXPORT_PLUGIN2(SorcererInterface, SorcererPlugin)
