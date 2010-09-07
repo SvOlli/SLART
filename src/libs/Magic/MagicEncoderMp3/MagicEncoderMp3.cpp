@@ -27,12 +27,12 @@ extern "C" {
 
 #include <Trace.hpp>
 
-MagicEncoderMp3::MagicEncoderMp3( QWidget *parent )
+MagicEncoderMp3::MagicEncoderMp3()
 : MagicEncoder( tr("mp3") )
 , mUseAbr( false )
 , mUseLatin1( false )
 , mQuality( 4.0 )
-, mpConfigWidget( new QWidget( parent ) )
+, mpConfigWidget( new QWidget( 0 ) )
 , mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
 , mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
 , mpDirectory( new ScrollLine( mpConfigWidget ) )
@@ -77,6 +77,7 @@ MagicEncoderMp3::~MagicEncoderMp3()
 {
    free( mpMp3Buffer );
    mpMp3Buffer = 0;
+   delete mpConfigWidget;
 }
 
 

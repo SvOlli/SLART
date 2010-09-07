@@ -23,11 +23,11 @@
 /* local headers */
 
 
-MagicEncoderFlac::MagicEncoderFlac( QWidget *parent )
+MagicEncoderFlac::MagicEncoderFlac()
 : MagicEncoder( tr("FLAC") )
 , mQuality( 0 )
 , mUseOga( false )
-, mpConfigWidget( new QWidget( parent ) )
+, mpConfigWidget( new QWidget( 0 ) )
 , mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
 , mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
 , mpDirectory( new ScrollLine( mpConfigWidget ) )
@@ -87,6 +87,7 @@ MagicEncoderFlac::~MagicEncoderFlac()
       delete[] mpPcm;
       mpPcm = 0;
    }
+   delete mpConfigWidget;
 }
 
 

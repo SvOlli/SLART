@@ -10,6 +10,7 @@
 #define MAGICENCODER_HPP MAGICENCODER_HPP
 
 /* base class */
+#include "../MagicEncoderInterface.hpp"
 #include <QThread>
 
 /* system headers */
@@ -28,9 +29,10 @@ class ScrollLine;
 /* forward declaration of local classes */
 
 
-class MagicEncoder : public QThread
+class MagicEncoder : public QThread, public MagicEncoderInterface
 {
 Q_OBJECT
+Q_INTERFACES(MagicEncoderInterface)
    
 public:
    MagicEncoder( const QString &encoderName );
@@ -58,6 +60,13 @@ public:
    virtual bool initialize( const QString &fileName) = 0;
    /* finalize (clean up) the encoder and close the file */
    virtual bool finalize( bool enqueue, bool cancel ) = 0;
+   /*  */
+   virtual QThread *workerThread();
+   /*  */
+   virtual void setPluginFileName( const QString &fileName );
+   /*  */
+   virtual QString pluginFileName();
+
 
 public slots:
    /*  */
@@ -80,14 +89,14 @@ protected:
    bool writeChunk( const char* buffer, qint64 size );
 
    /* settings */
-   bool     mUseEncoder;
-   bool     mEnqueue;
-   bool     mDirOverride;
-   QString  mDirectory;
-   const QString mName;
-   /*  */
-   QFile    mFile;
-   TagList  mTagList;
+   bool           mUseEncoder;
+   bool           mEnqueue;
+   bool           mDirOverride;
+   QString        mDirectory;
+   QString        mPluginFileName;
+   const QString  mName;
+   QFile          mFile;
+   TagList        mTagList;
 
 private:
    MagicEncoder( const MagicEncoder &other );
@@ -95,9 +104,6 @@ private:
 
    QString  mFileName;
 };
-
-Q_DECLARE_INTERFACE(MagicEncoder,
-                    "org.svolli.SLART.MagicEncoder/1.0")
 
 #define VALUE_DIRECTORY          value( "Directory", QDir::current().absolutePath() ).toString()
 #define VALUE_DIRECTORY_OVERRIDE value( "DirectoryOverride", false ).toBool()

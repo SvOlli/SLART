@@ -1,5 +1,5 @@
 ######################################################################
-# src/libs/CommandLine/CommandLine.pro
+# src/libs/Common/Common.pro
 # hand hacked by SvOlli
 # distributed as public domain
 ######################################################################
@@ -28,6 +28,9 @@ SOURCES += GlobalConfigWidget.cpp
 
 HEADERS += ImageWidget.hpp
 SOURCES += ImageWidget.cpp
+
+HEADERS += MagicEncoderLoader.hpp
+SOURCES += MagicEncoderLoader.cpp
 
 HEADERS += MainWindow.hpp
 SOURCES += MainWindow.cpp

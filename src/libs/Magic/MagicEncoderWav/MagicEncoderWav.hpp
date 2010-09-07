@@ -31,10 +31,10 @@ class ScrollLine;
 class MagicEncoderWav : public MagicEncoder
 {
 Q_OBJECT
-Q_INTERFACES(MagicEncoder)
-   
+Q_INTERFACES(MagicEncoderInterface)
+
 public:
-   MagicEncoderWav( QWidget *parent = 0 );
+   MagicEncoderWav();
    virtual ~MagicEncoderWav();
 
    /*  */

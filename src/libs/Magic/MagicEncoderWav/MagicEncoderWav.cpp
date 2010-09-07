@@ -22,9 +22,9 @@
 /* local headers */
 
 
-MagicEncoderWav::MagicEncoderWav( QWidget *parent )
+MagicEncoderWav::MagicEncoderWav()
 : MagicEncoder( tr("wav") )
-, mpConfigWidget( new QWidget( parent ) )
+, mpConfigWidget( new QWidget( 0 ) )
 , mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
 , mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
 , mpDirectory( new ScrollLine( mpConfigWidget ) )
@@ -65,6 +65,7 @@ MagicEncoderWav::MagicEncoderWav( QWidget *parent )
 MagicEncoderWav::~MagicEncoderWav()
 {
    delete[] mpWavHeader;
+   delete mpConfigWidget;
 }
 
 

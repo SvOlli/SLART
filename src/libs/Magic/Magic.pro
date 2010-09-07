@@ -6,6 +6,8 @@
 
 TEMPLATE = subdirs
 
+HEADERS += MagicEncoderInterface.hpp
+
 SUBDIRS += MagicEncoder
 SUBDIRS += MagicEncoderFlac
 SUBDIRS += MagicEncoderMp3

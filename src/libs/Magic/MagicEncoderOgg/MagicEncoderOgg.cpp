@@ -24,10 +24,10 @@
 
 #include <Trace.hpp>
 
-MagicEncoderOgg::MagicEncoderOgg( QWidget *parent )
+MagicEncoderOgg::MagicEncoderOgg()
 : MagicEncoder( tr("ogg") )
 , mQuality( 0.0 )
-, mpConfigWidget( new QWidget( parent ) )
+, mpConfigWidget( new QWidget( 0 ) )
 , mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
 , mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
 , mpDirectory( new ScrollLine( mpConfigWidget ) )
@@ -64,6 +64,7 @@ MagicEncoderOgg::MagicEncoderOgg( QWidget *parent )
 
 MagicEncoderOgg::~MagicEncoderOgg()
 {
+   delete mpConfigWidget;
 }
 
 

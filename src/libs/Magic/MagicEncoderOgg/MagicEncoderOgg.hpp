@@ -35,10 +35,10 @@ class ScrollLine;
 class MagicEncoderOgg : public MagicEncoder
 {
 Q_OBJECT
-Q_INTERFACES(MagicEncoder)
-   
+Q_INTERFACES(MagicEncoderInterface)
+
 public:
-   MagicEncoderOgg( QWidget *parent = 0 );
+   MagicEncoderOgg();
    virtual ~MagicEncoderOgg();
 
    /*  */

@@ -10,6 +10,7 @@
 #define FLACENCODER_HPP FLACENCODER_HPP
 
 /* base class */
+#include "../MagicEncoderInterface.hpp"
 #include <MagicEncoder.hpp>
 
 /* system headers */
@@ -34,10 +35,10 @@ class ScrollLine;
 class MagicEncoderFlac : public MagicEncoder
 {
 Q_OBJECT
-Q_INTERFACES(MagicEncoder)
+Q_INTERFACES(MagicEncoderInterface)
 
 public:
-   MagicEncoderFlac( QWidget *parent = 0 );
+   MagicEncoderFlac();
    virtual ~MagicEncoderFlac();
 
    /*  */

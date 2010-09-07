@@ -32,16 +32,34 @@ MagicEncoder::MagicEncoder( const QString &encoderName )
 , mEnqueue( false )
 , mDirOverride( false )
 , mDirectory()
+, mPluginFileName()
 , mName( encoderName )
 , mFile()
 , mTagList()
 {
-   moveToThread( this );
+   QThread::moveToThread( this );
 }
 
 
 MagicEncoder::~MagicEncoder()
 {
+}
+
+
+QThread *MagicEncoder::workerThread()
+{
+   return this;
+}
+
+
+void MagicEncoder::setPluginFileName( const QString &fileName )
+{
+   mPluginFileName = fileName;
+}
+
+QString MagicEncoder::pluginFileName()
+{
+   return mPluginFileName;
 }
 
 

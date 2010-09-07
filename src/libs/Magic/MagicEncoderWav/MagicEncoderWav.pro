@@ -13,7 +13,7 @@ TOPSRC = "../../.."
 include( $${TOPSRC}/buildconfig.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib $${TOPSRC}/libs/Magic/MagicEncoder
-LIBS += -lCommon -lTag -lMagicEncoder
+LIBS += -lMagicEncoder -lCommon -lTag
 
 HEADERS += MagicEncoderWav.hpp
 SOURCES += MagicEncoderWav.cpp
