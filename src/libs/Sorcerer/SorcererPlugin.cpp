@@ -120,6 +120,7 @@ void SorcererPlugin::cleanup( QApplication *app )
          mStripped.setValue( "FlacUseOga", strippedFlacUseOga );
       }
       mStripped.endGroup();
+      mGlobal.setValue( "Version", SLART_VERSION );
    }
 }
 
