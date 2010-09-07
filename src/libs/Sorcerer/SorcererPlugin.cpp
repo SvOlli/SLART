@@ -16,11 +16,28 @@
 
 /* local library headers */
 #include <MainWindow.hpp>
-#include <MySettings.hpp>
 #include <Version.hpp>
 
 /* local headers */
 #include "SorcererWidget.hpp"
+
+
+SorcererPlugin::SorcererPlugin()
+: mGlobal("Global")
+, mFunkytown("Funkytown")
+, mInnuendo("Innuendo")
+, mKarmadrome("Karmadrome")
+, mNotorious("Notorious")
+, mPartyman("Partyman")
+, mRubberbandman("Rubberbandman")
+, mStripped("Stripped")
+{
+}
+
+
+SorcererPlugin::~SorcererPlugin()
+{
+}
 
 
 int SorcererPlugin::setup( QApplication *app )
@@ -49,89 +66,75 @@ int SorcererPlugin::setup( QApplication *app )
 
 void SorcererPlugin::cleanup( QApplication *app )
 {
-   MySettings Global("Global");
-   MySettings Funkytown("Funkytown");
-   MySettings Innuendo("Innuendo");
-   MySettings Karmadrome("Karmadrome");
-   MySettings Partyman("Partyman");
-   MySettings Rubberbandman("Rubberbandman");
-   MySettings Stripped("Stripped");
-
-   if( Global.value( "ShowCleanupDialog", false ).toBool() )
+   if( mGlobal.value( "ShowCleanupDialog", false ).toBool() )
    {
       QMessageBox::information( 0, app->applicationName(),
                                 QObject::tr("New version (%1 -> %2).\n"
                                             "Cleaning up registry.")
-                                .arg(Global.value("Version","none").toString()), SLART_VERSION );
-      Global.remove("UseGlobalStyleSheetFile");
+                                .arg(mGlobal.value("Version","none").toString(), SLART_VERSION) );
+      mGlobal.remove("UseGlobalStyleSheetFile");
 
-      cleanupSettings( &Funkytown );
-      Funkytown.remove( "flv2mpeg4" );
+      cleanupSettings( &mFunkytown );
+      mFunkytown.remove( "flv2mpeg4" );
 
-      cleanupSettings( &Innuendo );
-      Innuendo.remove( "Next" );
-      Innuendo.remove( "Play" );
-      Innuendo.remove( "Stop" );
+      cleanupSettings( &mInnuendo );
+      mInnuendo.remove( "Next" );
+      mInnuendo.remove( "Play" );
+      mInnuendo.remove( "Stop" );
 
-      cleanupSettings( &Karmadrome );
-      Karmadrome.remove( "ButtonRows" );
+      cleanupSettings( &mKarmadrome );
+      mKarmadrome.remove( "ButtonRows" );
 
-      cleanupSettings( &Partyman );
-      Partyman.remove( "DatabaseFilename" );
+      cleanupSettings( &mPartyman );
+      mPartyman.remove( "DatabaseFilename" );
 
-      cleanupSettings( &Rubberbandman );
+      cleanupSettings( &mRubberbandman );
 
-      cleanupSettings( &Stripped );
-      QString  Encoder     = Stripped.value( "Encoder", QString() ).toString();
-      QVariant OggQuality  = Stripped.value( "OggQuality" );
-      QVariant FlacQuality = Stripped.value( "FlacQuality" );
-      QVariant FlacUseOga  = Stripped.value( "FlacUseOga" );
-      if( !Encoder.isEmpty() )
+      cleanupSettings( &mNotorious );
+
+      cleanupSettings( &mStripped );
+      QString  strippedEncoder     = mStripped.value( "Encoder", QString() ).toString();
+      QVariant strippedOggQuality  = mStripped.value( "OggQuality" );
+      QVariant strippedFlacQuality = mStripped.value( "FlacQuality" );
+      QVariant strippedFlacUseOga  = mStripped.value( "FlacUseOga" );
+      if( !strippedEncoder.isEmpty() )
       {
-         Stripped.remove( "Encoder" );
-         Stripped.beginGroup( Encoder );
-         Stripped.setValue( "UseEncoder", true );
-         Stripped.endGroup();
+         mStripped.remove( "Encoder" );
+         mStripped.beginGroup( strippedEncoder );
+         mStripped.setValue( "UseEncoder", true );
+         mStripped.endGroup();
       }
-      Stripped.beginGroup( "ogg" );
-      if( !OggQuality.isNull() )
+      mStripped.beginGroup( "ogg" );
+      if( !strippedOggQuality.isNull() )
       {
-         Stripped.setValue( "OggQuality", OggQuality );
+         mStripped.setValue( "OggQuality", strippedOggQuality );
       }
-      Stripped.endGroup();
-      Stripped.beginGroup( "FLAC" );
-      if( !FlacQuality.isNull() )
+      mStripped.endGroup();
+      mStripped.beginGroup( "FLAC" );
+      if( !strippedFlacQuality.isNull() )
       {
-         Stripped.setValue( "FlacQuality", FlacQuality );
+         mStripped.setValue( "FlacQuality", strippedFlacQuality );
       }
-      if( !FlacQuality.isNull() )
+      if( !strippedFlacUseOga.isNull() )
       {
-         Stripped.setValue( "FlacQuality", FlacUseOga );
+         mStripped.setValue( "FlacUseOga", strippedFlacUseOga );
       }
-      Stripped.endGroup();
+      mStripped.endGroup();
    }
 }
 
 
 void SorcererPlugin::hidden()
 {
-   MySettings Global("Global");
-   MySettings Funkytown("Funkytown");
-   MySettings Innuendo("Innuendo");
-   MySettings Karmadrome("Karmadrome");
-   MySettings Partyman("Partyman");
-   MySettings Rubberbandman("Rubberbandman");
-   MySettings Stripped("Stripped");
-
    /* show a message box when a cleanup has triggered a registry cleanup */
-   setDefault( &Global, "ShowCleanupDialog", false );
+   setDefault( &mGlobal, "ShowCleanupDialog", false );
 
    /* Create "hidden" entries, that can not be set via dialogs */
-   setDefault( &Funkytown, "UserAgent", "Funkytown" );
+   setDefault( &mFunkytown, "UserAgent", "Funkytown" );
 
    QStringList list;
    list << "*.mp3" << "*.ogg" << "*.flac" << "*.oga";
-   setDefault( &Rubberbandman, "FileExtensions", list );
+   setDefault( &mRubberbandman, "FileExtensions", list );
 }
 
 

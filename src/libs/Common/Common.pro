@@ -77,6 +77,8 @@ SOURCES += TrackInfo.cpp
 HEADERS += TrackInfoWidget.hpp
 SOURCES += TrackInfoWidget.cpp
 
+HEADERS += Version.hpp
+
 HEADERS += WebServer.hpp
 SOURCES += WebServer.cpp
 

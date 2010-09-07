@@ -18,6 +18,7 @@
 #include <QWidget>
 
 /* local library headers */
+#include <MySettings.hpp>
 
 /* local headers */
 #include "SorcererInterface.hpp"
@@ -34,6 +35,8 @@ Q_OBJECT
 Q_INTERFACES(SorcererInterface)
    
 public:
+   SorcererPlugin();
+   virtual ~SorcererPlugin();
    /* run main setup */
    virtual int setup( QApplication *app );
    /* run cleanup of obsolete registry settings */
@@ -42,11 +45,23 @@ public:
    virtual void hidden();
 
 private:
+   SorcererPlugin( const SorcererPlugin &other );
+   SorcererPlugin &operator=( const SorcererPlugin &other );
+
    /*  */
    void cleanupSettings( MySettings *settings );
    /*  */
    void setDefault( MySettings *settings, const QString &name,
                     const QVariant &value );
+
+   MySettings mGlobal;
+   MySettings mFunkytown;
+   MySettings mInnuendo;
+   MySettings mKarmadrome;
+   MySettings mNotorious;
+   MySettings mPartyman;
+   MySettings mRubberbandman;
+   MySettings mStripped;
 };
 
 #endif
