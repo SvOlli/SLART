@@ -1,5 +1,5 @@
 /**
- * src/libs/CommandLine/SorcererLoader.hpp
+ * src/libs/Common/SorcererLoader.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
@@ -7,7 +7,7 @@
  */
 
 #ifndef SORCERERLOADER_HPP
-#define SORCERERLOADER_HPP
+#define SORCERERLOADER_HPP SORCERERLOADER_HPP
 
 /* base class */
 

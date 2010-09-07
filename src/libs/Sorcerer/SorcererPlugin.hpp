@@ -30,8 +30,8 @@ class MySettings;
 
 class SorcererPlugin : public QObject, public SorcererInterface
 {
-   Q_OBJECT
-   Q_INTERFACES(SorcererInterface)
+Q_OBJECT
+Q_INTERFACES(SorcererInterface)
    
 public:
    /* run main setup */

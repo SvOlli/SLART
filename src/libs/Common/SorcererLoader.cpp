@@ -1,5 +1,5 @@
 /**
- * src/libs/CommandLine/SorcererLoader.cpp
+ * src/libs/Common/SorcererLoader.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
@@ -147,7 +147,7 @@ SorcererInterface *SorcererLoader::tryLoading( QApplication *app )
 }
 
 
-SorcererInterface *SorcererLoader::tryLoading(const QDir &dir )
+SorcererInterface *SorcererLoader::tryLoading( const QDir &dir )
 {
    QString path( dir.absolutePath() );
 #if defined Q_OS_WIN
