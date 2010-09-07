@@ -5,43 +5,66 @@ all:
   - main screen == config settings
 - use QScript for generating filenames(?)
 - QSqlDatabasePrivate::removeDatabase: connection 'qt_sql_default_connection' is still in use, all queries will cease to work.
-- rename "Folder(s)" to "Label(s)"
+- rename "Folder(s)" to "Label(s)" or "List(s)"
+
+architecture:
+- move database and config widgets to simple singletons
+- move database to an own thread
+
+0.8:
+- packaging for Linux
+- generate screenshots for all applications
 
 extra:
-- complete script to build deb (and rpm?) packages
+- (0.8) complete script to build deb (and rpm?) packages
 
 Common:
 - clean filename function
 - Database::deleteFolder: delete entries from slart_tracks
 
+Sorcerer:
+- print warning if there are less than 3 files during update
+
+Notorious:
+- (0.8) add log of installed archives
+
 Karmadrome:
+- clicking favorite after folder button prevents folder buttons from saving
+- "clear folder before import" does not work
 
 Funkytown:
 - change from QHttp to QNetworkManager
+- add QScript for detection of next steps
 - improve url detecting
 - handle authentification
 ? add rtmpdump
 
 Stripped:
+- separate ripping from encoding
+  - normalize
+  - remove '0's
+  - split tracks with long silence
+  - read track twice for error detection
 - add Stripped to cdrom-open dialog
   - implement as a setting
-? change freedb-handling to libcddb
 - auto read-toc
   - with cdrom-dialog and Satellite
-? encode in mp3
 - request on overwrite
 - use Notorious database
 ? move encoders to QPlugins
+- removal of leading / trailing zeros in audio data
 
 Partyman:
 ? better random init via /dev/urandom
   - only if exists
 ? auto-switch to info
 - check all error handling
-- change "now playing" popup, when track is not in database
+- back-to-back optional instead of crossfade
+  - auto back-to-back when track++ and same title
 
 Rubberbandman:
-- dragging of filesystem-items
+- dragging of filesystem-item does select entry but not update file information
+- "delete" does not work every time
 - "add folder"/"remove folder"
 - improve Database Tab
 - search in "Partyman"-Tab

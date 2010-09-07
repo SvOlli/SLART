@@ -21,6 +21,12 @@ send Karmadrome SHT ConfigDialog "${dir}/Karmadrome-Config.png"
 send Rubberbandman SHT MainWidget   "${dir}/Rubberbandman-Main.png"
 send Rubberbandman SHT ConfigDialog "${dir}/Rubberbandman-Config.png"
 
+send Stripped SHT MainWidget   "${dir}/Stripped-Main.png"
+send Stripped SHT ConfigDialog "${dir}/Stripped-Config.png"
+
+send Funkytown SHT MainWidget   "${dir}/Funkytown-Main.png"
+send Funkytown SHT ConfigDialog "${dir}/Funkytown-Config.png"
+
 send Partyman P0T 0
 send Partyman SHT MainWidget   "${dir}/Partyman-Main-Help.png"
 send Partyman P0T 1
