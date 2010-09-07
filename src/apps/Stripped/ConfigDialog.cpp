@@ -17,17 +17,12 @@
 /* local library headers */
 #include <AboutWidget.hpp>
 #include <GlobalConfigWidget.hpp>
+#include <MagicEncoderInterface.hpp>
 #include <MySettings.hpp>
 #include <ProxyWidget.hpp>
 
 /* local headers */
 #include "CDReader.hpp"
-#include "FlacEncoder.hpp"
-#if USE_MP3
-#include "Mp3Encoder.hpp"
-#endif
-#include "OggEncoder.hpp"
-#include "WavEncoder.hpp"
 
 #include <Trace.hpp>
 
@@ -55,12 +50,14 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
-#if USE_MP3
-   mEncoders.append( new Mp3Encoder( this ) );
-#endif
-   mEncoders.append( new OggEncoder( this ) );
-   mEncoders.append( new FlacEncoder( this ) );
-   mEncoders.append( new WavEncoder( this ) );
+   mEncoders = MagicEncoderLoader::tryLoading();
+   if( mEncoders.size() == 0 )
+   {
+      QMessageBox::critical( this,
+                             tr("%1: Fatal Error").arg(QApplication::applicationName()),
+                             tr("Could not find any encoder plugins.") );
+      exit( 1 );
+   }
    
    mTagList.set("TRACKNUMBER","1");
    mTagList.set("ALBUMARTIST","Album_Artist");
@@ -75,25 +72,31 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    
    readSettings();
    QWidget *encoders = new QWidget( this );
-   QBoxLayout *encodersLayout = new QVBoxLayout( encoders );
-   encodersLayout->addWidget( new QLabel( tr("Encoders used during ripping (select at least one):"), encoders ) );
+   QGridLayout *encodersLayout = new QGridLayout( encoders );
+   encodersLayout->addWidget( new QLabel(
+      tr("Encoders used during ripping (select at least one):"), encoders ), 0, 0, 1, 2 );
    mpEncoderTabs->addTab( encoders, tr("Encoders") );
    for( i = 0; i < mEncoders.size(); i++ )
    {
-      mpEncoderTabs->addTab( mEncoders.at(i)->configWidget(), mEncoders.at(i)->mName );
-      QCheckBox *encoder = new QCheckBox( mEncoders.at(i)->mName, encoders );
+      mpEncoderTabs->addTab( mEncoders.at(i)->configWidget(), mEncoders.at(i)->name() );
+      QCheckBox *encoder = new QCheckBox( mEncoders.at(i)->name(), encoders );
       if( mEncoders.at(i)->useEncoder() )
       {
          encoder->setChecked( true );
          encodersActive++;
       }
-      encodersLayout->addWidget( encoder );
+      encodersLayout->addWidget( encoder, i + 1, 0 );
+      encodersLayout->addWidget( new QLabel(
+         QString("(%1)").arg(mEncoders.at(i)->pluginFileName()), this ), i + 1, 1 );
+      QThread *qobject = mEncoders.at(i)->workerThread();
       connect( encoder, SIGNAL(clicked(bool)),
-               mEncoders.at(i), SLOT(setUseEncoder(bool)) );
-      connect( mEncoders.at(i), SIGNAL(useEncoderClicked(bool)),
+               qobject, SLOT(setUseEncoder(bool)) );
+      connect( qobject, SIGNAL(useEncoderClicked(bool)),
                encoder, SLOT(setChecked(bool)) );
    }
-   encodersLayout->addStretch( 1 );
+   encodersLayout->setRowStretch( i + 1, 1 );
+   encodersLayout->setColumnStretch( 1, 1 );
+
    if( !encodersActive )
    {
       QTimer::singleShot( 100, this, SLOT(exec()) );
@@ -156,10 +159,10 @@ ConfigDialog::~ConfigDialog()
 {
    for( int i = 0; i < mEncoders.size(); i++ )
    {
-      if( mEncoders.at(i)->isRunning() )
+      if( mEncoders.at(i)->workerThread()->isRunning() )
       {
-         mEncoders.at(i)->quit();
-         mEncoders.at(i)->wait();
+         mEncoders.at(i)->workerThread()->quit();
+         mEncoders.at(i)->workerThread()->wait();
       }
       delete mEncoders.at(i);
    }
@@ -256,6 +259,8 @@ void ConfigDialog::writeSettings()
 
 void ConfigDialog::handleDevices( const QStringList &devices )
 {
+TRACESTART(ConfigDialog::handleDevices);
+TRACEMSG << devices;
    disconnect( mpDevicesBox, SIGNAL(currentIndexChanged(const QString&)),
                this, SLOT(handleDevice(const QString&)) );
    mpDevicesBox->clear();
@@ -277,6 +282,8 @@ void ConfigDialog::handleDevices( const QStringList &devices )
 
 void ConfigDialog::handleDevice( const QString &device )
 {
+TRACESTART(ConfigDialog::handleDevice);
+TRACEMSG << device;
    if( mpDevicesBox->findText( device ) == mpDevicesBox->count() - 1 )
    {
       mpCDReader->getDevices();

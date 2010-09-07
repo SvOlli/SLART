@@ -22,6 +22,7 @@ extern "C" {
 #include <QStringList>
 
 /* local library headers */
+#include <MagicEncoderLoader.hpp>
 
 /* local headers */
 
@@ -47,7 +48,7 @@ public:
    virtual ~CDReader();
    
    /* set the encoder to use */
-   void setEncoders( const QList<Encoder*> &encoders );
+   void setEncoders( const MagicEncoderList &encoders );
    /* insert available devices into given combobox */
    void getDevices();
    
@@ -95,7 +96,7 @@ private:
    CDInfo               *mpCDInfo;
    CDEdit               *mpCDEdit;
    QProgressBar         *mpProgressBar;
-   QList<Encoder*>      mEncoders;
+   MagicEncoderList     mEncoders;
    QString              mDevice;
 };
 

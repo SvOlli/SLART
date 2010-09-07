@@ -15,6 +15,7 @@
 #include <QtGui>
 
 /* local library headers */
+#include <MagicEncoderInterface.hpp>
 #include <MySettings.hpp>
 #include <ConfigDialog.hpp>
 #include <TagList.hpp>
@@ -23,7 +24,6 @@
 #include "CDInfo.hpp"
 #include "CDEdit.hpp"
 #include "CDReaderThread.hpp"
-#include "Encoder.hpp"
 
 
 #include <Trace.hpp>
@@ -83,7 +83,7 @@ CDReader::~CDReader()
 }
 
 
-void CDReader::setEncoders( const QList<Encoder*> &encoders )
+void CDReader::setEncoders( const MagicEncoderList &encoders )
 {
    mEncoders = encoders;
 }

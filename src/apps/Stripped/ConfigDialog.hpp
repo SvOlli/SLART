@@ -17,9 +17,10 @@
 /* Qt headers */
 
 /* local library headers */
+#include <MagicEncoderLoader.hpp>
+#include <TagList.hpp>
 
 /* local headers */
-#include <TagList.hpp>
 
 /* forward declaration of Qt classes */
 class QCheckBox;
@@ -86,7 +87,7 @@ private:
    QLabel               *mpPatternExample;
    QTabWidget           *mpEncoderTabs;
    TagList              mTagList;
-   QList<Encoder*>      mEncoders;
+   MagicEncoderList     mEncoders;
 };
 
 /* defaults */

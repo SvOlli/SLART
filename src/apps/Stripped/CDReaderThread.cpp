@@ -16,13 +16,13 @@
 #include <QtGui>
 
 /* local library headers */
+#include <MagicEncoderInterface.hpp>
 #include <MySettings.hpp>
 
 /* local headers */
 #include "CDEdit.hpp"
 #include "CDInfo.hpp"
 #include "ConfigDialog.hpp"
-#include "Encoder.hpp"
 
 
 #include <Trace.hpp>
@@ -41,8 +41,9 @@ static void callback0( long inpos, ::paranoia_cb_mode_t function )
 
 void CDReaderThread::callback( long /*inpos*/, ::paranoia_cb_mode_t function )
 {
-   if( function > 11 )
+   if( function > 12 )
    {
+      printf( "function:%d\n", function );
       mCancel = true;
       return;
    }
@@ -82,7 +83,7 @@ CDReaderThread::~CDReaderThread()
 
 
 void CDReaderThread::setup( CDInfo *info, CDEdit *edit,
-                            const QList<Encoder*> &encoders, const QString &device )
+                            const MagicEncoderList &encoders, const QString &device )
 {
    gpCDReaderThread0 = this;
    mpCDInfo          = info;
@@ -356,14 +357,15 @@ void CDReaderThread::runReadAudioData()
       {
          if( mEncoders.at(n)->useEncoder() )
          {
+            QThread *qobject = mEncoders.at(n)->workerThread();
             mEncoders.at(n)->start();
             mEncoders.at(n)->setTags( tagList );
             mEncoders.at(n)->initialize( fileName );
             connect( this, SIGNAL(encodeThis(const QByteArray &)),
-                     mEncoders.at(n), SLOT(encodeCDAudio(const QByteArray &)) );
+                     qobject, SLOT(encodeCDAudio(const QByteArray &)) );
             connect( this, SIGNAL(encodeDone()),
-                     mEncoders.at(n), SLOT(quit()) );
-            connect( mEncoders.at(n), SIGNAL(encodingFail()),
+                     qobject, SLOT(quit()) );
+            connect( qobject, SIGNAL(encodingFail()),
                      this, SLOT(cancel()) );
             mEncoders.at(n)->setEnqueue( setEnqueue );
             setEnqueue = false;
@@ -408,11 +410,12 @@ printf("\n");
       {
          if( mEncoders.at(n)->useEncoder() )
          {
+            QThread *qobject = mEncoders.at(n)->workerThread();
             disconnect( this, SIGNAL(encodeThis(const QByteArray &)),
-                        mEncoders.at(n), SLOT(encodeCDAudio(const QByteArray &)) );
+                        qobject, SLOT(encodeCDAudio(const QByteArray &)) );
             disconnect( this, SIGNAL(encodeDone()),
-                        mEncoders.at(n), SLOT(quit()) );
-            disconnect( mEncoders.at(n), SIGNAL(encodingFail()),
+                        qobject, SLOT(quit()) );
+            disconnect( qobject, SIGNAL(encodingFail()),
                         this, SLOT(cancel()) );
 
             mEncoders.at(n)->finalize( doenqueue, mCancel );

@@ -9,15 +9,9 @@ TARGET = Stripped
 QT += network
 CONFIG += link_pkgconfig
 
-win32 {
-   MP3 = no
-} else {
-   MP3 = yes
-}
-
 include( ../../buildconfig.pri )
 
-INCLUDEPATH += $${TOPSRC}/libs/Common
+INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/Magic
 LIBS += -lCommon -lFLAC++
 PKGCONFIG += vorbisenc libcdio_paranoia libcdio
 
@@ -53,23 +47,3 @@ SOURCES += CDInfo.cpp
 
 HEADERS += CDDBClient.hpp 
 SOURCES += CDDBClient.cpp 
-
-HEADERS += Encoder.hpp 
-SOURCES += Encoder.cpp 
-
-HEADERS += OggEncoder.hpp 
-SOURCES += OggEncoder.cpp 
-
-HEADERS += FlacEncoder.hpp 
-SOURCES += FlacEncoder.cpp 
-
-HEADERS += WavEncoder.hpp 
-SOURCES += WavEncoder.cpp 
-
-contains( MP3, yes ) {
-   LIBS += -lmp3lame
-   DEFINES += USE_MP3=1
-
-   HEADERS += Mp3Encoder.hpp 
-   SOURCES += Mp3Encoder.cpp 
-}

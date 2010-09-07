@@ -22,6 +22,7 @@ extern "C" {
 #include <QStringList>
 
 /* local library headers */
+#include <MagicEncoderLoader.hpp>
 
 /* local headers */
 
@@ -43,7 +44,7 @@ public:
 
    /*  */
    void setup( CDInfo *info, CDEdit *edit,
-               const QList<Encoder*> &encoders, const QString &device );
+               const MagicEncoderList &encoders, const QString &device );
    /*  */
    void startGetDevices();
    /*  */
@@ -119,7 +120,7 @@ private:
    bool                 mCancel;
    QString              mDevice;
    QStringList          mDevices;
-   QList<Encoder*>      mEncoders;
+   MagicEncoderList     mEncoders;
 };
 
 #endif
