@@ -74,6 +74,7 @@ MagicEncoderList MagicEncoderLoader::tryLoading( QApplication *app )
 
 MagicEncoderList MagicEncoderLoader::tryLoading( const QDir &dir )
 {
+   Satellite *satellite = Satellite::get();
    QStringList nameFilter;
    MagicEncoderList encoderList;
 #if defined Q_OS_WIN
@@ -93,13 +94,13 @@ MagicEncoderList MagicEncoderLoader::tryLoading( const QDir &dir )
       MagicEncoderInterface *encoder = qobject_cast<MagicEncoderInterface*>(plugin);
       if( encoder )
       {
-         encoder->setPluginFileName( encoderName );
+         encoder->setup( satellite, encoderName );
          encoderList.append( encoder );
       }
       else
       {
-         Satellite::send1( QObject::tr("I0L\nerror loading %1:\n%2")
-                           .arg( encoderName, pluginLoader.errorString() ).toUtf8() );
+         satellite->send( QObject::tr("I0L\nerror loading %1:\n%2")
+                          .arg( encoderName, pluginLoader.errorString() ).toUtf8() );
          pluginLoader.unload();
       }
    }

@@ -28,6 +28,7 @@
 
 MagicEncoder::MagicEncoder( const QString &encoderName )
 : QThread( 0 )
+, mpSatellite( 0 )
 , mUseEncoder( false )
 , mEnqueue( false )
 , mDirOverride( false )
@@ -52,8 +53,9 @@ QThread *MagicEncoder::workerThread()
 }
 
 
-void MagicEncoder::setPluginFileName( const QString &fileName )
+void MagicEncoder::setup( Satellite *satellite, const QString &fileName )
 {
+   mpSatellite = satellite;
    mPluginFileName = fileName;
 }
 
@@ -110,15 +112,17 @@ bool MagicEncoder::finalize( bool enqueue, bool cancel )
    
    if( !cancel )
    {
-      Satellite *satellite = Satellite::get();
-      QByteArray msg( "s0d\n" );
-      msg.append( mFileName.toUtf8() );
-      satellite->send( msg );
-      if( enqueue && mEnqueue )
+      if( mpSatellite )
       {
-         msg = "P0Q\n";
+         QByteArray msg( "s0d\n" );
          msg.append( mFileName.toUtf8() );
-         satellite->send( msg );
+         mpSatellite->send( msg );
+         if( enqueue && mEnqueue )
+         {
+            msg = "P0Q\n";
+            msg.append( mFileName.toUtf8() );
+            mpSatellite->send( msg );
+         }
       }
    }
    return !cancel;

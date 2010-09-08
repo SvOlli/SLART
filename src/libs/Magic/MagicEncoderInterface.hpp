@@ -25,6 +25,7 @@
 class QThread;
 
 /* forward declaration of local classes */
+class Satellite;
 class ScrollLine;
 
 
@@ -34,7 +35,13 @@ public:
    virtual ~MagicEncoderInterface() {}
 
    /*  */
+   virtual void setup( Satellite *satellite, const QString &fileName ) = 0;
+   /*  */
    virtual QWidget *configWidget() = 0;
+   /*  */
+   virtual QThread *workerThread() = 0;
+   /*  */
+   virtual QString pluginFileName() = 0;
    /* read settings from storage */
    virtual void readSettings() = 0;
    /* write settings to storage */
@@ -53,12 +60,6 @@ public:
    virtual bool initialize( const QString &fileName) = 0;
    /* finalize (clean up) the encoder and close the file */
    virtual bool finalize( bool enqueue, bool cancel ) = 0;
-   /*  */
-   virtual QThread *workerThread() = 0;
-   /*  */
-   virtual void setPluginFileName( const QString &fileName ) = 0;
-   /*  */
-   virtual QString pluginFileName() = 0;
 
 public slots:
    /*  */

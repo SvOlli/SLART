@@ -39,7 +39,13 @@ public:
    virtual ~MagicEncoder();
    
    /*  */
+   virtual void setup( Satellite *satellite, const QString &fileName );
+   /*  */
    virtual QWidget *configWidget() = 0;
+   /*  */
+   virtual QThread *workerThread();
+   /*  */
+   virtual QString pluginFileName();
    /*  */
    void run();
    /* read settings from storage */
@@ -60,12 +66,6 @@ public:
    virtual bool initialize( const QString &fileName) = 0;
    /* finalize (clean up) the encoder and close the file */
    virtual bool finalize( bool enqueue, bool cancel ) = 0;
-   /*  */
-   virtual QThread *workerThread();
-   /*  */
-   virtual void setPluginFileName( const QString &fileName );
-   /*  */
-   virtual QString pluginFileName();
 
 
 public slots:
@@ -89,6 +89,7 @@ protected:
    bool writeChunk( const char* buffer, qint64 size );
 
    /* settings */
+   Satellite      *mpSatellite;
    bool           mUseEncoder;
    bool           mEnqueue;
    bool           mDirOverride;
