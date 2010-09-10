@@ -72,56 +72,56 @@ void SorcererPlugin::cleanup( QApplication *app )
                                 QObject::tr("New version (%1 -> %2).\n"
                                             "Cleaning up registry.")
                                 .arg(mGlobal.value("Version","none").toString(), SLART_VERSION) );
-      mGlobal.remove("UseGlobalStyleSheetFile");
-
-      cleanupSettings( &mFunkytown );
-      mFunkytown.remove( "flv2mpeg4" );
-
-      cleanupSettings( &mInnuendo );
-      mInnuendo.remove( "Next" );
-      mInnuendo.remove( "Play" );
-      mInnuendo.remove( "Stop" );
-
-      cleanupSettings( &mKarmadrome );
-      mKarmadrome.remove( "ButtonRows" );
-
-      cleanupSettings( &mPartyman );
-      mPartyman.remove( "DatabaseFilename" );
-
-      cleanupSettings( &mRubberbandman );
-
-      cleanupSettings( &mNotorious );
-
-      cleanupSettings( &mStripped );
-      QString  strippedEncoder     = mStripped.value( "Encoder", QString() ).toString();
-      QVariant strippedOggQuality  = mStripped.value( "OggQuality" );
-      QVariant strippedFlacQuality = mStripped.value( "FlacQuality" );
-      QVariant strippedFlacUseOga  = mStripped.value( "FlacUseOga" );
-      if( !strippedEncoder.isEmpty() )
-      {
-         mStripped.remove( "Encoder" );
-         mStripped.beginGroup( strippedEncoder );
-         mStripped.setValue( "UseEncoder", true );
-         mStripped.endGroup();
-      }
-      mStripped.beginGroup( "ogg" );
-      if( !strippedOggQuality.isNull() )
-      {
-         mStripped.setValue( "OggQuality", strippedOggQuality );
-      }
-      mStripped.endGroup();
-      mStripped.beginGroup( "FLAC" );
-      if( !strippedFlacQuality.isNull() )
-      {
-         mStripped.setValue( "FlacQuality", strippedFlacQuality );
-      }
-      if( !strippedFlacUseOga.isNull() )
-      {
-         mStripped.setValue( "FlacUseOga", strippedFlacUseOga );
-      }
-      mStripped.endGroup();
-      mGlobal.setValue( "Version", SLART_VERSION );
    }
+   mGlobal.remove("UseGlobalStyleSheetFile");
+
+   cleanupSettings( &mFunkytown );
+   mFunkytown.remove( "flv2mpeg4" );
+
+   cleanupSettings( &mInnuendo );
+   mInnuendo.remove( "Next" );
+   mInnuendo.remove( "Play" );
+   mInnuendo.remove( "Stop" );
+
+   cleanupSettings( &mKarmadrome );
+   mKarmadrome.remove( "ButtonRows" );
+
+   cleanupSettings( &mPartyman );
+   mPartyman.remove( "DatabaseFilename" );
+
+   cleanupSettings( &mRubberbandman );
+
+   cleanupSettings( &mNotorious );
+
+   cleanupSettings( &mStripped );
+   QString  strippedEncoder     = mStripped.value( "Encoder", QString() ).toString();
+   QVariant strippedOggQuality  = mStripped.value( "OggQuality" );
+   QVariant strippedFlacQuality = mStripped.value( "FlacQuality" );
+   QVariant strippedFlacUseOga  = mStripped.value( "FlacUseOga" );
+   if( !strippedEncoder.isEmpty() )
+   {
+      mStripped.remove( "Encoder" );
+      mStripped.beginGroup( strippedEncoder );
+      mStripped.setValue( "UseEncoder", true );
+      mStripped.endGroup();
+   }
+   mStripped.beginGroup( "ogg" );
+   if( !strippedOggQuality.isNull() )
+   {
+      mStripped.setValue( "OggQuality", strippedOggQuality );
+   }
+   mStripped.endGroup();
+   mStripped.beginGroup( "FLAC" );
+   if( !strippedFlacQuality.isNull() )
+   {
+      mStripped.setValue( "FlacQuality", strippedFlacQuality );
+   }
+   if( !strippedFlacUseOga.isNull() )
+   {
+      mStripped.setValue( "FlacUseOga", strippedFlacUseOga );
+   }
+   mStripped.endGroup();
+   mGlobal.setValue( "Version", SLART_VERSION );
 }
 
 
