@@ -50,7 +50,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
-   mEncoders = MagicEncoderLoader::tryLoading();
+   mEncoders = MagicEncoderLoader::tryLoading( "s0d" );
    if( mEncoders.size() == 0 )
    {
       QMessageBox::critical( this,
