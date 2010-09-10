@@ -53,9 +53,11 @@ QThread *MagicEncoder::workerThread()
 }
 
 
-void MagicEncoder::setup( Satellite *satellite, const QString &fileName )
+void MagicEncoder::setup( Satellite *satellite, const QString &msgHeader,
+                          const QString &fileName )
 {
-   mpSatellite = satellite;
+   mpSatellite     = satellite;
+   mMsgHeader      = msgHeader;
    mPluginFileName = fileName;
 }
 
@@ -114,14 +116,11 @@ bool MagicEncoder::finalize( bool enqueue, bool cancel )
    {
       if( mpSatellite )
       {
-         QByteArray msg( "s0d\n" );
-         msg.append( mFileName.toUtf8() );
-         mpSatellite->send( msg );
+         QString msg( "%1\n%2" );
+         mpSatellite->send( msg.arg( mMsgHeader, mFileName ).toUtf8() );
          if( enqueue && mEnqueue )
          {
-            msg = "P0Q\n";
-            msg.append( mFileName.toUtf8() );
-            mpSatellite->send( msg );
+            mpSatellite->send( msg.arg( "P0Q", mFileName ).toUtf8() );
          }
       }
    }

@@ -31,7 +31,8 @@
 
 #include <QtDebug>
 
-MagicEncoderList MagicEncoderLoader::tryLoading( QApplication *app )
+MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
+                                                 QApplication *app )
 {
    MagicEncoderList encoderList;
    if( !app )
@@ -46,7 +47,7 @@ MagicEncoderList MagicEncoderLoader::tryLoading( QApplication *app )
       searchDir.cdUp();
       if( searchDir.cd( "PlugIns" ) )
       {
-         encoderList = tryLoading( searchDir );
+         encoderList = tryLoading( msgHeader, searchDir );
          if( encoderList.size() > 0 )
          {
             return encoderList;
@@ -60,7 +61,7 @@ MagicEncoderList MagicEncoderLoader::tryLoading( QApplication *app )
       searchDir.cdUp();
       if( searchDir.cd( "lib" ) )
       {
-         encoderList = tryLoading( searchDir );
+         encoderList = tryLoading( msgHeader, searchDir );
          if( encoderList.size() > 0 )
          {
             return encoderList;
@@ -68,11 +69,12 @@ MagicEncoderList MagicEncoderLoader::tryLoading( QApplication *app )
       }
    }
 #endif
-   return tryLoading( pluginsDir );
+   return tryLoading( msgHeader, pluginsDir );
 }
 
 
-MagicEncoderList MagicEncoderLoader::tryLoading( const QDir &dir )
+MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
+                                                 const QDir &dir )
 {
    Satellite *satellite = Satellite::get();
    QStringList nameFilter;
@@ -94,7 +96,7 @@ MagicEncoderList MagicEncoderLoader::tryLoading( const QDir &dir )
       MagicEncoderInterface *encoder = qobject_cast<MagicEncoderInterface*>(plugin);
       if( encoder )
       {
-         encoder->setup( satellite, encoderName );
+         encoder->setup( satellite, msgHeader, encoderName );
          encoderList.append( encoder );
       }
       else

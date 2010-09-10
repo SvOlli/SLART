@@ -35,7 +35,8 @@ class MagicEncoderLoader
 {
 public:
    /*  */
-   static MagicEncoderList tryLoading( QApplication *app = 0 );
+   static MagicEncoderList tryLoading( const QString &msgHeader,
+                                       QApplication *app = 0 );
 
 private:
    MagicEncoderLoader();
@@ -44,7 +45,7 @@ private:
    MagicEncoderLoader &operator=( const MagicEncoderLoader &other );
 
    /*  */
-   static MagicEncoderList tryLoading( const QDir &dir );
+   static MagicEncoderList tryLoading( const QString &msgHeader, const QDir &dir );
 };
 
 #endif /* MAGICENCODERLOADER_HPP */

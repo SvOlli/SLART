@@ -35,7 +35,8 @@ public:
    virtual ~MagicEncoderInterface() {}
 
    /*  */
-   virtual void setup( Satellite *satellite, const QString &fileName ) = 0;
+   virtual void setup( Satellite *satellite, const QString &msgHeader,
+                       const QString &fileName ) = 0;
    /*  */
    virtual QWidget *configWidget() = 0;
    /*  */

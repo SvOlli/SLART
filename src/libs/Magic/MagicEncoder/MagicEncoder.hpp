@@ -39,7 +39,8 @@ public:
    virtual ~MagicEncoder();
    
    /*  */
-   virtual void setup( Satellite *satellite, const QString &fileName );
+   virtual void setup( Satellite *satellite, const QString &msgHeader,
+                       const QString &fileName );
    /*  */
    virtual QWidget *configWidget() = 0;
    /*  */
@@ -95,6 +96,7 @@ protected:
    bool           mDirOverride;
    QString        mDirectory;
    QString        mPluginFileName;
+   QString        mMsgHeader;
    const QString  mName;
    QFile          mFile;
    TagList        mTagList;
