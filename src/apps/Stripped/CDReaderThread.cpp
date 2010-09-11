@@ -18,6 +18,7 @@
 /* local library headers */
 #include <MagicEncoderInterface.hpp>
 #include <MySettings.hpp>
+#include <Satellite.hpp>
 
 /* local headers */
 #include "CDEdit.hpp"
@@ -297,7 +298,7 @@ void CDReaderThread::runReadAudioData()
 {
    int percent = 0;
    int lastPercent = 0;
-   int i = 0;
+   int track = 0;
    int sector = 0;
    char *buffer = 0;
    mCancel = false;
@@ -311,26 +312,25 @@ void CDReaderThread::runReadAudioData()
       return;
    }
 
-   for( i = 0; i < MAX_PARANOIA_FUNCTION; i++ )
-   {
-      mpCallbackFunction[i] = 0;
-   }
-
    emit stateRip();
 
    mpParanoia = ::cdio_paranoia_init( mpDrive );
    ::cdio_paranoia_modeset( mpParanoia, PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP );
 
    emit setTrackDisabled( -1, true );
-   for( i = 0; i < 100; i++ )
+   for( track = 0; track < 100; track++ )
    {
-      mpCDEdit->trackInfo( i, &dorip, &doenqueue, &artist, &title,
+      mpCDEdit->trackInfo( track, &dorip, &doenqueue, &artist, &title,
                            &albumartist, &albumtitle, &genre, &year );
-      emit setTrackDisabled( i, true );
-      emit ensureVisible( i );
+      emit setTrackDisabled( track, true );
+      emit ensureVisible( track );
       if( !dorip )
       {
          continue;
+      }
+      for( int n = 0; n < MAX_PARANOIA_FUNCTION; n++ )
+      {
+         mpCallbackFunction[n] = 0;
       }
 
       TagList tagList;
@@ -338,15 +338,15 @@ void CDReaderThread::runReadAudioData()
       tagList.set( "ALBUM",       albumtitle  );
       tagList.set( "ARTIST",      artist      );
       tagList.set( "TITLE",       title       );
-      tagList.set( "TRACKNUMBER", QString::number(i) );
+      tagList.set( "TRACKNUMBER", QString::number(track) );
       tagList.set( "GENRE",       genre );
       if( year > 0 )
       {
          tagList.set( "DATE",        QString::number(year) );
       }
 
-      int firstSector = mpCDInfo->firstSector( i );
-      int lastSector  = mpCDInfo->lastSector( i );
+      int firstSector = mpCDInfo->firstSector( track );
+      int lastSector  = mpCDInfo->lastSector( track );
       QString fileName( tagList.fileName( createPattern ) );
 
       emit message( fileName.mid( fileName.lastIndexOf('/')+1 ) );
@@ -384,6 +384,7 @@ fflush(stdout);
          percent = (sector - firstSector) * 100 / (lastSector - firstSector);
          if( percent != lastPercent )
          {
+            emit errors( track, MAX_PARANOIA_FUNCTION, mpCallbackFunction );
             emit progress( percent );
             lastPercent = percent;
          }
@@ -433,9 +434,9 @@ printf("\n");
    }
    emit message( tr("Audio extraction completed.") );
    emit progress( 0 );
-   for( i = 0; i < 100; i++ )
+   for( track = 0; track < 100; track++ )
    {
-      emit setTrackDisabled( i, false );
+      emit setTrackDisabled( track, false );
    }
    emit setTrackDisabled( -1, false );
    emit stateDisc();

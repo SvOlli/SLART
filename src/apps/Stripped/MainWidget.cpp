@@ -43,8 +43,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpRipButton( new QPushButton( tr("Rip Tracks"), this ) )
 , mpEjectButton( new QPushButton( tr("Eject"), this ) )
 {
-   MySettings settings;
-
    mpCDEdit->setDisabled( true );
    mpCDDBClient->setDisabled( true );
    mpSettingsButton->setDisabled( false );
@@ -164,6 +162,7 @@ void MainWidget::handleConfigUpdate()
       disconnect( mpCDReader, SIGNAL(gotToc()),
                   mpCDDBClient, SLOT(handleComboBox()) );
    }
+   mpCDReader->readSettings();
 }
 
 

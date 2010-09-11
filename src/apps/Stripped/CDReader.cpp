@@ -24,6 +24,7 @@
 #include "CDInfo.hpp"
 #include "CDEdit.hpp"
 #include "CDReaderThread.hpp"
+#include "ParanoiaStatus.hpp"
 
 
 #include <Trace.hpp>
@@ -37,15 +38,18 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
 , mpCDInfo( info )
 , mpCDEdit( edit )
 , mpProgressBar( new QProgressBar( this ) )
+, mpParanoiaStatus( new ParanoiaStatus( this ) )
 , mEncoders()
 , mDevice()
 {
    mpProgressBar->setRange( 0, 100 );
+   mpProgressBar->setAlignment( Qt::AlignCenter );
 
    QGridLayout *mainLayout = new QGridLayout( this );
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 
    mainLayout->addWidget( mpProgressBar, 0, 0 );
+   mainLayout->addWidget( mpParanoiaStatus, 1, 0 );
 
    connect( mpCDReaderThread, SIGNAL(stateNoDisc()),
             this, SIGNAL(stateNoDisc()) );
@@ -67,7 +71,14 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
             this, SIGNAL(ensureVisible(int)) );
    connect( mpCDReaderThread, SIGNAL(progress(int)),
             mpProgressBar, SLOT(setValue(int)) );
+   connect( mpCDReaderThread, SIGNAL(stateRip()),
+            mpParanoiaStatus, SLOT(clear()) );
+   connect( mpCDReaderThread, SIGNAL(stateScan()),
+            mpParanoiaStatus, SLOT(clear()) );
+   connect( mpCDReaderThread, SIGNAL(errors(int,unsigned int,const unsigned long*)),
+            mpParanoiaStatus, SLOT(update(int,unsigned int,const unsigned long*)) );
 
+   readSettings();
    setLayout( mainLayout );
 }
 
@@ -134,4 +145,10 @@ void CDReader::eject()
 void CDReader::cancel()
 {
    mpCDReaderThread->cancel();
+}
+
+
+void CDReader::readSettings()
+{
+   mpParanoiaStatus->setVisible( MySettings().VALUE_SHOWSTATS );
 }

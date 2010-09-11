@@ -36,6 +36,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 , mpDevicesBox( new QComboBox( this ) )
 , mpAutoFreeDB( new QCheckBox( tr("Automatically run FreeDB query"), this ) )
 , mpAutoEject( new QCheckBox( tr("Automatically eject CD when done"), this ) )
+, mpShowStats( new QCheckBox( tr("Show CD reading status"), this ) )
 , mpDirButtonLabel( new QLabel( tr("Base Directory:"), this ) )
 , mpDirButton( new QPushButton( this ) )
 , mpPatternLabel( new QLabel( tr("File Create Pattern:"), this ) )
@@ -113,8 +114,9 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    strLayout->addWidget( mpPatternExample, 3, 1 );
    strLayout->addWidget( mpAutoFreeDB,     4, 0, 1, 2 );
    strLayout->addWidget( mpAutoEject,      5, 0, 1, 2 );
-   strLayout->addWidget( mpEncoderTabs,    6, 0, 1, 2 );
-   strLayout->setRowStretch( 6, 1 );
+   strLayout->addWidget( mpShowStats,      6, 0, 1, 2 );
+   strLayout->addWidget( mpEncoderTabs,    7, 0, 1, 2 );
+   strLayout->setRowStretch( 7, 1 );
    strTab->setLayout( strLayout );
       
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -217,6 +219,7 @@ void ConfigDialog::readSettings()
    }
    mpAutoFreeDB->setChecked( settings.VALUE_AUTOFREEDB );
    mpAutoEject->setChecked( settings.VALUE_AUTOEJECT );
+   mpShowStats->setChecked( settings.VALUE_SHOWSTATS );
    if( i < 0 )
    {
       i = 0;
@@ -242,6 +245,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "Device", mpDevicesBox->currentText() );
    settings.setValue( "AutoFreeDB", mpAutoFreeDB->isChecked() );
    settings.setValue( "AutoEject", mpAutoEject->isChecked() );
+   settings.setValue( "ShowStats", mpShowStats->isChecked() );
    settings.setValue( "CreatePattern", mpPattern->text() );
    settings.setValue( "Directory", mpDirButton->text().replace('\\','/') );
    

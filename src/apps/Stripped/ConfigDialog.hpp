@@ -80,6 +80,7 @@ private:
    QComboBox            *mpDevicesBox;
    QCheckBox            *mpAutoFreeDB;
    QCheckBox            *mpAutoEject;
+   QCheckBox            *mpShowStats;
    QLabel               *mpDirButtonLabel;
    QPushButton          *mpDirButton;
    QLabel               *mpPatternLabel;
@@ -100,6 +101,7 @@ private:
 #define VALUE_FLACQUALITY        value( "FlacQuality", 5 ).toInt()
 #define VALUE_FLACUSEOGA         value( "FlacUseOga", false ).toBool()
 #define VALUE_OGGQUALITY         value( "OggQuality", 0.4 ).toDouble()
+#define VALUE_SHOWSTATS          value( "ShowStats", false ).toBool()
 #define VALUE_STYLESHEET         value( "StyleSheet", QString() ).toString()
 #define VALUE_USE_ENCODER        value( "UseEncoder", false ).toBool()
 #define VALUE_USE_LATIN1         value( "UseLatin1", false ).toBool()

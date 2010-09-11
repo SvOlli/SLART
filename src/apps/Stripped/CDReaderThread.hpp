@@ -81,6 +81,8 @@ signals:
    /*  */
    void message( const QString &message = QString() );
    /*  */
+   void errors( int track, unsigned int elements, const unsigned long *counts );
+   /*  */
    void progress( int percent );
    /*  */
    void setTrackDisabled( int track, bool disabled );

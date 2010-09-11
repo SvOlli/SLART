@@ -37,6 +37,7 @@ class CDEdit;
 class CDInfo;
 class CDReaderThread;
 class Encoder;
+class ParanoiaStatus;
    
 
 class CDReader : public QWidget
@@ -65,6 +66,8 @@ public slots:
    void eject();
    /* handle cancel button */
    void cancel();
+   /*  */
+   void readSettings();
    
 signals:
    /*  */
@@ -96,6 +99,7 @@ private:
    CDInfo               *mpCDInfo;
    CDEdit               *mpCDEdit;
    QProgressBar         *mpProgressBar;
+   ParanoiaStatus       *mpParanoiaStatus;
    MagicEncoderList     mEncoders;
    QString              mDevice;
 };
