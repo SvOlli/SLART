@@ -42,18 +42,22 @@ static void callback0( long inpos, ::paranoia_cb_mode_t function )
 
 void CDReaderThread::callback( long /*inpos*/, ::paranoia_cb_mode_t function )
 {
-   if( function > 12 )
+   int func = (int)function;
+   if( func > 12 )
    {
-      printf( "function:%d\n", function );
+      printf( "function:%d\n", func );
       mCancel = true;
       return;
    }
 
-   if( (unsigned int)function < MAX_PARANOIA_FUNCTION )
+   if( (unsigned int)func < MAX_PARANOIA_FUNCTION )
    {
-      mpCallbackFunction[(int)function]++;
+      mpCallbackFunction[func]++;
+      if( (func > 1) && (func != 9) )
+      {
+         mTrackHasErrors = true;
+      }
    }
-//   qDebug() << "callback:" << "inpos:" << inpos << "function:" << function << mCallbackFunction[function];
 }
 
 
@@ -66,6 +70,7 @@ CDReaderThread::CDReaderThread()
 , mpCDEdit( 0 )
 , mpCallbackFunction( new unsigned long[ MAX_PARANOIA_FUNCTION ] )
 , mCancel( false )
+, mTrackHasErrors( false )
 , mDevice()
 , mDevices()
 , mEncoders()
@@ -302,10 +307,17 @@ void CDReaderThread::runReadAudioData()
    int sector = 0;
    char *buffer = 0;
    mCancel = false;
-   QString createPattern( MySettings().VALUE_CREATEPATTERN );
+   QString createPattern;
    QString artist, title, albumartist, albumtitle, genre;
+   bool autoEnqueue;
    bool dorip, doenqueue;
    int year;
+   {
+      MySettings settings;
+      createPattern = settings.VALUE_CREATEPATTERN;
+      autoEnqueue   = settings.VALUE_AUTOENQUEUE;
+   }
+
 
    if( !mpCdIo || !mpDrive )
    {
@@ -332,6 +344,7 @@ void CDReaderThread::runReadAudioData()
       {
          mpCallbackFunction[n] = 0;
       }
+      mTrackHasErrors = false;
 
       TagList tagList;
       tagList.set( "ALBUMARTIST", albumartist );
@@ -419,6 +432,10 @@ printf("\n");
             disconnect( qobject, SIGNAL(encodingFail()),
                         this, SLOT(cancel()) );
 
+            if( mTrackHasErrors && autoEnqueue )
+            {
+               doenqueue = true;
+            }
             mEncoders.at(n)->finalize( doenqueue, mCancel );
          }
       }

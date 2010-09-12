@@ -120,6 +120,7 @@ private:
    CDEdit               *mpCDEdit;
    unsigned long        *mpCallbackFunction;
    bool                 mCancel;
+   bool                 mTrackHasErrors;
    QString              mDevice;
    QStringList          mDevices;
    MagicEncoderList     mEncoders;
