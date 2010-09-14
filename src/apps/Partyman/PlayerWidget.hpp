@@ -109,9 +109,9 @@ signals:
    void trackPlaying( const TrackInfo &trackInfo );
 
 protected:
-   /*  */
+   /* reimplemented for the drop of drag'n'drop of tracks */
    void dragEnterEvent( QDragEnterEvent *event );
-   /*  */
+   /* reimplemented for the drop of drag'n'drop of tracks */
    void dropEvent( QDropEvent *event );
    
 private:

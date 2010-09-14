@@ -46,13 +46,13 @@ public:
 
    /* remove selected items from list widget and put them into the list parameter */
    void removeSelectedItems( QStringList *list = 0 );
-   /*  */
+   /* get a list with all elements */
    QStringList allFilePaths();
-   /*  */
+   /* get and remove an element from the list */
    QString takeFilePath( int i );
-   /*  */
+   /* get number of elements in the list */
    int count();
-   /*  */
+   /* clear the list */
    void clear();
 
 public slots:
@@ -66,7 +66,7 @@ public slots:
 signals:
    /* signal that right mousebutton has been pressed */
    void context( const QModelIndex &index, int key );
-   /*  */
+   /* some data has been removed, so others can update the counter */
    void dataRemoved();
 
 protected:

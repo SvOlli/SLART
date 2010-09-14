@@ -46,7 +46,7 @@ public slots:
    void selectedEntries( const QModelIndex &index, int key );
    /* handle focus */
    void setFocus();
-   /*  */
+   /* update the number of found entries */
    void updateCounter();
 
 private:

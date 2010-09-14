@@ -83,14 +83,20 @@ void PlaylistContentWidget::addItems( const QStringList &items, bool atStart )
 
 void PlaylistContentWidget::removeSelectedItems( QStringList *list )
 {
-   /* use persistent indexes? */
-   QModelIndexList indexes = selectedIndexes();
-   QModelIndex idx;
+   QModelIndexList indexes( selectedIndexes() );
    if (indexes.count() > 0)
    {
+      QList<QPersistentModelIndex> persistentIndexes;
+
       for (int i = 0; i<indexes.count(); i++)
       {
-         idx = indexes.at(i);
+         persistentIndexes.append( indexes.at(i) );
+      }
+
+      QPersistentModelIndex idx;
+      for (int i = 0; i<persistentIndexes.count(); i++)
+      {
+         idx = persistentIndexes.at(i);
          if( idx.isValid() )
          {
             if( list )
@@ -105,7 +111,6 @@ void PlaylistContentWidget::removeSelectedItems( QStringList *list )
          }
       }
    }
-   return;
 }
 
 
@@ -173,7 +178,7 @@ void PlaylistContentWidget::contextMenuEvent( QContextMenuEvent *event )
 #if USE_DRAG_WORKAROUND
 void PlaylistContentWidget::startDrag( Qt::DropActions supportedActions )
 {
-   QModelIndexList indexes = selectedIndexes();
+   QModelIndexList indexes( selectedIndexes() );
    if (indexes.count() > 0)
    {
       QList<QPersistentModelIndex> persistentIndexes;
