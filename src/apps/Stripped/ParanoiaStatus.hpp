@@ -40,11 +40,11 @@ public:
    bool hasErrors();
 
 public slots:
-   /*  */
+   /* set all entries to 0 */
    void clear();
-   /*  */
+   /* switch to status of the given track */
    void handleTrackNr( int track );
-   /*  */
+   /* update the status of a track */
    void update( int track, unsigned int elements, const unsigned long *counts );
 
 signals:

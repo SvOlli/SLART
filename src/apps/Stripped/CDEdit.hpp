@@ -50,7 +50,7 @@ public:
    void clear();
    /* check if the sheet is empty */
    bool isEmpty();
-   /*  */
+   /* move the focus up or down by one line */
    void keyUpDown( QWidget *widget, bool isUp );
    
 signals:
