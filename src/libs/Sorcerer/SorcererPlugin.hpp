@@ -48,9 +48,9 @@ private:
    SorcererPlugin( const SorcererPlugin &other );
    SorcererPlugin &operator=( const SorcererPlugin &other );
 
-   /*  */
+   /* subroutine that cleans up common settings for a program */
    void cleanupSettings( MySettings *settings );
-   /*  */
+   /* subroutine that does not overwrite any settings */
    void setDefault( MySettings *settings, const QString &name,
                     const QVariant &value );
 
