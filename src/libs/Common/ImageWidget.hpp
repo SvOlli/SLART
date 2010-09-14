@@ -35,13 +35,13 @@ public:
    virtual ~ImageWidget();
 
 protected:
-   /*  */
+   /* intercepting paint event for scaled drawing */
    void paintEvent( QPaintEvent *event );
 
 public slots:
-   /*  */
+   /* set the image data */
    void setImage( const QImage &image );
-   /*  */
+   /* load image data from file */
    void setImage( const QString &fileName );
    /* set aspect ratio: Qt::IgnoreAspectRatio, Qt::KeepAspectRatio, Qt::KeepAspectRatioByExpanding */
    void setAspectRatioMode( Qt::AspectRatioMode mode );

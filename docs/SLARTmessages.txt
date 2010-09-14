@@ -11,7 +11,7 @@ Generic (handled by GenericSatMsgHandler)
 - commands
   - CFG: re-read configuration
   - PNG: ping request
-  - SHT: screenshot (parameters: widgetname, filename)
+  - SHT: screenshot (parameters: appname, widgetname, filename)
 - status messages
   - png: ping reply
 

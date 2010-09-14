@@ -62,16 +62,19 @@ void GenericSatMsgHandler::handle( const QByteArray &msg )
             if( src.at(1) == QApplication::applicationName() )
             {
                emit anotherInstance();
-               return;
             }
          }
+         return;
       }
 
       if( src.at(0) == "SHT" )
       {
-         if( src.size() > 2 )
+         if( src.size() > 3 )
          {
-            WidgetShot::shootWidget( src.at(1), src.at(2) );
+            if( src.at(1) == QApplication::applicationName() )
+            {
+               WidgetShot::shootWidget( src.at(2), src.at(3) );
+            }
          }
          return;
       }

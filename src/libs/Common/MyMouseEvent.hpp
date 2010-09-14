@@ -34,7 +34,7 @@ private:
    MyMouseEvent &operator=( const MyMouseEvent &other );
    virtual ~MyMouseEvent();
 public:
-   /*  */
+   /* only cause for this class: modify the mouse button */
    void setMouseButton( Qt::MouseButton bt );
 };
 

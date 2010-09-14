@@ -24,15 +24,15 @@ public:
    virtual ~GenericSatMsgHandler();
 
 public slots:
-   /*  */
+   /* handle the message */
    void handle( const QByteArray &msg );
 
 signals:
-   /*  */
+   /* send out a reply */
    void reply( const QByteArray &msg );
-   /*  */
+   /* signalize to update config */
    void updateConfig();
-   /*  */
+   /* singalize that another instance is already running */
    void anotherInstance();
 
 private:

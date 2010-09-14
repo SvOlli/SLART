@@ -34,17 +34,18 @@ class Xxtea
 public:
    Xxtea();
    virtual ~Xxtea();
-   /*  */
+   /* set the key as 4 32-bit unsigned integer */
    void setKey( quint32 k0, quint32 k1, quint32 k2, quint32 k3 );
-   /*  */
+   /* set the key as a 16 byte array, returns true if data was valid and accepted */
    bool setKey( const QByteArray &key );
-   /*  */
+   /* get the key */
    QByteArray getKey();
-   /*  */
+   /* set the data to work upon, returns true if data was valid (needs to be a
+      mutiple of 4 bytes) */
    bool setData( QByteArray *data );
-   /*  */
+   /* encode the data */
    bool encode();
-   /*  */
+   /* decode the data */
    bool decode();
 
 private:

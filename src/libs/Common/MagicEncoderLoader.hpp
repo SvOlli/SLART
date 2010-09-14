@@ -34,7 +34,7 @@ typedef QList<MagicEncoderInterface*> MagicEncoderList;
 class MagicEncoderLoader
 {
 public:
-   /*  */
+   /* function to load MagicEncoders */
    static MagicEncoderList tryLoading( const QString &msgHeader,
                                        QApplication *app = 0 );
 
@@ -44,7 +44,7 @@ private:
    MagicEncoderLoader( const MagicEncoderLoader &other );
    MagicEncoderLoader &operator=( const MagicEncoderLoader &other );
 
-   /*  */
+   /* internal function to load MagicEncoders */
    static MagicEncoderList tryLoading( const QString &msgHeader, const QDir &dir );
 };
 

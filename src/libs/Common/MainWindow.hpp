@@ -24,9 +24,9 @@ public:
    MainWindow( bool saveWindow = true,
                QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    virtual ~MainWindow();
-   /*  */
+   /* set the main widget */
    void setMainWidget( QWidget *mainWidget );
-   /*  */
+   /* add the MainWidget to the WidgetShot class */
    void enableScreenshot();
 
 public slots:

@@ -34,7 +34,7 @@ Q_OBJECT
 public:
    SatelliteServerRunner( quint16 port, const QHostAddress &host );
    virtual ~SatelliteServerRunner();
-   /*  */
+   /* method called by QThread::start() to to run the server */
    void run();
 
 signals:

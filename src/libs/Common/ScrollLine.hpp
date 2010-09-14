@@ -36,7 +36,7 @@ public:
    ScrollLine( QWidget *parent, bool autoScroll = true );
    virtual ~ScrollLine();
 
-   /*  */
+   /* set the filename to use when dragged */
    void setDragFileName( const QString &fileName = QString() );
    
 public slots:
@@ -52,7 +52,7 @@ protected:
    void mousePressEvent( QMouseEvent *event );
    /* handle mouse event for correct copy'n'paste */
    void mouseReleaseEvent( QMouseEvent *event );
-   /*  */
+   /* intecepting paint event to change coloring role */
    void paintEvent( QPaintEvent *event );
 
 private:

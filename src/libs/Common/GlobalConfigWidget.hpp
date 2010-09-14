@@ -51,11 +51,11 @@ public slots:
    void updateStyleSheetFileName();
    /* handle the click of the dots button */
    void selectFile();
-   /*  */
+   /* set the "use satellite" checkbox */
    void setSatelliteClicked( bool isSet );
    
 signals:
-   /*  */
+   /* signalize that the "use satellite" checkbox has been clicked */
    void useSatelliteClicked( bool isSet );
 
 private:
