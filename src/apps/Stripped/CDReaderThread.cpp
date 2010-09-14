@@ -371,7 +371,7 @@ void CDReaderThread::runReadAudioData()
          if( mEncoders.at(n)->useEncoder() )
          {
             QThread *qobject = mEncoders.at(n)->workerThread();
-            mEncoders.at(n)->start();
+            qobject->start();
             mEncoders.at(n)->setTags( tagList );
             mEncoders.at(n)->initialize( fileName );
             connect( this, SIGNAL(encodeThis(const QByteArray &)),

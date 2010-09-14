@@ -37,7 +37,7 @@ public:
    MagicEncoderWav();
    virtual ~MagicEncoderWav();
 
-   /*  */
+   /* supply the a handle to the configuration widget */
    QWidget *configWidget();
    /* read settings from storage */
    void readSettings();
@@ -51,11 +51,11 @@ public:
 public slots:
    /* encode raw cd audio data */
    void encodeCDAudio( const QByteArray &data );
-   /*  */
+   /* set if the encoder should be used */
    virtual void setUseEncoder( bool on );
-   /*  */
+   /* handle the dot button by display filesystem browser */
    void handleDotButton();
-   
+
 private:
    MagicEncoderWav( const MagicEncoderWav &other );
    MagicEncoderWav &operator=( const MagicEncoderWav &other );

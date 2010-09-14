@@ -38,16 +38,16 @@ public:
    MagicEncoder( const QString &encoderName );
    virtual ~MagicEncoder();
    
-   /*  */
+   /* constructor replacement */
    virtual void setup( Satellite *satellite, const QString &msgHeader,
                        const QString &fileName );
-   /*  */
+   /* supply the a handle to the configuration widget */
    virtual QWidget *configWidget() = 0;
-   /*  */
+   /* supply a handle to the worker thread for signal/slot communication */
    virtual QThread *workerThread();
-   /*  */
+   /* get the filename of the shared object */
    virtual QString pluginFileName();
-   /*  */
+   /* implementation of function to run as thread */
    void run();
    /* read settings from storage */
    virtual void readSettings() = 0;
@@ -57,11 +57,11 @@ public:
    QString name();
    /* set the tags of the encoded file, always called before(!) initialize */
    void setTags( const TagList &tagList );
-   /*  */
+   /* should the encoder be used? */
    bool useEncoder();
-   /*  */
+   /* should the track be enqueued after encoding? */
    void setEnqueue( bool activate );
-   /*  */
+   /* set the directory to write the files to */
    void setDirectory( ScrollLine *dirOverride );
    /* initialize the encoder */
    virtual bool initialize( const QString &fileName) = 0;
@@ -70,23 +70,21 @@ public:
 
 
 public slots:
-   /*  */
-   virtual void start();
    /* encode raw cd audio data */
    virtual void encodeCDAudio( const QByteArray &data ) = 0;
-   /*  */
+   /* set if the encoder should be used */
    virtual void setUseEncoder( bool on ) = 0;
 
 signals:
-   /*  */
+   /* signals that the encoding has failed */
    void encodingFail();
-   /*  */
+   /* signals that the use encoder checkbox has been clicked in configuration widget */
    void useEncoderClicked( bool on );
 
 protected:
    /* initialize the encoder (create the output file) */
    virtual bool initialize( const QString &fileName, const char *extension );
-   /*  */
+   /* write a chunk of encoded audio data */
    bool writeChunk( const char* buffer, qint64 size );
 
    /* settings */

@@ -73,12 +73,6 @@ QString MagicEncoder::name()
 }
 
 
-void MagicEncoder::start()
-{
-   QThread::start();
-}
-
-
 void MagicEncoder::run()
 {
    /* when started just run event loop to handle messages */

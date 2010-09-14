@@ -41,7 +41,7 @@ public:
    MagicEncoderMp3();
    virtual ~MagicEncoderMp3();
 
-   /*  */
+   /* supply the a handle to the configuration widget */
    QWidget *configWidget();
    /* read settings from storage */
    void readSettings();
@@ -55,11 +55,11 @@ public:
 public slots:
    /* encode raw cd audio data */
    void encodeCDAudio( const QByteArray &data );
-   /*  */
+   /* set if the encoder should be used */
    virtual void setUseEncoder( bool on );
-   /*  */
+   /* handle the dot button by display filesystem browser */
    void handleDotButton();
-   
+
 private:
    MagicEncoderMp3( const MagicEncoderMp3 &other );
    MagicEncoderMp3 &operator=( const MagicEncoderMp3 &other );
