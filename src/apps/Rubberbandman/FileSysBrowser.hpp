@@ -69,9 +69,9 @@ signals:
    void clicked( const QString &path );
    
 protected:
-   /*  */
+   /* reimplemented for the drop of drag'n'drop of tracks */
    virtual void dragEnterEvent( QDragEnterEvent *event );
-   /*  */
+   /* reimplemented for the drop of drag'n'drop of tracks */
    virtual void dropEvent( QDropEvent *event );
 
 private:
