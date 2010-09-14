@@ -55,7 +55,7 @@ public slots:
    void setFileName();
    /* update buttons to show if base dir is valid */
    void checkValidFile( const QString &fileName );
-   /*  */
+   /* handle the progress of an import */
    void handleProgress( unsigned count, const char *filename );
 
 private:
