@@ -267,8 +267,10 @@ void ConfigDialog::writeSettings()
 
 void ConfigDialog::handleDevices( const QStringList &devices )
 {
+#if 0
 TRACESTART(ConfigDialog::handleDevices);
 TRACEMSG << devices;
+#endif
    disconnect( mpDevicesBox, SIGNAL(currentIndexChanged(const QString&)),
                this, SLOT(handleDevice(const QString&)) );
    mpDevicesBox->clear();
@@ -290,8 +292,10 @@ TRACEMSG << devices;
 
 void ConfigDialog::handleDevice( const QString &device )
 {
+#if 0
 TRACESTART(ConfigDialog::handleDevice);
 TRACEMSG << device;
+#endif
    if( mpDevicesBox->findText( device ) == mpDevicesBox->count() - 1 )
    {
       mpCDReader->getDevices();
