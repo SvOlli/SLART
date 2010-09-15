@@ -47,8 +47,6 @@ public:
 public slots:
    /* handle eject button */
    void eject();
-   /*  */
-   void showMessage( const QString &message );
    /* update configuration changes */
    void handleConfigUpdate();
    /*  */

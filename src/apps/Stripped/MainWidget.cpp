@@ -126,9 +126,9 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpCDDBClient, SIGNAL(requestCDText()),
             mpCDReader, SLOT(readCDText()) );
    connect( mpCDDBClient, SIGNAL(message(const QString &)),
-            this, SLOT(showMessage(const QString &)) );
+            mpMessage, SLOT(setText(const QString &)) );
    connect( mpCDReader, SIGNAL(message(const QString &)),
-            this, SLOT(showMessage(const QString &)) );
+            mpMessage, SLOT(setText(const QString &)) );
 
    mpSatellite->restart();
    handleConfigUpdate();
@@ -140,12 +140,6 @@ void MainWidget::eject()
    mpCDDBClient->clear();
    mpCDEdit->clear();
    mpCDReader->eject();
-}
-
-
-void MainWidget::showMessage( const QString &message )
-{
-   mpMessage->setText( message );
 }
 
 
