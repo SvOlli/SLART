@@ -49,17 +49,17 @@ public slots:
    void eject();
    /* update configuration changes */
    void handleConfigUpdate();
-   /*  */
+   /* set buttons active according to state "no drive found" */
    void stateNoDrive();
-   /*  */
+   /* set buttons active according to state "no disc inserted" */
    void stateNoDisc();
-   /*  */
+   /* set buttons active according to state "disc read" */
    void stateDisc();
-   /*  */
+   /* set buttons active according to state "scanning the disc" */
    void stateScan();
-   /*  */
+   /* set buttons active according to state "connecting to freedb" */
    void stateNet();
-   /*  */
+   /* set buttons active according to state "ripping tracks" */
    void stateRip();
    
 signals:

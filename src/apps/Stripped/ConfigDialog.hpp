@@ -58,15 +58,15 @@ public slots:
    void writeSettings();
    /* update example */
    void updatePattern( const QString &text );
-   /*  */
+   /* handle the list of all devices available for ripping */
    void handleDevices( const QStringList &devices );
-   /*  */
+   /* handle the selection of the actual device used for ripping */
    void handleDevice( const QString &device );
    
 signals:
-   /*  */
+   /* notify that no drive is available */
    void stateNoDrive();
-   /*  */
+   /* notify that the configuration has changed */
    void configChanged();
    
 private:

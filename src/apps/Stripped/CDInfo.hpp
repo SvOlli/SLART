@@ -39,15 +39,15 @@ public:
    /* set the data for a track */
    void setTrack( int track, int startSector, int endSector,
                   bool isAudio, bool copyProhib, bool preEmp, bool twoChannels );
-   /*  */
+   /* set the artist for a track */
    void setArtist( int track = -1, const QString &artist = QString(), bool append = false );
    /* set the title for a track */
    void setTitle( int track = -1, const QString &title = QString(), bool append = false );
-   /*  */
+   /* set the genre of the disc */
    void setGenre( const QString &genre = QString(), bool append = false );
-   /*  */
+   /* set the year of the disc */
    void setYear( int year );
-   /*  */
+   /* split the title to artist and title according to separator */
    void splitTitle( const QString &separator );
    /* calculate the cddb discid */
    void calcCddbDiscID();
@@ -63,13 +63,13 @@ public:
    QString length( int track = -1 );
    /* return if track is audio */
    bool isAudio( int track );
-   /*  */
+   /* get the title of a track or disc, if no parameter */
    QString title( int track = -1 );
-   /*  */
+   /* get the artist of a track or disc, if no parameter */
    QString artist( int track = -1 );
-   /*  */
+   /* get the genre of the disc */
    QString genre();
-   /*  */
+   /* get the year of the disc */
    int year();
 
 private:

@@ -40,37 +40,38 @@ public:
    CDDBClient( CDInfo *cdinfo, QWidget *parent = 0 );
    virtual ~CDDBClient();
 
-   /*  */
+   /* remove all previous data */
    void clear();
 
 public slots:
-   /*  */
+   /* cancel the request */
    void cancel();
-   /*  */
+   /* handle a change of combo box: load cd data from net or cd-text */
    void handleComboBox( int index = 1 );
-   /*  */
+   /* split the artist and title */
    void handleSplit( const QString &token = QString() );
-   /*  */
+   /* handle the "match a cd"-request data */
    void handleQueryData( QNetworkReply *reply );
-   /*  */
+   /* handle the "get cd data"-request data */
    void handleReadData( QNetworkReply *reply );
 
 signals:
-   /*  */
+   /* signalize "net access"-state */
    void stateNet();
-   /*  */
+   /* signalize "disc read"-state */
    void stateDisc();
-   /*  */
+   /* signalize that track info has been updated */
    void infoUpdated();
-   /*  */
+   /* signalize the request to read cd-text */
    void requestCDText();
-   /*  */
+   /* send out info message */
    void message( const QString &message = QString() );
 
 private:
    CDDBClient( const CDDBClient &other );
    CDDBClient &operator=( const CDDBClient &other );
 
+   /* send out a command to freedb server */
    void startRequest( const QString &cmd, const QStringList &parameters );
 
    QLabel                  *mpCount;

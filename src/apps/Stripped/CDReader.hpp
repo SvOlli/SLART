@@ -56,7 +56,7 @@ public:
 public slots:
    /* read the toc */
    void readToc();
-   /*  */
+   /* read the cd-text */
    void readCDText();
    /* rip tracks */
    void readTracks();
@@ -66,29 +66,29 @@ public slots:
    void eject();
    /* handle cancel button */
    void cancel();
-   /*  */
+   /* (re-)read the settings */
    void readSettings();
    
 signals:
-   /*  */
+   /* signalize "no disc"-state */
    void stateNoDisc();
-   /*  */
+   /* signalize "disc inserted"-state */
    void stateDisc();
-   /*  */
+   /* signalize "reading toc"-state */
    void stateScan();
-   /*  */
+   /* signalize "ripping audio"-state */
    void stateRip();
-   /*  */
+   /* signalize "toc read"-state */
    void gotToc();
-   /*  */
+   /* send a list of devices that've been found */
    void foundDevices( const QStringList &devices );
-   /*  */
+   /* send status message */
    void message( const QString &message = QString() );
-   /*  */
+   /* send progress of track */
    void progress( int percent );
-   /*  */
+   /* track has been enabled/disabled */
    void setTrackDisabled( int track, bool disabled );
-   /*  */
+   /* make sure that the track is visible */
    void ensureVisible( int track );
    
 private:

@@ -172,7 +172,7 @@ void CDDBClient::startRequest( const QString &cmd, const QStringList &parameter 
       return;
    }
    /* TODO: get useful name */
-   QString url( "http://freedb.freedb.org/~cddb/cddb.cgi?cmd=cddb %1 %2&hello=svolli svolli.de Stripped alpha&proto=6" );
+   QString url( "http://freedb.freedb.org/~cddb/cddb.cgi?cmd=cddb %1 %2&hello=svolli localhost Stripped alpha&proto=6" );
 
    QNetworkRequest request( QUrl( url.arg( cmd, parameter.join(" ") ).replace( ' ', '+' ) ) );
    if( cmd == "query" )
