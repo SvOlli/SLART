@@ -31,11 +31,11 @@ TrackInfoListModel::TrackInfoListModel( Database *database, QObject *parent )
 , mDisplayPattern()
 , mList()
 {
-   configChanged();
+   readSettings();
 }
 
 
-void TrackInfoListModel::configChanged()
+void TrackInfoListModel::readSettings()
 {
    MySettings settings;
    mDisplayPattern = settings.VALUE_LISTPATTERN;

@@ -33,15 +33,15 @@ public:
    TimeSlider( Qt::Orientation orientation, QWidget *parent = 0 );
 
 protected:
-   /*  */
+   /* reimplemented for mapping of mouse button 2 to 3 */
    void mousePressEvent( QMouseEvent *event );
-   /*  */
+   /* reimplemented for mapping of mouse button 2 to 3 */
    void mouseReleaseEvent( QMouseEvent *event );
-   /*  */
+   /* reimplemented for timeout handling */
    void wheelEvent( QWheelEvent *event );
-   /*  */
+   /* reimplemented for handling of auto-repeat */
    void keyPressEvent( QKeyEvent *event );
-   /*  */
+   /* reimplemented for handling of auto-repeat */
    void keyReleaseEvent( QKeyEvent *event );
 
 private:
