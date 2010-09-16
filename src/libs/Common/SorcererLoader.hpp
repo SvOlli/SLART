@@ -32,7 +32,7 @@ class MySettings;
 class SorcererLoader
 {
 public:
-   /*  */
+   /* detect if Sorcerer needs to be loaded and run */
    static void detect( QApplication *app, bool force = false );
 
 private:
@@ -41,13 +41,13 @@ private:
    SorcererLoader( const SorcererLoader &other );
    SorcererLoader &operator=( const SorcererLoader &other );
 
-   /*  */
+   /* used for loading Sorcerer */
    static QPluginLoader *cpPluginLoader;
-   /*  */
+   /* search for Sorcerer and try loading it */
    static SorcererInterface *tryLoading( QApplication *app );
-   /*  */
+   /* try to load Sorcerer from the specified dir */
    static SorcererInterface *tryLoading( const QDir &dir );
-   /*  */
+   /* remove Sorcerer from memory */
    static void unload();
 };
 

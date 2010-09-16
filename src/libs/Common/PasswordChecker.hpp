@@ -31,29 +31,29 @@ class PasswordChecker : public QObject
 Q_OBJECT
 
 public:
-   /*  */
+   /* get the singleton of the PasswordChecker */
    static PasswordChecker *get( QWidget *parent = 0 );
-   /*  */
+   /* set the message that will be displayed during locking */
    void setLockMessage( const QString &header, const QString &message );
-   /*  */
+   /* set the message that will be displayed during unlocking */
    void setUnlockMessage( const QString &header, const QString &message );
-   /*  */
+   /* display dialog for locking */
    bool lock();
-   /*  */
+   /* display dialog for unlocking */
    bool unlock();
 
 signals:
    void enabled( bool enabled );
 
 private:
-   /*  */
+   /* singleton: constructor is private */
    PasswordChecker( QWidget *parent = 0 );
    virtual ~PasswordChecker();
    PasswordChecker( const PasswordChecker &other );
    PasswordChecker &operator=( const PasswordChecker &other );
 
-   /*  */
-   static PasswordChecker  *gpPasswordChecker;
+   /* singleton: only instance of PasswordChecker */
+   static PasswordChecker  *cpPasswordChecker;
 
    QWidget                 *mpParent;
    QString                 mPassword;

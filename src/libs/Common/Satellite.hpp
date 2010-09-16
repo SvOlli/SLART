@@ -44,11 +44,11 @@ Q_OBJECT
 public:
    Satellite( QObject *parent = 0 );
    virtual ~Satellite();
-   /*  */
+   /* test applications can access Satellite without enableing in settings */
    void setTestApp( bool isTestApp );
-   /*  */
+   /* is this application running the server? */
    bool isRunningServer();
-   /*  */
+   /* wait for a connection, so application can write to satellite right away */
    bool waitForConnected( int msecs = 30000 );
 
    /* get applications central Satellite */
@@ -57,7 +57,7 @@ public:
    static void destroy();
    /* send message without running a server */
    static void send1( const QByteArray &message );
-   /*  */
+   /* split up the lines of a Satellite message to several strings */
    static QStringList split( const QByteArray &message );
    
 public slots:
@@ -73,12 +73,12 @@ private slots:
    void incomingData();
    /* connection to server was closed */
    void disconnected();
-   /*  */
+   /* try to start the server */
    void runServer();
 #if SATELLITE_DEBUG
-   /*  */
+   /* send message that server is shut down */
    void serverShutdown();
-   /* connection to server was successful */
+   /* send message that connection to server was successful */
    void connectSuccess();
 #endif
    

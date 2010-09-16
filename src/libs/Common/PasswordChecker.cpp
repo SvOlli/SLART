@@ -21,16 +21,16 @@
 /* local headers */
 
 /* class variables */
-PasswordChecker *PasswordChecker::gpPasswordChecker = 0;
+PasswordChecker *PasswordChecker::cpPasswordChecker = 0;
 
 
 PasswordChecker *PasswordChecker::get( QWidget *parent )
 {
-   if( !gpPasswordChecker )
+   if( !cpPasswordChecker )
    {
-      gpPasswordChecker = new PasswordChecker( parent );
+      cpPasswordChecker = new PasswordChecker( parent );
    }
-   return gpPasswordChecker;
+   return cpPasswordChecker;
 }
 
 
@@ -48,7 +48,7 @@ PasswordChecker::PasswordChecker( QWidget *parent )
 
 PasswordChecker::~PasswordChecker()
 {
-   gpPasswordChecker = 0;
+   cpPasswordChecker = 0;
 }
 
 
