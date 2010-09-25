@@ -228,11 +228,26 @@ void CDDBClient::handleQueryData( QNetworkReply *reply )
       case 210:
       case 211:
          /* got many */
-         for( int i = 1; i < response.size(); i++ )
          {
-            if( response.at(i).size() > 1 )
+            /* sort the entry starting with the third field */
+            QStringList list;
+            for( int i = 1; i < response.size(); i++ )
             {
-               mpHits->addItem( response.at(i) );
+               if( response.at(i).size() > 1 )
+               {
+                  QStringList entry( response.at(i).split(" ") );
+                  entry.append( entry.takeFirst() );
+                  entry.append( entry.takeFirst() );
+                  list << entry.join(" ");
+               }
+            }
+            list.sort();
+            for( int i = 0; i < list.size(); i++ )
+            {
+               QStringList entry( list.at(i).split(" ") );
+               entry.prepend( entry.takeLast() );
+               entry.prepend( entry.takeLast() );
+               mpHits->addItem( entry.join(" ") );
             }
          }
          break;
