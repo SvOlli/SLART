@@ -6,7 +6,6 @@
 
 TEMPLATE = lib
 TARGET = $$qtLibraryTarget(MagicEncoderOgg)
-#QT += sql network
 CONFIG += plugin
 
 TOPSRC = "../../.."
@@ -19,3 +18,6 @@ PKGCONFIG += vorbisenc
 
 HEADERS += MagicEncoderOgg.hpp
 SOURCES += MagicEncoderOgg.cpp
+
+HEADERS += MagicEncoderOggConfig.hpp
+SOURCES += MagicEncoderOggConfig.cpp

@@ -6,7 +6,6 @@
 
 TEMPLATE = lib
 TARGET = $$qtLibraryTarget(MagicEncoderWav)
-#QT += sql network
 CONFIG += plugin
 
 TOPSRC = "../../.."
@@ -17,3 +16,6 @@ LIBS += -lMagicEncoder -lCommon -lTag
 
 HEADERS += MagicEncoderWav.hpp
 SOURCES += MagicEncoderWav.cpp
+
+HEADERS += MagicEncoderWavConfig.hpp
+SOURCES += MagicEncoderWavConfig.cpp

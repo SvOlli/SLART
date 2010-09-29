@@ -32,94 +32,22 @@ MagicEncoderMp3::MagicEncoderMp3()
 , mUseAbr( false )
 , mUseLatin1( false )
 , mQuality( 4.0 )
-, mpConfigWidget( new QWidget( 0 ) )
-, mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
-, mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
-, mpDirectory( new ScrollLine( mpConfigWidget ) )
-, mpDotButton( new QPushButton( tr("..."), mpConfigWidget ) )
-, mpQuality( new QDoubleSpinBox( mpConfigWidget ) )
-, mpUseLatin1( new QCheckBox( tr("Use Latin1 instead of Utf-8 for tags"), mpConfigWidget ) )
+, mpConfigWidget()
 , mLame( 0 )
 , mMp3BufferSize( 8192 )
-, mpMp3Buffer( (unsigned char*)malloc(mMp3BufferSize) )
+, mpMp3Buffer( (unsigned char*)::malloc(mMp3BufferSize) )
 {
-   mpQuality->setDecimals( 1 );
-   mpQuality->setSingleStep( 0.1 );
-   mpQuality->setMinimum( 0.0 );
-   mpQuality->setMaximum( 9.9 );
-   mpQuality->setToolTip( tr("0 = high & long, 9 = low & short") );
-
-   QGridLayout *mainLayout = new QGridLayout( mpConfigWidget );
-   mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   mainLayout->addWidget( mpUseEncoder, 0, 0, 1, 3 );
-   mainLayout->addWidget( mpDirOverride, 1, 0, 1, 3 );
-   mainLayout->addWidget( new QLabel( tr("Base Directory:") ), 2, 0 );
-   mainLayout->addWidget( mpDirectory, 2, 1 );
-   mainLayout->addWidget( mpDotButton, 2, 2 );
-   mainLayout->addWidget( new QLabel( tr("VBR Quality:"), mpConfigWidget ), 3, 0 );
-   mainLayout->addWidget( mpQuality, 3, 1, 1, 2 );
-   mainLayout->addWidget( mpUseLatin1, 4, 0, 1, 3 );
-   mainLayout->setColumnStretch( 1, 1 );
-   mainLayout->setRowStretch( 5, 1 );
-
-   mpConfigWidget->setLayout( mainLayout );
-
-   connect( mpUseEncoder, SIGNAL(clicked(bool)),
-            this, SIGNAL(useEncoderClicked(bool)) );
-   connect( mpDotButton, SIGNAL(clicked()),
-            this, SLOT(handleDotButton()) );
-
-   readSettings();
 }
 
 
 MagicEncoderMp3::~MagicEncoderMp3()
 {
-   free( mpMp3Buffer );
+   if( mpConfigWidget )
+   {
+      delete mpConfigWidget;
+   }
+   ::free( mpMp3Buffer );
    mpMp3Buffer = 0;
-   delete mpConfigWidget;
-}
-
-
-void MagicEncoderMp3::setUseEncoder( bool on )
-{
-   mpUseEncoder->setChecked( on );
-}
-
-
-void MagicEncoderMp3::readSettings()
-{
-   MySettings settings;
-   settings.beginGroup( mName );
-   mUseEncoder  = settings.VALUE_USE_ENCODER;
-   mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
-   mDirectory   = settings.VALUE_DIRECTORY;
-   mUseLatin1   = settings.VALUE_USE_LATIN1;
-   mQuality     = settings.VALUE_VBRQUALITY;
-   mpUseEncoder->setChecked( mUseEncoder );
-   mpDirOverride->setChecked( mDirOverride );
-   mpDirectory->setText( mDirectory );
-   mpQuality->setValue( mQuality );
-   mpUseLatin1->setChecked( mUseLatin1 );
-   settings.endGroup();
-}
-
-
-void MagicEncoderMp3::writeSettings()
-{
-   MySettings settings;
-   settings.beginGroup( mName );
-   mUseEncoder  = mpUseEncoder->isChecked();
-   mDirOverride = mpDirOverride->isChecked();
-   mDirectory   = mpDirectory->text();
-   mQuality     = mpQuality->value();
-   mUseLatin1   = mpUseLatin1->isChecked();
-   settings.setValue( "UseEncoder", mUseEncoder );
-   settings.setValue( "DirectoryOverride", mDirOverride );
-   settings.setValue( "Directory", mDirectory );
-   settings.setValue( "VBRQuality", mQuality );
-   settings.setValue( "UseLatin1", mUseLatin1 );
-   settings.endGroup();
 }
 
 
@@ -235,15 +163,13 @@ bool MagicEncoderMp3::encodeCDAudio( const char* data, int size )
 }
 
 
-QWidget *MagicEncoderMp3::configWidget()
+MagicEncoderConfig *MagicEncoderMp3::configWidget( QWidget *parent, QAbstractButton *button )
 {
+   if( !mpConfigWidget )
+   {
+      mpConfigWidget = new MagicEncoderMp3Config( this, parent, button );
+   }
    return mpConfigWidget;
-}
-
-
-void MagicEncoderMp3::handleDotButton()
-{
-   MagicEncoder::setDirectory( mpDirectory );
 }
 
 

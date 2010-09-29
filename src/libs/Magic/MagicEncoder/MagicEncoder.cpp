@@ -16,6 +16,7 @@
 #include <QFileDialog>
 
 /* local library headers */
+#include "../../libs/Common/MagicEncoderProxy.hpp"
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 #include <ScrollLine.hpp>
@@ -28,12 +29,11 @@
 
 MagicEncoder::MagicEncoder( const QString &encoderName )
 : QThread( 0 )
-, mpSatellite( 0 )
+, mpProxy( 0 )
 , mUseEncoder( false )
 , mEnqueue( false )
 , mDirOverride( false )
 , mDirectory()
-, mPluginFileName()
 , mName( encoderName )
 , mFile()
 , mTagList()
@@ -53,12 +53,10 @@ QThread *MagicEncoder::workerThread()
 }
 
 
-void MagicEncoder::setup( Satellite *satellite, const QString &msgHeader,
-                          const QString &fileName )
+void MagicEncoder::setup( MagicEncoderProxy *proxy, const QString &msgHeader )
 {
-   mpSatellite     = satellite;
-   mMsgHeader      = msgHeader;
-   mPluginFileName = fileName;
+   mpProxy    = proxy;
+   mMsgHeader = msgHeader;
 }
 
 QString MagicEncoder::pluginFileName()
@@ -108,13 +106,13 @@ bool MagicEncoder::finalize( bool enqueue, bool cancel )
    
    if( !cancel )
    {
-      if( mpSatellite )
+      if( mpProxy )
       {
          QString msg( "%1\n%2" );
-         mpSatellite->send( msg.arg( mMsgHeader, mFileName ).toUtf8() );
+         mpProxy->satelliteSend( msg.arg( mMsgHeader, mFileName ).toUtf8() );
          if( enqueue && mEnqueue )
          {
-            mpSatellite->send( msg.arg( "P0Q", mFileName ).toUtf8() );
+            mpProxy->satelliteSend( msg.arg( "P0Q", mFileName ).toUtf8() );
          }
       }
    }

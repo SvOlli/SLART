@@ -21,57 +21,29 @@
 #include <TagList.hpp>
 
 /* local headers */
+#include "MagicEncoderFlacConfig.hpp"
 
 
 MagicEncoderFlac::MagicEncoderFlac()
 : MagicEncoder( tr("FLAC") )
 , mQuality( 0 )
 , mUseOga( false )
-, mpConfigWidget( new QWidget( 0 ) )
-, mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
-, mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
-, mpDirectory( new ScrollLine( mpConfigWidget ) )
-, mpDotButton( new QPushButton( tr("..."), mpConfigWidget ) )
-, mpQuality( new QSpinBox( mpConfigWidget ) )
-, mpUseOga( new QCheckBox( tr("Use Ogg Container"), mpConfigWidget ) )
+, mSize( 0 )
+, mpConfigWidget()
 , mpEncoder( 0 )
 , mpMetadata( 0 )
 , mpPcm( 0 )
-, mSize( 0 )
 {
    qsrand( time((time_t*)0) );
-
-   mpQuality->setSingleStep( 1 );
-   mpQuality->setMinimum( 0 );
-   mpQuality->setMaximum( 8 );
-   mpQuality->setToolTip( tr("0 = fastest; 8 = best") );
-
-   QGridLayout *mainLayout = new QGridLayout( mpConfigWidget );
-   mainLayout->setRowStretch( 5, 1 );
-   mainLayout->setColumnStretch( 1, 1 );
-   mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   mainLayout->addWidget( mpUseEncoder, 0, 0, 1, 3 );
-   mainLayout->addWidget( mpDirOverride, 1, 0, 1, 3 );
-   mainLayout->addWidget( new QLabel( tr("Base Directory:") ), 2, 0 );
-   mainLayout->addWidget( mpDirectory, 2, 1 );
-   mainLayout->addWidget( mpDotButton, 2, 2 );
-   mainLayout->addWidget( new QLabel( tr("Compression Level:"), mpConfigWidget ), 3, 0 );
-   mainLayout->addWidget( mpQuality, 3, 1, 1, 2 );
-   mainLayout->addWidget( mpUseOga,  4, 0 );
-
-   mpConfigWidget->setLayout( mainLayout );
-
-   connect( mpUseEncoder, SIGNAL(clicked(bool)),
-            this, SIGNAL(useEncoderClicked(bool)) );
-   connect( mpDotButton, SIGNAL(clicked()),
-            this, SLOT(handleDotButton()) );
-
-   readSettings();
 }
 
 
 MagicEncoderFlac::~MagicEncoderFlac()
 {
+   if( mpConfigWidget )
+   {
+      delete mpConfigWidget;
+   }
    if( mpEncoder )
    {
       delete mpEncoder;
@@ -86,54 +58,6 @@ MagicEncoderFlac::~MagicEncoderFlac()
    {
       delete[] mpPcm;
       mpPcm = 0;
-   }
-   delete mpConfigWidget;
-}
-
-
-void MagicEncoderFlac::setUseEncoder( bool on )
-{
-   mpUseEncoder->setChecked( on );
-}
-
-
-void MagicEncoderFlac::readSettings()
-{
-   MySettings settings;
-   settings.beginGroup( mName );
-   mUseEncoder  = settings.VALUE_USE_ENCODER;
-   mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
-   mDirectory   = settings.VALUE_DIRECTORY;
-   mQuality     = settings.VALUE_FLACQUALITY;
-   mUseOga      = settings.VALUE_FLACUSEOGA;
-   mpUseEncoder->setChecked( mUseEncoder );
-   mpDirOverride->setChecked( mDirOverride );
-   mpDirectory->setText( mDirectory );
-   mpQuality->setValue( mQuality );
-   mpUseOga->setChecked( mUseOga );
-   settings.endGroup();
-}
-
-
-void MagicEncoderFlac::writeSettings()
-{
-   MySettings settings;
-   settings.beginGroup( mName );
-   mUseEncoder  = mpUseEncoder->isChecked();
-   mDirOverride = mpDirOverride->isChecked();
-   mDirectory   = mpDirectory->text();
-   mQuality     = mpQuality->value();
-   mUseOga      = mpUseOga->isChecked();
-   settings.setValue( "UseEncoder", mUseEncoder );
-   settings.setValue( "DirectoryOverride", mDirOverride );
-   settings.setValue( "Directory", mDirectory );
-   settings.setValue( "FlacQuality", mQuality );
-   settings.setValue( "FlacUseOga", mUseOga );
-   settings.endGroup();
-   if( mpEncoder )
-   {
-      delete mpEncoder;
-      mpEncoder = 0;
    }
 }
 
@@ -252,15 +176,13 @@ bool MagicEncoderFlac::encodeCDAudio( const char* data, int size )
 }
 
 
-QWidget *MagicEncoderFlac::configWidget()
+MagicEncoderConfig *MagicEncoderFlac::configWidget( QWidget *parent, QAbstractButton *button )
 {
+   if( !mpConfigWidget )
+   {
+      mpConfigWidget = new MagicEncoderFlacConfig( this, parent, button );
+   }
    return mpConfigWidget;
-}
-
-
-void MagicEncoderFlac::handleDotButton()
-{
-   MagicEncoder::setDirectory( mpDirectory );
 }
 
 

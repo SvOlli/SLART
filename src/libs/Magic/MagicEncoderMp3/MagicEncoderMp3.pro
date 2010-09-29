@@ -6,7 +6,6 @@
 
 TEMPLATE = lib
 TARGET = $$qtLibraryTarget(MagicEncoderMp3)
-#QT += sql network
 CONFIG += plugin
 
 TOPSRC = "../../.."
@@ -18,3 +17,6 @@ LIBS += -lmp3lame
 
 HEADERS += MagicEncoderMp3.hpp
 SOURCES += MagicEncoderMp3.cpp
+
+HEADERS += MagicEncoderMp3Config.hpp
+SOURCES += MagicEncoderMp3Config.cpp

@@ -7,8 +7,6 @@
 TEMPLATE = lib
 TARGET = MagicEncoder
 CONFIG += qt staticlib
-#TARGET = $$qtLibraryTarget(MagicEncoder)
-#CONFIG += plugin
 QT += network
 
 TOPSRC = "../../.."
@@ -19,3 +17,7 @@ LIBS += -lCommon
 
 HEADERS += MagicEncoder.hpp
 SOURCES += MagicEncoder.cpp
+
+HEADERS += MagicEncoderConfig.hpp
+SOURCES += MagicEncoderConfig.cpp
+

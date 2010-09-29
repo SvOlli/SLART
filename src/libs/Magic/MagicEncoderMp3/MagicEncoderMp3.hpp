@@ -6,8 +6,8 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef MP3ENCODER_HPP
-#define MP3ENCODER_HPP MP3ENCODER_HPP
+#ifndef MAGICENCODERMP3_HPP
+#define MAGICENCODERMP3_HPP MAGICENCODERMP3_HPP
 
 /* base class */
 #include <MagicEncoder.hpp>
@@ -18,18 +18,16 @@ extern "C" {
 }
 
 /* Qt headers */
+#include <QPointer>
 
 /* local library headers */
 
 /* local headers */
+#include "MagicEncoderMp3Config.hpp"
 
 /* forward declaration of Qt classes */
-class QCheckBox;
-class QDoubleSpinBox;
-class QPushButton;
 
 /* forward declaration of local classes */
-class ScrollLine;
 
 
 class MagicEncoderMp3 : public MagicEncoder
@@ -37,28 +35,21 @@ class MagicEncoderMp3 : public MagicEncoder
 Q_OBJECT
 Q_INTERFACES(MagicEncoderInterface)
 
+   friend class MagicEncoderMp3Config;
+
 public:
    MagicEncoderMp3();
    virtual ~MagicEncoderMp3();
 
    /* supply the a handle to the configuration widget */
-   QWidget *configWidget();
-   /* read settings from storage */
-   void readSettings();
-   /* write settings to storage */
-   void writeSettings();
+   MagicEncoderConfig *configWidget( QWidget *parent, QAbstractButton *button );
    /* initialize the encoder */
    bool initialize( const QString &fileName );
    /* finalize (clean up) the encoder */
    bool finalize( bool enqueue, bool cancel );
 
-public slots:
    /* encode raw cd audio data */
    void encodeCDAudio( const QByteArray &data );
-   /* set if the encoder should be used */
-   virtual void setUseEncoder( bool on );
-   /* handle the dot button by display filesystem browser */
-   void handleDotButton();
 
 private:
    MagicEncoderMp3( const MagicEncoderMp3 &other );
@@ -74,21 +65,14 @@ private:
    bool                 mUseAbr;
    bool                 mUseLatin1;
    float                mQuality;
+
    /* configuration widget */
-   QWidget              *mpConfigWidget;
-   QCheckBox            *mpUseEncoder;
-   QCheckBox            *mpDirOverride;
-   ScrollLine           *mpDirectory;
-   QPushButton          *mpDotButton;
-   QDoubleSpinBox       *mpQuality;
-   QCheckBox            *mpUseLatin1;
+   QPointer<MagicEncoderConfig>  mpConfigWidget;
+
    /* encoder internal data */
    volatile lame_t      mLame;
    const int            mMp3BufferSize;
    unsigned char        *mpMp3Buffer;
 };
-
-#define VALUE_USE_LATIN1         value( "UseLatin1", false ).toBool()
-#define VALUE_VBRQUALITY         value( "VBRQuality", 4.0 ).toDouble()
 
 #endif

@@ -6,7 +6,6 @@
 
 TEMPLATE = lib
 TARGET = $$qtLibraryTarget(MagicEncoderFlac)
-#QT += sql network
 CONFIG += plugin
 
 TOPSRC = "../../.."
@@ -18,3 +17,7 @@ LIBS += -lFLAC++
 
 HEADERS += MagicEncoderFlac.hpp
 SOURCES += MagicEncoderFlac.cpp
+
+HEADERS += MagicEncoderFlacConfig.hpp
+SOURCES += MagicEncoderFlacConfig.cpp
+

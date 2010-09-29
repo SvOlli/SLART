@@ -6,8 +6,8 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef OGGENCODER_HPP
-#define OGGENCODER_HPP OGGENCODER_HPP
+#ifndef MAGICENCODEROGG_HPP
+#define MAGICENCODEROGG_HPP MAGICENCODEROGG_HPP
 
 /* base class */
 #include <MagicEncoder.hpp>
@@ -18,18 +18,16 @@ extern "C" {
 }
 
 /* Qt headers */
+#include <QPointer>
 
 /* local library headers */
 
 /* local headers */
+#include "MagicEncoderOggConfig.hpp"
 
 /* forward declaration of Qt classes */
-class QCheckBox;
-class QDoubleSpinBox;
-class QPushButton;
 
 /* forward declaration of local classes */
-class ScrollLine;
 
 
 class MagicEncoderOgg : public MagicEncoder
@@ -37,28 +35,21 @@ class MagicEncoderOgg : public MagicEncoder
 Q_OBJECT
 Q_INTERFACES(MagicEncoderInterface)
 
+   friend class MagicEncoderOggConfig;
+
 public:
    MagicEncoderOgg();
    virtual ~MagicEncoderOgg();
 
    /* supply the a handle to the configuration widget */
-   QWidget *configWidget();
-   /* read settings from storage */
-   void readSettings();
-   /* write settings to storage */
-   void writeSettings();
+   MagicEncoderConfig *configWidget( QWidget *parent, QAbstractButton *button );
    /* initialize the encoder */
    bool initialize( const QString &fileName );
    /* finalize (clean up) the encoder */
    bool finalize( bool enqueue, bool cancel );
 
-public slots:
    /* encode raw cd audio data */
    void encodeCDAudio( const QByteArray &data );
-   /* set if the encoder should be used */
-   virtual void setUseEncoder( bool on );
-   /* handle the dot button by display filesystem browser */
-   void handleDotButton();
 
 private:
    MagicEncoderOgg( const MagicEncoderOgg &other );
@@ -68,28 +59,22 @@ private:
    bool oggInit();
    /* encode raw cd audio data */
    bool encodeCDAudio( const char *data, int size );
-   
-   /* settings */
-   float                mQuality;
-   /* configuration widget */
-   QWidget              *mpConfigWidget;
-   QCheckBox            *mpUseEncoder;
-   QCheckBox            *mpDirOverride;
-   ScrollLine           *mpDirectory;
-   QPushButton          *mpDotButton;
-   QDoubleSpinBox       *mpQuality;
-   /* encoder internal data */
-   bool                 mIsInit;
-   ::ogg_stream_state   mOggPagegStream;
-   ::ogg_page           mOggPage;
-   ::ogg_packet         mOggPacket;
-   ::vorbis_info        mVorbisInfo;
-   ::vorbis_comment     mVorbisComment;
-   ::vorbis_dsp_state   mVorbisDspState;
-   ::vorbis_block       mVorbisBlock;
-   
-};
 
-#define VALUE_OGGQUALITY         value( "OggQuality", 0.4 ).toDouble()
+   /* settings */
+   float                         mQuality;
+
+   /* configuration widget */
+   QPointer<MagicEncoderConfig>  mpConfigWidget;
+
+   /* encoder internal data */
+   bool                          mIsInit;
+   ::ogg_stream_state            mOggPagegStream;
+   ::ogg_page                    mOggPage;
+   ::ogg_packet                  mOggPacket;
+   ::vorbis_info                 mVorbisInfo;
+   ::vorbis_comment              mVorbisComment;
+   ::vorbis_dsp_state            mVorbisDspState;
+   ::vorbis_block                mVorbisBlock;
+};
 
 #endif

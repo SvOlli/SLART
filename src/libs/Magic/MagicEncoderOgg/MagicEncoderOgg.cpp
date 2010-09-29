@@ -27,82 +27,18 @@
 MagicEncoderOgg::MagicEncoderOgg()
 : MagicEncoder( tr("ogg") )
 , mQuality( 0.0 )
-, mpConfigWidget( new QWidget( 0 ) )
-, mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
-, mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
-, mpDirectory( new ScrollLine( mpConfigWidget ) )
-, mpDotButton( new QPushButton( tr("..."), mpConfigWidget ) )
-, mpQuality( new QDoubleSpinBox( mpConfigWidget ) )
+, mpConfigWidget()
+, mIsInit( false )
 {
-   mpQuality->setSingleStep( 0.01 );
-   mpQuality->setMinimum( 0.0 );
-   mpQuality->setMaximum( 1.0 );
-   mpQuality->setToolTip( tr("0 = low & short, 1 = high & long") );
-
-   QGridLayout *mainLayout = new QGridLayout( mpConfigWidget );
-   mainLayout->setRowStretch( 4, 1 );
-   mainLayout->setColumnStretch( 1, 1 );
-   mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   mainLayout->addWidget( mpUseEncoder, 0, 0, 1, 3 );
-   mainLayout->addWidget( mpDirOverride, 1, 0, 1, 3 );
-   mainLayout->addWidget( new QLabel( tr("Base Directory:") ), 2, 0 );
-   mainLayout->addWidget( mpDirectory, 2, 1 );
-   mainLayout->addWidget( mpDotButton, 2, 2 );
-   mainLayout->addWidget( new QLabel( tr("Quality:"), mpConfigWidget ), 3, 0 );
-   mainLayout->addWidget( mpQuality, 3, 1, 1, 2 );
-
-   mpConfigWidget->setLayout( mainLayout );
-
-   connect( mpUseEncoder, SIGNAL(clicked(bool)),
-            this, SIGNAL(useEncoderClicked(bool)) );
-   connect( mpDotButton, SIGNAL(clicked()),
-            this, SLOT(handleDotButton()) );
-
-   readSettings();
 }
 
 
 MagicEncoderOgg::~MagicEncoderOgg()
 {
-   delete mpConfigWidget;
-}
-
-
-void MagicEncoderOgg::setUseEncoder( bool on )
-{
-   mpUseEncoder->setChecked( on );
-}
-
-
-void MagicEncoderOgg::readSettings()
-{
-   MySettings settings;
-   settings.beginGroup( mName );
-   mUseEncoder  = settings.VALUE_USE_ENCODER;
-   mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
-   mDirectory   = settings.VALUE_DIRECTORY;
-   mQuality     = settings.VALUE_OGGQUALITY;
-   mpUseEncoder->setChecked( mUseEncoder );
-   mpDirOverride->setChecked( mDirOverride );
-   mpDirectory->setText( mDirectory );
-   mpQuality->setValue( mQuality );
-   settings.endGroup();
-}
-
-
-void MagicEncoderOgg::writeSettings()
-{
-   MySettings settings;
-   settings.beginGroup( mName );
-   mUseEncoder  = mpUseEncoder->isChecked();
-   mDirOverride = mpDirOverride->isChecked();
-   mDirectory   = mpDirectory->text();
-   mQuality     = mpQuality->value();
-   settings.setValue( "UseEncoder", mUseEncoder );
-   settings.setValue( "DirectoryOverride", mDirOverride );
-   settings.setValue( "Directory", mDirectory );
-   settings.setValue( "OggQuality", mQuality );
-   settings.endGroup();
+   if( mpConfigWidget )
+   {
+      delete mpConfigWidget;
+   }
 }
 
 
@@ -268,15 +204,13 @@ bool MagicEncoderOgg::encodeCDAudio( const char* data, int size )
 }
 
 
-QWidget *MagicEncoderOgg::configWidget()
+MagicEncoderConfig *MagicEncoderOgg::configWidget( QWidget *parent, QAbstractButton *button )
 {
+   if( !mpConfigWidget )
+   {
+      mpConfigWidget = new MagicEncoderOggConfig( this, parent, button );
+   }
    return mpConfigWidget;
-}
-
-
-void MagicEncoderOgg::handleDotButton()
-{
-   MagicEncoder::setDirectory( mpDirectory );
 }
 
 

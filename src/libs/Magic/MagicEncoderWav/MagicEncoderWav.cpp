@@ -24,11 +24,7 @@
 
 MagicEncoderWav::MagicEncoderWav()
 : MagicEncoder( tr("wav") )
-, mpConfigWidget( new QWidget( 0 ) )
-, mpUseEncoder( new QCheckBox( tr("Use This Encoder"), mpConfigWidget ) )
-, mpDirOverride( new QCheckBox( tr("Override Base Directory"), mpConfigWidget ) )
-, mpDirectory( new ScrollLine( mpConfigWidget ) )
-, mpDotButton( new QPushButton( tr("..."), mpConfigWidget ) )
+, mpConfigWidget()
 , mpWavHeader( new unsigned int[11] )
 {
    mpWavHeader[ 0] = qToBigEndian( 0x52494646 ); // "RIFF"
@@ -42,64 +38,16 @@ MagicEncoderWav::MagicEncoderWav()
    mpWavHeader[ 8] = 0x00100004;                 // 16 bit / bytes per sample
    mpWavHeader[ 9] = qToBigEndian( 0x64617461 ); // "data"
    mpWavHeader[10] = 0;                          // data size
-
-   QGridLayout *mainLayout = new QGridLayout( mpConfigWidget );
-   mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   mainLayout->addWidget( mpUseEncoder, 0, 0, 1, 3 );
-   mainLayout->addWidget( mpDirOverride, 1, 0, 1, 3 );
-   mainLayout->addWidget( new QLabel( tr("Base Directory:") ), 2, 0 );
-   mainLayout->addWidget( mpDirectory, 2, 1 );
-   mainLayout->addWidget( mpDotButton, 2, 2 );
-   mainLayout->setColumnStretch( 1, 1 );
-   mainLayout->setRowStretch( 3, 1 );
-
-   connect( mpUseEncoder, SIGNAL(clicked(bool)),
-            this, SIGNAL(useEncoderClicked(bool)) );
-   connect( mpDotButton, SIGNAL(clicked()),
-            this, SLOT(handleDotButton()) );
-
-   mpConfigWidget->setLayout( mainLayout );
 }
 
 
 MagicEncoderWav::~MagicEncoderWav()
 {
+   if( mpConfigWidget )
+   {
+      delete mpConfigWidget;
+   }
    delete[] mpWavHeader;
-   delete mpConfigWidget;
-}
-
-
-void MagicEncoderWav::setUseEncoder( bool on )
-{
-   mpUseEncoder->setChecked( on );
-}
-
-
-void MagicEncoderWav::readSettings()
-{
-   MySettings settings;
-   settings.beginGroup( mName );
-   mUseEncoder  = settings.VALUE_USE_ENCODER;
-   mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
-   mDirectory   = settings.VALUE_DIRECTORY;
-   mpUseEncoder->setChecked( mUseEncoder );
-   mpDirOverride->setChecked( mDirOverride );
-   mpDirectory->setText( mDirectory );
-   settings.endGroup();
-}
-
-
-void MagicEncoderWav::writeSettings()
-{
-   MySettings settings;
-   settings.beginGroup( mName );
-   mUseEncoder  = mpUseEncoder->isChecked();
-   mDirOverride = mpDirOverride->isChecked();
-   mDirectory   = mpDirectory->text();
-   settings.setValue( "UseEncoder", mUseEncoder );
-   settings.setValue( "DirectoryOverride", mDirOverride );
-   settings.setValue( "Directory", mDirectory );
-   settings.endGroup();
 }
 
 
@@ -149,15 +97,13 @@ void MagicEncoderWav::encodeCDAudio( const QByteArray &data )
 }
 
 
-QWidget *MagicEncoderWav::configWidget()
+MagicEncoderConfig *MagicEncoderWav::configWidget( QWidget *parent, QAbstractButton *button )
 {
+   if( !mpConfigWidget )
+   {
+      mpConfigWidget = new MagicEncoderWavConfig( this, parent, button );
+   }
    return mpConfigWidget;
-}
-
-
-void MagicEncoderWav::handleDotButton()
-{
-   MagicEncoder::setDirectory( mpDirectory );
 }
 
 
