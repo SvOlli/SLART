@@ -39,10 +39,6 @@ public:
 
    /* supply the a handle to the configuration widget */
    MagicEncoderConfig *configWidget( QWidget *parent, QAbstractButton *button );
-   /* read settings from storage */
-   void readSettings();
-   /* write settings to storage */
-   void writeSettings();
    /* initialize the encoder */
    bool initialize( const QString &fileName );
    /* finalize (clean up) the encoder */
