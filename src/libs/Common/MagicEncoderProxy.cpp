@@ -21,10 +21,11 @@
 /* local headers */
 
 
-MagicEncoderProxy::MagicEncoderProxy( QObject *parent )
+MagicEncoderProxy::MagicEncoderProxy( Satellite *satellite, QObject *parent )
 : QObject( parent )
 , mpPluginLoader( new QPluginLoader( this ) )
 , mpPlugin( 0 )
+, mpSatellite( satellite )
 {
 }
 
@@ -149,7 +150,14 @@ bool MagicEncoderProxy::finalize( bool enqueue, bool cancel )
 
 void MagicEncoderProxy::satelliteSend( const QByteArray &data )
 {
-   Satellite::get()->send( data );
+   if( mpSatellite )
+   {
+      mpSatellite->send( data );
+   }
+   else
+   {
+      Satellite::send1( data );
+   }
 }
 
 

@@ -27,6 +27,7 @@ class QPluginLoader;
 
 /* forward declaration of local classes */
 class MagicEncoderInterface;
+class Satellite;
 
 
 class MagicEncoderProxy : public QObject
@@ -34,7 +35,7 @@ class MagicEncoderProxy : public QObject
 Q_OBJECT
 
 public:
-   MagicEncoderProxy( QObject *parent = 0 );
+   MagicEncoderProxy( Satellite *satellite = 0, QObject *parent = 0 );
    virtual ~MagicEncoderProxy();
 
    /*  */
@@ -79,6 +80,7 @@ private:
 
    QPluginLoader           *mpPluginLoader;
    MagicEncoderInterface   *mpPlugin;
+   Satellite               *mpSatellite;
 };
 
 #endif /* MAGICENCODERPROXY_HPP */

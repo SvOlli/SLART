@@ -33,6 +33,7 @@
 #include <QtDebug>
 
 MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
+                                                 Satellite *satellite,
                                                  QApplication *app )
 {
    MagicEncoderList encoderList;
@@ -48,7 +49,7 @@ MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
       searchDir.cdUp();
       if( searchDir.cd( "PlugIns" ) )
       {
-         encoderList = tryLoading( msgHeader, searchDir );
+         encoderList = tryLoading( msgHeader, searchDir, satellite );
          if( encoderList.size() > 0 )
          {
             return encoderList;
@@ -62,7 +63,7 @@ MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
       searchDir.cdUp();
       if( searchDir.cd( "lib" ) )
       {
-         encoderList = tryLoading( msgHeader, searchDir );
+         encoderList = tryLoading( msgHeader, searchDir, satellite );
          if( encoderList.size() > 0 )
          {
             return encoderList;
@@ -70,12 +71,13 @@ MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
       }
    }
 #endif
-   return tryLoading( msgHeader, pluginsDir );
+   return tryLoading( msgHeader, pluginsDir, satellite );
 }
 
 
 MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
-                                                 const QDir &dir )
+                                                 const QDir &dir,
+                                                 Satellite *satellite )
 {
    QStringList nameFilter;
    MagicEncoderList encoderList;
@@ -90,7 +92,7 @@ MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
    for( int i = 0; i < encoderNames.size(); i++ )
    {
       QString encoderName( dir.absoluteFilePath( encoderNames.at(i) ) );
-      MagicEncoderProxy *encoder = new MagicEncoderProxy();
+      MagicEncoderProxy *encoder = new MagicEncoderProxy( satellite );
 
       if( encoder->pluginLoad( encoderName, msgHeader ) )
       {

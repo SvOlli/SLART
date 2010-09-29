@@ -22,6 +22,7 @@
 #include <MagicEncoder/MagicEncoderConfig.hpp>
 #include <MySettings.hpp>
 #include <ProxyWidget.hpp>
+#include <Satellite.hpp>
 
 /* local headers */
 #include "CDReader.hpp"
@@ -54,7 +55,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
-   mEncoders = MagicEncoderLoader::tryLoading( "s0d" );
+   mEncoders = MagicEncoderLoader::tryLoading( "s0d", Satellite::get() );
    if( mEncoders.size() == 0 )
    {
       QMessageBox::critical( this,

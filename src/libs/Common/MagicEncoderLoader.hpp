@@ -28,6 +28,7 @@ class QPluginLoader;
 /* forward declaration of local classes */
 class MagicEncoderProxy;
 class MySettings;
+class Satellite;
 typedef QList<MagicEncoderProxy*> MagicEncoderList;
 
 
@@ -36,6 +37,7 @@ class MagicEncoderLoader
 public:
    /* function to load MagicEncoders */
    static MagicEncoderList tryLoading( const QString &msgHeader,
+                                       Satellite *satellite = 0,
                                        QApplication *app = 0 );
 
 private:
@@ -45,7 +47,8 @@ private:
    MagicEncoderLoader &operator=( const MagicEncoderLoader &other );
 
    /* internal function to load MagicEncoders */
-   static MagicEncoderList tryLoading( const QString &msgHeader, const QDir &dir );
+   static MagicEncoderList tryLoading( const QString &msgHeader, const QDir &dir,
+                                       Satellite *satellite = 0 );
 };
 
 #endif /* MAGICENCODERLOADER_HPP */
