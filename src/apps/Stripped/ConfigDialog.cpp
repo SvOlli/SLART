@@ -18,6 +18,8 @@
 #include <AboutWidget.hpp>
 #include <GlobalConfigWidget.hpp>
 #include <MagicEncoderInterface.hpp>
+#include <MagicEncoderProxy.hpp>
+#include <MagicEncoder/MagicEncoderConfig.hpp>
 #include <MySettings.hpp>
 #include <ProxyWidget.hpp>
 
@@ -72,32 +74,29 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showNormalize();
    
-   readSettings();
    QWidget *encoders = new QWidget( this );
    QGridLayout *encodersLayout = new QGridLayout( encoders );
    encodersLayout->addWidget( new QLabel(
       tr("Encoders used during ripping (select at least one):"), encoders ), 0, 0, 1, 2 );
    mpEncoderTabs->addTab( encoders, tr("Encoders") );
+qDebug() << "loading:" << mEncoders.size();
    for( i = 0; i < mEncoders.size(); i++ )
    {
-      mpEncoderTabs->addTab( mEncoders.at(i)->configWidget(), mEncoders.at(i)->name() );
-      QCheckBox *encoder = new QCheckBox( mEncoders.at(i)->name(), encoders );
+qDebug() << "loading:" << mEncoders.at(i)->name();
+      QCheckBox *encoderCheckBox = new QCheckBox( mEncoders.at(i)->name(), encoders );
+      mpEncoderTabs->addTab( mEncoders.at(i)->configWidget( this, encoderCheckBox ), mEncoders.at(i)->name() );
       if( mEncoders.at(i)->useEncoder() )
       {
-         encoder->setChecked( true );
+         encoderCheckBox->setChecked( true );
          encodersActive++;
       }
-      encodersLayout->addWidget( encoder, i + 1, 0 );
+      encodersLayout->addWidget( encoderCheckBox, i + 1, 0 );
       encodersLayout->addWidget( new QLabel(
          QString("(%1)").arg(mEncoders.at(i)->pluginFileName()), this ), i + 1, 1 );
-      QThread *qobject = mEncoders.at(i)->workerThread();
-      connect( encoder, SIGNAL(clicked(bool)),
-               qobject, SLOT(setUseEncoder(bool)) );
-      connect( qobject, SIGNAL(useEncoderClicked(bool)),
-               encoder, SLOT(setChecked(bool)) );
    }
    encodersLayout->setRowStretch( i + 1, 1 );
    encodersLayout->setColumnStretch( 1, 1 );
+   readSettings();
 
    if( !encodersActive )
    {
@@ -188,6 +187,7 @@ void ConfigDialog::exec()
    }
    if( !encodersActive )
    {
+      mpEncoderTabs->setCurrentIndex( 0 );
       QTimer::singleShot( 100, this, SLOT(exec()) );
    }
 }
@@ -234,7 +234,7 @@ void ConfigDialog::readSettings()
    mpProxyWidget->readSettings();
    for( i = 0; i < mEncoders.size(); i++ )
    {
-      mEncoders.at(i)->readSettings();
+      mEncoders.at(i)->configWidget()->readSettings();
    }
    mpCDReader->setEncoders( mEncoders );
    
@@ -257,7 +257,7 @@ void ConfigDialog::writeSettings()
    mpProxyWidget->writeSettings();
    for( int i = 0; i < mEncoders.size(); i++ )
    {
-      mEncoders.at(i)->writeSettings();
+      mEncoders.at(i)->configWidget()->writeSettings();
    }
    mpCDReader->setEncoders( mEncoders );
 

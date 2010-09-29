@@ -16,7 +16,7 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MagicEncoderInterface.hpp>
+#include <MagicEncoderProxy.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 
