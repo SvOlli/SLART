@@ -32,6 +32,9 @@ SOURCES += ImageWidget.cpp
 HEADERS += MagicEncoderLoader.hpp
 SOURCES += MagicEncoderLoader.cpp
 
+HEADERS += MagicEncoderProxy.hpp
+SOURCES += MagicEncoderProxy.cpp
+
 HEADERS += MainWindow.hpp
 SOURCES += MainWindow.cpp
 
@@ -64,6 +67,9 @@ SOURCES += ScrollLine.cpp
 
 HEADERS += SorcererLoader.hpp
 SOURCES += SorcererLoader.cpp
+
+HEADERS += Synchronize.hpp
+SOURCES += Synchronize.cpp
 
 HEADERS += TagList.hpp
 SOURCES += TagList.cpp

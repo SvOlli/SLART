@@ -26,9 +26,9 @@ class QDir;
 class QPluginLoader;
 
 /* forward declaration of local classes */
-class MagicEncoderInterface;
+class MagicEncoderProxy;
 class MySettings;
-typedef QList<MagicEncoderInterface*> MagicEncoderList;
+typedef QList<MagicEncoderProxy*> MagicEncoderList;
 
 
 class MagicEncoderLoader

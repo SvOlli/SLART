@@ -22,6 +22,7 @@
 /* local library headers */
 #include "../../libs/Magic/MagicEncoderInterface.hpp"
 #include "../../libs/Magic/MagicEncoder/MagicEncoder.hpp"
+#include <MagicEncoderProxy.hpp>
 
 /* local headers */
 #include "Database.hpp"
@@ -76,7 +77,6 @@ MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
 MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
                                                  const QDir &dir )
 {
-   Satellite *satellite = Satellite::get();
    QStringList nameFilter;
    MagicEncoderList encoderList;
 #if defined Q_OS_WIN
@@ -87,23 +87,20 @@ MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
    nameFilter << "libMagicEncoder*.so";
 #endif
    QStringList encoderNames( dir.entryList( nameFilter, QDir::Files | QDir::Readable, QDir::Name ) );
-   QPluginLoader pluginLoader;
    for( int i = 0; i < encoderNames.size(); i++ )
    {
       QString encoderName( dir.absoluteFilePath( encoderNames.at(i) ) );
-      pluginLoader.setFileName( encoderName );
-      QObject *plugin = pluginLoader.instance();
-      MagicEncoderInterface *encoder = qobject_cast<MagicEncoderInterface*>(plugin);
-      if( encoder )
+      MagicEncoderProxy *encoder = new MagicEncoderProxy();
+
+      if( encoder->pluginLoad( encoderName, msgHeader ) )
       {
-         encoder->setup( satellite, msgHeader, encoderName );
          encoderList.append( encoder );
       }
       else
       {
-         satellite->send( QObject::tr("I0L\nerror loading %1:\n%2")
-                          .arg( encoderName, pluginLoader.errorString() ).toUtf8() );
-         pluginLoader.unload();
+         Satellite::send1( QObject::tr("I0L\nerror loading %1:\n%2")
+                           .arg( encoderName, encoder->pluginLoadErrorString() ).toUtf8() );
+         delete encoder;
       }
    }
    return encoderList;
