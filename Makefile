@@ -22,8 +22,6 @@ install: release
 	mkdir -p $(DESTDIR)$(PREFIX)/share/pixmaps
 	mkdir -p $(DESTDIR)$(PREFIX)/share/applications
 	cp -d build/release/bin/* $(DESTDIR)$(PREFIX)/bin
-	# workaround for what appears to be a bug in qmake of qt < 4.5
-	[ -z "$(ls build/release/lib)" ] && cp build/release/tmp/lib/*.so* build/release/lib
 	cp -d build/release/lib/*.so* $(DESTDIR)$(PREFIX)/lib
 	cp -d extra/icons/* $(DESTDIR)$(PREFIX)/share/pixmaps
 	cp -d extra/menu/*.desktop $(DESTDIR)$(PREFIX)/share/applications
