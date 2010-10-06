@@ -12,8 +12,8 @@ CONFIG += link_pkgconfig
 include( ../../buildconfig.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/Magic
-LIBS += -lCommon -lFLAC++
-PKGCONFIG += vorbisenc libcdio_paranoia libcdio
+LIBS += -lCommon
+PKGCONFIG += libcdio_paranoia libcdio
 
 # Input
 RESOURCES = ../../libs/Common/Resources/Common.qrc
