@@ -52,7 +52,7 @@ public slots:
    /* handle the ping button */
    void handlePingButton();
    /* handle SLART message */
-   void handleSatellite( const QByteArray &message );
+   void handleSatellite( const QByteArray &msg );
    /* copy clicked line of message buffer to clipboard */
    void listWidgetItemToClipboard( QListWidgetItem *item );
 

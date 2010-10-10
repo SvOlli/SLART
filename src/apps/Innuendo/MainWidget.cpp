@@ -19,6 +19,7 @@
 #include <GlobalConfigWidget.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <WidgetShot.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -103,6 +104,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    setAcceptDrops( true );
    
    QTimer::singleShot(333, this, SLOT(autostart()));
+
+   WidgetShot::addWidget( "MainWidget", this );
 }
 
 
@@ -169,13 +172,15 @@ void MainWidget::handlePingButton()
 }
 
 
-void MainWidget::handleSatellite( const QByteArray &message )
+void MainWidget::handleSatellite( const QByteArray &msg )
 {
+   mpGenericSatMsgHandler->handle( msg );
+
    QListWidgetItem *item = new QListWidgetItem( QDateTime::currentDateTime().toString(), mpMessageBuffer );
    item->setBackground( QBrush( mpMessageBuffer->palette().color( QPalette::AlternateBase ) ) );
    mpMessageBuffer->addItem( item );
 
-   QStringList lines( Satellite::split( message ) );
+   QStringList lines( Satellite::split( msg ) );
    for( int i = 0; i < lines.size(); i++ )
    {
       mpMessageBuffer->addItem( lines.at(i) );
