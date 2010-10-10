@@ -139,17 +139,21 @@ MainWidget::~MainWidget()
 
 void MainWidget::addToList( QWidget *widget )
 {
-   QPushButton *pb = qobject_cast<QPushButton*>(widget);
+   QAbstractButton *button = qobject_cast<QAbstractButton*>(widget);
+   if( !button )
+   {
+      return;
+   }
    if( mTrackInfo.mID > 0 )
    {
-      mTrackInfo.setFolder( pb->text(), pb->isChecked() );
+      mTrackInfo.setFolder( button->text(), button->isChecked() );
       mpDatabase->updateTrackInfo( &mTrackInfo );
       mpTrackInfo->getTrack( mTrackInfo );
       mpTimer->start();
    }
    else
    {
-      pb->setChecked( false );
+      button->setChecked( false );
    }
 }
 
