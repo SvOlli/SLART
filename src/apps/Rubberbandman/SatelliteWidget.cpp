@@ -78,6 +78,8 @@ SatelliteWidget::SatelliteWidget( Database *database, QWidget *parent, Qt::Windo
 
 void SatelliteWidget::handleSatellite( const QByteArray &msg )
 {
+   mpGenericSatMsgHandler->handle( msg );
+
    QStringList message( Satellite::split( msg ) );
 
    if( message.size() > 0 )

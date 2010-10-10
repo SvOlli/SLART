@@ -18,6 +18,7 @@
 #include <Database.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <WidgetShot.hpp>
 
 /* local headers */
 #include "BrowseWidget.hpp"
@@ -65,6 +66,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpSettingsButton->setObjectName( QString("SettingsButton") );
    
    Satellite::get()->send( "P0R" );
+
+   WidgetShot::addWidget( "MainWidget", this );
 }
 
 
