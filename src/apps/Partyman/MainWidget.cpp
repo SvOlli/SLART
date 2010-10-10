@@ -16,10 +16,11 @@
 #include <QtGui>
 
 /* local library headers */
-#include "Database.hpp"
-#include "MainWindowCheckClose.hpp"
-#include "MySettings.hpp"
-#include "PasswordChecker.hpp"
+#include <Database.hpp>
+#include <MainWindowCheckClose.hpp>
+#include <MySettings.hpp>
+#include <PasswordChecker.hpp>
+#include <WidgetShot.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -102,6 +103,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    }
 
    setLayout( mainLayout );
+
+   WidgetShot::addWidget( "MainWidget", this );
 }
 
 

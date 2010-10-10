@@ -408,9 +408,11 @@ void ControlWidget::allowConnect( bool allowed )
 }
 
 
-void ControlWidget::handleSatellite( const QByteArray &message )
+void ControlWidget::handleSatellite( const QByteArray &msg )
 {
-   QStringList src( Satellite::split( message ) );
+   mpGenericSatMsgHandler->handle( msg );
+
+   QStringList src( Satellite::split( msg ) );
 
    if( src.size() > 0 )
    {

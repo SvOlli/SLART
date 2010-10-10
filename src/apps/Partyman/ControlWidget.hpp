@@ -91,7 +91,7 @@ public slots:
    /* handle load from clipboard */
    void handleLoad();
    /* handle remote requests */
-   void handleSatellite( const QByteArray &message );
+   void handleSatellite( const QByteArray &msg );
    /* handle process startup */
    void handleDerMixDstartup();
    /* handle process finish */
