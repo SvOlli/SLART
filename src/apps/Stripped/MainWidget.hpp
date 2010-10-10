@@ -34,6 +34,7 @@ class CDInfo;
 class CDList;
 class CDReader;
 class ConfigDialog;
+class GenericSatMsgHandler;
 class Satellite;
 
 
@@ -72,19 +73,20 @@ private:
    
 public:
 private:
-   Satellite       *mpSatellite;
-   CDInfo          *mpCDInfo;
-   CDDBClient      *mpCDDBClient;
-   CDEdit          *mpCDEdit;
-   CDReader        *mpCDReader;
-   QLabel          *mpMessage;
-   ConfigDialog    *mpConfigDialog;
-   QHBoxLayout     *mpButtonLayout;
-   QPushButton     *mpSettingsButton;
-   QPushButton     *mpCancelButton;
-   QPushButton     *mpScanButton;
-   QPushButton     *mpRipButton;
-   QPushButton     *mpEjectButton;
+   Satellite            *mpSatellite;
+   GenericSatMsgHandler *mpGenericSatMsgHandler;
+   CDInfo               *mpCDInfo;
+   CDDBClient           *mpCDDBClient;
+   CDEdit               *mpCDEdit;
+   CDReader             *mpCDReader;
+   QLabel               *mpMessage;
+   ConfigDialog         *mpConfigDialog;
+   QHBoxLayout          *mpButtonLayout;
+   QPushButton          *mpSettingsButton;
+   QPushButton          *mpCancelButton;
+   QPushButton          *mpScanButton;
+   QPushButton          *mpRipButton;
+   QPushButton          *mpEjectButton;
 };
 
 #endif

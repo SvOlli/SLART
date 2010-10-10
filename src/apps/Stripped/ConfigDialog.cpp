@@ -23,6 +23,7 @@
 #include <MySettings.hpp>
 #include <ProxyWidget.hpp>
 #include <Satellite.hpp>
+#include <WidgetShot.hpp>
 
 /* local headers */
 #include "CDReader.hpp"
@@ -156,6 +157,8 @@ qDebug() << "loading:" << mEncoders.at(i)->name();
             this, SLOT(readSettings()) );
    
    mpCDReader->getDevices();
+
+   WidgetShot::addWidget( "ConfigDialog", this );
 }
 
 

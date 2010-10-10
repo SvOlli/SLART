@@ -16,8 +16,10 @@
 #include <QTimer>
 
 /* local library headers */
+#include <GenericSatMsgHandler.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <WidgetShot.hpp>
 
 /* local headers */
 #include "CDDBClient.hpp"
@@ -30,6 +32,7 @@
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get( this ) )
+, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite ) )
 , mpCDInfo( new CDInfo() )
 , mpCDDBClient( new CDDBClient( mpCDInfo, this ) )
 , mpCDEdit( new CDEdit( mpCDInfo, mpCDDBClient, this ) )
@@ -78,6 +81,10 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpConfigDialog, SLOT(exec()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
             this, SLOT(handleConfigUpdate()) );
+   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
+            mpGenericSatMsgHandler, SLOT(handle(const QByteArray &)) );
+   connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
+            mpConfigDialog, SLOT(readSettings()) );
 
    connect( mpCancelButton, SIGNAL(clicked()),
             mpCDReader, SLOT(cancel()) );
@@ -132,6 +139,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    mpSatellite->restart();
    handleConfigUpdate();
+
+   WidgetShot::addWidget( "MainWidget", this );
 }
 
 
