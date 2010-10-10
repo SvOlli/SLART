@@ -6,33 +6,41 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "WidgetShot.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QApplication>
 #include <QFile>
 #include <QPixmap>
 
+/* local library headers */
 
-QHash<QString,QWidget*> *WidgetShot::mWidgetList = 0;
+/* local headers */
+
+/* class variable instantiation */
+QHash< QString, QPointer<QWidget> > *WidgetShot::cpWidgetList = 0;
 
 
 void WidgetShot::addWidget( const QString &widgetName, QWidget *widget )
 {
-   if( !mWidgetList )
+   if( !cpWidgetList )
    {
-      mWidgetList = new QHash<QString,QWidget*>();
+      cpWidgetList = new QHash< QString, QPointer<QWidget> >();
    }
-   mWidgetList->insert( QApplication::applicationName() + ":" + widgetName, widget );
+   cpWidgetList->insert( widgetName, widget );
 }
 
 
 void WidgetShot::shootWidget( const QString &widgetName, const QString &fileName )
 {
-   if( !mWidgetList )
+   if( !cpWidgetList )
    {
       return;
    }
-   QWidget *widget = mWidgetList->value( widgetName, 0 );
+   QWidget *widget = cpWidgetList->value( widgetName, 0 );
    if( !widget )
    {
       return;

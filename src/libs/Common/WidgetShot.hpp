@@ -9,9 +9,25 @@
 #ifndef WIDGETSHOT_HPP
 #define WIDGETSHOT_HPP WIDGETSHOT_HPP
 
+/* base class */
+#include <QObject>
+
+/* system headers */
+
+/* Qt headers */
+#include <QHash>
+#include <QPointer>
 #include <QString>
 #include <QWidget>
-#include <QHash>
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
+
 
 class WidgetShot
 {
@@ -24,7 +40,7 @@ private:
    WidgetShot( const WidgetShot &other );
    WidgetShot &operator=( const WidgetShot &other );
    
-   static QHash<QString,QWidget*> *mWidgetList;
+   static QHash< QString, QPointer<QWidget> > *cpWidgetList;
 };
 
 #endif
