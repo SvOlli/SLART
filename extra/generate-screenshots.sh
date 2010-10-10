@@ -12,31 +12,31 @@ dir="/tmp/slart-screenshots"
 rm -rf "${dir}"
 mkdir -p "${dir}"
 
-send Innuendo SHT MainWidget   "${dir}/Innuendo-Main.png"
-send Innuendo SHT ConfigDialog "${dir}/Innuendo-Config.png"
+send SHT Innuendo MainWidget   "${dir}/Innuendo-Main.png"
+send SHT Innuendo ConfigDialog "${dir}/Innuendo-Config.png"
 
-send Karmadrome SHT MainWidget   "${dir}/Karmadrome-Main.png"
-send Karmadrome SHT ConfigDialog "${dir}/Karmadrome-Config.png"
+send SHT Karmadrome MainWidget   "${dir}/Karmadrome-Main.png"
+send SHT Karmadrome ConfigDialog "${dir}/Karmadrome-Config.png"
 
-send Rubberbandman SHT MainWidget   "${dir}/Rubberbandman-Main.png"
-send Rubberbandman SHT ConfigDialog "${dir}/Rubberbandman-Config.png"
+send SHT Rubberbandman MainWidget   "${dir}/Rubberbandman-Main.png"
+send SHT Rubberbandman ConfigDialog "${dir}/Rubberbandman-Config.png"
 
-send Stripped SHT MainWidget   "${dir}/Stripped-Main.png"
-send Stripped SHT ConfigDialog "${dir}/Stripped-Config.png"
+send SHT Stripped MainWidget   "${dir}/Stripped-Main.png"
+send SHT Stripped ConfigWidget "${dir}/Stripped-Config.png"
 
-send Funkytown SHT MainWidget   "${dir}/Funkytown-Main.png"
-send Funkytown SHT ConfigDialog "${dir}/Funkytown-Config.png"
+send SHT Funkytown MainWidget   "${dir}/Funkytown-Main.png"
+send SHT Funkytown ConfigDialog "${dir}/Funkytown-Config.png"
 
-send Partyman P0T 0
-send Partyman SHT MainWidget   "${dir}/Partyman-Main-Help.png"
-send Partyman P0T 1
-send Partyman SHT MainWidget   "${dir}/Partyman-Main-Info.png"
-send Partyman P0T 2
-send Partyman SHT MainWidget   "${dir}/Partyman-Main-Search.png"
-send Partyman P0T 3
-send Partyman SHT MainWidget   "${dir}/Partyman-Main-Browse.png"
-send Partyman P0T 1
-send Partyman SHT ConfigDialog "${dir}/Partyman-Config.png"
+send P0T 0
+send SHT Partyman MainWidget   "${dir}/Partyman-Main-Help.png"
+send P0T 1
+send SHT Partyman MainWidget   "${dir}/Partyman-Main-Info.png"
+send P0T 2
+send SHT Partyman MainWidget   "${dir}/Partyman-Main-Search.png"
+send P0T 3
+send SHT Partyman MainWidget   "${dir}/Partyman-Main-Browse.png"
+send P0T 1
+send SHT Partyman ConfigDialog "${dir}/Partyman-Config.png"
 
 ls -l "${dir}"
 
