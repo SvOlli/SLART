@@ -22,6 +22,7 @@
 #include <Satellite.hpp>
 #include <ScrollLine.hpp>
 #include <TrackInfoWidget.hpp>
+#include <WidgetShot.hpp>
 
 /* local headers */
 #include "ButtonsWidget.hpp"
@@ -124,6 +125,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    
    mpListButtons->setDisabled( true );
 
+   WidgetShot::addWidget( "MainWidget", this );
+
    mpSatellite->send( "P0R" );
 }
 
@@ -136,7 +139,7 @@ MainWidget::~MainWidget()
 
 void MainWidget::addToList( QWidget *widget )
 {
-   QPushButton *pb = (QPushButton*)widget;
+   QPushButton *pb = qobject_cast<QPushButton*>(widget);
    if( mTrackInfo.mID > 0 )
    {
       mTrackInfo.setFolder( pb->text(), pb->isChecked() );
@@ -159,6 +162,8 @@ void MainWidget::sendK0u()
 
 void MainWidget::handleSatellite( const QByteArray &msg )
 {
+   mpGenericSatMsgHandler->handle( msg );
+
    QStringList message( Satellite::split( msg ) );
    if( message.count() > 2 )
    {
