@@ -18,6 +18,7 @@
 /* local library headers */
 #include <DownloadHandler.hpp>
 #include <MySettings.hpp>
+#include <WidgetShot.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -90,6 +91,8 @@ MainWidget::MainWidget( QWidget *parent )
    mpSettingsButton->setObjectName( QString("SettingsButton") );
    
    setAcceptDrops( true );
+
+   WidgetShot::addWidget( "MainWidget", this );
 }
 
 
