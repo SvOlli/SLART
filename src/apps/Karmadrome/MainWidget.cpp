@@ -127,6 +127,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 
    WidgetShot::addWidget( "MainWidget", this );
 
+   mpGenericSatMsgHandler->sendPing( true );
    mpSatellite->send( "P0R" );
 }
 
@@ -166,8 +167,6 @@ void MainWidget::sendK0u()
 
 void MainWidget::handleSatellite( const QByteArray &msg )
 {
-   mpGenericSatMsgHandler->handle( msg );
-
    QStringList message( Satellite::split( msg ) );
    if( message.count() > 2 )
    {
