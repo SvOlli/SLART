@@ -88,6 +88,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handleSatellite(const QByteArray &)) );
    connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
             mpConfig, SLOT(readSettings()) );
+   connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
+            this, SLOT(noAutostart()) );
 #if SATELLITE_DEBUG
    connect( mpSatellite, SIGNAL(debug(const QByteArray &)),
             this, SLOT(handleSatellite(const QByteArray &)) );
@@ -98,13 +100,10 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    readConfig();
    
    setLayout( mainLayout );
-   
    mpSettingsButton->setObjectName( QString("SettingsButton") );
-   
    setAcceptDrops( true );
-   
    QTimer::singleShot(333, this, SLOT(autostart()));
-
+   mpGenericSatMsgHandler->sendPing( true );
    WidgetShot::addWidget( "MainWidget", this );
 }
 
@@ -160,6 +159,12 @@ void MainWidget::autostart()
 }
 
 
+void MainWidget::noAutostart()
+{
+   mAutostart.clear();
+}
+
+
 void MainWidget::readConfig()
 {
    mpSatellite->restart();
@@ -174,8 +179,6 @@ void MainWidget::handlePingButton()
 
 void MainWidget::handleSatellite( const QByteArray &msg )
 {
-   mpGenericSatMsgHandler->handle( msg );
-
    QListWidgetItem *item = new QListWidgetItem( QDateTime::currentDateTime().toString(), mpMessageBuffer );
    item->setBackground( QBrush( mpMessageBuffer->palette().color( QPalette::AlternateBase ) ) );
    mpMessageBuffer->addItem( item );

@@ -59,6 +59,8 @@ public slots:
 private slots:
    /* autostart */
    void autostart();
+   /* prohibit autostart, in case Innuendo is already running */
+   void noAutostart();
 
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
