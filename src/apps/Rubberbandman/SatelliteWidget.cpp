@@ -73,13 +73,12 @@ SatelliteWidget::SatelliteWidget( Database *database, QWidget *parent, Qt::Windo
             this, SLOT(handleGetRandom()) );
    
    mpSatellite->restart();
+   mpGenericSatMsgHandler->sendPing( true );
 }
 
 
 void SatelliteWidget::handleSatellite( const QByteArray &msg )
 {
-   mpGenericSatMsgHandler->handle( msg );
-
    QStringList message( Satellite::split( msg ) );
 
    if( message.size() > 0 )
