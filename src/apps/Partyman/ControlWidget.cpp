@@ -117,6 +117,8 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
             this, SLOT(handleSatellite(const QByteArray &)) );
    connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
             mpConfig, SLOT(readSettings()) );
+   connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
+            this, SLOT(initDisconnect()) );
    connect( mpPlayer[0], SIGNAL(trackPlaying(const TrackInfo &)),
             this, SLOT(handleTrackPlaying(const TrackInfo &)) );
    connect( mpPlayer[1], SIGNAL(trackPlaying(const TrackInfo &)),
@@ -223,6 +225,7 @@ void ControlWidget::readConfig()
    }
    mpTrayIcon->setVisible( settings.VALUE_TRAYICON && QSystemTrayIcon::isSystemTrayAvailable() );
    mpLoadAction->setEnabled( MySettings( "Global" ).VALUE_CLIPBOARDMODE > 0 );
+   mpGenericSatMsgHandler->sendPing( true );
 }
 
 
@@ -410,8 +413,6 @@ void ControlWidget::allowConnect( bool allowed )
 
 void ControlWidget::handleSatellite( const QByteArray &msg )
 {
-   mpGenericSatMsgHandler->handle( msg );
-
    QStringList src( Satellite::split( msg ) );
 
    if( src.size() > 0 )
