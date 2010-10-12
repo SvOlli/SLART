@@ -15,6 +15,7 @@
 #include <QtGui>
 
 /* local library headers */
+#include <WidgetShot.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -62,6 +63,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             mpConfig, SLOT( exec() ) );
    
    mpSettingsButton->setObjectName( QString("SettingsButton") );
+
+   WidgetShot::addWidget( "MainWidget", this );
 }
 
 

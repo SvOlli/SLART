@@ -18,6 +18,7 @@
 #include <AboutWidget.hpp>
 #include <MySettings.hpp>
 #include <ProxyWidget.hpp>
+#include <WidgetShot.hpp>
 
 /* local headers */
 #include "FreeDBImport.hpp"
@@ -97,6 +98,8 @@ ConfigDialog::ConfigDialog( QWidget *parent )
    
    readSettings();
    checkValidFile( QString() );
+
+   WidgetShot::addWidget( "ConfigDialog", this );
 }
 
 
