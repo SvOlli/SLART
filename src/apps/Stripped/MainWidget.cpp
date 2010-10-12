@@ -81,8 +81,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpConfigDialog, SLOT(exec()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
             this, SLOT(handleConfigUpdate()) );
-   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
-            mpGenericSatMsgHandler, SLOT(handle(const QByteArray &)) );
    connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
             mpConfigDialog, SLOT(readSettings()) );
 
@@ -139,7 +137,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    mpSatellite->restart();
    handleConfigUpdate();
-
    WidgetShot::addWidget( "MainWidget", this );
 }
 

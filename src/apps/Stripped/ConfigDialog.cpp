@@ -28,8 +28,6 @@
 /* local headers */
 #include "CDReader.hpp"
 
-#include <Trace.hpp>
-
 
 ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
@@ -81,10 +79,8 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    encodersLayout->addWidget( new QLabel(
       tr("Encoders used during ripping (select at least one):"), encoders ), 0, 0, 1, 2 );
    mpEncoderTabs->addTab( encoders, tr("Encoders") );
-qDebug() << "loading:" << mEncoders.size();
    for( i = 0; i < mEncoders.size(); i++ )
    {
-qDebug() << "loading:" << mEncoders.at(i)->name();
       QCheckBox *encoderCheckBox = new QCheckBox( mEncoders.at(i)->name(), encoders );
       mpEncoderTabs->addTab( mEncoders.at(i)->configWidget( this, encoderCheckBox ), mEncoders.at(i)->name() );
       if( mEncoders.at(i)->useEncoder() )
