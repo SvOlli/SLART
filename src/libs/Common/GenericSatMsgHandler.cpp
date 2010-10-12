@@ -2,15 +2,28 @@
  * src/libs/Common/GenericSatMsgHandler.cpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU Lesser General Public License (LGPL)
+ * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+
+/* class declaration */
 #include "GenericSatMsgHandler.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QApplication>
 #include <QByteArray>
+#include <QMainWindow>
+#include <QMessageBox>
 #include <QStringList>
+#include <QTimer>
+#include <QWidget>
 
+/* local library headers */
+
+/* local headers */
 #include "Satellite.hpp"
 #include "WidgetShot.hpp"
 
@@ -18,6 +31,7 @@
 GenericSatMsgHandler::GenericSatMsgHandler( Satellite *satellite )
 : QObject( satellite )
 , mpSatellite( satellite )
+, mWithQuitDialog( false )
 {
    connect( satellite, SIGNAL(received(const QByteArray &)),
             this, SLOT(handle(const QByteArray &)) );
@@ -25,9 +39,19 @@ GenericSatMsgHandler::GenericSatMsgHandler( Satellite *satellite )
             satellite, SLOT(send(const QByteArray &)) );
 }
 
+
 GenericSatMsgHandler::~GenericSatMsgHandler()
 {
 }
+
+
+void GenericSatMsgHandler::sendPing( bool withQuitDialog )
+{
+   mWithQuitDialog = withQuitDialog;
+   mpSatellite->waitForConnected( 1000 );
+   emit reply( QByteArray("PNG\n") + QApplication::applicationName().toUtf8() );
+}
+
 
 void GenericSatMsgHandler::handle( const QByteArray &msg )
 {
@@ -46,12 +70,11 @@ void GenericSatMsgHandler::handle( const QByteArray &msg )
       {
          if( src.size() > 1 )
          {
-            if( src.at(1) != QApplication::applicationName() )
+            if( src.at(1) == QApplication::applicationName() )
             {
-               return;
+               emit reply( QByteArray("png\n") + QApplication::applicationName().toUtf8() );
             }
          }
-         emit reply( QByteArray("png\n") + QApplication::applicationName().toUtf8() );
          return;
       }
 
@@ -62,6 +85,10 @@ void GenericSatMsgHandler::handle( const QByteArray &msg )
             if( src.at(1) == QApplication::applicationName() )
             {
                emit anotherInstance();
+               if( mWithQuitDialog )
+               {
+                  anotherInstanceMessage();
+               }
             }
          }
          return;
@@ -77,6 +104,28 @@ void GenericSatMsgHandler::handle( const QByteArray &msg )
             }
          }
          return;
+      }
+   }
+}
+
+
+void GenericSatMsgHandler::anotherInstanceMessage()
+{
+   mWithQuitDialog = false;
+   QMainWindow *mainWindow = 0;
+   QWidgetList widgetList = QApplication::allWidgets();
+   for( int i = 0; i < widgetList.size(); i++ )
+   {
+      mainWindow = qobject_cast<QMainWindow*>( widgetList.at(i) );
+      if( mainWindow )
+      {
+         QMessageBox::critical( mainWindow,
+                                QApplication::applicationName(),
+                                tr("Another instance of %1 is already running."
+                                   "\nQuitting this one.")
+                                .arg( QApplication::applicationName() ) );
+         QTimer::singleShot( 333, qApp, SLOT(quit()) );
+         break;
       }
    }
 }
