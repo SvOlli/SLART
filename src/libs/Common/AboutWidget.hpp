@@ -2,8 +2,8 @@
  * src/libs/Common/AboutWidget.hpp
  * written by Sven Oliver Moll
  * 
- * distributed under the terms of the GNU General Public License (GPL)
- * available at http://www.gnu.org/licenses/gpl.html
+ * distributed under the terms of the GNU Lesser General Public License (LGPL)
+ * available at http://www.gnu.org/licenses/lgpl.html
  */
 
 #ifndef ABOUTWIDGET_HPP
