@@ -48,7 +48,11 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    QPushButton *browseButton  = new QPushButton( tr("..."), this );
    /* evil hack */
    browseButton->setMaximumWidth( browseButton->height() );
-   
+
+   QCompleter *completer = new QCompleter( this );
+   completer->setModel( new QDirModel( completer ) );
+   mpBaseDir->setCompleter( completer );
+
    mpMessage->setFrameShadow( QFrame::Raised );
    mpMessage->setFrameShape( QFrame::Box );
    mpPartymanInfo->setFrameShadow( QFrame::Raised );
