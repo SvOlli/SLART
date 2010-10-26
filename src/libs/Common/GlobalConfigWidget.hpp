@@ -59,6 +59,9 @@ signals:
    void useSatelliteClicked( bool isSet );
 
 private:
+   GlobalConfigWidget( const GlobalConfigWidget &that );
+   GlobalConfigWidget &operator=( const GlobalConfigWidget &that );
+
    QCheckBox    *mpUseSatellite;
    QLabel       *mpSatellitePortLabel;
    QSpinBox     *mpSatellitePort;

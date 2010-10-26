@@ -30,7 +30,11 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
 , mpDoubleClickInterval( new QSpinBox( this ) )
 {
    QGridLayout *mainLayout = new QGridLayout( this );
-   
+
+   QCompleter *completer = new QCompleter( this );
+   completer->setModel( new QDirModel( completer ) );
+   mpStyleSheetFileName->setCompleter( completer );
+
    showClipboard( false );
    showAnimate( false );
    showNormalize( false );
