@@ -28,6 +28,11 @@ CommandLineOption::CommandLineOption( const QString &name, const QString &type, 
 }
 
 
+CommandLineOption::~CommandLineOption()
+{
+}
+
+
 bool CommandLineOption::check()
 {
    return mFail;

@@ -29,10 +29,17 @@ class CommandLineOptionBool : public CommandLineOption
 {
 public:
    CommandLineOptionBool( const QString &name, const QString &desc, bool *value, bool setTo );
+   virtual ~CommandLineOptionBool();
+
+   /* try to parse option name without argument */
    virtual bool parse( const QString &name );
+   /* try to parse option name with an argument */
    virtual bool parse( const QString &name, const QString &option );
 
 private:
+   CommandLineOptionBool( const CommandLineOptionBool &that );
+   CommandLineOptionBool &operator=( const CommandLineOptionBool &that );
+
    bool *mValue;
    bool mSetTo;
 };

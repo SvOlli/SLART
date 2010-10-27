@@ -29,9 +29,15 @@ class CommandLineOption
 {
 public:
    CommandLineOption( const QString &name, const QString &type, const QString &desc );
+   virtual ~CommandLineOption();
+
+   /* try to parse option name without argument */
    virtual bool parse( const QString &name ) = 0;
+   /* try to parse option name with an argument */
    virtual bool parse( const QString &name, const QString &option ) = 0;
+   /* check if parsing was successful */
    virtual bool check();
+   /* generate help message for this option */
    virtual QString help();
 
    const QString mName;
@@ -40,6 +46,10 @@ public:
 
 protected:
    bool          mFail;
+
+private:
+   CommandLineOption( const CommandLineOption &that );
+   CommandLineOption &operator=( const CommandLineOption &that );
 };
 
 #endif
