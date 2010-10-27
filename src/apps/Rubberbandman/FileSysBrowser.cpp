@@ -188,6 +188,13 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 {
    MySettings settings;
    
+   QCompleter *completer = new QCompleter( this );
+   completer->setModel( new QDirModel( QStringList(),
+                                       QDir::NoDotAndDotDot | QDir::AllDirs,
+                                       QDir::Name,
+                                       completer ) );
+   mpRootDir->setCompleter( completer );
+
    mpModel->setNameFilters( settings.VALUE_FILEEXTENSIONS );
    mpModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files );
    mpModel->setSorting( QDir::Name | QDir::DirsFirst | QDir::IgnoreCase /*| QDir::LocaleAware*/ );

@@ -50,7 +50,10 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    browseButton->setMaximumWidth( browseButton->height() );
 
    QCompleter *completer = new QCompleter( this );
-   completer->setModel( new QDirModel( QStringList(), QDir::Dirs, QDir::Name, completer ) );
+   completer->setModel( new QDirModel( QStringList(),
+                                       QDir::NoDotAndDotDot | QDir::AllDirs,
+                                       QDir::Name,
+                                       completer ) );
    mpBaseDir->setCompleter( completer );
 
    mpMessage->setFrameShadow( QFrame::Raised );
