@@ -45,6 +45,9 @@ signals:
 #endif
 
 private:
+   SatelliteServerRunner( const SatelliteServerRunner &that );
+   SatelliteServerRunner &operator=( const SatelliteServerRunner &that );
+
    SatelliteServer      *mpServer;
    const quint16        mPort;
    const QHostAddress   mHost;

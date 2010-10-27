@@ -56,6 +56,9 @@ public slots:
    void updateWidgets( bool disabled = false );
    
 private:
+   ProxyWidget( const ProxyWidget &that );
+   ProxyWidget &operator=( const ProxyWidget &that );
+
    QLabel       *mpProxyOnLabel;
    QLabel       *mpProxyHostLabel;
    QLabel       *mpProxyPortLabel;

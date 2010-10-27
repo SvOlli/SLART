@@ -52,7 +52,8 @@ signals:
    void currentRatio( float radio );
 
 private:
-   Q_DISABLE_COPY( ImageWidget )
+   ImageWidget( const ImageWidget &that );
+   ImageWidget &operator=( const ImageWidget &that );
 
    Qt::AspectRatioMode     mAspectRatioMode;
    Qt::TransformationMode  mTransformationMode;

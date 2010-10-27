@@ -49,6 +49,9 @@ public:
    bool decode();
 
 private:
+   Xxtea( const Xxtea &that );
+   Xxtea &operator=( const Xxtea &that );
+
    const quint32  mDelta;
    quint32        *mpKey;
    QByteArray     *mpData;
