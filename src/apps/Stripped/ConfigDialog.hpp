@@ -83,6 +83,7 @@ private:
    QCheckBox            *mpAutoEnqueue;
    QCheckBox            *mpShowStats;
    QLabel               *mpDirButtonLabel;
+   QLineEdit            *mpDirEdit;
    QPushButton          *mpDirButton;
    QLabel               *mpPatternLabel;
    QLineEdit            *mpPattern;

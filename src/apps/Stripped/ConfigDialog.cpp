@@ -41,7 +41,8 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 , mpAutoEnqueue( new QCheckBox( tr("Automatically enqueue tracks with errors in Partyman"), this ) )
 , mpShowStats( new QCheckBox( tr("Show CD reading status"), this ) )
 , mpDirButtonLabel( new QLabel( tr("Base Directory:"), this ) )
-, mpDirButton( new QPushButton( this ) )
+, mpDirEdit( new QLineEdit( this ) )
+, mpDirButton( new QPushButton( tr("..."), this ) )
 , mpPatternLabel( new QLabel( tr("File Create Pattern:"), this ) )
 , mpPattern( new QLineEdit( this ) )
 , mpPatternExample( new QLabel( tr(""), this ) )
@@ -53,6 +54,15 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    int encodersActive = 0;
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
+
+   QCompleter *completer = new QCompleter( this );
+   completer->setModel( new QDirModel( QStringList(),
+                                       QDir::NoDotAndDotDot | QDir::AllDirs,
+                                       QDir::Name,
+                                       completer ) );
+   mpDirEdit->setCompleter( completer );
+   /* evil hack */
+   mpDirButton->setMaximumWidth( mpDirButton->height() );
 
    mEncoders = MagicEncoderLoader::tryLoading( "s0d", Satellite::get() );
    if( mEncoders.size() == 0 )
@@ -104,17 +114,19 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    QWidget     *strTab    = new QWidget( this );
    QGridLayout *strLayout = new QGridLayout( strTab );
    strLayout->addWidget( mpDevicesLabel,   0, 0 );
-   strLayout->addWidget( mpDevicesBox,     0, 1 );
+   strLayout->addWidget( mpDevicesBox,     0, 1, 1, 2 );
    strLayout->addWidget( mpDirButtonLabel, 1, 0 );
-   strLayout->addWidget( mpDirButton,      1, 1 );
+   strLayout->addWidget( mpDirEdit,        1, 1 );
+   strLayout->addWidget( mpDirButton,      1, 2 );
    strLayout->addWidget( mpPatternLabel,   2, 0 );
-   strLayout->addWidget( mpPattern,        2, 1 );
-   strLayout->addWidget( mpPatternExample, 3, 1 );
-   strLayout->addWidget( mpAutoFreeDB,     4, 0, 1, 2 );
-   strLayout->addWidget( mpAutoEject,      5, 0, 1, 2 );
-   strLayout->addWidget( mpAutoEnqueue,    6, 0, 1, 2 );
-   strLayout->addWidget( mpShowStats,      7, 0, 1, 2 );
-   strLayout->addWidget( mpEncoderTabs,    8, 0, 1, 2 );
+   strLayout->addWidget( mpPattern,        2, 1, 1, 2 );
+   strLayout->addWidget( mpPatternExample, 3, 1, 1, 2 );
+   strLayout->addWidget( mpAutoFreeDB,     4, 0, 1, 3 );
+   strLayout->addWidget( mpAutoEject,      5, 0, 1, 3 );
+   strLayout->addWidget( mpAutoEnqueue,    6, 0, 1, 3 );
+   strLayout->addWidget( mpShowStats,      7, 0, 1, 3 );
+   strLayout->addWidget( mpEncoderTabs,    8, 0, 1, 3 );
+   strLayout->setColumnStretch( 2, 1 );
    strLayout->setRowStretch( 8, 1 );
    strTab->setLayout( strLayout );
 
@@ -198,14 +210,14 @@ void ConfigDialog::setRippingDir()
    QFileDialog fileDialog( this );
 
    fileDialog.setFileMode( QFileDialog::DirectoryOnly );
-   fileDialog.setDirectory( mpDirButton->text() );
+   fileDialog.setDirectory( mpDirEdit->text() );
    fileDialog.setReadOnly( false );
 
    if( fileDialog.exec() )
    {
       MySettings settings;
       QString result( fileDialog.selectedFiles().at(0) );
-      mpDirButton->setText( result );
+      mpDirEdit->setText( result );
    }
 }
 
@@ -227,7 +239,7 @@ void ConfigDialog::readSettings()
    {
       i = 0;
    }
-   mpDirButton->setText( settings.VALUE_DIRECTORY.replace( '/', QDir::separator() ) );
+   mpDirEdit->setText( settings.VALUE_DIRECTORY.replace( '/', QDir::separator() ) );
    mpPattern->setText( settings.VALUE_CREATEPATTERN );
    
    mpGlobalConfigWidget->readSettings();
@@ -251,7 +263,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "AutoEnqueue", mpAutoEnqueue->isChecked() );
    settings.setValue( "ShowStats", mpShowStats->isChecked() );
    settings.setValue( "CreatePattern", mpPattern->text() );
-   settings.setValue( "Directory", mpDirButton->text().replace('\\','/') );
+   settings.setValue( "Directory", mpDirEdit->text().replace('\\','/') );
    
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
