@@ -9,8 +9,21 @@
 #ifndef DIRWALKER_HPP
 #define DIRWALKER_HPP DIRWALKER_HPP
 
+/* base class */
+
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QFileInfo;
 class QString;
+
+/* forward declaration of local classes */
 
 
 /* interface to provide callbacks */

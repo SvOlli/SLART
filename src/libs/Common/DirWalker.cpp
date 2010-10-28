@@ -6,12 +6,19 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "DirWalker.hpp"
 
-#include "Trace.hpp"
+/* system headers */
 
+/* Qt headers */
 #include <QDir>
 #include <QFileInfoList>
+
+/* local library headers */
+
+/* local headers */
+
 
 DirWalker::DirWalker()
 {
