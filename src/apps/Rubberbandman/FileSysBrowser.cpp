@@ -23,150 +23,9 @@
 
 /* local headers */
 #include "ConfigDialog.hpp"
-
-#include <Trace.hpp>
-
-class DirWalkerDelete : public DirWalkerCallbacks
-{
-public:
-   DirWalkerDelete( Database *database, const QString &path )
-   : mpDatabase( database )
-   , mDir( path )
-   , mTrackInfo()
-   {
-   }
-   virtual ~DirWalkerDelete(){}
-   void handleFile( const QFileInfo &fileInfo )
-   {
-      mDir.setPath( fileInfo.absolutePath() );
-      mDir.remove( fileInfo.fileName() );
-      if( mpDatabase->getTrackInfo( &mTrackInfo, fileInfo.absoluteFilePath() ) )
-      {
-         mpDatabase->deleteTrackInfo( &mTrackInfo );
-      }
-   }
-   void handleDirEntry( const QFileInfo &fileInfo )
-   {
-      mDir.setPath( fileInfo.absolutePath() );
-      mDir.rmdir( fileInfo.fileName() );
-   }
-   void handleDirLeave( const QFileInfo & )
-   {
-   }
-   void handleOther( const QFileInfo &fileInfo )
-   {
-      mDir.setPath( fileInfo.absolutePath() );
-      mDir.remove( fileInfo.fileName() );
-   }
-   
-private:
-   Database  *mpDatabase;
-   QDir      mDir;
-   TrackInfo mTrackInfo;
-};
-
-
-
-class DirWalkerMove : public DirWalkerCallbacks
-{
-public:
-   DirWalkerMove( Database *database, const QString &srcpath, const QString &destpath )
-   : mpDatabase( database )
-   , mSrcBaseLen( srcpath.length() )
-   , mDestBase( destpath )
-   , mSrcFile()
-   , mDestFile()
-   , mPath()
-   , mTrackInfo()
-   , mQDir()
-   , mQFileInfo()
-   {
-//TRACESTART( DirWalkerMove )
-//TRACEMSG << srcpath << destpath;
-   }
-   virtual ~DirWalkerMove(){}
-   void handleFile( const QFileInfo &fileInfo )
-   {
-//TRACESTART( handleFile )
-      mSrcFile = fileInfo.absoluteFilePath();
-      mDestFile = mSrcFile;
-      mDestFile.replace( 0, mSrcBaseLen, mDestBase );
-      
-//TRACEMSG << "rename" << mSrcFile << mDestFile;
-      if( QFile::rename( mSrcFile, mDestFile ) )
-      {
-         if( mpDatabase->getTrackInfo( &mTrackInfo, mSrcFile ) )
-         {
-            mQFileInfo.setFile( mDestFile );
-            mTrackInfo.mDirectory = mQFileInfo.absolutePath();
-            mpDatabase->updateTrackInfo( &mTrackInfo, true );
-         }
-      }
-   }
-   void handleDirEntry( const QFileInfo &fileInfo )
-   {
-//TRACESTART( handleDirEntry )
-      mDestFile = fileInfo.absoluteFilePath();
-      mDestFile.replace( 0, mSrcBaseLen, mDestBase );
-//TRACEMSG << "create" << mDestFile;
-      mQDir.mkdir( mDestFile );
-   }
-   void handleDirLeave( const QFileInfo &fileInfo )
-   {
-//TRACESTART( handleDirEntry )
-      mSrcFile = fileInfo.absoluteFilePath();
-//TRACEMSG << "remove" << mSrcFile;
-      
-      mQDir.rmdir( mSrcFile );
-   }
-   void handleOther( const QFileInfo &fileInfo )
-   {
-      mSrcFile = fileInfo.absoluteFilePath();
-      mDestFile = mSrcFile;
-      mDestFile.replace( 0, mSrcBaseLen, mDestBase );
-      QFile::rename( mSrcFile, mDestFile );
-   }
-   
-private:
-   Database  *mpDatabase;
-   int       mSrcBaseLen;
-   QString   mDestBase;
-   QString   mSrcFile;
-   QString   mDestFile;
-   QString   mPath;
-   TrackInfo mTrackInfo;
-   QDir      mQDir;
-   QFileInfo mQFileInfo;
-};
-
-
-
-class MyTreeView : public QTreeView
-{
-public:
-   MyTreeView( QWidget *parent ) : QTreeView( parent ){};
-protected:
-   /* handle return/enter key */
-   virtual void keyPressEvent( QKeyEvent *event );
-};
-
-
-void MyTreeView::keyPressEvent( QKeyEvent *event )
-{
-   if( !event->isAutoRepeat() )
-   {
-      switch( event->key() )
-      {
-         case Qt::Key_Return:
-         case Qt::Key_Enter:
-            emit clicked( currentIndex() );
-            break;
-         default:
-            break;
-      }
-   }
-   QTreeView::keyPressEvent( event );
-}
+#include "DirWalkerDelete.hpp"
+#include "DirWalkerMove.hpp"
+#include "MyTreeView.hpp"
 
 
 FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowFlags flags )
@@ -450,7 +309,7 @@ void FileSysBrowser::menuDelete()
       QDir qdir( mFileInfo.absolutePath() );
       if( mFileInfo.isDir() )
       {
-         DirWalkerDelete walkerCallbacks( mpDatabase, mFileInfo.absoluteFilePath() );
+         DirWalkerDelete walkerCallbacks( mpDatabase );
          DirWalker       dirWalker;
          dirWalker.run( &walkerCallbacks, mFileInfo.absoluteFilePath() );
          qdir.rmdir( mFileInfo.fileName() );
@@ -470,7 +329,7 @@ void FileSysBrowser::menuDelete()
 
 void FileSysBrowser::dragEnterEvent( QDragEnterEvent *event )
 {
-TRACESTART(FileSysBrowser::dragEnterEvents)
+//TRACESTART(FileSysBrowser::dragEnterEvents)
    const QMimeData *mimeData = event->mimeData();
    if( mimeData->hasUrls() && (mimeData->urls().size() == 1) )
    {

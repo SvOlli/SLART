@@ -17,31 +17,40 @@ LIBS += -lCommon -lTag
 RESOURCES = ../../libs/Common/Resources/Common.qrc
 RC_FILE = ../../libs/Common/Resources/WinIcon.rc
 
-SOURCES += Application.cpp 
+SOURCES += Application.cpp
 
-HEADERS += BrowseWidget.hpp 
-SOURCES += BrowseWidget.cpp 
+HEADERS += BrowseWidget.hpp
+SOURCES += BrowseWidget.cpp
 
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp
 
 HEADERS += Console.hpp
-SOURCES += Console.cpp 
+SOURCES += Console.cpp
 
-HEADERS += DatabaseWidget.hpp 
-SOURCES += DatabaseWidget.cpp 
+HEADERS += DatabaseWidget.hpp
+SOURCES += DatabaseWidget.cpp
 
-HEADERS += DatabaseWorker.hpp 
-SOURCES += DatabaseWorker.cpp 
+HEADERS += DatabaseWorker.hpp
+SOURCES += DatabaseWorker.cpp
 
-HEADERS += FileSysBrowser.hpp 
-SOURCES += FileSysBrowser.cpp 
+HEADERS += DirWalkerDelete.hpp
+SOURCES += DirWalkerDelete.cpp
 
-HEADERS += InfoEdit.hpp 
-SOURCES += InfoEdit.cpp 
+HEADERS += DirWalkerMove.hpp
+SOURCES += DirWalkerMove.cpp
 
-HEADERS += MainWidget.hpp 
-SOURCES += MainWidget.cpp 
+HEADERS += FileSysBrowser.hpp
+SOURCES += FileSysBrowser.cpp
+
+HEADERS += InfoEdit.hpp
+SOURCES += InfoEdit.cpp
+
+HEADERS += MainWidget.hpp
+SOURCES += MainWidget.cpp
+
+HEADERS += MyTreeView.hpp
+SOURCES += MyTreeView.cpp
 
 HEADERS += SatelliteWidget.hpp
 SOURCES += SatelliteWidget.cpp
