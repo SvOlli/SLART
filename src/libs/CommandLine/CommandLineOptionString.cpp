@@ -25,6 +25,11 @@ CommandLineOptionString::CommandLineOptionString( const QString &name, const QSt
 }
 
 
+CommandLineOptionString::~CommandLineOptionString()
+{
+}
+
+
 bool CommandLineOptionString::parse( const QString &name )
 {
    if( name == mName )
