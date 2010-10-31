@@ -68,12 +68,22 @@ void GenericSatMsgHandler::handle( const QByteArray &msg )
 
       if( src.at(0) == "PNG" )
       {
+         bool shouldEmit = false;
          if( src.size() > 1 )
          {
             if( src.at(1) == QApplication::applicationName() )
             {
-               emit reply( QByteArray("png\n") + QApplication::applicationName().toUtf8() );
+               shouldEmit = true;
             }
+         }
+         else
+         {
+            shouldEmit = true;
+         }
+
+         if( shouldEmit )
+         {
+            emit reply( QByteArray("png\n") + QApplication::applicationName().toUtf8() );
          }
          return;
       }
