@@ -28,12 +28,10 @@
 CommandLineHandler::CommandLineHandler( const QStringList &list, QObject *parent )
 : QObject( parent )
 , mpSatellite( new Satellite( this ) )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite ) )
+, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPing ) )
 , mConnected( false )
 , mList( list )
 {
-   connect( mpSatellite, SIGNAL(connected()),
-            mpGenericSatMsgHandler, SLOT(sendPing()) );
    connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
             this, SLOT(gotPing()) );
    connect( this, SIGNAL(done()),

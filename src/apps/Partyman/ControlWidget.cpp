@@ -32,7 +32,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mpConfig( config )
 , mpPlaylist( playlist )
 , mpSatellite( Satellite::get( this ) )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite ) )
+, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpConnectButton( new QPushButton( tr("Connect"), this ) )
 , mpSkipButton( new QPushButton( tr("Next"), this ) )
@@ -225,7 +225,6 @@ void ControlWidget::readConfig()
    }
    mpTrayIcon->setVisible( settings.VALUE_TRAYICON && QSystemTrayIcon::isSystemTrayAvailable() );
    mpLoadAction->setEnabled( MySettings( "Global" ).VALUE_CLIPBOARDMODE > 0 );
-   mpGenericSatMsgHandler->sendPing( true );
 }
 
 

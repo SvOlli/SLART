@@ -35,7 +35,7 @@ SatelliteWidget::SatelliteWidget( Database *database, QWidget *parent, Qt::Windo
 , mpDatabase( database )
 , mpInfoEdit( new InfoEdit( database ) )
 , mpSatellite( Satellite::get( this ) )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite ) )
+, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
 , mpNowPlaying( new QPushButton( tr("NP: To Clipboard"), this ) )
 , mpShowInFilesystem( new QPushButton( tr("Show In Filesystem"), this ) )
 , mpGetRandom( new QPushButton( tr("Get Random Track"), this ) )
@@ -73,7 +73,6 @@ SatelliteWidget::SatelliteWidget( Database *database, QWidget *parent, Qt::Windo
             this, SLOT(handleGetRandom()) );
    
    mpSatellite->restart();
-   mpGenericSatMsgHandler->sendPing( true );
 }
 
 

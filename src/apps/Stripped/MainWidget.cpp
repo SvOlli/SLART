@@ -32,7 +32,7 @@
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get( this ) )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite ) )
+, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithoutPing ) )
 , mpCDInfo( new CDInfo() )
 , mpCDDBClient( new CDDBClient( mpCDInfo, this ) )
 , mpCDEdit( new CDEdit( mpCDInfo, mpCDDBClient, this ) )

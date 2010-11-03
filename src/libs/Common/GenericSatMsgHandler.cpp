@@ -28,15 +28,20 @@
 #include "WidgetShot.hpp"
 
 
-GenericSatMsgHandler::GenericSatMsgHandler( Satellite *satellite )
+GenericSatMsgHandler::GenericSatMsgHandler( Satellite *satellite, StartupMode mode )
 : QObject( satellite )
 , mpSatellite( satellite )
-, mWithQuitDialog( false )
+, mWithQuitDialog( mode == WithPingAndDialog )
 {
-   connect( satellite, SIGNAL(received(const QByteArray &)),
+   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
             this, SLOT(handle(const QByteArray &)) );
    connect( this, SIGNAL(reply(const QByteArray &)),
-            satellite, SLOT(send(const QByteArray &)) );
+            mpSatellite, SLOT(send(const QByteArray &)) );
+   if( mode != WithoutPing )
+   {
+      connect( mpSatellite, SIGNAL(connected()),
+               this, SLOT(sendPing()) );
+   }
 }
 
 
@@ -45,10 +50,10 @@ GenericSatMsgHandler::~GenericSatMsgHandler()
 }
 
 
-void GenericSatMsgHandler::sendPing( bool withQuitDialog )
+void GenericSatMsgHandler::sendPing()
 {
-   mWithQuitDialog = withQuitDialog;
-   mpSatellite->waitForConnected( 1000 );
+   disconnect( mpSatellite, SIGNAL(connected()),
+               this, SLOT(sendPing()) );
    emit reply( QByteArray("PNG\n") + QApplication::applicationName().toUtf8() );
 }
 

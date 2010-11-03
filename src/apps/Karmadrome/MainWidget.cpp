@@ -34,7 +34,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( new Database() )
 , mpSatellite( Satellite::get( this ) )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite ) )
+, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
 , mpImportExport( new ImportExport( mpDatabase) )
 , mpFileName( new ScrollLine( this ) )
 , mpTrackInfo( new TrackInfoWidget( mpDatabase, QByteArray("k0u"), false, this ) )
@@ -127,7 +127,6 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 
    WidgetShot::addWidget( "MainWidget", this );
 
-   mpGenericSatMsgHandler->sendPing( true );
    mpSatellite->send( "P0R" );
 }
 

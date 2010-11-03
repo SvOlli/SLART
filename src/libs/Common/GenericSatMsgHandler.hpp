@@ -32,12 +32,11 @@ class GenericSatMsgHandler : public QObject
 Q_OBJECT
 
 public:
-   GenericSatMsgHandler( Satellite *satellite );
+   enum StartupMode { WithoutPing, WithPing, WithPingAndDialog };
+   GenericSatMsgHandler( Satellite *satellite, StartupMode mode );
    virtual ~GenericSatMsgHandler();
 
 public slots:
-   /* send the PNG command to see if another instance is running */
-   void sendPing( bool withQuitDialog = false );
    /* handle the message */
    void handle( const QByteArray &msg );
 
@@ -48,6 +47,10 @@ signals:
    void updateConfig();
    /* singalize that another instance is already running */
    void anotherInstance();
+
+private slots:
+   /* send the PNG command to see if another instance is running */
+   void sendPing();
 
 private:
    GenericSatMsgHandler( const GenericSatMsgHandler &other );

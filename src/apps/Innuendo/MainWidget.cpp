@@ -30,7 +30,7 @@
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get( this ) )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite ) )
+, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
 , mpMessageBuffer( new QListWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpPingButton( new QPushButton( tr("Ping"), this ) )
@@ -103,7 +103,6 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpSettingsButton->setObjectName( QString("SettingsButton") );
    setAcceptDrops( true );
    QTimer::singleShot(333, this, SLOT(autostart()));
-   mpGenericSatMsgHandler->sendPing( true );
    WidgetShot::addWidget( "MainWidget", this );
 }
 
