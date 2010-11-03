@@ -84,6 +84,8 @@ private slots:
 #endif
    
 signals:
+   /* connection to the bus was successful */
+   void connected();
    /* the message send from another client */
    void received( const QByteArray &message );
 #if SATELLITE_DEBUG

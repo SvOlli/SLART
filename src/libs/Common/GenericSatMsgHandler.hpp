@@ -34,10 +34,10 @@ Q_OBJECT
 public:
    GenericSatMsgHandler( Satellite *satellite );
    virtual ~GenericSatMsgHandler();
-   /* send the PNG command to see if another instance is running */
-   void sendPing( bool withQuitDialog = false );
 
 public slots:
+   /* send the PNG command to see if another instance is running */
+   void sendPing( bool withQuitDialog = false );
    /* handle the message */
    void handle( const QByteArray &msg );
 

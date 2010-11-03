@@ -52,7 +52,10 @@ Satellite::Satellite( QObject *parent )
 
 Satellite::~Satellite()
 {
-   mpServerConnection->waitForBytesWritten( 1000 );
+   if( mpServerConnection->state() != QTcpSocket::UnconnectedState )
+   {
+      mpServerConnection->waitForBytesWritten( 1000 );
+   }
 }
 
 
@@ -90,6 +93,8 @@ void Satellite::restart()
    if( mpServerConnection->state() == QAbstractSocket::UnconnectedState )
    {
       mpServerConnection->connectToHost( mHost, mPort );
+      connect( mpServerConnection, SIGNAL(connected()),
+               this, SIGNAL(connected()) );
    }
 }
 
