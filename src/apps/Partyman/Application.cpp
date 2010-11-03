@@ -19,6 +19,7 @@
 #include <SorcererLoader.hpp>
 
 /* local headers */
+#include "CommandLineHandler.hpp"
 #include "MainWidget.hpp"
 
 
@@ -42,10 +43,8 @@ int main(int argc, char *argv[])
    if( args.size() > 1 )
    {
       args.takeFirst(); // first argument is program name
-      while( args.size() > 0 )
-      {
-         Satellite::send1( QFileInfo( args.takeFirst() ).absoluteFilePath().prepend( "P0Q\n" ).toUtf8() );
-      }
+      CommandLineHandler commandLineHandler( args );
+      retval = app.exec();
    }
    else
    {

@@ -22,6 +22,9 @@ SOURCES += Application.cpp
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
 
+HEADERS += CommandLineHandler.hpp
+SOURCES += CommandLineHandler.cpp
+
 HEADERS += ControlWidget.hpp
 SOURCES += ControlWidget.cpp
 

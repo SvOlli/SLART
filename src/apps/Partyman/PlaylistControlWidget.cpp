@@ -54,6 +54,12 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
    mpPlaylistContent->setHidden( false );
    mpPlaylistContent->addItems( settings.value( "Playlist", QStringList() ).toStringList() );
    settings.remove( "Playlist" );
+   QStringList playlistAppend( settings.value( "PlaylistAppend", QStringList() ).toStringList() );
+   if( playlistAppend.size() > 0 )
+   {
+      settings.remove( "PlaylistAppend" );
+      mpPlaylistContent->addItems( playlistAppend );
+   }
 
    mpHelpText->setReadOnly( true );
    mpHelpText->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
@@ -217,14 +223,21 @@ void PlaylistControlWidget::addEntries( const QStringList &entries, bool atStart
 
 void PlaylistControlWidget::getNextTrack( QString *fileName )
 {
+   MySettings settings;
+
+   QStringList playlistAppend( settings.value( "PlaylistAppend", QStringList() ).toStringList() );
+   if( playlistAppend.size() > 0 )
+   {
+      settings.remove( "PlaylistAppend" );
+      mpPlaylistContent->addItems( playlistAppend );
+   }
+
    if( mpPlaylistContent->count() > 0 )
    {
       *fileName = mpPlaylistContent->takeFilePath(0);
    }
    else
    {
-      MySettings settings;
-      
       int randomTries = settings.VALUE_RANDOMTRIES;
       QStringList playedArtists( settings.value("PlayedArtists").toStringList() );
       bool favoriteOnly = settings.VALUE_PLAYONLYFAVORITE;
