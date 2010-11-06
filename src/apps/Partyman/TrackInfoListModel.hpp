@@ -30,7 +30,7 @@ class Database;
 
 class TrackInfoListModel : public QAbstractListModel
 {
-    Q_OBJECT
+   Q_OBJECT
 
 public:
    TrackInfoListModel( Database *database, QObject *parent = 0 );

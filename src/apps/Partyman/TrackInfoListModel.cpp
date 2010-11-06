@@ -188,7 +188,7 @@ QMimeData *TrackInfoListModel::mimeData( const QModelIndexList &indexes ) const
    QMimeData *mimeData = new QMimeData();
 
    QList<QUrl> urls;
-
+   QStringList mimeText;
    for( int i = 0; i < indexes.size(); i++ )
    {
       if( indexes.at(i).isValid() )
@@ -196,10 +196,12 @@ QMimeData *TrackInfoListModel::mimeData( const QModelIndexList &indexes ) const
          QString text = data( indexes.at(i), Qt::ToolTipRole ).toString();
          if( !text.isEmpty() )
          {
+            mimeText << text;
             urls << QUrl::fromLocalFile( text );
          }
       }
    }
+   mimeData->setText( mimeText.join("\n") );
    mimeData->setUrls( urls );
 
    return mimeData;
