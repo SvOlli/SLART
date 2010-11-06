@@ -1,5 +1,5 @@
 ######################################################################
-# src/apps/Innuendo/Innuendo.pro 
+# src/apps/Innuendo/Innuendo.pro
 # written by Sven Oliver Moll
 # distributed as public domain
 ######################################################################
@@ -17,43 +17,23 @@ LIBS += -lCommon
 RESOURCES = ../../libs/Common/Resources/Common.qrc
 RC_FILE = ../../libs/Common/Resources/WinIcon.rc
 
-SOURCES += Application.cpp 
+SOURCES += Application.cpp
 
-#HEADERS += Database.hpp
+HEADERS += LogListWidget.hpp
+SOURCES += LogListWidget.cpp
 
-#HEADERS += MySettings.hpp 
-#SOURCES += MySettings.cpp 
+HEADERS += MainWidget.hpp
+SOURCES += MainWidget.cpp
 
-#HEADERS += MainWindow.hpp 
-#SOURCES += MainWindow.cpp 
+HEADERS += ExecButton.hpp
+SOURCES += ExecButton.cpp
 
-#HEADERS += WidgetShot.hpp 
-#SOURCES += WidgetShot.cpp 
+HEADERS += ConfigDialog.hpp
+SOURCES += ConfigDialog.cpp
 
-HEADERS += MainWidget.hpp 
-SOURCES += MainWidget.cpp 
+HEADERS += SatelliteConfigWidget.hpp
+SOURCES += SatelliteConfigWidget.cpp
 
-#HEADERS += AboutWidget.hpp
-#SOURCES += AboutWidget.cpp
-
-HEADERS += ExecButton.hpp 
-SOURCES += ExecButton.cpp 
-
-HEADERS += ConfigDialog.hpp 
-SOURCES += ConfigDialog.cpp 
-
-HEADERS += SatelliteConfigWidget.hpp 
-SOURCES += SatelliteConfigWidget.cpp 
-
-#HEADERS += ProxyWidget.hpp 
-#SOURCES += ProxyWidget.cpp 
-
-#HEADERS += GlobalConfigWidget.hpp 
-#SOURCES += GlobalConfigWidget.cpp 
-
-#HEADERS += SLARTCom.hpp
-#SOURCES += SLARTCom.cpp
-
-HEADERS += DropDialog.hpp 
-SOURCES += DropDialog.cpp 
+HEADERS += DropDialog.hpp
+SOURCES += DropDialog.cpp
 

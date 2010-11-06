@@ -25,13 +25,14 @@
 #include "ConfigDialog.hpp"
 #include "ExecButton.hpp"
 #include "DropDialog.hpp"
+#include "LogListWidget.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get( this ) )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
-, mpMessageBuffer( new QListWidget( this ) )
+, mpMessageBuffer( new LogListWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpPingButton( new QPushButton( tr("Ping"), this ) )
 , mpConfig( new ConfigDialog( this ) )
@@ -43,6 +44,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    QGridLayout *mainLayout   = new QGridLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
+
+   mpMessageBuffer->setDragEnabled( true );
 
    QStringList applications;
    applications

@@ -23,7 +23,6 @@
 /* forward declaration of Qt classes */
 class QKeyEvent;
 class QLabel;
-class QListWidget;
 class QListWidgetItem;
 class QIcon;
 class QPushButton;
@@ -35,6 +34,7 @@ class ConfigDialog;
 class DropDialog;
 class ExecButton;
 class GenericSatMsgHandler;
+class LogListWidget;
 class Satellite;
 
 
@@ -77,7 +77,7 @@ private:
 
    Satellite            *mpSatellite;
    GenericSatMsgHandler *mpGenericSatMsgHandler;
-   QListWidget          *mpMessageBuffer;
+   LogListWidget        *mpMessageBuffer;
    QPushButton          *mpSettingsButton;
    QPushButton          *mpPingButton;
    ConfigDialog         *mpConfig;
