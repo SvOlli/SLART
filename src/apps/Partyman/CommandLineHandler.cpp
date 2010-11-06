@@ -65,7 +65,7 @@ void CommandLineHandler::timeout()
    {
       MySettings settings;
       QStringList list( settings.value( "PlaylistAppend", QStringList() ).toStringList() );
-      list.append( mList );
+      list << mList;
       settings.setValue( "PlaylistAppend", list );
       emit done();
    }
