@@ -43,8 +43,6 @@ public:
    virtual void readSettings() = 0;
    /* write settings to storage */
    virtual void writeSettings() = 0;
-   /*  */
-   void setDirectory( ScrollLine *dirOverride );
 
 public slots:
    /* handle the dot button by display filesystem browser */

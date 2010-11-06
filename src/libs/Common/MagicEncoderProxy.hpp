@@ -38,11 +38,11 @@ public:
    MagicEncoderProxy( Satellite *satellite = 0, QObject *parent = 0 );
    virtual ~MagicEncoderProxy();
 
-   /*  */
+   /* try to load a plugin */
    bool pluginLoad( const QString &fileName, const QString &msgHeader );
-   /*  */
+   /* kind of error when loading plugin for log */
    QString pluginLoadErrorString();
-   /*  */
+   /* the file name of the plugin */
    QString pluginFileName();
    /* supply the a handle to the configuration widget */
    MagicEncoderConfig *configWidget( QWidget *parent = 0, QAbstractButton *button = 0 );

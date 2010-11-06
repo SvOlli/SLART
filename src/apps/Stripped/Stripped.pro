@@ -50,4 +50,3 @@ SOURCES += CDDBClient.cpp
 
 HEADERS += ParanoiaStatus.hpp
 SOURCES += ParanoiaStatus.cpp
-

@@ -14,5 +14,5 @@ INCLUDEPATH += $${TOPSRC}/libs/CommandLine
 LIBS += -lCommandLine
 
 # Input
-SOURCES += Application.cpp 
+SOURCES += Application.cpp
 

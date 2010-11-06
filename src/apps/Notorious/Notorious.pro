@@ -20,11 +20,6 @@ RC_FILE = ../../libs/Common/Resources/WinIcon.rc
 
 SOURCES += Application.cpp
 
-#HEADERS += Database.hpp
-
-#HEADERS += AboutWidget.hpp
-#SOURCES += AboutWidget.cpp
-
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp
 
@@ -45,12 +40,6 @@ SOURCES += FreeDBQuery.cpp
 
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
-
-#HEADERS += MainWindow.hpp
-#SOURCES += MainWindow.cpp
-
-#HEADERS += MySettings.hpp
-#SOURCES += MySettings.cpp
 
 HEADERS += SearchWidget.hpp
 SOURCES += SearchWidget.cpp

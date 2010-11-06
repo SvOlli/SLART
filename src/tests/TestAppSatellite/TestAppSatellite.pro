@@ -16,11 +16,11 @@ LIBS += -lCommon
 # Input
 #RESOURCES = Resources.qrc
 
-SOURCES += Application.cpp 
+SOURCES += Application.cpp
 
-HEADERS += MainWindow.hpp 
-SOURCES += MainWindow.cpp 
+HEADERS += MainWindow.hpp
+SOURCES += MainWindow.cpp
 
-HEADERS += MainWidget.hpp 
-SOURCES += MainWidget.cpp 
+HEADERS += MainWidget.hpp
+SOURCES += MainWidget.cpp
 

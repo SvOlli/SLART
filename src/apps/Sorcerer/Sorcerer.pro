@@ -17,4 +17,3 @@ RESOURCES = ../../libs/Common/Resources/Common.qrc
 RC_FILE = ../Common/Resources/WinIcon.rc
 
 SOURCES += Application.cpp
-

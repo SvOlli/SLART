@@ -22,8 +22,8 @@ HEADERS += SorcererInterface.hpp
 HEADERS += SorcererPlugin.hpp
 SOURCES += SorcererPlugin.cpp
 
-HEADERS += SorcererWidget.hpp 
-SOURCES += SorcererWidget.cpp 
+HEADERS += SorcererWidget.hpp
+SOURCES += SorcererWidget.cpp
 
 HEADERS += ../../apps/Innuendo/SatelliteConfigWidget.hpp
 SOURCES += ../../apps/Innuendo/SatelliteConfigWidget.cpp

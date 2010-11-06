@@ -16,8 +16,8 @@ LIBS += -lCommon
 # Input
 RESOURCES = Resources/TestAppWebServer.qrc
 
-SOURCES += Application.cpp 
+SOURCES += Application.cpp
 
-HEADERS += MainWidget.hpp 
-SOURCES += MainWidget.cpp 
+HEADERS += MainWidget.hpp
+SOURCES += MainWidget.cpp
 

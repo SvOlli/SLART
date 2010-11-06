@@ -30,9 +30,9 @@ public:
    Synchronize();
    virtual ~Synchronize();
 
-   /*  */
+   /* wait until someone else calls release() */
    bool wait();
-   /*  */
+   /* let the waiting call continue */
    void release();
 
 private:

@@ -15,5 +15,5 @@ INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -llirc_client
 
 # Input
-SOURCES += Application.cpp 
+SOURCES += Application.cpp
 

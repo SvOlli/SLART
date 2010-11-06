@@ -16,4 +16,4 @@ LIBS += -lCommon -lCommandLine
 # Input
 #RESOURCES = Resources.qrc
 
-SOURCES += Application.cpp 
+SOURCES += Application.cpp
