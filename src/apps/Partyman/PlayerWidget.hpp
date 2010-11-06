@@ -76,7 +76,7 @@ public:
    /* skip current track */
    bool skip();
    /* report playing state */
-   PlayerFSM::tState getState() { return mpFSM->getState(); };
+   PlayerFSM::tState getState();
    /* toggle pause */
    void pause();
    /* toggle pause */

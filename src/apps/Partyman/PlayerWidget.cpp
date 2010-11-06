@@ -101,6 +101,12 @@ PlayerWidget::~PlayerWidget()
 }
 
 
+PlayerFSM::tState PlayerWidget::getState()
+{
+   return mpFSM->getState();
+}
+
+
 void PlayerWidget::getNextTrack( bool armed )
 {
    QString fileName;

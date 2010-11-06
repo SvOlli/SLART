@@ -17,7 +17,7 @@ LIBS += -lCommon
 RESOURCES = Resources/Partyman.qrc
 RC_FILE = Resources/WinIcon.rc
 
-SOURCES += Application.cpp 
+SOURCES += Application.cpp
 
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
@@ -93,4 +93,3 @@ SOURCES += PlayerFSMReady.cpp
 
 HEADERS += PlayerFSMSearching.hpp
 SOURCES += PlayerFSMSearching.cpp
-
