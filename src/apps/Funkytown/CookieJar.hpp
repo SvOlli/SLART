@@ -35,7 +35,9 @@ public:
    CookieJar();
    virtual ~CookieJar();
 
+   /* store a cookie */
    void store( const QString &line );
+   /* retrieve a cookie */
    QStringList take( const QString &host, const QString &path );
 
 private:

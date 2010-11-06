@@ -17,7 +17,6 @@
 /* Qt headers */
 
 /* local library headers */
-#include <ProxyWidget.hpp>
 
 /* local headers */
 
@@ -30,6 +29,7 @@ class QTextBrowser;
 
 /* forward declaration of local classes */
 class GlobalConfigWidget;
+class ProxyWidget;
 
 
 class ConfigDialog : public QDialog

@@ -73,6 +73,7 @@ bool Cookie::matches( const Cookie &other ) const
            == mData.left( mData.indexOf('=') );
 }
 
+
 QString Cookie::getData() const
 {
    return mData;

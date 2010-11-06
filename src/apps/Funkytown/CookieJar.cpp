@@ -19,7 +19,6 @@
 /* local headers */
 
 
-
 CookieJar::CookieJar()
 : mTheJar()
 {

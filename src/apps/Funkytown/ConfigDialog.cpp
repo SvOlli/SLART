@@ -23,7 +23,6 @@
 /* local headers */
 
 
-
 ConfigDialog::ConfigDialog( QWidget *parent )
 : QDialog( parent )
 , mpProxyWidget( new ProxyWidget( this ) )

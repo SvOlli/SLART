@@ -34,7 +34,6 @@ class QPushButton;
 /* forward declaration of local classes */
 class ConfigDialog;
 class DownloadHandler;
-class Satellite;
 
 
 class MainWidget : public QWidget
