@@ -89,9 +89,9 @@ MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
    nameFilter << "libMagicEncoder*.so";
 #endif
    QStringList encoderNames( dir.entryList( nameFilter, QDir::Files | QDir::Readable, QDir::Name ) );
-   for( int i = 0; i < encoderNames.size(); i++ )
+   foreach( QString encoderName, encoderNames )
    {
-      QString encoderName( dir.absoluteFilePath( encoderNames.at(i) ) );
+      encoderName = dir.absoluteFilePath( encoderName );
       MagicEncoderProxy *encoder = new MagicEncoderProxy( satellite );
 
       if( encoder->pluginLoad( encoderName, msgHeader ) )

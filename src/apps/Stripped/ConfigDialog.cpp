@@ -89,18 +89,18 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    encodersLayout->addWidget( new QLabel(
       tr("Encoders used during ripping (select at least one):"), encoders ), 0, 0, 1, 2 );
    mpEncoderTabs->addTab( encoders, tr("Encoders") );
-   for( i = 0; i < mEncoders.size(); i++ )
+   foreach( MagicEncoderProxy *encoder, mEncoders )
    {
-      QCheckBox *encoderCheckBox = new QCheckBox( mEncoders.at(i)->name(), encoders );
-      mpEncoderTabs->addTab( mEncoders.at(i)->configWidget( this, encoderCheckBox ), mEncoders.at(i)->name() );
-      if( mEncoders.at(i)->useEncoder() )
+      QCheckBox *encoderCheckBox = new QCheckBox( encoder->name(), encoders );
+      mpEncoderTabs->addTab( encoder->configWidget( this, encoderCheckBox ), encoder->name() );
+      if( encoder->useEncoder() )
       {
          encoderCheckBox->setChecked( true );
          encodersActive++;
       }
       encodersLayout->addWidget( encoderCheckBox, i + 1, 0 );
       encodersLayout->addWidget( new QLabel(
-         QString("(%1)").arg(mEncoders.at(i)->pluginFileName()), this ), i + 1, 1 );
+         QString("(%1)").arg(encoder->pluginFileName()), this ), i + 1, 1 );
    }
    encodersLayout->setRowStretch( i + 1, 1 );
    encodersLayout->setColumnStretch( 1, 1 );
@@ -172,14 +172,14 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 
 ConfigDialog::~ConfigDialog()
 {
-   for( int i = 0; i < mEncoders.size(); i++ )
+   foreach( MagicEncoderProxy *encoder, mEncoders )
    {
-      if( mEncoders.at(i)->workerThread()->isRunning() )
+      if( encoder->workerThread()->isRunning() )
       {
-         mEncoders.at(i)->workerThread()->quit();
-         mEncoders.at(i)->workerThread()->wait();
+         encoder->workerThread()->quit();
+         encoder->workerThread()->wait();
       }
-      delete mEncoders.at(i);
+      delete encoder;
    }
 }
 
@@ -190,9 +190,9 @@ void ConfigDialog::exec()
    QDialog::exec();
 
    int encodersActive = 0;
-   for( int i = 0; i < mEncoders.size(); i++ )
+   foreach( MagicEncoderProxy *encoder, mEncoders )
    {
-      if( mEncoders.at(i)->useEncoder() )
+      if( encoder->useEncoder() )
       {
          encodersActive++;
       }
@@ -244,9 +244,9 @@ void ConfigDialog::readSettings()
    
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
-   for( i = 0; i < mEncoders.size(); i++ )
+   foreach( MagicEncoderProxy *encoder, mEncoders )
    {
-      mEncoders.at(i)->configWidget()->readSettings();
+      encoder->configWidget()->readSettings();
    }
    mpCDReader->setEncoders( mEncoders );
    
@@ -267,9 +267,9 @@ void ConfigDialog::writeSettings()
    
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
-   for( int i = 0; i < mEncoders.size(); i++ )
+   foreach( MagicEncoderProxy *encoder, mEncoders )
    {
-      mEncoders.at(i)->configWidget()->writeSettings();
+      encoder->configWidget()->writeSettings();
    }
    mpCDReader->setEncoders( mEncoders );
 

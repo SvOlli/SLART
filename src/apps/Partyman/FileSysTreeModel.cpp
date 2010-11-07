@@ -160,13 +160,13 @@ QString FileSysTreeModel::getPath( const QModelIndex &index ) const
 }
 
 
-void FileSysTreeModel::setModelData( const QStringList &filenames )
+void FileSysTreeModel::setModelData( const QStringList &fileNames )
 {
    clear();
 
-   for(int number = 0; number < filenames.size(); number++)
+   foreach( const QString &fileName, fileNames )
    {
-      addModelData( filenames.at(number) );
+      addModelData( fileName );
    }
 }
 
@@ -186,13 +186,13 @@ void FileSysTreeModel::addModelData( const QString &filename )
 {
    QStringList pathParts( filename.split("/") );
    FileSysTreeItem *fstitem = mpRootItem;
-   
-   for(int i = 0; i < pathParts.size(); i++)
+
+   foreach( const QString &pathPart, pathParts )
    {
-      if( pathParts.at(i).isEmpty())
+      if( pathPart.isEmpty() )
       {
          continue;
       }
-      fstitem = fstitem->child(pathParts.at(i));
+      fstitem = fstitem->child( pathPart );
    }
 }

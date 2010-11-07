@@ -93,16 +93,14 @@ void ButtonsWidget::updateButtons( const QStringList &fileNames )
 
 void ButtonsWidget::lockButtons( const QStringList &list )
 {
-   int i, n;
-   
-   for( n = 0; n < mButtonList.size(); n++ )
+   foreach( QAbstractButton *button, mButtonList )
    {
-      mButtonList.at(n)->setChecked( false );
-      for( i = 0; i < list.size(); i++ )
+      button->setChecked( false );
+      foreach( const QString &entry, list )
       {
-         if( list.at(i) == mButtonList.at(n)->text() )
+         if( entry == button->text() )
          {
-            mButtonList.at(n)->setChecked( true );
+            button->setChecked( true );
             break;
          }
       }

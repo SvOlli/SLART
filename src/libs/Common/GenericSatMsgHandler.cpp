@@ -128,10 +128,9 @@ void GenericSatMsgHandler::anotherInstanceMessage()
 {
    mWithQuitDialog = false;
    QMainWindow *mainWindow = 0;
-   QWidgetList widgetList = QApplication::allWidgets();
-   for( int i = 0; i < widgetList.size(); i++ )
+   foreach( QWidget *widget, QApplication::allWidgets() )
    {
-      mainWindow = qobject_cast<QMainWindow*>( widgetList.at(i) );
+      mainWindow = qobject_cast<QMainWindow*>( widget );
       if( mainWindow )
       {
          QMessageBox::critical( mainWindow,

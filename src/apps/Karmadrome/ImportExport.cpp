@@ -184,15 +184,15 @@ void ImportExport::listFolders( const QString &fileName )
          return;
       }
    }
-   for( int i = 0; i < folders.size(); i++ )
+   foreach( const QString &folder, folders )
    {
       if( fileName.isEmpty() )
       {
-         std::cout << folders.at(i).toLocal8Bit().constData() << std::endl;
+         std::cout << folder.toLocal8Bit().constData() << std::endl;
       }
       else
       {
-         file.write( folders.at(i).toLocal8Bit() );
+         file.write( folder.toLocal8Bit() );
          file.write( lf.toLocal8Bit() );
       }
    }

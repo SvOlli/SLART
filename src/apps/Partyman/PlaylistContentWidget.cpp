@@ -118,9 +118,9 @@ QStringList PlaylistContentWidget::allFilePaths()
 {
    TrackInfoList til( mpPlaylistModel->list() );
    QStringList filePaths;
-   for( int i = 0; i < til.size(); i++ )
+   foreach( const TrackInfo &trackInfo, til )
    {
-      filePaths << til.at(i).mDirectory + "/" + til.at(i).mFileName;
+      filePaths << trackInfo.mDirectory + "/" + trackInfo.mFileName;
    }
    return filePaths;
 }

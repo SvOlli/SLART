@@ -68,9 +68,9 @@ FreeDB::FreeDB( QObject *parent )
    QSqlQuery q;
 #if USE_SQLITE
    QStringList categories( Categories() );
-   for( int i = 0; i < categories.size(); i++ )
+   foreach( const QString &category, categories )
    {
-      q.exec( QString("SELECT * FROM sqlite_master WHERE type = 'table' AND name = 'freedb_%1';").arg(categories.at(i)) );
+      q.exec( QString("SELECT * FROM sqlite_master WHERE type = 'table' AND name = 'freedb_%1';").arg( category ) );
       if( !(q.next()) )
       {
          q.clear();
@@ -80,7 +80,7 @@ FreeDB::FreeDB( QObject *parent )
 #else
                 "id VARCHAR,track INT,title VARCHAR,playtime INT,"
 #endif
-                "PRIMARY KEY(id,track));").arg(categories.at(i)));
+                "PRIMARY KEY(id,track));").arg( category ));
       }
    }
 #endif

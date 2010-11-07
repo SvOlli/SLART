@@ -380,9 +380,8 @@ TRACESTART(DownloadHandler::parseGenericHTML)
    QRegExp href( "href=.*mp3", Qt::CaseInsensitive );
    
    QStringList qsl( mBuffer.split( QChar('\n') ) );
-   for( int i = 0; i < qsl.size(); i++ )
+   foreach( QString line, qsl )
    {
-      line = qsl.at(i);
       pos = line.indexOf( param, 0, Qt::CaseInsensitive );
       if( pos > 0 )
       {
@@ -444,10 +443,8 @@ TRACESTART(DownloadHandler::parseYouTubeHTML)
    QString videoID;
    
    QStringList qsl( mBuffer.split( QChar('\n') ) );
-   for( int i = 0; i < qsl.size(); i++ )
+   foreach( QString line, qsl )
    {
-      line = qsl.at(i);
-      pos = line.indexOf( youTube, 0, Qt::CaseInsensitive );
       if( pos >= 0 )
       {
          QStringList parts( line.split( "&" ) );
@@ -496,10 +493,9 @@ void TheMagic::parseMySpaceHTML()
    //QString line;
    
    QStringList qsl( mBuffer.split( QChar('\n') ) );
-   for( int i = 0; i < qsl.size(); i++ )
+   foreach( QString line, qsl )
    {
-      const QString line( qsl.at(i) );
-      
+
       pos = line.indexOf( artid, 0, Qt::CaseInsensitive );
       if( pos >= 0 )
       {
@@ -684,14 +680,12 @@ void TheMagic::parseMySpacePlaylists()
    const QString playlistId("playlistId=");
    
    QStringList qsl( mBuffer.split( QRegExp("[<>]") ) );
-   for( int i = 0; i < qsl.size(); i++ )
+   foreach( QString line, qsl )
    {
-      const QString line( qsl.at(i) );
-      
       pos = line.indexOf( playlistId, 0, Qt::CaseInsensitive );
       if( pos >= 0 )
       {
-         mMySpacePlaylistId = xmlParam( qsl.at(i), pos );
+         mMySpacePlaylistId = xmlParam( line, pos );
          
          TheMagic *magic = new TheMagic( *this );
          magic->mURL = QString("http://musicservices.myspace.com/Modules/MusicServices/Services/MusicPlayerService.ashx?"

@@ -159,11 +159,11 @@ void WebServer::handleNewConnection()
       if( content_length > 0 )
       {
          QStringList form( QString::fromUtf8( data ).split('&') );
-         for( int i = 0; i < form.size(); i++ )
+         foreach( const QString &entry, form )
          {
-            colpos = form.at(i).indexOf( "=" );
-            key = form.at(i).left( colpos );
-            value = form.at(i).mid( colpos + 1 );
+            colpos = entry.indexOf( "=" );
+            key = entry.left( colpos );
+            value = entry.mid( colpos + 1 );
             key.prepend( "POST: " );
             header.addValue( key, value );
          }

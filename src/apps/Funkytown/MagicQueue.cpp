@@ -61,9 +61,9 @@ void MagicQueue::addMagic( TheMagic *magic )
 #if USE_TRACE
 TRACESTART(MagicQueue::addMagic)
 #endif
-   for( int i = 0; i < mMagicList.size(); i++ )
+   foreach( TheMagic* magicFromList, mMagicList )
    {
-      if( mMagicList.at(i)->mURL == magic->mURL )
+      if( magicFromList->mURL == magic->mURL )
       {
          /* already in list, no need to enqueue */
          delete magic;

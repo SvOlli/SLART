@@ -81,13 +81,13 @@ QStringList CookieJar::take( const QString &host, const QString &path )
    QStringList results;
    Cookie needle( QString(".")+host, path );
    
-   for( i = 0; i < mTheJar.size(); i++ )
+   foreach( const Cookie &cookie, mTheJar )
    {
-      if( mTheJar.at(i).matches( needle ) )
+      if( cookie.matches( needle ) )
       {
-         results.append( mTheJar.at(i).getData() );
+         results.append( cookie.getData() );
       }
    }
-   
+
    return results;
 }

@@ -548,9 +548,9 @@ void ControlWidget::handleDerMixDstartup()
 {
    QStringList data( QString::fromLocal8Bit( mDerMixDprocess.readAllStandardError() ).split('\n') );
 
-   for( int i = 0; i < data.size(); i++ )
+   foreach( const QString &line, data )
    {
-      if( data.at(i).indexOf( " online on port " ) > 0 )
+      if( line.indexOf( " online on port " ) > 0 )
       {
          mDerMixDstarted = true;
          mWaitForDerMixD = false;

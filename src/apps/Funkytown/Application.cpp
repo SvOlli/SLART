@@ -72,9 +72,9 @@ int main(int argc, char *argv[])
    MainWindow window;
    MainWidget *mainWidget = new MainWidget( &window );
    window.setMainWidget( mainWidget );
-   for( retval = 0; retval < startUrls->size(); retval++ )
+   foreach( const QString &url, *startUrls )
    {
-      mainWidget->downloadUserPage( startUrls->at(retval) );
+      mainWidget->downloadUserPage( url );
    }
    delete startUrls;
    window.show();

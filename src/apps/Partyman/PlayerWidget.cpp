@@ -560,12 +560,12 @@ void PlayerWidget::dropEvent( QDropEvent *event )
       {
          QString fileName;
          QStringList fileNames;
-         for( int i = 0; i < mimeData->urls().size(); i++ )
+         foreach( const QUrl &url, mimeData->urls() )
          {
-            fileName = mimeData->urls().at(i).toLocalFile();
+            fileName = url.toLocalFile();
             if( !fileName.isEmpty() )
             {
-               fileNames << fileName;
+               fileNames.append( fileName );
             }
          }
          fileNames << mpScrollLine->toolTip();

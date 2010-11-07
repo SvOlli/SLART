@@ -58,9 +58,9 @@ TRACESTART(FreeDBQuery::run);
    }
 
    emit running( true );
-   for( int i = 0; i < categories.size(); i++ )
+   foreach( const QString &category, categories )
    {
-      QSqlQuery q( mQuery.arg(categories.at(i)) );
+      QSqlQuery q( mQuery.arg( category ) );
    
 #if USE_TRACE
       if( !q.exec() )
@@ -81,7 +81,7 @@ TRACEMSG << q.lastQuery();
          {
             return;
          }
-         mEntries.append( FreeDBEntry( categories.at(i)
+         mEntries.append( FreeDBEntry( category
                                        , q.value(0).toString()
                                        , q.value(1).toInt()
                                        , q.value(2).toString()

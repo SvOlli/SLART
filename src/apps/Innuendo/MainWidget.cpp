@@ -185,10 +185,9 @@ void MainWidget::handleSatellite( const QByteArray &msg )
    item->setBackground( QBrush( mpMessageBuffer->palette().color( QPalette::AlternateBase ) ) );
    mpMessageBuffer->addItem( item );
 
-   QStringList lines( Satellite::split( msg ) );
-   for( int i = 0; i < lines.size(); i++ )
+   foreach( const QString &line, Satellite::split( msg ) )
    {
-      mpMessageBuffer->addItem( lines.at(i) );
+      mpMessageBuffer->addItem( line );
    }
 
    while( mpMessageBuffer->count() > MySettings().VALUE_BUFFERSIZE )

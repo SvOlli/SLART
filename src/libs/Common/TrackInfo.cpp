@@ -264,38 +264,37 @@ QString TrackInfo::displayString( const QString &pattern ) const
    
    QStringList parts( pattern.split( "|", QString::SkipEmptyParts ) );
    QString filename;
-   int i;
 
-   for( i = 0; i < parts.size() ; i++ )
+   foreach( const QString &part, parts )
    {
-      switch( parts.at(i).at(0).unicode() )
+      switch( part.at(0).unicode() )
       {
          case '$':
-            filename.append( valueByKey( parts.at(i).toUpper().mid(1) ) );
+            filename.append( valueByKey( part.toUpper().mid(1) ) );
             break;
          case '#':
             {
-               if( parts.at(i).size() < 2 )
+               if( part.size() < 2 )
                {
                   break;
                }
                bool ok;
-               int size = parts.at(i).mid(1,1).toInt( &ok );
+               int size = part.mid(1,1).toInt( &ok );
                   
                if( ok )
                {
-                  int number = valueByKey( parts.at(i).toUpper().mid(2) ).toInt( &ok );
+                  int number = valueByKey( part.toUpper().mid(2) ).toInt( &ok );
                   
                   if( !ok || (number < 0) ) break;
                   filename.append( QString::number(1000000000 + number).right(size) );
                }
                else
                {
-                  switch( parts.at(i).at(1).unicode() )
+                  switch( part.at(1).unicode() )
                   {
                      case '#':
                      case '$':
-                        filename.append( parts.at(i).at(1) );
+                        filename.append( part.at(1) );
                         break;
                      case '/':
                         filename.append( "|" );
@@ -310,7 +309,7 @@ QString TrackInfo::displayString( const QString &pattern ) const
             }
             break;
          default:
-            filename.append( parts.at(i) );
+            filename.append( part );
             break;
       }
    }

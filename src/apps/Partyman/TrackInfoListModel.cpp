@@ -189,11 +189,11 @@ QMimeData *TrackInfoListModel::mimeData( const QModelIndexList &indexes ) const
 
    QList<QUrl> urls;
    QStringList mimeText;
-   for( int i = 0; i < indexes.size(); i++ )
+   foreach( const QModelIndex &index, indexes )
    {
-      if( indexes.at(i).isValid() )
+      if( index.isValid() )
       {
-         QString text = data( indexes.at(i), Qt::ToolTipRole ).toString();
+         QString text = data( index, Qt::ToolTipRole ).toString();
          if( !text.isEmpty() )
          {
             mimeText << text;

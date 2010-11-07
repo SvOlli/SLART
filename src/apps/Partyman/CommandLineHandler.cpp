@@ -50,7 +50,7 @@ void CommandLineHandler::gotPing()
 {
    mConnected = true;
    QFileInfo fileInfo;
-   foreach( QString file, mList )
+   foreach( const QString &file, mList )
    {
       fileInfo.setFile( file );
       mpSatellite->send( fileInfo.absoluteFilePath().prepend( "P0Q\n" ).toUtf8() );

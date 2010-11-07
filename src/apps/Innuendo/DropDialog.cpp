@@ -111,11 +111,10 @@ void DropDialog::getMimeData( const QMimeData *remoteMimeData )
    }
    mpMimeTypes->addItems( remoteMimeData->formats() );
    
-   QList<QUrl> urls = remoteMimeData->urls();
    QString text;
-   for( i = 0; i < urls.size(); i++ )
+   foreach( const QUrl &url, remoteMimeData->urls() )
    {
-      text.append( urls.at(i).toString() );
+      text.append( url.toString() );
       text.append( "\n" );
    }
    mMimeDataCache.append( text );

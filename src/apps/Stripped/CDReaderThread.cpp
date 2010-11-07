@@ -366,21 +366,21 @@ void CDReaderThread::runReadAudioData()
       /* remove ALBUMARTIST that was only used for filename creation */
       tagList.set( "ALBUMARTIST" );
       bool setEnqueue = true;
-      for( int n = 0; n < mEncoders.size(); n++ )
+      foreach( MagicEncoderProxy *encoder, mEncoders )
       {
-         if( mEncoders.at(n)->useEncoder() )
+         if( encoder->useEncoder() )
          {
-            QThread *qobject = mEncoders.at(n)->workerThread();
-            qobject->start();
-            mEncoders.at(n)->setTags( tagList );
-            mEncoders.at(n)->initialize( fileName );
+            QThread *thread = encoder->workerThread();
+            thread->start();
+            encoder->setTags( tagList );
+            encoder->initialize( fileName );
             connect( this, SIGNAL(encodeThis(const QByteArray &)),
-                     qobject, SLOT(encodeCDAudio(const QByteArray &)) );
+                     thread, SLOT(encodeCDAudio(const QByteArray &)) );
             connect( this, SIGNAL(encodeDone()),
-                     qobject, SLOT(quit()) );
-            connect( qobject, SIGNAL(encodingFail()),
+                     thread, SLOT(quit()) );
+            connect( thread, SIGNAL(encodingFail()),
                      this, SLOT(cancel()) );
-            mEncoders.at(n)->setEnqueue( setEnqueue );
+            encoder->setEnqueue( setEnqueue );
             setEnqueue = false;
          }
       }
@@ -420,23 +420,23 @@ fflush(stdout);
 printf("\n");
 #endif
       emit encodeDone();
-      for( int n = 0; n < mEncoders.size(); n++ )
+      foreach( MagicEncoderProxy *encoder, mEncoders )
       {
-         if( mEncoders.at(n)->useEncoder() )
+         if( encoder->useEncoder() )
          {
-            QThread *qobject = mEncoders.at(n)->workerThread();
+            QThread *thread = encoder->workerThread();
             disconnect( this, SIGNAL(encodeThis(const QByteArray &)),
-                        qobject, SLOT(encodeCDAudio(const QByteArray &)) );
+                        thread, SLOT(encodeCDAudio(const QByteArray &)) );
             disconnect( this, SIGNAL(encodeDone()),
-                        qobject, SLOT(quit()) );
-            disconnect( qobject, SIGNAL(encodingFail()),
+                        thread, SLOT(quit()) );
+            disconnect( thread, SIGNAL(encodingFail()),
                         this, SLOT(cancel()) );
 
             if( mTrackHasErrors && autoEnqueue )
             {
                doenqueue = true;
             }
-            mEncoders.at(n)->finalize( doenqueue, mCancel );
+            encoder->finalize( doenqueue, mCancel );
          }
       }
       if( mCancel )

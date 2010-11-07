@@ -230,26 +230,27 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
    }
  
    mpDatabase->beginTransaction();
+   foreach( const QFileInfo &fileInfo, files )
    for( i = 0; i < files.size(); i++ )
    {
       if( mCancel )
       {
          break;
       }
-      if( files.at(i).fileName().left(1) == "." )
+      if( fileInfo.fileName().left(1) == "." )
       {
          continue;
       }
-      if( files.at(i).isDir() )
+      if( fileInfo.isDir() )
       {
-         recurse( QDir( files.at(i).absoluteFilePath() ), false );
+         recurse( QDir( fileInfo.absoluteFilePath() ), false );
       }
-      if( files.at(i).isFile() )
+      if( fileInfo.isFile() )
       {
          switch( mRecurseMode )
          {
             case MODE_SETTAGS:
-               loadFile( files.at(i).absoluteFilePath() );
+               loadFile( fileInfo.absoluteFilePath() );
                if( !mRecurseArtist.isEmpty() )
                {
                   mpEditArtist->setText( mRecurseArtist );
@@ -298,22 +299,22 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
                }
                if( mRecurseSetFolders || mRecurseUnsetFolders )
                {
-                  for( int n = 0; n < mRecurseFolders.size(); n++ )
+                  foreach( const QString &folder, mRecurseFolders )
                   {
-                     mTrackInfo.setFolder( mRecurseFolders.at(n), mRecurseSetFolders );
+                     mTrackInfo.setFolder( folder, mRecurseSetFolders );
                   }
                }
                QCoreApplication::processEvents();
                saveFile();
                break;
             case MODE_NORM_ARTIST:
-               loadFile( files.at(i).absoluteFilePath() );
+               loadFile( fileInfo.absoluteFilePath() );
                normalize( mpEditArtist );
                QCoreApplication::processEvents();
                saveFile();
                break;
             case MODE_NORM_TITLE:
-               loadFile( files.at(i).absoluteFilePath() );
+               loadFile( fileInfo.absoluteFilePath() );
                normalize( mpEditTitle );
                QCoreApplication::processEvents();
                saveFile();
@@ -750,8 +751,6 @@ void InfoEdit::handleChange()
 
 void InfoEdit::updateDatabaseInfo( bool withRecurse )
 {
-   int i;
-   
    if( (mTrackInfo.mID > 0) || withRecurse )
    {
       QString timesPlayed;
@@ -803,9 +802,9 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
       if( folders.size() > 0 )
       {
          mpButtonFolders->setDisabled( false );
-         for( i = 0; i < folders.size(); i++ )
+         foreach( const QString &folder, folders )
          {
-            QAction *action = mpMenuFolders->addAction( folders.at(i) );
+            QAction *action = mpMenuFolders->addAction( folder );
             action->setCheckable( true );
             action->setChecked( mTrackInfo.isInFolder( action->text() ) );
          }

@@ -82,22 +82,21 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
    QStringList parts( pattern.split( "|", QString::SkipEmptyParts ) );
    QString filename;
    int i;
-   int j;
    
-   for( i = 0; i < parts.size() ; i++ )
+   foreach( const QString &part, parts )
    {
-      switch( parts.at(i).at(0).unicode() )
+      switch( part.at(0).unicode() )
       {
          case '$':
-            j = mTags.indexOf( parts.at(i).toUpper().mid(1) );
-            if( (j < 0) && (parts.at(i).toUpper() == "$YEAR") )
+            i = mTags.indexOf( part.toUpper().mid(1) );
+            if( (i < 0) && (part.toUpper() == "$YEAR") )
             {
-               j = mTags.indexOf( "DATE" );
+               i = mTags.indexOf( "DATE" );
             }
                
-            if( j >= 0 )
+            if( i >= 0 )
             {
-               QString value( mValues.at(j) );
+               QString value( mValues.at(i) );
                if( filterPath )
                {
                   value.remove( QRegExp("[:?]") );
@@ -108,21 +107,21 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
             }
             break;
          case '#':
-            j = mTags.indexOf( parts.at(i).toUpper().mid(2) );
-            if( j >= 0 )
+            i = mTags.indexOf( part.toUpper().mid(2) );
+            if( i >= 0 )
             {
                bool ok;
-               int size = parts.at(i).mid(1,1).toInt( &ok );
+               int size = part.mid(1,1).toInt( &ok );
                
                if( !ok ) break;
-               int value = 1000000000 + mValues.at(j).toInt( &ok );
+               int value = 1000000000 + mValues.at(i).toInt( &ok );
                
                if( !ok ) break;
                filename.append( QString::number(value).right(size) );
             }
             break;
          default:
-            filename.append( parts.at(i) );
+            filename.append( part );
             break;
       }
    }
@@ -139,7 +138,7 @@ QString TagList::normalizeString( const QString &string )
    if( settings.value( "NormalizeCase", false ).toBool() )
    {
       bool nextUpper = true;
-      
+
       for( int i = 0; i < string.size(); i++ )
       {
          if( nextUpper )

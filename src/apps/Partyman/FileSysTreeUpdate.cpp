@@ -34,11 +34,10 @@ int FileSysTreeUpdate::prepare( Database *database, FileSysTreeModel *treeModel 
 void FileSysTreeUpdate::run()
 {
    QString fileName;
-   int i;
 
-   for( i = 0; (i < mTrackInfoList.size()) && !mCancel; i++ )
+   foreach( const TrackInfo &trackInfo, mTrackInfoList )
    {
-      mpTreeModel->addModelData( mTrackInfoList.at(i).filePath() );
+      mpTreeModel->addModelData( trackInfo.filePath() );
    }
    mTrackInfoList.clear();
 }

@@ -56,7 +56,6 @@ Database::Database( const QString &fileName )
 , mDatabaseVersion( 0 )
 , mCodeVersion( 1 )
 {
-   int i;
    qsrand( time((time_t*)0) );
    
    if( mpSqlDB->lastError().type() != QSqlError::NoError )
@@ -133,9 +132,9 @@ Database::Database( const QString &fileName )
       
       ;
       
-      for( i = 0; i < initSQL.size(); i++ )
+      foreach( const QString &statement, initSQL )
       {
-         if(!mpQuery->exec( initSQL.at(i) ))
+         if( !mpQuery->exec( statement ) )
          {
             logError();
          }
@@ -166,9 +165,9 @@ Database::Database( const QString &fileName )
          << "UPDATE TABLE slart_config SET value = " + QString::number( mCodeVersion )
             + " WHERE key = 'Version';"
          ;
-         for( i = 0; i < updateSQL.size(); i++ )
+         foreach( const QString &statement, updateSQL )
          {
-            if(!mpQuery->exec( updateSQL.at(i) ))
+            if( !mpQuery->exec( statement ) )
             {
                logError();
             }
@@ -705,14 +704,14 @@ TRACEMSG << oldDirName << oldFileName << newName;
             directories << mpQuery->value(0).toString();
          }
          mpQuery->clear();
-         for( int i = 0; i < directories.size(); i++ )
+         foreach( const QString &directory, directories )
          {
-            newDirName = directories.at(i);
+            newDirName = directory;
             newDirName.replace( 0, oldDirName.size(), newName );
             mpQuery->prepare( "UPDATE slart_tracks SET Directory = :newDirName"
                               " WHERE Directory = :oldDirName;" );
             mpQuery->bindValue( ":newDirName", newDirName );
-            mpQuery->bindValue( ":oldDirName", directories.at(i) );
+            mpQuery->bindValue( ":oldDirName", directory );
             if( !mpQuery->exec() )
             {
                logError();

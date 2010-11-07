@@ -120,10 +120,10 @@ int main(int argc, char *argv[])
    }
    xxtea.setKey( hashedKey );
    xxtea.setData( &fileData );
-   for( int i = 0; i < files.size(); i++ )
+   foreach( const QString &fileName, files )
    {
-      qStdOut << files.at(i) << ": ";
-      file.setFileName( files.at(i) );
+      qStdOut << fileName << ": ";
+      file.setFileName( fileName );
       file.open( QIODevice::ReadWrite );
       qStdOut << "reading, ";
       fileData = file.readAll();

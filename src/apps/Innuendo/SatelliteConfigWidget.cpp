@@ -40,9 +40,9 @@ SatelliteConfigWidget::SatelliteConfigWidget( QWidget *parent )
 
    layout->addWidget( new QLabel( tr("Checked applications will participate in communication"), this ) );
 
-   for( int i = 0; i < names.size(); i++ )
+   foreach( const QString &name, names )
    {
-      QCheckBox *cb = new QCheckBox( names.at(i), this );
+      QCheckBox *cb = new QCheckBox( name, this );
       mButtonList.append( cb );
       layout->addWidget( cb );
    }
@@ -72,9 +72,9 @@ SatelliteConfigWidget::~SatelliteConfigWidget()
 
 void SatelliteConfigWidget::readSettings()
 {
-   for( int i = 0; i < mButtonList.size(); i++ )
+   foreach( QAbstractButton *button, mButtonList )
    {
-      mButtonList.at(i)->setChecked( MySettings( mButtonList.at(i)->text() ).VALUE_USE_SATELLITE );
+      button->setChecked( MySettings( button->text() ).VALUE_USE_SATELLITE );
    }
    emit useInnuendoClicked( mButtonList.at(0)->isChecked() );
 }
@@ -82,9 +82,9 @@ void SatelliteConfigWidget::readSettings()
 
 void SatelliteConfigWidget::writeSettings()
 {
-   for( int i = 0; i < mButtonList.size(); i++ )
+   foreach( QAbstractButton *button, mButtonList )
    {
-      MySettings( mButtonList.at(i)->text() ).setValue( "UseSatellite", mButtonList.at(i)->isChecked() );
+      MySettings( button->text() ).setValue( "UseSatellite", button->isChecked() );
    }
 }
 
@@ -97,9 +97,9 @@ void SatelliteConfigWidget::setInnuendoClicked( bool isSet )
 
 void SatelliteConfigWidget::setAll( bool isSet )
 {
-   for( int i = 0; i < mButtonList.size(); i++ )
+   foreach( QAbstractButton *button, mButtonList )
    {
-      mButtonList.at(i)->setChecked( isSet );
+      button->setChecked( isSet );
    }
    emit useInnuendoClicked( isSet );
    emit fullOrNoCommunication();

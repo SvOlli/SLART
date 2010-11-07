@@ -102,11 +102,10 @@ TRACESTART(TarEntry::sql)
    {
       int  timescan = 0;
       mStartframe[0] = 0;
-      
-      for( int linenr = 0; linenr < mLines.size(); linenr++ )
+
+      QString line;
+      foreach( line, mLines )
       {
-         line = mLines.at(linenr);
-         
          if( line.contains( reLength ) )
          {
             line.remove( reLength );

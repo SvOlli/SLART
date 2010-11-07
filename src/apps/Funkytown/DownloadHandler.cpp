@@ -130,11 +130,12 @@ TRACESTART(DownloadHandler::readResponseHeader)
    {
       mpTheMagic->setContentType( responseHeader.contentType() );
    }
-   
+
+   const QString setCookie("Set-Cookie");
    QList<QPair<QString, QString> > values( responseHeader.values() );
    for( int i = 0; i < values.size(); i++ )
    {
-      if( !QString::compare(values.at(i).first,QString("Set-Cookie"),Qt::CaseInsensitive) )
+      if( !QString::compare(values.at(i).first, setCookie, Qt::CaseInsensitive) )
       {
 #if USE_TRACE
 TRACEMSG << values.at(i).second;
@@ -221,9 +222,9 @@ TRACESTART(DownloadHandler::startDownload)
       }
       if( cookies.size() )
       {
-         for( int i = 0; i < cookies.size(); i++ )
+         foreach( const QString &cookie, cookies )
          {
-            headers.append( qMakePair( QString("Cookie"), cookies.at(i) ) );
+            headers.append( qMakePair( QString("Cookie"), cookie ) );
          }
       }
       requestHeader.setValues( headers );
