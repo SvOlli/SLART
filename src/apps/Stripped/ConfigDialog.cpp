@@ -89,6 +89,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    encodersLayout->addWidget( new QLabel(
       tr("Encoders used during ripping (select at least one):"), encoders ), 0, 0, 1, 2 );
    mpEncoderTabs->addTab( encoders, tr("Encoders") );
+   i=1;
    foreach( MagicEncoderProxy *encoder, mEncoders )
    {
       QCheckBox *encoderCheckBox = new QCheckBox( encoder->name(), encoders );
@@ -98,11 +99,12 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
          encoderCheckBox->setChecked( true );
          encodersActive++;
       }
-      encodersLayout->addWidget( encoderCheckBox, i + 1, 0 );
+      encodersLayout->addWidget( encoderCheckBox, i, 0 );
       encodersLayout->addWidget( new QLabel(
-         QString("(%1)").arg(encoder->pluginFileName()), this ), i + 1, 1 );
+         QString("(%1)").arg(encoder->pluginFileName()), this ), i, 1 );
+      i++;
    }
-   encodersLayout->setRowStretch( i + 1, 1 );
+   encodersLayout->setRowStretch( i, 1 );
    encodersLayout->setColumnStretch( 1, 1 );
    readSettings();
 
