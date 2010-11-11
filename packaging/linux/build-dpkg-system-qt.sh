@@ -97,6 +97,6 @@ done > "${DEBIAN}/root/usr/share/menu/slart"
   echo "2.0" > debian-binary
   [ -n "$(type -p advdef)" ] && advdef -z4 control.tar.gz data.tar.gz
   eval $(dpkg-architecture -s)
-  ar rvc ../slart_${VERSION}-${REVISION}_${DEB_BUILD_ARCH}.deb debian-binary control.tar.gz data.tar.gz
+  ar rvc ../../../../slart_${VERSION}-${REVISION}_${DEB_BUILD_ARCH}.deb debian-binary control.tar.gz data.tar.gz
 ) || exit 16
 
