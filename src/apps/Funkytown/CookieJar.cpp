@@ -76,8 +76,6 @@ void CookieJar::store( const QString &line )
 
 QStringList CookieJar::take( const QString &host, const QString &path )
 {
-   int i;
-   
    QStringList results;
    Cookie needle( QString(".")+host, path );
    
