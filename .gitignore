@@ -2,3 +2,5 @@
 .cproject
 workspace/
 build/
+*.pro.user*
+src-build-desktop

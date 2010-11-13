@@ -36,11 +36,11 @@ Q_OBJECT
    
 public:
    FreeDBImport( QObject *parent = 0 );
-   ~FreeDBImport();
+   virtual ~FreeDBImport();
 
    void run();
-   void stop() { mBreak = true; };
-   void setFileName( const QString &fileName ) { mFileName = fileName; };
+   void stop();
+   void setFileName( const QString &fileName );
 
 signals:
    void processed( unsigned count, const char *filename );

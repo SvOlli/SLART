@@ -8,15 +8,20 @@ all:
 - rename "Folder(s)" to "Label(s)" or "List(s)"
 
 architecture:
+- make configWidget a singleton for better global access
 - move database and config widgets to simple singletons
 - move database to an own thread
+- try to handle QEvent::LanguageChange, so language change on the fly works
+  - supply translations, loadable from filesys, .../lib
+  - set texts not on constructor, but by setTexts() method
 
 0.8:
-- packaging for Linux
+- fix Funkytown Satellite connection
+  - no connect
+  - no generic message handler
 - generate screenshots for all applications
 
 extra:
-- (0.8) complete script to build deb (and rpm?) packages
 
 Common:
 - clean filename function
@@ -44,7 +49,7 @@ Stripped:
   - normalize
   - remove '0's
   - split tracks with long silence
-  - read track twice for error detection
+  - handshake encoder data
 - add Stripped to cdrom-open dialog
   - implement as a setting
 - auto read-toc

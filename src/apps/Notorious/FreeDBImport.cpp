@@ -84,3 +84,16 @@ void FreeDBImport::run()
    
    tir_close( &tarData );
 }
+
+
+void FreeDBImport::stop()
+{
+   mBreak = true;
+}
+
+
+void FreeDBImport::setFileName( const QString &fileName )
+{
+   mFileName = fileName;
+}
+
