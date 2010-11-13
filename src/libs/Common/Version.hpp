@@ -1,2 +1,2 @@
 
-#define SLART_VERSION "0.7.99"
+#define SLART_VERSION "0.8.0"
