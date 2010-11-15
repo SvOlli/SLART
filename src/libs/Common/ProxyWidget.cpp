@@ -14,10 +14,8 @@
 /* Qt headers */
 #include <QtGui>
 #include <QHttp>
-#if QT_VERSION >= 0x040400
 #include <QNetworkAccessManager>
 #include <QNetworkProxy>
-#endif
 
 /* local library headers */
 
@@ -175,7 +173,6 @@ void ProxyWidget::setProxy( QHttp *http )
 }
 
 
-#if QT_VERSION >= 0x040400
 void ProxyWidget::setProxy( QNetworkAccessManager *nam )
 {
    MySettings settings( "Global" );
@@ -200,7 +197,6 @@ void ProxyWidget::setProxy( QNetworkAccessManager *nam )
    }
    nam->setProxy( QNetworkProxy( type, host, port, login, password ) );
 }
-#endif
 
 
 void ProxyWidget::readSettings()
