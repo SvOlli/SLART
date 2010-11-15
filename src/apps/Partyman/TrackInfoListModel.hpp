@@ -73,8 +73,8 @@ public slots:
    void readSettings();
 
 private:
-   TrackInfoListModel( const TrackInfoListModel &other );
-   TrackInfoListModel &operator=( const TrackInfoListModel &other );
+   TrackInfoListModel( const TrackInfoListModel &that );
+   TrackInfoListModel &operator=( const TrackInfoListModel &that );
 
    Database       *mpDatabase;
    bool           mLocalMode;

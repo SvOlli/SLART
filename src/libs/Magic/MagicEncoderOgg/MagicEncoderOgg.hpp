@@ -52,8 +52,8 @@ public:
    void encodeCDAudio( const QByteArray &data );
 
 private:
-   MagicEncoderOgg( const MagicEncoderOgg &other );
-   MagicEncoderOgg &operator=( const MagicEncoderOgg &other );
+   MagicEncoderOgg( const MagicEncoderOgg &that );
+   MagicEncoderOgg &operator=( const MagicEncoderOgg &that );
    
    /* ogg initialize helper function call on first encode */
    bool oggInit();

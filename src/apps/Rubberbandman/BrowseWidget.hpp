@@ -43,8 +43,8 @@ public slots:
    void scrollTo( const QString &fileName );
    
 private:
-   BrowseWidget( const BrowseWidget &other );
-   BrowseWidget &operator=( const BrowseWidget &other );
+   BrowseWidget( const BrowseWidget &that );
+   BrowseWidget &operator=( const BrowseWidget &that );
    
    FileSysBrowser *mpFileSysBrowser;
    InfoEdit       *mpInfoEdit;

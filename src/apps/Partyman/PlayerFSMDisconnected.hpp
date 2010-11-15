@@ -38,8 +38,8 @@ public:
    PlayerFSM::tState handleDerMixD( const QString &msg );
    
 private:
-   PlayerFSMDisconnected( const PlayerFSMDisconnected &other );
-   PlayerFSMDisconnected &operator=( const PlayerFSMDisconnected &other );
+   PlayerFSMDisconnected( const PlayerFSMDisconnected &that );
+   PlayerFSMDisconnected &operator=( const PlayerFSMDisconnected &that );
 };
 
 #endif

@@ -40,8 +40,8 @@ protected:
    virtual bool event( QEvent *event );
    
 private:
-   MainWindow( const MainWindow &other );
-   MainWindow &operator=( const MainWindow &other );
+   MainWindow( const MainWindow &that );
+   MainWindow &operator=( const MainWindow &that );
    
    bool          mProhibitCloseWindow;
    bool          mSaveWindow;

@@ -47,8 +47,8 @@ public slots:
 signals:
    
 private:
-   MainWidget( const MainWidget &other );
-   MainWidget &operator=( const MainWidget &other );
+   MainWidget( const MainWidget &that );
+   MainWidget &operator=( const MainWidget &that );
    
    FreeDB       *mpFreeDB;
    SearchWidget *mpSearch;

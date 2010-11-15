@@ -19,10 +19,14 @@ TagList::TagList()
 }
 
 
-TagList &TagList::operator=( const TagList &other )
+TagList &TagList::operator=( const TagList &that )
 {
-   mTags   = other.mTags;
-   mValues = other.mValues;
+   if( this == &that )
+   {
+      return *this;
+   }
+   mTags   = that.mTags;
+   mValues = that.mValues;
 
    return *this;
 }
@@ -70,10 +74,28 @@ QString TagList::get( const QString &tag )
 }
 
 
+int TagList::count() const
+{
+   return mTags.count();
+}
+
+
 void TagList::clear()
 {
    mTags.clear();
    mValues.clear();
+}
+
+
+QString TagList::tagAt( int i ) const
+{
+   return mTags.at(i);
+}
+
+
+QString TagList::valueAt( int i ) const
+{
+   return mValues.at(i);
 }
 
 

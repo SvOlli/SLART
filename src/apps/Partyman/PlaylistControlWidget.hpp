@@ -83,8 +83,8 @@ signals:
    void playlistIsValid( bool isValid );
    
 private:
-   PlaylistControlWidget( const PlaylistControlWidget &other );
-   PlaylistControlWidget &operator=( const PlaylistControlWidget &other );
+   PlaylistControlWidget( const PlaylistControlWidget &that );
+   PlaylistControlWidget &operator=( const PlaylistControlWidget &that );
    
    /* add entries to a stringlist */
    void addEntries( QStringList *list, const QModelIndex &qmi );

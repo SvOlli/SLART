@@ -47,8 +47,8 @@ signals:
    void checkboxClicked( const TrackInfo &trackInfo );
    
 private:
-   TrackInfoWidget( const TrackInfoWidget &other );
-   TrackInfoWidget &operator=( const TrackInfoWidget &other );
+   TrackInfoWidget( const TrackInfoWidget &that );
+   TrackInfoWidget &operator=( const TrackInfoWidget &that );
    
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;

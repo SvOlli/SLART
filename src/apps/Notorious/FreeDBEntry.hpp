@@ -27,13 +27,13 @@ class FreeDBEntry
 {
 public:
    FreeDBEntry();
-   FreeDBEntry( const FreeDBEntry &other );
+   FreeDBEntry( const FreeDBEntry &that );
 #if INCLUDE_EXT
    FreeDBEntry( QString Category, QString ID, int Track, QString Title, int Playtime, QString Ext );
 #else
    FreeDBEntry( QString Category, QString ID, int Track, QString Title, int Playtime );
 #endif
-   FreeDBEntry& operator=(const FreeDBEntry& other);
+   FreeDBEntry& operator=( const FreeDBEntry &that );
    
    QString category;
    QString id;

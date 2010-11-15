@@ -45,8 +45,8 @@ protected:
    void keyReleaseEvent( QKeyEvent *event );
 
 private:
-   TimeSlider( const TimeSlider &other );
-   TimeSlider &operator=( const TimeSlider &other );
+   TimeSlider( const TimeSlider &that );
+   TimeSlider &operator=( const TimeSlider &that );
 
    QTimer mWheelTimeout;
 };

@@ -49,8 +49,8 @@ private:
    /* singleton: constructor is private */
    PasswordChecker( QWidget *parent = 0 );
    virtual ~PasswordChecker();
-   PasswordChecker( const PasswordChecker &other );
-   PasswordChecker &operator=( const PasswordChecker &other );
+   PasswordChecker( const PasswordChecker &that );
+   PasswordChecker &operator=( const PasswordChecker &that );
 
    /* singleton: only instance of PasswordChecker */
    static PasswordChecker  *cpPasswordChecker;

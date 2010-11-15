@@ -34,8 +34,8 @@ public:
    MainWindow( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    
 private:
-   MainWindow( const MainWindow &other );
-   MainWindow &operator=( const MainWindow &other );
+   MainWindow( const MainWindow &that );
+   MainWindow &operator=( const MainWindow &that );
 };
 
 #endif

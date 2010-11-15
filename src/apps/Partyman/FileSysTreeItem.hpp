@@ -46,8 +46,8 @@ public:
    FileSysTreeItem *parent();
    
 private:
-   FileSysTreeItem( const FileSysTreeItem &other );
-   FileSysTreeItem &operator=( const FileSysTreeItem &other );
+   FileSysTreeItem( const FileSysTreeItem &that );
+   FileSysTreeItem &operator=( const FileSysTreeItem &that );
    
    FileSysTreeItem         *mpParentItem;
    QVariant                mItemData;

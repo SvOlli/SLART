@@ -59,8 +59,8 @@ signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
-   SorcererWidget( const SorcererWidget &other );
-   SorcererWidget &operator=( const SorcererWidget &other );
+   SorcererWidget( const SorcererWidget &that );
+   SorcererWidget &operator=( const SorcererWidget &that );
    
    Database                *mpDatabase;
    QTabWidget              *mpTabs;

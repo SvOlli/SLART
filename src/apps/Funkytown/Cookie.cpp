@@ -33,43 +33,47 @@ Cookie::~Cookie()
 }
 
 
-Cookie::Cookie( const Cookie &other )
-: mDomain( other.mDomain )
-, mPath( other.mPath )
-, mData( other.mData )
+Cookie::Cookie( const Cookie &that )
+: mDomain( that.mDomain )
+, mPath( that.mPath )
+, mData( that.mData )
 {
 }
 
 
-Cookie &Cookie::operator=( const Cookie &other )
+Cookie &Cookie::operator=( const Cookie &that )
 {
-   mDomain = other.mDomain;
-   mPath   = other.mPath;
-   mData   = other.mData;
+   if( this == &that )
+   {
+      return *this;
+   }
+   mDomain = that.mDomain;
+   mPath   = that.mPath;
+   mData   = that.mData;
    
    return *this;
 }
 
 
-bool Cookie::matches( const Cookie &other ) const
+bool Cookie::matches( const Cookie &that ) const
 {
-   if( other.mDomain.right( mDomain.size() ) != mDomain )
+   if( that.mDomain.right( mDomain.size() ) != mDomain )
    {
       return false;
    }
    
-   if( other.mPath.left( mPath.size() ) != mPath )
+   if( that.mPath.left( mPath.size() ) != mPath )
    {
       return false;
    }
    
    /* no data is a wildcard that matches all */
-   if( other.mData.size() == 0 )
+   if( that.mData.size() == 0 )
    {
       return true;
    }
    
-   return other.mData.left( other.mData.indexOf('=') ) 
+   return that.mData.left( that.mData.indexOf('=') )
            == mData.left( mData.indexOf('=') );
 }
 

@@ -50,8 +50,8 @@ public slots:
    void handleSelect( QListWidgetItem *item );
    
 private:
-   MagicQueue( const MagicQueue &other );
-   MagicQueue &operator=( const MagicQueue &other );
+   MagicQueue( const MagicQueue &that );
+   MagicQueue &operator=( const MagicQueue &that );
    
    QList<TheMagic*> mMagicList;
    

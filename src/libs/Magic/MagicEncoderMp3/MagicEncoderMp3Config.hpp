@@ -42,8 +42,8 @@ public:
    void writeSettings();
 
 private:
-   MagicEncoderMp3Config( const MagicEncoderMp3Config &other );
-   MagicEncoderMp3Config &operator=( const MagicEncoderMp3Config &other );
+   MagicEncoderMp3Config( const MagicEncoderMp3Config &that );
+   MagicEncoderMp3Config &operator=( const MagicEncoderMp3Config &that );
 
    MagicEncoderMp3      *mpEncoder;
 

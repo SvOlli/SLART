@@ -54,8 +54,8 @@ public:
              const QString &directoryPath );
    
 private:
-   DirWalker( const DirWalker &other );
-   DirWalker &operator=( const DirWalker &other );
+   DirWalker( const DirWalker &that );
+   DirWalker &operator=( const DirWalker &that );
 };
 
 #endif

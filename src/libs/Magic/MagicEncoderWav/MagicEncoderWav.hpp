@@ -48,8 +48,8 @@ public:
    void encodeCDAudio( const QByteArray &data );
 
 private:
-   MagicEncoderWav( const MagicEncoderWav &other );
-   MagicEncoderWav &operator=( const MagicEncoderWav &other );
+   MagicEncoderWav( const MagicEncoderWav &that );
+   MagicEncoderWav &operator=( const MagicEncoderWav &that );
 
    /* configuration widget */
    MagicEncoderConfig   *mpConfigWidget;

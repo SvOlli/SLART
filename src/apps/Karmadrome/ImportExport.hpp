@@ -42,8 +42,8 @@ public:
    void listFolders( const QString &fileName );
    
 private:
-   ImportExport( const ImportExport &other );
-   ImportExport &operator=( const ImportExport &other );
+   ImportExport( const ImportExport &that );
+   ImportExport &operator=( const ImportExport &that );
    
    Database        *mpDatabase;
 };

@@ -44,8 +44,8 @@ private slots:
    void handleFinished( int exitCode, QProcess::ExitStatus exitStatus );
 
 private:
-   ExecButton( const ExecButton &other );
-   ExecButton &operator=( const ExecButton &other );
+   ExecButton( const ExecButton &that );
+   ExecButton &operator=( const ExecButton &that );
 
    QString   mName;
    QProcess  mProcess;

@@ -75,8 +75,8 @@ protected:
    virtual void dropEvent( QDropEvent *event );
 
 private:
-   FileSysBrowser( const FileSysBrowser &other );
-   FileSysBrowser &operator=( const FileSysBrowser &other );
+   FileSysBrowser( const FileSysBrowser &that );
+   FileSysBrowser &operator=( const FileSysBrowser &that );
    
    Database     *mpDatabase;
    QLineEdit    *mpRootDir;

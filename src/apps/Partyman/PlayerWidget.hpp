@@ -117,8 +117,8 @@ protected:
 private:
    enum eDerMixD { inNormal, inFullstat, inScan };
    
-   PlayerWidget( const PlayerWidget &other );
-   PlayerWidget &operator=( const PlayerWidget &other );
+   PlayerWidget( const PlayerWidget &that );
+   PlayerWidget &operator=( const PlayerWidget &that );
    
    /* send a command to DerMixD */
    void sendCommand( const QString &command, const QString &parameter = QString() );

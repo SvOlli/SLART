@@ -55,8 +55,8 @@ signals:
    void fullOrNoCommunication();
 
 private:
-   SatelliteConfigWidget( const SatelliteConfigWidget &other );
-   SatelliteConfigWidget &operator=( const SatelliteConfigWidget &other );
+   SatelliteConfigWidget( const SatelliteConfigWidget &that );
+   SatelliteConfigWidget &operator=( const SatelliteConfigWidget &that );
 
    QList<QCheckBox*>    mButtonList;
 };

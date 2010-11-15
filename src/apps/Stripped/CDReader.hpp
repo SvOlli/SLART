@@ -92,8 +92,8 @@ signals:
    void ensureVisible( int track );
    
 private:
-   CDReader( const CDReader &other );
-   CDReader &operator=( const CDReader &other );
+   CDReader( const CDReader &that );
+   CDReader &operator=( const CDReader &that );
 
    CDReaderThread       *mpCDReaderThread;
    CDInfo               *mpCDInfo;

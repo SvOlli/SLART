@@ -52,8 +52,8 @@ public:
    void encodeCDAudio( const QByteArray &data );
 
 private:
-   MagicEncoderMp3( const MagicEncoderMp3 &other );
-   MagicEncoderMp3 &operator=( const MagicEncoderMp3 &other );
+   MagicEncoderMp3( const MagicEncoderMp3 &that );
+   MagicEncoderMp3 &operator=( const MagicEncoderMp3 &that );
 
    bool initialize();
    /* encode raw cd audio data */

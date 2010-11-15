@@ -43,8 +43,8 @@ public:
 private:
    MagicEncoderLoader();
    virtual ~MagicEncoderLoader();
-   MagicEncoderLoader( const MagicEncoderLoader &other );
-   MagicEncoderLoader &operator=( const MagicEncoderLoader &other );
+   MagicEncoderLoader( const MagicEncoderLoader &that );
+   MagicEncoderLoader &operator=( const MagicEncoderLoader &that );
 
    /* internal function to load MagicEncoders */
    static MagicEncoderList tryLoading( const QString &msgHeader, const QDir &dir,

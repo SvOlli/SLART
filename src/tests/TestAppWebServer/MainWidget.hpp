@@ -57,8 +57,8 @@ signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
    
 private:
-   MainWidget( const MainWidget &other );
-   MainWidget &operator=( const MainWidget &other );
+   MainWidget( const MainWidget &that );
+   MainWidget &operator=( const MainWidget &that );
    
    Database             *mpDatabase;
    WebServer            *mpWebServer;

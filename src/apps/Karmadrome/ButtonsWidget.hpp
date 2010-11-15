@@ -47,8 +47,8 @@ signals:
    void clicked( QWidget *widget );
    
 private:
-   ButtonsWidget( const ButtonsWidget &other );
-   ButtonsWidget &operator=( const ButtonsWidget &other );
+   ButtonsWidget( const ButtonsWidget &that );
+   ButtonsWidget &operator=( const ButtonsWidget &that );
    
    QGridLayout             *mpMainLayout;
    QSignalMapper           *mpSignalMapper;

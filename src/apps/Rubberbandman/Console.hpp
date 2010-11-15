@@ -41,8 +41,8 @@ public slots:
    void handleProgress( int checked, int processed );
    
 private:
-   Console( const Console &other );
-   Console &operator=( const Console &other );
+   Console( const Console &that );
+   Console &operator=( const Console &that );
 
    QTextStream    mStdOut;
    QString        mCheckedText;

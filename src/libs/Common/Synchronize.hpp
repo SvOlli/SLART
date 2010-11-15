@@ -36,8 +36,8 @@ public:
    void release();
 
 private:
-   Synchronize( const Synchronize &other );
-   Synchronize &operator=( const Synchronize &other );
+   Synchronize( const Synchronize &that );
+   Synchronize &operator=( const Synchronize &that );
 
    QMutex         mMutex;
    QWaitCondition mWaitCondition;

@@ -52,8 +52,8 @@ public slots:
    void handleClear();
    
 private:
-   ConfigDialog( const ConfigDialog &other );
-   ConfigDialog &operator=( const ConfigDialog &other );
+   ConfigDialog( const ConfigDialog &that );
+   ConfigDialog &operator=( const ConfigDialog &that );
    
    ProxyWidget        *mpProxyWidget;
    QListWidget        *mpLogList;

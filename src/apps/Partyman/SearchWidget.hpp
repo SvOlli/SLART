@@ -50,8 +50,8 @@ public slots:
    void updateCounter();
 
 private:
-   SearchWidget( const SearchWidget &other );
-   SearchWidget &operator=( const SearchWidget &other );
+   SearchWidget( const SearchWidget &that );
+   SearchWidget &operator=( const SearchWidget &that );
    
    Database              *mpDatabase;
    PlaylistControlWidget *mpPlaylist;

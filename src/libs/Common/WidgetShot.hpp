@@ -37,8 +37,8 @@ public:
    
 private:
    WidgetShot();
-   WidgetShot( const WidgetShot &other );
-   WidgetShot &operator=( const WidgetShot &other );
+   WidgetShot( const WidgetShot &that );
+   WidgetShot &operator=( const WidgetShot &that );
    
    static QHash< QString, QPointer<QWidget> > *cpWidgetList;
 };

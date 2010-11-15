@@ -45,8 +45,8 @@ public:
    virtual void hidden();
 
 private:
-   SorcererPlugin( const SorcererPlugin &other );
-   SorcererPlugin &operator=( const SorcererPlugin &other );
+   SorcererPlugin( const SorcererPlugin &that );
+   SorcererPlugin &operator=( const SorcererPlugin &that );
 
    /* subroutine that cleans up common settings for a program */
    void cleanupSettings( MySettings *settings );

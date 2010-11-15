@@ -58,8 +58,8 @@ signals:
    void partymanConfigUpdate();
    
 private:
-   SatelliteWidget( const SatelliteWidget &other );
-   SatelliteWidget &operator=( const SatelliteWidget &other );
+   SatelliteWidget( const SatelliteWidget &that );
+   SatelliteWidget &operator=( const SatelliteWidget &that );
    
    Database             *mpDatabase;
    InfoEdit             *mpInfoEdit;

@@ -78,8 +78,8 @@ public slots:
    void ensureVisible( int tracknr );
 
 private:
-   CDEdit( const CDEdit &other );
-   CDEdit &operator=( const CDEdit &other );
+   CDEdit( const CDEdit &that );
+   CDEdit &operator=( const CDEdit &that );
 
    void ensureVisibleFocus( QWidget *widget );
 

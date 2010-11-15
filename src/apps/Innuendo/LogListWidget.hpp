@@ -42,8 +42,8 @@ protected:
    virtual QStringList mimeTypes () const;
 
 private:
-   LogListWidget( const LogListWidget &other );
-   LogListWidget &operator=( const LogListWidget &other );
+   LogListWidget( const LogListWidget &that );
+   LogListWidget &operator=( const LogListWidget &that );
 };
 
 #endif

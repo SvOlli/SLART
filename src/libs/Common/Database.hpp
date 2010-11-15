@@ -78,8 +78,8 @@ public:
                 const QString &oldDirName, const QString &oldFileName = QString() );
    
 private:
-   Database( const Database &other );
-   Database &operator=( const Database &other );
+   Database( const Database &that );
+   Database &operator=( const Database &that );
    
    /* send out an error description to Innuendo */
    void logError( const QString &note = QString() );

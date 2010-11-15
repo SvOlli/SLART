@@ -94,8 +94,8 @@ protected:
    TagList           mTagList;
 
 private:
-   MagicEncoder( const MagicEncoder &other );
-   MagicEncoder &operator=( const MagicEncoder &other );
+   MagicEncoder( const MagicEncoder &that );
+   MagicEncoder &operator=( const MagicEncoder &that );
 
    QString           mFileName;
 };

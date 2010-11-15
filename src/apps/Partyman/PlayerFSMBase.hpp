@@ -41,8 +41,8 @@ public:
    virtual PlayerFSM::tState handleDerMixD( const QString &msg ) = 0;
    
 private:
-   PlayerFSMBase( const PlayerFSMBase &other );
-   PlayerFSMBase &operator=( const PlayerFSMBase &other );
+   PlayerFSMBase( const PlayerFSMBase &that );
+   PlayerFSMBase &operator=( const PlayerFSMBase &that );
    
 protected:
    PlayerWidget *mpPlayerWidget;

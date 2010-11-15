@@ -38,8 +38,8 @@ public:
 private:
    SorcererLoader();
    virtual ~SorcererLoader();
-   SorcererLoader( const SorcererLoader &other );
-   SorcererLoader &operator=( const SorcererLoader &other );
+   SorcererLoader( const SorcererLoader &that );
+   SorcererLoader &operator=( const SorcererLoader &that );
 
    /* used for loading Sorcerer */
    static QPluginLoader *cpPluginLoader;

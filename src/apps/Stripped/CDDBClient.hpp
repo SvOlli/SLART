@@ -68,8 +68,8 @@ signals:
    void message( const QString &message = QString() );
 
 private:
-   CDDBClient( const CDDBClient &other );
-   CDDBClient &operator=( const CDDBClient &other );
+   CDDBClient( const CDDBClient &that );
+   CDDBClient &operator=( const CDDBClient &that );
 
    /* send out a command to freedb server */
    void startRequest( const QString &cmd, const QStringList &parameters );

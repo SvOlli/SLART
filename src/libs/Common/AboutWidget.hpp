@@ -28,8 +28,8 @@ public slots:
    void handleLink( const QString &url );
 
 private:
-   AboutWidget( const AboutWidget &other );
-   AboutWidget &operator=( const AboutWidget &other );
+   AboutWidget( const AboutWidget &that );
+   AboutWidget &operator=( const AboutWidget &that );
 };
 
 #endif

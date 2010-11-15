@@ -55,8 +55,8 @@ public:
    void handleDerMixD( const QString &msg );
 
 private:
-   PlayerFSM( const PlayerFSM &other );
-   PlayerFSM &operator=( const PlayerFSM &other );
+   PlayerFSM( const PlayerFSM &that );
+   PlayerFSM &operator=( const PlayerFSM &that );
 
    enum eState                  mState;
    PlayerFSMDisconnected        *mpStateDisconnected;

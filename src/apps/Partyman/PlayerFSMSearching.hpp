@@ -38,8 +38,8 @@ public:
    PlayerFSM::tState handleDerMixD( const QString &msg );
    
 private:
-   PlayerFSMSearching( const PlayerFSMSearching &other );
-   PlayerFSMSearching &operator=( const PlayerFSMSearching &other );
+   PlayerFSMSearching( const PlayerFSMSearching &that );
+   PlayerFSMSearching &operator=( const PlayerFSMSearching &that );
 };
 
 #endif

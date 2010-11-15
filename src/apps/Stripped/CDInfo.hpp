@@ -73,8 +73,8 @@ public:
    int year();
 
 private:
-   CDInfo( const CDInfo &other );
-   CDInfo &operator=( const CDInfo &other );
+   CDInfo( const CDInfo &that );
+   CDInfo &operator=( const CDInfo &that );
 
    /* Disc Info */
    int            mNumTracks;

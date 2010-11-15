@@ -57,8 +57,8 @@ public:
    QString getPath( const QModelIndex &index ) const;
    
 private:
-   FileSysTreeModel( const FileSysTreeModel &other );
-   FileSysTreeModel &operator=( const FileSysTreeModel &other );
+   FileSysTreeModel( const FileSysTreeModel &that );
+   FileSysTreeModel &operator=( const FileSysTreeModel &that );
    
    FileSysTreeItem *mpRootItem;
 };

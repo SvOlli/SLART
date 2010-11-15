@@ -43,7 +43,7 @@ public:
    TheMagic( MagicQueue *magicQueue = 0 );
    virtual ~TheMagic();
    
-   TheMagic( const TheMagic &other );
+   TheMagic( const TheMagic &that );
 
    /* the magic that gonna happen before the download */
    void preDownload();
@@ -67,7 +67,7 @@ public:
    
    
 private:
-   TheMagic &operator=( const TheMagic &other );
+   TheMagic &operator=( const TheMagic &that );
 
    /* the different states of downloading and analysing */
    enum { stageFresh, stageGenericFile, stageGenericHTML,

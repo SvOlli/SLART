@@ -31,12 +31,12 @@ FreeDBEntry::FreeDBEntry()
 }
 
 
-FreeDBEntry::FreeDBEntry( const FreeDBEntry &other )
-: category( other.category )
-, id( other.id )
-, track( other.track )
-, title( other.title )
-, playtime( other.playtime )
+FreeDBEntry::FreeDBEntry( const FreeDBEntry &that )
+: category( that.category )
+, id( that.id )
+, track( that.track )
+, title( that.title )
+, playtime( that.playtime )
 #if INCLUDE_EXT
 , ext( other.ext )
 #endif
@@ -61,15 +61,19 @@ FreeDBEntry::FreeDBEntry( QString Category, QString ID, int Track, QString Title
 }
 
 
-FreeDBEntry& FreeDBEntry::operator= (const FreeDBEntry& other)
+FreeDBEntry &FreeDBEntry::operator=( const FreeDBEntry &that )
 {
-   category = other.category;
-   id       = other.id;
-   track    = other.track;
-   title    = other.title;
-   playtime = other.playtime;
+   if( this == &that )
+   {
+      return *this;
+   }
+   category = that.category;
+   id       = that.id;
+   track    = that.track;
+   title    = that.title;
+   playtime = that.playtime;
 #if INCLUDE_EXT
-   ext      = other.ext;
+   ext      = that.ext;
 #endif
    return *this;
 }

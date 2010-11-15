@@ -50,8 +50,8 @@ signals:
    void submit( const QString &sql );
 
 private:
-   SearchWidget( const SearchWidget &other );
-   SearchWidget &operator=( const SearchWidget &other );
+   SearchWidget( const SearchWidget &that );
+   SearchWidget &operator=( const SearchWidget &that );
    QString time2frames( const QString &time );
    
    const QChar mStar;

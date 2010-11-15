@@ -49,8 +49,8 @@ private slots:
    void setToolTip( const QModelIndex &index );
 
 private:
-   FileSysTreeView( const FileSysTreeView &other );
-   FileSysTreeView &operator=( const FileSysTreeView &other );
+   FileSysTreeView( const FileSysTreeView &that );
+   FileSysTreeView &operator=( const FileSysTreeView &that );
 };
 
 #endif

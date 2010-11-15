@@ -44,8 +44,8 @@ signals:
    void queryRunning( bool r );
 
 private:
-   Foundlist( const Foundlist &other );
-   Foundlist &operator=( const Foundlist &other );
+   Foundlist( const Foundlist &that );
+   Foundlist &operator=( const Foundlist &that );
    
    FreeDBQuery mQuery;
 };

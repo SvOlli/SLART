@@ -40,8 +40,8 @@ public:
 private:
    bool mInScan;
    
-   PlayerFSMLoading( const PlayerFSMLoading &other );
-   PlayerFSMLoading &operator=( const PlayerFSMLoading &other );
+   PlayerFSMLoading( const PlayerFSMLoading &that );
+   PlayerFSMLoading &operator=( const PlayerFSMLoading &that );
 };
 
 #endif

@@ -56,8 +56,8 @@ protected:
    void paintEvent( QPaintEvent *event );
 
 private:
-   ScrollLine( const ScrollLine &other );
-   ScrollLine &operator=( const ScrollLine &other );
+   ScrollLine( const ScrollLine &that );
+   ScrollLine &operator=( const ScrollLine &that );
    
    static QTimer        *cpTimer;
    bool                 mClicked;

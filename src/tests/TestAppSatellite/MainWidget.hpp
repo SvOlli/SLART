@@ -45,8 +45,8 @@ signals:
    void sendText( const QByteArray &text );
    
 private:
-   MainWidget( const MainWidget &other );
-   MainWidget &operator=( const MainWidget &other );
+   MainWidget( const MainWidget &that );
+   MainWidget &operator=( const MainWidget &that );
    
    Satellite    *mpSatellite;
    QListWidget  *mpDebugBuffer;

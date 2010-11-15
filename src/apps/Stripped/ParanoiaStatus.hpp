@@ -50,8 +50,8 @@ public slots:
 signals:
 
 private:
-   ParanoiaStatus( const ParanoiaStatus &other );
-   ParanoiaStatus &operator=( const ParanoiaStatus &other );
+   ParanoiaStatus( const ParanoiaStatus &that );
+   ParanoiaStatus &operator=( const ParanoiaStatus &that );
 
    int               *mpData;
    QSpinBox          *mpTrackNr;

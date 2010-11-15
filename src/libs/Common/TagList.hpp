@@ -16,16 +16,16 @@ class TagList
 {
 public:
    TagList();
-   TagList &operator=( const TagList &other );
+   TagList &operator=( const TagList &that );
    
    /* return number of tags */
-   int count() const { return mTags.count(); };
+   int count() const;
    /* clear all tags */
    void clear();
    /* read tag name */
-   QString tagAt( int i ) const { return mTags.at(i); };
+   QString tagAt( int i ) const;
    /* read tag value */
-   QString valueAt( int i ) const { return mValues.at(i); };
+   QString valueAt( int i ) const;
    /* set/add tag */
    void set( const QString &tag, const QString &value = QString() );
    /* get a tag */
@@ -38,7 +38,7 @@ public:
    QString normalizeTag( const QString &tag );
    
 private:
-   TagList( const TagList &other );
+   TagList( const TagList &that );
    
    QStringList mTags;
    QStringList mValues;

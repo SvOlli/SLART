@@ -34,8 +34,8 @@ public:
    QStringList sql();
 
 private:
-   TarEntry( const TarEntry &other );
-   TarEntry &operator=( const TarEntry &other );
+   TarEntry( const TarEntry &that );
+   TarEntry &operator=( const TarEntry &that );
 
    bool          mDirty;
    const QString mSQLLine;

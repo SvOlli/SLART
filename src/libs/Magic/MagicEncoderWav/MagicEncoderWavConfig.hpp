@@ -42,8 +42,8 @@ public:
    void writeSettings();
 
 private:
-   MagicEncoderWavConfig( const MagicEncoderWavConfig &other );
-   MagicEncoderWavConfig &operator=( const MagicEncoderWavConfig &other );
+   MagicEncoderWavConfig( const MagicEncoderWavConfig &that );
+   MagicEncoderWavConfig &operator=( const MagicEncoderWavConfig &that );
 
    MagicEncoderWav      *mpEncoder;
 

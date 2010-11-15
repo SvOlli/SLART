@@ -31,8 +31,8 @@ class MyMouseEvent : public QMouseEvent
    /* everything private, usage only via reinterpret_cast */
 private:
    MyMouseEvent();
-   MyMouseEvent( const MyMouseEvent &other );
-   MyMouseEvent &operator=( const MyMouseEvent &other );
+   MyMouseEvent( const MyMouseEvent &that );
+   MyMouseEvent &operator=( const MyMouseEvent &that );
    virtual ~MyMouseEvent();
 public:
    /* only cause for this class: modify the mouse button */

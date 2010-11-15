@@ -38,8 +38,8 @@ public:
    static QStringList Categories();
    
 private:
-   FreeDB( const FreeDB &other );
-   FreeDB &operator=( const FreeDB &other );
+   FreeDB( const FreeDB &that );
+   FreeDB &operator=( const FreeDB &that );
 
    QSqlDatabase *mpSqlDB;
    FreeDBQuery  *mpSearchQuery;

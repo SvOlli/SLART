@@ -74,8 +74,8 @@ signals:
    void updated();
    
 private:
-   InfoEdit( const InfoEdit &other );
-   InfoEdit &operator=( const InfoEdit &other );
+   InfoEdit( const InfoEdit &that );
+   InfoEdit &operator=( const InfoEdit &that );
    
    /* normalize a line edit field */
    void normalize( QLineEdit *lineEdit );

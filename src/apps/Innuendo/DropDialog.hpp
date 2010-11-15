@@ -58,8 +58,8 @@ public slots:
    void handleClipboard();
 
 private:
-   DropDialog( const DropDialog &other );
-   DropDialog &operator=( const DropDialog &other );
+   DropDialog( const DropDialog &that );
+   DropDialog &operator=( const DropDialog &that );
    /* handle the drop */
    void handleDropData();
    /* analyse the mime data */

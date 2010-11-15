@@ -66,8 +66,8 @@ signals:
    void databaseUpdated();
 
 private:
-   DatabaseWidget( const DatabaseWidget &other );
-   DatabaseWidget &operator=( const DatabaseWidget &other );
+   DatabaseWidget( const DatabaseWidget &that );
+   DatabaseWidget &operator=( const DatabaseWidget &that );
 
    void disableButtons( bool disable );
 

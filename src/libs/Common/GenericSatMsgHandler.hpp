@@ -53,8 +53,8 @@ private slots:
    void sendPing();
 
 private:
-   GenericSatMsgHandler( const GenericSatMsgHandler &other );
-   GenericSatMsgHandler &operator=( const GenericSatMsgHandler &other );
+   GenericSatMsgHandler( const GenericSatMsgHandler &that );
+   GenericSatMsgHandler &operator=( const GenericSatMsgHandler &that );
 
    /* for handling two instances running:
       show the error message and quit the program */

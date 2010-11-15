@@ -34,10 +34,10 @@ public:
            const QString path = QString(),
            const QString data = QString() );
    virtual ~Cookie();
-   Cookie( const Cookie &other );
-   Cookie &operator=( const Cookie &other );
+   Cookie( const Cookie &that );
+   Cookie &operator=( const Cookie &that );
    
-   bool matches( const Cookie &other ) const;
+   bool matches( const Cookie &that ) const;
    QString getData() const;
    
 private:

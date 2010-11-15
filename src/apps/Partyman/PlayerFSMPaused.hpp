@@ -38,8 +38,8 @@ public:
    PlayerFSM::tState handleDerMixD( const QString &msg );
    
 private:
-   PlayerFSMPaused( const PlayerFSMPaused &other );
-   PlayerFSMPaused &operator=( const PlayerFSMPaused &other );
+   PlayerFSMPaused( const PlayerFSMPaused &that );
+   PlayerFSMPaused &operator=( const PlayerFSMPaused &that );
 };
 
 #endif

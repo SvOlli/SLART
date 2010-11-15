@@ -60,8 +60,8 @@ protected:
    QPushButton          *mpDotButton;
 
 private:
-   MagicEncoderConfig( const MagicEncoderConfig &other );
-   MagicEncoderConfig &operator=( const MagicEncoderConfig &other );
+   MagicEncoderConfig( const MagicEncoderConfig &that );
+   MagicEncoderConfig &operator=( const MagicEncoderConfig &that );
 
 };
 

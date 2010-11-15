@@ -72,8 +72,8 @@ protected:
    virtual void dropEvent( QDropEvent *event );
 
 private:
-   MainWidget( const MainWidget &other );
-   MainWidget &operator=( const MainWidget &other );
+   MainWidget( const MainWidget &that );
+   MainWidget &operator=( const MainWidget &that );
 
    Satellite            *mpSatellite;
    GenericSatMsgHandler *mpGenericSatMsgHandler;

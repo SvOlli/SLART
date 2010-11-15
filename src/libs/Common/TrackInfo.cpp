@@ -55,45 +55,49 @@ TrackInfo::TrackInfo( const QString &directory, const QString &filename,
    
 }
 
-TrackInfo::TrackInfo( const TrackInfo &other )
-: mID( other.mID )
-, mDirectory   ( other.mDirectory )
-, mFileName    ( other.mFileName )
-, mArtist      ( other.mArtist )
-, mTitle       ( other.mTitle )
-, mAlbum       ( other.mAlbum )
-, mTrackNr     ( other.mTrackNr )
-, mYear        ( other.mYear )
-, mGenre       ( other.mGenre )
-, mPlayTime    ( other.mPlayTime )
-, mLastScanned ( other.mLastScanned )
-, mLastTagsRead( other.mLastTagsRead )
-, mTimesPlayed ( other.mTimesPlayed )
-, mVolume      ( other.mVolume )
-, mFolders     ( other.mFolders )
-, mFlags       ( other.mFlags )
+TrackInfo::TrackInfo( const TrackInfo &that )
+: mID( that.mID )
+, mDirectory   ( that.mDirectory )
+, mFileName    ( that.mFileName )
+, mArtist      ( that.mArtist )
+, mTitle       ( that.mTitle )
+, mAlbum       ( that.mAlbum )
+, mTrackNr     ( that.mTrackNr )
+, mYear        ( that.mYear )
+, mGenre       ( that.mGenre )
+, mPlayTime    ( that.mPlayTime )
+, mLastScanned ( that.mLastScanned )
+, mLastTagsRead( that.mLastTagsRead )
+, mTimesPlayed ( that.mTimesPlayed )
+, mVolume      ( that.mVolume )
+, mFolders     ( that.mFolders )
+, mFlags       ( that.mFlags )
 {
 }
 
 
-TrackInfo &TrackInfo::operator=( const TrackInfo &other )
+TrackInfo &TrackInfo::operator=( const TrackInfo &that )
 {
-   mID           = other.mID;
-   mDirectory    = other.mDirectory;
-   mFileName     = other.mFileName;
-   mArtist       = other.mArtist;
-   mTitle        = other.mTitle;
-   mAlbum        = other.mAlbum;
-   mTrackNr      = other.mTrackNr;
-   mYear         = other.mYear;
-   mGenre        = other.mGenre;
-   mPlayTime     = other.mPlayTime;
-   mLastScanned  = other.mLastScanned;
-   mLastTagsRead = other.mLastTagsRead;
-   mTimesPlayed  = other.mTimesPlayed;
-   mVolume       = other.mVolume;
-   mFolders      = other.mFolders;
-   mFlags        = other.mFlags;
+   if( this == &that )
+   {
+      return *this;
+   }
+   mID           = that.mID;
+   mDirectory    = that.mDirectory;
+   mFileName     = that.mFileName;
+   mArtist       = that.mArtist;
+   mTitle        = that.mTitle;
+   mAlbum        = that.mAlbum;
+   mTrackNr      = that.mTrackNr;
+   mYear         = that.mYear;
+   mGenre        = that.mGenre;
+   mPlayTime     = that.mPlayTime;
+   mLastScanned  = that.mLastScanned;
+   mLastTagsRead = that.mLastTagsRead;
+   mTimesPlayed  = that.mTimesPlayed;
+   mVolume       = that.mVolume;
+   mFolders      = that.mFolders;
+   mFlags        = that.mFlags;
    
    return *this;
 }

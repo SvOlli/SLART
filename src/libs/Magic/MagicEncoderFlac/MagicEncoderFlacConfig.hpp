@@ -43,8 +43,8 @@ public:
    void writeSettings();
 
 private:
-   MagicEncoderFlacConfig( const MagicEncoderFlacConfig &other );
-   MagicEncoderFlacConfig &operator=( const MagicEncoderFlacConfig &other );
+   MagicEncoderFlacConfig( const MagicEncoderFlacConfig &that );
+   MagicEncoderFlacConfig &operator=( const MagicEncoderFlacConfig &that );
 
    MagicEncoderFlac     *mpEncoder;
 

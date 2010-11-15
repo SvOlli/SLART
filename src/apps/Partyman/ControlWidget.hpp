@@ -118,8 +118,8 @@ signals:
    void requestTab( int tabNr );
    
 private:
-   ControlWidget( const ControlWidget &other );
-   ControlWidget &operator=( const ControlWidget &other );
+   ControlWidget( const ControlWidget &that );
+   ControlWidget &operator=( const ControlWidget &that );
    
    ConfigDialog            *mpConfig;
    PlaylistControlWidget   *mpPlaylist;

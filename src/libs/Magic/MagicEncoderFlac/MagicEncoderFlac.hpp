@@ -51,8 +51,8 @@ public:
    void encodeCDAudio( const QByteArray &data );
 
 private:
-   MagicEncoderFlac( const MagicEncoderFlac &other );
-   MagicEncoderFlac &operator=( const MagicEncoderFlac &other );
+   MagicEncoderFlac( const MagicEncoderFlac &that );
+   MagicEncoderFlac &operator=( const MagicEncoderFlac &that );
 
    /* encode raw cd audio data */
    bool encodeCDAudio( const char *data, int size );

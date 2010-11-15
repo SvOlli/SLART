@@ -9,7 +9,23 @@
 #ifndef TRACKINFO_HPP
 #define TRACKINFO_HPP TRACKINFO_HPP
 
+/* base class */
+#include <QWidget>
+
+/* system headers */
+
+/* Qt headers */
 #include <QString>
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+class QCompleter;
+class QWidget;
+
+/* forward declaration of local classes */
 
 
 class TrackInfo
@@ -24,8 +40,8 @@ public:
    };
    
    TrackInfo();
-   TrackInfo( const TrackInfo &other );
-   TrackInfo &operator=( const TrackInfo &other );
+   TrackInfo( const TrackInfo &that );
+   TrackInfo &operator=( const TrackInfo &that );
    TrackInfo( const QString &directory,
               const QString &filename,
               const QString &artist,
@@ -86,7 +102,7 @@ public:
    
    /* convert seconds to a 0:00 timecode */
    static QString sec2minsec( int seconds );
-   
+
 private:
    /* subroutine for displayString */
    QString valueByKey( const QString &key ) const;

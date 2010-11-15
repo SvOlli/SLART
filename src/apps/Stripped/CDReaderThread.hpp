@@ -94,8 +94,8 @@ signals:
    void encodeDone();
 
 private:
-   CDReaderThread( const CDReaderThread &other );
-   CDReaderThread &operator=( const CDReaderThread &other );
+   CDReaderThread( const CDReaderThread &that );
+   CDReaderThread &operator=( const CDReaderThread &that );
 
    /* real routine to get drives */
    void runGetDevices();

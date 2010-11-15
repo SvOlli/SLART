@@ -45,8 +45,8 @@ signals:
                  const QHttpRequestHeader &header );
    
 private:
-   WebServer( const WebServer &other );
-   WebServer &operator=( const WebServer &other );
+   WebServer( const WebServer &that );
+   WebServer &operator=( const WebServer &that );
    
    QObject      *mpParent;
    QTcpServer   *mpTcpServer;

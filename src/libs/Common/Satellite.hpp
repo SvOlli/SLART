@@ -94,8 +94,8 @@ signals:
 #endif
    
 private:
-   Satellite( const Satellite &other );
-   Satellite &operator=( const Satellite &other );
+   Satellite( const Satellite &that );
+   Satellite &operator=( const Satellite &that );
    
    bool                             mIsTestApp;
    QTcpSocket                       *mpServerConnection;

@@ -81,8 +81,8 @@ protected:
 #endif
 
 private:
-   PlaylistContentWidget( const PlaylistContentWidget &other );
-   PlaylistContentWidget &operator=( const PlaylistContentWidget &other );
+   PlaylistContentWidget( const PlaylistContentWidget &that );
+   PlaylistContentWidget &operator=( const PlaylistContentWidget &that );
 
    Database             *mpDatabase;
    TrackInfoListModel   *mpPlaylistModel;

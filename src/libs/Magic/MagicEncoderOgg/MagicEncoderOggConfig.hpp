@@ -41,8 +41,8 @@ public:
    void writeSettings();
 
 private:
-   MagicEncoderOggConfig( const MagicEncoderOggConfig &other );
-   MagicEncoderOggConfig &operator=( const MagicEncoderOggConfig &other );
+   MagicEncoderOggConfig( const MagicEncoderOggConfig &that );
+   MagicEncoderOggConfig &operator=( const MagicEncoderOggConfig &that );
    
    MagicEncoderOgg      *mpEncoder;
 
