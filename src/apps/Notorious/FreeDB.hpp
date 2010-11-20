@@ -1,7 +1,7 @@
 /**
  * src/apps/Notorious/FreeDB.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -30,13 +30,13 @@ class FreeDBQuery;
 class FreeDB : public QObject
 {
 Q_OBJECT
-   
+
 public:
    FreeDB( QObject *parent = 0 );
    virtual ~FreeDB();
 
    static QStringList Categories();
-   
+
 private:
    FreeDB( const FreeDB &that );
    FreeDB &operator=( const FreeDB &that );

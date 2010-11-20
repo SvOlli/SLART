@@ -1,7 +1,7 @@
 /**
  * src/apps/Stripped/CDReader.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -38,21 +38,21 @@ class CDInfo;
 class CDReaderThread;
 class Encoder;
 class ParanoiaStatus;
-   
+
 
 class CDReader : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    CDReader( CDInfo *info, CDEdit *edit, QWidget *parent = 0 );
    virtual ~CDReader();
-   
+
    /* set the encoder to use */
    void setEncoders( const MagicEncoderList &encoders );
    /* insert available devices into given combobox */
    void getDevices();
-   
+
 public slots:
    /* read the toc */
    void readToc();
@@ -68,7 +68,7 @@ public slots:
    void cancel();
    /* (re-)read the settings */
    void readSettings();
-   
+
 signals:
    /* signalize "no disc"-state */
    void stateNoDisc();
@@ -90,7 +90,7 @@ signals:
    void setTrackDisabled( int track, bool disabled );
    /* make sure that the track is visible */
    void ensureVisible( int track );
-   
+
 private:
    CDReader( const CDReader &that );
    CDReader &operator=( const CDReader &that );

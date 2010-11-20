@@ -40,7 +40,7 @@ Q_OBJECT
 
 public:
    ConfigDialog( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   
+
 public slots:
    /* execute the dialog */
    void exec();

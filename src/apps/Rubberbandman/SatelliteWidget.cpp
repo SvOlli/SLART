@@ -1,7 +1,7 @@
 /**
  * src/apps/Rubberbandman/SatelliteWidget.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -42,7 +42,7 @@ SatelliteWidget::SatelliteWidget( Database *database, QWidget *parent, Qt::Windo
 {
    QBoxLayout *mainLayout;
    QBoxLayout *buttonLayout;
-   
+
    if( QApplication::desktop()->screenGeometry().height() < 600 )
    {
       mainLayout   = new QHBoxLayout( this );
@@ -53,7 +53,7 @@ SatelliteWidget::SatelliteWidget( Database *database, QWidget *parent, Qt::Windo
       mainLayout   = new QVBoxLayout( this );
       buttonLayout = new QHBoxLayout;
    }
-   
+
    buttonLayout->addWidget( mpNowPlaying );
    buttonLayout->addWidget( mpShowInFilesystem );
    buttonLayout->addWidget( mpGetRandom );
@@ -62,7 +62,7 @@ SatelliteWidget::SatelliteWidget( Database *database, QWidget *parent, Qt::Windo
    mainLayout->addStretch();
    mainLayout->addWidget( mpInfoEdit );
    setLayout(mainLayout);
-   
+
    connect( mpSatellite, SIGNAL(received(const QByteArray &)),
             this, SLOT(handleSatellite(const QByteArray &)) );
    connect( mpNowPlaying, SIGNAL(clicked()),
@@ -71,7 +71,7 @@ SatelliteWidget::SatelliteWidget( Database *database, QWidget *parent, Qt::Windo
             this, SLOT(handleShowInFilesystem()) );
    connect( mpGetRandom, SIGNAL(clicked()),
             this, SLOT(handleGetRandom()) );
-   
+
    mpSatellite->restart();
 }
 
@@ -104,7 +104,7 @@ void SatelliteWidget::handleSatellite( const QByteArray &msg )
 
 void SatelliteWidget::handleNowPlaying()
 {
-   GlobalConfigWidget::setClipboard( mpInfoEdit->tagsFileName( 
+   GlobalConfigWidget::setClipboard( mpInfoEdit->tagsFileName(
       MySettings().VALUE_PLAYINGPATTERN ) );
 }
 

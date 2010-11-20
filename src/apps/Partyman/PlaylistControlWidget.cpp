@@ -1,7 +1,7 @@
 /**
  * src/apps/Partyman/PlaylistControlWidget.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -46,7 +46,7 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
 {
    MySettings settings;
    qsrand( time((time_t*)0) );
-   
+
    mpTreeView->header()->hide();
    mpTreeView->setDragDropMode( QAbstractItemView::DragOnly );
    mpTreeView->setDragEnabled( true );
@@ -68,7 +68,7 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
    mpHelpText->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
    mpHelpText->setOpenExternalLinks( true );
    mpHelpText->setSource( QUrl("qrc:/Usage.html") );
-   
+
    QHBoxLayout *layout = new QHBoxLayout;
    mpTabs->setTabPosition( QTabWidget::South );
    mpTabs->addTab( mpHelpText, tr("Help") );
@@ -76,7 +76,7 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
    mpTabs->addTab( mpSearch, tr("Search") );
    mpTabs->addTab( mpTreeView, tr("Browse") );
    mpTabs->setCurrentIndex( settings.value("CurrentTab", 0).toInt() );
-   
+
    mpSplitter->addWidget( mpPlaylistContent );
    mpSplitter->addWidget( mpTabs );
    QPoint regSizes( settings.value( "SplitterSizes", QPoint(1,1) ).toPoint() );
@@ -85,7 +85,7 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
    mpSplitter->setSizes( sizes );
    layout->addWidget( mpSplitter );
    layout->setContentsMargins( 0, 0, 0, 0 );
-   
+
    connect( mpTreeView, SIGNAL(context(QModelIndex)),
             this, SLOT(addEntries(QModelIndex)) );
    connect( this, SIGNAL(expand(QModelIndex)),
@@ -98,12 +98,12 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
             this, SLOT(readConfig()) );
    connect( mpTreeUpdate, SIGNAL(finished()),
             this, SLOT(finishBrowserUpdate()) );
-   
+
    QShortcut *f1 = new QShortcut( QKeySequence(Qt::Key_F1), this );
    QShortcut *f2 = new QShortcut( QKeySequence(Qt::Key_F2), this );
    QShortcut *f3 = new QShortcut( QKeySequence(Qt::Key_F3), this );
    QShortcut *f4 = new QShortcut( QKeySequence(Qt::Key_F4), this );
-   
+
    connect( f1, SIGNAL(activated()),
             mpFKeyMapper, SLOT(map()) );
    connect( f2, SIGNAL(activated()),
@@ -116,12 +116,12 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
    mpFKeyMapper->setMapping( f2, 1 );
    mpFKeyMapper->setMapping( f3, 2 );
    mpFKeyMapper->setMapping( f4, 3 );
-   
+
    connect( mpFKeyMapper, SIGNAL(mapped(int)),
             mpTabs, SLOT(setCurrentIndex(int)) );
-   
+
    readConfig();
-   
+
    setLayout( layout );
 }
 
@@ -129,14 +129,14 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
 PlaylistControlWidget::~PlaylistControlWidget()
 {
    MySettings settings;
-   
+
    if( mpTreeUpdate->isRunning() )
    {
       mpTreeUpdate->cancel();
       mpTreeUpdate->quit();
       mpTreeUpdate->wait();
    }
-   
+
    QList<int> sizes = mpSplitter->sizes();
    if( sizes.count() > 1 )
    {
@@ -183,14 +183,14 @@ void PlaylistControlWidget::addEntries( QStringList *list, const QModelIndex &in
 void PlaylistControlWidget::addEntries( const QModelIndex &index )
 {
    QStringList entries;
-   
+
    if( mpPlaylistContent->isHidden() )
    {
       return;
    }
-   
+
    addEntries( &entries, index );
-   
+
    mpPlaylistContent->addItems( entries );
    mpPlaylistContent->scrollToBottom();
 }
@@ -200,7 +200,7 @@ void PlaylistControlWidget::addEntries( const QStringList &entries, bool atStart
 {
    int i;
    QStringList checkedEntries;
-   
+
    for( i = 0; i < entries.count(); i++ )
    {
       if( mpDatabase->getTrackInfo( 0, entries.at(i) ) )
@@ -247,7 +247,7 @@ void PlaylistControlWidget::getNextTrack( QString *fileName )
       bool leastPlayed  = settings.VALUE_PLAYONLYLEASTPLAYED;
       int notAgainCount = settings.VALUE_PLAYNOTAGAINCOUNT;
       QString playFolder( settings.VALUE_PLAYFOLDER );
-      
+
       if( !getRandomTrack( fileName, &playedArtists, randomTries, favoriteOnly, leastPlayed, playFolder ) )
       {
          if( !getRandomTrack( fileName, &playedArtists, randomTries, favoriteOnly, false, playFolder ) )
@@ -277,17 +277,17 @@ bool PlaylistControlWidget::getRandomTrack( QString *fileName, QStringList *play
                                      bool favoriteOnly, bool leastPlayed, const QString &playFolder )
 {
    TrackInfo trackInfo;
-   
+
    for( int i = 0; i < randomTries; i++ )
    {
       if( mpDatabase->getRandomTrack( &trackInfo, favoriteOnly, leastPlayed, playFolder ) )
       {
          *fileName = trackInfo.filePath();
-         
+
          if( !playedArtists->contains( trackInfo.mArtist.simplified(), Qt::CaseInsensitive ) )
          {
             playedArtists->prepend( trackInfo.mArtist.simplified() );
-            
+
             return true;
          }
       }
@@ -314,9 +314,9 @@ void PlaylistControlWidget::handleTabChange( int tabNr )
       mpTabs->setCurrentIndex( tabNr );
       return;
    }
-   
+
    MySettings().setValue( "CurrentTab", tabNr );
-   
+
    switch( tabNr )
    {
       case 0:
@@ -349,10 +349,10 @@ void PlaylistControlWidget::startBrowserUpdate()
    {
       return;
    }
-   
+
    mpTreeView->setEnabled( false );
    mpNextTreeModel = new FileSysTreeModel( this );
-   
+
    int retval = mpTreeUpdate->prepare( mpDatabase, mpNextTreeModel );
    if( retval > 0 )
    {
@@ -380,8 +380,8 @@ void PlaylistControlWidget::finishBrowserUpdate()
       if( !qmi.isValid() )
       {
          break;
-      } 
-      
+      }
+
       do
       {
          emit expand( qmi );
@@ -390,7 +390,7 @@ void PlaylistControlWidget::finishBrowserUpdate()
       while( mpTreeModel->rowCount( qmi ) <= 1 );
       emit expand( qmi );
    }
-   
+
    mpTreeView->setEnabled( true );
    mpNextTreeModel = 0;
 }
@@ -406,7 +406,7 @@ void PlaylistControlWidget::savePlaylist( const QString &current, const QString 
 {
    MySettings settings;
    QStringList playlist;
-   
+
    if( !current.isEmpty() )
    {
       playlist << current;

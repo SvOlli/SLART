@@ -1,7 +1,7 @@
 /**
  * src/apps/Rubberbandman/FileSysBrowser.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -38,10 +38,10 @@ class Database;
 class FileSysBrowser : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    FileSysBrowser( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   
+
 public slots:
    /* get the index of clicked entry */
    void entryClicked( const QModelIndex &index );
@@ -63,11 +63,11 @@ public slots:
    void menuRename();
    /* handle menu entry "Delete" */
    void menuDelete();
-   
+
 signals:
    /* emit the path of clicked entry */
    void clicked( const QString &path );
-   
+
 protected:
    /* reimplemented for the drop of drag'n'drop of tracks */
    virtual void dragEnterEvent( QDragEnterEvent *event );
@@ -77,7 +77,7 @@ protected:
 private:
    FileSysBrowser( const FileSysBrowser &that );
    FileSysBrowser &operator=( const FileSysBrowser &that );
-   
+
    Database     *mpDatabase;
    QLineEdit    *mpRootDir;
    QPushButton  *mpDotButton;

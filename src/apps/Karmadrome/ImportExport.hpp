@@ -29,10 +29,10 @@ class Database;
 
 class ImportExport
 {
-   
+
 public:
    ImportExport( Database *database );
-   
+
 public:
    /* import a playlist from m3u file */
    void importM3u( QString folder, const QString &fileName, bool cleanImport );
@@ -40,11 +40,11 @@ public:
    void exportM3u( QString folder, const QString &fileName, bool relative, bool randomize );
    /* print out a list of all folders */
    void listFolders( const QString &fileName );
-   
+
 private:
    ImportExport( const ImportExport &that );
    ImportExport &operator=( const ImportExport &that );
-   
+
    Database        *mpDatabase;
 };
 

@@ -28,7 +28,7 @@ class QIcon;
 class QPushButton;
 class QSpinBox;
 class QStringList;
-   
+
 /* forward declaration of local classes */
 class ConfigDialog;
 class DropDialog;
@@ -64,7 +64,7 @@ private slots:
 
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
-   
+
 protected:
    /* for implementing dropping */
    virtual void dragEnterEvent( QDragEnterEvent *event );

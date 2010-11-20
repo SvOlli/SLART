@@ -40,13 +40,13 @@ class PlayerWidget;
 class PlayerFSM
 {
 public:
-   enum eState { disconnected, searching, loading, ready, 
+   enum eState { disconnected, searching, loading, ready,
                  playing, ending, paused, endingpaused };
    typedef enum eState tState;
 
    PlayerFSM( PlayerWidget *playerWidget );
    virtual ~PlayerFSM();
-   
+
    /* change the state of the FSM */
    bool changeState( tState newState );
    /* get the state of the FSM */

@@ -1,7 +1,7 @@
 /**
  * src/apps/Rubberbandman/DatabaseWorker.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -34,7 +34,7 @@ class FileSysTreeModel;
 class DatabaseWorker : public QThread
 {
 Q_OBJECT
-   
+
 public:
    /* constructor replacement */
    void prepare( Database *database );
@@ -48,22 +48,22 @@ public:
    bool initImport( const QString &fileName );
    /* run the job */
    void run();
-   
+
    /* callback for update */
    void updateFile( const QFileInfo &fileInfo );
    /* callback for update */
    void updateDir( const QFileInfo &fileInfo );
-   
+
 signals:
    /* emit progress */
    void progress( int checked, int processed );
-   
+
 private:
    /* read track info from a file */
    bool updateTrackInfoFromFile( const QString &fileName );
    /* subroutine for better reading of code */
    void importM3u();
-   
+
    enum { none, update, cleanup, import } mMode;
    Database         *mpDatabase;
    FileSysTreeModel *mpTreeModel;

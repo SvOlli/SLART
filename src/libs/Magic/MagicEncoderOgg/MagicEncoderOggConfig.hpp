@@ -1,7 +1,7 @@
 /**
  * src/apps/Magic/MagicEncoderOgg/MagicEncoderOgg.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -43,7 +43,7 @@ public:
 private:
    MagicEncoderOggConfig( const MagicEncoderOggConfig &that );
    MagicEncoderOggConfig &operator=( const MagicEncoderOggConfig &that );
-   
+
    MagicEncoderOgg      *mpEncoder;
 
    /* configuration widget */

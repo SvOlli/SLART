@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/GlobalConfigWidget.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -47,16 +47,16 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
    mpDoubleClickInterval->setSingleStep( 50 );
    mpDoubleClickInterval->setSuffix( tr("ms") );
    mpDoubleClickInterval->setAlignment( Qt::AlignRight );
-   
+
    /* evil hack */
    mpDotButton->setMaximumWidth( mpDotButton->height() );
-   
+
    QStringList comboBoxText;
-   comboBoxText << tr("None") 
-                << tr("Read/Write Selection Only") << tr("Read/Write Clipboard Only") 
+   comboBoxText << tr("None")
+                << tr("Read/Write Selection Only") << tr("Read/Write Clipboard Only")
                 << tr("Write Both/Read Selection") << tr("Write Both/Read Clipboard");
    mpClipboardSelection->addItems( comboBoxText );
-   
+
    mainLayout->addWidget( mpUseSatellite,            0, 0, 1, 4 );
    mainLayout->addWidget( mpSatellitePortLabel,      1, 0, 1, 2 );
    mainLayout->addWidget( mpSatellitePort,           1, 2, 1, 2 );
@@ -70,13 +70,13 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
    mainLayout->addWidget( mpNormalizeSpaces,         7, 0, 1, 4 );
    mainLayout->addWidget( mpDoubleClickLabel,        8, 0, 1, 2 );
    mainLayout->addWidget( mpDoubleClickInterval,     8, 2, 1, 2 );
-   
+
    readSettings();
-   
+
    mainLayout->setRowStretch( 9, 1 );
    mainLayout->setColumnStretch( 0, 1 );
    mainLayout->setColumnStretch( 1, 1 );
-   
+
    connect( mpUseSatellite, SIGNAL(clicked(bool)),
             mpSatellitePort, SLOT(setEnabled(bool)) );
    connect( mpUseGlobalStyleSheetFile, SIGNAL(clicked()),
@@ -85,7 +85,7 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
             this, SLOT(selectFile()) );
    connect( mpUseSatellite, SIGNAL(clicked(bool)),
             this, SIGNAL(useSatelliteClicked(bool)) );
-   
+
    setLayout( mainLayout );
 }
 
@@ -148,11 +148,11 @@ void GlobalConfigWidget::writeSettings()
    settings.setValue( "NormalizeCase", mpNormalizeCase->isChecked() );
    settings.setValue( "NormalizeSpaces", mpNormalizeSpaces->isChecked() );
    settings.setValue( "DoubleClickInterval", mpDoubleClickInterval->value() );
-   
+
    QApplication::setDoubleClickInterval( mpDoubleClickInterval->value() );
-   
+
    settings.sync();
-   
+
    QFile qssFile( appSettings.styleSheetFile() );
    if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
    {
@@ -228,7 +228,7 @@ void GlobalConfigWidget::setClipboard( const QString &text )
 {
    MySettings settings( "Global" );
    QClipboard *clipboard = QApplication::clipboard();
-   
+
 #if 1
    int mode = settings.value( "ClipboardMode", 0 ).toInt();
    if( (mode == 1) || (mode == 3) || (mode == 4) )

@@ -1,7 +1,7 @@
 /**
  * src/apps/Magic/MagicEncoderOgg/MagicEncoderOgg.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -75,13 +75,13 @@ bool MagicEncoderOgg::finalize( bool enqueue, bool cancel )
       MagicEncoder::finalize( false, true );
       return false;
    }
-   
+
    ::ogg_stream_clear( &mOggPagegStream );
    ::vorbis_block_clear( &mVorbisBlock );
    ::vorbis_dsp_clear( &mVorbisDspState );
    ::vorbis_comment_clear( &mVorbisComment );
    ::vorbis_info_clear( &mVorbisInfo );
-   
+
    return MagicEncoder::finalize( enqueue, cancel );
 }
 
@@ -89,21 +89,21 @@ bool MagicEncoderOgg::finalize( bool enqueue, bool cancel )
 bool MagicEncoderOgg::oggInit()
 {
    int ret;
-   
+
    ret = ::vorbis_encode_init_vbr( &mVorbisInfo, 2, 44100, mQuality );
-   
+
    if( ret )
    {
       MagicEncoder::finalize( false, true );
       return false;
    }
-   
+
    ::vorbis_analysis_init( &mVorbisDspState, &mVorbisInfo );
    ::vorbis_block_init( &mVorbisDspState, &mVorbisBlock );
 
    srand(time(NULL));
    ::ogg_stream_init( &mOggPagegStream, rand() );
-   
+
    ogg_packet header;
    ogg_packet header_comm;
    ogg_packet header_code;
@@ -112,7 +112,7 @@ bool MagicEncoderOgg::oggInit()
    ::ogg_stream_packetin( &mOggPagegStream, &header );
    ::ogg_stream_packetin( &mOggPagegStream, &header_comm );
    ::ogg_stream_packetin( &mOggPagegStream, &header_code );
-   
+
    for(;;)
    {
       if( !::ogg_stream_flush( &mOggPagegStream, &mOggPage ) )
@@ -155,27 +155,27 @@ bool MagicEncoderOgg::encodeCDAudio( const char* data, int size )
          return false;
       }
    }
-   
+
    int i = 0;
    bool eos = false;
    float **buffer = ::vorbis_analysis_buffer( &mVorbisDspState, size/4 );
-   
+
    for( i = 0; i < size/4; i++ )
    {
       buffer[0][i]=((0x00ff&(int)data[i*4  ])|(data[i*4+1]<<8))/32768.f;
       buffer[1][i]=((0x00ff&(int)data[i*4+2])|(data[i*4+3]<<8))/32768.f;
    }
    ::vorbis_analysis_wrote( &mVorbisDspState, i );
-   
+
    while( ::vorbis_analysis_blockout( &mVorbisDspState, &mVorbisBlock ) == 1 )
    {
       ::vorbis_analysis( &mVorbisBlock, 0 );
       ::vorbis_bitrate_addblock( &mVorbisBlock );
-      
+
       while( ::vorbis_bitrate_flushpacket( &mVorbisDspState, &mOggPacket ) )
       {
          ::ogg_stream_packetin( &mOggPagegStream, &mOggPacket );
-         
+
          while( !eos )
          {
             if( !::ogg_stream_pageout( &mOggPagegStream, &mOggPage ) )
@@ -193,7 +193,7 @@ bool MagicEncoderOgg::encodeCDAudio( const char* data, int size )
                return false;
             }
          }
-         
+
          if( ::ogg_page_eos( &mOggPage ) )
          {
             eos = true;

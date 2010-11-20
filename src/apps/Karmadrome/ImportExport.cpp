@@ -37,7 +37,7 @@ void ImportExport::importM3u( QString folder, const QString &fileName, bool clea
    TrackInfo trackInfo;
    QChar favorite(1);
    QChar unwanted(2);
-   
+
    if( folder.startsWith( "|F", Qt::CaseInsensitive ) )
    {
       folder = favorite;
@@ -46,7 +46,7 @@ void ImportExport::importM3u( QString folder, const QString &fileName, bool clea
    {
       folder = unwanted;
    }
-   
+
    mpDatabase->insertFolder( folder );
    if( cleanImport )
    {
@@ -73,7 +73,7 @@ void ImportExport::importM3u( QString folder, const QString &fileName, bool clea
       }
       mpDatabase->endTransaction( true );
    }
-   
+
    QFile m3uFile( fileName );
    if( m3uFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
    {
@@ -126,7 +126,7 @@ void ImportExport::exportM3u( QString folder, const QString &fileName, bool rela
    QFile m3uFile( fileName );
    QChar favorite(1);
    QChar unwanted(2);
-   
+
    if( folder.startsWith( "|F", Qt::CaseInsensitive ) )
    {
       folder = favorite;
@@ -135,7 +135,7 @@ void ImportExport::exportM3u( QString folder, const QString &fileName, bool rela
    {
       folder = unwanted;
    }
-   
+
    if( !m3uFile.open( QIODevice::WriteOnly | QIODevice::Text ) )
    {
       return;

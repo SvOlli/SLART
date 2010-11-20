@@ -1,7 +1,7 @@
 /**
  * src/apps/Magic/MagicEncoder/MagicEncoderConfig.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -34,7 +34,7 @@ class ScrollLine;
 class MagicEncoderConfig : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    MagicEncoderConfig( QWidget *parent, QAbstractButton *button );
    virtual ~MagicEncoderConfig();

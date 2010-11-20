@@ -40,17 +40,17 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    mpSatellite->setTestApp( true );
    mpSatellite->restart();
-   
+
    mainLayout->addWidget( mpMessageBuffer );
    setLayout( mainLayout );
-   
+
    connect( mpWebServer, SIGNAL(request( QTcpSocket *, const QHttpRequestHeader & )),
             this, SLOT(request( QTcpSocket *, const QHttpRequestHeader & )) );
    connect( this, SIGNAL(response( QTcpSocket *, const QHttpResponseHeader &, const QByteArray & )),
             mpWebServer, SLOT(response( QTcpSocket *, const QHttpResponseHeader &, const QByteArray & )) );
    connect( mpSatellite, SIGNAL(received(const QByteArray &) ),
             this, SLOT(newMsg(const QByteArray &)) );
-   
+
    mpMessageBuffer->setAlternatingRowColors( true );
    mpWebServer->start( 22222, QString(":/web/") );
 
@@ -73,7 +73,7 @@ MainWidget::~MainWidget()
 }
 
 
-void MainWidget::request( QTcpSocket *id, 
+void MainWidget::request( QTcpSocket *id,
                           const QHttpRequestHeader &header )
 {
    mpMessageBuffer->addItem( header.toString() );
@@ -146,7 +146,7 @@ void MainWidget::request( QTcpSocket *id,
                     QApplication::organizationName() + ": " + QApplication::applicationName(),
                     header.method(),
                     header.path() );
-   
+
    emit response( id,
                   QHttpResponseHeader( 200, "OK" ),
                   html.toUtf8() );

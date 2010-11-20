@@ -1,7 +1,7 @@
 /**
  * src/apps/Partyman/FileSysTreeItem.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -31,7 +31,7 @@ class FileSysTreeItem
 public:
    FileSysTreeItem( const QVariant &data, FileSysTreeItem *parent = 0 );
    virtual ~FileSysTreeItem();
-   
+
    /* return child item by row number */
    FileSysTreeItem *child( int row );
    /* return child item by path and create one if none exists */
@@ -44,11 +44,11 @@ public:
    int row() const;
    /* return parent */
    FileSysTreeItem *parent();
-   
+
 private:
    FileSysTreeItem( const FileSysTreeItem &that );
    FileSysTreeItem &operator=( const FileSysTreeItem &that );
-   
+
    FileSysTreeItem         *mpParentItem;
    QVariant                mItemData;
    QList<FileSysTreeItem*> mChildItems;

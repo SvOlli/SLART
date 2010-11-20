@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/TheMagic.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -36,13 +36,13 @@ class Satellite;
 class TheMagic : public QObject
 {
 Q_OBJECT
-   
+
    friend class MagicQueue;
-   
+
 public:
    TheMagic( MagicQueue *magicQueue = 0 );
    virtual ~TheMagic();
-   
+
    TheMagic( const TheMagic &that );
 
    /* the magic that gonna happen before the download */
@@ -59,13 +59,13 @@ public:
    void setContentType( const QString &contentType );
    /* the device handler to write the data to */
    QIODevice *ioDevice();
-   
+
    /* the url to download */
    QString          mURL;
    /* marker if the list entry has been selected (for sending to Partyman) */
    bool             mSelected;
-   
-   
+
+
 private:
    TheMagic &operator=( const TheMagic &that );
 
@@ -76,7 +76,7 @@ private:
           stageMySpaceSong, stageMySpaceMP3,
           stageYouTubeHTML
         } mStage;
-   
+
    MagicQueue       *mpMagicQueue;
    Satellite        *mpSatellite;
    bool             mDownloadToFile;
@@ -92,14 +92,14 @@ private:
    QString          mMySpaceProfId;
    QString          mMySpacePlaylistId;
    QString          mMySpaceSongId;
-   
+
    void downloadToFile();
    void downloadToBuffer();
    void downloadClose();
    void sanitizeFileName();
-   
+
    QString xmlParam( const QString &string, int pos = 0 );
-   
+
    void parseURL();
    void processGenericFile();
    void parseGenericHTML();

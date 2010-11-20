@@ -1,7 +1,7 @@
 /**
  * src/apps/Rubberbandman/DatabaseWidget.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -63,7 +63,7 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    mpUpdateButton->setCheckable( true );
    mpCleanupButton->setCheckable( true );
    mpImportButton->setCheckable( true );
-   
+
    connect( browseButton, SIGNAL(clicked()),
             this, SLOT(setBaseDir()) );
    connect( mpUpdateButton, SIGNAL(clicked(bool)),
@@ -78,7 +78,7 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
             this, SLOT(handleProgress(int,int)) );
    connect( mpDatabaseWorker, SIGNAL(finished()),
             this, SLOT(handleFinished()) );
-   
+
 #if 0
    mpTableModel->setQuery( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
                            "PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags FROM slart_tracks;" );
@@ -86,13 +86,13 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    mpTableView->setModel( mpTableModel );
    mpTableModel->select();
 #endif
-   
+
    QVBoxLayout *layout = new QVBoxLayout;
    QHBoxLayout *rootLayout = new QHBoxLayout;
    rootLayout->addWidget( new QLabel( tr("Music Base:"), this ) );
    rootLayout->addWidget( mpBaseDir );
    rootLayout->addWidget( browseButton );
-   
+
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( mpUpdateButton );
    buttonLayout->addWidget( mpCleanupButton );
@@ -171,7 +171,7 @@ void DatabaseWidget::handleImport( bool checked )
    }
    disableButtons( true );
    QFileDialog fileDialog( this );
-   
+
    fileDialog.setFileMode( QFileDialog::ExistingFile );
    fileDialog.setDirectory( mpBaseDir->text() );
    fileDialog.setFilter("Playlists (*.m3u)");
@@ -193,11 +193,11 @@ void DatabaseWidget::handleImport( bool checked )
 void DatabaseWidget::setBaseDir()
 {
    QFileDialog fileDialog( this );
-   
+
    fileDialog.setFileMode( QFileDialog::DirectoryOnly );
    fileDialog.setDirectory( mpBaseDir->text() );
    fileDialog.setReadOnly( true );
-   
+
    if( fileDialog.exec() )
    {
       MySettings settings( "Global" );
@@ -243,7 +243,7 @@ void DatabaseWidget::handleFinished()
 void DatabaseWidget::readPartymanConfig( const QHostInfo &hi )
 {
    MySettings partymanSettings( "Partyman" );
-   
+
    mPartymanLocal = partymanSettings.value("DerMixDrun", true).toBool();
    if( !mPartymanLocal && (hi.lookupId() == -1) )
    {
@@ -257,7 +257,7 @@ void DatabaseWidget::readPartymanConfig( const QHostInfo &hi )
    {
       mPartymanLocal |= (hi.addresses().first() == QHostAddress::LocalHost);
    }
-   
+
    if( mPartymanLocal )
    {
       mpPartymanInfo->setText( tr("Partyman is set to local mode.\n"

@@ -41,7 +41,7 @@ class TimeSlider;
 class PlayerWidget : public QWidget
 {
 Q_OBJECT
-   
+
    friend class PlayerFSMDisconnected;
    friend class PlayerFSMSearching;
    friend class PlayerFSMLoading;
@@ -51,12 +51,12 @@ Q_OBJECT
    friend class PlayerFSMSeeking;
    friend class PlayerFSMPaused;
    friend class PlayerFSMEndingPaused;
-   
+
 public:
-   PlayerWidget( int index, Database *database, 
+   PlayerWidget( int index, Database *database,
                  ControlWidget *controlWidget, Qt::WindowFlags flags = 0 );
    virtual ~PlayerWidget();
-   
+
    /* get a new track from playlist */
    void getNextTrack( bool armed = true );
    /* get name of the currently loaded track */
@@ -85,7 +85,7 @@ public:
    void readConfig();
    /* disable slider while playing, if running in kiosk mode */
    void handleKioskMode( bool enable );
-   
+
 public slots:
    /* lock seek slider from getting status updates */
    void lock();
@@ -103,7 +103,7 @@ public slots:
    void handleResponse();
    /* handle DerMixD connection errors */
    void handleError( QAbstractSocket::SocketError socketError );
-   
+
 signals:
    /* signal the track playing on start/resume */
    void trackPlaying( const TrackInfo &trackInfo );
@@ -113,13 +113,13 @@ protected:
    void dragEnterEvent( QDragEnterEvent *event );
    /* reimplemented for the drop of drag'n'drop of tracks */
    void dropEvent( QDropEvent *event );
-   
+
 private:
    enum eDerMixD { inNormal, inFullstat, inScan };
-   
+
    PlayerWidget( const PlayerWidget &that );
    PlayerWidget &operator=( const PlayerWidget &that );
-   
+
    /* send a command to DerMixD */
    void sendCommand( const QString &command, const QString &parameter = QString() );
    /* enable/disable watching of track status */
@@ -128,7 +128,7 @@ private:
    void handleScan( const QString &data );
    /* set the volume according to peak or power */
    bool setVolume();
-   
+
    int           mPlayer;
    Database      *mpDatabase;
    ControlWidget *mpControlWidget;

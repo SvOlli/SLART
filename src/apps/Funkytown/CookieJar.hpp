@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/CookieJar.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -30,7 +30,7 @@ class QString;
 class CookieJar
 {
    friend class UnitTest;
-   
+
 public:
    CookieJar();
    virtual ~CookieJar();

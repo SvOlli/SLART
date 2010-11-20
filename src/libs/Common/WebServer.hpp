@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/WebServer.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -10,7 +10,7 @@
 #define WEBSERVER_HPP WEBSERVER_HPP
 
 /*
- * this class is only for receiving WebServer messages 
+ * this class is only for receiving WebServer messages
  * sending of WebServer messages is handled by the MySettings class
  */
 
@@ -26,28 +26,28 @@ class QTcpSocket;
 class WebServer : public QObject
 {
 Q_OBJECT
-   
+
 public:
    WebServer( QObject *parent = 0 );
    virtual ~WebServer();
-   
+
    bool start( quint16 port = 0, const QString &webPath = QString() );
    void stop();
-   
+
 public slots:
    void handleNewConnection();
    void response( QTcpSocket *id,
                   const QHttpResponseHeader &header,
                   const QByteArray &data );
-   
+
 signals:
-   void request( QTcpSocket *id, 
+   void request( QTcpSocket *id,
                  const QHttpRequestHeader &header );
-   
+
 private:
    WebServer( const WebServer &that );
    WebServer &operator=( const WebServer &that );
-   
+
    QObject      *mpParent;
    QTcpServer   *mpTcpServer;
    QTcpSocket   *mpTcpSocket;

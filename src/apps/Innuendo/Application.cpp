@@ -1,7 +1,7 @@
 /**
  * src/apps/Innuendo/Application.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
    QApplication::setOrganizationName("SLART");
    QApplication::setOrganizationDomain("svolli.org");
    QApplication::setApplicationName("Innuendo");
-   
+
    if( argc == 1 )
    {
       QApplication app(argc, argv);
@@ -43,18 +43,18 @@ int main(int argc, char *argv[])
             qssFile.close();
          }
       }
-      
+
       MainWindow window;
       MainWidget *mainWidget = new MainWidget( &window );
       window.setMainWidget( mainWidget );
       window.show();
-      
+
       retval = app.exec();
    }
    else
    {
       QCoreApplication app(argc, argv);
-      
+
       QString application( argv[1] );
       QStringList message;
       for( int i = 1; i < argc; i++ )
@@ -63,6 +63,6 @@ int main(int argc, char *argv[])
       }
       Satellite::send1( message.join("\n").toUtf8() );
    }
-   
+
    return retval;
 }

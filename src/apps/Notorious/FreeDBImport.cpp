@@ -1,7 +1,7 @@
 /**
  * src/apps/Notorious/FreeDBImport.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -44,14 +44,14 @@ void FreeDBImport::run()
    tir_data          tarData;
    QStringList       l;
    QSqlQuery         q;
-   
+
    status = tir_open( mFileName.toLocal8Bit().constData(), &tarData );
    if( status )
    {
       tir_close( &tarData );
       return;
    }
-   
+
    mBreak = false;
    emit processed( count, "" );
    q.exec( "BEGIN TRANSACTION;" );
@@ -81,7 +81,7 @@ void FreeDBImport::run()
    }
    q.exec( "COMMIT;" );
    emit processed( count, "" );
-   
+
    tir_close( &tarData );
 }
 

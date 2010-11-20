@@ -114,7 +114,7 @@ bool Xxtea::encode()
       z = v[n-1] += MX;
    }
    while( --rounds );
-   
+
    return (mpData->size() & 3) == 0;
 }
 
@@ -146,7 +146,7 @@ bool Xxtea::decode()
       y = v[0] -= MX;
    }
    while( sum -= mDelta );
-   
+
    return (mpData->size() & 3) == 0;
 }
 

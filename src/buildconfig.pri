@@ -25,7 +25,7 @@ build_pass:CONFIG(release, debug|release) {
 }
 
 contains(TEMPLATE,app) {
-  is_test = $$find( OUT_PWD, "/tests/" ) 
+  is_test = $$find( OUT_PWD, "/tests/" )
   count( is_test, 1 ) {
     DESTDIR    = $${BUILDDIR}/build/$${TARGETARCH}/test
   } else {

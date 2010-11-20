@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/DownloadHandler.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -41,13 +41,13 @@ class TheMagic;
 class DownloadHandler : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    DownloadHandler( QWidget *parent = 0 );
-   
+
    /* run a download request */
    void run( const QString &url );
-   
+
 public slots:
    /* callback for QHttp */
    void httpRequestFinished( int requestId, bool error );
@@ -59,21 +59,21 @@ public slots:
    void startDownload();
    /* handle change of the enqueue checkbox */
    void handleEnqueue( bool checked );
-   
+
 signals:
    /* signalize if download active or application is idle */
    void downloadActive( bool active );
    /* send a message if an error occured */
    void errorMessage( const QString &message );
-   
+
 private:
    DownloadHandler( const DownloadHandler &that );
    DownloadHandler &operator=( const DownloadHandler &that );
-   
+
    bool                         mDownloading;
    int                          mHttpGetId;
    bool                         mAborting;
-   
+
    QHttp                        *mpHttp;
    ScrollLine                   *mpURL;
    ScrollLine                   *mpFileName;

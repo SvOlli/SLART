@@ -34,7 +34,7 @@ bool PlayerFSMDisconnected::enter()
    mpPlayerWidget->mTotalTime = 0;
    mpPlayerWidget->updateTime();
    mpPlayerWidget->mpPlayPosition->setDisabled( true );
-   
+
    return true;
 }
 

@@ -1,7 +1,7 @@
 /**
  * src/apps/Creep/Application.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
       fprintf( stderr, "Usage: %s <config file>\n", argv[0] );
       exit( EXIT_FAILURE );
    }
-   
+
    if( lirc_init( &PROGNAME[0] , 1 ) == -1)
    {
       exit( EXIT_FAILURE );
@@ -86,11 +86,11 @@ int main(int argc, char *argv[])
          {
             continue;
          }
-         
+
          while( (( ret = lirc_code2char( config, code, &c ) ) == 0) && (c != NULL) )
          {
             QString confline( c );
-            
+
             if( confline.startsWith( "SYS", Qt::CaseInsensitive ) )
             {
                confline = confline.mid(confline.indexOf(' ')+1);
@@ -104,12 +104,12 @@ int main(int argc, char *argv[])
             {
                send( confline.toUtf8() );
             }
-            
+
          }
-         
+
          free( code );
-         
-         if( ret == -1 ) 
+
+         if( ret == -1 )
          {
             break;
          }

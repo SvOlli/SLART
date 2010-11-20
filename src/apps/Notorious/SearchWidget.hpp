@@ -35,7 +35,7 @@ class QString;
 class SearchWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    SearchWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    const QString &getSQL() { return mSQL; };
@@ -53,12 +53,12 @@ private:
    SearchWidget( const SearchWidget &that );
    SearchWidget &operator=( const SearchWidget &that );
    QString time2frames( const QString &time );
-   
+
    const QChar mStar;
    const QChar mPercent;
    const QChar mQuote;
    const QString mDoubleQuote;
-   
+
    QLineEdit   *mpTitle;
    QCheckBox   *mpExact;
    QComboBox   *mpTrack;

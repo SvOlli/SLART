@@ -1,7 +1,7 @@
 /**
  * src/apps/Notorious/Application.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -39,12 +39,12 @@ int main(int argc, char *argv[])
          qssFile.close();
       }
    }
-   
+
    MainWindow window;
    MainWidget *mainWidget = new MainWidget( &window );
    window.setMainWidget( mainWidget );
    window.show();
-   
+
    retval = app.exec();
 
    return retval;

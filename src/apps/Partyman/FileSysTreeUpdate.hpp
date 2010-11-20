@@ -1,7 +1,7 @@
 /**
  * src/apps/Partyman/FileSysTreeUpdate.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -37,7 +37,7 @@ public:
    void cancel() { mCancel = true; } ;
    /* start main work (called by QThread) */
    void run();
-   
+
 private:
    Database         *mpDatabase;
    FileSysTreeModel *mpTreeModel;

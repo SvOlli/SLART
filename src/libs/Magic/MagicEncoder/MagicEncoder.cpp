@@ -1,7 +1,7 @@
 /**
  * src/apps/Magic/MagicEncoder/MagicEncoder.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -85,7 +85,7 @@ bool MagicEncoder::initialize( const QString &fileName, const char *extension )
    QFileInfo qfi( directory + QDir::separator() +
                   fileName + extension );
    QDir dir( qfi.absoluteDir() );
-   
+
    if( !dir.exists() )
    {
       if( !dir.mkpath( dir.absolutePath() ) )
@@ -103,7 +103,7 @@ bool MagicEncoder::initialize( const QString &fileName, const char *extension )
 bool MagicEncoder::finalize( bool enqueue, bool cancel )
 {
    mFile.close();
-   
+
    if( !cancel )
    {
       if( mpProxy )

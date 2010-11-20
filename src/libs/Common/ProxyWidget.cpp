@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/ProxyWidget.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -39,32 +39,32 @@ ProxyWidget::ProxyWidget( QWidget *parent )
 , mpProxyPasswordInput( new QLineEdit )
 {
    QGridLayout *mainLayout = new QGridLayout( this );
-   
+
    mpProxyOnButton->setCheckable( true );
    mpProxyAuthButton->setCheckable( true );
    mpProxyPortInput->setRange( 1, 65535 );
    mpProxyPasswordInput->setEchoMode( QLineEdit::PasswordEchoOnEdit );
-   
+
    readSettings();
-   
+
    mainLayout->addWidget( mpProxyOnLabel,        0, 0, 1, 1 );
    mainLayout->addWidget( mpProxyHostLabel,      1, 0, 1, 1 );
    mainLayout->addWidget( mpProxyPortLabel,      2, 0, 1, 1 );
    mainLayout->addWidget( mpProxyAuthLabel,      0, 2, 1, 1 );
    mainLayout->addWidget( mpProxyLoginLabel,     1, 2, 1, 1 );
    mainLayout->addWidget( mpProxyPasswordLabel,  2, 2, 1, 1 );
-   
+
    mainLayout->addWidget( mpProxyOnButton,      0, 1, 1, 1 );
    mainLayout->addWidget( mpProxyHostInput,     1, 1, 1, 1 );
    mainLayout->addWidget( mpProxyPortInput,     2, 1, 1, 1 );
    mainLayout->addWidget( mpProxyAuthButton,    0, 3, 1, 1 );
    mainLayout->addWidget( mpProxyLoginInput,    1, 3, 1, 1 );
    mainLayout->addWidget( mpProxyPasswordInput, 2, 3, 1, 1 );
-   
+
    mainLayout->setRowStretch( 3, 1 );
-   
+
    setLayout( mainLayout );
-   
+
    connect( mpProxyOnButton,   SIGNAL(clicked()), this, SLOT(updateWidgets()) );
    connect( mpProxyAuthButton, SIGNAL(clicked()), this, SLOT(updateWidgets()) );
 }
@@ -99,7 +99,7 @@ void ProxyWidget::updateWidgets( bool disabled )
       {
          mpProxyOnButton->setText( tr("off") );
       }
-      
+
       if( mpProxyAuthButton->isChecked() )
       {
          mpProxyAuthButton->setText( tr("on") );
@@ -108,7 +108,7 @@ void ProxyWidget::updateWidgets( bool disabled )
       {
          mpProxyAuthButton->setText( tr("off") );
       }
-      
+
       if( mpProxyOnButton->isChecked() )
       {
          mpProxyHostLabel->setDisabled( false );
@@ -157,7 +157,7 @@ void ProxyWidget::setProxy( QHttp *http )
    int          port = 0;
    QString      login;
    QString      password;
-   
+
    settings.beginGroup( "HTTPProxy" );
    if( settings.value("Enable", false).toBool() )
    {
@@ -210,7 +210,7 @@ void ProxyWidget::readSettings()
    mpProxyAuthButton->setChecked( settings.value("Auth",     false).toBool() );
    mpProxyLoginInput->setText(    settings.value("Login",    QString("login") ).toString() );
    mpProxyPasswordInput->setText( settings.value("Password", QString("password") ).toString() );
-   
+
    updateWidgets();
 }
 
@@ -218,7 +218,7 @@ void ProxyWidget::readSettings()
 void ProxyWidget::writeSettings()
 {
    MySettings settings( "Global" );
-   
+
    settings.beginGroup( "HTTPProxy" );
    settings.setValue( "Enable",   mpProxyOnButton->isChecked() );
    settings.setValue( "Host",     mpProxyHostInput->text() );
@@ -227,7 +227,7 @@ void ProxyWidget::writeSettings()
    settings.setValue( "Login",    mpProxyLoginInput->text() );
    settings.setValue( "Password", mpProxyPasswordInput->text() );
    settings.sync();
-   
+
 #if 0
    // TODO: adept to Satellite
    MySettings().sendUdpMessage( "CFG\n" );

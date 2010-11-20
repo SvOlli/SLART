@@ -29,14 +29,14 @@ class PlayerFSMPaused : public PlayerFSMBase
 {
 public:
    PlayerFSMPaused( PlayerWidget *playerWidget );
-   
+
    /* called when state is entered, returns success */
    bool enter();
    /* called when state is left */
    void leave();
    /* called when DerMixD sends some output, returns state change request */
    PlayerFSM::tState handleDerMixD( const QString &msg );
-   
+
 private:
    PlayerFSMPaused( const PlayerFSMPaused &that );
    PlayerFSMPaused &operator=( const PlayerFSMPaused &that );

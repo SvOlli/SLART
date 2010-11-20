@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/MagicQueue.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -70,7 +70,7 @@ TRACESTART(MagicQueue::addMagic)
          return;
       }
    }
-   
+
    if( magic->mMessage.isEmpty() )
    {
       if( magic->mFileName.isEmpty() )
@@ -82,7 +82,7 @@ TRACESTART(MagicQueue::addMagic)
          magic->mMessage = magic->mFileName;
       }
    }
-   
+
    QListWidgetItem *qlwi = 0;
    if( magic->mFileName.isEmpty() )
    {
@@ -119,7 +119,7 @@ TheMagic *MagicQueue::getMagic()
 TRACESTART(MagicQueue::getMagic)
 #endif
    TheMagic *magic = 0;
-   
+
    if( mMagicList.size() > 0 )
    {
 #if USE_TRACE
@@ -134,7 +134,7 @@ TRACEMSG << item->text() << "!=" << magic->mMessage;
       magic = mMagicList.takeFirst();
 #endif
    }
-   
+
 #if LIST_NEEDS_FIXING
    updateList();
 #endif

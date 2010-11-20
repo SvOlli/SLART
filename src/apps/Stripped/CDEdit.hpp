@@ -1,7 +1,7 @@
 /**
  * src/apps/Stripped/CDEdit.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -37,10 +37,10 @@ class CDDBClient;
 class CDEdit : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent = 0 );
-   
+
    /* get the track info by tracknr */
    void trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *artist, QString *title,
                    QString *albumartist, QString *albumtitle, QString *genre, int *year );
@@ -52,11 +52,11 @@ public:
    bool isEmpty();
    /* move the focus up or down by one line */
    void keyUpDown( QWidget *widget, bool isUp );
-   
+
 signals:
    /* signalize if the TOC contains data */
    void containsData( bool flag );
-   
+
 public slots:
    /* handle toggle all tracks button */
    void handleTrackNr();

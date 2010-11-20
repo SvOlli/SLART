@@ -1,7 +1,7 @@
 /**
  * src/apps/Partyman/FileSysTreeView.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -28,7 +28,7 @@
 class FileSysTreeView : public QTreeView
 {
 Q_OBJECT
-   
+
 public:
    FileSysTreeView( QWidget *parent = 0 );
    virtual ~FileSysTreeView();

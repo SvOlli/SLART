@@ -37,10 +37,10 @@ class ProxyWidget;
 class ConfigDialog : public QDialog
 {
 Q_OBJECT
-   
+
 public:
    ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   
+
 public slots:
    /* execute the dialog */
    void exec();
@@ -48,15 +48,15 @@ public slots:
    void readSettings();
    /* write settings to storage */
    void writeSettings();
-   
+
 signals:
    /* configuration has changed */
    void configChanged();
-   
+
 private:
    ConfigDialog( const ConfigDialog &that );
    ConfigDialog &operator=( const ConfigDialog &that );
-   
+
    GlobalConfigWidget   *mpGlobalConfigWidget;
    QLabel               *mpNumColumnsLabel;
    QSpinBox             *mpNumColumns;

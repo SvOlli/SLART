@@ -1,7 +1,7 @@
 /**
  * src/apps/Rubberbandman/BrowseWidget.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -41,7 +41,7 @@ BrowseWidget::BrowseWidget( Database *database, QWidget *parent, Qt::WindowFlags
    layout->addWidget( mpFileSysBrowser );
    layout->addWidget( mpInfoEdit );
    setLayout( layout );
-   
+
    connect( mpFileSysBrowser, SIGNAL(clicked(const QString&)),
             mpInfoEdit, SLOT(load(const QString&)) );
    connect( mpInfoEdit, SIGNAL(updated()),

@@ -43,11 +43,11 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
 {
    int i;
    unlockDatabase();
-   
+
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
-   
+
    AboutWidget *about = new AboutWidget( this );
    QLabel *welcome    = new QLabel( tr("Hello and welcome to SLART<hr>"
                                        "Before %1 can be started a little bit of setup needs to be done.<br><br>"
@@ -63,7 +63,7 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
    mpHint->setAlignment( Qt::AlignCenter );
    mpHint->setFrameShadow( QFrame::Raised );
    mpHint->setFrameShape( QFrame::Box );
-   
+
    mpTabs->addTab( welcome,                 QString(tr("Welcome")) );
    mpTabs->addTab( mpDatabaseWidget,        QString(tr("Database")) );
    mpTabs->addTab( mpSatelliteConfigWidget, QString(tr("Communication")) );
@@ -73,13 +73,13 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
    {
       mpTabs->setTabEnabled( i, (i==0) );
    }
-   
+
    mainLayout->addWidget( about );
    mainLayout->addWidget( mpTabs );
    mainLayout->addStretch();
    mainLayout->addWidget( mpHint );
    mainLayout->addWidget( mpNext );
-   
+
    connect( mpTabs, SIGNAL(currentChanged(int)),
             this, SLOT(handleTabChange(int)) );
    connect( mpNext, SIGNAL(pressed()),
@@ -89,7 +89,7 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpDatabaseWidget, SIGNAL(databaseUpdated()),
             this, SLOT(unlockDatabase()) );
    handleTabChange(0);
-   
+
    setLayout( mainLayout );
 }
 
@@ -121,7 +121,7 @@ void SorcererWidget::handleTabChange( int newTab )
          /* nothing */
          break;
    }
-   
+
    switch( newTab )
    {
       case 0:
@@ -155,7 +155,7 @@ void SorcererWidget::handleTabChange( int newTab )
          mpNext->setDisabled( !mDatabaseOk || !mCommunicationOk || !mProxyOk );
          break;
    }
-   
+
    if( newTab < (mpTabs->count() - 1) )
    {
       mpNext->setText( tr("Next") );
@@ -164,7 +164,7 @@ void SorcererWidget::handleTabChange( int newTab )
    {
       mpNext->setText( tr("Done") );
    }
-   
+
    mLastTab = newTab;
 }
 

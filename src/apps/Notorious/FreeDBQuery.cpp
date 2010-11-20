@@ -1,7 +1,7 @@
 /**
  * src/apps/Notorious/FreeDBQuery.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -61,7 +61,7 @@ TRACESTART(FreeDBQuery::run);
    foreach( const QString &category, categories )
    {
       QSqlQuery q( mQuery.arg( category ) );
-   
+
 #if USE_TRACE
       if( !q.exec() )
       {
@@ -73,7 +73,7 @@ TRACEMSG << q.lastQuery();
 #else
       q.exec();
 #endif
-   
+
       mBreak = false;
       while( q.next() )
       {

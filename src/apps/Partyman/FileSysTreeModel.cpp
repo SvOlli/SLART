@@ -1,7 +1,7 @@
 /**
  * src/apps/Partyman/FileSysTreeModel.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -191,12 +191,12 @@ QString FileSysTreeModel::getPath( const QModelIndex &index ) const
 {
    QModelIndex qmi;
    QString fullPath;
-   
+
    for( qmi = index; qmi.isValid(); qmi = parent(qmi) )
    {
       fullPath.prepend("/" + qmi.data().toString());
    }
-   
+
    return fullPath;
 }
 

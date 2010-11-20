@@ -42,11 +42,11 @@ class ProxyWidget;
 class ConfigDialog : public QDialog
 {
 Q_OBJECT
-   
+
 public:
    ConfigDialog( CDReader *cdreader, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    virtual ~ConfigDialog();
-   
+
 public slots:
    /* execute the dialog */
    void exec();
@@ -62,17 +62,17 @@ public slots:
    void handleDevices( const QStringList &devices );
    /* handle the selection of the actual device used for ripping */
    void handleDevice( const QString &device );
-   
+
 signals:
    /* notify that no drive is available */
    void stateNoDrive();
    /* notify that the configuration has changed */
    void configChanged();
-   
+
 private:
    ConfigDialog( const ConfigDialog &that );
    ConfigDialog &operator=( const ConfigDialog &that );
-   
+
    CDReader             *mpCDReader;
    GlobalConfigWidget   *mpGlobalConfigWidget;
    ProxyWidget          *mpProxyWidget;

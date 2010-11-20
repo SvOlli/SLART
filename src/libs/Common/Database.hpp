@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/Database.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -47,7 +47,7 @@ public:
    bool endTransaction( bool commit );
    /* try to clean up and compress database */
    void cleanup();
-   
+
    /* get track information from database
       empty fileName: search for TrackInfo by trackInfo->mID
       trackInfo = 0: only test if fileName is in database */
@@ -63,10 +63,10 @@ public:
    /* get a random track */
    bool getRandomTrack( TrackInfo *trackInfo, bool favorite,
                         bool leastplayed, const QString &folder = QString() );
-   
+
    /* get a list of all available folders */
    QStringList getFolders();
-   /* get all entries of a list 
+   /* get all entries of a list
       QChar(1) = Favorite, QChar(2) = No Auto */
    QStringList getFolder( const QString &folder );
    /* add a folder */
@@ -76,14 +76,14 @@ public:
    /* rename */
    void rename( const QString &newName,
                 const QString &oldDirName, const QString &oldFileName = QString() );
-   
+
 private:
    Database( const Database &that );
    Database &operator=( const Database &that );
-   
+
    /* send out an error description to Innuendo */
    void logError( const QString &note = QString() );
-   
+
    /* generate the filename for database */
    static QString getDatabaseFileName();
 

@@ -32,22 +32,22 @@ class Satellite;
 class MainWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   
+
 public slots:
    void handleInput();
    void addDebug( const QString &message );
    void addMessage( const QByteArray &message, QListWidget *list = 0 );
-   
+
 signals:
    void sendText( const QByteArray &text );
-   
+
 private:
    MainWidget( const MainWidget &that );
    MainWidget &operator=( const MainWidget &that );
-   
+
    Satellite    *mpSatellite;
    QListWidget  *mpDebugBuffer;
    QListWidget  *mpMessageBuffer;

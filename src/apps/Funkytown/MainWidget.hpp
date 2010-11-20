@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/MainWidget.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -39,10 +39,10 @@ class DownloadHandler;
 class MainWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    MainWidget( QWidget *parent = 0 );
-   
+
 public slots:
    /* open download dir requester */
    void setDownloadDir();
@@ -50,21 +50,21 @@ public slots:
    void downloadUserPage( const QString &name = QString() );
    /* handle if download is active */
    void downloadActive( bool downloadActive = false );
-   
+
 signals:
    /* request to change the title and icon */
    void requestChangeTitle( const QIcon &icon, const QString &title );
-   
+
 protected:
    /* for implementing dropping */
    void dragEnterEvent( QDragEnterEvent *event );
    /* for implementing dropping */
    void dropEvent( QDropEvent *event );
-   
+
 private:
    MainWidget( const MainWidget &that );
    MainWidget &operator=( const MainWidget &that );
-   
+
    QGridLayout             *mpLayout;
    QLabel                  *mpDirText;
    QPushButton             *mpDirButton;

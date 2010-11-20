@@ -28,7 +28,7 @@ int main( int argc, char *argv[] )
    QStringList otherArgs;
    bool booltest = false;
    bool help = false;
-   
+
    cl.option( "-help",        "show help",                &help,      true );
    cl.option( "-enablebool",  "boolean test set",         &booltest,  true );
    cl.option( "-disablebool", "boolean test unset",       &booltest,  false );
@@ -36,7 +36,7 @@ int main( int argc, char *argv[] )
    cl.option( "-default",     "string with default test", &stringdefaulttest );
 
    cl.parse( &otherArgs );
-   
+
    if( cl.check() )
    {
       qDebug() << "fail! try '-help'";
@@ -48,11 +48,11 @@ int main( int argc, char *argv[] )
       qDebug() << cl.help().toLocal8Bit().constData();
       return 0;
    }
-   
+
    qDebug() << "booltest:"         << booltest;
    qDebug() << "stringtest:"       << stringtest;
    qDebug() << "stringdefaultest:" << stringdefaulttest;
    qDebug() << "other arguments:"  << otherArgs;
-   
+
    return 0;
 }

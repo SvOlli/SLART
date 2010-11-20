@@ -32,24 +32,24 @@ class QSignalMapper;
 class ButtonsWidget : public QGroupBox
 {
 Q_OBJECT
-   
+
 public:
    ButtonsWidget( QWidget *parent = 0 );
    ButtonsWidget( const QString &title, QWidget *parent = 0 );
-   
+
    /* update the button list: replace all existing buttons */
    void updateButtons( const QStringList &list );
    /* set buttons checked state */
    void lockButtons( const QStringList &list );
-   
+
 signals:
    /* signalize the widget clicked on */
    void clicked( QWidget *widget );
-   
+
 private:
    ButtonsWidget( const ButtonsWidget &that );
    ButtonsWidget &operator=( const ButtonsWidget &that );
-   
+
    QGridLayout             *mpMainLayout;
    QSignalMapper           *mpSignalMapper;
    QList<QAbstractButton*> mButtonList;

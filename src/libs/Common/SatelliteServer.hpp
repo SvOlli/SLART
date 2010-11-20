@@ -36,13 +36,13 @@ class QTcpSocket;
 class SatelliteServer : public QObject
 {
 Q_OBJECT
-   
+
 public:
    SatelliteServer( quint16 port, const QHostAddress &host, QObject *parent = 0 );
    virtual ~SatelliteServer();
    /* start the server */
    bool listen();
-   
+
 private slots:
    /* handle client connect */
    void connected();
@@ -50,17 +50,17 @@ private slots:
    void incomingData( QObject *client );
    /* handle client disconnect */
    void disconnected( QObject *client );
-   
+
 signals:
 #if SATELLITESERVER_DEBUG
    /* output debug messages (depricated) */
    void debug( const QByteArray &message );
 #endif
-   
+
 private:
    SatelliteServer( const SatelliteServer &that );
    SatelliteServer &operator=( const SatelliteServer &that );
-   
+
    QTcpServer           *mpTcpServer;
    QSignalMapper        *mpClientsReadMapper;
    QSignalMapper        *mpClientsDisconnectMapper;

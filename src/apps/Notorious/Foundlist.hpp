@@ -1,7 +1,7 @@
 /**
  * src/apps/Notorious/Foundlist.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -29,7 +29,7 @@
 class Foundlist : public QTableWidget
 {
 Q_OBJECT
-   
+
 public:
    Foundlist( QWidget *parent = 0 );
    virtual ~Foundlist();
@@ -46,7 +46,7 @@ signals:
 private:
    Foundlist( const Foundlist &that );
    Foundlist &operator=( const Foundlist &that );
-   
+
    FreeDBQuery mQuery;
 };
 

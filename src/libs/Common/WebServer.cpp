@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/WebServer.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -64,7 +64,7 @@ void WebServer::stop()
       delete mpTcpServer;
       mpTcpServer = 0;
    }
-   
+
    if( mpTcpSocket )
    {
       delete mpTcpSocket;
@@ -80,7 +80,7 @@ void WebServer::handleNewConnection()
    QString    value;
    ulong      content_length = 0;
    QByteArray data;
-   
+
    if( !mpTcpServer )
    {
       return;
@@ -99,7 +99,7 @@ void WebServer::handleNewConnection()
    {
       return;
    }
-   
+
    if( mWebDir.entryList().contains( requestLine.at(1).mid(1) ) )
    {
       QFile file( mWebDir.path() + requestLine.at(1) );
@@ -155,7 +155,7 @@ void WebServer::handleNewConnection()
          header.addValue( key, value );
       }
       data = socket->read( content_length );
-      
+
       if( content_length > 0 )
       {
          QStringList form( QString::fromUtf8( data ).split('&') );
@@ -168,7 +168,7 @@ void WebServer::handleNewConnection()
             header.addValue( key, value );
          }
       }
-      
+
       emit request( socket, header );
    }
 }

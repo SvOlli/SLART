@@ -47,17 +47,17 @@ class ControlWidget : public QWidget
 Q_OBJECT
 public:
    enum eErrorCode
-   { 
+   {
       noError,
       noConnection,
       connectionLost,
       wrongVersion
    };
-   
+
    ControlWidget( Database *database, ConfigDialog *config,
                   PlaylistControlWidget *playlist, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    virtual ~ControlWidget();
-   
+
    /* callback for player to request next track */
    void getNextTrack( QString *fileName );
    /* change the FSM state of the other player */
@@ -72,9 +72,9 @@ public:
    bool isSkipChecked();
    /* save the current tracks for restart */
    void saveTracks( bool unload );
-   
+
 private:
-   
+
 public slots:
    /* (re-)read configuration */
    void readConfig();
@@ -104,7 +104,7 @@ public slots:
    void handleTrayIcon( QSystemTrayIcon::ActivationReason reason );
    /* disable some elements of the user interface, if running in kiosk mode */
    void handleKioskMode( bool enable );
-   
+
 signals:
    /* request a new icon and title */
    void requestChangeTitle( const QIcon &icon, const QString &title );
@@ -116,11 +116,11 @@ signals:
    void trackUpdate();
    /* request to change the tab */
    void requestTab( int tabNr );
-   
+
 private:
    ControlWidget( const ControlWidget &that );
    ControlWidget &operator=( const ControlWidget &that );
-   
+
    ConfigDialog            *mpConfig;
    PlaylistControlWidget   *mpPlaylist;
    Satellite               *mpSatellite;

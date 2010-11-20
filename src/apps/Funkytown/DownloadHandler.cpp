@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/DownloadHandler.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -49,7 +49,7 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    QBoxLayout *layout      = new QVBoxLayout( this );
    QGroupBox  *groupBox    = new QGroupBox( tr("Now Processing:"), this );
    QBoxLayout *groupLayout = new QVBoxLayout();
-   
+
    if( MySettings().VALUE_SLARTCOMMUNICATION )
    {
       mpMagicQueue->setSelectionMode( QAbstractItemView::MultiSelection );
@@ -64,17 +64,17 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    layout->setSpacing( 1 );
    groupLayout->setContentsMargins( 5, 5, 5, 5 );
    groupLayout->setSpacing( 1 );
-   
+
    groupLayout->addWidget( mpURL );
    groupLayout->addWidget( mpFileName );
    groupLayout->addWidget( mpEnqueue );
    groupLayout->addWidget( mpProgressBar );
    groupBox->setLayout( groupLayout );
-   
+
    layout->addWidget( groupBox );
    layout->addWidget( mpMagicQueue );
    setLayout( layout );
-   
+
    connect( mpHttp, SIGNAL(requestFinished(int, bool)),
             this, SLOT(httpRequestFinished(int, bool)) );
    connect( mpHttp, SIGNAL(dataReadProgress(int, int)),
@@ -83,7 +83,7 @@ DownloadHandler::DownloadHandler( QWidget *parent )
             this, SLOT(readResponseHeader(const QHttpResponseHeader &)) );
    connect( mpTimer, SIGNAL(timeout()),
             this, SLOT(startDownload()) );
-   
+
    mpTimer->start( 1000 );
 }
 
@@ -125,7 +125,7 @@ TRACESTART(DownloadHandler::readResponseHeader)
                     QString(" ")+responseHeader.reasonPhrase() );
       mpTheMagic->fail();
    }
-   
+
    if( responseHeader.hasContentType() )
    {
       mpTheMagic->setContentType( responseHeader.contentType() );
@@ -167,7 +167,7 @@ TRACESTART(DownloadHandler::startDownload)
    {
       return;
    }
-   
+
    mpTheMagic = mpMagicQueue->getMagic();
    if( !mpTheMagic )
    {
@@ -180,9 +180,9 @@ TRACESTART(DownloadHandler::startDownload)
       return;
    }
    mpTimer->stop();
-   
+
    mpTheMagic->preDownload();
-   
+
    mpURL->setText( mpTheMagic->mURL );
    mpFileName->setText( mpTheMagic->fileName() );
    mpEnqueue->setChecked( mpTheMagic->mSelected );
@@ -191,24 +191,24 @@ TRACESTART(DownloadHandler::startDownload)
    if( mpTheMagic->ioDevice() )
    {
       emit downloadActive( true );
-      
+
       mDownloading         = true;
       mAborting            = false;
-      
+
       QString url( mpTheMagic->mURL );
       if( url.startsWith( "http://" ) )
       {
          url = url.mid( 7 );
       }
       int slash1 = url.indexOf('/');
-      
+
       ProxyWidget::setProxy( mpHttp );
       mpHttp->setHost( url.left(slash1) );
-      
+
       QString referer( mpTheMagic->referer() );
       QString userAgent( MySettings().VALUE_USERAGENT );
       QStringList cookies( mCookieJar.take( url.left(slash1), url.mid(slash1) ) );
-      
+
       QHttpRequestHeader requestHeader( "GET", url.mid(slash1) );
       QList<QPair<QString, QString> > headers;
       headers.append( qMakePair(QString("Host"), url.left(slash1)) );
@@ -253,14 +253,14 @@ TRACEMSG << requestId << mHttpGetId;
    {
       return;
    }
-   
+
    if( !mpTheMagic )
    {
       return;
    }
-   
+
    mpTheMagic->postDownload( !error );
-   
+
    if( error )
    {
       TheMagic *magic = new TheMagic( *mpTheMagic );

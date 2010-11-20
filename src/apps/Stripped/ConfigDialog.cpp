@@ -72,7 +72,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
                              tr("Could not find any encoder plugins.") );
       exit( 1 );
    }
-   
+
    mTagList.set("TRACKNUMBER","1");
    mTagList.set("ALBUMARTIST","Album_Artist");
    mTagList.set("ALBUM","Album");
@@ -83,7 +83,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showNormalize();
-   
+
    QWidget *encoders = new QWidget( this );
    QGridLayout *encodersLayout = new QGridLayout( encoders );
    encodersLayout->addWidget( new QLabel(
@@ -144,11 +144,11 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    tabs->addTab( strTab,               tr("Stripped") );
    tabs->addTab( mpProxyWidget,        tr("Proxy") );
    tabs->addTab( mpGlobalConfigWidget, tr("Global") );
-   
+
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );
-   
+
    setLayout( mainLayout );
 
    connect( mpCDReader, SIGNAL(foundDevices(const QStringList &)),
@@ -165,7 +165,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
             this, SLOT(writeSettings()) );
    connect( this, SIGNAL(rejected()),
             this, SLOT(readSettings()) );
-   
+
    mpCDReader->getDevices();
 
    WidgetShot::addWidget( "ConfigDialog", this );
@@ -243,7 +243,7 @@ void ConfigDialog::readSettings()
    }
    mpDirEdit->setText( settings.VALUE_DIRECTORY.replace( '/', QDir::separator() ) );
    mpPattern->setText( settings.VALUE_CREATEPATTERN );
-   
+
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
    foreach( MagicEncoderProxy *encoder, mEncoders )
@@ -251,7 +251,7 @@ void ConfigDialog::readSettings()
       encoder->configWidget()->readSettings();
    }
    mpCDReader->setEncoders( mEncoders );
-   
+
    emit configChanged();
 }
 
@@ -266,7 +266,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "ShowStats", mpShowStats->isChecked() );
    settings.setValue( "CreatePattern", mpPattern->text() );
    settings.setValue( "Directory", mpDirEdit->text().replace('\\','/') );
-   
+
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
    foreach( MagicEncoderProxy *encoder, mEncoders )

@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/TagList.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -35,7 +35,7 @@ TagList &TagList::operator=( const TagList &that )
 void TagList::set( const QString &tag, const QString &value )
 {
    int i = mTags.indexOf( tag.toUpper() );
-   
+
    if( i < 0 )
    {
       /* new element */
@@ -104,7 +104,7 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
    QStringList parts( pattern.split( "|", QString::SkipEmptyParts ) );
    QString filename;
    int i;
-   
+
    foreach( const QString &part, parts )
    {
       switch( part.at(0).unicode() )
@@ -115,7 +115,7 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
             {
                i = mTags.indexOf( "DATE" );
             }
-               
+
             if( i >= 0 )
             {
                QString value( mValues.at(i) );
@@ -124,7 +124,7 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
                   value.remove( QRegExp("[:?]") );
                   value.replace( QRegExp("[\"\\\\|/\\*]"), "_" );
                }
-               
+
                filename.append( value );
             }
             break;
@@ -134,10 +134,10 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
             {
                bool ok;
                int size = part.mid(1,1).toInt( &ok );
-               
+
                if( !ok ) break;
                int value = 1000000000 + mValues.at(i).toInt( &ok );
-               
+
                if( !ok ) break;
                filename.append( QString::number(value).right(size) );
             }
@@ -147,7 +147,7 @@ QString TagList::fileName( const QString &pattern, bool filterPath )
             break;
       }
    }
-   
+
    return filename;
 }
 
@@ -156,7 +156,7 @@ QString TagList::normalizeString( const QString &string )
 {
    QString newString;
    MySettings settings( "Global" );
-   
+
    if( settings.value( "NormalizeCase", false ).toBool() )
    {
       bool nextUpper = true;
@@ -171,7 +171,7 @@ QString TagList::normalizeString( const QString &string )
          {
             newString.append(string.at(i).toLower());
          }
-         
+
          switch( newString.at(i).toAscii() )
          {
             case ' ':
@@ -196,7 +196,7 @@ QString TagList::normalizeString( const QString &string )
    {
       newString = string;
    }
-   
+
    newString.replace( "\"", "''" );
    newString.replace( QChar::fromLatin1( '\xB4' ), '\'' ); // accent acute
    newString.replace( QChar::fromLatin1( '\x60' ), '\'' ); // accent grave
@@ -204,7 +204,7 @@ QString TagList::normalizeString( const QString &string )
    {
       newString = newString.simplified();
    }
-   
+
    return newString;
 }
 
@@ -212,15 +212,15 @@ QString TagList::normalizeString( const QString &string )
 QString TagList::normalizeTag( const QString &tag )
 {
    int id = mTags.indexOf( tag.toUpper() );
-   
+
    if( id < 0 )
    {
       return QString();
    }
-   
+
    QString value( normalizeString(mValues.at(id)) );
-   
+
    mValues.replace( id, value );
-   
+
    return value;
 }

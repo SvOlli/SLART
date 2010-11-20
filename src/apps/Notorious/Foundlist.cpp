@@ -1,7 +1,7 @@
 /**
  * src/apps/Notorious/Foundlist.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -49,10 +49,10 @@ void Foundlist::handleNewData( int i )
    {
       return;
    }
-   
+
    setRowCount( i );
    --i;
-   
+
    int playtime = mQuery.mEntries.at(i).playtime / 75;
    QString displaytime( QString::number( playtime / 60 ) );
    displaytime.append(":");
@@ -61,27 +61,27 @@ void Foundlist::handleNewData( int i )
       displaytime.append("0");
    }
    displaytime.append( QString::number( playtime % 60 ) );
-   
+
    QTableWidgetItem *categoryItem =
       new QTableWidgetItem( mQuery.mEntries.at(i).category );
    categoryItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
    setItem( i, 0, categoryItem );
-   
+
    QTableWidgetItem *idItem =
       new QTableWidgetItem( mQuery.mEntries.at(i).id );
    idItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
    setItem( i, 1, idItem );
-   
+
    QTableWidgetItem *trackItem =
       new QTableWidgetItem( QString::number( mQuery.mEntries.at(i).track ) );
    trackItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
    setItem( i, 2, trackItem );
-   
+
    QTableWidgetItem *titleItem =
       new QTableWidgetItem( mQuery.mEntries.at(i).title );
    titleItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
    setItem( i, 3, titleItem );
-   
+
    QTableWidgetItem *playtimeItem =
       new QTableWidgetItem( displaytime );
    playtimeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
@@ -104,7 +104,7 @@ void Foundlist::handleNewData( int i )
 void Foundlist::runQuery( const QString &query, const QString &category )
 {
    QStringList labels;
-   labels 
+   labels
       << tr("Category")
       << tr("ID")
       << tr("Track")
@@ -114,13 +114,13 @@ void Foundlist::runQuery( const QString &query, const QString &category )
       << tr("Ext")
 #endif
       ;
-   
+
    if( !mQuery.isFinished() )
    {
       mQuery.stop();
       mQuery.wait();
    }
-   
+
    clear();
 #if INCLUDE_EXT
    setColumnCount( 6 );
@@ -129,7 +129,7 @@ void Foundlist::runQuery( const QString &query, const QString &category )
 #endif
    setRowCount( 0 );
    setHorizontalHeaderLabels( labels );
-   
+
    mQuery.setQuery( query, category );
    mQuery.start();
 }

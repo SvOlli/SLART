@@ -1,7 +1,7 @@
 /**
  * src/apps/Notorious/ConfigDialog.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -36,10 +36,10 @@ class FreeDBImport;
 class ConfigDialog : public QDialog
 {
 Q_OBJECT
-   
+
 public:
    ConfigDialog( QWidget *parent = 0 );
-   
+
 public slots:
    /* execute the dialog */
    void exec();
@@ -61,7 +61,7 @@ public slots:
 private:
    ConfigDialog( const ConfigDialog &that );
    ConfigDialog &operator=( const ConfigDialog &that );
-   
+
    FreeDBImport *mpFreeDBImport;
    QListWidget  *mpLogList;
    QLineEdit    *mpImportFile;

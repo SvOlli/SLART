@@ -1,7 +1,7 @@
 /**
  * Application.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  */
 
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
    MainWindow window;
    window.show();
-   
+
    retval = app.exec();
 
    return retval;

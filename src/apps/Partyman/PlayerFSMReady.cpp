@@ -40,13 +40,13 @@ bool PlayerFSMReady::enter()
          mpPlayerWidget->mAutoPlay = true;
          mpPlayerWidget->mStartOther = true;
       }
-      
+
       mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("ready") );
       mpPlayerWidget->mpStatusDisplay->setToolTip( QWidget::tr("right mouse button to unload") );
       mpPlayerWidget->updateTime();
       mpPlayerWidget->mpControlWidget->allowSkip();
       mpPlayerWidget->disablePlayPosition( false );
-      
+
       if( mpPlayerWidget->mAutoPlay )
       {
          mpPlayerWidget->mAutoPlay = false;
@@ -58,11 +58,11 @@ bool PlayerFSMReady::enter()
          mpPlayerWidget->mStartOther = false;
          mpPlayerWidget->mpControlWidget->changeOtherState( mpPlayerWidget->mPlayer, PlayerFSM::searching );
       }
-      
+
       mpPlayerWidget->mpControlWidget->saveTracks( false );
-      
+
    }
-   
+
    return true;
 }
 

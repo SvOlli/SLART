@@ -29,17 +29,17 @@ class PlayerFSMLoading : public PlayerFSMBase
 {
 public:
    PlayerFSMLoading( PlayerWidget *playerWidget );
-   
+
    /* called when state is entered, returns success */
    bool enter();
    /* called when state is left */
    void leave();
    /* called when DerMixD sends some output, returns state change request */
    PlayerFSM::tState handleDerMixD( const QString &msg );
-   
+
 private:
    bool mInScan;
-   
+
    PlayerFSMLoading( const PlayerFSMLoading &that );
    PlayerFSMLoading &operator=( const PlayerFSMLoading &that );
 };

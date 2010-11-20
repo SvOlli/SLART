@@ -40,11 +40,11 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
-   
+
    mpWithTrackNrLabel->setAlignment( Qt::AlignTop );
    mpWithoutTrackNrLabel->setAlignment( Qt::AlignTop );
    mpPlayingPatternLabel->setAlignment( Qt::AlignTop );
-   
+
    mTagList.set("TRACKNUMBER","1");
    mTagList.set("ALBUMARTIST","AlbumArtist");
    mTagList.set("ALBUM","Album");
@@ -54,13 +54,13 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    mTagList.set("DATE","1986");
    mTagList.set("DIRECTORY","/path/to");
    mTagList.set("FILENAME","filename.ext");
-   
+
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showClipboard();
    mpGlobalConfigWidget->showAnimate();
    mpGlobalConfigWidget->showNormalize();
    mpGlobalConfigWidget->showDoubleClickInterval();
-   
+
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
 
@@ -78,7 +78,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    rbmLayout->addWidget( mpPlayingPatternExample, 6, 1 );
    rbmLayout->setRowStretch( 7, 1 );
    rbmTab->setLayout( rbmLayout );
-   
+
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
@@ -87,11 +87,11 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    QTabWidget *tabs       = new QTabWidget( this );
    tabs->addTab( rbmTab,               QString(tr("Rubberbandman")) );
    tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
-   
+
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );
-   
+
    setLayout( mainLayout );
 
    connect( okButton, SIGNAL(clicked()),
@@ -108,9 +108,9 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(updateWithoutTrackNr(const QString &)) );
    connect( mpPlayingPattern, SIGNAL(textChanged(const QString&)),
             this, SLOT(updatePlayingPattern(const QString &)) );
-   
+
    readSettings();
-   
+
    WidgetShot::addWidget( "ConfigDialog", this );
 }
 
@@ -129,9 +129,9 @@ void ConfigDialog::readSettings()
    mpWithTrackNr->setText( settings.VALUE_WITHTRACKNR );
    mpWithoutTrackNr->setText( settings.VALUE_WITHOUTTRACKNR );
    mpPlayingPattern->setText( settings.VALUE_PLAYINGPATTERN );
-   
+
    mpGlobalConfigWidget->readSettings();
-   
+
    emit configChanged();
 }
 

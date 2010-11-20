@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/MainWindow.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -34,7 +34,7 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
    connect( mpMainWidget, SIGNAL(kioskMode(bool)),
             this, SLOT(prohibitClose(bool)) );
  */
-   
+
 }
 
 
@@ -93,7 +93,7 @@ void MainWindow::closeEvent( QCloseEvent *event )
    {
       MySettings().saveMainWindow( this );
    }
-   
+
    event->accept();
 }
 
@@ -133,7 +133,7 @@ bool MainWindow::invokeSetUp( QApplication *app )
    {
       return true;
    }
-   
+
    QMessageBox::critical( 0, app->applicationName(),
                           tr("Setup failed!\nCannot start.\nSorry.") );
    return false;
@@ -161,7 +161,7 @@ bool MainWindow::trySorcerer( QApplication *app, const QDir &dir )
          retval = sorcerer->run( app );
       }
    }
-   
+
    return retval == 0;
 }
 #endif

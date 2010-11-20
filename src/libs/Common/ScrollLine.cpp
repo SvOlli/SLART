@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/ScrollLine.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -34,7 +34,7 @@ ScrollLine::ScrollLine( QWidget *parent, bool autoScroll )
 {
    setReadOnly( true );
    setContextMenuPolicy( Qt::NoContextMenu );
-   
+
    if( autoScroll )
    {
       if( !cpTimer )
@@ -67,7 +67,7 @@ void ScrollLine::scrolling()
    {
       return;
    }
-   
+
    if( mPosition < 0 )
    {
       mDirection = 1;

@@ -33,7 +33,7 @@ class SorcererPlugin : public QObject, public SorcererInterface
 {
 Q_OBJECT
 Q_INTERFACES(SorcererInterface)
-   
+
 public:
    SorcererPlugin();
    virtual ~SorcererPlugin();

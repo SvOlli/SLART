@@ -37,13 +37,13 @@ class SatelliteConfigWidget;
 class SorcererWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    SorcererWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    virtual ~SorcererWidget();
    /* bitmask of errors occured */
    int errors();
-   
+
 public slots:
    /* handle the change of a tab */
    void handleTabChange( int newTab );
@@ -53,7 +53,7 @@ public slots:
    void unlockDatabase();
    /* unlock the option to leave communication tab */
    void unlockCommunication();
-   
+
 signals:
    /* request a new icon and title */
    void requestChangeTitle( const QIcon &icon, const QString &title );
@@ -61,16 +61,16 @@ signals:
 private:
    SorcererWidget( const SorcererWidget &that );
    SorcererWidget &operator=( const SorcererWidget &that );
-   
+
    Database                *mpDatabase;
    QTabWidget              *mpTabs;
    QLabel                  *mpHint;
    QPushButton             *mpNext;
-   
+
    DatabaseWidget          *mpDatabaseWidget;
    SatelliteConfigWidget   *mpSatelliteConfigWidget;
    ProxyWidget             *mpProxyWidget;
-   
+
    int                     mLastTab;
    bool                    mDatabaseOk;
    bool                    mCommunicationOk;

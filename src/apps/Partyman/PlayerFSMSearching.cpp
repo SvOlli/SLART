@@ -37,9 +37,9 @@ bool PlayerFSMSearching::enter()
    mpPlayerWidget->sendCommand( "unwatch" );
    mpPlayerWidget->disablePlayPosition( true );
    mpPlayerWidget->mpPlayPosition->setMaximum( 1 );
-   
+
    mpPlayerWidget->getNextTrack();
-   
+
    return true;
 }
 
@@ -55,17 +55,17 @@ enum PlayerFSM::eState PlayerFSMSearching::handleDerMixD( const QString &msg )
    {
       mpPlayerWidget->sendCommand( "load", mpPlayerWidget->mpScrollLine->toolTip() );
    }
-   
+
    if( msg.startsWith( "[preread] error" ) || msg.startsWith( "[load] error" ) )
    {
       mpPlayerWidget->getNextTrack();
    }
-   
+
    if( msg.startsWith( "[load] success" ) )
    {
       return PlayerFSM::loading;
    }
-   
+
    return PlayerFSM::searching;
 }
 

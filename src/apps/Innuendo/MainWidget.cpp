@@ -58,7 +58,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
       << "Creep"
       ;
    QStringList toolTips;
-   toolTips 
+   toolTips
       << "Audio Player"
       << "Playlist Organizer"
       << "Tag Editor"
@@ -67,10 +67,10 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
       << "FreeDB Search Tool"
       << "Remote Control Daemon"
       ;
-   
+
    mNumExecButtons = applications.count();
    mpExecButtons = new ExecButton*[mNumExecButtons];
-   
+
    mainLayout->addWidget( mpMessageBuffer,   0, 0, 1, 3 );
    for( int i = 0; i < mNumExecButtons; i++ )
    {
@@ -101,7 +101,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(listWidgetItemToClipboard(QListWidgetItem*)) );
 
    readConfig();
-   
+
    setLayout( mainLayout );
    mpSettingsButton->setObjectName( QString("SettingsButton") );
    setAcceptDrops( true );
@@ -121,7 +121,7 @@ void MainWidget::aboutToClose()
 {
 TRACESTART(MainWidget::closeEvent)
    QStringList runningApplications;
-   
+
    for( int i = 0; i < mNumExecButtons; i++ )
    {
 TRACEMSG << mpExecButtons[i]->text() << mpExecButtons[i]->isChecked();
@@ -198,7 +198,7 @@ void MainWidget::handleSatellite( const QByteArray &msg )
          delete item;
       }
    }
-   
+
    mpMessageBuffer->scrollToBottom();
 }
 

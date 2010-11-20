@@ -1,7 +1,7 @@
 /**
  * src/apps/Partyman/SearchWidget.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -40,13 +40,13 @@ SearchWidget::SearchWidget( Database *database, PlaylistControlWidget *parent )
    lineLayout->addWidget( mpInput );
    lineLayout->addWidget( mpFound );
    mpFound->setHidden( true );
-   
+
    mainLayout->setSpacing( 2 );
    mainLayout->addWidget( mpResults );
    mainLayout->addLayout( lineLayout );
    setLayout( mainLayout );
    mpInput->setMouseTracking( true );
-   
+
    connect( mpInput, SIGNAL(returnPressed()),
             this, SLOT(search()) );
    connect( mpResults, SIGNAL(context(QModelIndex,int)),
@@ -55,7 +55,7 @@ SearchWidget::SearchWidget( Database *database, PlaylistControlWidget *parent )
             mpInput, SLOT(clear()) );
    connect( mpResults, SIGNAL(dataRemoved()),
             this, SLOT(updateCounter()) );
-   
+
    mpInput->setText( settings.value( "Search", QString()).toString() );
    settings.remove( "Search" );
    mpInput->selectAll();

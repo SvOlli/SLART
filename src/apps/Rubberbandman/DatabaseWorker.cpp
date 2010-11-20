@@ -1,7 +1,7 @@
 /**
  * src/apps/Rubberbandman/DatabaseWorker.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -71,7 +71,7 @@ bool DatabaseWorker::initUpdate( const QString &baseDir )
    mMode   = update;
    mCancel = false;
    mPath   = baseDir;
-   
+
    return true;
 }
 
@@ -84,7 +84,7 @@ bool DatabaseWorker::initCleanup()
    }
    mMode   = cleanup;
    mCancel = false;
-   
+
    return true;
 }
 
@@ -98,7 +98,7 @@ bool DatabaseWorker::initImport( const QString &fileName )
    mMode   = import;
    mCancel = false;
    mPath   = fileName;
-   
+
    return true;
 }
 
@@ -174,7 +174,7 @@ void DatabaseWorker::updateFile( const QFileInfo &fileInfo )
    {
       QString fileName( fileInfo.absoluteFilePath() );
       int fileNameStart = fileName.lastIndexOf('/');
-      
+
       mTrackInfo.mID           = 0;
       mTrackInfo.mDirectory    = fileName.left(fileNameStart);
       mTrackInfo.mFileName     = fileName.mid(fileNameStart+1);
@@ -182,7 +182,7 @@ void DatabaseWorker::updateFile( const QFileInfo &fileInfo )
       mTrackInfo.mTimesPlayed  = 0;
       mTrackInfo.mFlags        = 0;
    }
-   
+
    if( updateTrackInfoFromFile( fileInfo.absoluteFilePath() ) )
    {
       mpDatabase->updateTrackInfo( &mTrackInfo, true );
@@ -194,7 +194,7 @@ void DatabaseWorker::updateFile( const QFileInfo &fileInfo )
 bool DatabaseWorker::updateTrackInfoFromFile( const QString &fileName )
 {
    QFileInfo fileInfo( fileName );
-   
+
    if( (fileInfo.lastModified().toTime_t() > mTrackInfo.mLastTagsRead ) ||
        (mTrackInfo.mPlayTime == 0) )
    {
@@ -212,11 +212,11 @@ bool DatabaseWorker::updateTrackInfoFromFile( const QString &fileName )
             mTrackInfo.mPlayTime  = f.audioProperties()->length();
          }
          mTrackInfo.mLastTagsRead = fileInfo.lastModified().toTime_t();
-         
+
          return true;
       }
    }
-   
+
    return false;
 }
 
@@ -232,7 +232,7 @@ void DatabaseWorker::importM3u()
    {
       return;
    }
-   
+
    QString fileName;
    QString fileBase( mPath + "/../" );
    QFileInfo qfi;
@@ -252,12 +252,12 @@ void DatabaseWorker::importM3u()
             qfi.setFile( fileBase + fileName );
             fileName = qfi.absoluteFilePath();
          }
-         
+
          mTrackInfo.mID = 0;
          if( !mpDatabase->getTrackInfo( &mTrackInfo, fileName ) )
          {
             int fileNameStart = fileName.lastIndexOf('/');
-            
+
             mTrackInfo.mID           = 0;
             mTrackInfo.mDirectory    = fileName.left(fileNameStart);
             mTrackInfo.mFileName     = fileName.mid(fileNameStart+1);
@@ -268,7 +268,7 @@ void DatabaseWorker::importM3u()
          }
          updateTrackInfoFromFile( fileName );
          mpDatabase->updateTrackInfo( &mTrackInfo, true );
-         
+
          if( ++mChecked > mLastChecked + UPDATE_INCREMENT )
          {
             emit progress( mChecked, mProcessed );

@@ -40,15 +40,15 @@ SearchWidget::SearchWidget( QWidget *parent, Qt::WindowFlags flags )
 , mSQL()
 {
    QGridLayout *layout = new QGridLayout( this );
-   
+
    mpTrack->addItem( tr("Album Titles And Tracks") );
    mpTrack->addItem( tr("Album Titles Only") );
    mpTrack->addItem( tr("Tracks Only") );
    mpQuery1Info->setAlignment( Qt::AlignCenter );
    mpQuery2Info->setAlignment( Qt::AlignCenter );
-   
+
    layout->setContentsMargins( 0, 0, 0, 0 );
-   
+
    layout->addWidget( new QLabel( tr("Title") ), 0, 0 );
    layout->addWidget( mpTitle, 0, 1, 1, 5 );
    layout->addWidget( mpExact, 0, 6 );
@@ -63,11 +63,11 @@ SearchWidget::SearchWidget( QWidget *parent, Qt::WindowFlags flags )
    layout->addWidget( mpSearchButton, 2, 5, 1, 2 );
 //   layout->addWidget( mpSettingsButton, 2, 6 );
    layout->addWidget( mpSQLClause, 3, 0, 1, 6 );
-   
+
    layout->setColumnStretch( 4, 1 );
-   
+
    setLayout( layout );
-   
+
    connect( mpTitle, SIGNAL(textChanged(const QString&)),
             this, SLOT(generateSQL()) );
    connect( mpExact, SIGNAL(clicked()),
@@ -86,7 +86,7 @@ SearchWidget::SearchWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(checkSubmit()) );
    connect( mpSearchButton, SIGNAL(clicked()),
             this, SLOT(checkSubmit()) );
-            
+
    generateSQL();
 }
 
@@ -110,11 +110,11 @@ void SearchWidget::generateSQL()
    QString maxtime( mpMaxTime->text() );
    title.replace( mQuote, mDoubleQuote );
    title.replace( mStar, mPercent );
-   
+
    mpSearchButton->setDisabled( title.isEmpty() );
-   
+
    mSQL.clear();
-   
+
    if( !(mpTitle->text().isEmpty()) )
    {
       mSQL.append( "title like '" );
@@ -134,7 +134,7 @@ void SearchWidget::generateSQL()
       mSQL.append( " and track " );
       mSQL.append( track );
    }
-   
+
    if( !(mintime.isEmpty()) )
    {
       int colon = mintime.indexOf(":");
@@ -157,7 +157,7 @@ void SearchWidget::generateSQL()
          mSQL.append( QString::number( frames ) );
       }
    }
-   
+
    if( !(maxtime.isEmpty()) )
    {
       int colon = maxtime.indexOf(":");
@@ -180,9 +180,9 @@ void SearchWidget::generateSQL()
          mSQL.append( QString::number( frames ) );
       }
    }
-   
+
    mSQL.append( ";" );
-   
+
    mpSQLClause->setText( mSQL );
 }
 

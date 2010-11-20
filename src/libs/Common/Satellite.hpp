@@ -41,7 +41,7 @@ class SatelliteServerRunner;
 class Satellite : public QObject
 {
 Q_OBJECT
-   
+
 public:
    Satellite( QObject *parent = 0 );
    virtual ~Satellite();
@@ -60,13 +60,13 @@ public:
    static void send1( const QByteArray &message );
    /* split up the lines of a Satellite message to several strings */
    static QStringList split( const QByteArray &message );
-   
+
 public slots:
    /* start the client and connect to server */
    void restart();
    /* send the message to all other clients */
    void send( const QByteArray &message );
-   
+
 private slots:
    /* connection to server failed */
    void connectFail( QAbstractSocket::SocketError socketError );
@@ -82,7 +82,7 @@ private slots:
    /* send message that connection to server was successful */
    void connectSuccess();
 #endif
-   
+
 signals:
    /* connection to the bus was successful */
    void connected();
@@ -92,11 +92,11 @@ signals:
    /* output debug messages (depricated) */
    void debug( const QByteArray &message );
 #endif
-   
+
 private:
    Satellite( const Satellite &that );
    Satellite &operator=( const Satellite &that );
-   
+
    bool                             mIsTestApp;
    QTcpSocket                       *mpServerConnection;
    QPointer<SatelliteServerRunner>  mpServer;

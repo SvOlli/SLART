@@ -53,14 +53,14 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpScanButton->setDisabled( true );
    mpRipButton->setDisabled( true );
    mpEjectButton->setDisabled( true );
-   
+
    /* for style sheets */
    mpSettingsButton->setObjectName( QString("SettingsButton") );
 
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
-   
+
    mpCancelButton->setDisabled( true );
    mpButtonLayout->addWidget( mpSettingsButton );
    mpButtonLayout->addWidget( mpCancelButton );
@@ -73,7 +73,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mainLayout->addWidget( mpCDReader );
    mainLayout->addWidget( mpMessage );
    mainLayout->addLayout( mpButtonLayout );
-   
+
    setLayout( mainLayout );
 
    /* buttons */

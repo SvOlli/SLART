@@ -1,7 +1,7 @@
 /**
  * src/apps/Rubberbandman/BrowseWidget.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -34,18 +34,18 @@ class InfoEdit;
 class BrowseWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    BrowseWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   
+
 public slots:
    /* show a specific file in filesystem tree */
    void scrollTo( const QString &fileName );
-   
+
 private:
    BrowseWidget( const BrowseWidget &that );
    BrowseWidget &operator=( const BrowseWidget &that );
-   
+
    FileSysBrowser *mpFileSysBrowser;
    InfoEdit       *mpInfoEdit;
 };

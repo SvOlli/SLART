@@ -40,26 +40,26 @@ class WebServer;
 class MainWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    virtual ~MainWidget();
-   
+
 public slots:
-   void request( QTcpSocket *id, 
+   void request( QTcpSocket *id,
                  const QHttpRequestHeader &header );
    void newMsg( const QByteArray &msg );
-   
+
 signals:
    void response( QTcpSocket *id,
                   const QHttpResponseHeader &header,
                   const QByteArray &data );
    void requestChangeTitle( const QIcon &icon, const QString &title );
-   
+
 private:
    MainWidget( const MainWidget &that );
    MainWidget &operator=( const MainWidget &that );
-   
+
    Database             *mpDatabase;
    WebServer            *mpWebServer;
    QListWidget          *mpMessageBuffer;

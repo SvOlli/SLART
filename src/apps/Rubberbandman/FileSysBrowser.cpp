@@ -1,7 +1,7 @@
 /**
  * src/apps/Rubberbandman/FileSysBrowser.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -46,7 +46,7 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 , mFileInfo()
 {
    MySettings settings;
-   
+
    QCompleter *completer = new QCompleter( this );
    completer->setModel( new QDirModel( QStringList(),
                                        QDir::NoDotAndDotDot | QDir::AllDirs,
@@ -58,27 +58,27 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
    mpModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files );
    mpModel->setSorting( QDir::Name | QDir::DirsFirst | QDir::IgnoreCase /*| QDir::LocaleAware*/ );
    mpModel->setLazyChildCount( true );
-   
+
    mpView->setContextMenuPolicy( Qt::CustomContextMenu );
    mpView->setModel( mpModel );
    mpView->setDragDropMode( QAbstractItemView::DragOnly );
-   
+
    QVBoxLayout *layout = new QVBoxLayout( this );
    QHBoxLayout *topLayout = new QHBoxLayout;
-   
+
    topLayout->addWidget( new QLabel(tr("Root:")) );
    topLayout->addWidget( mpRootDir );
    topLayout->addWidget( mpDotButton );
    topLayout->setContentsMargins( 0, 0, 0, 0 );
-   
+
    layout->addLayout( topLayout );
    layout->addWidget( mpView );
    layout->setContentsMargins( 0, 0, 0, 0 );
    setLayout(layout);
-   
+
    /* evil hack */
    mpDotButton->setMaximumWidth( mpDotButton->height() );
-   
+
    mpRootDir->setText( settings.VALUE_ROOTDIRECTORY );
    handleRootDir();
    mpView->setAnimated( true );
@@ -118,11 +118,11 @@ void FileSysBrowser::entryClicked( const QModelIndex &index )
 void FileSysBrowser::handleDotButton()
 {
    QFileDialog fileDialog( this );
-   
+
    fileDialog.setFileMode( QFileDialog::DirectoryOnly );
    fileDialog.setDirectory( mpRootDir->text() );
    fileDialog.setReadOnly( true );
-   
+
    if( fileDialog.exec() )
    {
       QString result( fileDialog.selectedFiles().at(0) );
@@ -169,7 +169,7 @@ void FileSysBrowser::contextMenu( const QPoint &pos )
       return;
    }
    mFileInfo.setFile( mpModel->filePath( mContextModelIndex ) );
-   
+
    QMenu menu(mpView);
    menu.addAction( mpMenuRescan );
    if( !mFileInfo.isDir() )
@@ -229,7 +229,7 @@ void FileSysBrowser::menuMove( bool contentOnly )
    if( dialog.exec() )
    {
       QString dest( dialog.selectedFiles().at(0) );
-      
+
       if( !contentOnly )
       {
          dest.append( QDir::separator() );
@@ -251,7 +251,7 @@ void FileSysBrowser::menuMove( bool contentOnly )
       {
          QFile::rename( mFileInfo.fileName(), dest );
       }
-      
+
       if( MySettings().VALUE_AUTORESCAN )
       {
          handleRootDir();
@@ -270,7 +270,7 @@ void FileSysBrowser::menuRename()
    {
       QDir qd( mFileInfo.absolutePath() );
       QFileInfo qfi( mFileInfo.absolutePath() + "/" + text );
-      
+
       if( qfi.absolutePath() == mFileInfo.absolutePath() )
       {
          if( qd.rename( mFileInfo.fileName(), text ) )

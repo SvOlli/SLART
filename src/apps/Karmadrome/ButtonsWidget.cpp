@@ -28,10 +28,10 @@ ButtonsWidget::ButtonsWidget( QWidget *parent )
 , mButtonList()
 {
    mpMainLayout->setContentsMargins( 3, 3, 3, 3 );
-   
+
    connect( mpSignalMapper, SIGNAL(mapped(QWidget*)),
             this, SIGNAL(clicked(QWidget*)) );
-   
+
    setLayout( mpMainLayout );
 }
 
@@ -43,10 +43,10 @@ ButtonsWidget::ButtonsWidget( const QString &title, QWidget *parent )
 , mButtonList()
 {
    mpMainLayout->setContentsMargins( 3, 3, 3, 3 );
-   
+
    connect( mpSignalMapper, SIGNAL(mapped(QWidget*)),
             this, SIGNAL(clicked(QWidget*)) );
-   
+
    setLayout( mpMainLayout );
 }
 
@@ -56,14 +56,14 @@ void ButtonsWidget::updateButtons( const QStringList &fileNames )
    int i = 0;
    MySettings settings;
    int rows = settings.VALUE_NUMBEROFCOLUMNS;
-   
+
    for( i = 0; i < mButtonList.count(); i++ )
    {
       mpMainLayout->removeWidget( mButtonList.at(i) );
       delete mButtonList.at(i);
    }
    mButtonList.clear();
-   
+
    QAbstractButton *button = 0;
    for( i = 0; i < fileNames.count(); i++ )
    {

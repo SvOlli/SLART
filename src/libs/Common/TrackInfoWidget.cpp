@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/TrackInfoWidget.Cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -37,12 +37,12 @@ TrackInfoWidget::TrackInfoWidget( Database *database, const QByteArray &updateCo
    mainLayout->setContentsMargins( 1, 1, 1, 1 );
    mainLayout->setVerticalSpacing( 0 );
    mainLayout->setHorizontalSpacing( 1 );
-   
+
    mainLayout->addWidget( new QLabel( tr("Artist:"), this ), 1, 0 );
    mainLayout->addWidget( new QLabel( tr("Title:"), this ),  2, 0 );
    mainLayout->addWidget( new QLabel( tr("Album:"), this ),  3, 0 );
    mainLayout->addWidget( new QLabel( tr("Track:"), this ),  4, 0 );
-   
+
    mainLayout->addWidget( mpArtist,         1, 1, 1, 4 );
    mainLayout->addWidget( mpTitle,          2, 1, 1, 4 );
    mainLayout->addWidget( mpAlbum,          3, 1, 1, 4 );
@@ -50,27 +50,27 @@ TrackInfoWidget::TrackInfoWidget( Database *database, const QByteArray &updateCo
    mainLayout->addWidget( mpTimesPlayed,    4, 2 );
    mainLayout->addWidget( mpFavoriteButton, 4, 3 );
    mainLayout->addWidget( mpUnwantedButton, 4, 4 );
-   
+
    mainLayout->setColumnStretch( 0,  1 );
    mainLayout->setColumnStretch( 1, 17 );
    mainLayout->setColumnStretch( 2, 80 );
    mainLayout->setColumnStretch( 3,  1 );
    mainLayout->setColumnStretch( 4,  1 );
-   
+
    mainLayout->setRowStretch( 0, 1 );
    mainLayout->setRowStretch( 1, 0 );
    mainLayout->setRowStretch( 2, 0 );
    mainLayout->setRowStretch( 3, 0 );
    mainLayout->setRowStretch( 4, 0 );
    mainLayout->setRowStretch( 5, 1 );
-   
+
    mpTimesPlayed->setAlignment( Qt::AlignCenter );
-   
+
    connect( mpFavoriteButton, SIGNAL(clicked()),
             this, SLOT(handleFavoriteButton()) );
    connect( mpUnwantedButton, SIGNAL(clicked()),
             this, SLOT(handleUnwantedButton()) );
-   
+
    update( false );
 }
 
@@ -169,7 +169,7 @@ void TrackInfoWidget::update( bool reread )
       {
          mpTimesPlayed->setText( QString::number(mTrackInfo.mTimesPlayed)+" Times Played" );
       }
-      
+
       if( mTrackInfo.isFlagged( TrackInfo::Favorite ) )
       {
          mpFavoriteButton->setChecked( true );
@@ -182,7 +182,7 @@ void TrackInfoWidget::update( bool reread )
    else
    {
       QString empty;
-      
+
       setDisabled( true );
       mpArtist->setText( empty );
       mpTitle->setText( empty );

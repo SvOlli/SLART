@@ -1,7 +1,7 @@
 /**
  * src/apps/Partyman/PlaylistControlWidget.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -43,19 +43,19 @@ class TrackInfoWidget;
 class PlaylistControlWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    PlaylistControlWidget( Database *database, ConfigDialog *config,
                    QWidget *parent = 0, Qt::WindowFlags f = 0 );
    virtual ~PlaylistControlWidget();
-   
+
    /* get name of next track either from playlist */
    void getNextTrack( QString *fileName );
    /* set checkboxes of trackinfo */
    void setTrackInfoFavoriteUnwanted( bool favorite, bool unwanted );
    /* save the playlist to settings (prepend current and next, if any) */
    void savePlaylist( const QString &current = QString(), const QString &next = QString() );
-   
+
 public slots:
    /* add internal entries */
    void addEntries( const QModelIndex &qmi );
@@ -75,24 +75,24 @@ public slots:
    void finishBrowserUpdate();
    /* pass the update through to track info */
    void updateTrackInfo();
-   
+
 signals:
    /* unfold a node */
    void expand( const QModelIndex &qmi );
    /* tell if the current playlist is valid */
    void playlistIsValid( bool isValid );
-   
+
 private:
    PlaylistControlWidget( const PlaylistControlWidget &that );
    PlaylistControlWidget &operator=( const PlaylistControlWidget &that );
-   
+
    /* add entries to a stringlist */
    void addEntries( QStringList *list, const QModelIndex &qmi );
-   
+
    /* get a random track from database */
    bool getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
                         bool favoriteOnly, bool leastPlayed, const QString &playFolder );
-   
+
    Database              *mpDatabase;
    ConfigDialog          *mpConfig;
    QTabWidget            *mpTabs;

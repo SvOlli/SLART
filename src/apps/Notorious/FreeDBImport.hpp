@@ -1,7 +1,7 @@
 /**
  * src/apps/Notorious/FreeDBImport.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -33,7 +33,7 @@ class QString;
 class FreeDBImport : public QThread
 {
 Q_OBJECT
-   
+
 public:
    FreeDBImport( QObject *parent = 0 );
    virtual ~FreeDBImport();

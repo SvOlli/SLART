@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/TrackInfo.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -33,7 +33,7 @@ TrackInfo::TrackInfo( const QString &directory, const QString &filename,
                       const QString &artist, const QString &title, const QString &album,
                       int tracknr, int year, const QString &genre,
                       unsigned int playtime, unsigned int lastscanned, unsigned int lasttagsread,
-                      unsigned int timesplayed, double volume, 
+                      unsigned int timesplayed, double volume,
                       const QString &folders, unsigned int flags, unsigned int id )
 : mID( id )
 , mDirectory( directory )
@@ -52,7 +52,7 @@ TrackInfo::TrackInfo( const QString &directory, const QString &filename,
 , mFolders( folders )
 , mFlags( flags )
 {
-   
+
 }
 
 TrackInfo::TrackInfo( const TrackInfo &that )
@@ -98,7 +98,7 @@ TrackInfo &TrackInfo::operator=( const TrackInfo &that )
    mVolume       = that.mVolume;
    mFolders      = that.mFolders;
    mFlags        = that.mFlags;
-   
+
    return *this;
 }
 
@@ -206,7 +206,7 @@ bool TrackInfo::isInFolder( const QString &folder )
 }
 
 
-QString TrackInfo::toString() const 
+QString TrackInfo::toString() const
 {
    return QString("id=%1,dir=%2,file=%3,artist=%4,title=%5,album=%6,trk=%7,year=%8,genre=%9,")
                   .arg(QString::number(mID), mDirectory, mFileName, mArtist, mTitle,
@@ -259,13 +259,13 @@ QString TrackInfo::valueByKey( const QString &key ) const
 }
 
 
-QString TrackInfo::displayString( const QString &pattern ) const 
+QString TrackInfo::displayString( const QString &pattern ) const
 {
    if( pattern.isEmpty() || mArtist.isEmpty() || mTitle.isEmpty() )
    {
       return mFileName;
    }
-   
+
    QStringList parts( pattern.split( "|", QString::SkipEmptyParts ) );
    QString filename;
 
@@ -284,11 +284,11 @@ QString TrackInfo::displayString( const QString &pattern ) const
                }
                bool ok;
                int size = part.mid(1,1).toInt( &ok );
-                  
+
                if( ok )
                {
                   int number = valueByKey( part.toUpper().mid(2) ).toInt( &ok );
-                  
+
                   if( !ok || (number < 0) ) break;
                   filename.append( QString::number(1000000000 + number).right(size) );
                }
@@ -317,6 +317,6 @@ QString TrackInfo::displayString( const QString &pattern ) const
             break;
       }
    }
-   
+
    return filename;
 }

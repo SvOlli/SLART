@@ -52,7 +52,7 @@ PlayerWidget::PlayerWidget( int index, Database *database,
 , mTrackInfo()
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
-   
+
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
    mainLayout->setSpacing( 5 );
    mainLayout->addWidget( mpScrollLine );
@@ -71,7 +71,7 @@ PlayerWidget::PlayerWidget( int index, Database *database,
    mpPlayPosition->setTickPosition( QSlider::TicksBelow );
    mpPlayPosition->setTickInterval( 60 );
    mpPlayPosition->setMaximum( 1 );
-   
+
    connect( mpSocket, SIGNAL(connected()),
             this, SLOT(handleConnect()) );
    connect( mpSocket, SIGNAL(disconnected()),
@@ -80,7 +80,7 @@ PlayerWidget::PlayerWidget( int index, Database *database,
             this, SLOT(handleError(QAbstractSocket::SocketError)) );
    connect( mpSocket, SIGNAL(readyRead()),
             this, SLOT(handleResponse()) );
-   
+
    connect( mpPlayPosition, SIGNAL(sliderPressed()),
             this, SLOT(lock()) );
    connect( mpPlayPosition, SIGNAL(sliderReleased()),
@@ -89,7 +89,7 @@ PlayerWidget::PlayerWidget( int index, Database *database,
             this, SLOT(playPosChange(int)) );
    connect( mpStatusDisplay, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(unload()) );
-   
+
    setAcceptDrops( true );
    mpFSM->changeState( PlayerFSM::disconnected );
 }
@@ -111,12 +111,12 @@ void PlayerWidget::getNextTrack( bool armed )
 {
    QString fileName;
    bool inDatabase;
-   
+
    if( armed )
    {
       mpControlWidget->getNextTrack( &fileName );
    }
-   
+
    inDatabase = mpDatabase->getTrackInfo( &mTrackInfo, fileName );
    if( fileName.isEmpty() )
    {
@@ -224,12 +224,12 @@ void PlayerWidget::updateTime( const QString &msg, bool force )
          }
       }
    }
-   
+
    if( mUpdateSlider )
    {
       mpPlayPosition->setValue( playPosition );
    }
-   
+
    if( (mpFSM->getState() == PlayerFSM::playing) &&
        (playPosition >= mTotalTime - mHeadStart) )
    {
@@ -297,20 +297,20 @@ void PlayerWidget::handleResponse()
       {
          continue;
       }
-      
+
       if( mConsole )
       {
          std::cout << mPlayer << '<' << data.toLocal8Bit().data() << '\n';
       }
-      
+
       mpFSM->handleDerMixD( data );
-      
+
       if( data.startsWith( "[connect]" ) )
       {
          /* check for version */
          int vpos = data.lastIndexOf(" v", -1, Qt::CaseInsensitive);
          int dotpos = data.indexOf(".",vpos);
-         
+
          long  major = data.mid(vpos+2,dotpos-vpos-2).toLong();
          float minor = data.mid(dotpos+1).toFloat();
          bool  ok = false;
@@ -318,13 +318,13 @@ void PlayerWidget::handleResponse()
          {
             ok = true;
          }
-         
+
          if(!ok)
          {
             mpControlWidget->initDisconnect( ControlWidget::wrongVersion );
          }
       }
-      
+
       if( data.startsWith( "[seek] success" ) )
       {
          updateTime( QString::number(mpPlayPosition->value()) + "s," );
@@ -407,13 +407,13 @@ void PlayerWidget::sendCommand( const QString &command, const QString &parameter
          cmd.append( parameter );
       }
       cmd.append( '\n' );
-      
+
       QByteArray block( cmd.toLocal8Bit() );
       if( mConsole )
       {
          std::cout << mPlayer << '>' << block.data();
       }
-      
+
       mpSocket->write( block );
    }
 }
@@ -481,7 +481,7 @@ void PlayerWidget::handleScan( const QString &data )
       mSamples = token.at(0).toLong();
    }
    mTotalTime = mSamples / mFrequency;
-   
+
    if( (unsigned int)mTotalTime != mTrackInfo.mPlayTime )
    {
       mTrackInfo.mPlayTime = mTotalTime;
@@ -495,12 +495,12 @@ void PlayerWidget::handleScan( const QString &data )
 bool PlayerWidget::setVolume()
 {
    double adjust = 1.0;
-   
+
    if( mTrackInfo.mPlayTime > 0 )
    {
       mTotalTime = mTrackInfo.mPlayTime;
    }
-   
+
    if( mTrackInfo.mVolume > 0.0 )
    {
       if( mTrackInfo.isFlagged( TrackInfo::ScannedWithPower ) )

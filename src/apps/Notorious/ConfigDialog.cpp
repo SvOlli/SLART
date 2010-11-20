@@ -1,7 +1,7 @@
 /**
  * src/apps/Notorious/ConfigDialog.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -37,7 +37,7 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
-   
+
    AboutWidget *about( new AboutWidget( this ) );
    QLabel      *freedbInfo = new QLabel( tr("FreeDB database archives for import can be downloaded at "
                                             "<a href='http://ftp.freedb.org/pub/freedb/'>freedb.org</a>."), this );
@@ -52,7 +52,7 @@ ConfigDialog::ConfigDialog( QWidget *parent )
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
-   
+
    QWidget     *importTab    = new QWidget( this );
    QGridLayout *importLayout = new QGridLayout( importTab );
    importLayout->addWidget( freedbInfo, 0, 0, 1, 3 );
@@ -72,13 +72,13 @@ ConfigDialog::ConfigDialog( QWidget *parent )
    QTabWidget *tabs       = new QTabWidget( this );
    tabs->addTab( importTab,     QString(tr("Import")) );
    tabs->addTab( mpLogList,     QString(tr("Log")) );
-   
+
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );
-   
+
    setLayout( mainLayout );
-   
+
    connect( mpFreeDBImport, SIGNAL(processed(unsigned, const char *)),
             this, SLOT(handleProgress(unsigned, const char *)) );
    connect( browseButton, SIGNAL(clicked()),
@@ -95,7 +95,7 @@ ConfigDialog::ConfigDialog( QWidget *parent )
             this, SLOT(writeSettings()) );
    connect( this, SIGNAL(rejected()),
             this, SLOT(readSettings()) );
-   
+
    readSettings();
    checkValidFile( QString() );
 
@@ -128,14 +128,14 @@ void ConfigDialog::handleProgress( unsigned count, const char *filename )
 void ConfigDialog::readSettings()
 {
    MySettings settings;
-   
+
 }
 
 
 void ConfigDialog::writeSettings()
 {
    MySettings settings;
-   
+
 }
 
 

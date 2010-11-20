@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/ProxyWidget.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -34,10 +34,10 @@ class QSpinBox;
 class ProxyWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    ProxyWidget( QWidget *parent = 0 );
-   
+
    /* set proxy in QHttp class */
    static void setProxy( QHttp *http );
    /* set proxy in QNetworkAccessManager class */
@@ -46,11 +46,11 @@ public:
    void readSettings();
    /* write settings from storage */
    void writeSettings();
-   
+
 public slots:
    /* enable/disable widget according to settings */
    void updateWidgets( bool disabled = false );
-   
+
 private:
    ProxyWidget( const ProxyWidget &that );
    ProxyWidget &operator=( const ProxyWidget &that );

@@ -1,7 +1,7 @@
 /**
  * src/apps/Rubberbandman/InfoEdit.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -86,7 +86,7 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    mpButtonFlags->setMenu( mpMenuFlags );
    mpButtonFolders->setMenu( mpMenuFolders );
    mpShowTimesPlayed->setAlignment( Qt::AlignCenter );
-   
+
    mpValidateTrackNr = new QIntValidator( 0, 99, mpEditTrackNr );
    mpValidateYear    = new QIntValidator( 0, 9999, mpEditYear );
    mpEditTrackNr->setValidator( mpValidateTrackNr );
@@ -99,36 +99,36 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    mpEditYear->setMinimumWidth( mpEditYear->maximumWidth() );
    mpShowSize->setReadOnly( true );
    mpShowPlayTime->setReadOnly( true );
-   
+
    mpFileGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
    QGridLayout *fileLayout = new QGridLayout;
-   
+
    fileLayout->addWidget( new QLabel( tr("Path:"), this ),      0, 0 );
    fileLayout->addWidget( new QLabel( tr("File:"), this ),      1, 0 );
    fileLayout->addWidget( new QLabel( tr("Size:"), this ),      2, 0 );
    fileLayout->addWidget( new QLabel( tr("Play Time:"), this ), 2, 3 );
-   
+
    fileLayout->addWidget( mpShowPathName, 0, 1, 1, 4 );
    fileLayout->addWidget( mpShowFileName, 1, 1, 1, 4 );
    fileLayout->addWidget( mpShowSize,     2, 1 );
    fileLayout->addWidget( mpShowPlayTime, 2, 4 );
-   
+
    fileLayout->setColumnStretch( 2, 1 );
-   
+
    fileLayout->setVerticalSpacing( 0 );
    fileLayout->setContentsMargins( 2, 2, 2, 2 );
    mpFileGroupBox->setLayout( fileLayout );
-   
+
    mpTagGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
    QGridLayout *tagLayout = new QGridLayout;
-   
+
    tagLayout->addWidget( new QLabel( tr("Artist:"), this ), 0, 0 );
    tagLayout->addWidget( new QLabel( tr("Title:"), this ),  1, 0 );
    tagLayout->addWidget( new QLabel( tr("Album:"), this ),  2, 0 );
    tagLayout->addWidget( new QLabel( tr("Track:"), this ),  3, 0 );
    tagLayout->addWidget( new QLabel( tr("Year:"), this ),   3, 2 );
    tagLayout->addWidget( new QLabel( tr("Genre:"), this ),  3, 4 );
-   
+
    tagLayout->addWidget( mpEditArtist,  0, 1, 1, 5 );
    tagLayout->addWidget( mpEditTitle,   1, 1, 1, 5 );
    tagLayout->addWidget( mpEditAlbum,   2, 1, 1, 5 );
@@ -146,17 +146,17 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    tagLayout->setVerticalSpacing( 0 );
    tagLayout->setContentsMargins( 2, 2, 2, 2 );
    mpTagGroupBox->setLayout( tagLayout );
-   
+
    mpDatabaseGroupBox->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
    QGridLayout *databaseLayout = new QGridLayout;
    databaseLayout->addWidget( mpButtonFlags,     0, 0 );
    databaseLayout->addWidget( mpShowTimesPlayed, 0, 1 );
    databaseLayout->addWidget( mpButtonFolders,   0, 2 );
-   
+
    databaseLayout->setVerticalSpacing( 0 );
    databaseLayout->setContentsMargins( 2, 2, 2, 2 );
    mpDatabaseGroupBox->setLayout( databaseLayout );
-   
+
    QHBoxLayout *hlayout = new QHBoxLayout;
    hlayout->addWidget( mpButtonSet );
    hlayout->addWidget( mpButtonNormArtist );
@@ -166,7 +166,7 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    mpButtonNormArtist->setDisabled( true );
    mpButtonNormTitle->setDisabled( true );
    mpButtonCancel->setDisabled( true );
-   
+
    QVBoxLayout *vlayout = new QVBoxLayout;
    vlayout->addLayout( hlayout );
    vlayout->addWidget( mpFileGroupBox );
@@ -174,10 +174,10 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    vlayout->addWidget( mpDatabaseGroupBox );
    vlayout->setContentsMargins( 2, 2, 2, 2 );
    setLayout( vlayout );
-   
+
    setMaximumHeight( vlayout->minimumSize().height() );
    load(QString());
-   
+
    connect( mpButtonSet, SIGNAL(clicked()),
             this, SLOT(handleSetSave()) );
    connect( mpButtonNormArtist, SIGNAL(clicked()),
@@ -196,7 +196,7 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
             this, SLOT(handleChange()) );
    connect( mpEditGenre, SIGNAL(textChanged(const QString&)),
             this, SLOT(handleChange()) );
-            
+
    connect( mpMenuFlags, SIGNAL(triggered(QAction*)),
             this, SLOT(handleFlagsMenu(QAction*)) );
    connect( mpMenuFolders, SIGNAL(triggered(QAction*)),
@@ -209,18 +209,18 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
    QFileInfoList files(dir.entryInfoList());
    QString fileName;
    int i;
-   
+
    if( isBase )
    {
       if( (mRecurseMode == MODE_SETTAGS) && mRecurseArtist.isEmpty() &&
-          mRecurseTitle.isEmpty() && mRecurseAlbum.isEmpty() && 
-          mRecurseYear.isEmpty() && mRecurseGenre.isEmpty() && 
-          !mpRecurseSetFlags->isChecked() && !mpRecurseUnsetFlags->isChecked() && 
+          mRecurseTitle.isEmpty() && mRecurseAlbum.isEmpty() &&
+          mRecurseYear.isEmpty() && mRecurseGenre.isEmpty() &&
+          !mpRecurseSetFlags->isChecked() && !mpRecurseUnsetFlags->isChecked() &&
           !mpRecurseSetFolders->isChecked() && !mpRecurseUnsetFolders->isChecked() )
       {
          return;
       }
-      
+
       fileName = mFileName;
       mpButtonSet->setDisabled( true );
       mpButtonNormArtist->setDisabled( true );
@@ -228,7 +228,7 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       mpButtonCancel->setDisabled( false );
       mCancel = false;
    }
- 
+
    mpDatabase->beginTransaction();
    foreach( const QFileInfo &fileInfo, files )
    for( i = 0; i < files.size(); i++ )
@@ -325,16 +325,16 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       }
    }
    mpDatabase->endTransaction( true );
-   
+
    if( isBase )
    {
       MySettings settings;
-      
+
       mpButtonSet->setDisabled( true );
       mpButtonNormArtist->setDisabled( true );
       mpButtonNormTitle->setDisabled( true );
       mpButtonCancel->setDisabled( true );
-         
+
       mpShowPathName->clear();
       mpShowFileName->clear();
       mpShowSize->clear();
@@ -345,9 +345,9 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       mpEditTrackNr->clear();
       mpEditYear->clear();
       mpEditGenre->clear();
-      
+
       mTrackInfo.clear();
-      
+
       Satellite::get()->send( QByteArray("r0u") );
       if( settings.VALUE_AUTORESCAN )
       {
@@ -415,11 +415,11 @@ void InfoEdit::loadFile( const QString &fullpath )
    mIsValid  = false;
    mIsFile   = false;
    mFileName = fullpath;
-   
+
    QString empty;
-   
+
    QFileInfo fileInfo( fullpath );
-   
+
    mpButtonFlags->setDisabled( false );
    mpButtonFolders->setDisabled( false );
    mpShowTimesPlayed->clear();
@@ -429,10 +429,10 @@ void InfoEdit::loadFile( const QString &fullpath )
       mpButtonNormTitle->setDisabled( false );
       mIsValid = true;
       mIsFile  = true;
-      
+
       mpDatabase->getTrackInfo( &mTrackInfo, fullpath );
       updateDatabaseInfo( false );
-      
+
       mTagList.clear();
       TagLib::FileRef f( fullpath.toLocal8Bit().data() );
       if( f.file() )
@@ -455,7 +455,7 @@ void InfoEdit::loadFile( const QString &fullpath )
             time.append( QString::number( length % 60 ) );
             mpShowPlayTime->setText( time );
          }
-         
+
          QString artist    = QString::fromUtf8( f.tag()->artist().toCString( true ) );
          QString title     = QString::fromUtf8( f.tag()->title().toCString( true ) );
          QString album     = QString::fromUtf8( f.tag()->album().toCString( true ) );
@@ -464,7 +464,7 @@ void InfoEdit::loadFile( const QString &fullpath )
          QString genre     = QString::fromUtf8( f.tag()->genre().toCString( true ) );
          QString directory = fileInfo.absolutePath();
          QString filename  = fileInfo.fileName();
-         
+
          mpEditArtist->setText( artist );
          mpEditTitle->setText( title );
          mpEditAlbum->setText( album );
@@ -485,7 +485,7 @@ void InfoEdit::loadFile( const QString &fullpath )
             mpEditYear->setText( QString::number(year) );
          }
          mpEditGenre->setText( genre );
-         
+
          mTagList.set( "ARTIST", artist );
          mTagList.set( "TITLE", title );
          mTagList.set( "ALBUM", album );
@@ -513,7 +513,7 @@ void InfoEdit::loadFile( const QString &fullpath )
       mpEditTrackNr->clear();
       mpEditYear->clear();
       mpEditGenre->clear();
-      
+
       if( fileInfo.isDir() )
       {
          mpButtonNormArtist->setDisabled( false );
@@ -530,7 +530,7 @@ void InfoEdit::loadFile( const QString &fullpath )
          mpButtonFolders->setDisabled( true );
       }
    }
-   
+
    if( mRecurseMode == MODE_NOTHING )
    {
       if( mIsFile )
@@ -573,7 +573,7 @@ void InfoEdit::handleSetSave()
          mRecurseUnwantedTrackFlag = mpUnwantedTrackFlag->isChecked();
          mRecurseTrackScannedFlag  = mpTrackScannedFlag->isChecked();
          mRecurseFolders           = mTrackInfo.getFolders();
-         
+
          mRecurseMode = MODE_SETTAGS;
          recurse( mFileName );
          mRecurseMode = MODE_NOTHING;
@@ -589,12 +589,12 @@ void InfoEdit::saveFile()
    if( mFileName.isEmpty() ) return;
    if( mpEditArtist->text().isEmpty() ) return;
    if( mpEditTitle->text().isEmpty() ) return;
-   
+
    QFile qf( mFileName );
    QFileInfo qfi( qf );
    QString newname;
    bool tagsChanged = false;
-   
+
    if( mpEditArtist->text() != mTagList.get("ARTIST") )
    {
       mTagList.set( "ARTIST", mpEditArtist->text() );
@@ -625,7 +625,7 @@ void InfoEdit::saveFile()
       mTagList.set( "GENRE", mpEditGenre->text() );
       tagsChanged = true;
    }
-   
+
    if( mpEditTrackNr->text().isEmpty() )
    {
       newname = mTagList.fileName( MySettings().VALUE_WITHOUTTRACKNR );
@@ -634,10 +634,10 @@ void InfoEdit::saveFile()
    {
       newname = mTagList.fileName( MySettings().VALUE_WITHTRACKNR );
    }
-   
+
    QString newpath( qfi.absolutePath() + "/" + newname + "." + qfi.suffix().toLower() );
    QString tmppath( qfi.absolutePath() + "/" + newname + ".rbm." + qfi.suffix().toLower() );
-   
+
    if( tagsChanged )
    {
       if( qf.copy( tmppath ) )
@@ -657,7 +657,7 @@ void InfoEdit::saveFile()
             year = -1;
          }
          TagLib::String genre( mpEditGenre->text().toUtf8().data(), TagLib::String::UTF8 );
-         
+
          TagLib::FileRef f( tmppath.toLocal8Bit().data() );
          f.tag()->setArtist( artist );
          f.tag()->setTitle( title );
@@ -674,9 +674,9 @@ void InfoEdit::saveFile()
    {
       QFile::rename( mFileName, newpath );
    }
-   
+
    qfi.setFile( newpath );
-   
+
    mTrackInfo.mDirectory    = qfi.absolutePath();
    mTrackInfo.mFileName     = qfi.fileName();
    mTrackInfo.mLastTagsRead = qfi.lastModified().toTime_t();
@@ -693,7 +693,7 @@ void InfoEdit::saveFile()
    }
    mTrackInfo.mYear      = mpEditYear->text().toUInt();
    mTrackInfo.mGenre     = mpEditGenre->text();
-   
+
    if( mRecurseMode == MODE_NOTHING )
    {
       mTrackInfo.setFlag( TrackInfo::Favorite, false );
@@ -711,7 +711,7 @@ void InfoEdit::saveFile()
       }
    }
    mpDatabase->updateTrackInfo( &mTrackInfo, true );
-   
+
    if( mTrackInfo.mID <= 0 )
    {
       loadFile( mTrackInfo.filePath() );
@@ -754,35 +754,35 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
    if( (mTrackInfo.mID > 0) || withRecurse )
    {
       QString timesPlayed;
-      
+
       mpMenuFlags->clear();
       mpMenuFolders->clear();
       QStringList folders( mpDatabase->getFolders() );
-      
+
       if( withRecurse )
       {
          mRecurseSetFlags    = true;
          mpRecurseSetFlags   = mpMenuFlags->addAction( tr("Set Selected Flags") );
          mpRecurseSetFlags->setCheckable( true );
          mpRecurseSetFlags->setChecked( mRecurseSetFlags );
-         
+
          mRecurseUnsetFlags  = false;
          mpRecurseUnsetFlags = mpMenuFlags->addAction( tr("Unset Selected Flags") );
          mpRecurseUnsetFlags->setCheckable( true );
          mpRecurseUnsetFlags->setChecked( mRecurseUnsetFlags );
-         
+
          mpMenuFlags->addSeparator();
-         
+
          mRecurseSetFolders    = true;
          mpRecurseSetFolders   = mpMenuFolders->addAction( tr("Set Selected Folders") );
          mpRecurseSetFolders->setCheckable( true );
          mpRecurseSetFolders->setChecked( mRecurseSetFolders );
-         
+
          mRecurseUnsetFolders  = false;
          mpRecurseUnsetFolders = mpMenuFolders->addAction( tr("Unset Selected Folders") );
          mpRecurseUnsetFolders->setCheckable( true );
          mpRecurseUnsetFolders->setChecked( mRecurseUnsetFolders );
-         
+
          mpMenuFolders->addSeparator();
       }
       else
@@ -798,7 +798,7 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
          }
       }
       mpShowTimesPlayed->setText( timesPlayed );
-      
+
       if( folders.size() > 0 )
       {
          mpButtonFolders->setDisabled( false );
@@ -821,7 +821,7 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
       mpButtonFolders->setDisabled( true );
       mpShowTimesPlayed->setText( tr("Not In Database") );
    }
-   
+
    mpFavoriteTrackFlag = mpMenuFlags->addAction( tr("Favorite Track") );
    mpFavoriteTrackFlag->setCheckable( true );
    if( mTrackInfo.isFlagged( TrackInfo::Favorite ) )
@@ -855,7 +855,7 @@ void InfoEdit::handleFlagsMenu( QAction *action )
       mpTrackScannedFlag->setChecked( false );
       return;
    }
-   
+
    if( action == mpRecurseUnsetFlags )
    {
       mRecurseSetFlags   = false;
@@ -864,17 +864,17 @@ void InfoEdit::handleFlagsMenu( QAction *action )
       mpRecurseUnsetFlags->setChecked( mRecurseUnsetFlags );
       return;
    }
-   
+
    if( action == mpFavoriteTrackFlag )
    {
       mpUnwantedTrackFlag->setChecked( false );
    }
-   
+
    if( action == mpUnwantedTrackFlag )
    {
       mpFavoriteTrackFlag->setChecked( false );
    }
-   
+
    if( action == mpTrackScannedFlag )
    {
       if( !mTrackInfo.isFlagged( TrackInfo::ScannedWithPeak ) &&
@@ -884,7 +884,7 @@ void InfoEdit::handleFlagsMenu( QAction *action )
          mpTrackScannedFlag->setChecked( false );
       }
    }
-   
+
    handleChange();
 }
 
@@ -899,7 +899,7 @@ void InfoEdit::handleFoldersMenu( QAction *action )
       mpRecurseUnsetFolders->setChecked( mRecurseUnsetFolders );
       return;
    }
-   
+
    if( action == mpRecurseUnsetFolders )
    {
       mRecurseSetFolders   = false;
@@ -908,7 +908,7 @@ void InfoEdit::handleFoldersMenu( QAction *action )
       mpRecurseUnsetFolders->setChecked( mRecurseUnsetFolders );
       return;
    }
-   
+
    mTrackInfo.setFolder( action->text(), action->isChecked() );
    handleChange();
 }

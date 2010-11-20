@@ -42,7 +42,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    QBoxLayout *mainLayout   = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   
+
    mainLayout->addWidget( mpView );
    mainLayout->addWidget( mpInfo );
    setLayout( mainLayout );

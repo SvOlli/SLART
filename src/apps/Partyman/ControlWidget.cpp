@@ -65,9 +65,9 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    mpPlayer[0] = new PlayerWidget(0, database, this);
    mpPlayer[1] = new PlayerWidget(1, database, this);
    mTrayIconClickTimer.setSingleShot( true );
-   
+
    QGridLayout *mainLayout    = new QGridLayout( this );
-   
+
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
    mainLayout->setSpacing( 5 );
    mainLayout->addWidget( mpPlayer[0],      0, 0, 4, 1 );
@@ -75,26 +75,26 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
    mainLayout->addWidget( mpSettingsButton, 0, 1 );
    mainLayout->addWidget( mpConnectButton,  2, 1 );
    mainLayout->addWidget( mpSkipButton,     3, 1 );
-   
+
    mainLayout->setColumnStretch( 0, 1 );
    mainLayout->setColumnStretch( 2, 1 );
    mainLayout->setRowStretch( 1, 1 );
    mainLayout->setRowStretch( 2, 1 );
-   
+
    setLayout( mainLayout );
-   
+
    mpConnectButton->setCheckable( true );
    mpConnectButton->setDisabled( true );
 
    mpSkipButton->setCheckable( true );
    mpSkipButton->setDisabled( true );
    mpSkipAction->setDisabled( true );
-   
+
    mpTrayIcon->setIcon( QIcon(":/PartymanSmile.png") );
    mpTrayIcon->setContextMenu( mpTrayIconStopMenu );
    mpTrayIconPlayMenu->addAction( mpPauseAction );
    mpTrayIconPlayMenu->addAction( mpDisconnectAction );
-   
+
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfig, SLOT(exec()) );
    connect( mpConnectButton, SIGNAL(clicked()),
@@ -137,13 +137,13 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 
 #if 0
    QShortcut *skip = new QShortcut( QKeySequence(Qt::Key_F5), this );
-   
+
    connect( skip, SIGNAL(activated()),
             this, SLOT(handleSkipTrack()) );
 #endif
-   
+
    mpSettingsButton->setObjectName( QString("SettingsButton") );
-   
+
    setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
 }
 
@@ -153,7 +153,7 @@ ControlWidget::~ControlWidget()
    saveTracks( false );
    mpPlayer[0]->disconnect();
    mpPlayer[1]->disconnect();
-   
+
    if( mDerMixDprocess.state() != QProcess::NotRunning )
    {
       mDerMixDprocess.terminate();
@@ -172,7 +172,7 @@ void ControlWidget::saveTracks( bool unload )
    int i;
    QString current;
    QString next;
-   
+
    for( i = 0; i < 2; i++ )
    {
       switch( mpPlayer[i]->getState() )
@@ -190,9 +190,9 @@ void ControlWidget::saveTracks( bool unload )
             break;
       }
    }
-   
+
    mpPlaylist->savePlaylist( current, next );
-   
+
    if( unload )
    {
       if( !next.isEmpty() )
@@ -237,12 +237,12 @@ void ControlWidget::addToPlaylist( const QStringList &entries )
 void ControlWidget::initConnect()
 {
    MySettings settings;
-   
+
    if( !mConnected )
    {
       QString hostname( "localhost" );
       int port = settings.VALUE_DERMIXDPORT;
-      
+
       if( settings.VALUE_DERMIXDRUN )
       {
          QMutex mutex;
@@ -370,7 +370,7 @@ void ControlWidget::handleSkipTrack()
    if( mpSkipButton->isEnabled() )
    {
       bool checkstate = true;
-   
+
       mpSkipButton->clearFocus();
       if( (mpPlayer[0]->getState() == PlayerFSM::ready) ||
           (mpPlayer[1]->getState() == PlayerFSM::ready) )
@@ -386,7 +386,7 @@ void ControlWidget::handleSkipTrack()
          mpPlayer[1]->skip();
          checkstate = false;
       }
-      
+
       mpSkipButton->setChecked( checkstate );
    }
 }
@@ -435,7 +435,7 @@ void ControlWidget::handleSatellite( const QByteArray &msg )
             emit requestAddToPlaylist( dest, false );
          }
       }
-      
+
       if( src.at(0) == "P0A" )
       {
          if( mConnected )
@@ -450,7 +450,7 @@ void ControlWidget::handleSatellite( const QByteArray &msg )
             initConnect();
          }
       }
-      
+
       if( src.at(0) == "P0N" )
       {
          handleSkipTrack();
@@ -529,7 +529,7 @@ void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const
    {
       mLastP0p.clear();
    }
-   
+
    QString command( settings.VALUE_LOGCMD );
    if( !command.isEmpty() )
    {
@@ -596,8 +596,8 @@ void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
    }
    emit requestChangeTitle( mPlayIcon, title );
    mpTrayIcon->setToolTip( bubble );
-   if( settings.VALUE_TRAYICON && 
-       settings.VALUE_TRAYICONBUBBLE && 
+   if( settings.VALUE_TRAYICON &&
+       settings.VALUE_TRAYICONBUBBLE &&
        QSystemTrayIcon::supportsMessages() )
    {
       mpTrayIcon->showMessage( tr("Now Playing:"), bubble,

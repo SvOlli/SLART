@@ -1,7 +1,7 @@
 /**
  * src/apps/Stripped/CDEdit.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -61,7 +61,7 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
 {
    QVBoxLayout *outerLayout  = new QVBoxLayout( this );
    QHBoxLayout *buttonLayout = new QHBoxLayout();
-   
+
    setFocusPolicy(Qt::StrongFocus);
    outerLayout->setContentsMargins( 0, 0, 0, 0 );
 #if 0
@@ -91,12 +91,12 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
    mpTrackTitle    = new QLineEdit*[100];
    mpTrackYear     = new QLineEdit*[100];
    mpTrackPlaytime = new QLabel*[100];
-   
+
    mpMainLayout->setSpacing( 1 );
    mpMainLayout->setColumnStretch( 2, 1 );
    mpMainLayout->setColumnStretch( 3, 1 );
    mpLabelEnqueueTrack->setToolTip( tr("enqueue track in Partyman after ripping") );
-   
+
    mpMainLayout->addWidget( mpLabelDiscArtist, 0, 0 );
    mpMainLayout->addWidget( mpDiscArtist,      0, 1, 1, 4 );
    mpMainLayout->addWidget( mpLabelDiscTitle,  1, 0 );
@@ -106,14 +106,14 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
    mpMainLayout->addWidget( mpLabelDiscID,     0, 5 );
    mpMainLayout->addWidget( mpDiscID,          1, 5 );
    mpMainLayout->addWidget( mpDiscPlaytime,    2, 5 );
-   
+
    mpMainLayout->addWidget( mpLabelTrackNr,       3, 0 );
    mpMainLayout->addWidget( mpLabelEnqueueTrack,  3, 1 );
    mpMainLayout->addWidget( mpLabelTrackArtist,   3, 2 );
    mpMainLayout->addWidget( mpLabelTrackTitle,    3, 3 );
    mpMainLayout->addWidget( mpLabelTrackYear,     3, 4 );
    mpMainLayout->addWidget( mpLabelTrackPlaytime, 3, 5 );
-   
+
    for( int i = 0; i < 100; i++ )
    {
       if( i < 10 )
@@ -130,7 +130,7 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
       mpTrackYear[i]     = new CDEditLineEdit( this );
       mpTrackPlaytime[i] = new QLabel( this );
       mpTrackPlaytime[i]->setAlignment( Qt::AlignRight | Qt::AlignVCenter );
-      
+
       mpMainLayout->addWidget( mpTrackNr[i],       4+i, 0 );
       mpMainLayout->addWidget( mpEnqueueTrack[i],  4+i, 1 );
       mpMainLayout->addWidget( mpTrackArtist[i],   4+i, 2 );
@@ -144,7 +144,7 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
       setTrackHidden( i, true );
    }
    mpMainLayout->setRowStretch( 104, 1 );
-   
+
    buttonLayout->addWidget( mpToggleRipButton );
    buttonLayout->addWidget( mpToggleEnqueueButton );
    buttonLayout->addWidget( mpCopyArtistButton );
@@ -156,7 +156,7 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
    mpScrollArea->setWidgetResizable( true );
    outerLayout->addWidget( mpScrollArea );
    outerLayout->addLayout( buttonLayout );
-   
+
    connect( mpToggleRipButton,      SIGNAL(clicked()), this, SLOT(handleTrackNr()) );
    connect( mpToggleEnqueueButton,  SIGNAL(clicked()), this, SLOT(handleEnqueueTrack()) );
    connect( mpCopyArtistButton,     SIGNAL(clicked()), this, SLOT(handleTrackArtist()) );
@@ -175,7 +175,7 @@ void CDEdit::clear()
    mpDiscGenre->clear();
    mpDiscID->setText( "00000000" );
    mpDiscPlaytime->clear();
-   
+
    for( int i = 0; i < 100; i++ )
    {
       mpTrackArtist[i]->clear();
@@ -183,7 +183,7 @@ void CDEdit::clear()
       mpTrackYear[i]->clear();
       setTrackHidden( i, true );
    }
-   
+
    emit containsData( false );
 }
 
@@ -235,7 +235,7 @@ void CDEdit::handleEnqueueTrack()
 void CDEdit::handleTrackArtist()
 {
    QString artist( mpDiscArtist->text() );
-   
+
    for( int i = 0; i < 100; i++ )
    {
       mpTrackArtist[i]->setText( artist );
@@ -271,14 +271,14 @@ void CDEdit::handleTrackYear()
 {
    int i=0;
    QString year;
-   
+
    if( mpTrackNr[0]->isHidden() )
    {
       i++;
    }
-   
+
    year = mpTrackYear[i]->text();
-   
+
    while( ++i < 100 )
    {
       mpTrackYear[i]->setText( year );
@@ -366,7 +366,7 @@ void CDEdit::update()
       mpTrackYear[0]->setDisabled( false );
    }
    mpScrollWidget->resize( mpScrollArea->width() - 20, count * 24 );
-   
+
    emit containsData( true );
 }
 

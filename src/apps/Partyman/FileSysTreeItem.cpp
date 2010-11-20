@@ -1,7 +1,7 @@
 /**
  * src/apps/Partyman/FileSysTreeItem.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -42,7 +42,7 @@ FileSysTreeItem *FileSysTreeItem::child(int row)
 FileSysTreeItem *FileSysTreeItem::child(const QVariant &data)
 {
    int i;
-   
+
    /* search for item and create it if not found */
    for( i = 0; i < mChildItems.size(); i++ )
    {
@@ -55,11 +55,11 @@ FileSysTreeItem *FileSysTreeItem::child(const QVariant &data)
          break;
       }
    }
-   
+
    FileSysTreeItem *fstitem = new FileSysTreeItem( data, this );
-   
+
    mChildItems.insert( i, fstitem );
-   
+
    return fstitem;
 }
 

@@ -1,7 +1,7 @@
 /**
  * src/apps/Rubberbandman/MainWidget.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -41,15 +41,15 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
-   
+
    mpTabs->addTab( mpBrowseWidget,   tr("Filesystem") );
    mpTabs->addTab( mpSatelliteWidget, tr("Partyman") );
    mpTabs->addTab( mpDatabaseWidget, tr("Database") );
    mpTabs->setCurrentIndex( settings.VALUE_CURRENTTAB );
-   
+
    mainLayout->addWidget( mpTabs );
    mainLayout->addWidget( mpSettingsButton );
-   
+
    connect( mpSatelliteWidget, SIGNAL( showInFilesystem(const QString&) ),
             mpBrowseWidget, SLOT(scrollTo(const QString&)) );
    connect( mpSatelliteWidget, SIGNAL( showInFilesystem(const QString&) ),
@@ -60,11 +60,11 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             mpConfigDialog, SLOT(exec()) );
    connect( mpSatelliteWidget, SIGNAL(partymanConfigUpdate()),
             mpDatabaseWidget, SLOT(readPartymanConfig()) );
-   
+
    setLayout( mainLayout );
-   
+
    mpSettingsButton->setObjectName( QString("SettingsButton") );
-   
+
    Satellite::get()->send( "P0R" );
 
    WidgetShot::addWidget( "MainWidget", this );

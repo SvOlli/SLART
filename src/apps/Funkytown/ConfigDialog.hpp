@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/ConfigDialog.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -35,10 +35,10 @@ class ProxyWidget;
 class ConfigDialog : public QDialog
 {
 Q_OBJECT
-   
+
 public:
    ConfigDialog( QWidget *parent = 0 );
-   
+
 public slots:
    /* execute the dialog */
    void exec();
@@ -50,11 +50,11 @@ public slots:
    void logMessage( const QString &message );
    /* handle the clear button */
    void handleClear();
-   
+
 private:
    ConfigDialog( const ConfigDialog &that );
    ConfigDialog &operator=( const ConfigDialog &that );
-   
+
    ProxyWidget        *mpProxyWidget;
    QListWidget        *mpLogList;
    QTextBrowser       *mpHelpText;

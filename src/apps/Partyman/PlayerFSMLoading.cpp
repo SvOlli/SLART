@@ -39,7 +39,7 @@ bool PlayerFSMLoading::enter()
 
    mInScan = false;
    QString fileName( mpPlayerWidget->mpScrollLine->toolTip() );
-   
+
 #if 0
    mpPlayerWidget->mpDatabase->getTrackInfo( &(mpPlayerWidget->mTrackInfo), fileName );
 #endif
@@ -59,7 +59,7 @@ bool PlayerFSMLoading::enter()
    {
       needRescan = true;
    }
-   
+
    if( needRescan )
    {
       /* request normalization volume */
@@ -82,7 +82,7 @@ bool PlayerFSMLoading::enter()
    {
       mpPlayerWidget->mpFSM->changeState( PlayerFSM::ready );
    }
-   
+
    return true;
 }
 
@@ -98,7 +98,7 @@ enum PlayerFSM::eState PlayerFSMLoading::handleDerMixD( const QString &msg )
    {
       mpPlayerWidget->handleScan( msg );
    }
-   
+
    if( msg.startsWith( "[scan]" ) )
    {
       if( msg.endsWith( "+begin" ) )
@@ -108,7 +108,7 @@ enum PlayerFSM::eState PlayerFSMLoading::handleDerMixD( const QString &msg )
       else if( msg.endsWith( "-end" ) )
       {
          mInScan = false;
-         
+
          return PlayerFSM::ready;
       }
       else if( msg.startsWith( "[scan] error:" ) )
@@ -116,7 +116,7 @@ enum PlayerFSM::eState PlayerFSMLoading::handleDerMixD( const QString &msg )
          mpPlayerWidget->mpFSM->changeState( PlayerFSM::searching );
       }
    }
-   
+
    return PlayerFSM::loading;
 }
 

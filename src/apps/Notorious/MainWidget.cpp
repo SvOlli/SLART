@@ -36,21 +36,21 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    setMinimumSize( 600, 400 );
    QBoxLayout *mainLayout   = new QVBoxLayout( this );
    QSplitter  *splitter     = new QSplitter( this );
-   
+
    splitter->setOrientation( Qt::Vertical );
-   
+
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
-   
+
    splitter->addWidget( mpFound );
    splitter->addWidget( mpCDInfo );
-   
+
    mainLayout->addWidget( mpSearch );
    mainLayout->addWidget( splitter );
    mainLayout->addWidget( mpSettingsButton );
-   
+
    setLayout( mainLayout );
-   
+
    connect( mpSearch, SIGNAL( submit( const QString &) ),
             this, SLOT( runQuery(const QString &) ) );
    connect( mpFound, SIGNAL( clicked( const QString &, const QString & ) ),
@@ -61,7 +61,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             mpSearch, SLOT(query2Running(bool) ) );
    connect( mpSettingsButton, SIGNAL( clicked() ),
             mpConfig, SLOT( exec() ) );
-   
+
    mpSettingsButton->setObjectName( QString("SettingsButton") );
 
    WidgetShot::addWidget( "MainWidget", this );

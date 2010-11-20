@@ -1,7 +1,7 @@
 /**
  * src/apps/Rubberbandman/InfoEdit.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -43,12 +43,12 @@ class ScrollLine;
 class InfoEdit : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    InfoEdit( Database *database, QWidget *parent = 0 );
    QString tagsFileName( const QString &pattern, bool filterPath = true );
    QString fileName();
-   
+
 public slots:
    /* load tags from a file */
    void load( const QString &fullpath = QString() );
@@ -66,17 +66,17 @@ public slots:
    void handleFlagsMenu( QAction *action );
    /* handle the folders menu */
    void handleFoldersMenu( QAction *action );
-   
+
 signals:
    /* data has been read */
    void fileStats( bool isValid, bool isFile );
    /* the data has been updated */
    void updated();
-   
+
 private:
    InfoEdit( const InfoEdit &that );
    InfoEdit &operator=( const InfoEdit &that );
-   
+
    /* normalize a line edit field */
    void normalize( QLineEdit *lineEdit );
    /* load tags from a file */
@@ -87,24 +87,24 @@ private:
    void recurse( const QDir &dir, bool isBase = true );
    /* update the info of the track concerning flags and folders */
    void updateDatabaseInfo( bool withRecurse );
-   
+
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;
-   
+
    QPushButton *mpButtonSet;
    QPushButton *mpButtonNormArtist;
    QPushButton *mpButtonNormTitle;
    QPushButton *mpButtonCancel;
-   
+
    QGroupBox *mpFileGroupBox;
    QGroupBox *mpTagGroupBox;
    QGroupBox *mpDatabaseGroupBox;
-   
+
    ScrollLine *mpShowPathName;
    ScrollLine *mpShowFileName;
    ScrollLine *mpShowSize;
    ScrollLine *mpShowPlayTime;
-   
+
    QLineEdit *mpEditArtist;
    QLineEdit *mpEditTitle;
    QLineEdit *mpEditAlbum;
@@ -113,7 +113,7 @@ private:
    QLineEdit *mpEditGenre;
    QIntValidator *mpValidateTrackNr;
    QIntValidator *mpValidateYear;
-   
+
    QPushButton  *mpButtonFlags;
    QMenu        *mpMenuFlags;
    QLabel       *mpShowTimesPlayed;
@@ -126,7 +126,7 @@ private:
    QAction      *mpTrackScannedFlag;
    QAction      *mpRecurseSetFolders;
    QAction      *mpRecurseUnsetFolders;
-   
+
    int          mRecurseMode;
    bool         mIsValid;
    bool         mIsFile;

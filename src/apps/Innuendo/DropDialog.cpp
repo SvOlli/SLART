@@ -58,23 +58,23 @@ DropDialog::DropDialog( QWidget *parent, Qt::WindowFlags flags )
    buttonLayout->addWidget( mpHtml );
    buttonLayout->addWidget( mpText );
    buttonLayout->addWidget( mpUrls );
-   
+
    QBoxLayout *layout = new QVBoxLayout( this );
    layout->addWidget( mpMimeTypes );
    layout->addLayout( buttonLayout );
    layout->addWidget( mpTextBrowser );
    layout->addWidget( okButton );
-   
+
    connect( okButton, SIGNAL(clicked()),
             this, SLOT(accept()) );
    connect( mpMimeTypes, SIGNAL(currentIndexChanged(int)),
             this, SLOT(mimeDataByIndex(int)) );
    connect( mpSignalMapper, SIGNAL(mapped(int)),
             mpMimeTypes, SLOT(setCurrentIndex(int)));
-   
+
    setMinimumSize( 600, 400 );
    setLayout( layout );
-   
+
    setAcceptDrops( true );
 }
 
@@ -110,7 +110,7 @@ void DropDialog::getMimeData( const QMimeData *remoteMimeData )
       mpMimeTypes->addItem( tr("Urls List") );
    }
    mpMimeTypes->addItems( remoteMimeData->formats() );
-   
+
    QString text;
    foreach( const QUrl &url, remoteMimeData->urls() )
    {
@@ -144,7 +144,7 @@ void DropDialog::getMimeData( const QMimeData *remoteMimeData )
 void DropDialog::dropEvent( QDropEvent *event )
 {
    getMimeData( event->mimeData() );
-   
+
    event->acceptProposedAction();
 }
 

@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/TagList.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -17,7 +17,7 @@ class TagList
 public:
    TagList();
    TagList &operator=( const TagList &that );
-   
+
    /* return number of tags */
    int count() const;
    /* clear all tags */
@@ -36,10 +36,10 @@ public:
    static QString normalizeString( const QString &string );
    /* normalize a tag */
    QString normalizeTag( const QString &tag );
-   
+
 private:
    TagList( const TagList &that );
-   
+
    QStringList mTags;
    QStringList mValues;
 };

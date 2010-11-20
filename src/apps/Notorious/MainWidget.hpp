@@ -34,22 +34,22 @@ class SearchWidget;
 class MainWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 protected:
-   
+
 public slots:
    void runQuery( const QString &query );
    void handleClicked( const QString &category, const QString &id );
-   
+
 signals:
-   
+
 private:
    MainWidget( const MainWidget &that );
    MainWidget &operator=( const MainWidget &that );
-   
+
    FreeDB       *mpFreeDB;
    SearchWidget *mpSearch;
    Foundlist    *mpFound;

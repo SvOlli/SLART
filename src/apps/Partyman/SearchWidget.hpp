@@ -1,7 +1,7 @@
 /**
  * src/apps/Partyman/SearchWidget.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -34,11 +34,11 @@ class PlaylistControlWidget;
 class SearchWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    SearchWidget( Database *database, PlaylistControlWidget *parent );
    virtual ~SearchWidget();
-   
+
 public slots:
    /* execute search */
    void search();
@@ -52,7 +52,7 @@ public slots:
 private:
    SearchWidget( const SearchWidget &that );
    SearchWidget &operator=( const SearchWidget &that );
-   
+
    Database              *mpDatabase;
    PlaylistControlWidget *mpPlaylist;
    PlaylistContentWidget *mpResults;

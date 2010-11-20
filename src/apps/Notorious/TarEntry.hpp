@@ -44,7 +44,7 @@ private:
    const QChar   mBadData;
    const QChar   mQuote;
    const QString mDoubleQuote;
-   
+
    QString     mCategory;
    QString     mID;
    QString     mData;

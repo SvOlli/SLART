@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/MagicQueue.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -33,11 +33,11 @@ class TheMagic;
 class MagicQueue : public QListWidget
 {
 Q_OBJECT
-   
+
 public:
    MagicQueue( QWidget *parent = 0 );
    virtual ~MagicQueue();
-   
+
    /* generate a magic item from url and cue it */
    void addUrl( const QString &addurl );
    /* cue an anready generated magic item */
@@ -48,13 +48,13 @@ public:
 public slots:
    /* handler to set selection of an item in the queue */
    void handleSelect( QListWidgetItem *item );
-   
+
 private:
    MagicQueue( const MagicQueue &that );
    MagicQueue &operator=( const MagicQueue &that );
-   
+
    QList<TheMagic*> mMagicList;
-   
+
 #if LIST_NEEDS_FIXING
    void updateList();
 #endif

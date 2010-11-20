@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/ScrollLine.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -31,20 +31,20 @@ class QTimer;
 class ScrollLine : public QLineEdit
 {
 Q_OBJECT
-   
+
 public:
    ScrollLine( QWidget *parent, bool autoScroll = true );
    virtual ~ScrollLine();
 
    /* set the filename to use when dragged */
    void setDragFileName( const QString &fileName = QString() );
-   
+
 public slots:
    /* callback for timer to scroll */
    void scrolling();
    /* intercept setText for resetting scroll position */
    void setText( const QString &text );
-   
+
 protected:
    /* handle mouse event for correct copy'n'paste */
    void mouseDoubleClickEvent( QMouseEvent *event );
@@ -58,7 +58,7 @@ protected:
 private:
    ScrollLine( const ScrollLine &that );
    ScrollLine &operator=( const ScrollLine &that );
-   
+
    static QTimer        *cpTimer;
    bool                 mClicked;
    int                  mDirection;

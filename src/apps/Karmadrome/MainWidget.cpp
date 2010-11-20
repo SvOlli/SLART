@@ -59,13 +59,13 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 {
    qsrand( time((time_t*)0) );
    QGridLayout *mainLayout   = new QGridLayout( this );
-   
+
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
-   
+
    mpTimer->setSingleShot( true );
    mpTimer->setInterval( 2000 );
-   
+
    mpExportButton->setMenu( mpExportMenu );
    mpImportButton->setMenu( mpImportMenu );
    mpRemoveButton->setMenu( mpRemoveMenu );
@@ -79,20 +79,20 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mainLayout->addWidget( mpSettingsButton, 4, 0 );
    mainLayout->addWidget( mpAddButton,      4, 1 );
    mainLayout->addWidget( mpRemoveButton,   4, 2 );
-   
+
    mainLayout->setRowStretch( 0, 0 );
    mainLayout->setRowStretch( 1, 0 );
    mainLayout->setRowStretch( 2, 0 );
    mainLayout->setRowStretch( 3, 1 );
    mainLayout->setRowStretch( 4, 0 );
-   
+
    setLayout( mainLayout );
-   
+
    updateLists();
 
    connect( mpSatellite, SIGNAL(received(const QByteArray &)),
             this, SLOT(handleSatellite(const QByteArray &)) );
-   
+
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfigDialog, SLOT(exec()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
@@ -103,7 +103,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             mpConfigDialog, SLOT(readSettings()) );
    connect( mpTimer, SIGNAL(timeout()),
             this, SLOT(sendK0u()) );
-   
+
    connect( mpReadButton, SIGNAL(clicked()),
             this, SLOT(handleReadButton()) );
    connect( mpExportMenu, SIGNAL(triggered(QAction *)),
@@ -120,9 +120,9 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(updateTrackInfo(const TrackInfo &)));
 
    labelReadButton();
-   
+
    mpSettingsButton->setObjectName( QString("SettingsButton") );
-   
+
    mpListButtons->setDisabled( true );
 
    WidgetShot::addWidget( "MainWidget", this );
@@ -189,14 +189,14 @@ void MainWidget::handleSatellite( const QByteArray &msg )
                   return;
                }
             }
-            
+
             MySettings settings;
             mpImportExport->exportM3u( message.at(1), message.at(2),
                                        settings.VALUE_EXPORTASRELATIVE,
                                        settings.VALUE_RANDOMIZEEXPORT );
          }
       }
-      
+
       if( message.at(0) == "K0I" )
       {
          if( message.at(2).startsWith( "/" ) )
@@ -206,7 +206,7 @@ void MainWidget::handleSatellite( const QByteArray &msg )
          }
       }
    }
-   
+
    if( message.count() > 1 )
    {
       if( message.at(0) == "K0A" )
@@ -218,7 +218,7 @@ void MainWidget::handleSatellite( const QByteArray &msg )
             mpTimer->start();
          }
       }
-      
+
       if( message.at(0) == "p0p" )
       {
          mpFileName->setText( message.at(1) );
@@ -228,7 +228,7 @@ void MainWidget::handleSatellite( const QByteArray &msg )
          mpListButtons->lockButtons( mTrackInfo.getFolders() );
       }
    }
-   
+
    if( message.at(0) == "p0s" )
    {
       mTrackInfo.clear();
@@ -237,8 +237,8 @@ void MainWidget::handleSatellite( const QByteArray &msg )
       mpListButtons->setDisabled( true );
       mpTrackInfo->getTrack( mTrackInfo );
    }
-   
-   if( (message.at(0) == "p0u") || 
+
+   if( (message.at(0) == "p0u") ||
        (message.at(0) == "r0u") )
    {
       mpDatabase->getTrackInfo( &mTrackInfo );
@@ -253,23 +253,23 @@ void MainWidget::updateLists()
    int i;
    mPlaylists = mpDatabase->getFolders();
    mPlaylists.sort();
-   
+
    mpListButtons->updateButtons( mPlaylists );
    mpExportMenu->clear();
    mpImportMenu->clear();
    mpRemoveMenu->clear();
-   
+
    mpExportMenu->addAction( mpExportFavorite );
    mpImportMenu->addAction( mpImportFavorite );
    mpExportMenu->addAction( mpExportUnwanted );
    mpImportMenu->addAction( mpImportUnwanted );
-   
+
    if( mPlaylists.count() > 0 )
    {
       mpExportMenu->addSeparator();
       mpImportMenu->addSeparator();
    }
-   
+
    for( i = 0; i < mPlaylists.count(); i++ )
    {
       mpExportMenu->addAction( mPlaylists.at(i) );
@@ -341,7 +341,7 @@ void MainWidget::handleExport( QAction *action )
       {
          folder = QChar(2);
       }
-      mpImportExport->exportM3u( folder, fileName, 
+      mpImportExport->exportM3u( folder, fileName,
                                  settings.VALUE_EXPORTASRELATIVE,
                                  settings.VALUE_RANDOMIZEEXPORT );
    }
@@ -370,7 +370,7 @@ void MainWidget::handleImport( QAction *action )
       TrackInfo trackInfo;
       settings.setValue( "ImportDirectory", dialog.directory().absolutePath() );
       QString cwd( QDir::currentPath() );
-      
+
       QString folder( action->text() );
       if( action == mpImportFavorite )
       {
@@ -380,7 +380,7 @@ void MainWidget::handleImport( QAction *action )
       {
          folder = QChar(2);
       }
-      
+
       for( int i = 0; i < dialog.selectedFiles().count(); i++ )
       {
          mpImportExport->importM3u( folder, dialog.selectedFiles().at(i),

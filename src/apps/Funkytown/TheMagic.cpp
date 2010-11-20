@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/TheMagic.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -132,7 +132,7 @@ void TheMagic::setContentType( const QString &contentType )
    mContentType = contentType;
 }
 
-   
+
 QIODevice *TheMagic::ioDevice()
 {
    if( mDownloadToFile )
@@ -150,7 +150,7 @@ void TheMagic::downloadToFile()
 {
    sanitizeFileName();
    mpFile = new QFile( mFileName );
-   
+
    if( !(MySettings().VALUE_OVERWRITE) )
    {
       if( mpFile->exists() )
@@ -159,13 +159,13 @@ void TheMagic::downloadToFile()
          mpFile = 0;
       }
    }
-   
+
    if( mpFile && !(mpFile->open( QIODevice::WriteOnly )) )
    {
       delete mpFile;
       mpFile = 0;
    }
-   
+
    mDownloadToFile = true;
 }
 
@@ -173,9 +173,9 @@ void TheMagic::downloadToFile()
 void TheMagic::downloadToBuffer()
 {
    mpBuffer = new QBuffer;
-   
+
    mpBuffer->open(QBuffer::WriteOnly);
-   
+
    mDownloadToFile = false;
 }
 
@@ -192,7 +192,7 @@ void TheMagic::downloadClose()
       delete mpFile;
       mpFile = 0;
    }
-   
+
    if( mpBuffer )
    {
       if( mContentType.contains( "UTF-8", Qt::CaseInsensitive ) || mContentType.contains( "UTF8", Qt::CaseInsensitive ) )
@@ -212,7 +212,7 @@ void TheMagic::downloadClose()
       mpBuffer = 0;
    }
 }
- 
+
 
 
 void TheMagic::sanitizeFileName()
@@ -222,7 +222,7 @@ void TheMagic::sanitizeFileName()
    // remove illegal characters
    mFileName.remove( QRegExp("[\\\\:?]") );
    // replace other illegal characters
-   mFileName.replace( QRegExp("[<>;\"|/\\*]"), "_" ); 
+   mFileName.replace( QRegExp("[<>;\"|/\\*]"), "_" );
 }
 
 
@@ -271,7 +271,7 @@ TRACESTART(DownloadHandler::postDownload)
 #endif
    mSuccess &= success;
    downloadClose();
-   
+
    if( mSuccess )
    {
       switch( mStage )
@@ -357,11 +357,11 @@ void TheMagic::processGenericFile()
          qulonglong total = settings.VALUE_BYTES;
          total += fileinfo.size();
          settings.setValue( "Bytes", total );
-         
+
          unsigned int count = settings.VALUE_FILES + 1;
          settings.setValue( "Files", count );
       }
-      
+
       mpSatellite->send( QByteArray("f0v\n") +
                          QDir::current().absoluteFilePath( mFileName ).toUtf8() );
    }
@@ -378,7 +378,7 @@ TRACESTART(TheMagic::parseGenericHTML)
    QString embed;
    QString line;
    QRegExp href( "href=.*mp3", Qt::CaseInsensitive );
-   
+
    QStringList qsl( mBuffer.split( QChar('\n') ) );
    foreach( QString line, qsl )
    {
@@ -389,12 +389,12 @@ TRACESTART(TheMagic::parseGenericHTML)
          embed.replace( QRegExp(".*\"http://"), "http://" );
          embed.remove( QRegExp("&.*") );
          embed.replace( "/v/", "/watch?v=" );
-         
+
          TheMagic *magic = new TheMagic( *this );
          magic->mURL = embed;
          magic->mStage = stageYouTubeHTML;
          magic->mReferer = mURL;
-         
+
          mpMagicQueue->addMagic( magic );
       }
       pos = line.indexOf( href );
@@ -404,7 +404,7 @@ TRACESTART(TheMagic::parseGenericHTML)
          mp3ref.remove( QRegExp("^.*href=['\"]*") );
          mp3ref.remove( QRegExp("\\.mp3['\"]*.*$") );
          mp3ref.append( ".mp3" );
-         
+
          if( !mp3ref.startsWith( "http://" ) )
          {
             if( mp3ref.startsWith( "/" ) )
@@ -418,12 +418,12 @@ TRACESTART(TheMagic::parseGenericHTML)
          }
          QString filename( mp3ref );
          filename.remove( QRegExp( "^.*/" ) );
-         
+
          TheMagic *magic = new TheMagic( *this );
          magic->mURL = mp3ref;
          magic->mStage = stageGenericFile;
          magic->mReferer = mURL;
-         
+
          mpMagicQueue->addMagic( magic );
       }
    }
@@ -441,7 +441,7 @@ TRACESTART(TheMagic::parseYouTubeHTML)
    QString t;
    QString title;
    QString videoID;
-   
+
    QStringList qsl( mBuffer.split( QChar('\n') ) );
    foreach( line, qsl )
    {
@@ -455,12 +455,12 @@ TRACESTART(TheMagic::parseYouTubeHTML)
             {
                t=parts.at(pos);
             }
-            
+
             if( parts.at(pos).startsWith( "video_id=" ) )
             {
                videoID=parts.at(pos);
             }
-            
+
             if( parts.at(pos).startsWith( "title=" ) )
             {
                title=parts.at(pos).left(parts.at(pos).lastIndexOf("'")).mid(6);
@@ -468,7 +468,7 @@ TRACESTART(TheMagic::parseYouTubeHTML)
          }
       }
    }
-   
+
    if( !(videoID.isEmpty()) && !(t.isEmpty()) && !(title.isEmpty()) )
    {
       TheMagic *magic = new TheMagic( *this );
@@ -492,7 +492,7 @@ void TheMagic::parseMySpaceHTML()
    const QString artid("&artid=");
    const QChar   ampersand('&');
    //QString line;
-   
+
    QStringList qsl( mBuffer.split( QChar('\n') ) );
    foreach( QString line, qsl )
    {
@@ -507,7 +507,7 @@ void TheMagic::parseMySpaceHTML()
             mMySpaceArtId = line.mid( pos, endPos-pos );
          }
       }
-      
+
       pos = line.indexOf( profid, 0, Qt::CaseInsensitive );
       if( pos >= 0 )
       {
@@ -528,7 +528,7 @@ void TheMagic::parseMySpaceHTML()
       magic->mStage = stageMySpaceOldXML;
       magic->mReferer = mURL;
       mpMagicQueue->addMagic( magic );
-      
+
       if( !mMySpaceArtId.isEmpty() )
       {
          TheMagic *magic = new TheMagic( *this );
@@ -548,7 +548,7 @@ void TheMagic::parseMySpaceOldXML()
    int i;
    bool quoton = false;
    bool cdataon = false;
-   
+
    for( i = 0; i < mBuffer.size(); i++ )
    {
       if( mBuffer.mid(i,8) == QString("![CDATA[") )
@@ -577,7 +577,7 @@ void TheMagic::parseMySpaceOldXML()
             break;
       }
    }
-   
+
    QStringList dataList = mBuffer.split( "\n", QString::SkipEmptyParts );
    QString xmlName;
    QString xmlTitle;
@@ -600,8 +600,8 @@ void TheMagic::parseMySpaceOldXML()
          xmlTitle.replace( QRegExp( ".*\"(.*)\".*" ), "\\1" );
       }
       if( dataList.at(i).startsWith("curl=") ||
-          dataList.at(i).startsWith("durl=") || 
-          dataList.at(i).startsWith("purl=") || 
+          dataList.at(i).startsWith("durl=") ||
+          dataList.at(i).startsWith("purl=") ||
           dataList.at(i).startsWith("downloadable=") )
       {
          xmlUrl = dataList.at(i);
@@ -633,13 +633,13 @@ void TheMagic::parseMySpaceOldXML()
 void TheMagic::parseMySpaceMP3()
 {
    QString full_("/full_");
-   
+
    QFileInfo fileinfo( mFileName );
    if( !(fileinfo.size()) )
    {
       mSuccess = false;
    }
-   
+
    if( mSuccess )
    {
       MySettings settings;
@@ -648,11 +648,11 @@ void TheMagic::parseMySpaceMP3()
          qulonglong total = settings.VALUE_BYTES;
          total += fileinfo.size();
          settings.setValue( "Bytes", total );
-         
+
          unsigned int count = settings.VALUE_FILES + 1;
          settings.setValue( "Files", count );
       }
-      
+
       mpSatellite->send( QByteArray("f0d\n") +
                          QDir::current().absoluteFilePath( mFileName ).toUtf8() );
       if( mSelected )
@@ -666,7 +666,7 @@ void TheMagic::parseMySpaceMP3()
       if( mURL.indexOf( full_ ) >= 0 )
       {
          QString std_("/std_");
-         
+
          TheMagic *magic = new TheMagic( *this );
          magic->mURL.replace( full_, std_ );
          mpMagicQueue->addMagic( magic );
@@ -679,7 +679,7 @@ void TheMagic::parseMySpacePlaylists()
 {
    int pos;
    const QString playlistId("playlistId=");
-   
+
    QStringList qsl( mBuffer.split( QRegExp("[<>]") ) );
    foreach( QString line, qsl )
    {
@@ -687,7 +687,7 @@ void TheMagic::parseMySpacePlaylists()
       if( pos >= 0 )
       {
          mMySpacePlaylistId = xmlParam( line, pos );
-         
+
          TheMagic *magic = new TheMagic( *this );
          magic->mURL = QString("http://musicservices.myspace.com/Modules/MusicServices/Services/MusicPlayerService.ashx?"
                                "action=getArtistPlaylist&artistId=");
@@ -707,17 +707,17 @@ void TheMagic::parseMySpaceArtistPlaylist()
 {
    int pos;
    const QString songId("songId=");
-   
+
    QStringList qsl( mBuffer.split( QRegExp("[<>]") ) );
    for( int i = 0; i < qsl.size()-1; i++ )
    {
       const QString line( qsl.at(i) );
-      
+
       pos = line.indexOf( songId, 0, Qt::CaseInsensitive );
       if( pos >= 0 )
       {
          mMySpaceSongId = xmlParam( qsl.at(i), pos );
-         
+
          TheMagic *magic = new TheMagic( *this );
          magic->mURL = QString("http://musicservices.myspace.com/Modules/MusicServices/Services/MusicPlayerService.ashx?"
                                "action=getSong&songId=");
@@ -742,22 +742,22 @@ void TheMagic::parseMySpaceSong()
    QString xmlArtist;
    QString xmlTitle;
    QString xmlCover;
-   
+
    QStringList qsl( mBuffer.split( QRegExp("[<>]") ) );
    for( int i = 0; i < qsl.size() - 1; i++ )
    {
       const QString line( qsl.at(i) );
-      
+
       if( line.startsWith( title, Qt::CaseInsensitive ) )
       {
          xmlTitle = qsl.at(i+1);
       }
-      
+
       if( line.startsWith( link, Qt::CaseInsensitive ) )
       {
          mURL = qsl.at(i+1);
       }
-      
+
       if( line.startsWith( artist, Qt::CaseInsensitive ) )
       {
          pos = line.indexOf( name, 0, Qt::CaseInsensitive );
@@ -766,19 +766,19 @@ void TheMagic::parseMySpaceSong()
             xmlArtist = xmlParam( qsl.at(i), pos );
          }
       }
-      
+
       if( line.startsWith( rtmp, Qt::CaseInsensitive ) )
       {
 #if RTMP_TO_STDOUT
 qDebug() << line;
 #endif
       }
-      
+
       if( line.startsWith( large, Qt::CaseInsensitive ) )
       {
          xmlCover = qsl.at(i+1);
       }
-      
+
       pos = line.indexOf( endtrack, 0, Qt::CaseInsensitive );
       if( pos >= 0 )
       {
@@ -789,13 +789,13 @@ qDebug() << line;
             fileName.append( xmlTitle );
             mURL.replace("std_","full_");
             mURL.replace("&amp;","&");
-            
+
             TheMagic *magic = new TheMagic( *this );
             magic->mFileName = fileName;
             magic->mFileName.append( QString(".mp3") );
             magic->mStage = stageMySpaceMP3;
             mpMagicQueue->addMagic( magic );
-            
+
             if( !(xmlCover.isEmpty()) && MySettings().VALUE_COVERART )
             {
                TheMagic *magic = new TheMagic( *this );

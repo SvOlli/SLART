@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/Database.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -57,14 +57,14 @@ Database::Database( const QString &fileName )
 , mCodeVersion( 1 )
 {
    qsrand( time((time_t*)0) );
-   
+
    if( mpSqlDB->lastError().type() != QSqlError::NoError )
    {
       QMessageBox::critical( 0, QApplication::applicationName() + QWidget::tr(": Error"),
                              QWidget::tr("Could not open database.\nPlease make sure that the SQLite driver for Qt is installed.") );
       exit(1);
    }
-   
+
    if( fileName.isEmpty() )
    {
       mpSqlDB->setDatabaseName( getDatabaseFileName() );
@@ -73,14 +73,14 @@ Database::Database( const QString &fileName )
    {
       mpSqlDB->setDatabaseName( fileName );
    }
-   
+
    if(!mpSqlDB->open())
    {
       // TODO: some error handling
       logError( QString("open() failed\nDatabase: ") + mpSqlDB->lastError().driverText() );
    }
    mpQuery = new QSqlQuery;
-   
+
    if( mpQuery->exec( "SELECT value FROM slart_config WHERE key = 'Version';" ) )
    {
       if( mpQuery->next() )
@@ -93,17 +93,17 @@ Database::Database( const QString &fileName )
       logError();
    }
    mpQuery->clear();
-   
+
    if( !mDatabaseVersion )
    {
       /* create database */
       QStringList initSQL;
-      initSQL 
+      initSQL
       << "CREATE TABLE slart_config (key VARCHAR PRIMARY KEY,"
                                     "value VARCHAR);"
       << "INSERT OR REPLACE INTO slart_config(key,value) VALUES ('Version'," +
                                     QString::number(mCodeVersion) + ");"
-      
+
       << "CREATE TABLE slart_tracks (id INTEGER PRIMARY KEY,"
                                     "Directory VARCHAR,"
                                     "FileName VARCHAR,"
@@ -124,14 +124,14 @@ Database::Database( const QString &fileName )
       << "CREATE INDEX slart_tracks_filename ON slart_tracks (FileName);"
       << "CREATE INDEX slart_tracks_artist ON slart_tracks (Artist);"
       << "CREATE INDEX slart_tracks_title ON slart_tracks (Title);"
-      
+
       << "CREATE TABLE slart_folders (id INTEGER PRIMARY KEY,"
                                     "Name VARCHAR,"
                                     "FileName VARCHAR);"
       << "CREATE UNIQUE INDEX slart_folders_name ON slart_folders (Name);"
-      
+
       ;
-      
+
       foreach( const QString &statement, initSQL )
       {
          if( !mpQuery->exec( statement ) )
@@ -160,7 +160,7 @@ Database::Database( const QString &fileName )
                // should not happen
                break;
          }
-         
+
          updateSQL
          << "UPDATE TABLE slart_config SET value = " + QString::number( mCodeVersion )
             + " WHERE key = 'Version';"
@@ -207,13 +207,13 @@ void Database::cleanup()
 
 
 bool Database::beginTransaction()
-{ 
+{
    return mpSqlDB->transaction();
 }
 
 
 bool Database::endTransaction( bool commit )
-{ 
+{
    return commit ? mpSqlDB->commit() : mpSqlDB->rollback();
 }
 
@@ -239,16 +239,16 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
    {
       int fileNameStart = fileName.lastIndexOf('/');
       sql.append( "Directory = :directory AND FileName = :fileName ;" );
-      
+
       mpQuery->prepare( sql );
       mpQuery->bindValue( ":directory", fileName.left(fileNameStart) );
-      mpQuery->bindValue( ":fileName", fileName.mid(fileNameStart+1) );   
+      mpQuery->bindValue( ":fileName", fileName.mid(fileNameStart+1) );
    }
    if( !mpQuery->exec() )
    {
       logError();
    }
-   
+
    if( mpQuery->next() )
    {
       if( trackInfo )
@@ -270,7 +270,7 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
          trackInfo->mFolders      = mpQuery->value(14).toString();
          trackInfo->mFlags        = mpQuery->value(15).toUInt();
       }
-      
+
       mpQuery->clear();
       return true;
    }
@@ -290,7 +290,7 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
          trackInfo->mFolders.clear();
          trackInfo->mFlags = 0;
       }
-      
+
       mpQuery->clear();
       return false;
    }
@@ -321,7 +321,7 @@ int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QString &sea
       {
          logError();
       }
-      
+
       trackInfoList->clear();
       while( mpQuery->next() )
       {
@@ -491,7 +491,7 @@ void Database::deleteTrackInfo( const TrackInfo *trackInfo )
 QStringList Database::getFolders()
 {
    QStringList folders;
-   
+
    mpQuery->prepare( "SELECT Name FROM slart_folders ORDER BY Name;" );
    if( !mpQuery->exec() )
    {
@@ -502,7 +502,7 @@ QStringList Database::getFolders()
       folders << mpQuery->value(0).toString();
    }
    mpQuery->clear();
-   
+
    return folders;
 }
 
@@ -514,7 +514,7 @@ QStringList Database::getFolder( const QString &folder )
    if( !folder.isEmpty() )
    {
       QString sql( "SELECT Directory, FileName FROM slart_tracks WHERE " );
-      
+
       if( folder == QChar(1) )
       {
          sql.append( "Flags & " );
@@ -532,7 +532,7 @@ QStringList Database::getFolder( const QString &folder )
          sql.append( "|%'" );
       }
       sql.append( " ORDER BY Directory, FileName;" );
-      
+
       mpQuery->prepare( sql );
       if( !mpQuery->exec() )
       {
@@ -544,7 +544,7 @@ QStringList Database::getFolder( const QString &folder )
       }
       mpQuery->clear();
    }
-   
+
    return folders;
 }
 
@@ -592,42 +592,42 @@ bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite,
       sql.append( QString::number( (unsigned int)TrackInfo::Unwanted ) );
       sql.append( " = 0" );
    }
-   
+
    if( leastplayed )
    {
       sql.append( " AND TimesPlayed = (SELECT MIN(TimesPlayed) FROM slart_tracks)" );
    }
-   
+
    if( !folder.isEmpty() )
    {
       sql.append( " AND Folders LIKE '%|" );
       sql.append( folder );
       sql.append( "|%'" );
    }
-   
+
    sql.append( ";" );
-   
+
    mpQuery->prepare( sql );
    if( !mpQuery->exec() )
    {
       logError();
    }
-   
+
    /* QSqlQuery::size() seems not to work with sqlite... :( */
    int rows;
    for( rows = 0; mpQuery->next(); rows++ )
       ;
-   
+
    if( rows )
    {
       int row = qrand() % rows;
-      
+
       mpQuery->seek( row );
-      
+
       trackInfo->mID = mpQuery->value(0).toUInt();
       mpQuery->clear();
       getTrackInfo( trackInfo );
-      
+
       return true;
    }
    else

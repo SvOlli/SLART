@@ -1,7 +1,7 @@
 /**
  * src/apps/Partyman/Application.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -26,11 +26,11 @@
 int main(int argc, char *argv[])
 {
    int retval = 0;
-   
+
    QApplication::setOrganizationName("SLART");
    QApplication::setOrganizationDomain("svolli.org");
    QApplication::setApplicationName("Partyman");
-   
+
    MySettings settings;
 #ifdef Q_WS_X11
    bool useGUI = getenv("DISPLAY") != 0;
@@ -60,16 +60,16 @@ int main(int argc, char *argv[])
                qssFile.close();
             }
          }
-         
+
          MainWindowCheckClose window;
          MainWidget *mainWidget = new MainWidget( &window );
          window.setMainWidget( mainWidget );
          window.show();
          mainWidget->startUp();
-         
+
          retval = app.exec();
       }
    }
-   
+
    return retval;
 }

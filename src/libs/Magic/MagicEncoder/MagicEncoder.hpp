@@ -1,7 +1,7 @@
 /**
  * src/apps/Magic/MagicEncoder/MagicEncoder.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -35,11 +35,11 @@ class MagicEncoder : public QThread, public MagicEncoderInterface
 {
 Q_OBJECT
 Q_INTERFACES(MagicEncoderInterface)
-   
+
 public:
    MagicEncoder( const QString &encoderName );
    virtual ~MagicEncoder();
-   
+
    /* constructor replacement */
    virtual void setup( MagicEncoderProxy *parent, const QString &msgHeader );
    /* supply the a handle to the configuration widget */

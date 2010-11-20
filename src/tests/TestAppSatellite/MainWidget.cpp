@@ -33,28 +33,28 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 {
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   
+
 #if SLARTCOM_DEBUG
    connect( mpSatellite, SIGNAL(debug(const QString&)),
             this, SLOT(addDebug(const QString&)) );
    mainLayout->addWidget( mpDebugBuffer );
    mainLayout->setStretchFactor( mpDebugBuffer, 4 );
 #endif
-   
+
    connect( mpSatellite, SIGNAL(received(const QByteArray&)),
             this, SLOT(addMessage(const QByteArray&)) );
    mainLayout->addWidget( mpMessageBuffer );
    mainLayout->setStretchFactor( mpMessageBuffer, 1 );
-   
+
    connect( mpInput, SIGNAL(returnPressed()),
             this, SLOT(handleInput()) );
    mainLayout->addWidget( mpInput );
-   
+
    connect( this, SIGNAL(sendText(const QByteArray&)),
             mpSatellite, SLOT(send(const QByteArray&)) );
-   
+
    setLayout( mainLayout );
-   
+
    mpSatellite->setTestApp( true );
    mpSatellite->restart();
 }
@@ -83,9 +83,9 @@ void MainWidget::addMessage( const QByteArray &message, QListWidget *list )
    {
       list = mpMessageBuffer;
    }
-   
+
    list->addItem( QString::fromUtf8(message) );
-      
+
    while( list->count() > 500 )
    {
       QListWidgetItem *item = list->takeItem(0);
@@ -94,6 +94,6 @@ void MainWidget::addMessage( const QByteArray &message, QListWidget *list )
          delete item;
       }
    }
-      
+
    list->scrollToBottom();
 }

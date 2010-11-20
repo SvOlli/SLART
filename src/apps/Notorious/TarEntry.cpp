@@ -50,7 +50,7 @@ TRACESTART(TarEntry::setData)
 #endif
    int slashpos;
    const char *p;
-   
+
    mCategory = filename;
    slashpos  = mCategory.indexOf('/');
    if( slashpos < 1 )
@@ -72,9 +72,9 @@ TRACESTART(TarEntry::setData)
 
    mData.remove( mCR );
    mLines = mData.split( mLF );
-   
+
    mSQL.clear();
-   
+
    mCategory.replace( mQuote, mDoubleQuote );
    mID.replace( mQuote, mDoubleQuote );
    mDirty    = true;
@@ -94,10 +94,10 @@ TRACESTART(TarEntry::sql)
 #endif
    const QRegExp reDTitle("^DTITLE=");
    const QRegExp reTTitle("^TTITLE[0-9]*=");
-   
+
    QString line;
    bool ok;
-   
+
    if( mDirty )
    {
       int  timescan = 0;
@@ -123,7 +123,7 @@ TRACESTART(TarEntry::sql)
                mTitle[i].clear();
             }
          }
-         
+
          if( timescan )
          {
             line.remove( QRegExp( "^#[ \t]*" ) );
@@ -171,13 +171,13 @@ TRACESTART(TarEntry::sql)
             }
 #endif
          }
-         
+
          if( line.startsWith( "# Track frame offsets:" ) )
          {
             timescan = 1;
          }
       }
-      
+
       for( int i = 1; i < mTracks; i++ )
       {
          mPlaytime[i] = mStartframe[i+1] - mStartframe[i];
@@ -199,7 +199,7 @@ TRACEMSG << mTracks;
 TRACEMSG << linenr << mStartframe[linenr] << mPlaytime[linenr]/75 << mTitle[linenr] << mExt[linenr];
    }
 #endif
-   
+
    mSQL.clear();
    for( int i = 0; i <= mTracks; i++ )
    {

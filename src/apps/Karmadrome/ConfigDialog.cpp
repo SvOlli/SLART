@@ -35,12 +35,12 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
-   
+
    mpNumColumns->setRange( 1, 9 );
-   
+
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showClipboard();
-   
+
    QWidget     *kmdTab    = new QWidget( this );
    QGridLayout *kmdLayout = new QGridLayout( kmdTab );
    kmdLayout->addWidget( mpNumColumnsLabel,   0, 0 );
@@ -51,7 +51,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    kmdLayout->addWidget( mpUseCheckBoxes,     4, 0, 1, 2 );
    kmdLayout->setRowStretch( 5, 1 );
    kmdTab->setLayout( kmdLayout );
-   
+
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
 
@@ -61,13 +61,13 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
-   
+
    tabs->addTab( kmdTab,               QString(tr("Karmadrome")) );
    tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );
-   
+
    setLayout( mainLayout );
 
    connect( okButton, SIGNAL(clicked()),
@@ -78,9 +78,9 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(writeSettings()) );
    connect( this, SIGNAL(rejected()),
             this, SLOT(readSettings()) );
-   
+
    readSettings();
-   
+
    WidgetShot::addWidget( "ConfigDialog", this );
 }
 
@@ -100,9 +100,9 @@ void ConfigDialog::readSettings()
    mpExportAsRelative->setChecked( settings.VALUE_EXPORTASRELATIVE );
    mpRandomizeExport->setChecked( settings.VALUE_RANDOMIZEEXPORT );
    mpUseCheckBoxes->setChecked( settings.VALUE_USECHECKBOXES );
-   
+
    mpGlobalConfigWidget->readSettings();
-   
+
    emit configChanged();
 }
 
@@ -115,7 +115,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "ExportAsRelative",  mpExportAsRelative->isChecked() );
    settings.setValue( "RandomizeExport",   mpRandomizeExport->isChecked() );
    settings.setValue( "UseCheckBoxes",     mpUseCheckBoxes->isChecked() );
-   
+
    mpGlobalConfigWidget->writeSettings();
 
    emit configChanged();

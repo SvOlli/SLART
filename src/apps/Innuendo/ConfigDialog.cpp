@@ -42,24 +42,24 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
-   
+
    mpAutostartPartyman->setCheckable( true );
    mpAutostartKarmadrome->setCheckable( true );
    mpAutostartRubberbandman->setCheckable( true );
    mpAutostartStripped->setCheckable( true );
    mpAutostartFunkytown->setCheckable( true );
    mpAutostartCreep->setCheckable( true );
-   
+
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showClipboard();
-   
+
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
-   
+
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
-   
+
    QGroupBox   *autostartBox    = new QGroupBox( tr("Autostart With Innuendo:") );
    QGridLayout *autostartLayout = new QGridLayout( autostartBox );
    autostartLayout->addWidget( mpAutostartPartyman, 0, 0 );
@@ -70,7 +70,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    autostartLayout->addWidget( mpAutostartNotorious, 1, 2 );
    autostartLayout->addWidget( mpAutostartCreep, 2, 0 );
    autostartBox->setLayout( autostartLayout );
-   
+
    QWidget     *iTab    = new QWidget( this );
    QGridLayout *iLayout = new QGridLayout( iTab );
    iLayout->addWidget( new QLabel( tr("Buffer Size:"), this ), 0, 0 );
@@ -79,19 +79,19 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    iLayout->setColumnStretch( 0, 1 );
    iLayout->setRowStretch( 1, 1 );
    mpBufferSize->setRange( 50, 50000 );
-   
+
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
    tabs->addTab( mpSatelliteConfigWidget, QString(tr("Satellite")) );
    tabs->addTab( iTab,                    QString(tr("Innuendo")) );
    tabs->addTab( mpProxyWidget,           QString(tr("Proxy")) );
    tabs->addTab( mpGlobalConfigWidget,    QString(tr("Global")) );
-   
+
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );
    setLayout( mainLayout );
-   
+
    connect( okButton, SIGNAL(clicked()),
             this, SLOT(accept()) );
    connect( cancelButton, SIGNAL(clicked()),
@@ -105,7 +105,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    connect( mpGlobalConfigWidget, SIGNAL(useSatelliteClicked(bool)),
             mpSatelliteConfigWidget, SLOT(setInnuendoClicked(bool)) );
    readSettings();
-   
+
    WidgetShot::addWidget( "ConfigDialog", this );
 }
 
@@ -122,11 +122,11 @@ void ConfigDialog::readSettings()
    mpSatelliteConfigWidget->readSettings();
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
-   
+
    MySettings settings;
    mpBufferSize->setValue( settings.VALUE_BUFFERSIZE );
    QStringList autostart( settings.VALUE_STARTUP );
-   
+
    mpAutostartPartyman->setChecked( autostart.contains( "Partyman" ) );
    mpAutostartKarmadrome->setChecked( autostart.contains( "Karmadrome" ) );
    mpAutostartRubberbandman->setChecked( autostart.contains( "Rubberbandman" ) );
@@ -134,7 +134,7 @@ void ConfigDialog::readSettings()
    mpAutostartFunkytown->setChecked( autostart.contains( "Funkytown" ) );
    mpAutostartNotorious->setChecked( autostart.contains( "Notorious" ) );
    mpAutostartCreep->setChecked( autostart.contains( "Creep" ) );
-   
+
    emit configChanged();
 }
 
@@ -144,7 +144,7 @@ void ConfigDialog::writeSettings()
    mpSatelliteConfigWidget->writeSettings();
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
-   
+
    MySettings settings;
    QStringList autostart;
    if( mpAutostartPartyman->isChecked() ) { autostart.append( "Partyman" ); }
@@ -163,7 +163,7 @@ void ConfigDialog::writeSettings()
    {
       settings.setValue( "Startup", autostart );
    }
-   
+
    emit configChanged();
 }
 

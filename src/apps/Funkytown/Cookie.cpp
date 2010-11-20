@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/Cookie.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -50,7 +50,7 @@ Cookie &Cookie::operator=( const Cookie &that )
    mDomain = that.mDomain;
    mPath   = that.mPath;
    mData   = that.mData;
-   
+
    return *this;
 }
 
@@ -61,18 +61,18 @@ bool Cookie::matches( const Cookie &that ) const
    {
       return false;
    }
-   
+
    if( that.mPath.left( mPath.size() ) != mPath )
    {
       return false;
    }
-   
+
    /* no data is a wildcard that matches all */
    if( that.mData.size() == 0 )
    {
       return true;
    }
-   
+
    return that.mData.left( that.mData.indexOf('=') )
            == mData.left( mData.indexOf('=') );
 }

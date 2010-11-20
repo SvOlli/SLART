@@ -65,20 +65,20 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
 {
    gpConfig = this;
-   
+
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/PartymanSmile.png") );
-   
+
    mpGlobalSettings->showClipboard();
    mpGlobalSettings->showAnimate();
    mpGlobalSettings->showDoubleClickInterval();
-   
+
    QStringList modes;
-   modes << tr("No Normalization") 
-         << tr("Normalize By Peak") 
+   modes << tr("No Normalization")
+         << tr("Normalize By Peak")
          << tr("Normalize By Power:");
    mpNormalizeMode->addItems( modes );
-   
+
    mpNormalizeValue->setSingleStep( 0.01 );
    mpNormalizeValue->setRange( 0.0, 1.0 );
    mpNormalizeValue->setAlignment( Qt::AlignRight );
@@ -95,7 +95,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    mpCrossfadeTime->setAlignment( Qt::AlignRight );
    mpPlayNotAgainCount->setRange( 0, 999 );
    mpPlayNotAgainCount->setAlignment( Qt::AlignRight );
-   
+
    QWidget     *dermixdTab    = new QWidget( this );
    QGridLayout *dermixdLayout = new QGridLayout( dermixdTab );
    dermixdLayout->addWidget( mpDerMixDrun, 0, 0, 1, 4 );
@@ -114,11 +114,11 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    dermixdLayout->setColumnStretch( 3, 1 );
    dermixdLayout->setRowStretch( 6, 1 );
    dermixdTab->setLayout( dermixdLayout );
-   connect( mpNormalizeMode, SIGNAL(currentIndexChanged(int)), 
+   connect( mpNormalizeMode, SIGNAL(currentIndexChanged(int)),
             this, SLOT(handleNormalizeMode(int)) );
    connect( mpDerMixDrun, SIGNAL(clicked(bool)),
             this, SLOT(handleDerMixDrun(bool)) );
-   
+
    QWidget     *partymanTab    = new QWidget( this );
    QGridLayout *partymanLayout = new QGridLayout( partymanTab );
    partymanLayout->addWidget( mpAutoConnect,                        0, 0, 1, 5 );
@@ -136,7 +136,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    partymanTab->setLayout( partymanLayout );
    connect( mpTrayIcon, SIGNAL(clicked(bool)),
             this, SLOT(handleShowTrayIcon(bool)) );
-   
+
    QWidget     *randomTab    = new QWidget( this );
    QGridLayout *randomLayout = new QGridLayout( randomTab );
    randomLayout->addWidget( mpPlayOnlyFavorite, 0, 0, 1, 3 );
@@ -147,7 +147,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    randomLayout->addWidget( mpPlayNotAgainCount, 3, 2 );
    randomLayout->setRowStretch( 6, 1 );
    randomTab->setLayout( randomLayout );
-   
+
    QWidget     *displayTab          = new QWidget( this );
    QGridLayout *displayLayout       = new QGridLayout( displayTab );
    QBoxLayout  *displayButtonLayout = new QHBoxLayout;
@@ -166,7 +166,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    displayButtonLayout->addWidget( mpStartKioskButton );
    displayLayout->addLayout( displayButtonLayout, 7, 0, 1, 2 );
    displayTab->setLayout( displayLayout );
-   
+
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
 
@@ -185,7 +185,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    "<a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>.</td></tr><tr><td align='center'>"
    "This is a frontend for <a href='http://dermixd.de/'>DerMixD</a>.</td></tr>"
    "<tr><td align='right'>Based upon the <a href='about:qt'>Qt</a> framework.</td></tr></table>") );
-   
+
    mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs = new QTabWidget( this );
    tabs->addTab( dermixdTab,       QString(tr("DerMixD")) );
@@ -193,11 +193,11 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    tabs->addTab( randomTab,        QString(tr("Random")) );
    tabs->addTab( displayTab,       QString(tr("Display")) );
    tabs->addTab( mpGlobalSettings, QString(tr("Global")) );
-   
+
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );
-   
+
    setLayout( mainLayout );
 
    connect( okButton, SIGNAL(clicked()),
@@ -212,7 +212,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
             this, SIGNAL(updateBrowser()) );
    connect( mpStartKioskButton, SIGNAL(clicked()),
             this, SLOT(handleStartKiosk()) );
-   
+
    PasswordChecker::get()->setLockMessage(
          tr("Enter Password For Enabling Kiosk Mode"),
          tr("To enable Kiosk Mode enter a password that will be needed for unlocking.\n"
@@ -225,7 +225,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    );
 
    readSettings();
-   
+
    WidgetShot::addWidget( "ConfigDialog", this );
 }
 
@@ -244,11 +244,11 @@ void ConfigDialog::exec()
 void ConfigDialog::readSettings()
 {
    MySettings settings;
-   
+
    mpPlayFolder->clear();
    mpPlayFolder->addItem( tr("| All |") );
    mpPlayFolder->addItems( mpDatabase->getFolders() );
-   
+
    mpDerMixDhost->setText( settings.VALUE_DERMIXDHOST );
    mpDerMixDport->setValue( settings.VALUE_DERMIXDPORT );
    mpDerMixDlog->setChecked( settings.VALUE_DERMIXDLOG );
@@ -274,7 +274,7 @@ void ConfigDialog::readSettings()
    mpSplitterVertical->setChecked( settings.VALUE_SPLITTERVERTICAL );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    mpGlobalSettings->readSettings();
-   
+
    QString playFolder( settings.VALUE_PLAYFOLDER );
    if( !playFolder.isEmpty() )
    {
@@ -285,7 +285,7 @@ void ConfigDialog::readSettings()
       }
    }
    handleShowTrayIcon( mpTrayIcon->isChecked() );
-   
+
    emit configChanged();
 }
 
@@ -357,7 +357,7 @@ void ConfigDialog::handleShowTrayIcon( bool checked )
       checked = false;
       mpTrayIcon->setDisabled( !checked );
    }
-   
+
    mpTrayIconBubble->setDisabled( !checked );
    mpTrayIconBubbleTime->setDisabled( !checked );
 }

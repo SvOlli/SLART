@@ -41,7 +41,7 @@ class Satellite;
 class MainWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
@@ -62,15 +62,15 @@ public slots:
    void stateNet();
    /* set buttons active according to state "ripping tracks" */
    void stateRip();
-   
+
 signals:
    /* request a new icon and title */
    void requestChangeTitle( const QIcon &icon, const QString &title );
-   
+
 private:
    MainWidget( const MainWidget &that );
    MainWidget &operator=( const MainWidget &that );
-   
+
 public:
 private:
    Satellite            *mpSatellite;

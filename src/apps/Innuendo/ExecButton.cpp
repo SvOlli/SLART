@@ -33,14 +33,14 @@ ExecButton::ExecButton( const QString &name, QWidget *parent )
 {
    mName.append( '/' );
    mName.append( name );
-   
+
    setCheckable( true );
-   
+
    connect( this, SIGNAL(clicked()),
             this, SLOT(handleClick()) );
-   connect( &mProcess, SIGNAL(error(QProcess::ProcessError)), 
+   connect( &mProcess, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(handleError(QProcess::ProcessError)) );
-   connect( &mProcess, SIGNAL(finished(int,QProcess::ExitStatus)), 
+   connect( &mProcess, SIGNAL(finished(int,QProcess::ExitStatus)),
             this, SLOT(handleFinished(int,QProcess::ExitStatus)) );
 }
 
@@ -49,9 +49,9 @@ ExecButton::~ExecButton()
 {
    disconnect( this, SIGNAL(clicked()),
                this, SLOT(handleClick()) );
-   disconnect( &mProcess, SIGNAL(error(QProcess::ProcessError)), 
+   disconnect( &mProcess, SIGNAL(error(QProcess::ProcessError)),
                this, SLOT(handleError(QProcess::ProcessError)) );
-   disconnect( &mProcess, SIGNAL(finished(int,QProcess::ExitStatus)), 
+   disconnect( &mProcess, SIGNAL(finished(int,QProcess::ExitStatus)),
                this, SLOT(handleFinished(int,QProcess::ExitStatus)) );
    mProcess.terminate();
    mProcess.waitForFinished();
@@ -61,7 +61,7 @@ ExecButton::~ExecButton()
 void ExecButton::handleClick()
 {
    MySettings settings;
-   
+
    if( isChecked() )
    {
       /* start */
@@ -80,7 +80,7 @@ void ExecButton::handleClick()
 void ExecButton::handleError( QProcess::ProcessError error )
 {
    QString text;
-   
+
    switch( error )
    {
       case QProcess::FailedToStart:
@@ -95,7 +95,7 @@ void ExecButton::handleError( QProcess::ProcessError error )
          break;
    }
    text.append( mName );
-   
+
    QMessageBox::warning( this, QCoreApplication::applicationName(), text );
    setChecked( false );
 }

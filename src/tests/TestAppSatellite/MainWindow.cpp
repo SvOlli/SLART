@@ -1,7 +1,7 @@
 /**
  * MainWindow.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  */
 

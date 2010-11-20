@@ -1,7 +1,7 @@
 /**
  * src/libs/CommandLine/CommandLine.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -46,7 +46,7 @@ void CommandLine::parse( QStringList *nonOptions )
    QStringList args( QCoreApplication::arguments() );
    int arg = 0;
    int opt = 0;
-   
+
    /* remove program name */
    args.removeFirst();
 

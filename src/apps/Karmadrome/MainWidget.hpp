@@ -43,11 +43,11 @@ class ScrollLine;
 class MainWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    virtual ~MainWidget();
-   
+
 public slots:
    /* add currently played track to the list */
    void addToList( QWidget *widget );
@@ -71,14 +71,14 @@ public slots:
    void sendK0u();
    /* sync TrackInfo data */
    void updateTrackInfo( const TrackInfo &trackInfo );
-   
+
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
-   
+
 private:
    MainWidget( const MainWidget &that );
    MainWidget &operator=( const MainWidget &that );
-   
+
    Database             *mpDatabase;
    Satellite            *mpSatellite;
    GenericSatMsgHandler *mpGenericSatMsgHandler;
@@ -95,14 +95,14 @@ private:
    QAction              *mpImportFavorite;
    QAction              *mpImportUnwanted;
    ButtonsWidget        *mpListButtons;
-   
+
    QPushButton          *mpSettingsButton;
    QPushButton          *mpAddButton;
    QPushButton          *mpRemoveButton;
    QMenu                *mpRemoveMenu;
    ConfigDialog         *mpConfigDialog;
    QTimer               *mpTimer;
-   
+
    QStringList          mPlaylists;
    TrackInfo            mTrackInfo;
 };

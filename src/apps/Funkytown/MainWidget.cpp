@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/MainWidget.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -38,11 +38,11 @@ MainWidget::MainWidget( QWidget *parent )
 , mpDownloadHandler( new DownloadHandler() )
 {
    MySettings settings;
-   
+
    mpLayout->setContentsMargins( 3, 3, 3, 3 );
    mpLayout->setSpacing( 3 );
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
-   
+
    mpDirText->setAcceptDrops( false );
    mpDirButton->setAcceptDrops( false );
    mpNameText->setAcceptDrops( false );
@@ -50,24 +50,24 @@ MainWidget::MainWidget( QWidget *parent )
    mpGoButton->setAcceptDrops( false );
    mpSettingsButton->setAcceptDrops( false );
    mpDownloadHandler->setAcceptDrops( false );
-   
+
    mpDirButton->setText( settings.VALUE_DIRECTORY );
    QDir::setCurrent( mpDirButton->text() );
-   
+
    downloadActive( false );
-   
+
    mpLayout->addWidget( mpDirText,           0, 0 );
    mpLayout->addWidget( mpDirButton,         0, 1 );
-   
+
    mpLayout->addWidget( mpNameText,          1, 0 );
    mpLayout->addWidget( mpNameInput,         1, 1 );
-   
+
    mpLayout->addWidget( mpGoButton,          2, 0, 1, 2 );
    mpLayout->addWidget( mpDownloadHandler,   3, 0, 1, 2 );
    mpLayout->addWidget( mpSettingsButton,    4, 0, 1, 2 );
-   
+
    setLayout( mpLayout );
-   
+
    connect( mpDirButton, SIGNAL(clicked()),
             this, SLOT(setDownloadDir()) );
    connect( mpGoButton,  SIGNAL(clicked()),
@@ -80,7 +80,7 @@ MainWidget::MainWidget( QWidget *parent )
             this, SLOT(downloadActive(bool)) );
    connect( mpDownloadHandler, SIGNAL(errorMessage(const QString&)),
             mpConfigDialog, SLOT(logMessage(const QString&)) );
-   
+
    MainWindow *mainWindow = qobject_cast<MainWindow*>(parent);
    if( mainWindow )
    {
@@ -89,7 +89,7 @@ MainWidget::MainWidget( QWidget *parent )
    }
 
    mpSettingsButton->setObjectName( QString("SettingsButton") );
-   
+
    setAcceptDrops( true );
 
    WidgetShot::addWidget( "MainWidget", this );
@@ -99,11 +99,11 @@ MainWidget::MainWidget( QWidget *parent )
 void MainWidget::setDownloadDir()
 {
    QFileDialog fileDialog( this );
-   
+
    fileDialog.setFileMode( QFileDialog::DirectoryOnly );
    fileDialog.setDirectory( mpDirButton->text() );
    fileDialog.setReadOnly( false );
-   
+
    if( fileDialog.exec() )
    {
       MySettings settings;
@@ -111,7 +111,7 @@ void MainWidget::setDownloadDir()
       mpDirButton->setText( result );
       settings.setValue( "Directory", result.replace('\\','/') );
    }
-   
+
    QDir::setCurrent( mpDirButton->text() );
 }
 
@@ -123,14 +123,14 @@ void MainWidget::downloadUserPage( const QString &name )
       mpNameInput->setText( name );
    }
    QString url( mpNameInput->text() );
-   
+
    if( url.size() == 0 )
       return;
 
    downloadActive( true );
-   
+
    mpDownloadHandler->run( url );
-   
+
    mpNameInput->setText("");
 }
 
@@ -161,11 +161,11 @@ void MainWidget::dragEnterEvent( QDragEnterEvent *event )
 void MainWidget::dropEvent( QDropEvent *event )
 {
    const QMimeData *mimeData = event->mimeData();
-   
+
    if( mimeData->hasText() )
    {
       QString url( mimeData->text() );
-      
+
       if( url.startsWith("http://") )
       {
          downloadUserPage( url.replace( QRegExp("\n.*$"),"") );

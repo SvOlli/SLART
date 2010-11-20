@@ -1,7 +1,7 @@
 /**
  * src/tests/TestAppWebServer/Resources/ajax.js
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -16,7 +16,7 @@ function loadFields()
    http.send( null );
 }
 
-function parseFields()   
+function parseFields()
 {
    if( http.readyState == 4 )
    {
@@ -27,14 +27,14 @@ function parseFields()
          var title  = http.responseXML.getElementsByTagName("title")[0].firstChild.nodeValue;
          var album  = http.responseXML.getElementsByTagName("album")[0].firstChild.nodeValue;
          var track  = http.responseXML.getElementsByTagName("track")[0].firstChild.nodeValue;
-       
+
          document.getElementsByName("status")[0].value = 'connected';
          document.getElementsByName("reply")[0].value  = reply;
          document.getElementsByName("artist")[0].value = artist;
          document.getElementsByName("title")[0].value  = title;
          document.getElementsByName("album")[0].value  = album;
          document.getElementsByName("track")[0].value  = track;
-   
+
          http.open( 'GET', '/wait', true );
          http.onreadystatechange = parseWait;
          http.send( null );

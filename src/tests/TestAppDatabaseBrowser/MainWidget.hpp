@@ -38,22 +38,22 @@ class EvilTableWidget;
 class MainWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    virtual ~MainWidget();
-   
+
 public slots:
    void fillTableFull();
    void handleClicked( const QModelIndex &index );
    void changeHeight( int fromRow, int toRow );
 
 signals:
-   
+
 private:
    MainWidget( const MainWidget &that );
    MainWidget &operator=( const MainWidget &that );
-   
+
    Database             *mpDatabase;
    QSqlQueryModel       *mpModel;
    QTableView           *mpView;

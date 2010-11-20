@@ -1,7 +1,7 @@
 /**
  * src/apps/Partyman/FileSysTreeModel.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -31,7 +31,7 @@ class FileSysTreeItem;
 class FileSysTreeModel : public QAbstractItemModel
 {
 Q_OBJECT
-   
+
 public:
    FileSysTreeModel( QObject *parent = 0 );
    virtual ~FileSysTreeModel();
@@ -66,7 +66,7 @@ public:
 private:
    FileSysTreeModel( const FileSysTreeModel &that );
    FileSysTreeModel &operator=( const FileSysTreeModel &that );
-   
+
    FileSysTreeItem *mpRootItem;
 };
 

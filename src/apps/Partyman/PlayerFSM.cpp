@@ -62,12 +62,12 @@ bool PlayerFSM::changeState( enum eState newState )
    {
       return true;
    }
-   
+
    if( mpStateClass )
    {
       mpStateClass->leave();
    }
-   
+
    mState = newState;
    switch( newState )
    {
@@ -96,13 +96,13 @@ bool PlayerFSM::changeState( enum eState newState )
          mpStateClass = mpStateEndingPaused;
          break;
    }
-   
+
    if( !mpStateClass->enter() )
    {
       mpStateClass = 0;
       return false;
    }
-   
+
    return true;
 }
 
@@ -119,7 +119,7 @@ void PlayerFSM::handleDerMixD( const QString &msg )
    if( mpStateClass )
    {
       tState state = mpStateClass->handleDerMixD( msg );
-      
+
       if( state != lastState )
       {
          changeState( state );

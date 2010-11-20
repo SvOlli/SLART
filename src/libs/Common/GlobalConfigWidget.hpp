@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/GlobalConfigWidget.hpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -22,11 +22,11 @@ class QSpinBox;
 class GlobalConfigWidget : public QWidget
 {
 Q_OBJECT
-   
+
 public:
    GlobalConfigWidget( QWidget *parent = 0 );
    virtual ~GlobalConfigWidget();
-   
+
    /* read settings */
    void readSettings();
    /* write settings */
@@ -53,7 +53,7 @@ public slots:
    void selectFile();
    /* set the "use satellite" checkbox */
    void setSatelliteClicked( bool isSet );
-   
+
 signals:
    /* signalize that the "use satellite" checkbox has been clicked */
    void useSatelliteClicked( bool isSet );

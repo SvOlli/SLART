@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/ConfigDialog.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -38,20 +38,20 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 {
    setWindowTitle( QApplication::applicationName()+tr(" Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
-   
+
    mpHelpText->setReadOnly( true );
    mpHelpText->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
    mpHelpText->setOpenExternalLinks( true );
    mpHelpText->setSource( QUrl("qrc:/Usage.html") );
-   
+
    AboutWidget *about( new AboutWidget( this ) );
    QPushButton *okButton( new QPushButton(tr("OK"), this) );
    QPushButton *cancelButton( new QPushButton(tr("Cancel"), this) );
-   
+
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
-   
+
    QWidget     *settingsTab    = new QWidget( this );
    QGridLayout *settingsLayout = new QGridLayout( settingsTab );
    settingsLayout->addWidget( mpOverwrite, 0, 0, 1, 3 );
@@ -71,13 +71,13 @@ ConfigDialog::ConfigDialog( QWidget *parent )
    tabs->addTab( mpProxyWidget,        QString(tr("Proxy")) );
    tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
    tabs->addTab( mpLogList,            QString(tr("Log")) );
-   
+
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );
-   
+
    setLayout( mainLayout );
-   
+
    connect( mpClearButton, SIGNAL(clicked()),
             this, SLOT(handleClear()) );
    connect( okButton, SIGNAL(clicked()),
@@ -88,7 +88,7 @@ ConfigDialog::ConfigDialog( QWidget *parent )
             this, SLOT(writeSettings()) );
    connect( this, SIGNAL(rejected()),
             this, SLOT(readSettings()) );
-   
+
    readSettings();
 }
 
@@ -110,9 +110,9 @@ void ConfigDialog::logMessage( const QString &message )
 void ConfigDialog::readSettings()
 {
    MySettings settings;
-   
+
    mpProxyWidget->readSettings();
-   
+
    mpOverwrite->setChecked( settings.VALUE_OVERWRITE );
    mpCoverArt->setChecked( settings.VALUE_COVERART );
    mpTollKeep->setChecked( settings.VALUE_TOLLKEEP );
@@ -124,9 +124,9 @@ void ConfigDialog::readSettings()
 void ConfigDialog::writeSettings()
 {
    MySettings settings;
-   
+
    mpProxyWidget->writeSettings();
-   
+
    settings.setValue( "Overwrite", mpOverwrite->isChecked() );
    settings.setValue( "CoverArt", mpCoverArt->isChecked() );
    settings.setValue( "TollKeep", mpTollKeep->isChecked() );
@@ -136,7 +136,7 @@ void ConfigDialog::writeSettings()
 
 void ConfigDialog::handleClear()
 {
-   if( QMessageBox::question( this, 
+   if( QMessageBox::question( this,
          QApplication::applicationName()+tr(": Clear Statistics"),
          tr("Do you really want to clear the statistics?"),
          QMessageBox::Ok | QMessageBox::Cancel,

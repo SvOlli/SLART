@@ -33,14 +33,14 @@ bool PlayerFSMEnding::enter()
    mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("ending") );
    mpPlayerWidget->mpControlWidget->changeOtherState( mpPlayerWidget->mPlayer, PlayerFSM::playing );
    mpPlayerWidget->disablePlayPosition( true );
-   
+
    if( mpPlayerWidget->mTrackInfo.mID > 0 )
    {
       mpPlayerWidget->mpDatabase->getTrackInfo( &(mpPlayerWidget->mTrackInfo) );
       ++(mpPlayerWidget->mTrackInfo.mTimesPlayed);
       mpPlayerWidget->mpDatabase->updateTrackInfo( &(mpPlayerWidget->mTrackInfo) );
    }
-   
+
    return true;
 }
 
@@ -55,13 +55,13 @@ enum PlayerFSM::eState PlayerFSMEnding::handleDerMixD( const QString &msg )
    if( msg.startsWith( QString("[ch")+QChar('0'+mpPlayerWidget->mPlayer)+']' ) )
    {
       mpPlayerWidget->updateTime( msg.mid(6) );
-      
+
       if( msg.endsWith( "stopped" ) )
       {
          return PlayerFSM::searching;
       }
    }
-   
+
    return PlayerFSM::ending;
 }
 

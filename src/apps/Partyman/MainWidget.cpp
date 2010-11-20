@@ -34,7 +34,7 @@ static MainWidget *mpMainWidget = 0;
 static void signalHandler( int signum )
 {
    if( mpMainWidget ) delete mpMainWidget;
-   
+
    raise( signum );
 }
 
@@ -50,7 +50,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 {
    mpMainWidget = this;
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
-   
+
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    mainLayout->addWidget( mpControl );
    mainLayout->addWidget( mpPlaylist );
@@ -75,8 +75,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
       }
    }
 #endif
-   
-   connect( mpControl, SIGNAL(requestAddToPlaylist(QStringList,bool)), 
+
+   connect( mpControl, SIGNAL(requestAddToPlaylist(QStringList,bool)),
             mpPlaylist, SLOT(addEntries(QStringList,bool)) );
    connect( mpControl, SIGNAL(requestChangeTitle(QIcon,QString)),
             this, SLOT(changeTitle(QIcon,QString)) );
@@ -84,7 +84,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpControl, SLOT(allowConnect(bool)) );
    connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
             this, SLOT(allowAutostart(bool)) );
-   connect( mpControl, SIGNAL(trackUpdate()), 
+   connect( mpControl, SIGNAL(trackUpdate()),
             mpPlaylist, SLOT(updateTrackInfo()) );
    connect( mpConfig, SIGNAL(updateBrowser()),
             mpPlaylist, SLOT(startBrowserUpdate()) );
@@ -92,7 +92,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpControl, SLOT(handleKioskMode(bool)) );
    connect( mpControl, SIGNAL(requestTab(int)),
             mpPlaylist, SLOT(handleTabChange(int)) );
-   
+
    MainWindowCheckClose *mainWindow = qobject_cast<MainWindowCheckClose*>(parent);
    if( mainWindow )
    {
@@ -167,7 +167,7 @@ void MainWidget::allowAutostart( bool allow )
    mAllowAutostart = allow;
    if( !allow )
    {
-      QMessageBox::warning( this, QApplication::applicationName()+tr(": database empty"), 
+      QMessageBox::warning( this, QApplication::applicationName()+tr(": database empty"),
                             QString(tr("The database is empty. Please run Rubberbandman.")) );
    }
 }

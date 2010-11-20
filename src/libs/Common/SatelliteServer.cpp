@@ -49,10 +49,10 @@ SatelliteServer::~SatelliteServer()
 bool SatelliteServer::listen()
 {
 #if SATELLITESERVER_DEBUG
-   emit debug( "s:trying to run server on " + 
+   emit debug( "s:trying to run server on " +
                mHost.toString().toAscii() + ":" + QByteArray::number(mPort) );
    bool success = mpTcpServer->listen( mHost, mPort );
-   
+
    if( success )
    {
       emit debug( "s:server started successfully" );

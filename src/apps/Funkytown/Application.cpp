@@ -1,7 +1,7 @@
 /**
  * src/apps/Funkytown/Application.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
@@ -24,14 +24,14 @@
 int main(int argc, char *argv[])
 {
    int retval = 0;
-   
+
    QApplication app(argc, argv);
    app.setOrganizationName("SLART");
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("Funkytown");
    QStringList *startUrls = new QStringList();
    MySettings settings;
-   
+
    SorcererLoader::detect( &app );
    {
       QFile qssFile( settings.styleSheetFile() );
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
          qssFile.close();
       }
    }
-   
+
    for( retval = 1; retval < argc; retval++ )
    {
       QFileInfo qfi( argv[retval] );
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
          *startUrls << QString::fromLocal8Bit( argv[retval] ).trimmed();
       }
    }
-   
+
    MainWindow window;
    MainWidget *mainWidget = new MainWidget( &window );
    window.setMainWidget( mainWidget );
@@ -79,6 +79,6 @@ int main(int argc, char *argv[])
    delete startUrls;
    window.show();
    retval = app.exec();
-   
+
    return retval;
 }

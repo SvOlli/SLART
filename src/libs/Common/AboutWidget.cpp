@@ -1,7 +1,7 @@
 /**
  * src/libs/Common/AboutWidget.cpp
  * written by Sven Oliver Moll
- * 
+ *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
@@ -18,7 +18,7 @@ AboutWidget::AboutWidget( QWidget *parent, const QString &aboutText )
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 1, 1, 1, 1 );
-   
+
    QLabel *aboutLabel = new QLabel( this );
    if( aboutText.isEmpty() )
    {
@@ -27,7 +27,7 @@ AboutWidget::AboutWidget( QWidget *parent, const QString &aboutText )
          "%3</a>.<br>Distributed unter the terms of the "
          "<a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>. Based upon the "
          "<a href='about:qt'>Qt</a> framework.</td></td></table>" );
-      aboutLabel->setText( message.arg( QApplication::applicationName(), 
+      aboutLabel->setText( message.arg( QApplication::applicationName(),
                            SLART_VERSION, QApplication::organizationName() ) );
    }
    else

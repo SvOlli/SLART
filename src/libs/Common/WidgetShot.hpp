@@ -34,12 +34,12 @@ class WidgetShot
 public:
    static void addWidget( const QString &widgetName, QWidget *widget );
    static void shootWidget( const QString &widgetName, const QString &fileName );
-   
+
 private:
    WidgetShot();
    WidgetShot( const WidgetShot &that );
    WidgetShot &operator=( const WidgetShot &that );
-   
+
    static QHash< QString, QPointer<QWidget> > *cpWidgetList;
 };
 
