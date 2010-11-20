@@ -371,7 +371,7 @@ void TheMagic::processGenericFile()
 void TheMagic::parseGenericHTML()
 {
 #if USE_TRACE
-TRACESTART(DownloadHandler::parseGenericHTML)
+TRACESTART(TheMagic::parseGenericHTML)
 #endif
    int pos;
    QString param("http://www.youtube.com/v/");
@@ -433,7 +433,7 @@ TRACESTART(DownloadHandler::parseGenericHTML)
 void TheMagic::parseYouTubeHTML()
 {
 #if USE_TRACE
-TRACESTART(DownloadHandler::parseYouTubeHTML)
+TRACESTART(TheMagic::parseYouTubeHTML)
 #endif
    int pos;
    QString line;
@@ -443,8 +443,9 @@ TRACESTART(DownloadHandler::parseYouTubeHTML)
    QString videoID;
    
    QStringList qsl( mBuffer.split( QChar('\n') ) );
-   foreach( QString line, qsl )
+   foreach( line, qsl )
    {
+      pos = line.indexOf( youTube, 0, Qt::CaseInsensitive );
       if( pos >= 0 )
       {
          QStringList parts( line.split( "&" ) );
