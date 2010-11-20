@@ -26,8 +26,15 @@ FileSysTreeView::FileSysTreeView( QWidget *parent )
    setIndentation( 8 );
    setMouseTracking( true );
    setUniformRowHeights ( true );
-   connect(this, SIGNAL(entered(QModelIndex)), this, SLOT(setToolTip(QModelIndex)));
-   connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(addIfFile(QModelIndex)));
+   connect(this, SIGNAL(entered(QModelIndex)),
+           this, SLOT(setToolTip(QModelIndex)));
+   connect(this, SIGNAL(doubleClicked(QModelIndex)),
+           this, SLOT(addIfFile(QModelIndex)));
+}
+
+
+FileSysTreeView::~FileSysTreeView()
+{
 }
 
 

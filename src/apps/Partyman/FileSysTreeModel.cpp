@@ -12,7 +12,9 @@
 /* system headers */
 
 /* Qt headers */
+#include <QMimeData>
 #include <QTreeView>
+#include <QUrl>
 
 /* local library headers */
 
@@ -24,6 +26,7 @@ FileSysTreeModel::FileSysTreeModel( QObject *parent )
 : QAbstractItemModel( parent )
 , mpRootItem(0)
 {
+   setSupportedDragActions( Qt::CopyAction );
 }
 
 
@@ -51,16 +54,54 @@ QVariant FileSysTreeModel::data( const QModelIndex &index, int role ) const
 }
 
 
-Qt::ItemFlags FileSysTreeModel::flags( const QModelIndex &/*index*/ ) const
+Qt::ItemFlags FileSysTreeModel::flags( const QModelIndex &index ) const
 {
-#if 0
    if (!index.isValid())
    {
       return Qt::ItemIsEnabled;
    }
+   if( index.child(0,0).isValid() )
+   {
+      /* a directory has childs and is not draggable */
+      return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+   }
+   return Qt::ItemIsDragEnabled | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+}
 
-#endif
-   return Qt::ItemIsEnabled /*| Qt::ItemIsSelectable*/;
+
+Qt::DropActions FileSysTreeModel::supportedDragActions() const
+{
+   return Qt::CopyAction;
+}
+
+
+QMimeData *FileSysTreeModel::mimeData( const QModelIndexList &indexes ) const
+{
+   QMimeData *data = new QMimeData();
+
+   QList<QUrl> urls;
+   QModelIndex qmi;
+   QString fullPath;
+   foreach( const QModelIndex &index, indexes )
+   {
+      fullPath.clear();
+      for( qmi = index; qmi.isValid(); qmi = parent(qmi) )
+      {
+         fullPath.prepend( "/" + qmi.data().toString() );
+      }
+      urls << QUrl::fromLocalFile( fullPath );
+   }
+   data->setUrls( urls );
+
+   return data;
+}
+
+
+QStringList FileSysTreeModel::mimeTypes() const
+{
+   QStringList types;
+   types << "text/uri-list" << "text/x-moz-url";;
+   return types;
 }
 
 

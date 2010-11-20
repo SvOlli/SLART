@@ -48,7 +48,10 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
    qsrand( time((time_t*)0) );
    
    mpTreeView->header()->hide();
-   
+   mpTreeView->setDragDropMode( QAbstractItemView::DragOnly );
+   mpTreeView->setDragEnabled( true );
+   mpTreeView->setSelectionMode( QAbstractItemView::ExtendedSelection );
+
    mpPlaylistContent->setAlternatingRowColors( true );
    mpPlaylistContent->setAutoFillBackground( false );
    mpPlaylistContent->setHidden( false );
@@ -368,7 +371,7 @@ void PlaylistControlWidget::finishBrowserUpdate()
    mpTreeView->setModel( mpNextTreeModel );
    delete mpTreeModel;
    mpTreeModel = mpNextTreeModel;
-   
+
    mpTreeView->setRootIndex( root );
    mpTabs->setTabText( 3, tr("Browse") );
    for(i = 0; ; i++)

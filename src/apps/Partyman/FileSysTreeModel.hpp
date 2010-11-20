@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QStringList>
 #include <QWidget>
 
 /* local library headers */
@@ -34,13 +35,19 @@ Q_OBJECT
 public:
    FileSysTreeModel( QObject *parent = 0 );
    virtual ~FileSysTreeModel();
-   
+
    /* clear the complete model */
    void clear();
    /* return the data of an index */
    QVariant data( const QModelIndex &index, int role ) const;
    /* set item flags to enabled */
    Qt::ItemFlags flags(const QModelIndex &index) const;
+   /* for dragging */
+   Qt::DropActions supportedDragActions() const;
+   /* for dragging: set the mime data of files */
+   virtual QMimeData *mimeData( const QModelIndexList &indexes ) const;
+   /* for dragging: set the mime type to file urls */
+   virtual QStringList mimeTypes() const;
    /* return index of a specific point */
    QModelIndex index( int row, int column, const QModelIndex &parent = QModelIndex() ) const;
    /* return parent of an index */
@@ -55,7 +62,7 @@ public:
    void addModelData( const QString &filename );
    /* get the full path of an index */
    QString getPath( const QModelIndex &index ) const;
-   
+
 private:
    FileSysTreeModel( const FileSysTreeModel &that );
    FileSysTreeModel &operator=( const FileSysTreeModel &that );

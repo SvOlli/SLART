@@ -31,6 +31,7 @@ Q_OBJECT
    
 public:
    FileSysTreeView( QWidget *parent = 0 );
+   virtual ~FileSysTreeView();
 
 protected:
    /* handle right mouse button */
