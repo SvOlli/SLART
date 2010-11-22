@@ -21,6 +21,7 @@
 
 /* local library headers */
 #include <MySettings.hpp>
+#include <ProxyWidget.hpp>
 
 /* local headers */
 #include "CDInfo.hpp"
@@ -175,6 +176,7 @@ void CDDBClient::startRequest( const QString &cmd, const QStringList &parameter 
    QString url( "http://freedb.freedb.org/~cddb/cddb.cgi?cmd=cddb %1 %2&hello=svolli localhost Stripped alpha&proto=6" );
 
    QNetworkRequest request( QUrl( url.arg( cmd, parameter.join(" ") ).replace( ' ', '+' ) ) );
+   ProxyWidget::setProxy( mpNAM );
    if( cmd == "query" )
    {
       mQueryReplies.append( mpNAM->get( request ) );
