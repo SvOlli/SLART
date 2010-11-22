@@ -25,10 +25,10 @@
 /* forward declaration of Qt classes */
 class QAbstractButton;
 class QCheckBox;
+class QLineEdit;
 class QPushButton;
 
 /* forward declaration of local classes */
-class ScrollLine;
 
 
 class MagicEncoderConfig : public QWidget
@@ -56,7 +56,7 @@ protected:
    QAbstractButton      *mpExternalUseEncoder;
    QCheckBox            *mpUseEncoder;
    QCheckBox            *mpDirOverride;
-   ScrollLine           *mpDirectory;
+   QLineEdit            *mpDirEdit;
    QPushButton          *mpDotButton;
 
 private:

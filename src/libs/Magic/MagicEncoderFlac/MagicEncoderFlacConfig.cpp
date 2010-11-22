@@ -40,7 +40,7 @@ MagicEncoderFlacConfig::MagicEncoderFlacConfig( MagicEncoderFlac *encoder, QWidg
    mainLayout->addWidget( mpUseEncoder, 0, 0, 1, 3 );
    mainLayout->addWidget( mpDirOverride, 1, 0, 1, 3 );
    mainLayout->addWidget( new QLabel( tr("Base Directory:"), this ), 2, 0 );
-   mainLayout->addWidget( mpDirectory, 2, 1 );
+   mainLayout->addWidget( mpDirEdit, 2, 1 );
    mainLayout->addWidget( mpDotButton, 2, 2 );
    mainLayout->addWidget( new QLabel( tr("Compression Level:"), this ), 3, 0 );
    mainLayout->addWidget( mpQuality, 3, 1, 1, 2 );
@@ -69,7 +69,7 @@ void MagicEncoderFlacConfig::readSettings()
    mpUseEncoder->setChecked( mpEncoder->mUseEncoder );
    mpExternalUseEncoder->setChecked( mpEncoder->mUseEncoder );
    mpDirOverride->setChecked( mpEncoder->mDirOverride );
-   mpDirectory->setText( mpEncoder->mDirectory );
+   mpDirEdit->setText( mpEncoder->mDirectory );
    mpQuality->setValue( mpEncoder->mQuality );
    mpUseOga->setChecked( mpEncoder->mUseOga );
    settings.endGroup();
@@ -82,7 +82,7 @@ void MagicEncoderFlacConfig::writeSettings()
    settings.beginGroup( mpEncoder->mName );
    mpEncoder->mUseEncoder  = mpUseEncoder->isChecked();
    mpEncoder->mDirOverride = mpDirOverride->isChecked();
-   mpEncoder->mDirectory   = mpDirectory->text();
+   mpEncoder->mDirectory   = mpDirEdit->text();
    mpEncoder->mQuality     = mpQuality->value();
    mpEncoder->mUseOga      = mpUseOga->isChecked();
    settings.setValue( "UseEncoder", mpEncoder->mUseEncoder );

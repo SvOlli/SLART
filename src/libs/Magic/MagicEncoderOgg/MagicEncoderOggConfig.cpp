@@ -41,7 +41,7 @@ MagicEncoderOggConfig::MagicEncoderOggConfig( MagicEncoderOgg *encoder, QWidget 
    mainLayout->addWidget( mpUseEncoder, 0, 0, 1, 3 );
    mainLayout->addWidget( mpDirOverride, 1, 0, 1, 3 );
    mainLayout->addWidget( new QLabel( tr("Base Directory:"), this ), 2, 0 );
-   mainLayout->addWidget( mpDirectory, 2, 1 );
+   mainLayout->addWidget( mpDirEdit, 2, 1 );
    mainLayout->addWidget( mpDotButton, 2, 2 );
    mainLayout->addWidget( new QLabel( tr("Quality:"), this ), 3, 0 );
    mainLayout->addWidget( mpQuality, 3, 1, 1, 2 );
@@ -67,7 +67,7 @@ void MagicEncoderOggConfig::readSettings()
    mpEncoder->mQuality     = settings.VALUE_OGGQUALITY;
    mpUseEncoder->setChecked( mpEncoder->mUseEncoder );
    mpDirOverride->setChecked( mpEncoder->mDirOverride );
-   mpDirectory->setText( mpEncoder->mDirectory );
+   mpDirEdit->setText( mpEncoder->mDirectory );
    mpQuality->setValue( mpEncoder->mQuality );
    settings.endGroup();
 }
@@ -79,7 +79,7 @@ void MagicEncoderOggConfig::writeSettings()
    settings.beginGroup( mpEncoder->mName );
    mpEncoder->mUseEncoder  = mpUseEncoder->isChecked();
    mpEncoder->mDirOverride = mpDirOverride->isChecked();
-   mpEncoder->mDirectory   = mpDirectory->text();
+   mpEncoder->mDirectory   = mpDirEdit->text();
    mpEncoder->mQuality     = mpQuality->value();
    settings.setValue( "UseEncoder", mpEncoder->mUseEncoder );
    settings.setValue( "DirectoryOverride", mpEncoder->mDirOverride );

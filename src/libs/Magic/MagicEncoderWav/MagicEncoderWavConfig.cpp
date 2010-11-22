@@ -31,7 +31,7 @@ MagicEncoderWavConfig::MagicEncoderWavConfig( MagicEncoderWav *encoder, QWidget 
    mainLayout->addWidget( mpUseEncoder, 0, 0, 1, 3 );
    mainLayout->addWidget( mpDirOverride, 1, 0, 1, 3 );
    mainLayout->addWidget( new QLabel( tr("Base Directory:") ), 2, 0 );
-   mainLayout->addWidget( mpDirectory, 2, 1 );
+   mainLayout->addWidget( mpDirEdit, 2, 1 );
    mainLayout->addWidget( mpDotButton, 2, 2 );
    mainLayout->setColumnStretch( 1, 1 );
    mainLayout->setRowStretch( 3, 1 );
@@ -56,7 +56,7 @@ void MagicEncoderWavConfig::readSettings()
    mpEncoder->mDirectory   = settings.VALUE_DIRECTORY;
    mpUseEncoder->setChecked( mpEncoder->mUseEncoder );
    mpDirOverride->setChecked( mpEncoder->mDirOverride );
-   mpDirectory->setText( mpEncoder->mDirectory );
+   mpDirEdit->setText( mpEncoder->mDirectory );
    settings.endGroup();
 }
 
@@ -67,7 +67,7 @@ void MagicEncoderWavConfig::writeSettings()
    settings.beginGroup( mpEncoder->mName );
    mpEncoder->mUseEncoder  = mpUseEncoder->isChecked();
    mpEncoder->mDirOverride = mpDirOverride->isChecked();
-   mpEncoder->mDirectory   = mpDirectory->text();
+   mpEncoder->mDirectory   = mpDirEdit->text();
    settings.setValue( "UseEncoder", mpEncoder->mUseEncoder );
    settings.setValue( "DirectoryOverride", mpEncoder->mDirOverride );
    settings.setValue( "Directory", mpEncoder->mDirectory );

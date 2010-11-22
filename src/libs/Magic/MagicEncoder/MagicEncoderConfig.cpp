@@ -26,9 +26,19 @@ MagicEncoderConfig::MagicEncoderConfig( QWidget *parent, QAbstractButton *button
 , mpExternalUseEncoder( button )
 , mpUseEncoder( new QCheckBox( tr("Use This Encoder"), this ) )
 , mpDirOverride( new QCheckBox( tr("Override Base Directory"), this ) )
-, mpDirectory( new ScrollLine( this ) )
+, mpDirEdit( new QLineEdit( this ) )
 , mpDotButton( new QPushButton( tr("..."), this ) )
 {
+   QCompleter *completer = new QCompleter( this );
+   completer->setModel( new QDirModel( QStringList(),
+                                       QDir::NoDotAndDotDot | QDir::AllDirs,
+                                       QDir::Name,
+                                       completer ) );
+   mpDirEdit->setCompleter( completer );
+
+   /* evil hack */
+   mpDotButton->setMaximumWidth( mpDotButton->height() );
+
    if( button )
    {
       connect( button, SIGNAL(clicked(bool)),
@@ -48,16 +58,16 @@ MagicEncoderConfig::~MagicEncoderConfig()
 
 void MagicEncoderConfig::selectDirectory()
 {
-   qDebug() << mpDirectory->text();
-   QFileDialog fileDialog( mpDirectory );
+   qDebug() << mpDirEdit->text();
+   QFileDialog fileDialog( mpDirEdit );
 
    fileDialog.setFileMode( QFileDialog::DirectoryOnly );
-   fileDialog.setDirectory( mpDirectory->text() );
+   fileDialog.setDirectory( mpDirEdit->text() );
    fileDialog.setReadOnly( false );
 
    if( fileDialog.exec() )
    {
       QString result( fileDialog.selectedFiles().at(0) );
-      mpDirectory->setText( result );
+      mpDirEdit->setText( result );
    }
 }
