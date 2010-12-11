@@ -200,3 +200,32 @@ void DatabaseInterface::rename( const QString &newName,
                               Q_ARG( const QString&, oldDirName ),
                               Q_ARG( const QString&, oldFileName ) );
 }
+
+void DatabaseInterface::getAllColumnData( QObject *target, const QString &method,
+                                          Column column )
+{
+   QString columnName;
+   switch( column )
+   {
+   case Artist:
+      columnName = "Artist";
+      break;
+   case Title:
+      columnName = "Title";
+      break;
+   case Album:
+      columnName = "Album";
+      break;
+   case Genre:
+      columnName = "Genre";
+      break;
+   default:
+      qFatal( "%s: illegal enum value", Q_FUNC_INFO );
+   }
+
+   QMetaObject::invokeMethod( mpDatabase, "getAllColumnData",
+                              Qt::QueuedConnection,
+                              Q_ARG( QObject*, target ),
+                              Q_ARG( const QString&, method ),
+                              Q_ARG( const QString&, columnName ) );
+}

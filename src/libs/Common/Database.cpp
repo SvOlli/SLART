@@ -549,6 +549,30 @@ QStringList Database::getFolder( const QString &folder )
 }
 
 
+QStringList Database::getAllColumnData( const QString &columnName )
+{
+   QStringList list;
+
+   if( !columnName.isEmpty() )
+   {
+      QString sql( "SELECT DISTINCT %1 FROM slart_tracks ORDER BY %1;" );
+
+      mpQuery->prepare( sql.arg( columnName, columnName ) );
+      if( !mpQuery->exec() )
+      {
+         logError();
+      }
+      while( mpQuery->next() )
+      {
+         list << mpQuery->value(0).toString();
+      }
+      mpQuery->clear();
+   }
+
+   return list;
+}
+
+
 void Database::insertFolder( const QString &folder )
 {
    if( (folder == QChar(1)) || (folder == QChar(2)) )

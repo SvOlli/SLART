@@ -790,3 +790,30 @@ TRACEMSG << "rows:" << mpQuery->numRowsAffected();
       mpQuery->clear();
    }
 }
+
+
+void DatabaseThread::getAllColumnData( QObject *target, const QString &method,
+                                       const QString &columnName )
+{
+   QStringList list;
+
+   mpQuery->prepare( QString("SELECT DISTINCT %1 FROM slart_folders ORDER BY %1;" )
+                     .arg( columnName, columnName ) );
+   emit working( true );
+   if( !mpQuery->exec() )
+   {
+      logError();
+   }
+   while( mpQuery->next() )
+   {
+      list << mpQuery->value(0).toString();
+   }
+   mpQuery->clear();
+   emit working( false );
+
+   if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
+                                   Q_ARG( const QStringList &, list ) ) )
+   {
+      qFatal( "%s:%d call failed in %s", __FILE__, __LINE__, Q_FUNC_INFO );
+   }
+}

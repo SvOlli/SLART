@@ -74,6 +74,8 @@ public:
    /* rename */
    void rename( const QString &newName,
                 const QString &oldDirName, const QString &oldFileName = QString() );
+   /*  */
+   QStringList getAllColumnData( const QString &columnName );
 
 private:
    Database( const Database &that );

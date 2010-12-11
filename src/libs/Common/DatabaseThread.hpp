@@ -90,6 +90,11 @@ private slots:
    void rename( const QString &newName,
                 const QString &oldDirName, const QString &oldFileName = QString() );
 
+   /* get all unique entries of a column
+      return call parameters: QStringList */
+   void getAllColumnData( QObject *target, const QString &method,
+                          const QString &columnName );
+
    /*  */
    void commit();
 

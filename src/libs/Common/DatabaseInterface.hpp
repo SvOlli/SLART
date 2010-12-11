@@ -95,6 +95,12 @@ public:
    void rename( const QString &newName,
                 const QString &oldDirName, const QString &oldFileName = QString() );
 
+   enum Column { Artist, Title, Album, Genre };
+   /* get all unique entries of a column
+      return call parameters: QStringList */
+   void getAllColumnData( QObject *target, const QString &method,
+                          Column column );
+
 private:
    DatabaseInterface( const QString &fileName = QString() );
    virtual ~DatabaseInterface();
