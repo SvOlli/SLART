@@ -17,6 +17,12 @@ SOURCES += AboutWidget.cpp
 HEADERS += Database.hpp
 SOURCES += Database.cpp
 
+HEADERS += DatabaseInterface.hpp
+SOURCES += DatabaseInterface.cpp
+
+HEADERS += DatabaseThread.hpp
+SOURCES += DatabaseThread.cpp
+
 HEADERS += DirWalker.hpp
 SOURCES += DirWalker.cpp
 
