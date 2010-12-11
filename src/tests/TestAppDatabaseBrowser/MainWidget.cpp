@@ -32,7 +32,9 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mTime()
 {
    QTimer *refreshTimer = new QTimer( this );
-   mpModel->setQuery( "select id,directory,filename,artist,title,album,tracknr as 'Nr',year,genre,playtime as 'Time',timesplayed as 'TP',folders,flags from slart_tracks" );
+   mpModel->setQuery( "select id,directory,filename,artist,title,album,"
+                      "tracknr as 'Nr',year,genre,playtime as 'Time',"
+                      "timesplayed as 'TP',folders,flags from slart_tracks" );
 
    mpView->setModel( mpModel );
    mpView->hideColumn( 0 );
@@ -54,7 +56,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    refreshTimer->start( 1000 );
 
    mTime.start();
-   QTimer::singleShot( 1, this, SLOT(fillTableFull()));
+   QTimer::singleShot( 0, this, SLOT(fillTableFull()) );
 }
 
 
@@ -73,7 +75,7 @@ void MainWidget::fillTableFull()
    if( mpModel->canFetchMore() )
    {
       mpModel->fetchMore();
-      QTimer::singleShot( 1, this, SLOT(fillTableFull()));
+      QTimer::singleShot( 0, this, SLOT(fillTableFull()) );
    }
    else
    {
@@ -84,7 +86,9 @@ void MainWidget::fillTableFull()
 
 void MainWidget::handleClicked( const QModelIndex &index )
 {
-   mpInfo->setText( tr("(%1,%2): %3").arg(QString::number(index.row()),QString::number(index.column()),index.data().toString()) );
+   mpInfo->setText( tr("(%1,%2): %3").arg( QString::number(index.row()),
+                                           QString::number(index.column()),
+                                           index.data().toString()) );
 }
 
 
