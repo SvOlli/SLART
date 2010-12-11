@@ -103,6 +103,35 @@ TrackInfo &TrackInfo::operator=( const TrackInfo &that )
 }
 
 
+bool TrackInfo::operator==( const TrackInfo &that ) const
+{
+   return
+   (
+         (mID           == that.mID )
+      && (mDirectory    == that.mDirectory )
+      && (mFileName     == that.mFileName )
+      && (mArtist       == that.mArtist )
+      && (mTitle        == that.mTitle )
+      && (mAlbum        == that.mAlbum )
+      && (mTrackNr      == that.mTrackNr )
+      && (mYear         == that.mYear )
+      && (mGenre        == that.mGenre )
+      && (mPlayTime     == that.mPlayTime )
+      && (mLastScanned  == that.mLastScanned )
+      && (mLastTagsRead == that.mLastTagsRead )
+      && (mTimesPlayed  == that.mTimesPlayed )
+      && (mVolume       == that.mVolume )
+      && (mFolders      == that.mFolders )
+      && (mFlags        == that.mFlags )
+   );
+}
+
+bool TrackInfo::operator!=( const TrackInfo &that ) const
+{
+   return !operator==( that );
+}
+
+
 void TrackInfo::clear()
 {
    mID           = 0;
@@ -121,6 +150,12 @@ void TrackInfo::clear()
    mVolume       = 0.0;
    mFolders      = QString();
    mFlags        = 0;
+}
+
+
+bool TrackInfo::isInDatabase()
+{
+   return (mID > 0);
 }
 
 

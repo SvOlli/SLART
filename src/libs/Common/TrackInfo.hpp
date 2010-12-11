@@ -42,6 +42,8 @@ public:
    TrackInfo();
    TrackInfo( const TrackInfo &that );
    TrackInfo &operator=( const TrackInfo &that );
+   bool operator==( const TrackInfo &that ) const;
+   bool operator!=( const TrackInfo &that ) const;
    TrackInfo( const QString &directory,
               const QString &filename,
               const QString &artist,
@@ -78,6 +80,9 @@ public:
 
    /* clear all data */
    void clear();
+
+   /* mID > 0 when track is in database */
+   bool isInDatabase();
 
    /* set or unset a flag */
    void setFlag( Flag flag, bool set );
