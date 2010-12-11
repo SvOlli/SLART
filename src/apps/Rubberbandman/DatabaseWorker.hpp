@@ -36,10 +36,11 @@ class DatabaseWorker : public QThread
 Q_OBJECT
 
 public:
-   /* constructor replacement */
-   void prepare( Database *database );
+   DatabaseWorker( Database *database );
+   virtual ~DatabaseWorker();
+
    /* cancel current run */
-   void cancel() { mCancel = true; } ;
+   void cancel() { mCancel = true; }
    /* initialize for update */
    bool initUpdate( const QString &baseDir );
    /* initialize for cleanup */

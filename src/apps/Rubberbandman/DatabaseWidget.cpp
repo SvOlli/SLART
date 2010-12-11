@@ -29,7 +29,7 @@
 DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( database )
-, mpDatabaseWorker( new DatabaseWorker() )
+, mpDatabaseWorker( new DatabaseWorker( database ) )
 , mpBaseDir( new QLineEdit( this ) )
 , mpUpdateButton( new QPushButton( tr("Update"), this ) )
 , mpCleanupButton( new QPushButton( tr("Clean Up"), this ) )
@@ -44,7 +44,6 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
 , mCheckedText()
 , mProcessedText()
 {
-   mpDatabaseWorker->prepare( database );
    QPushButton *browseButton  = new QPushButton( tr("..."), this );
    /* evil hack */
    browseButton->setMaximumWidth( browseButton->height() );

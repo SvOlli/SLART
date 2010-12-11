@@ -55,8 +55,7 @@ int main(int argc, char *argv[])
 
       QString arg;
       Database db;
-      DatabaseWorker *databaseWorker = new DatabaseWorker();
-      databaseWorker->prepare( &db );
+      DatabaseWorker *databaseWorker = new DatabaseWorker( &db );
       while( args.size() > 0 )
       {
          arg = args.takeFirst();
@@ -90,8 +89,9 @@ int main(int argc, char *argv[])
          }
          else
          {
-            fprintf( stderr, "%s: (%s) (%s)\n",
-                     argv[0], _cleanup.toLocal8Bit().constData(), _update.toLocal8Bit().constData() );
+            QTextStream stdErr( ::stderr, QIODevice::WriteOnly );
+            stdErr << QString("Usage:\t%1 (%2) (%3)\n").arg( QApplication::applicationName(),
+                                                             _cleanup, _update );
             return 1;
          }
       }

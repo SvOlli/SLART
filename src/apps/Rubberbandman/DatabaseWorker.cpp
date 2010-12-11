@@ -55,10 +55,21 @@ private:
 };
 
 
-void DatabaseWorker::prepare( Database *database )
+DatabaseWorker::DatabaseWorker( Database *database )
+: QThread( 0 )
+, mMode( none )
+, mpDatabase( database )
 {
-   mpDatabase  = database;
-   mMode       = none;
+}
+
+
+DatabaseWorker::~DatabaseWorker()
+{
+   if( isRunning() )
+   {
+      quit();
+      wait();
+   }
 }
 
 
