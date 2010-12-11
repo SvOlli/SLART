@@ -27,9 +27,7 @@ class QSqlDatabase;
 class QSqlQuery;
 
 /* forward declaration of local classes */
-class Database;
 class GlobalConfigWidget;
-class MyClipboard;
 
 
 class Database
@@ -59,7 +57,7 @@ public:
    /* get a list of track information matching to the search string */
    int getTrackInfoList( TrackInfoList *trackInfoList, const QString &search = QString() );
    /* get a list of file names matching to the search string */
-   int getPathNameList( QStringList* pathNameList, const QString &search = QString() );
+   int getPathNameList( QStringList *pathNameList, const QString &search = QString() );
    /* get a random track */
    bool getRandomTrack( TrackInfo *trackInfo, bool favorite,
                         bool leastplayed, const QString &folder = QString() );
