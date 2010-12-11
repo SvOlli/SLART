@@ -1,5 +1,5 @@
 /**
- * src/libs/Common/TrackInfoWidget.Cpp
+ * src/libs/Common/TrackInfoWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
@@ -7,6 +7,7 @@
  */
 
 #include "Database.hpp"
+#include "DatabaseInterface.hpp"
 #include "MySettings.hpp"
 #include "TrackInfoWidget.hpp"
 #include "Satellite.hpp"
@@ -15,6 +16,71 @@
 #include <QtGui>
 
 #include "Trace.hpp"
+
+
+TrackInfoWidget::TrackInfoWidget( const QByteArray &updateCode,
+                                  bool includeFolders, QWidget *parent )
+: QWidget( parent )
+, mpDatabase( 0 )
+, mTrackInfo()
+, mUpdateCode( updateCode )
+, mIncludeFolders( includeFolders )
+, mpTimesPlayed( new QLabel( this ) )
+, mpArtist( new ScrollLine( this ) )
+, mpTitle( new ScrollLine( this ) )
+, mpAlbum( new ScrollLine( this ) )
+, mpTrackNr( new ScrollLine( this, false ) )
+, mpFavoriteButton( new QCheckBox( tr("Favorite") ) )
+, mpUnwantedButton( new QCheckBox( tr("No Auto") ) )
+{
+   mpFavoriteButton->setCheckable( true );
+   mpUnwantedButton->setCheckable( true );
+   QGridLayout *mainLayout = new QGridLayout( this );
+   mainLayout->setContentsMargins( 1, 1, 1, 1 );
+   mainLayout->setVerticalSpacing( 0 );
+   mainLayout->setHorizontalSpacing( 1 );
+
+   mainLayout->addWidget( new QLabel( tr("Artist:"), this ), 1, 0 );
+   mainLayout->addWidget( new QLabel( tr("Title:"), this ),  2, 0 );
+   mainLayout->addWidget( new QLabel( tr("Album:"), this ),  3, 0 );
+   mainLayout->addWidget( new QLabel( tr("Track:"), this ),  4, 0 );
+
+   mainLayout->addWidget( mpArtist,         1, 1, 1, 4 );
+   mainLayout->addWidget( mpTitle,          2, 1, 1, 4 );
+   mainLayout->addWidget( mpAlbum,          3, 1, 1, 4 );
+   mainLayout->addWidget( mpTrackNr,        4, 1 );
+   mainLayout->addWidget( mpTimesPlayed,    4, 2 );
+   mainLayout->addWidget( mpFavoriteButton, 4, 3 );
+   mainLayout->addWidget( mpUnwantedButton, 4, 4 );
+
+   mainLayout->setColumnStretch( 0,  1 );
+   mainLayout->setColumnStretch( 1, 17 );
+   mainLayout->setColumnStretch( 2, 80 );
+   mainLayout->setColumnStretch( 3,  1 );
+   mainLayout->setColumnStretch( 4,  1 );
+
+   mainLayout->setRowStretch( 0, 1 );
+   mainLayout->setRowStretch( 1, 0 );
+   mainLayout->setRowStretch( 2, 0 );
+   mainLayout->setRowStretch( 3, 0 );
+   mainLayout->setRowStretch( 4, 0 );
+   mainLayout->setRowStretch( 5, 1 );
+
+   mpTimesPlayed->setAlignment( Qt::AlignCenter );
+
+   connect( mpFavoriteButton, SIGNAL(clicked()),
+            this, SLOT(handleFavoriteButton()) );
+   connect( mpUnwantedButton, SIGNAL(clicked()),
+            this, SLOT(handleUnwantedButton()) );
+
+   update( false );
+}
+
+
+TrackInfoWidget::~TrackInfoWidget()
+{
+}
+
 
 TrackInfoWidget::TrackInfoWidget( Database *database, const QByteArray &updateCode,
                                   bool includeFolders, QWidget *parent )
@@ -84,7 +150,14 @@ void TrackInfoWidget::handleFavoriteButton()
    }
    mTrackInfo.setFlag( TrackInfo::Favorite, checked );
    emit checkboxClicked( mTrackInfo );
-   mpDatabase->updateTrackInfo( &mTrackInfo );
+   if( mpDatabase )
+   {
+      mpDatabase->updateTrackInfo( &mTrackInfo );
+   }
+   else
+   {
+      DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
+   }
    Satellite::send1( mUpdateCode );
 }
 
@@ -98,7 +171,14 @@ void TrackInfoWidget::handleUnwantedButton()
    }
    mTrackInfo.setFlag( TrackInfo::Unwanted, checked );
    emit checkboxClicked( mTrackInfo );
-   mpDatabase->updateTrackInfo( &mTrackInfo );
+   if( mpDatabase )
+   {
+      mpDatabase->updateTrackInfo( &mTrackInfo );
+   }
+   else
+   {
+      DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
+   }
    Satellite::send1( mUpdateCode );
 }
 
@@ -121,7 +201,14 @@ void TrackInfoWidget::setFavoriteUnwanted( bool favorite, bool unwanted )
    {
       mTrackInfo.setFlag( TrackInfo::Unwanted, true );
    }
-   mpDatabase->updateTrackInfo( &mTrackInfo );
+   if( mpDatabase )
+   {
+      mpDatabase->updateTrackInfo( &mTrackInfo );
+   }
+   else
+   {
+      DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
+   }
    Satellite::send1( mUpdateCode );
 }
 
@@ -139,6 +226,14 @@ void TrackInfoWidget::update( bool reread )
    {
       mpDatabase->getTrackInfo( &mTrackInfo );
    }
+   updateTrackInfo( mTrackInfo );
+}
+
+
+void TrackInfoWidget::updateTrackInfo( const TrackInfo &trackInfo )
+{
+   mTrackInfo = trackInfo;
+
    mpFavoriteButton->setChecked( false );
    mpUnwantedButton->setChecked( false );
    if( mTrackInfo.mID )

@@ -9,15 +9,25 @@
 #ifndef TRACKINFOWIDGET_HPP
 #define TRACKINFOWIDGET_HPP TRACKINFOWIDGET_HPP
 
+/* base class */
 #include <QWidget>
+
+/* system headers */
+
+/* Qt headers */
 #include <QString>
 
+/* local library headers */
+
+/* local headers */
 #include "TrackInfo.hpp"
 
+/* forward declaration of Qt classes */
 class QCheckBox;
 class QLabel;
 class QPushButton;
 
+/* forward declaration of local classes */
 class Database;
 class ScrollLine;
 
@@ -27,8 +37,11 @@ class TrackInfoWidget : public QWidget
 Q_OBJECT
 
 public:
+   TrackInfoWidget( const QByteArray &updateCode,
+                    bool includeFolders, QWidget *parent = 0 );
    TrackInfoWidget( Database *database, const QByteArray &updateCode,
                     bool includeFolders, QWidget *parent = 0 );
+   virtual ~TrackInfoWidget();
 
 public slots:
    /* handle the "Favorite" checkbox */
@@ -41,6 +54,8 @@ public slots:
    void getTrack( const TrackInfo &trackInfo );
    /* update the displayed track info */
    void update( bool reread = true );
+   /*  */
+   void updateTrackInfo( const TrackInfo &trackInfo );
 
 signals:
    /* either "Favorite" or "No Auto" checkbox has been clicked */
