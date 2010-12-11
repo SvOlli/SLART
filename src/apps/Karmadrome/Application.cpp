@@ -13,13 +13,15 @@
 #include <QtGui>
 
 /* local library headers */
-#include <Database.hpp>
+#include <DatabaseInterface.hpp>
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
 #include <SorcererLoader.hpp>
 
 /* local headers */
-#include "ImportExport.hpp"
+#include "ExportFolder.hpp"
+#include "ExportFolderList.hpp"
+#include "ImportFolder.hpp"
 #include "MainWidget.hpp"
 
 
@@ -62,7 +64,7 @@ int main(int argc, char *argv[])
       QString filename;
       QString arg;
 
-      if( !Database::exists() )
+      if( !DatabaseInterface::exists() )
       {
          return 2;
       }
@@ -111,14 +113,17 @@ int main(int argc, char *argv[])
       else if( arg == _export )
       {
          doexport = true;
-         if( args.size() < 2 )
+         if( args.size() < 1 )
          {
             fail = true;
          }
          else
          {
             foldername = args.takeFirst();
-            filename   = args.takeFirst();
+            if( args.size() > 0 )
+            {
+               filename   = args.takeFirst();
+            }
          }
          while( args.size() > 0 )
          {
@@ -144,33 +149,40 @@ int main(int argc, char *argv[])
 
       if( fail )
       {
-         fprintf( stderr, "Usage:\t%s\n"
-                  "\t%s %s (filename)\n"
-                  "\t%s %s <foldername> <filename.m3u> (%s)\n"
-                  "\t%s %s <foldername> <filename.m3u> (%s) (%s)\n",
-                  argv[0],
-                  argv[0], _list.toLocal8Bit().constData(),
-                  argv[0], _import.toLocal8Bit().constData(), _clean.toLocal8Bit().constData(),
-                  argv[0], _export.toLocal8Bit().constData(),
-                           _relative.toLocal8Bit().constData(), _shuffle.toLocal8Bit().constData() );
+         QTextStream stdErr( ::stderr, QIODevice::WriteOnly );
+         stdErr << QString("Usage:\t%1\n"
+                  "\t%2 %3 (filename)\n"
+                  "\t%4 %5 <foldername> <filename.m3u> (%6)\n"
+                  "\t%7 %8 <foldername> <filename.m3u> (%9) (%10)\n")
+                  .arg( QApplication::applicationName() )
+                  .arg( QApplication::applicationName(), _list )
+                  .arg( QApplication::applicationName(), _import, _clean )
+                  .arg( QApplication::applicationName(), _export, _relative, _shuffle );
          return 1;
       }
 
-      Database     db;
-      ImportExport ie( &db );
-
+      QObject *object = 0;
       if( dolist )
       {
-         ie.listFolders( QString( filename ) );
+         ExportFolderList *exportFolderList =
+               new ExportFolderList( filename );
+         object = qobject_cast<QObject*>(exportFolderList);
       }
       else if( doimport )
       {
-         ie.importM3u( foldername, filename, withclean );
+         ImportFolder *importFolder =
+               new ImportFolder( foldername, filename, withclean );
+         object = qobject_cast<QObject*>(importFolder);
       }
       else if( doexport )
       {
-         ie.exportM3u( foldername, filename, withrelative, withshuffle );
+         ExportFolder *exportFolder =
+               new ExportFolder( foldername, filename, withrelative, withshuffle );
+         object = qobject_cast<QObject*>(exportFolder);
       }
+      QObject::connect( object, SIGNAL(destroyed()),
+                        &app, SLOT(quit()) );
+      retval = app.exec();
    }
    else
    {
@@ -195,5 +207,6 @@ int main(int argc, char *argv[])
       }
    }
 
+   DatabaseInterface::destroy();
    return retval;
 }

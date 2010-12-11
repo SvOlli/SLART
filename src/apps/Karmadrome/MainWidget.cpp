@@ -15,7 +15,7 @@
 #include <QtGui>
 
 /* local library headers */
-#include <Database.hpp>
+#include <DatabaseInterface.hpp>
 #include <GenericSatMsgHandler.hpp>
 #include <GlobalConfigWidget.hpp>
 #include <MySettings.hpp>
@@ -27,17 +27,18 @@
 /* local headers */
 #include "ButtonsWidget.hpp"
 #include "ConfigDialog.hpp"
-#include "ImportExport.hpp"
+#include "ExportFolder.hpp"
+#include "ExportFolderList.hpp"
+#include "ImportFolder.hpp"
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpDatabase( new Database() )
+, mpDatabase( DatabaseInterface::get() )
 , mpSatellite( Satellite::get( this ) )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
-, mpImportExport( new ImportExport( mpDatabase) )
 , mpFileName( new ScrollLine( this ) )
-, mpTrackInfo( new TrackInfoWidget( mpDatabase, QByteArray("k0u"), false, this ) )
+, mpTrackInfo( new TrackInfoWidget( QByteArray("k0u"), false, this ) )
 , mpReadButton( new QPushButton( this ) )
 , mpExportButton( new QPushButton( tr("Export m3u"), this ) )
 , mpExportMenu( new QMenu( this ) )
@@ -54,17 +55,17 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpRemoveMenu( new QMenu( this ) )
 , mpConfigDialog( new ConfigDialog( this ) )
 , mpTimer( new QTimer( this ) )
-, mPlaylists()
+, mpCurrentAction( 0 )
+, mFolders()
 , mTrackInfo()
 {
-   qsrand( time((time_t*)0) );
    QGridLayout *mainLayout   = new QGridLayout( this );
 
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
 
    mpTimer->setSingleShot( true );
-   mpTimer->setInterval( 2000 );
+   mpTimer->setInterval( 500 );
 
    mpExportButton->setMenu( mpExportMenu );
    mpImportButton->setMenu( mpImportMenu );
@@ -88,7 +89,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 
    setLayout( mainLayout );
 
-   updateLists();
+   mpDatabase->getFolders( this, "updateFolderNames" );
 
    connect( mpSatellite, SIGNAL(received(const QByteArray &)),
             this, SLOT(handleSatellite(const QByteArray &)) );
@@ -133,7 +134,6 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 
 MainWidget::~MainWidget()
 {
-   delete mpDatabase;
 }
 
 
@@ -147,7 +147,7 @@ void MainWidget::addToList( QWidget *widget )
    if( mTrackInfo.mID > 0 )
    {
       mTrackInfo.setFolder( button->text(), button->isChecked() );
-      mpDatabase->updateTrackInfo( &mTrackInfo );
+      mpDatabase->updateTrackInfo( mTrackInfo );
       mpTrackInfo->getTrack( mTrackInfo );
       mpTimer->start();
    }
@@ -191,9 +191,10 @@ void MainWidget::handleSatellite( const QByteArray &msg )
             }
 
             MySettings settings;
-            mpImportExport->exportM3u( message.at(1), message.at(2),
-                                       settings.VALUE_EXPORTASRELATIVE,
-                                       settings.VALUE_RANDOMIZEEXPORT );
+            ExportFolder *exportFolder = new ExportFolder( message.at(1), message.at(2),
+                                                           settings.VALUE_EXPORTASRELATIVE,
+                                                           settings.VALUE_RANDOMIZEEXPORT );
+            Q_UNUSED( exportFolder );
          }
       }
 
@@ -201,8 +202,9 @@ void MainWidget::handleSatellite( const QByteArray &msg )
       {
          if( message.at(2).startsWith( "/" ) )
          {
-            mpImportExport->importM3u( message.at(1), message.at(2),
-                                       MySettings().VALUE_CLEARBEFOREIMPORT );
+            ImportFolder *importFolder = new ImportFolder( message.at(1), message.at(2),
+                                                           MySettings().VALUE_CLEARBEFOREIMPORT );
+            Q_UNUSED( importFolder );
          }
       }
    }
@@ -211,10 +213,10 @@ void MainWidget::handleSatellite( const QByteArray &msg )
    {
       if( message.at(0) == "K0A" )
       {
-         if( mpDatabase->getFolders().contains( message.at(1) ) )
+         if( mFolders.contains( message.at(1) ) )
          {
             mTrackInfo.setFolder( message.at(1), !mTrackInfo.isInFolder( message.at(1) ) );
-            mpDatabase->updateTrackInfo( &mTrackInfo );
+            mpDatabase->updateTrackInfo( mTrackInfo );
             mpTimer->start();
          }
       }
@@ -223,9 +225,7 @@ void MainWidget::handleSatellite( const QByteArray &msg )
       {
          mpFileName->setText( message.at(1) );
          mpFileName->setDragFileName( mpFileName->text() );
-         mpListButtons->setDisabled( !mpDatabase->getTrackInfo( &mTrackInfo, message.at(1) ) );
-         mpTrackInfo->getTrack( mTrackInfo );
-         mpListButtons->lockButtons( mTrackInfo.getFolders() );
+         mpDatabase->getTrackInfo( this, "updateTrackInfo", mpFileName->text() );
       }
    }
 
@@ -241,9 +241,14 @@ void MainWidget::handleSatellite( const QByteArray &msg )
    if( (message.at(0) == "p0u") ||
        (message.at(0) == "r0u") )
    {
-      mpDatabase->getTrackInfo( &mTrackInfo );
-      mpTrackInfo->getTrack( mTrackInfo );
-      mpListButtons->lockButtons( mTrackInfo.getFolders() );
+      if( mTrackInfo.isInDatabase() )
+      {
+         mpDatabase->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
+      }
+      else
+      {
+         mpDatabase->getTrackInfo( this, "updateTrackInfo", mpFileName->text() );
+      }
    }
 }
 
@@ -251,10 +256,8 @@ void MainWidget::handleSatellite( const QByteArray &msg )
 void MainWidget::updateLists()
 {
    int i;
-   mPlaylists = mpDatabase->getFolders();
-   mPlaylists.sort();
 
-   mpListButtons->updateButtons( mPlaylists );
+   mpListButtons->updateButtons( mFolders );
    mpExportMenu->clear();
    mpImportMenu->clear();
    mpRemoveMenu->clear();
@@ -264,17 +267,17 @@ void MainWidget::updateLists()
    mpExportMenu->addAction( mpExportUnwanted );
    mpImportMenu->addAction( mpImportUnwanted );
 
-   if( mPlaylists.count() > 0 )
+   if( mFolders.count() > 0 )
    {
       mpExportMenu->addSeparator();
       mpImportMenu->addSeparator();
    }
 
-   for( i = 0; i < mPlaylists.count(); i++ )
+   for( i = 0; i < mFolders.count(); i++ )
    {
-      mpExportMenu->addAction( mPlaylists.at(i) );
-      mpImportMenu->addAction( mPlaylists.at(i) );
-      mpRemoveMenu->addAction( mPlaylists.at(i) );
+      mpExportMenu->addAction( mFolders.at(i) );
+      mpImportMenu->addAction( mFolders.at(i) );
+      mpRemoveMenu->addAction( mFolders.at(i) );
    }
    mpListButtons->lockButtons( mTrackInfo.getFolders() );
 }
@@ -305,6 +308,7 @@ void MainWidget::handleAdd()
 void MainWidget::handleExport( QAction *action )
 {
    MySettings settings;
+   setButtonsEnabled( false );
    QFileDialog dialog( this, QString(tr("Rubberbandman: Export %1 To:")).arg(action->text()) );
    dialog.setFileMode( QFileDialog::AnyFile );
    dialog.setFilter( tr("Playlist files (*.m3u)") );
@@ -341,9 +345,15 @@ void MainWidget::handleExport( QAction *action )
       {
          folder = QChar(2);
       }
-      mpImportExport->exportM3u( folder, fileName,
-                                 settings.VALUE_EXPORTASRELATIVE,
-                                 settings.VALUE_RANDOMIZEEXPORT );
+      ExportFolder *exportFolder = new ExportFolder( folder, fileName,
+                                                     settings.VALUE_EXPORTASRELATIVE,
+                                                     settings.VALUE_RANDOMIZEEXPORT );
+      connect( exportFolder, SIGNAL(destroyed()),
+               this, SLOT(setButtonsEnabled()) );
+   }
+   else
+   {
+      setButtonsEnabled();
    }
 }
 
@@ -351,6 +361,7 @@ void MainWidget::handleExport( QAction *action )
 void MainWidget::handleImport( QAction *action )
 {
    MySettings settings;
+   setButtonsEnabled( false );
    QFileDialog dialog( this, QString(tr("Rubberbandman: Import %1 From:")).arg(action->text()) );
    dialog.setFileMode( QFileDialog::ExistingFiles );
    dialog.setFilter( tr("Playlist files (*.m3u)") );
@@ -383,34 +394,34 @@ void MainWidget::handleImport( QAction *action )
 
       for( int i = 0; i < dialog.selectedFiles().count(); i++ )
       {
-         mpImportExport->importM3u( folder, dialog.selectedFiles().at(i),
-                                    (!i) ? settings.VALUE_CLEARBEFOREIMPORT : false );
+         ImportFolder *importFolder = new ImportFolder( folder, dialog.selectedFiles().at(i),
+                                                        (!i) ? settings.VALUE_CLEARBEFOREIMPORT : false );
+         connect( importFolder, SIGNAL(destroyed()),
+                  this, SLOT(setButtonsEnabled()) );
       }
       QDir::setCurrent( cwd );
+   }
+   else
+   {
+      setButtonsEnabled();
    }
 }
 
 
 void MainWidget::handleRemove( QAction *action )
 {
+   setButtonsEnabled( false );
    if( QMessageBox::Ok == QMessageBox::question( this, QApplication::applicationName(),
                                                  tr("Are you sure you want to delete the folder\n") +
                                                  action->text(), QMessageBox::Ok | QMessageBox::Cancel ) )
    {
-      TrackInfo trackInfo;
-      QStringList entries( mpDatabase->getFolder( action->text() ) );
-      mpDatabase->beginTransaction();
-      for( int i = 0; i < entries.count(); i++ )
-      {
-         if( mpDatabase->getTrackInfo( &trackInfo, entries.at(i) ) )
-         {
-            trackInfo.setFolder( action->text(), false );
-            mpDatabase->updateTrackInfo( &trackInfo );
-         }
-      }
-      mpDatabase->endTransaction( true );
-      mpDatabase->deleteFolder( action->text() );
-      updateLists();
+      mpCurrentAction = action;
+
+      mpDatabase->getFolder( this, "removeFolder", action->text() );
+   }
+   else
+   {
+      setButtonsEnabled();
    }
 }
 
@@ -419,9 +430,7 @@ void MainWidget::handleReadButton()
 {
    mpFileName->setText( GlobalConfigWidget::getClipboard() );
    mpFileName->setDragFileName( mpFileName->text() );
-   mpListButtons->setDisabled( !mpDatabase->getTrackInfo( &mTrackInfo, GlobalConfigWidget::getClipboard() ) );
-   mpTrackInfo->getTrack( mTrackInfo );
-   mpListButtons->lockButtons( mTrackInfo.getFolders() );
+   mpDatabase->getTrackInfo( this, "updateTrackInfo", mpFileName->text() );
 }
 
 
@@ -454,4 +463,44 @@ void MainWidget::labelReadButton()
 void MainWidget::updateTrackInfo( const TrackInfo &trackInfo )
 {
    mTrackInfo = trackInfo;
+   mpListButtons->setDisabled( !mTrackInfo.isInDatabase() );
+   mpTrackInfo->getTrack( mTrackInfo );
+   mpListButtons->lockButtons( mTrackInfo.getFolders() );
+}
+
+
+void MainWidget::removeFolder( const QStringList &entries )
+{
+   foreach( const QString &entry, entries )
+   {
+      mpDatabase->getTrackInfo( this, "removeFolderFromTrack", entry );
+   }
+   mpDatabase->deleteFolder( mpCurrentAction->text() );
+   mpCurrentAction = 0;
+   updateLists();
+   setButtonsEnabled();
+}
+
+
+void MainWidget::removeFolderFromTrack( const TrackInfo &ti )
+{
+   TrackInfo trackInfo( ti );
+   trackInfo.setFolder( mpCurrentAction->text(), false );
+   mpDatabase->updateTrackInfo( trackInfo );
+}
+
+
+void MainWidget::setButtonsEnabled( bool enabled )
+{
+   mpRemoveButton->setEnabled( enabled );
+   mpExportButton->setEnabled( enabled );
+   mpImportButton->setEnabled( enabled );
+}
+
+
+void MainWidget::updateFolderNames( const QStringList &list )
+{
+   mFolders = list;
+   mFolders.sort();
+   updateLists();
 }

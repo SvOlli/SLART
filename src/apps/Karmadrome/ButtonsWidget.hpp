@@ -37,6 +37,7 @@ public:
    ButtonsWidget( QWidget *parent = 0 );
    ButtonsWidget( const QString &title, QWidget *parent = 0 );
 
+public slots:
    /* update the button list: replace all existing buttons */
    void updateButtons( const QStringList &list );
    /* set buttons checked state */

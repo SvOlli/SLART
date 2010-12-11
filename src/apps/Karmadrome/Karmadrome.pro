@@ -19,14 +19,21 @@ RC_FILE = ../../libs/Common/Resources/WinIcon.rc
 
 SOURCES += Application.cpp
 
-HEADERS += MainWidget.hpp
-SOURCES += MainWidget.cpp
-
-HEADERS += ImportExport.hpp
-SOURCES += ImportExport.cpp
-
 HEADERS += ButtonsWidget.hpp
 SOURCES += ButtonsWidget.cpp
 
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp
+
+HEADERS += ExportFolder.hpp
+SOURCES += ExportFolder.cpp
+
+HEADERS += ExportFolderList.hpp
+SOURCES += ExportFolderList.cpp
+
+HEADERS += ImportFolder.hpp
+SOURCES += ImportFolder.cpp
+
+HEADERS += MainWidget.hpp
+SOURCES += MainWidget.cpp
+

@@ -33,9 +33,8 @@ class QTimer;
 /* forward declaration of local classes */
 class ButtonsWidget;
 class ConfigDialog;
-class Database;
+class DatabaseInterface;
 class GenericSatMsgHandler;
-class ImportExport;
 class Satellite;
 class ScrollLine;
 
@@ -71,6 +70,14 @@ public slots:
    void sendK0u();
    /* sync TrackInfo data */
    void updateTrackInfo( const TrackInfo &trackInfo );
+   /*  */
+   void setButtonsEnabled( bool enabled = true );
+   /*  */
+   void updateFolderNames( const QStringList &list );
+   /*  */
+   void removeFolder( const QStringList &entries );
+   /*  */
+   void removeFolderFromTrack( const TrackInfo &trackInfo );
 
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
@@ -79,10 +86,9 @@ private:
    MainWidget( const MainWidget &that );
    MainWidget &operator=( const MainWidget &that );
 
-   Database             *mpDatabase;
+   DatabaseInterface    *mpDatabase;
    Satellite            *mpSatellite;
    GenericSatMsgHandler *mpGenericSatMsgHandler;
-   ImportExport         *mpImportExport;
    ScrollLine           *mpFileName;
    TrackInfoWidget      *mpTrackInfo;
    QPushButton          *mpReadButton;
@@ -102,8 +108,9 @@ private:
    QMenu                *mpRemoveMenu;
    ConfigDialog         *mpConfigDialog;
    QTimer               *mpTimer;
+   QAction              *mpCurrentAction;
 
-   QStringList          mPlaylists;
+   QStringList          mFolders;
    TrackInfo            mTrackInfo;
 };
 
