@@ -46,6 +46,9 @@ SOURCES += FileSysBrowser.cpp
 HEADERS += InfoEdit.hpp
 SOURCES += InfoEdit.cpp
 
+HEADERS += LineEdit.hpp
+SOURCES += LineEdit.cpp
+
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
 
@@ -54,3 +57,4 @@ SOURCES += MyTreeView.cpp
 
 HEADERS += SatelliteWidget.hpp
 SOURCES += SatelliteWidget.cpp
+

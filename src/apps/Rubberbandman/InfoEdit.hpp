@@ -38,6 +38,7 @@ class QPushButton;
 /* forward declaration of local classes */
 class Database;
 class ScrollLine;
+class LineEdit;
 
 
 class InfoEdit : public QWidget
@@ -48,6 +49,9 @@ public:
    InfoEdit( Database *database, QWidget *parent = 0 );
    QString tagsFileName( const QString &pattern, bool filterPath = true );
    QString fileName();
+
+   /* add the current entry to the completer */
+   static void addToCompleter( QLineEdit *lineEdit );
 
 public slots:
    /* load tags from a file */
@@ -105,12 +109,12 @@ private:
    ScrollLine *mpShowSize;
    ScrollLine *mpShowPlayTime;
 
-   QLineEdit *mpEditArtist;
-   QLineEdit *mpEditTitle;
-   QLineEdit *mpEditAlbum;
+   LineEdit *mpEditArtist;
+   LineEdit *mpEditTitle;
+   LineEdit *mpEditAlbum;
    QLineEdit *mpEditTrackNr;
    QLineEdit *mpEditYear;
-   QLineEdit *mpEditGenre;
+   LineEdit *mpEditGenre;
    QIntValidator *mpValidateTrackNr;
    QIntValidator *mpValidateYear;
 

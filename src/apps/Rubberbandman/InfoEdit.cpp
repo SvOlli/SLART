@@ -18,12 +18,14 @@
 
 /* local library headers */
 #include <Database.hpp>
+#include <DatabaseInterface.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 #include <ScrollLine.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
+#include "LineEdit.hpp"
 
 #define MODE_NOTHING     0
 #define MODE_SETTAGS     1
@@ -46,12 +48,12 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 , mpShowFileName( new ScrollLine( this ) )
 , mpShowSize( new ScrollLine( this, false ) )
 , mpShowPlayTime( new ScrollLine( this, false ) )
-, mpEditArtist( new QLineEdit( this ) )
-, mpEditTitle( new QLineEdit( this ) )
-, mpEditAlbum( new QLineEdit( this ) )
+, mpEditArtist( new LineEdit( this ) )
+, mpEditTitle( new LineEdit( this ) )
+, mpEditAlbum( new LineEdit( this ) )
 , mpEditTrackNr( new QLineEdit( this ) )
 , mpEditYear( new QLineEdit( this ) )
-, mpEditGenre( new QLineEdit( this ) )
+, mpEditGenre( new LineEdit( this ) )
 , mpButtonFlags( new QPushButton( tr("Flags"), this ) )
 , mpMenuFlags( new QMenu( this ) )
 , mpShowTimesPlayed( new QLabel( this ) )
@@ -201,6 +203,11 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
             this, SLOT(handleFlagsMenu(QAction*)) );
    connect( mpMenuFolders, SIGNAL(triggered(QAction*)),
             this, SLOT(handleFoldersMenu(QAction*)) );
+
+   mpEditArtist->setCompleterTexts( mpDatabase->getAllColumnData("Artist") );
+   mpEditTitle->setCompleterTexts( mpDatabase->getAllColumnData("Title") );
+   mpEditAlbum->setCompleterTexts( mpDatabase->getAllColumnData("Album") );
+   mpEditGenre->setCompleterTexts( mpDatabase->getAllColumnData("Genre") );
 }
 
 
@@ -554,10 +561,16 @@ void InfoEdit::loadFile( const QString &fullpath )
    }
 }
 
+
 void InfoEdit::handleSetSave()
 {
    if( mIsValid )
    {
+      mpEditArtist->addCompleterText();
+      mpEditTitle->addCompleterText();
+      mpEditAlbum->addCompleterText();
+      mpEditGenre->addCompleterText();
+
       if( mIsFile )
       {
          saveFile();
