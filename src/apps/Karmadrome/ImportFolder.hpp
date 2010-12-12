@@ -39,10 +39,6 @@ public:
 public slots:
    /*  */
    void addEntryToFolder( const TrackInfo &ti );
-   /*  */
-   void removeEntryFromFolder( const TrackInfo &ti );
-   /*  */
-   void removeEntriesFromFolder( const QStringList &entries );
 
 signals:
 
@@ -51,10 +47,8 @@ private:
    ImportFolder( const ImportFolder &that );
    ImportFolder &operator=( const ImportFolder &that );
 
-   /*  */
-   void set( const TrackInfo &ti, bool set );
-
    DatabaseInterface *mpDatabase;
+   int               mQueueSize;
    const QString     mFavorite;
    const QString     mUnwanted;
    QString           mFolder;

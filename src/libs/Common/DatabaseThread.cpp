@@ -706,6 +706,38 @@ void DatabaseThread::deleteFolder( const QString &folder )
 {
    prepare();
 
+   QStringList sqlList;
+   mpSqlDB->transaction();
+   mpQuery->prepare( "SELECT ID,Folders FROM slart_tracks WHERE Folders like :folder;" );
+   mpQuery->bindValue( ":folder", QString("%|%1|%").arg( folder ) );
+   if( !mpQuery->exec() )
+   {
+      logError();
+   }
+   QString id;
+   QString folders;
+   QString sqlLine( "UPDATE slart_tracks SET Folders = '%1' WHERE ID = %2" );
+   while( mpQuery->next() )
+   {
+      id      = mpQuery->value(0).toString();
+      folders = mpQuery->value(1).toString();
+      folders.replace( QString("|%1|").arg( folder ), "|" );
+      if( folders == "|" )
+      {
+         folders.clear();
+      }
+      sqlList << sqlLine.arg( folders, id );
+   }
+   mpQuery->clear();
+   foreach( const QString &sql, sqlList )
+   {
+      mpQuery->prepare( sql );
+      if( !mpQuery->exec() )
+      {
+         logError();
+      }
+      mpQuery->clear();
+   }
    mpQuery->prepare( "DELETE FROM slart_folders WHERE Name = :name;" );
    mpQuery->bindValue( ":name", folder );
    if( !mpQuery->exec() )
@@ -713,7 +745,7 @@ void DatabaseThread::deleteFolder( const QString &folder )
       logError();
    }
    mpQuery->clear();
-   // TODO: delete entries from slart_tracks
+   mpSqlDB->commit();
 }
 
 

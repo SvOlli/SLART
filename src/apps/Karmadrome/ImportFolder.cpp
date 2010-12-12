@@ -25,14 +25,17 @@
 
 /* local headers */
 
+#include <Trace.hpp>
 
 ImportFolder::ImportFolder( const QString &folder, const QString &fileName, bool cleanImport )
 : QObject( 0 )
 , mpDatabase( DatabaseInterface::get() )
+, mQueueSize( 0 )
 , mFavorite( QChar(1) )
 , mUnwanted( QChar(2) )
 , mFolder( folder )
 {
+TRACESTART(ImportFolder::ImportFolder)
    if( mFolder.startsWith( "|F", Qt::CaseInsensitive ) )
    {
       mFolder = mFavorite;
@@ -42,11 +45,11 @@ ImportFolder::ImportFolder( const QString &folder, const QString &fileName, bool
       mFolder = mUnwanted;
    }
 
-   mpDatabase->insertFolder( folder );
    if( cleanImport )
    {
-      mpDatabase->getFolder( this, "removeEntryFromFolder", folder );
+      mpDatabase->deleteFolder( folder );
    }
+   mpDatabase->insertFolder( folder );
 
    QFile m3uFile( fileName );
    if( m3uFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
@@ -70,58 +73,45 @@ ImportFolder::ImportFolder( const QString &folder, const QString &fileName, bool
                qfi.setFile( fileBase + fileName );
                fileName = qfi.absoluteFilePath();
             }
+            mQueueSize++;
             mpDatabase->getTrackInfo( this, "addEntryToFolder", fileName );
          }
       }
       m3uFile.close();
    }
-   QTimer::singleShot( 0, this, SLOT(deleteLater()) );
 }
 
 
 ImportFolder::~ImportFolder()
 {
+TRACESTART(ImportFolder::~ImportFolder)
 }
 
 
 void ImportFolder::addEntryToFolder( const TrackInfo &ti )
 {
-   set( ti, true );
-}
+TRACESTART(ImportFolder::addEntryToFolder)
 
-
-void ImportFolder::removeEntryFromFolder( const TrackInfo &ti )
-{
-   set( ti, false );
-}
-
-
-void ImportFolder::set( const TrackInfo &ti, bool set )
-{
    TrackInfo trackInfo( ti );
    if( mFolder == mFavorite )
    {
-      trackInfo.setFlag( TrackInfo::Favorite, set );
+      trackInfo.setFlag( TrackInfo::Favorite, true );
    }
    else if( mFolder == mUnwanted )
    {
-      trackInfo.setFlag( TrackInfo::Unwanted, set );
+      trackInfo.setFlag( TrackInfo::Unwanted, true );
    }
    else
    {
-      trackInfo.setFolder( mFolder, set );
+      trackInfo.setFolder( mFolder, true );
    }
    if( ti != trackInfo )
    {
       mpDatabase->updateTrackInfo( trackInfo );
    }
-}
-
-
-void ImportFolder::removeEntriesFromFolder( const QStringList &entries )
-{
-   foreach( const QString &entry, entries )
+TRACEMSG << mQueueSize;
+   if( (--mQueueSize) == 0 )
    {
-      mpDatabase->getTrackInfo( this, QString("removeEntryFromFolder"), entry );
+      deleteLater();
    }
 }
