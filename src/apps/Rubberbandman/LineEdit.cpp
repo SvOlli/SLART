@@ -19,12 +19,11 @@
 /* local headers */
 
 
-LineEdit::LineEdit( QWidget *parent, bool autoScroll )
+LineEdit::LineEdit( QWidget *parent )
 : QLineEdit( parent )
 {
    setCompleter( new QCompleter( QStringList(), this ) );
    completer()->setCaseSensitivity( Qt::CaseInsensitive );
-   completer()->setModelSorting( QCompleter::CaseInsensitivelySortedModel );
 }
 
 
@@ -40,17 +39,17 @@ void LineEdit::setCompleterTexts( const QStringList &list )
 }
 
 
-void LineEdit::addCompleterText( const QString &strings )
+void LineEdit::addCompleterText( const QString &string )
 {
    QStringListModel *model = qobject_cast<QStringListModel*>( completer()->model() );
    QStringList list( model->stringList() );
-   if( strings.isEmpty() )
+   if( string.isEmpty() )
    {
       list << text();
    }
    else
    {
-      list << strings;
+      list << string;
    }
    model->setStringList( list );
 }

@@ -33,7 +33,7 @@ class LineEdit : public QLineEdit
 Q_OBJECT
 
 public:
-   LineEdit( QWidget *parent, bool autoScroll = true );
+   LineEdit( QWidget *parent );
    virtual ~LineEdit();
 
 public slots:
