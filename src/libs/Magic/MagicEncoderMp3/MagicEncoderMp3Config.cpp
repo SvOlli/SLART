@@ -88,7 +88,7 @@ void MagicEncoderMp3Config::writeSettings()
    settings.setValue( "UseEncoder", mpEncoder->mUseEncoder );
    settings.setValue( "DirectoryOverride", mpEncoder->mDirOverride );
    settings.setValue( "Directory", mpEncoder->mDirectory );
-   settings.setValue( "OggQuality", mpEncoder->mQuality );
+   settings.setValue( "VBRQuality", mpEncoder->mQuality );
    settings.setValue( "UseLatin1", mpEncoder->mUseLatin1 );
    settings.endGroup();
 }
