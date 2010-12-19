@@ -19,6 +19,7 @@
 #include <GlobalConfigWidget.hpp>
 #include <Database.hpp>
 #include <MySettings.hpp>
+#include <Satellite.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -39,13 +40,15 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
 , mpNextTreeModel( 0 )
 , mpTreeUpdate( new FileSysTreeUpdate() )
 , mpSearch( new SearchWidget( database, this ) )
-, mpTrackInfo( new TrackInfoWidget( database, QByteArray("p0u"), true, this ) )
+, mpTrackInfo( new TrackInfoWidget( database, true, this ) )
 , mpHelpText( new QTextBrowser( this ) )
 , mpSplitter( new QSplitter( Qt::Vertical, parent ) )
 , mpFKeyMapper( new QSignalMapper( this ) )
 {
    MySettings settings;
    qsrand( time((time_t*)0) );
+
+   mpDatabase->registerUpdate( Satellite::get(), "p0u" );
 
    mpTreeView->header()->hide();
    mpTreeView->setDragDropMode( QAbstractItemView::DragOnly );

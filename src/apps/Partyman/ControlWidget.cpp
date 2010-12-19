@@ -61,7 +61,6 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mDerMixDstarted( false )
 , mLastP0p()
 {
-   MySettings settings;
    mpPlayer[0] = new PlayerWidget(0, database, this);
    mpPlayer[1] = new PlayerWidget(1, database, this);
    mTrayIconClickTimer.setSingleShot( true );
