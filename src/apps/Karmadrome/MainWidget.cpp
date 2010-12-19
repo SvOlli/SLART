@@ -38,7 +38,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpSatellite( Satellite::get( this ) )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
 , mpFileName( new ScrollLine( this ) )
-, mpTrackInfo( new TrackInfoWidget( QByteArray("k0u"), false, this ) )
+, mpTrackInfo( new TrackInfoWidget( false, this ) )
 , mpReadButton( new QPushButton( this ) )
 , mpExportButton( new QPushButton( tr("Export m3u"), this ) )
 , mpExportMenu( new QMenu( this ) )
@@ -59,6 +59,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mFolders()
 , mTrackInfo()
 {
+   mpDatabase->registerUpdate( mpSatellite, "k0u" );
    QGridLayout *mainLayout   = new QGridLayout( this );
 
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
@@ -118,7 +119,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    connect( mpRemoveMenu, SIGNAL(triggered(QAction *)),
             this, SLOT(handleRemove(QAction *)) );
    connect( mpTrackInfo, SIGNAL(checkboxClicked(const TrackInfo&)),
-            this, SLOT(updateTrackInfo(const TrackInfo &)));
+            this, SLOT(updateTrackInfo(const TrackInfo&)));
 
    labelReadButton();
 
