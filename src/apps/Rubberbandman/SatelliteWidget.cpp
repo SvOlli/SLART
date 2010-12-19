@@ -40,6 +40,7 @@ SatelliteWidget::SatelliteWidget( Database *database, QWidget *parent, Qt::Windo
 , mpShowInFilesystem( new QPushButton( tr("Show In Filesystem"), this ) )
 , mpGetRandom( new QPushButton( tr("Get Random Track"), this ) )
 {
+   mpDatabase->registerUpdate( mpSatellite, "r0u" );
    QBoxLayout *mainLayout;
    QBoxLayout *buttonLayout;
 

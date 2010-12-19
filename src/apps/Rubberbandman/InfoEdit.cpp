@@ -355,7 +355,6 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
 
       mTrackInfo.clear();
 
-      Satellite::get()->send( QByteArray("r0u") );
       if( settings.VALUE_AUTORESCAN )
       {
          emit updated();
@@ -592,7 +591,6 @@ void InfoEdit::handleSetSave()
          mRecurseMode = MODE_NOTHING;
       }
       mpButtonSet->setDisabled( true );
-      Satellite::get()->send( QByteArray("r0u") );
    }
 }
 
