@@ -121,6 +121,9 @@ void SorcererPlugin::cleanup( QApplication *app )
       mStripped.setValue( "FlacUseOga", strippedFlacUseOga );
    }
    mStripped.endGroup();
+   mStripped.beginGroup( "mp3" );
+   mStripped.remove( "OggQuality" );
+   mStripped.endGroup();
    mGlobal.setValue( "Version", SLART_VERSION );
 }
 
