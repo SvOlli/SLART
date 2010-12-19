@@ -34,25 +34,25 @@
 #include "Trace.hpp"
 
 
-DatabaseInterface *DatabaseInterface::cpDatabase = 0;
+DatabaseInterface *DatabaseInterface::cpInterface = 0;
 
 
 DatabaseInterface *DatabaseInterface::get()
 {
-   if( !cpDatabase )
+   if( !cpInterface )
    {
-      cpDatabase = new DatabaseInterface();
+      cpInterface = new DatabaseInterface();
    }
-   return cpDatabase;
+   return cpInterface;
 }
 
 
 void DatabaseInterface::destroy()
 {
-   if( cpDatabase )
+   if( cpInterface )
    {
-      delete cpDatabase;
-      cpDatabase = 0;
+      delete cpInterface;
+      cpInterface = 0;
    }
 }
 
@@ -86,6 +86,12 @@ void DatabaseInterface::disconnectActivityIndicator( QObject *object, const char
 {
    mpDatabase->disconnect( mpDatabase, SIGNAL(working(bool)),
                            object, slot );
+}
+
+
+void DatabaseInterface::registerUpdate( Satellite *satellite, const QByteArray &message )
+{
+   mpDatabase->registerUpdate( satellite, message );
 }
 
 

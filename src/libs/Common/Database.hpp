@@ -28,6 +28,7 @@ class QSqlQuery;
 
 /* forward declaration of local classes */
 class GlobalConfigWidget;
+class Satellite;
 
 
 class Database
@@ -43,6 +44,8 @@ public:
    bool beginTransaction();
    /* end an encapsulated database transaction */
    bool endTransaction( bool commit );
+   /*  */
+   void registerUpdate( Satellite *satellite, const QByteArray &message );
    /* try to clean up and compress database */
    void cleanup();
 
@@ -89,8 +92,10 @@ private:
 
    QSqlDatabase       *mpSqlDB;
    QSqlQuery          *mpQuery;
+   Satellite          *mpSatellite;
    unsigned int       mDatabaseVersion;
    const unsigned int mCodeVersion;
+   QByteArray         mUpdateMessage;
 };
 
 #endif

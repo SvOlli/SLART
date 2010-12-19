@@ -49,8 +49,11 @@ DatabaseThread::DatabaseThread( const QString &fileName )
 , mpSqlDB( 0 )
 , mpQuery( 0 )
 , mpCommitTimer( 0 )
+, mpSatellite( 0 )
 , mDatabaseVersion( 0 )
 , mCodeVersion( 1 )
+, mUpdateCount( 0 )
+, mUpdateMessage()
 {
    qsrand( time((time_t*)0) );
    mpSqlDB = new QSqlDatabase( QSqlDatabase::addDatabase( "QSQLITE" ) );
@@ -215,11 +218,18 @@ void DatabaseThread::run()
 }
 
 
+void DatabaseThread::registerUpdate( Satellite *satellite, const QByteArray &message )
+{
+   mpSatellite    = satellite;
+   mUpdateMessage = message;
+}
+
+
 void DatabaseThread::prepare()
 {
    if( mUpdateCount > 100 )
    {
-      commit();
+      commit( false );
    }
    if( !mUpdateCount )
    {
@@ -230,11 +240,15 @@ void DatabaseThread::prepare()
 }
 
 
-void DatabaseThread::commit()
+void DatabaseThread::commit( bool intermediate )
 {
    mpSqlDB->commit();
    mUpdateCount = 0;
    emit working( false );
+   if( !intermediate && !mUpdateMessage.isEmpty() && mpSatellite )
+   {
+      mpSatellite->send( mUpdateMessage );
+   }
 }
 
 

@@ -27,6 +27,7 @@ class QSqlQuery;
 
 /* forward declaration of local classes */
 class DatabaseThread;
+class Satellite;
 
 
 class DatabaseInterface
@@ -43,6 +44,9 @@ public:
 
    /*  */
    void disconnectActivityIndicator( QObject *object, const char *slot );
+
+   /*  */
+   void registerUpdate( Satellite *satellite, const QByteArray &message );
 
    /* get track information from database by id
       return call parameters: bool found, TrackInfo */
@@ -108,7 +112,7 @@ private:
    DatabaseInterface( const DatabaseInterface &that );
    DatabaseInterface &operator=( const DatabaseInterface &that );
 
-   static DatabaseInterface   *cpDatabase;
+   static DatabaseInterface   *cpInterface;
    DatabaseThread             *mpDatabase;
 };
 

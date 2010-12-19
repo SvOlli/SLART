@@ -27,6 +27,7 @@ class QSqlDatabase;
 class QSqlQuery;
 
 /* forward declaration of local classes */
+class Satellite;
 
 
 class DatabaseThread : public QThread
@@ -40,10 +41,14 @@ public:
    /*  */
    void run();
 
+   /*  */
+   void registerUpdate( Satellite *satellite, const QByteArray &message );
+
    /* generate the filename for DatabaseThread */
    static QString getDatabaseFileName();
 
 private slots:
+
    /* get track information from database by id or filename
       return call parameters: bool found, TrackInfo */
    void getTrackInfo( QObject *target, const QString &method,
@@ -96,7 +101,7 @@ private slots:
                           const QString &columnName );
 
    /*  */
-   void commit();
+   void commit( bool intermediate = false );
 
 signals:
    /*  */
@@ -115,9 +120,11 @@ private:
    QSqlDatabase            *mpSqlDB;
    QSqlQuery               *mpQuery;
    QTimer                  *mpCommitTimer;
+   Satellite               *mpSatellite;
    unsigned int            mDatabaseVersion;
    const unsigned int      mCodeVersion;
    int                     mUpdateCount;
+   QByteArray              mUpdateMessage;
 };
 
 #endif

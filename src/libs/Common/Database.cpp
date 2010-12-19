@@ -190,10 +190,7 @@ Database::~Database()
    {
       mpSqlDB->commit();
       mpSqlDB->close();
-      /* clean up database, line below doesn't work without annoying warning */
-      //mpSqlDB->removeDatabase( mpSqlDB->connectionName() );
-      /* use this one instead, found on:
-         http://lists.trolltech.com/qt4-preview-feedback/2005-08/thread00142-0.html#msg00143 */
+      /* found on: http://lists.trolltech.com/qt4-preview-feedback/2005-08/thread00142-0.html#msg00143 */
       *mpSqlDB = QSqlDatabase();
       delete mpSqlDB;
    }
@@ -214,7 +211,19 @@ bool Database::beginTransaction()
 
 bool Database::endTransaction( bool commit )
 {
-   return commit ? mpSqlDB->commit() : mpSqlDB->rollback();
+   bool retval = commit ? mpSqlDB->commit() : mpSqlDB->rollback();
+   if( commit && !mUpdateMessage.isEmpty() && mpSatellite )
+   {
+      mpSatellite->send( mUpdateMessage );
+   }
+   return retval;
+}
+
+
+void Database::registerUpdate( Satellite *satellite, const QByteArray &message )
+{
+   mpSatellite    = satellite;
+   mUpdateMessage = message;
 }
 
 
