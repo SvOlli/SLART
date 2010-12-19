@@ -37,9 +37,8 @@ class TrackInfoWidget : public QWidget
 Q_OBJECT
 
 public:
-   TrackInfoWidget( const QByteArray &updateCode,
-                    bool includeFolders, QWidget *parent = 0 );
-   TrackInfoWidget( Database *database, const QByteArray &updateCode,
+   TrackInfoWidget( bool includeFolders, QWidget *parent = 0 );
+   TrackInfoWidget( Database *database,
                     bool includeFolders, QWidget *parent = 0 );
    virtual ~TrackInfoWidget();
 
@@ -67,7 +66,6 @@ private:
 
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;
-   QByteArray  mUpdateCode;
    bool        mIncludeFolders;
    QLabel      *mpTimesPlayed;
    ScrollLine  *mpArtist;

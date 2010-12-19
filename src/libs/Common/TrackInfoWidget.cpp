@@ -18,12 +18,10 @@
 #include "Trace.hpp"
 
 
-TrackInfoWidget::TrackInfoWidget( const QByteArray &updateCode,
-                                  bool includeFolders, QWidget *parent )
+TrackInfoWidget::TrackInfoWidget( bool includeFolders, QWidget *parent )
 : QWidget( parent )
 , mpDatabase( 0 )
 , mTrackInfo()
-, mUpdateCode( updateCode )
 , mIncludeFolders( includeFolders )
 , mpTimesPlayed( new QLabel( this ) )
 , mpArtist( new ScrollLine( this ) )
@@ -82,12 +80,11 @@ TrackInfoWidget::~TrackInfoWidget()
 }
 
 
-TrackInfoWidget::TrackInfoWidget( Database *database, const QByteArray &updateCode,
+TrackInfoWidget::TrackInfoWidget( Database *database,
                                   bool includeFolders, QWidget *parent )
 : QWidget( parent )
 , mpDatabase( database )
 , mTrackInfo()
-, mUpdateCode( updateCode )
 , mIncludeFolders( includeFolders )
 , mpTimesPlayed( new QLabel( this ) )
 , mpArtist( new ScrollLine( this ) )
@@ -157,8 +154,8 @@ void TrackInfoWidget::handleFavoriteButton()
    else
    {
       DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
+      DatabaseInterface::get()->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
    }
-   Satellite::send1( mUpdateCode );
 }
 
 
@@ -178,8 +175,8 @@ void TrackInfoWidget::handleUnwantedButton()
    else
    {
       DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
+      DatabaseInterface::get()->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
    }
-   Satellite::send1( mUpdateCode );
 }
 
 
@@ -208,8 +205,8 @@ void TrackInfoWidget::setFavoriteUnwanted( bool favorite, bool unwanted )
    else
    {
       DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
+      DatabaseInterface::get()->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
    }
-   Satellite::send1( mUpdateCode );
 }
 
 
@@ -222,11 +219,25 @@ void TrackInfoWidget::getTrack( const TrackInfo &trackInfo )
 
 void TrackInfoWidget::update( bool reread )
 {
-   if( reread )
+   if( mpDatabase )
    {
-      mpDatabase->getTrackInfo( &mTrackInfo );
+      if( reread )
+      {
+         mpDatabase->getTrackInfo( &mTrackInfo );
+      }
+      updateTrackInfo( mTrackInfo );
    }
-   updateTrackInfo( mTrackInfo );
+   else
+   {
+      if( reread )
+      {
+         DatabaseInterface::get()->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
+      }
+      else
+      {
+         updateTrackInfo( mTrackInfo );
+      }
+   }
 }
 
 
