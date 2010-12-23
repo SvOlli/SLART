@@ -37,7 +37,11 @@ public:
             QObject *parent = 0 );
    virtual ~Console();
 
+   /*  */
+   void message( const QString &msg );
+
 public slots:
+   /*  */
    void handleProgress( int checked, int processed );
 
 private:

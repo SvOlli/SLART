@@ -44,8 +44,10 @@ int main(int argc, char *argv[])
    QStringList args( QApplication::arguments() );
    if( args.size() > 1 )
    {
+      QTextStream stdErr( ::stderr, QIODevice::WriteOnly );
       args.takeFirst(); // first argument is program name
       const QString _cleanup( "-cleanup" );
+      const QString _basedir( "-basedir" );
       const QString _update( "-update" );
 
       if( !Database::exists() )
@@ -54,12 +56,20 @@ int main(int argc, char *argv[])
       }
 
       QString arg;
+      QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
       Database db;
       DatabaseWorker *databaseWorker = new DatabaseWorker( &db );
       while( args.size() > 0 )
       {
          arg = args.takeFirst();
-         if( arg == _cleanup )
+         if( arg == _basedir )
+         {
+            if( args.size() > 1 )
+            {
+               baseDir = args.takeFirst();
+            }
+         }
+         else if( arg == _cleanup )
          {
             databaseWorker->initCleanup();
             Console console( QObject::tr( "entries checked" ),
@@ -73,25 +83,32 @@ int main(int argc, char *argv[])
          }
          else if( arg == _update )
          {
-            QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
             if( !baseDir.isEmpty() )
             {
-               databaseWorker->initUpdate( baseDir );
-               Console console( QObject::tr( "files scanned" ),
-                                QObject::tr( "updated" ) );
-               QObject::connect( databaseWorker, SIGNAL(progress(int,int)),
-                                 &console, SLOT(handleProgress(int,int)) );
-               QObject::connect( databaseWorker, SIGNAL(finished()),
-                                 qApp, SLOT(quit()) );
-               QTimer::singleShot( 1, databaseWorker, SLOT(start()) );
-               app.exec();
+               if( !QFileInfo( baseDir ).isDir() )
+               {
+                  stdErr << QObject::tr( "%1 is not a directory\n" ).arg( baseDir );
+               }
+               else
+               {
+                  databaseWorker->initUpdate( baseDir );
+                  Console console( QObject::tr( "files scanned" ),
+                                   QObject::tr( "updated" ) );
+                  QObject::connect( databaseWorker, SIGNAL(progress(int,int)),
+                                    &console, SLOT(handleProgress(int,int)) );
+                  QObject::connect( databaseWorker, SIGNAL(finished()),
+                                    qApp, SLOT(quit()) );
+                  QTimer::singleShot( 1, databaseWorker, SLOT(start()) );
+                  console.message( QObject::tr("scanning %1").arg( baseDir ) );
+                  app.exec();
+               }
             }
          }
          else
          {
-            QTextStream stdErr( ::stderr, QIODevice::WriteOnly );
-            stdErr << QString("Usage:\t%1 (%2) (%3)\n").arg( QApplication::applicationName(),
-                                                             _cleanup, _update );
+            stdErr << QObject::tr("Usage:\t%1 (%2) (%3 <directory>) (%4)\n")
+                                  .arg( QApplication::applicationName(),
+                                        _cleanup, _basedir, _update );
             return 1;
          }
       }

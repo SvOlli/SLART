@@ -37,6 +37,13 @@ Console::~Console()
 }
 
 
+void Console::message( const QString &msg )
+{
+   mStdOut << msg << "\n";
+   mStdOut.flush();
+}
+
+
 void Console::handleProgress( int checked, int processed )
 {
    mStdOut << "\r"
