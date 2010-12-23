@@ -38,6 +38,7 @@ bool PlayerFSMEnding::enter()
    {
       mpPlayerWidget->mpDatabase->getTrackInfo( &(mpPlayerWidget->mTrackInfo) );
       ++(mpPlayerWidget->mTrackInfo.mTimesPlayed);
+      mpPlayerWidget->mpDatabase->disableNotify();
       mpPlayerWidget->mpDatabase->updateTrackInfo( &(mpPlayerWidget->mTrackInfo) );
    }
 
