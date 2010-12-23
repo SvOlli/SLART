@@ -23,7 +23,7 @@ Console::Console( const QString &checkedText,
                   const QString &processedText,
                   QObject *parent )
 : QObject( parent )
-, mStdOut( stdout )
+, mStdOut( ::stdout )
 , mCheckedText( checkedText )
 , mProcessedText( processedText )
 {
