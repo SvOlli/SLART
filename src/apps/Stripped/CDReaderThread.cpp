@@ -270,6 +270,7 @@ void CDReaderThread::runReadCDText()
 {
    cdtext_t *cdtext;
    track_t track, first, last;
+   bool useLatin1 = MySettings().VALUE_CDTEXT_LATIN1;
 
    if( !mpCdIo )
    {
@@ -282,16 +283,29 @@ void CDReaderThread::runReadCDText()
    last  = cdio_get_last_track_num( mpCdIo );
 
    cdtext = cdio_get_cdtext( mpCdIo, 0 );
-   mpCDInfo->setArtist( -1, QString::fromUtf8( cdtext_get_const( CDTEXT_PERFORMER, cdtext ) ) );
-   mpCDInfo->setTitle( -1, QString::fromUtf8( cdtext_get_const( CDTEXT_TITLE, cdtext ) ) );
-   mpCDInfo->setGenre( QString::fromUtf8( cdtext_get_const( CDTEXT_GENRE, cdtext ) ) );
+   if( useLatin1 )
+   {
+      mpCDInfo->setArtist( -1, QString::fromLatin1( cdtext_get_const( CDTEXT_PERFORMER, cdtext ) ) );
+      mpCDInfo->setTitle( -1, QString::fromLatin1( cdtext_get_const( CDTEXT_TITLE, cdtext ) ) );
+      mpCDInfo->setGenre( QString::fromLatin1( cdtext_get_const( CDTEXT_GENRE, cdtext ) ) );
+   } else {
+      mpCDInfo->setArtist( -1, QString::fromUtf8( cdtext_get_const( CDTEXT_PERFORMER, cdtext ) ) );
+      mpCDInfo->setTitle( -1, QString::fromUtf8( cdtext_get_const( CDTEXT_TITLE, cdtext ) ) );
+      mpCDInfo->setGenre( QString::fromUtf8( cdtext_get_const( CDTEXT_GENRE, cdtext ) ) );
+   }
    cdtext_destroy( cdtext );
 
    for( track = first; track <= last; track++ )
    {
       cdtext = cdio_get_cdtext( mpCdIo, track );
-      mpCDInfo->setArtist( track, QString::fromUtf8( cdtext_get_const( CDTEXT_PERFORMER, cdtext ) ) );
-      mpCDInfo->setTitle( track, QString::fromUtf8( cdtext_get_const( CDTEXT_TITLE, cdtext ) ) );
+      if( useLatin1 )
+      {
+         mpCDInfo->setArtist( track, QString::fromLatin1( cdtext_get_const( CDTEXT_PERFORMER, cdtext ) ) );
+         mpCDInfo->setTitle( track, QString::fromLatin1( cdtext_get_const( CDTEXT_TITLE, cdtext ) ) );
+      } else {
+         mpCDInfo->setArtist( track, QString::fromUtf8( cdtext_get_const( CDTEXT_PERFORMER, cdtext ) ) );
+         mpCDInfo->setTitle( track, QString::fromUtf8( cdtext_get_const( CDTEXT_TITLE, cdtext ) ) );
+      }
       cdtext_destroy( cdtext );
    }
    emit gotToc();

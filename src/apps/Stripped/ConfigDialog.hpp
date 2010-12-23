@@ -81,6 +81,7 @@ private:
    QCheckBox            *mpAutoFreeDB;
    QCheckBox            *mpAutoEject;
    QCheckBox            *mpAutoEnqueue;
+   QCheckBox            *mpCDTextLatin1;
    QCheckBox            *mpShowStats;
    QLabel               *mpDirButtonLabel;
    QLineEdit            *mpDirEdit;
@@ -97,17 +98,12 @@ private:
 #define VALUE_AUTOEJECT          value( "AutoEject", false ).toBool()
 #define VALUE_AUTOENQUEUE        value( "AutoEnQueue", false ).toBool()
 #define VALUE_AUTOFREEDB         value( "AutoFreeDB", true ).toBool()
+#define VALUE_CDTEXT_LATIN1      value( "CDTextLatin1", false ).toBool()
 #define VALUE_CREATEPATTERN      value( "CreatePattern", "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString()
 #define VALUE_DEVICE             value( "Device", QString("/dev/cdrom") ).toString()
 #define VALUE_DIRECTORY          value( "Directory", QDir::current().absolutePath() ).toString()
 #define VALUE_DIRECTORY_OVERRIDE value( "DirectoryOverride", false ).toBool()
-#define VALUE_FLACQUALITY        value( "FlacQuality", 5 ).toInt()
-#define VALUE_FLACUSEOGA         value( "FlacUseOga", false ).toBool()
-#define VALUE_OGGQUALITY         value( "OggQuality", 0.4 ).toDouble()
 #define VALUE_SHOWSTATS          value( "ShowStats", false ).toBool()
 #define VALUE_STYLESHEET         value( "StyleSheet", QString() ).toString()
-#define VALUE_USE_ENCODER        value( "UseEncoder", false ).toBool()
-#define VALUE_USE_LATIN1         value( "UseLatin1", false ).toBool()
-#define VALUE_VBRQUALITY         value( "VBRQuality", 4.0 ).toDouble()
 
 #endif

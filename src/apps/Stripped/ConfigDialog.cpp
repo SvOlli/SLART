@@ -39,6 +39,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 , mpAutoFreeDB( new QCheckBox( tr("Automatically run FreeDB query"), this ) )
 , mpAutoEject( new QCheckBox( tr("Automatically eject CD when done"), this ) )
 , mpAutoEnqueue( new QCheckBox( tr("Automatically enqueue tracks with errors in Partyman"), this ) )
+, mpCDTextLatin1( new QCheckBox( tr("Assume CD-Text is encoded as latin-1 instead of utf-8"), this ) )
 , mpShowStats( new QCheckBox( tr("Show CD reading status"), this ) )
 , mpDirButtonLabel( new QLabel( tr("Base Directory:"), this ) )
 , mpDirEdit( new QLineEdit( this ) )
@@ -126,10 +127,11 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    strLayout->addWidget( mpAutoFreeDB,     4, 0, 1, 3 );
    strLayout->addWidget( mpAutoEject,      5, 0, 1, 3 );
    strLayout->addWidget( mpAutoEnqueue,    6, 0, 1, 3 );
-   strLayout->addWidget( mpShowStats,      7, 0, 1, 3 );
-   strLayout->addWidget( mpEncoderTabs,    8, 0, 1, 3 );
+   strLayout->addWidget( mpCDTextLatin1,   7, 0, 1, 3 );
+   strLayout->addWidget( mpShowStats,      8, 0, 1, 3 );
+   strLayout->addWidget( mpEncoderTabs,    9, 0, 1, 3 );
    strLayout->setColumnStretch( 2, 1 );
-   strLayout->setRowStretch( 8, 1 );
+   strLayout->setRowStretch( 9, 1 );
    strTab->setLayout( strLayout );
 
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
@@ -236,6 +238,7 @@ void ConfigDialog::readSettings()
    mpAutoFreeDB->setChecked( settings.VALUE_AUTOFREEDB );
    mpAutoEject->setChecked( settings.VALUE_AUTOEJECT );
    mpAutoEnqueue->setChecked( settings.VALUE_AUTOENQUEUE );
+   mpCDTextLatin1->setChecked( settings.VALUE_CDTEXT_LATIN1 );
    mpShowStats->setChecked( settings.VALUE_SHOWSTATS );
    if( i < 0 )
    {
@@ -263,6 +266,7 @@ void ConfigDialog::writeSettings()
    settings.setValue( "AutoFreeDB", mpAutoFreeDB->isChecked() );
    settings.setValue( "AutoEject", mpAutoEject->isChecked() );
    settings.setValue( "AutoEnqueue", mpAutoEnqueue->isChecked() );
+   settings.setValue( "CDTextLatin1", mpCDTextLatin1->isChecked() );
    settings.setValue( "ShowStats", mpShowStats->isChecked() );
    settings.setValue( "CreatePattern", mpPattern->text() );
    settings.setValue( "Directory", mpDirEdit->text().replace('\\','/') );
