@@ -53,8 +53,11 @@ QString Database::getDatabaseFileName()
 Database::Database( const QString &fileName )
 : mpSqlDB( new QSqlDatabase( QSqlDatabase::addDatabase( "QSQLITE" ) ) )
 , mpQuery( 0 )
+, mpSatellite( 0 )
 , mDatabaseVersion( 0 )
 , mCodeVersion( 1 )
+, mUpdateMessage()
+, mNotifyDisabled( false )
 {
    qsrand( time((time_t*)0) );
 
@@ -224,6 +227,12 @@ void Database::registerUpdate( Satellite *satellite, const QByteArray &message )
 {
    mpSatellite    = satellite;
    mUpdateMessage = message;
+}
+
+
+void Database::disableNotify()
+{
+   mNotifyDisabled = true;
 }
 
 
@@ -471,6 +480,11 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo, bool allowinsert )
       logError();
    }
    mpQuery->clear();
+   if( !mUpdateMessage.isEmpty() && mpSatellite && !mNotifyDisabled )
+   {
+      mpSatellite->send( mUpdateMessage );
+   }
+   mNotifyDisabled = false;
 }
 
 

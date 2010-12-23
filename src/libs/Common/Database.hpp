@@ -46,6 +46,8 @@ public:
    bool endTransaction( bool commit );
    /*  */
    void registerUpdate( Satellite *satellite, const QByteArray &message );
+   /* disable the next satellite notify */
+   void disableNotify();
    /* try to clean up and compress database */
    void cleanup();
 
@@ -96,6 +98,7 @@ private:
    unsigned int       mDatabaseVersion;
    const unsigned int mCodeVersion;
    QByteArray         mUpdateMessage;
+   bool               mNotifyDisabled;
 };
 
 #endif

@@ -95,6 +95,13 @@ void DatabaseInterface::registerUpdate( Satellite *satellite, const QByteArray &
 }
 
 
+void DatabaseInterface::disableNotify()
+{
+   QMetaObject::invokeMethod( mpDatabase, "disableNotify",
+                              Qt::QueuedConnection );
+}
+
+
 void DatabaseInterface::getTrackInfo( QObject *target, const QString &method,
                                    int id )
 {

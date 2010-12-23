@@ -49,6 +49,9 @@ public:
 
 private slots:
 
+   /* disable the next satellite notify */
+   void disableNotify();
+
    /* get track information from database by id or filename
       return call parameters: bool found, TrackInfo */
    void getTrackInfo( QObject *target, const QString &method,
@@ -125,6 +128,7 @@ private:
    const unsigned int      mCodeVersion;
    int                     mUpdateCount;
    QByteArray              mUpdateMessage;
+   bool                    mNotifyDisabled;
 };
 
 #endif

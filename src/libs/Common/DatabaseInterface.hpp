@@ -48,6 +48,9 @@ public:
    /*  */
    void registerUpdate( Satellite *satellite, const QByteArray &message );
 
+   /* disable the next satellite notify */
+   void disableNotify();
+
    /* get track information from database by id
       return call parameters: bool found, TrackInfo */
    void getTrackInfo( QObject *target, const QString &method,
