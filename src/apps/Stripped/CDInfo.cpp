@@ -199,9 +199,9 @@ void CDInfo::calcCddbDiscID()
 
       n += t;
    }
-   n &= 0xff;
+   n = n % 0xff;
 
-   t = ((mDiscEndSector-mDiscStartSector)/75) + 0;
+   t = ((mDiscEndSector + 1) - mDiscStartSector) / 75;
 
    mDiscID = (n << 24 | t << 8 | mNumTracks);
 }
