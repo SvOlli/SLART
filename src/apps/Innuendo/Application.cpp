@@ -12,7 +12,6 @@
 #include <QtGui>
 
 /* local library headers */
-#include <Database.hpp>
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>

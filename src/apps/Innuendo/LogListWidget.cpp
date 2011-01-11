@@ -17,7 +17,6 @@
 #include <QUrl>
 
 /* local library headers */
-#include <Database.hpp>
 #include <MySettings.hpp>
 
 /* local headers */
