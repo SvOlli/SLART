@@ -11,6 +11,9 @@ QT += sql network
 
 include( ../../buildconfig.pri )
 
+TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
+TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_en.ts
+
 HEADERS += AboutWidget.hpp
 SOURCES += AboutWidget.cpp
 
@@ -88,6 +91,9 @@ SOURCES += TrackInfo.cpp
 
 HEADERS += TrackInfoWidget.hpp
 SOURCES += TrackInfoWidget.cpp
+
+HEADERS += Translate.hpp
+SOURCES += Translate.cpp
 
 HEADERS += Version.hpp
 

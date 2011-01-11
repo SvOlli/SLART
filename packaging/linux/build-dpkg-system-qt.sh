@@ -41,6 +41,7 @@ echo "Building SLART ${VERSION}-${REVISION}"
       extra/build-dermixd-with-libmpg123.sh ${dermixd} ${mpg123}
     fi
   fi
+  ln -sf dermixd-alsa build/release/bin/dermixd
 ) || exit 12
 
 # create source tarball
@@ -67,6 +68,35 @@ for desktop in "${EXTRA}/menu"/*.desktop; do
 done > "${DEBIAN}/root/usr/share/menu/slart"
 
 (
+  mkdir -p "${DEBIAN}/root/usr/share/slart/translations"
+  apps="$(grep -l TRANSLATIONS ${TOPSRC}/src/apps/*/*.pro|sed -e 's@.*/@@' -e 's/\.pro$//')"
+  libs="$(grep -l TRANSLATIONS ${TOPSRC}/src/libs/*/*.pro|sed -e 's@.*/@@' -e 's/\.pro$//')"
+  languages="$(grep TRANSLATIONS ${TOPSRC}/src/apps/*/*.pro ${TOPSRC}/src/libs/*/*.pro|
+               sed -e 's/[^_]*_//' -e 's/\.ts$//'|sort -u)"
+
+  for language in ${languages}; do
+    for app in ${apps}; do
+      ts="${TOPSRC}/src/translations/${app}_${language}.ts"
+      qm="${DEBIAN}/root/usr/share/slart/translations/${app}_${language}.qm"
+      if [ -f "${ts}" ]; then
+        lrelease "${ts}" -qm "${qm}"
+      fi
+    done
+    allts=""
+    qm="${DEBIAN}/root/usr/share/slart/translations/Common_${language}.qm"
+    for lib in ${libs}; do
+      ts="${TOPSRC}/src/translations/${lib}_${language}.ts"
+      if [ -f "${ts}" ]; then
+        allts="${allts} ${ts}"
+      fi
+    done
+    if [ -n "${allts}" ]; then
+      lrelease "${allts}" -qm "${qm}"
+    fi
+  done
+) || exit 14
+
+(
   cd "${TOPSRC}"
   extra/gitlog2changelog.sh | gzip -9 > "${DEBIAN}/root/usr/share/doc/slart/changelog.gz"
 )
@@ -75,7 +105,7 @@ done > "${DEBIAN}/root/usr/share/menu/slart"
   cd "${DEBIAN}/root"
   find * ! -type d | xargs ls -l
   fakeroot tar zcvf ../../tmp/data.tar.gz .
-) || exit 14
+) || exit 15
 
 (
   rm -rf "${DEBIAN}/debian"
@@ -90,7 +120,7 @@ done > "${DEBIAN}/root/usr/share/menu/slart"
   cd debian
   sed -f ../../tmp/control.sed -i control
   fakeroot tar zcvf ../../tmp/control.tar.gz control md5sums
-) || exit 15
+) || exit 16
 
 (
   cd "${RELEASE}/tmp"
@@ -98,5 +128,5 @@ done > "${DEBIAN}/root/usr/share/menu/slart"
   [ -n "$(type -p advdef)" ] && advdef -z4 control.tar.gz data.tar.gz
   eval $(dpkg-architecture -s)
   ar rvc ../../../../slart_${VERSION}-${REVISION}_${DEB_BUILD_ARCH}.deb debian-binary control.tar.gz data.tar.gz
-) || exit 16
+) || exit 17
 

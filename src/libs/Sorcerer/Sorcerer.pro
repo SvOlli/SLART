@@ -15,7 +15,9 @@ INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib
 LIBS += -lCommon -lTag
 
 # Input
-RESOURCES = ../../libs/Common/Resources/Common.qrc
+RESOURCES += $${TOPSRC}/libs/Common/Resources/Common.qrc
+
+TRANSLATIONS += $${TOPSRC}/translations/Sorcerer_de.ts
 
 HEADERS += SorcererInterface.hpp
 
@@ -25,11 +27,11 @@ SOURCES += SorcererPlugin.cpp
 HEADERS += SorcererWidget.hpp
 SOURCES += SorcererWidget.cpp
 
-HEADERS += ../../apps/Innuendo/SatelliteConfigWidget.hpp
-SOURCES += ../../apps/Innuendo/SatelliteConfigWidget.cpp
+HEADERS += $${TOPSRC}/apps/Innuendo/SatelliteConfigWidget.hpp
+SOURCES += $${TOPSRC}/apps/Innuendo/SatelliteConfigWidget.cpp
 
-HEADERS += ../../apps/Rubberbandman/DatabaseWidget.hpp
-SOURCES += ../../apps/Rubberbandman/DatabaseWidget.cpp
+HEADERS += $${TOPSRC}/apps/Rubberbandman/DatabaseWidget.hpp
+SOURCES += $${TOPSRC}/apps/Rubberbandman/DatabaseWidget.cpp
 
-HEADERS += ../../apps/Rubberbandman/DatabaseWorker.hpp
-SOURCES += ../../apps/Rubberbandman/DatabaseWorker.cpp
+HEADERS += $${TOPSRC}/apps/Rubberbandman/DatabaseWorker.hpp
+SOURCES += $${TOPSRC}/apps/Rubberbandman/DatabaseWorker.cpp

@@ -14,9 +14,11 @@ INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
 
 # Input
-RESOURCES = ../../libs/Common/Resources/Common.qrc
+RESOURCES = $${TOPSRC}/libs/Common/Resources/Common.qrc
 RESOURCES += Resources/Funkytown.qrc
-RC_FILE = ../Common/Resources/WinIcon.rc
+RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
+
+TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
 SOURCES += Application.cpp
 

@@ -32,7 +32,7 @@ FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowF
 : QWidget( parent, flags )
 , mpDatabase( database )
 , mpRootDir( new QLineEdit( this ) )
-, mpDotButton( new QPushButton( tr("..."), this ) )
+, mpDotButton( new QPushButton( "...", this ) )
 , mpView( new MyTreeView( this ) )
 , mpModel( new QDirModel( this ) )
 , mpMenuSendToPartyman( new QAction( tr("Send To Partyman"), this ) )

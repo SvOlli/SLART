@@ -44,7 +44,7 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
 , mCheckedText()
 , mProcessedText()
 {
-   QPushButton *browseButton  = new QPushButton( tr("..."), this );
+   QPushButton *browseButton  = new QPushButton( "...", this );
    /* evil hack */
    browseButton->setMaximumWidth( browseButton->height() );
 

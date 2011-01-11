@@ -16,8 +16,10 @@ LIBS += -lCommon
 PKGCONFIG += libcdio_paranoia libcdio
 
 # Input
-RESOURCES = ../../libs/Common/Resources/Common.qrc
-RC_FILE = ../../libs/Common/Resources/WinIcon.rc
+RESOURCES = $${TOPSRC}/libs/Common/Resources/Common.qrc
+RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
+
+TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
 SOURCES += Application.cpp
 

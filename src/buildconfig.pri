@@ -48,6 +48,9 @@ UI_DIR         = $${BUILDDIR}/build/$${TARGETARCH}/tmp/$${TARGET}/ui
 UI_HEADERS_DIR = $${BUILDDIR}/build/$${TARGETARCH}/tmp/$${TARGET}/ui_headers
 UI_SOURCES_DIR = $${BUILDDIR}/build/$${TARGETARCH}/tmp/$${TARGET}/ui_sources
 
+CODECFORSRC    = UTF-8
+CODECFORTR     = UTF-8
+
 contains( QMAKE_CXX, g++ ) {
   QMAKE_CXXFLAGS_DEBUG += -pedantic -Wno-long-long
   QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections

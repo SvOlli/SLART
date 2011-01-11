@@ -213,9 +213,8 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 
 void InfoEdit::recurse( const QDir &dir, bool isBase )
 {
-   QFileInfoList files(dir.entryInfoList());
+   QFileInfoList files( dir.entryInfoList() );
    QString fileName;
-   int i;
 
    if( isBase )
    {
@@ -238,7 +237,6 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
 
    mpDatabase->beginTransaction();
    foreach( const QFileInfo &fileInfo, files )
-   for( i = 0; i < files.size(); i++ )
    {
       if( mCancel )
       {
@@ -798,15 +796,7 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
       }
       else
       {
-         timesPlayed = QString::number(mTrackInfo.mTimesPlayed);
-         if( mTrackInfo.mTimesPlayed == 1 )
-         {
-            timesPlayed.append( QString(tr(" Time Played")) );
-         }
-         else
-         {
-            timesPlayed.append( QString(tr(" Times Played")) );
-         }
+         timesPlayed = tr("%n Time(s) Played","",mTrackInfo.mTimesPlayed);
       }
       mpShowTimesPlayed->setText( timesPlayed );
 
@@ -833,13 +823,13 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
       mpShowTimesPlayed->setText( tr("Not In Database") );
    }
 
-   mpFavoriteTrackFlag = mpMenuFlags->addAction( tr("Favorite Track") );
+   mpFavoriteTrackFlag = mpMenuFlags->addAction( tr("Favorite") );
    mpFavoriteTrackFlag->setCheckable( true );
    if( mTrackInfo.isFlagged( TrackInfo::Favorite ) )
    {
       mpFavoriteTrackFlag->setChecked( true );
    }
-   mpUnwantedTrackFlag = mpMenuFlags->addAction( tr("Unwanted Track") );
+   mpUnwantedTrackFlag = mpMenuFlags->addAction( tr("No Autoplay") );
    mpUnwantedTrackFlag->setCheckable( true );
    if( mTrackInfo.isFlagged( TrackInfo::Unwanted ) )
    {

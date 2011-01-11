@@ -12,6 +12,8 @@ QT += network
 TOPSRC = "../../.."
 include( $${TOPSRC}/buildconfig.pri )
 
+TRANSLATIONS += ../../../translations/$${TARGET}_de.ts
+
 INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
 

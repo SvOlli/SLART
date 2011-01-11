@@ -267,14 +267,7 @@ void TrackInfoWidget::updateTrackInfo( const TrackInfo &trackInfo )
       {
          mpTrackNr->setText( QString::number(mTrackInfo.mTrackNr) );
       }
-      if( mTrackInfo.mTimesPlayed == 1 )
-      {
-         mpTimesPlayed->setText( QString::number(mTrackInfo.mTimesPlayed)+" Time Played" );
-      }
-      else
-      {
-         mpTimesPlayed->setText( QString::number(mTrackInfo.mTimesPlayed)+" Times Played" );
-      }
+      mpTimesPlayed->setText( tr("%n Time(s) Played", "", mTrackInfo.mTimesPlayed) );
 
       if( mTrackInfo.isFlagged( TrackInfo::Favorite ) )
       {

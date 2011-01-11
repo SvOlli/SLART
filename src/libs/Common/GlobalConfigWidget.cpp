@@ -20,7 +20,7 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
 , mpSatellitePort( new QSpinBox( this ) )
 , mpUseGlobalStyleSheetFile( new QCheckBox( this ) )
 , mpStyleSheetFileName( new QLineEdit( this ) )
-, mpDotButton( new QPushButton( tr("..."), this ) )
+, mpDotButton( new QPushButton( "...", this ) )
 , mpClipboardLabel( new QLabel( tr("Use Clipboard: "), this ) )
 , mpClipboardSelection( new QComboBox( this ) )
 , mpAnimateViews( new QCheckBox( tr("Animate Views"), this ) )
@@ -45,7 +45,7 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
 
    mpDoubleClickInterval->setRange( 100, 1000 );
    mpDoubleClickInterval->setSingleStep( 50 );
-   mpDoubleClickInterval->setSuffix( tr("ms") );
+   mpDoubleClickInterval->setSuffix( "ms" );
    mpDoubleClickInterval->setAlignment( Qt::AlignRight );
 
    /* evil hack */

@@ -43,7 +43,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 , mpShowStats( new QCheckBox( tr("Show CD reading status"), this ) )
 , mpDirButtonLabel( new QLabel( tr("Base Directory:"), this ) )
 , mpDirEdit( new QLineEdit( this ) )
-, mpDirButton( new QPushButton( tr("..."), this ) )
+, mpDirButton( new QPushButton( "...", this ) )
 , mpPatternLabel( new QLabel( tr("File Create Pattern:"), this ) )
 , mpPattern( new QLineEdit( this ) )
 , mpPatternExample( new QLabel( tr(""), this ) )

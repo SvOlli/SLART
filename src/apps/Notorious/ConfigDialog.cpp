@@ -44,7 +44,7 @@ ConfigDialog::ConfigDialog( QWidget *parent )
    freedbInfo->setOpenExternalLinks( true );
    QPushButton *okButton( new QPushButton(tr("OK"), this) );
    QPushButton *cancelButton( new QPushButton(tr("Cancel"), this) );
-   QPushButton *browseButton = new QPushButton( tr("..."), this );
+   QPushButton *browseButton = new QPushButton( "...", this );
    /* evil hack */
    browseButton->setMaximumWidth( browseButton->height() );
    mpImportFile->setText( "/media/share/freedb/" );

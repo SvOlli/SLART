@@ -17,6 +17,8 @@ LIBS += -lCommon
 RESOURCES = Resources/Partyman.qrc
 RC_FILE = Resources/WinIcon.rc
 
+TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
+
 SOURCES += Application.cpp
 
 HEADERS += MainWidget.hpp

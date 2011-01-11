@@ -14,8 +14,11 @@ INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib
 LIBS += -lCommon -lTag
 
 # Input
-RESOURCES = ../../libs/Common/Resources/Common.qrc
-RC_FILE = ../../libs/Common/Resources/WinIcon.rc
+RESOURCES = $${TOPSRC}/libs/Common/Resources/Common.qrc
+RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
+
+TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_en.ts
+TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
 SOURCES += Application.cpp
 

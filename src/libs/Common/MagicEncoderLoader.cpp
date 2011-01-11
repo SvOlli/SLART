@@ -30,7 +30,6 @@
 #include "Satellite.hpp"
 #include "Version.hpp"
 
-#include <QtDebug>
 
 MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
                                                  Satellite *satellite,
@@ -100,7 +99,7 @@ MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
       }
       else
       {
-         Satellite::send1( QObject::tr("I0L\nerror loading %1:\n%2")
+         Satellite::send1( "I0L\n" + QObject::tr("error loading %1:\n%2")
                            .arg( encoderName, encoder->pluginLoadErrorString() ).toUtf8() );
          delete encoder;
       }

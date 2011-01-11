@@ -113,7 +113,7 @@ SorcererInterface *SorcererLoader::tryLoading( QApplication *app )
    {
       app = qApp;
    }
-   QDir sorcererDir(app->applicationDirPath());
+   QDir sorcererDir( app->applicationDirPath() );
 #if defined Q_OS_MAC
    if( sorcererDir.dirName() == "MacOS" )
    {

@@ -27,7 +27,7 @@ MagicEncoderConfig::MagicEncoderConfig( QWidget *parent, QAbstractButton *button
 , mpUseEncoder( new QCheckBox( tr("Use This Encoder"), this ) )
 , mpDirOverride( new QCheckBox( tr("Override Base Directory"), this ) )
 , mpDirEdit( new QLineEdit( this ) )
-, mpDotButton( new QPushButton( tr("..."), this ) )
+, mpDotButton( new QPushButton( "...", this ) )
 {
    QCompleter *completer = new QCompleter( this );
    completer->setModel( new QDirModel( QStringList(),
