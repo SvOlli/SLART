@@ -69,7 +69,7 @@ DatabaseThread::DatabaseThread( const QString &fileName )
 
    if( mpSqlDB->lastError().type() != QSqlError::NoError )
    {
-      QMessageBox::critical( 0, QApplication::applicationName() + QWidget::tr(": Error"),
+      QMessageBox::critical( 0, QApplication::applicationName() + ": " + QWidget::tr("Error"),
                              QWidget::tr("Could not open database.\nPlease make sure that the SQLite driver for Qt is installed.") );
       exit(1);
    }
@@ -266,6 +266,7 @@ void DatabaseThread::commit( bool intermediate )
 void DatabaseThread::getTrackInfo( QObject *target, const QString &method,
                                    int id, const QString &fileName )
 {
+   int fileNameStart = fileName.lastIndexOf('/');
    TrackInfo trackInfo;
 
    QString sql( "SELECT id,Directory,FileName,Artist,Title,Album,"
@@ -282,7 +283,6 @@ void DatabaseThread::getTrackInfo( QObject *target, const QString &method,
    }
    else
    {
-      int fileNameStart = fileName.lastIndexOf('/');
       sql.append( "Directory = :directory AND FileName = :fileName ;" );
 
       mpQuery->prepare( sql );
@@ -293,6 +293,13 @@ void DatabaseThread::getTrackInfo( QObject *target, const QString &method,
    if( !mpQuery->exec() )
    {
       logError();
+      QMetaObject::invokeMethod( this, "getTrackInfo",
+                                 Qt::QueuedConnection,
+                                 Q_ARG( QObject*, target ),
+                                 Q_ARG( const QString&, method ),
+                                 Q_ARG( int, id ),
+                                 Q_ARG( const QString&, fileName ) );
+      return;
    }
 
    if( mpQuery->next() )
@@ -318,17 +325,9 @@ void DatabaseThread::getTrackInfo( QObject *target, const QString &method,
    }
    else
    {
-      trackInfo.mID = 0;
-      trackInfo.mArtist.clear();
-      trackInfo.mTitle.clear();
-      trackInfo.mAlbum.clear();
-      trackInfo.mTrackNr = -1;
-      trackInfo.mYear = -1;
-      trackInfo.mGenre.clear();
-      trackInfo.mTimesPlayed = 0;
-      trackInfo.mVolume = 0.0;
-      trackInfo.mFolders.clear();
-      trackInfo.mFlags = 0;
+      /* the rest is initialized via TrackInfo constructor */
+      trackInfo.mDirectory    = fileName.left(fileNameStart);
+      trackInfo.mFileName     = fileName.mid(fileNameStart+1);
 
       mpQuery->clear();
    }
@@ -367,6 +366,15 @@ void DatabaseThread::getTrackInfoList( QObject *target, const QString &method,
    if( !mpQuery->exec() )
    {
       logError();
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         QMetaObject::invokeMethod( this, "getTrackInfoList",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( QObject*, target ),
+                                    Q_ARG( const QString&, method ),
+                                    Q_ARG( const QString&, search ) );
+         return;
+      }
    }
 
    while( mpQuery->next() )
@@ -420,6 +428,15 @@ void DatabaseThread::getPathNameList( QObject *target, const QString &method,
    if( !mpQuery->exec() )
    {
       logError();
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         QMetaObject::invokeMethod( this, "getPathNameList",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( QObject*, target ),
+                                    Q_ARG( const QString&, method ),
+                                    Q_ARG( const QString&, search ) );
+         return;
+      }
    }
 
    while( mpQuery->next() )
@@ -475,6 +492,17 @@ void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
    if( !mpQuery->exec() )
    {
       logError();
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         QMetaObject::invokeMethod( this, "getRandomTrack",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( QObject*, target ),
+                                    Q_ARG( const QString&, method ),
+                                    Q_ARG( bool, favorite ),
+                                    Q_ARG( bool, leastplayed ),
+                                    Q_ARG( const QString&, folder ) );
+         return;
+      }
    }
 
    /* QSqlQuery::size() seems not to work with sqlite... :( */
@@ -515,6 +543,13 @@ void DatabaseThread::getFolders( QObject *target, const QString &method )
    if( !mpQuery->exec() )
    {
       logError();
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         QMetaObject::invokeMethod( this, "getFolders",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( QObject*, target ) );
+         return;
+      }
    }
    while( mpQuery->next() )
    {
@@ -563,6 +598,15 @@ void DatabaseThread::getFolder( QObject *target, const QString &method,
       if( !mpQuery->exec() )
       {
          logError();
+         if( mpQuery->lastError().number() == SQLITE_BUSY )
+         {
+            QMetaObject::invokeMethod( this, "getFolder",
+                                       Qt::QueuedConnection,
+                                       Q_ARG( QObject*, target ),
+                                       Q_ARG( const QString&, method ),
+                                       Q_ARG( const QString&, folder ) );
+            return;
+         }
       }
       while( mpQuery->next() )
       {
@@ -601,7 +645,7 @@ void DatabaseThread::logError( const QString &note )
                        );
       if( mpQuery->lastError().number() == SQLITE_BUSY )
       {
-         msg.append( "\nShould implement retry!" );
+         msg.append( "\nRetrying!" );
       }
       msg.append( "\nQuery: " );
 
@@ -677,6 +721,14 @@ void DatabaseThread::updateTrackInfo( const TrackInfo &trackInfo, bool allowinse
    if( !mpQuery->exec() )
    {
       logError();
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         QMetaObject::invokeMethod( this, "updateTrackInfo",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( const TrackInfo&, trackInfo ),
+                                    Q_ARG( bool, allowinsert ) );
+         return;
+      }
    }
    mpQuery->clear();
 }
@@ -702,6 +754,13 @@ void DatabaseThread::deleteTrackInfo( const TrackInfo &trackInfo )
    if( !mpQuery->exec() )
    {
       logError();
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         QMetaObject::invokeMethod( this, "deleteTrackInfo",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( const TrackInfo&, trackInfo ) );
+         return;
+      }
    }
    mpQuery->clear();
 }
@@ -722,6 +781,13 @@ void DatabaseThread::insertFolder( const QString &folder )
    if( !mpQuery->exec() )
    {
       logError();
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         QMetaObject::invokeMethod( this, "insertFolder",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( const QString&, folder ) );
+         return;
+      }
    }
    mpQuery->clear();
 }
@@ -738,6 +804,13 @@ void DatabaseThread::deleteFolder( const QString &folder )
    if( !mpQuery->exec() )
    {
       logError();
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         QMetaObject::invokeMethod( this, "deleteFolder",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( const QString&, folder ) );
+         return;
+      }
    }
    QString id;
    QString folders;
@@ -760,6 +833,13 @@ void DatabaseThread::deleteFolder( const QString &folder )
       if( !mpQuery->exec() )
       {
          logError();
+         if( mpQuery->lastError().number() == SQLITE_BUSY )
+         {
+            QMetaObject::invokeMethod( this, "deleteFolder",
+                                       Qt::QueuedConnection,
+                                       Q_ARG( const QString&, folder ) );
+            return;
+         }
       }
       mpQuery->clear();
    }
@@ -768,6 +848,13 @@ void DatabaseThread::deleteFolder( const QString &folder )
    if( !mpQuery->exec() )
    {
       logError();
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         QMetaObject::invokeMethod( this, "deleteFolder",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( const QString&, folder ) );
+         return;
+      }
    }
    mpQuery->clear();
    mpSqlDB->commit();
@@ -790,6 +877,15 @@ TRACEMSG << oldDirName << oldFileName << newName;
       if( !mpQuery->exec() )
       {
          logError();
+         if( mpQuery->lastError().number() == SQLITE_BUSY )
+         {
+            QMetaObject::invokeMethod( this, "rename",
+                                       Qt::QueuedConnection,
+                                       Q_ARG( const QString&, newName ),
+                                       Q_ARG( const QString&, oldDirName ),
+                                       Q_ARG( const QString&, oldFileName ) );
+            return;
+         }
       }
       else
       {
@@ -813,6 +909,15 @@ TRACEMSG << oldDirName << oldFileName << newName;
             if( !mpQuery->exec() )
             {
                logError();
+               if( mpQuery->lastError().number() == SQLITE_BUSY )
+               {
+                  QMetaObject::invokeMethod( this, "rename",
+                                             Qt::QueuedConnection,
+                                             Q_ARG( const QString&, newName ),
+                                             Q_ARG( const QString&, oldDirName ),
+                                             Q_ARG( const QString&, oldFileName ) );
+                  return;
+               }
             }
             else
             {
@@ -837,6 +942,15 @@ TRACEMSG << "rows:" << mpQuery->numRowsAffected();
       if( !mpQuery->exec() )
       {
          logError();
+         if( mpQuery->lastError().number() == SQLITE_BUSY )
+         {
+            QMetaObject::invokeMethod( this, "rename",
+                                       Qt::QueuedConnection,
+                                       Q_ARG( const QString&, newName ),
+                                       Q_ARG( const QString&, oldDirName ),
+                                       Q_ARG( const QString&, oldFileName ) );
+            return;
+         }
       }
       else
       {
@@ -860,6 +974,15 @@ void DatabaseThread::getAllColumnData( QObject *target, const QString &method,
    if( !mpQuery->exec() )
    {
       logError();
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         QMetaObject::invokeMethod( this, "getAllColumnData",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( QObject*, target ),
+                                    Q_ARG( const QString&, method ),
+                                    Q_ARG( const QString&, columnName ) );
+         return;
+      }
    }
    while( mpQuery->next() )
    {

@@ -67,6 +67,9 @@ public:
    /* delete track information from database */
    void deleteTrackInfo( const TrackInfo &trackInfo );
 
+   /* delete track information from database by file name */
+   void deleteTrackInfo( const QString &fileName );
+
    /* get a list of track information matching to the search string
       return call parameters: TrackInfoList */
    void getTrackInfoList( QObject *target, const QString &method,

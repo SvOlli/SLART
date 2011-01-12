@@ -103,7 +103,7 @@ void DatabaseInterface::disableNotify()
 
 
 void DatabaseInterface::getTrackInfo( QObject *target, const QString &method,
-                                   int id )
+                                      int id )
 {
    QMetaObject::invokeMethod( mpDatabase, "getTrackInfo",
                               Qt::QueuedConnection,
@@ -115,7 +115,7 @@ void DatabaseInterface::getTrackInfo( QObject *target, const QString &method,
 
 
 void DatabaseInterface::getTrackInfo( QObject *target, const QString &method,
-                                   const QString &fileName )
+                                      const QString &fileName )
 {
    QMetaObject::invokeMethod( mpDatabase, "getTrackInfo",
                               Qt::QueuedConnection,
@@ -123,6 +123,17 @@ void DatabaseInterface::getTrackInfo( QObject *target, const QString &method,
                               Q_ARG( const QString&, method ),
                               Q_ARG( int, 0 ),
                               Q_ARG( const QString&, fileName ) );
+}
+
+
+void DatabaseInterface::getTrackInfoList( QObject *target, const QString &method,
+                                          const QString &search)
+{
+   QMetaObject::invokeMethod( mpDatabase, "getTrackInfoList",
+                              Qt::QueuedConnection,
+                              Q_ARG( QObject*, target ),
+                              Q_ARG( const QString&, method ),
+                              Q_ARG( const QString&, search ) );
 }
 
 
@@ -185,6 +196,17 @@ void DatabaseInterface::deleteTrackInfo( const TrackInfo &trackInfo )
    QMetaObject::invokeMethod( mpDatabase, "deleteTrackInfo",
                               Qt::QueuedConnection,
                               Q_ARG( const TrackInfo&, trackInfo ) );
+}
+
+
+void DatabaseInterface::deleteTrackInfo( const QString &fileName )
+{
+   QMetaObject::invokeMethod( mpDatabase, "getTrackInfo",
+                              Qt::QueuedConnection,
+                              Q_ARG( QObject*, mpDatabase ),
+                              Q_ARG( const QString&, "deleteTrackInfo" ),
+                              Q_ARG( int, 0 ),
+                              Q_ARG( const QString&, fileName ) );
 }
 
 
