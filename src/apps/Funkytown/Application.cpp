@@ -16,6 +16,7 @@
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
 #include <SorcererLoader.hpp>
+#include <Translate.hpp>
 
 /* local headers */
 #include "MainWidget.hpp"
@@ -25,10 +26,15 @@ int main(int argc, char *argv[])
 {
    int retval = 0;
 
-   QApplication app(argc, argv);
-   app.setOrganizationName("SLART");
-   app.setOrganizationDomain("svolli.org");
-   app.setApplicationName("Funkytown");
+   QApplication::setOrganizationName("SLART");
+   QApplication::setOrganizationDomain("svolli.org");
+   QApplication::setApplicationName("Funkytown");
+
+   QApplication app( argc, argv );
+
+   Translate translate;
+   translate.install( &app );
+
    QStringList *startUrls = new QStringList();
    MySettings settings;
 
@@ -44,7 +50,6 @@ int main(int argc, char *argv[])
 
    for( retval = 1; retval < argc; retval++ )
    {
-      QFileInfo qfi( argv[retval] );
       if( QFileInfo( argv[retval] ).isFile() )
       {
          QString line;

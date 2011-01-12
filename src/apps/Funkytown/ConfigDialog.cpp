@@ -36,7 +36,7 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 , mpDownloadedBytes( new QLabel( this ) )
 , mpClearButton( new QPushButton( tr("Clear"), this ) )
 {
-   setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
    mpHelpText->setReadOnly( true );
@@ -66,11 +66,11 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
-   tabs->addTab( mpHelpText,           QString(tr("Help")) );
-   tabs->addTab( settingsTab,          QString(tr("Funkytown")) );
-   tabs->addTab( mpProxyWidget,        QString(tr("Proxy")) );
-   tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
-   tabs->addTab( mpLogList,            QString(tr("Log")) );
+   tabs->addTab( mpHelpText,           tr("Help") );
+   tabs->addTab( settingsTab,          tr("Funkytown") );
+   tabs->addTab( mpProxyWidget,        tr("Proxy") );
+   tabs->addTab( mpGlobalConfigWidget, tr("Global") );
+   tabs->addTab( mpLogList,            tr("Log") );
 
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );
@@ -137,7 +137,7 @@ void ConfigDialog::writeSettings()
 void ConfigDialog::handleClear()
 {
    if( QMessageBox::question( this,
-         QApplication::applicationName()+tr(": Clear Statistics"),
+         QApplication::applicationName() + ": " + tr("Clear Statistics"),
          tr("Do you really want to clear the statistics?"),
          QMessageBox::Ok | QMessageBox::Cancel,
          QMessageBox::Cancel ) == QMessageBox::Ok )
