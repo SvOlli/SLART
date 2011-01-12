@@ -24,8 +24,6 @@
 /* class variables */
 
 
-#include <Trace.hpp>
-
 Translate::Translate()
 : mpQtTranslator( new QTranslator() )
 , mpLibTranslator( new QTranslator() )

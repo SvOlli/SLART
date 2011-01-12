@@ -177,8 +177,8 @@ Tschuldigung.</translation>
     <message>
         <location filename="../libs/Common/Database.cpp" line="66"/>
         <location filename="../libs/Common/DatabaseThread.cpp" line="72"/>
-        <source>: Error</source>
-        <translation>: Fehler</translation>
+        <source>Error</source>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location filename="../libs/Common/Database.cpp" line="67"/>

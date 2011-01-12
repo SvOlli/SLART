@@ -63,7 +63,7 @@ Database::Database( const QString &fileName )
 
    if( mpSqlDB->lastError().type() != QSqlError::NoError )
    {
-      QMessageBox::critical( 0, QApplication::applicationName() + QWidget::tr(": Error"),
+      QMessageBox::critical( 0, QApplication::applicationName() + ": " + QWidget::tr("Error"),
                              QWidget::tr("Could not open database.\nPlease make sure that the SQLite driver for Qt is installed.") );
       exit(1);
    }
@@ -578,7 +578,7 @@ QStringList Database::getAllColumnData( const QString &columnName )
 
    if( !columnName.isEmpty() )
    {
-      QString sql( "SELECT DISTINCT %1 FROM slart_tracks ORDER BY %1;" );
+      QString sql( "SELECT DISTINCT %1 FROM slart_tracks ORDER BY %2;" );
 
       mpQuery->prepare( sql.arg( columnName, columnName ) );
       if( !mpQuery->exec() )
