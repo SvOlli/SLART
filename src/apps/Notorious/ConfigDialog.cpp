@@ -35,7 +35,7 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 , mpImportButton( new QPushButton( tr("Run Import"), this ) )
 , mTimeSpent()
 {
-   setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
    AboutWidget *about( new AboutWidget( this ) );
@@ -70,8 +70,8 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
-   tabs->addTab( importTab,     QString(tr("Import")) );
-   tabs->addTab( mpLogList,     QString(tr("Log")) );
+   tabs->addTab( importTab, tr("Import") );
+   tabs->addTab( mpLogList, tr("Log") );
 
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );

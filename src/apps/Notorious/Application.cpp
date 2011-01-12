@@ -15,6 +15,7 @@
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
 #include <SorcererLoader.hpp>
+#include <Translate.hpp>
 
 /* local headers */
 #include "MainWidget.hpp"
@@ -24,12 +25,16 @@ int main(int argc, char *argv[])
 {
    int retval = 0;
 
-   QApplication app(argc, argv);
-   app.setOrganizationName("SLART");
-   app.setOrganizationDomain("svolli.org");
-   app.setApplicationName("Notorious");
-   MySettings settings;
+   QApplication::setOrganizationName("SLART");
+   QApplication::setOrganizationDomain("svolli.org");
+   QApplication::setApplicationName("Notorious");
 
+   QApplication app( argc, argv );
+
+   Translate translate;
+   translate.install( &app );
+
+   MySettings settings;
    //SorcererLoader::detect( &app );
    {
       QFile qssFile( settings.styleSheetFile() );

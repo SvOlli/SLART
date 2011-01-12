@@ -45,7 +45,7 @@ FreeDB::FreeDB( QObject *parent )
 
    if( mpSqlDB->lastError().type() != QSqlError::NoError )
    {
-      QMessageBox::critical( 0, QApplication::applicationName() + QWidget::tr(": Error"),
+      QMessageBox::critical( 0, QApplication::applicationName() + ": " + QWidget::tr("Error"),
                              QWidget::tr("Could not open FreeDB.\nPlease make sure that the SQLite driver for Qt is installed.") );
       exit(1);
    }
@@ -60,8 +60,8 @@ FreeDB::FreeDB( QObject *parent )
 
    if( !mpSqlDB->open() )
    {
-      QMessageBox::critical( 0, QApplication::applicationName() + QWidget::tr(": Error"),
-                             QWidget::tr("Could not open FreeDB.\nIs the FreeDB file readable.") );
+      QMessageBox::critical( 0, QApplication::applicationName() + ": " + QWidget::tr("Error"),
+                             QWidget::tr("Could not open FreeDB.\nIs the FreeDB file readable?") );
       exit(1);
    }
 
