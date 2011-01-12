@@ -16,6 +16,7 @@
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 #include <SorcererLoader.hpp>
+#include <Translate.hpp>
 
 /* local headers */
 #include "MainWidget.hpp"
@@ -31,7 +32,10 @@ int main(int argc, char *argv[])
 
    if( argc == 1 )
    {
-      QApplication app(argc, argv);
+      QApplication app( argc, argv );
+
+      Translate translate;
+      translate.install( &app );
 
       SorcererLoader::detect( &app );
       {
@@ -52,9 +56,8 @@ int main(int argc, char *argv[])
    }
    else
    {
-      QCoreApplication app(argc, argv);
+      QCoreApplication app( argc, argv );
 
-      QString application( argv[1] );
       QStringList message;
       for( int i = 1; i < argc; i++ )
       {

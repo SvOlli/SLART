@@ -40,7 +40,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpAutostartNotorious( new QPushButton( tr("Notorious"), this) )
 , mpAutostartCreep( new QPushButton( tr("Creep"), this) )
 {
-   setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
    mpAutostartPartyman->setCheckable( true );
@@ -82,10 +82,10 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
-   tabs->addTab( mpSatelliteConfigWidget, QString(tr("Satellite")) );
-   tabs->addTab( iTab,                    QString(tr("Innuendo")) );
-   tabs->addTab( mpProxyWidget,           QString(tr("Proxy")) );
-   tabs->addTab( mpGlobalConfigWidget,    QString(tr("Global")) );
+   tabs->addTab( mpSatelliteConfigWidget, tr("Satellite") );
+   tabs->addTab( iTab,                    tr("Innuendo") );
+   tabs->addTab( mpProxyWidget,           tr("Proxy") );
+   tabs->addTab( mpGlobalConfigWidget,    tr("Global") );
 
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );

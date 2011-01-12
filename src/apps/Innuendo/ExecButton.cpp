@@ -84,17 +84,16 @@ void ExecButton::handleError( QProcess::ProcessError error )
    switch( error )
    {
       case QProcess::FailedToStart:
-         text.append( tr("Could not start ") );
+         text.append( tr("Could not start %1").arg( mName ) );
          break;
       case QProcess::Crashed:
          if( mTerminating ) return;
-         text.append( tr("Crashed application ") );
+         text.append( tr("Crashed application %1").arg( mName ) );
          break;
       default:
-         text.append( tr("Error running ") );
+         text.append( tr("Error running %1").arg( mName ) );
          break;
    }
-   text.append( mName );
 
    QMessageBox::warning( this, QCoreApplication::applicationName(), text );
    setChecked( false );

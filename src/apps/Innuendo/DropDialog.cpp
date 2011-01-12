@@ -28,14 +28,14 @@ DropDialog::DropDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpMimeTypes( new QComboBox( this ) )
 , mpClipboard( new QPushButton( tr("Get Clipboard"), this ) )
 , mpColor( new QPushButton( tr("Color"), this ) )
-, mpHtml( new QPushButton( tr("Html"), this ) )
+, mpHtml( new QPushButton( tr("HTML"), this ) )
 , mpText( new QPushButton( tr("Text"), this ) )
-, mpUrls( new QPushButton( tr("Urls"), this ) )
+, mpUrls( new QPushButton( tr("URLs"), this ) )
 , mpTextBrowser( new QTextBrowser( this ) )
 , mpSignalMapper( new QSignalMapper( this ) )
 , mMimeDataCache()
 {
-   setWindowTitle( QApplication::applicationName()+tr(" Drop Info") );
+   setWindowTitle( QApplication::applicationName() + ": " + tr("Drop Info") );
    QPushButton *okButton = new QPushButton( tr("OK"), this );
    connect( mpClipboard, SIGNAL(clicked()),
             this, SLOT(handleClipboard()) );
@@ -50,7 +50,7 @@ DropDialog::DropDialog( QWidget *parent, Qt::WindowFlags flags )
    mpSignalMapper->setMapping( mpColor, mpMimeTypes->findText( "application/x-color" ) );
    mpSignalMapper->setMapping( mpHtml,  mpMimeTypes->findText( "text/html" ) );
    mpSignalMapper->setMapping( mpText,  mpMimeTypes->findText( "text/plain" ) );
-   mpSignalMapper->setMapping( mpUrls,  mpMimeTypes->findText( tr("Urls List") ) );
+   mpSignalMapper->setMapping( mpUrls,  mpMimeTypes->findText( tr("URLs List") ) );
 
    QBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( mpClipboard );
@@ -107,7 +107,7 @@ void DropDialog::getMimeData( const QMimeData *remoteMimeData )
 
    if( remoteMimeData->hasUrls() )
    {
-      mpMimeTypes->addItem( tr("Urls List") );
+      mpMimeTypes->addItem( tr("URLs List") );
    }
    mpMimeTypes->addItems( remoteMimeData->formats() );
 
