@@ -29,6 +29,9 @@ SOURCES += DatabaseThread.cpp
 HEADERS += DirWalker.hpp
 SOURCES += DirWalker.cpp
 
+HEADERS += DirWalkerCallbackProxy.hpp
+SOURCES += DirWalkerCallbackProxy.cpp
+
 HEADERS += GenericSatMsgHandler.hpp
 SOURCES += GenericSatMsgHandler.cpp
 
