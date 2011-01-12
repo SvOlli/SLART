@@ -43,6 +43,9 @@ SOURCES += DirWalkerDelete.cpp
 HEADERS += DirWalkerMove.hpp
 SOURCES += DirWalkerMove.cpp
 
+HEADERS += DirWalkerUpdate.hpp
+SOURCES += DirWalkerUpdate.cpp
+
 HEADERS += FileSysBrowser.hpp
 SOURCES += FileSysBrowser.cpp
 

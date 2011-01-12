@@ -41,7 +41,7 @@ class DatabaseWidget : public QWidget
 Q_OBJECT
 
 public:
-   DatabaseWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   DatabaseWidget( QWidget *parent = 0 );
 
 public slots:
    /* handle update button */
@@ -71,7 +71,6 @@ private:
 
    void disableButtons( bool disable );
 
-   Database       *mpDatabase;
    DatabaseWorker *mpDatabaseWorker;
    QLineEdit      *mpBaseDir;
    QPushButton    *mpUpdateButton;
@@ -79,10 +78,6 @@ private:
    QPushButton    *mpImportButton;
    QLabel         *mpMessage;
    QLabel         *mpPartymanInfo;
-#if 0
-   QSqlTableModel *mpTableModel;
-   QTableView     *mpTableView;
-#endif
    bool           mPartymanLocal;
    QString        mCheckedText;
    QString        mProcessedText;

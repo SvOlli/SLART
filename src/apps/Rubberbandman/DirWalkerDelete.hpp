@@ -6,6 +6,9 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
+#ifndef DIRWALKERDELETE_HPP
+#define DIRWALKERDELETE_HPP DIRWALKERDELETE_HPP
+
 /* base class */
 #include <DirWalker.hpp>
 
@@ -15,22 +18,20 @@
 #include <QDir>
 
 /* local library headers */
-#include <TrackInfo.hpp>
 
 /* local headers */
 
 /* forward declaration of Qt classes */
-class QString;
 class QFileInfo;
 
 /* forward declaration of local classes */
-class Database;
+class DatabaseInterface;
 
 
 class DirWalkerDelete : public DirWalkerCallbacks
 {
 public:
-   DirWalkerDelete( Database *database/*, const QString &path*/ );
+   DirWalkerDelete();
    virtual ~DirWalkerDelete();
 
    /* handle a file entry */
@@ -43,7 +44,8 @@ public:
    virtual void handleOther( const QFileInfo &fileInfo );
 
 private:
-   Database    *mpDatabase;
-   QDir        mDir;
-   TrackInfo   mTrackInfo;
+   DatabaseInterface    *mpDatabase;
+   QDir                 mDir;
 };
+
+#endif

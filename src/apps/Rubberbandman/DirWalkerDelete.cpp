@@ -14,15 +14,14 @@
 /* Qt headers */
 
 /* local library headers */
-#include <Database.hpp>
+#include <DatabaseInterface.hpp>
 
 /* local headers */
 
 
-DirWalkerDelete::DirWalkerDelete( Database *database )
-: mpDatabase( database )
+DirWalkerDelete::DirWalkerDelete()
+: mpDatabase( DatabaseInterface::get() )
 , mDir()
-, mTrackInfo()
 {
 }
 
@@ -35,10 +34,7 @@ DirWalkerDelete::~DirWalkerDelete()
 void DirWalkerDelete::handleFile( const QFileInfo &fileInfo )
 {
    QFile::remove( fileInfo.absoluteFilePath() );
-   if( mpDatabase->getTrackInfo( &mTrackInfo, fileInfo.absoluteFilePath() ) )
-   {
-      mpDatabase->deleteTrackInfo( &mTrackInfo );
-   }
+   mpDatabase->deleteTrackInfo( fileInfo.absoluteFilePath() );
 }
 
 

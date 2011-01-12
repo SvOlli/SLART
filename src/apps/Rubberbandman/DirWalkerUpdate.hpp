@@ -1,13 +1,13 @@
 /**
- * src/apps/Rubberbandman/DirWalkerMove.cpp
+ * src/apps/Rubberbandman/DirWalkerUpdate.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef DIRWALKERMOVE_HPP
-#define DIRWALKERMOVE_HPP DIRWALKERMOVE_HPP
+#ifndef DIRWALKERUPDATE_HPP
+#define DIRWALKERUPDATE_HPP DIRWALKERUPDATE_HPP
 
 /* base class */
 #include <DirWalker.hpp>
@@ -15,26 +15,23 @@
 /* system headers */
 
 /* Qt headers */
-#include <QDir>
-#include <QFileInfo>
-#include <QString>
 
 /* local library headers */
-#include <TrackInfo.hpp>
 
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QFileInfo;
 
 /* forward declaration of local classes */
-class DatabaseInterface;
+class DatabaseWorker;
 
 
-class DirWalkerMove : public DirWalkerCallbacks
+class DirWalkerUpdate : public DirWalkerCallbacks
 {
 public:
-   DirWalkerMove( const QString &srcpath, const QString &destpath );
-   virtual ~DirWalkerMove();
+   DirWalkerUpdate( DatabaseWorker *databaseWorker );
+   virtual ~DirWalkerUpdate();
 
    /* handle a file entry */
    virtual void handleFile( const QFileInfo &fileInfo );
@@ -46,15 +43,7 @@ public:
    virtual void handleOther( const QFileInfo &fileInfo );
 
 private:
-   DatabaseInterface    *mpDatabase;
-   int                  mSrcBaseLen;
-   QString              mDestBase;
-   QString              mSrcFile;
-   QString              mDestFile;
-   QString              mPath;
-   TrackInfo            mTrackInfo;
-   QDir                 mQDir;
-   QFileInfo            mQFileInfo;
+   DatabaseWorker    *mpDatabaseWorker;
 };
 
 #endif

@@ -19,46 +19,19 @@
 #include <QFileInfo>
 
 /* local library headers */
-#include <Database.hpp>
+#include <DatabaseInterface.hpp>
 
 /* local headers */
+#include "DirWalkerUpdate.hpp"
 
 
 static const int UPDATE_INCREMENT = 200;
 
 
-/* helper class for DirWalker updating database */
-class DirWalkerDatabaseUpdate : public DirWalkerCallbacks
-{
-public:
-   DirWalkerDatabaseUpdate( DatabaseWorker *databaseWorker )
-   : mpDatabaseWorker( databaseWorker )
-   {
-   }
-   virtual ~DirWalkerDatabaseUpdate(){}
-   void handleFile( const QFileInfo &fileInfo )
-   {
-      mpDatabaseWorker->updateFile( fileInfo );
-   }
-   void handleDirEntry( const QFileInfo &fileInfo )
-   {
-      mpDatabaseWorker->updateDir( fileInfo );
-   }
-   void handleDirLeave( const QFileInfo & )
-   {
-   }
-   void handleOther( const QFileInfo &/*fileInfo*/ )
-   {
-   }
-private:
-   DatabaseWorker *mpDatabaseWorker;
-};
-
-
-DatabaseWorker::DatabaseWorker( Database *database )
+DatabaseWorker::DatabaseWorker()
 : QThread( 0 )
-, mMode( none )
-, mpDatabase( database )
+, mMode( NONE )
+, mpDatabase( DatabaseInterface::get() )
 {
 }
 
@@ -75,11 +48,11 @@ DatabaseWorker::~DatabaseWorker()
 
 bool DatabaseWorker::initUpdate( const QString &baseDir )
 {
-   if( mMode != none )
+   if( mMode != NONE )
    {
       return false;
    }
-   mMode   = update;
+   mMode   = UPDATE;
    mCancel = false;
    mPath   = baseDir;
 
@@ -89,11 +62,11 @@ bool DatabaseWorker::initUpdate( const QString &baseDir )
 
 bool DatabaseWorker::initCleanup()
 {
-   if( mMode != none )
+   if( mMode != NONE )
    {
       return false;
    }
-   mMode   = cleanup;
+   mMode   = CLEANUP;
    mCancel = false;
 
    return true;
@@ -102,11 +75,11 @@ bool DatabaseWorker::initCleanup()
 
 bool DatabaseWorker::initImport( const QString &fileName )
 {
-   if( mMode != none )
+   if( mMode != NONE )
    {
       return false;
    }
-   mMode   = import;
+   mMode   = IMPORT;
    mCancel = false;
    mPath   = fileName;
 
@@ -120,115 +93,89 @@ void DatabaseWorker::run()
    mLastChecked = 0;
    mProcessed   = 0;
    emit progress( mChecked, mProcessed );
-   mpDatabase->beginTransaction();
    switch( mMode )
    {
-      case update:
+      case UPDATE:
          {
-            DirWalkerDatabaseUpdate walkerCallbacks( this );
+            DirWalkerUpdate walkerCallbacks( this );
             mDirWalker.run( &walkerCallbacks, mPath );
          }
          break;
-      case cleanup:
-         {
-            TrackInfoList trackInfoList;
-            QFileInfo     qfi;
-            int           s = mpDatabase->getTrackInfoList( &trackInfoList );
-            for( mChecked = 0; mChecked < s; mChecked++ )
-            {
-               mTrackInfo = trackInfoList.at( mChecked );
-               qfi.setFile( mTrackInfo.mDirectory + "/" + mTrackInfo.mFileName );
-               if( !qfi.isFile() )
-               {
-                  mpDatabase->deleteTrackInfo( &mTrackInfo );
-                  ++mProcessed;
-               }
-               if( mChecked > mLastChecked + UPDATE_INCREMENT )
-               {
-                  emit progress( mChecked, mProcessed );
-                  mLastChecked = mChecked;
-               }
-            }
-         }
+      case CLEANUP:
+         mpDatabase->getTrackInfoList( this, "cleanup" );
          break;
-      case import:
+      case IMPORT:
          importM3u();
          break;
       default:
          break;
    }
-   mpDatabase->endTransaction( true );
    emit progress( mChecked, mProcessed );
-   if( mMode == cleanup )
-   {
-      mpDatabase->cleanup();
-   }
-   mMode = none;
+   mMode = NONE;
 }
 
 
-void DatabaseWorker::updateDir( const QFileInfo &/*fileInfo*/ )
+void DatabaseWorker::cleanup( const TrackInfoList &trackInfoList )
 {
-   if( mChecked > mLastChecked + UPDATE_INCREMENT )
+   QFileInfo     qfi;
+   foreach( mTrackInfo, trackInfoList )
    {
-      emit progress( mChecked, mProcessed );
-      mLastChecked = mChecked;
+      qfi.setFile( mTrackInfo.mDirectory + "/" + mTrackInfo.mFileName );
+      if( !qfi.isFile() )
+      {
+         mpDatabase->deleteTrackInfo( mTrackInfo );
+         ++mProcessed;
+      }
+      if( ++mChecked >= mLastChecked + UPDATE_INCREMENT )
+      {
+         emit progress( mChecked, mProcessed );
+         mLastChecked = mChecked;
+      }
    }
+   emit progress( mChecked, mProcessed );
+   //mpDatabase->cleanup(); //TODO
 }
 
 
 void DatabaseWorker::updateFile( const QFileInfo &fileInfo )
 {
-   ++mChecked;
-   mTrackInfo.mID = 0;
-   if( !mpDatabase->getTrackInfo( &mTrackInfo, fileInfo.absoluteFilePath() ) )
-   {
-      QString fileName( fileInfo.absoluteFilePath() );
-      int fileNameStart = fileName.lastIndexOf('/');
-
-      mTrackInfo.mID           = 0;
-      mTrackInfo.mDirectory    = fileName.left(fileNameStart);
-      mTrackInfo.mFileName     = fileName.mid(fileNameStart+1);
-      mTrackInfo.mLastTagsRead = 0;
-      mTrackInfo.mTimesPlayed  = 0;
-      mTrackInfo.mFlags        = 0;
-   }
-
-   if( updateTrackInfoFromFile( fileInfo.absoluteFilePath() ) )
-   {
-      mpDatabase->updateTrackInfo( &mTrackInfo, true );
-      ++mProcessed;
-   }
+   mpDatabase->getTrackInfo( this, "updateTrackInfoFromFile", fileInfo.absoluteFilePath() );
 }
 
 
-bool DatabaseWorker::updateTrackInfoFromFile( const QString &fileName )
+void DatabaseWorker::updateTrackInfoFromFile( const TrackInfo &trackInfo )
 {
-   QFileInfo fileInfo( fileName );
+   QFileInfo fileInfo( trackInfo.mDirectory + "/" + trackInfo.mFileName );
 
-   if( (fileInfo.lastModified().toTime_t() > mTrackInfo.mLastTagsRead ) ||
-       (mTrackInfo.mPlayTime == 0) )
+   if( (fileInfo.lastModified().toTime_t() > trackInfo.mLastTagsRead ) ||
+       (trackInfo.mPlayTime == 0) )
    {
-      TagLib::FileRef f( fileName.toLocal8Bit().data() );
+      TagLib::FileRef f( fileInfo.absoluteFilePath().toLocal8Bit().data() );
       if( f.file() && f.tag() )
       {
-         mTrackInfo.mArtist       = QString::fromUtf8( f.tag()->artist().toCString( true ) );
-         mTrackInfo.mTitle        = QString::fromUtf8( f.tag()->title().toCString( true ) );
-         mTrackInfo.mAlbum        = QString::fromUtf8( f.tag()->album().toCString( true ) );
-         mTrackInfo.mTrackNr      = f.tag()->track();
-         mTrackInfo.mYear         = f.tag()->year();
-         mTrackInfo.mGenre        = QString::fromUtf8( f.tag()->genre().toCString( true ) );
+         TrackInfo ti( trackInfo );
+         ti.mArtist       = QString::fromUtf8( f.tag()->artist().toCString( true ) );
+         ti.mTitle        = QString::fromUtf8( f.tag()->title().toCString( true ) );
+         ti.mAlbum        = QString::fromUtf8( f.tag()->album().toCString( true ) );
+         ti.mTrackNr      = f.tag()->track();
+         ti.mYear         = f.tag()->year();
+         ti.mGenre        = QString::fromUtf8( f.tag()->genre().toCString( true ) );
          if( f.audioProperties() )
          {
-            mTrackInfo.mPlayTime  = f.audioProperties()->length();
+            ti.mPlayTime  = f.audioProperties()->length();
          }
-         mTrackInfo.mLastTagsRead = fileInfo.lastModified().toTime_t();
+         ti.mLastTagsRead = fileInfo.lastModified().toTime_t();
 
-         return true;
+         mpDatabase->updateTrackInfo( ti, true );
+         ++mProcessed;
       }
    }
 
-   return false;
+   if( ++mChecked >= mLastChecked + UPDATE_INCREMENT )
+   {
+      emit progress( mChecked, mProcessed );
+      mLastChecked = mChecked;
+   }
 }
 
 
@@ -263,28 +210,7 @@ void DatabaseWorker::importM3u()
             qfi.setFile( fileBase + fileName );
             fileName = qfi.absoluteFilePath();
          }
-
-         mTrackInfo.mID = 0;
-         if( !mpDatabase->getTrackInfo( &mTrackInfo, fileName ) )
-         {
-            int fileNameStart = fileName.lastIndexOf('/');
-
-            mTrackInfo.mID           = 0;
-            mTrackInfo.mDirectory    = fileName.left(fileNameStart);
-            mTrackInfo.mFileName     = fileName.mid(fileNameStart+1);
-            mTrackInfo.mLastTagsRead = 0;
-            mTrackInfo.mTimesPlayed  = 0;
-            mTrackInfo.mFlags        = 0;
-            ++mProcessed;
-         }
-         updateTrackInfoFromFile( fileName );
-         mpDatabase->updateTrackInfo( &mTrackInfo, true );
-
-         if( ++mChecked > mLastChecked + UPDATE_INCREMENT )
-         {
-            emit progress( mChecked, mProcessed );
-            mLastChecked = mChecked;
-         }
+         mpDatabase->getTrackInfo( this, "updateTrackInfoFromFile", fileName );
       }
    }
    m3uFile.close();

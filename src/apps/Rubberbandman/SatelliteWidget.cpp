@@ -16,7 +16,7 @@
 #include <QString>
 
 /* local library headers */
-#include <Database.hpp>
+#include <DatabaseInterface.hpp>
 #include <GenericSatMsgHandler.hpp>
 #include <GlobalConfigWidget.hpp>
 #include <MySettings.hpp>
@@ -30,10 +30,10 @@
 #include "Trace.hpp"
 
 
-SatelliteWidget::SatelliteWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
-: QWidget( parent, flags )
-, mpDatabase( database )
-, mpInfoEdit( new InfoEdit( database ) )
+SatelliteWidget::SatelliteWidget( QWidget *parent )
+: QWidget( parent )
+, mpDatabase( DatabaseInterface::get() )
+, mpInfoEdit( new InfoEdit( this ) )
 , mpSatellite( Satellite::get( this ) )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
 , mpNowPlaying( new QPushButton( tr("NP: To Clipboard"), this ) )
@@ -121,11 +121,5 @@ void SatelliteWidget::handleShowInFilesystem()
 
 void SatelliteWidget::handleGetRandom()
 {
-TRACESTART(SatelliteWidget::handleGetRandom)
-   TrackInfo trackInfo;
-   if( mpDatabase->getRandomTrack( &trackInfo, false, true ) )
-   {
-      mpInfoEdit->load( trackInfo.mDirectory + "/" + trackInfo.mFileName );
-TRACEMSG << trackInfo.toString();
-   }
+   mpDatabase->getRandomTrack( mpInfoEdit, "loadTrackInfo", false, false );
 }

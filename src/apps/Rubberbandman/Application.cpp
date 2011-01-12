@@ -14,7 +14,7 @@
 #include <QTimer>
 
 /* local library headers */
-#include <Database.hpp>
+#include <DatabaseInterface.hpp>
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
 #include <SorcererLoader.hpp>
@@ -49,20 +49,20 @@ int main(int argc, char *argv[])
    if( args.size() > 1 )
    {
       QTextStream stdErr( ::stderr, QIODevice::WriteOnly );
+      stdErr << "qt_" + QLocale::system().name() << endl << QLibraryInfo::location(QLibraryInfo::TranslationsPath) << endl;
       args.takeFirst(); // first argument is program name
       const QString _cleanup( "-cleanup" );
       const QString _basedir( "-basedir" );
       const QString _update( "-update" );
 
-      if( !Database::exists() )
+      if( !DatabaseInterface::exists() )
       {
          return 2;
       }
 
       QString arg;
       QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
-      Database db;
-      DatabaseWorker *databaseWorker = new DatabaseWorker( &db );
+      DatabaseWorker *databaseWorker = new DatabaseWorker();
       while( args.size() > 0 )
       {
          arg = args.takeFirst();
@@ -140,6 +140,8 @@ int main(int argc, char *argv[])
          retval = app.exec();
       }
    }
+
+   DatabaseInterface::destroy();
 
    return retval;
 }

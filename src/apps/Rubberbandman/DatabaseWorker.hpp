@@ -27,7 +27,7 @@
 class QFileInfo;
 
 /* forward declaration of local classes */
-class Database;
+class DatabaseInterface;
 class FileSysTreeModel;
 
 
@@ -36,7 +36,7 @@ class DatabaseWorker : public QThread
 Q_OBJECT
 
 public:
-   DatabaseWorker( Database *database );
+   DatabaseWorker();
    virtual ~DatabaseWorker();
 
    /* cancel current run */
@@ -55,26 +55,30 @@ public:
    /* callback for update */
    void updateDir( const QFileInfo &fileInfo );
 
+public slots:
+   /* read track info from the file */
+   void updateTrackInfoFromFile( const TrackInfo &trackInfo );
+   /*  */
+   void cleanup( const TrackInfoList &trackInfoList );
+
 signals:
    /* emit progress */
    void progress( int checked, int processed );
 
 private:
-   /* read track info from a file */
-   bool updateTrackInfoFromFile( const QString &fileName );
    /* subroutine for better reading of code */
    void importM3u();
 
-   enum { none, update, cleanup, import } mMode;
-   Database         *mpDatabase;
-   FileSysTreeModel *mpTreeModel;
-   bool             mCancel;
-   int              mChecked;
-   int              mLastChecked;
-   int              mProcessed;
-   QString          mPath;
-   DirWalker        mDirWalker;
-   TrackInfo        mTrackInfo;
+   enum { NONE, UPDATE, CLEANUP, IMPORT } mMode;
+   DatabaseInterface    *mpDatabase;
+   FileSysTreeModel     *mpTreeModel;
+   bool                 mCancel;
+   int                  mChecked;
+   int                  mLastChecked;
+   int                  mProcessed;
+   QString              mPath;
+   DirWalker            mDirWalker;
+   TrackInfo            mTrackInfo;
 };
 
 #endif

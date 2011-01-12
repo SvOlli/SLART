@@ -53,7 +53,6 @@ private:
    MainWidget( const MainWidget &that );
    MainWidget &operator=( const MainWidget &that );
 
-   Database          *mpDatabase;
    BrowseWidget      *mpBrowseWidget;
    SatelliteWidget   *mpSatelliteWidget;
    DatabaseWidget    *mpDatabaseWidget;

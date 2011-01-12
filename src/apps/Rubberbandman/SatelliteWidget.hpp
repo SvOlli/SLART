@@ -28,7 +28,7 @@ class QPushButton;
 class QString;
 
 /* forward declaration of local classes */
-class Database;
+class DatabaseInterface;
 class GenericSatMsgHandler;
 class InfoEdit;
 class Satellite;
@@ -39,7 +39,7 @@ class SatelliteWidget : public QWidget
 Q_OBJECT
 
 public:
-   SatelliteWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   SatelliteWidget( QWidget *parent = 0 );
 
 public slots:
    /* handle SLART message to read tags of current track */
@@ -61,7 +61,7 @@ private:
    SatelliteWidget( const SatelliteWidget &that );
    SatelliteWidget &operator=( const SatelliteWidget &that );
 
-   Database             *mpDatabase;
+   DatabaseInterface    *mpDatabase;
    InfoEdit             *mpInfoEdit;
    Satellite            *mpSatellite;
    GenericSatMsgHandler *mpGenericSatMsgHandler;

@@ -29,10 +29,9 @@
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpDatabase( new Database() )
-, mpBrowseWidget( new BrowseWidget( mpDatabase, this ) )
-, mpSatelliteWidget( new SatelliteWidget( mpDatabase, this ) )
-, mpDatabaseWidget( new DatabaseWidget( mpDatabase, this ) )
+, mpBrowseWidget( new BrowseWidget( this ) )
+, mpSatelliteWidget( new SatelliteWidget( this ) )
+, mpDatabaseWidget( new DatabaseWidget( this ) )
 , mpTabs( new QTabWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpConfigDialog( new ConfigDialog( this ) )
@@ -42,9 +41,9 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
 
-   mpTabs->addTab( mpBrowseWidget,   tr("Filesystem") );
-   mpTabs->addTab( mpSatelliteWidget, tr("Partyman") );
-   mpTabs->addTab( mpDatabaseWidget, tr("Database") );
+   mpTabs->addTab( mpBrowseWidget,    tr("Filesystem") );
+   mpTabs->addTab( mpSatelliteWidget, tr("Satellite") );
+   mpTabs->addTab( mpDatabaseWidget,  tr("Database") );
    mpTabs->setCurrentIndex( settings.VALUE_CURRENTTAB );
 
    mainLayout->addWidget( mpTabs );
@@ -73,7 +72,6 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 
 MainWidget::~MainWidget()
 {
-   delete mpDatabase;
 }
 
 

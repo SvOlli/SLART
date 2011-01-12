@@ -38,7 +38,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpPlayingPatternExample( new QLabel( this ) )
 , mTagList()
 {
-   setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
    mpWithTrackNrLabel->setAlignment( Qt::AlignTop );
@@ -85,8 +85,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
-   tabs->addTab( rbmTab,               QString(tr("Rubberbandman")) );
-   tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
+   tabs->addTab( rbmTab,               tr("Rubberbandman") );
+   tabs->addTab( mpGlobalConfigWidget, tr("Global") );
 
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );

@@ -36,7 +36,7 @@ class BrowseWidget : public QWidget
 Q_OBJECT
 
 public:
-   BrowseWidget( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   BrowseWidget( QWidget *parent = 0 );
 
 public slots:
    /* show a specific file in filesystem tree */

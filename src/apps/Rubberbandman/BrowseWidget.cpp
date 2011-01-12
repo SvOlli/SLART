@@ -17,17 +17,17 @@
 #include <QString>
 
 /* local library headers */
-#include <Database.hpp>
+#include <DatabaseInterface.hpp>
 
 /* local headers */
 #include "FileSysBrowser.hpp"
 #include "InfoEdit.hpp"
 
 
-BrowseWidget::BrowseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
-: QWidget( parent, flags )
-, mpFileSysBrowser( new FileSysBrowser( database, this ) )
-, mpInfoEdit( new InfoEdit( database, this ) )
+BrowseWidget::BrowseWidget( QWidget *parent )
+: QWidget( parent )
+, mpFileSysBrowser( new FileSysBrowser( this ) )
+, mpInfoEdit( new InfoEdit( this ) )
 {
    QBoxLayout *layout;
    if( QApplication::desktop()->screenGeometry().height() < 600 )

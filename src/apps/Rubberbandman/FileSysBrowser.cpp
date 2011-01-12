@@ -16,7 +16,7 @@
 #include <QString>
 
 /* local library headers */
-#include <Database.hpp>
+#include <DatabaseInterface.hpp>
 #include <DirWalker.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
@@ -28,9 +28,9 @@
 #include "MyTreeView.hpp"
 
 
-FileSysBrowser::FileSysBrowser( Database *database, QWidget *parent, Qt::WindowFlags flags )
-: QWidget( parent, flags )
-, mpDatabase( database )
+FileSysBrowser::FileSysBrowser( QWidget *parent )
+: QWidget( parent )
+, mpDatabase( DatabaseInterface::get() )
 , mpRootDir( new QLineEdit( this ) )
 , mpDotButton( new QPushButton( "...", this ) )
 , mpView( new MyTreeView( this ) )
@@ -213,14 +213,14 @@ void FileSysBrowser::menuMoveContent()
 void FileSysBrowser::menuMove( bool contentOnly )
 {
 //TRACESTART(FileSysBrowser::menuMove)
-   QString dialogMessage( QApplication::applicationName() );
+   QString dialogMessage( QApplication::applicationName() + ": " );
    if( contentOnly )
    {
-      dialogMessage.append( tr(": Move Content Of %1 To:") );
+      dialogMessage.append( tr("Move Content Of %1 To:") );
    }
    else
    {
-      dialogMessage.append( tr(": Move %1 To:") );
+      dialogMessage.append( tr("Move %1 To:") );
    }
    QFileDialog dialog( this, dialogMessage.arg( mFileInfo.fileName()) );
    dialog.setFileMode( QFileDialog::DirectoryOnly );
@@ -239,7 +239,7 @@ void FileSysBrowser::menuMove( bool contentOnly )
       if( mFileInfo.isDir() )
       {
          QDir qDir;
-         DirWalkerMove walkerCallbacks( mpDatabase, mFileInfo.absoluteFilePath(), dest );
+         DirWalkerMove walkerCallbacks( mFileInfo.absoluteFilePath(), dest );
          DirWalker     dirWalker;
 //TRACEMSG << "create" << dest;
          qDir.mkdir( dest );
@@ -263,8 +263,9 @@ void FileSysBrowser::menuMove( bool contentOnly )
 void FileSysBrowser::menuRename()
 {
    bool ok;
-   QString text = QInputDialog::getText( this, QString(QApplication::applicationName() + tr(": Rename %1 To:")).arg(mFileInfo.fileName()),
-                                         QString(tr("Rename %1 To:")).arg(mFileInfo.fileName()),
+   QString text = QInputDialog::getText( this, QString(QApplication::applicationName() + ": " +
+                                                       tr("Rename %1 To:")).arg(mFileInfo.fileName()),
+                                         tr("Rename %1 To:").arg(mFileInfo.fileName()),
                                          QLineEdit::Normal, mFileInfo.fileName(), &ok );
    if (ok && !text.isEmpty())
    {
@@ -301,15 +302,15 @@ void FileSysBrowser::menuRename()
 void FileSysBrowser::menuDelete()
 {
    QMessageBox::StandardButton button;
-   button = QMessageBox::question( this, QString(QApplication::applicationName() + tr(": Delete %1")).arg(mFileInfo.fileName()),
-                                   QString(tr("Really Delete %1 ?")).arg(mFileInfo.fileName()),
+   button = QMessageBox::question( this, QString(QApplication::applicationName() + ": " + tr("Delete %1")).arg(mFileInfo.fileName()),
+                                   tr("Really Delete %1 ?").arg(mFileInfo.fileName()),
                                    QMessageBox::Ok | QMessageBox::Cancel );
    if( button == QMessageBox::Ok )
    {
       QDir qdir( mFileInfo.absolutePath() );
       if( mFileInfo.isDir() )
       {
-         DirWalkerDelete walkerCallbacks( mpDatabase );
+         DirWalkerDelete walkerCallbacks;
          DirWalker       dirWalker;
          dirWalker.run( &walkerCallbacks, mFileInfo.absoluteFilePath() );
          qdir.rmdir( mFileInfo.fileName() );

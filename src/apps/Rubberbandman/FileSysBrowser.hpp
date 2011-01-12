@@ -32,7 +32,7 @@ class QShowEvent;
 class QTreeView;
 
 /* forward declaration of local classes */
-class Database;
+class DatabaseInterface;
 
 
 class FileSysBrowser : public QWidget
@@ -40,7 +40,7 @@ class FileSysBrowser : public QWidget
 Q_OBJECT
 
 public:
-   FileSysBrowser( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   FileSysBrowser( QWidget *parent = 0 );
 
 public slots:
    /* get the index of clicked entry */
@@ -78,20 +78,20 @@ private:
    FileSysBrowser( const FileSysBrowser &that );
    FileSysBrowser &operator=( const FileSysBrowser &that );
 
-   Database     *mpDatabase;
-   QLineEdit    *mpRootDir;
-   QPushButton  *mpDotButton;
-   QTreeView    *mpView;
-   QDirModel    *mpModel;
-   QAction      *mpMenuSendToPartyman;
-   QAction      *mpMenuRescan;
-   QAction      *mpMenuMoveFile;
-   QAction      *mpMenuMoveDirectory;
-   QAction      *mpMenuMoveContent;
-   QAction      *mpMenuRename;
-   QAction      *mpMenuDelete;
-   QModelIndex  mContextModelIndex;
-   QFileInfo    mFileInfo;
+   DatabaseInterface    *mpDatabase;
+   QLineEdit            *mpRootDir;
+   QPushButton          *mpDotButton;
+   QTreeView            *mpView;
+   QDirModel            *mpModel;
+   QAction              *mpMenuSendToPartyman;
+   QAction              *mpMenuRescan;
+   QAction              *mpMenuMoveFile;
+   QAction              *mpMenuMoveDirectory;
+   QAction              *mpMenuMoveContent;
+   QAction              *mpMenuRename;
+   QAction              *mpMenuDelete;
+   QModelIndex          mContextModelIndex;
+   QFileInfo            mFileInfo;
 };
 
 #endif

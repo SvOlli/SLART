@@ -17,7 +17,6 @@
 #include <QtGui>
 
 /* local library headers */
-#include <Database.hpp>
 #include <DatabaseInterface.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
@@ -27,15 +26,10 @@
 #include "ConfigDialog.hpp"
 #include "LineEdit.hpp"
 
-#define MODE_NOTHING     0
-#define MODE_SETTAGS     1
-#define MODE_NORM_ARTIST 2
-#define MODE_NORM_TITLE  3
 
-
-InfoEdit::InfoEdit( Database *database, QWidget *parent )
+InfoEdit::InfoEdit( QWidget *parent )
 : QWidget( parent )
-, mpDatabase( database )
+, mpDatabase( DatabaseInterface::get() )
 , mTrackInfo()
 , mpButtonSet( new QPushButton( this ) )
 , mpButtonNormArtist( new QPushButton( tr("Norm. Artist"), this ) )
@@ -66,7 +60,7 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
 , mpTrackScannedFlag( 0 )
 , mpRecurseSetFolders( 0 )
 , mpRecurseUnsetFolders( 0 )
-, mRecurseMode( 0 )
+, mRecurseMode( MODE_NOTHING )
 , mIsValid( false )
 , mIsFile( false )
 , mCancel( false )
@@ -204,10 +198,10 @@ InfoEdit::InfoEdit( Database *database, QWidget *parent )
    connect( mpMenuFolders, SIGNAL(triggered(QAction*)),
             this, SLOT(handleFoldersMenu(QAction*)) );
 
-   mpEditArtist->setCompleterTexts( mpDatabase->getAllColumnData("Artist") );
-   mpEditTitle->setCompleterTexts( mpDatabase->getAllColumnData("Title") );
-   mpEditAlbum->setCompleterTexts( mpDatabase->getAllColumnData("Album") );
-   mpEditGenre->setCompleterTexts( mpDatabase->getAllColumnData("Genre") );
+   mpDatabase->getAllColumnData( mpEditArtist, "setCompleterTexts", DatabaseInterface::Artist );
+   mpDatabase->getAllColumnData( mpEditTitle,  "setCompleterTexts", DatabaseInterface::Title );
+   mpDatabase->getAllColumnData( mpEditAlbum,  "setCompleterTexts", DatabaseInterface::Album );
+   mpDatabase->getAllColumnData( mpEditGenre,  "setCompleterTexts", DatabaseInterface::Genre );
 }
 
 
@@ -235,7 +229,6 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
       mCancel = false;
    }
 
-   mpDatabase->beginTransaction();
    foreach( const QFileInfo &fileInfo, files )
    {
       if( mCancel )
@@ -329,7 +322,6 @@ void InfoEdit::recurse( const QDir &dir, bool isBase )
          }
       }
    }
-   mpDatabase->endTransaction( true );
 
    if( isBase )
    {
@@ -416,13 +408,27 @@ void InfoEdit::load( const QString &fullpath )
 
 void InfoEdit::loadFile( const QString &fullpath )
 {
+   mFileName = fullpath;
+   QFileInfo fileInfo( mFileName );
+   if( fileInfo.isFile() )
+   {
+      mpDatabase->getTrackInfo( this, "loadTrackInfo", mFileName );
+   }
+   else
+   {
+      mTrackInfo.clear();
+      loadTrackInfo( mTrackInfo );
+   }
+}
+
+
+void InfoEdit::loadTrackInfo( const TrackInfo &trackInfo )
+{
    mIsValid  = false;
    mIsFile   = false;
-   mFileName = fullpath;
 
-   QString empty;
-
-   QFileInfo fileInfo( fullpath );
+   mTrackInfo = trackInfo;
+   QFileInfo fileInfo( mFileName );
 
    mpButtonFlags->setDisabled( false );
    mpButtonFolders->setDisabled( false );
@@ -433,12 +439,10 @@ void InfoEdit::loadFile( const QString &fullpath )
       mpButtonNormTitle->setDisabled( false );
       mIsValid = true;
       mIsFile  = true;
-
-      mpDatabase->getTrackInfo( &mTrackInfo, fullpath );
       updateDatabaseInfo( false );
 
       mTagList.clear();
-      TagLib::FileRef f( fullpath.toLocal8Bit().data() );
+      TagLib::FileRef f( mFileName.toLocal8Bit().data() );
       if( f.file() )
       {
          mpShowPathName->setText( fileInfo.absolutePath() );
@@ -506,7 +510,6 @@ void InfoEdit::loadFile( const QString &fullpath )
    }
    else
    {
-      mTrackInfo.clear();
       updateDatabaseInfo( true );
       mpShowFileName->clear();
       mpShowSize->clear();
@@ -523,7 +526,7 @@ void InfoEdit::loadFile( const QString &fullpath )
          mpButtonNormArtist->setDisabled( false );
          mpButtonNormTitle->setDisabled( false );
          mIsValid = true;
-         mpShowPathName->setText( fullpath );
+         mpShowPathName->setText( mFileName );
       }
       else
       {
@@ -719,7 +722,7 @@ void InfoEdit::saveFile()
          mTrackInfo.setFlag( TrackInfo::ScannedWithPeak, false );
       }
    }
-   mpDatabase->updateTrackInfo( &mTrackInfo, true );
+   mpDatabase->updateTrackInfo( mTrackInfo, true );
 
    if( mTrackInfo.mID <= 0 )
    {
@@ -766,7 +769,7 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
 
       mpMenuFlags->clear();
       mpMenuFolders->clear();
-      QStringList folders( mpDatabase->getFolders() );
+      mpDatabase->getFolders( this, "handleFoldersEntries" );
 
       if( withRecurse )
       {
@@ -800,20 +803,6 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
       }
       mpShowTimesPlayed->setText( timesPlayed );
 
-      if( folders.size() > 0 )
-      {
-         mpButtonFolders->setDisabled( false );
-         foreach( const QString &folder, folders )
-         {
-            QAction *action = mpMenuFolders->addAction( folder );
-            action->setCheckable( true );
-            action->setChecked( mTrackInfo.isInFolder( action->text() ) );
-         }
-      }
-      else
-      {
-         mpButtonFolders->setDisabled( true );
-      }
       mpButtonFlags->setDisabled( false );
    }
    else
@@ -844,6 +833,24 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
    }
 }
 
+
+void InfoEdit::handleFoldersEntries( const QStringList &folders )
+{
+   if( folders.size() > 0 )
+   {
+      mpButtonFolders->setDisabled( false );
+      foreach( const QString &folder, folders )
+      {
+         QAction *action = mpMenuFolders->addAction( folder );
+         action->setCheckable( true );
+         action->setChecked( mTrackInfo.isInFolder( action->text() ) );
+      }
+   }
+   else
+   {
+      mpButtonFolders->setDisabled( true );
+   }
+}
 
 void InfoEdit::handleFlagsMenu( QAction *action )
 {

@@ -26,20 +26,15 @@
 #include "ConfigDialog.hpp"
 
 
-DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowFlags flags )
-: QWidget( parent, flags )
-, mpDatabase( database )
-, mpDatabaseWorker( new DatabaseWorker( database ) )
+DatabaseWidget::DatabaseWidget( QWidget *parent )
+: QWidget( parent )
+, mpDatabaseWorker( new DatabaseWorker() )
 , mpBaseDir( new QLineEdit( this ) )
 , mpUpdateButton( new QPushButton( tr("Update"), this ) )
 , mpCleanupButton( new QPushButton( tr("Clean Up"), this ) )
 , mpImportButton( new QPushButton( tr("Import m3u"), this ) )
 , mpMessage( new QLabel( this ) )
 , mpPartymanInfo( new QLabel( this ) )
-#if 0
-, mpTableModel( new QSqlTableModel() )
-, mpTableView( new QTableView() )
-#endif
 , mPartymanLocal( false )
 , mCheckedText()
 , mProcessedText()
@@ -78,14 +73,6 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    connect( mpDatabaseWorker, SIGNAL(finished()),
             this, SLOT(handleFinished()) );
 
-#if 0
-   mpTableModel->setQuery( "SELECT id,Directory,FileName,Artist,Title,Album,TrackNr,Year,Genre,"
-                           "PlayTime,LastModified,TimesPlayed,Volume,Folders,Flags FROM slart_tracks;" );
-   mpTableModel->setTable( "slart_tracks" );
-   mpTableView->setModel( mpTableModel );
-   mpTableModel->select();
-#endif
-
    QVBoxLayout *layout = new QVBoxLayout;
    QHBoxLayout *rootLayout = new QHBoxLayout;
    rootLayout->addWidget( new QLabel( tr("Music Base:"), this ) );
@@ -96,9 +83,6 @@ DatabaseWidget::DatabaseWidget( Database *database, QWidget *parent, Qt::WindowF
    buttonLayout->addWidget( mpUpdateButton );
    buttonLayout->addWidget( mpCleanupButton );
    buttonLayout->addWidget( mpImportButton );
-#if 0
-   layout->addWidget( mpTableView );
-#endif
    layout->addLayout( rootLayout );
    layout->addLayout( buttonLayout );
    layout->addWidget( mpMessage );

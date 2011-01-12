@@ -15,13 +15,13 @@
 #include <QString>
 
 /* local library headers */
-#include <Database.hpp>
+#include <DatabaseInterface.hpp>
 
 /* local headers */
 
 
-DirWalkerMove::DirWalkerMove( Database *database, const QString &srcpath, const QString &destpath )
-: mpDatabase( database )
+DirWalkerMove::DirWalkerMove( const QString &srcpath, const QString &destpath )
+: mpDatabase( DatabaseInterface::get() )
 , mSrcBaseLen( srcpath.length() )
 , mDestBase( destpath )
 , mSrcFile()
@@ -31,8 +31,6 @@ DirWalkerMove::DirWalkerMove( Database *database, const QString &srcpath, const 
 , mQDir()
 , mQFileInfo()
 {
-//TRACESTART( DirWalkerMove )
-//TRACEMSG << srcpath << destpath;
 }
 
 
@@ -43,39 +41,36 @@ DirWalkerMove::~DirWalkerMove()
 
 void DirWalkerMove::handleFile( const QFileInfo &fileInfo )
 {
-//TRACESTART( handleFile )
    mSrcFile = fileInfo.absoluteFilePath();
    mDestFile = mSrcFile;
    mDestFile.replace( 0, mSrcBaseLen, mDestBase );
 
-//TRACEMSG << "rename" << mSrcFile << mDestFile;
+#if 0
    if( QFile::rename( mSrcFile, mDestFile ) )
    {
-      if( mpDatabase->getTrackInfo( &mTrackInfo, mSrcFile ) )
+      mpDatabase->rename();
+      if( mpDatabase->getTrackInfo( &mTrackInfo, mSrcFile ) ) //TODO
       {
          mQFileInfo.setFile( mDestFile );
          mTrackInfo.mDirectory = mQFileInfo.absolutePath();
          mpDatabase->updateTrackInfo( &mTrackInfo, true );
       }
    }
+#endif
 }
 
 
 void DirWalkerMove::handleDirEntry( const QFileInfo &fileInfo )
 {
-//TRACESTART( handleDirEntry )
    mDestFile = fileInfo.absoluteFilePath();
    mDestFile.replace( 0, mSrcBaseLen, mDestBase );
-//TRACEMSG << "create" << mDestFile;
    mQDir.mkdir( mDestFile );
 }
 
 
 void DirWalkerMove::handleDirLeave( const QFileInfo &fileInfo )
 {
-//TRACESTART( handleDirEntry )
    mSrcFile = fileInfo.absoluteFilePath();
-//TRACEMSG << "remove" << mSrcFile;
 
    mQDir.rmdir( mSrcFile );
 }

@@ -36,7 +36,7 @@ class QMenu;
 class QPushButton;
 
 /* forward declaration of local classes */
-class Database;
+class DatabaseInterface;
 class ScrollLine;
 class LineEdit;
 
@@ -46,7 +46,7 @@ class InfoEdit : public QWidget
 Q_OBJECT
 
 public:
-   InfoEdit( Database *database, QWidget *parent = 0 );
+   InfoEdit( QWidget *parent = 0 );
    QString tagsFileName( const QString &pattern, bool filterPath = true );
    QString fileName();
 
@@ -56,6 +56,8 @@ public:
 public slots:
    /* load tags from a file */
    void load( const QString &fullpath = QString() );
+   /*  */
+   void loadTrackInfo( const TrackInfo &trackInfo );
    /* handle save button */
    void handleSetSave();
    /* handle norm. artist button */
@@ -70,6 +72,8 @@ public slots:
    void handleFlagsMenu( QAction *action );
    /* handle the folders menu */
    void handleFoldersMenu( QAction *action );
+   /*  */
+   void handleFoldersEntries( const QStringList &folders );
 
 signals:
    /* data has been read */
@@ -92,64 +96,67 @@ private:
    /* update the info of the track concerning flags and folders */
    void updateDatabaseInfo( bool withRecurse );
 
-   Database    *mpDatabase;
-   TrackInfo   mTrackInfo;
+   DatabaseInterface    *mpDatabase;
+   TrackInfo            mTrackInfo;
 
-   QPushButton *mpButtonSet;
-   QPushButton *mpButtonNormArtist;
-   QPushButton *mpButtonNormTitle;
-   QPushButton *mpButtonCancel;
+   QPushButton          *mpButtonSet;
+   QPushButton          *mpButtonNormArtist;
+   QPushButton          *mpButtonNormTitle;
+   QPushButton          *mpButtonCancel;
 
-   QGroupBox *mpFileGroupBox;
-   QGroupBox *mpTagGroupBox;
-   QGroupBox *mpDatabaseGroupBox;
+   QGroupBox            *mpFileGroupBox;
+   QGroupBox            *mpTagGroupBox;
+   QGroupBox            *mpDatabaseGroupBox;
 
-   ScrollLine *mpShowPathName;
-   ScrollLine *mpShowFileName;
-   ScrollLine *mpShowSize;
-   ScrollLine *mpShowPlayTime;
+   ScrollLine           *mpShowPathName;
+   ScrollLine           *mpShowFileName;
+   ScrollLine           *mpShowSize;
+   ScrollLine           *mpShowPlayTime;
 
-   LineEdit *mpEditArtist;
-   LineEdit *mpEditTitle;
-   LineEdit *mpEditAlbum;
-   QLineEdit *mpEditTrackNr;
-   QLineEdit *mpEditYear;
-   LineEdit *mpEditGenre;
-   QIntValidator *mpValidateTrackNr;
-   QIntValidator *mpValidateYear;
+   LineEdit             *mpEditArtist;
+   LineEdit             *mpEditTitle;
+   LineEdit             *mpEditAlbum;
+   QLineEdit            *mpEditTrackNr;
+   QLineEdit            *mpEditYear;
+   LineEdit             *mpEditGenre;
+   QIntValidator        *mpValidateTrackNr;
+   QIntValidator        *mpValidateYear;
 
-   QPushButton  *mpButtonFlags;
-   QMenu        *mpMenuFlags;
-   QLabel       *mpShowTimesPlayed;
-   QPushButton  *mpButtonFolders;
-   QMenu        *mpMenuFolders;
-   QAction      *mpRecurseSetFlags;
-   QAction      *mpRecurseUnsetFlags;
-   QAction      *mpFavoriteTrackFlag;
-   QAction      *mpUnwantedTrackFlag;
-   QAction      *mpTrackScannedFlag;
-   QAction      *mpRecurseSetFolders;
-   QAction      *mpRecurseUnsetFolders;
+   QPushButton          *mpButtonFlags;
+   QMenu                *mpMenuFlags;
+   QLabel               *mpShowTimesPlayed;
+   QPushButton          *mpButtonFolders;
+   QMenu                *mpMenuFolders;
+   QAction              *mpRecurseSetFlags;
+   QAction              *mpRecurseUnsetFlags;
+   QAction              *mpFavoriteTrackFlag;
+   QAction              *mpUnwantedTrackFlag;
+   QAction              *mpTrackScannedFlag;
+   QAction              *mpRecurseSetFolders;
+   QAction              *mpRecurseUnsetFolders;
 
-   int          mRecurseMode;
-   bool         mIsValid;
-   bool         mIsFile;
-   bool         mCancel;
-   TagList      mTagList;
-   QString      mFileName;
-   QString      mRecurseArtist;
-   QString      mRecurseTitle;
-   QString      mRecurseAlbum;
-   QString      mRecurseYear;
-   QString      mRecurseGenre;
-   bool         mRecurseSetFlags;
-   bool         mRecurseUnsetFlags;
-   bool         mRecurseFavoriteTrackFlag;
-   bool         mRecurseUnwantedTrackFlag;
-   bool         mRecurseTrackScannedFlag;
-   bool         mRecurseSetFolders;
-   bool         mRecurseUnsetFolders;
-   QStringList  mRecurseFolders;
+   enum { MODE_NOTHING,
+          MODE_SETTAGS,
+          MODE_NORM_ARTIST,
+          MODE_NORM_TITLE } mRecurseMode;
+   bool                 mIsValid;
+   bool                 mIsFile;
+   bool                 mCancel;
+   TagList              mTagList;
+   QString              mFileName;
+   QString              mRecurseArtist;
+   QString              mRecurseTitle;
+   QString              mRecurseAlbum;
+   QString              mRecurseYear;
+   QString              mRecurseGenre;
+   bool                 mRecurseSetFlags;
+   bool                 mRecurseUnsetFlags;
+   bool                 mRecurseFavoriteTrackFlag;
+   bool                 mRecurseUnwantedTrackFlag;
+   bool                 mRecurseTrackScannedFlag;
+   bool                 mRecurseSetFolders;
+   bool                 mRecurseUnsetFolders;
+   QStringList          mRecurseFolders;
 };
 
 #endif
