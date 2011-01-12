@@ -13,6 +13,7 @@
 
 /* local library headers */
 #include <SorcererLoader.hpp>
+#include <Translate.hpp>
 
 /* local headers */
 
@@ -21,10 +22,14 @@ int main(int argc, char *argv[])
 {
    int retval = 0;
 
-   QApplication app(argc, argv);
-   app.setOrganizationName("SLART");
-   app.setOrganizationDomain("svolli.org");
-   app.setApplicationName("Sorcerer");
+   QApplication::setOrganizationName("SLART");
+   QApplication::setOrganizationDomain("svolli.org");
+   QApplication::setApplicationName("Sorcerer");
+
+   QApplication app( argc, argv );
+
+   Translate translate;
+   translate.install( &app );
 
    SorcererLoader::detect( &app, true );
 
