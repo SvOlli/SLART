@@ -31,7 +31,7 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpTabs( new QTabWidget( this ) )
 , mpHint( new QLabel( this ) )
 , mpNext( new QPushButton( tr("Next"), this ) )
-, mpDatabaseWidget( new DatabaseWidget( mpDatabase, this ) )
+, mpDatabaseWidget( new DatabaseWidget( this ) )
 , mpSatelliteConfigWidget( new SatelliteConfigWidget( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mLastTab( 0 )
@@ -64,11 +64,11 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
    mpHint->setFrameShadow( QFrame::Raised );
    mpHint->setFrameShape( QFrame::Box );
 
-   mpTabs->addTab( welcome,                 QString(tr("Welcome")) );
-   mpTabs->addTab( mpDatabaseWidget,        QString(tr("Database")) );
-   mpTabs->addTab( mpSatelliteConfigWidget, QString(tr("Communication")) );
-   mpTabs->addTab( mpProxyWidget,           QString(tr("Proxy")) );
-   mpTabs->addTab( welldone,                QString(tr("Done")) );
+   mpTabs->addTab( welcome,                 tr("Welcome") );
+   mpTabs->addTab( mpDatabaseWidget,        tr("Database") );
+   mpTabs->addTab( mpSatelliteConfigWidget, tr("Communication") );
+   mpTabs->addTab( mpProxyWidget,           tr("Proxy") );
+   mpTabs->addTab( welldone,                tr("Done") );
    for( i = 0; i < mpTabs->count(); i++ )
    {
       mpTabs->setTabEnabled( i, (i==0) );
