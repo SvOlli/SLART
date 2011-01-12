@@ -17,6 +17,7 @@
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
 #include <SorcererLoader.hpp>
+#include <Translate.hpp>
 
 /* local headers */
 #include "ExportFolder.hpp"
@@ -38,7 +39,10 @@ int main(int argc, char *argv[])
 #else
    bool useGUI = true;
 #endif
-   QApplication app(argc, argv, useGUI);
+   QApplication app( argc, argv, useGUI );
+
+   Translate translate;
+   translate.install( &app );
 
    QStringList args( QApplication::arguments() );
    if( args.size() > 1 )

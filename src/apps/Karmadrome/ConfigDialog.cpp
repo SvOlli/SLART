@@ -33,7 +33,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpRandomizeExport( new QCheckBox( tr("Randomize Output Of Export m3u"), this ) )
 , mpUseCheckBoxes( new QCheckBox( tr("Use Checkboxes Instead Of Buttons For Folders"), this ) )
 {
-   setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
    mpNumColumns->setRange( 1, 9 );
@@ -62,8 +62,8 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
 
-   tabs->addTab( kmdTab,               QString(tr("Karmadrome")) );
-   tabs->addTab( mpGlobalConfigWidget, QString(tr("Global")) );
+   tabs->addTab( kmdTab,               tr("Karmadrome") );
+   tabs->addTab( mpGlobalConfigWidget, tr("Global") );
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );
    mainLayout->addLayout( buttonLayout );

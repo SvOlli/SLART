@@ -92,6 +92,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 
    mpDatabase->getFolders( this, "updateFolderNames" );
 
+   mpDatabase->connectActivityIndicator( mpFileName, SLOT(setDisabled(bool)) );
    connect( mpSatellite, SIGNAL(received(const QByteArray &)),
             this, SLOT(handleSatellite(const QByteArray &)) );
 
@@ -182,8 +183,9 @@ void MainWidget::handleSatellite( const QByteArray &msg )
             if( qfi.isFile() )
             {
                QMessageBox::StandardButton button;
-               button = QMessageBox::question( this, QString( QApplication::applicationName() + tr(": Overwrite %1")).arg(message.at(2)),
-                                               QString(tr("Overwrite %1 ?")).arg(message.at(2)),
+               button = QMessageBox::question( this, QString( QApplication::applicationName() + ": " +
+                                                              tr("Overwrite %1")).arg(message.at(2)),
+                                               tr("Overwrite %1 ?").arg(message.at(2)),
                                                QMessageBox::Ok | QMessageBox::Cancel );
                if( button != QMessageBox::Ok )
                {
@@ -225,8 +227,8 @@ void MainWidget::handleSatellite( const QByteArray &msg )
       if( message.at(0) == "p0p" )
       {
          mpFileName->setText( message.at(1) );
-         mpFileName->setDragFileName( mpFileName->text() );
-         mpDatabase->getTrackInfo( this, "updateTrackInfo", mpFileName->text() );
+         mpFileName->setDragFileName( message.at(1) );
+         mpDatabase->getTrackInfo( this, "updateTrackInfo", message.at(1) );
       }
    }
 
@@ -242,6 +244,7 @@ void MainWidget::handleSatellite( const QByteArray &msg )
    if( (message.at(0) == "p0u") ||
        (message.at(0) == "r0u") )
    {
+#if 1
       if( mTrackInfo.isInDatabase() )
       {
          mpDatabase->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
@@ -250,6 +253,9 @@ void MainWidget::handleSatellite( const QByteArray &msg )
       {
          mpDatabase->getTrackInfo( this, "updateTrackInfo", mpFileName->text() );
       }
+#else
+      mpDatabase->getTrackInfo( this, "updateTrackInfo", mpFileName->text() );
+#endif
    }
 }
 
@@ -310,7 +316,7 @@ void MainWidget::handleExport( QAction *action )
 {
    MySettings settings;
    setButtonsEnabled( false );
-   QFileDialog dialog( this, QString(tr("Rubberbandman: Export %1 To:")).arg(action->text()) );
+   QFileDialog dialog( this, tr("Rubberbandman: Export %1 To:").arg(action->text()) );
    dialog.setFileMode( QFileDialog::AnyFile );
    dialog.setFilter( tr("Playlist files (*.m3u)") );
    QString rqdir( settings.VALUE_EXPORTDIRECTORY );
@@ -363,7 +369,7 @@ void MainWidget::handleImport( QAction *action )
 {
    MySettings settings;
    setButtonsEnabled( false );
-   QFileDialog dialog( this, QString(tr("Rubberbandman: Import %1 From:")).arg(action->text()) );
+   QFileDialog dialog( this, tr("Rubberbandman: Import %1 From:").arg(action->text()) );
    dialog.setFileMode( QFileDialog::ExistingFiles );
    dialog.setFilter( tr("Playlist files (*.m3u)") );
    QString rqdir( settings.VALUE_IMPORTDIRECTORY );
