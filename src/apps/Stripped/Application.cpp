@@ -14,6 +14,8 @@
 /* local library headers */
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
+#include <Satellite.hpp>
+#include <Translate.hpp>
 
 /* local headers */
 #include "MainWidget.hpp"
@@ -23,10 +25,17 @@ int main(int argc, char *argv[])
 {
    int retval = 0;
 
-   QApplication app(argc, argv);
-   app.setOrganizationName("SLART");
-   app.setOrganizationDomain("svolli.org");
-   app.setApplicationName("Stripped");
+   QApplication::setOrganizationName("SLART");
+   QApplication::setOrganizationDomain("svolli.org");
+   QApplication::setApplicationName("Stripped");
+
+   QApplication app( argc, argv );
+
+   Translate translate;
+   translate.install( &app );
+
+   Satellite::create();
+
    MySettings settings;
 
 #if MAINWINDOW_SORCERER
@@ -54,6 +63,8 @@ int main(int argc, char *argv[])
    window.show();
 
    retval = app.exec();
+
+   Satellite::destroy();
 
    return retval;
 }

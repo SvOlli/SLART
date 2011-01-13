@@ -39,7 +39,7 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
 , mQueryReplies()
 , mReadReplies()
 , mReadCDTextMessage( tr("Read CD-Text") )
-, mQueryCDDBMessage( tr("Query Free DB") )
+, mQueryCDDBMessage( tr("Query FreeDB") )
 {
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
 
@@ -146,7 +146,7 @@ void CDDBClient::handleComboBox( int index )
                                              mpCDInfo->firstSector(-1) )
                                            / 75 + 2 ) );
 
-      emit message( tr("Querying CDDB.") );
+      emit message( tr("Querying FreeDB") );
       startRequest( "query", parameters );
    }
    else
@@ -158,7 +158,7 @@ void CDDBClient::handleComboBox( int index )
          {
             parameters.removeLast();
          }
-         emit message( tr("Reading data from CDDB.") );
+         emit message( tr("Reading data from FreeDB") );
          emit stateNet();
          startRequest( "read", parameters );
       }

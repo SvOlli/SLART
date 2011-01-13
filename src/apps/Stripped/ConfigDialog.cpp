@@ -53,7 +53,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 {
    int i = 0;
    int encodersActive = 0;
-   setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
    QCompleter *completer = new QCompleter( this );
