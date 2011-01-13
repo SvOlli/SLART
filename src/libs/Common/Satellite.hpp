@@ -43,8 +43,13 @@ class Satellite : public QObject
 Q_OBJECT
 
 public:
-   Satellite( QObject *parent = 0 );
-   virtual ~Satellite();
+   /*  */
+   static void create();
+   /* destructor for the central Satellite */
+   static void destroy();
+   /* get applications central Satellite */
+   static Satellite* get();
+
    /* test applications can access Satellite without enableing in settings */
    void setTestApp( bool isTestApp );
    /* is this application running the server? */
@@ -52,10 +57,6 @@ public:
    /* wait for a connection, so application can write to satellite right away */
    bool waitForConnected( int msecs = 30000 );
 
-   /* get applications central Satellite */
-   static Satellite* get( QObject *parent = 0 );
-   /* destructor for the central Satellite */
-   static void destroy();
    /* send message without running a server */
    static void send1( const QByteArray &message );
    /* split up the lines of a Satellite message to several strings */
@@ -94,6 +95,9 @@ signals:
 #endif
 
 private:
+   Satellite( QObject *parent = 0 );
+   virtual ~Satellite();
+
    Satellite( const Satellite &that );
    Satellite &operator=( const Satellite &that );
 

@@ -25,6 +25,31 @@
 QPointer<Satellite> Satellite::cpSatellite = 0;
 
 
+void Satellite::create()
+{
+   if( !cpSatellite )
+   {
+      cpSatellite = new Satellite();
+   }
+}
+
+
+Satellite *Satellite::get()
+{
+   return cpSatellite;
+}
+
+
+void Satellite::destroy()
+{
+   if( cpSatellite )
+   {
+      delete cpSatellite;
+      cpSatellite = 0;
+   }
+}
+
+
 Satellite::Satellite( QObject *parent )
 : QObject( parent )
 , mIsTestApp( false )
@@ -254,26 +279,6 @@ void Satellite::send1( const QByteArray &message )
          socket.flush();
          socket.disconnectFromHost();
       }
-   }
-}
-
-
-Satellite *Satellite::get( QObject *parent )
-{
-   if( !cpSatellite )
-   {
-      cpSatellite = new Satellite( parent );
-   }
-   return cpSatellite;
-}
-
-
-void Satellite::destroy()
-{
-   if( cpSatellite )
-   {
-      delete cpSatellite;
-      cpSatellite = 0;
    }
 }
 
