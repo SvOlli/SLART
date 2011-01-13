@@ -95,13 +95,15 @@ private slots:
    void deleteFolder( const QString &folder );
 
    /* rename */
-   void rename( const QString &newName,
-                const QString &oldDirName, const QString &oldFileName = QString() );
+   void rename( const QString &oldName, const QString &newName );
 
    /* get all unique entries of a column
       return call parameters: QStringList */
    void getAllColumnData( QObject *target, const QString &method,
                           const QString &columnName );
+
+   /* for synchronization purposes */
+   void call( QObject *target, const QString &method );
 
    /*  */
    void commit( bool intermediate = false );

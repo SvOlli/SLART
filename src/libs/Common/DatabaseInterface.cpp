@@ -226,14 +226,12 @@ void DatabaseInterface::deleteFolder( const QString &folder )
 }
 
 
-void DatabaseInterface::rename( const QString &newName,
-                                const QString &oldDirName, const QString &oldFileName )
+void DatabaseInterface::rename( const QString &oldName, const QString &newName )
 {
    QMetaObject::invokeMethod( mpDatabase, "rename",
                               Qt::QueuedConnection,
-                              Q_ARG( const QString&, newName ),
-                              Q_ARG( const QString&, oldDirName ),
-                              Q_ARG( const QString&, oldFileName ) );
+                              Q_ARG( const QString&, oldName ),
+                              Q_ARG( const QString&, newName ) );
 }
 
 void DatabaseInterface::getAllColumnData( QObject *target, const QString &method,
@@ -263,4 +261,13 @@ void DatabaseInterface::getAllColumnData( QObject *target, const QString &method
                               Q_ARG( QObject*, target ),
                               Q_ARG( const QString&, method ),
                               Q_ARG( const QString&, columnName ) );
+}
+
+
+void DatabaseInterface::call( QObject *target, const QString &method )
+{
+   QMetaObject::invokeMethod( mpDatabase, "call",
+                              Qt::QueuedConnection,
+                              Q_ARG( QObject*, target ),
+                              Q_ARG( const QString&, method ) );
 }

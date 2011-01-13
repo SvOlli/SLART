@@ -106,14 +106,17 @@ public:
    void deleteFolder( const QString &folder );
 
    /* rename */
-   void rename( const QString &newName,
-                const QString &oldDirName, const QString &oldFileName = QString() );
+   void rename( const QString &oldName, const QString &newName );
 
    enum Column { Artist, Title, Album, Genre };
    /* get all unique entries of a column
       return call parameters: QStringList */
+
    void getAllColumnData( QObject *target, const QString &method,
                           Column column );
+
+   /* for synchronization purposes */
+   void call( QObject *target, const QString &method );
 
 private:
    DatabaseInterface( const QString &fileName = QString() );

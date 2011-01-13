@@ -861,19 +861,43 @@ void DatabaseThread::deleteFolder( const QString &folder )
 }
 
 
-void DatabaseThread::rename( const QString &newName,
-                             const QString &oldDirName, const QString &oldFileName )
+void DatabaseThread::rename( const QString &oldName, const QString &newName )
 {
-#if 0
-TRACESTART(Database::rename)
-TRACEMSG << oldDirName << oldFileName << newName;
+#if 1
+TRACESTART(DatabaseThread::rename)
 #endif
-   if( oldFileName.isEmpty() )
+   mpQuery->prepare( "SELECT Directory || '/' || FileName AS FilePath FROM slart_tracks"
+                     " WHERE FilePath LIKE :oldName ;" );
+   mpQuery->bindValue( ":oldName", oldName );
+
+   if( !mpQuery->exec() )
    {
-      /* rename a directory */
-      mpQuery->prepare( "SELECT DISTINCT(Directory) FROM slart_tracks"
-                        " WHERE Directory LIKE :directory ;" );
-      mpQuery->bindValue( ":directory", oldDirName + "/%" );
+      logError();
+      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      {
+         QMetaObject::invokeMethod( this, "rename",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( const QString&, newName ),
+                                    Q_ARG( const QString&, oldName ) );
+         return;
+      }
+   }
+
+   if( mpQuery->next() )
+   {
+      /* is a file */
+      QFileInfo oldInfo( oldName );
+      QFileInfo newInfo( newName );
+
+      mpQuery->clear();
+      mpQuery->prepare( "UPDATE slart_tracks SET Directory = :newDirName,"
+                        " FileName = :newDirName"
+                        " WHERE Directory = :oldDirName;"
+                        " AND FileName = :oldDirName");
+      mpQuery->bindValue( ":newDirName",  newInfo.absolutePath() );
+      mpQuery->bindValue( ":newFileName", newInfo.fileName() );
+      mpQuery->bindValue( ":oldDirName",  oldInfo.absolutePath() );
+      mpQuery->bindValue( ":oldFileName", oldInfo.fileName() );
       if( !mpQuery->exec() )
       {
          logError();
@@ -882,14 +906,38 @@ TRACEMSG << oldDirName << oldFileName << newName;
             QMetaObject::invokeMethod( this, "rename",
                                        Qt::QueuedConnection,
                                        Q_ARG( const QString&, newName ),
-                                       Q_ARG( const QString&, oldDirName ),
-                                       Q_ARG( const QString&, oldFileName ) );
+                                       Q_ARG( const QString&, oldName ) );
             return;
          }
       }
       else
       {
-         QStringList directories( oldDirName );
+#if 1
+TRACEMSG << "rows:" << mpQuery->numRowsAffected();
+#endif
+      }
+   }
+   else
+   {
+      /* is a directory */
+      mpQuery->prepare( "SELECT DISTINCT(Directory) FROM slart_tracks"
+                        " WHERE Directory LIKE :directory ;" );
+      mpQuery->bindValue( ":directory", oldName + "/%" );
+      if( !mpQuery->exec() )
+      {
+         logError();
+         if( mpQuery->lastError().number() == SQLITE_BUSY )
+         {
+            QMetaObject::invokeMethod( this, "rename",
+                                       Qt::QueuedConnection,
+                                       Q_ARG( const QString&, newName ),
+                                       Q_ARG( const QString&, oldName ) );
+            return;
+         }
+      }
+      else
+      {
+         QStringList directories( oldName );
          QString     newDirName;
          while( mpQuery->next() )
          {
@@ -900,8 +948,8 @@ TRACEMSG << oldDirName << oldFileName << newName;
          {
             prepare();
 
-            newDirName = directory;
-            newDirName.replace( 0, oldDirName.size(), newName );
+            newDirName = oldName;
+            newDirName.replace( 0, oldName.size(), newName );
             mpQuery->prepare( "UPDATE slart_tracks SET Directory = :newDirName"
                               " WHERE Directory = :oldDirName;" );
             mpQuery->bindValue( ":newDirName", newDirName );
@@ -914,51 +962,18 @@ TRACEMSG << oldDirName << oldFileName << newName;
                   QMetaObject::invokeMethod( this, "rename",
                                              Qt::QueuedConnection,
                                              Q_ARG( const QString&, newName ),
-                                             Q_ARG( const QString&, oldDirName ),
-                                             Q_ARG( const QString&, oldFileName ) );
+                                             Q_ARG( const QString&, oldName ) );
                   return;
                }
             }
             else
             {
-#if 0
+#if 1
 TRACEMSG << "rows:" << mpQuery->numRowsAffected();
 #endif
             }
-            mpQuery->clear();
          }
       }
-   }
-   else
-   {
-      prepare();
-
-      /* rename a file */
-      mpQuery->prepare( "UPDATE slart_tracks SET FileName = :newName"
-                        " WHERE Directory = :oldDirName AND FileName = :oldFileName;" );
-      mpQuery->bindValue( ":newName", newName );
-      mpQuery->bindValue( ":oldDirName", oldDirName );
-      mpQuery->bindValue( ":oldFileName", oldFileName );
-      if( !mpQuery->exec() )
-      {
-         logError();
-         if( mpQuery->lastError().number() == SQLITE_BUSY )
-         {
-            QMetaObject::invokeMethod( this, "rename",
-                                       Qt::QueuedConnection,
-                                       Q_ARG( const QString&, newName ),
-                                       Q_ARG( const QString&, oldDirName ),
-                                       Q_ARG( const QString&, oldFileName ) );
-            return;
-         }
-      }
-      else
-      {
-#if 0
-TRACEMSG << "rows:" << mpQuery->numRowsAffected();
-#endif
-      }
-      mpQuery->clear();
    }
 }
 
@@ -993,6 +1008,15 @@ void DatabaseThread::getAllColumnData( QObject *target, const QString &method,
 
    if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
                                    Q_ARG( const QStringList &, list ) ) )
+   {
+      qFatal( "%s:%d call failed in %s", __FILE__, __LINE__, Q_FUNC_INFO );
+   }
+}
+
+
+void DatabaseThread::call( QObject *target, const QString &method )
+{
+   if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection ) )
    {
       qFatal( "%s:%d call failed in %s", __FILE__, __LINE__, Q_FUNC_INFO );
    }
