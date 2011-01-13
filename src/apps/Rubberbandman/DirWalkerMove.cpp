@@ -39,24 +39,21 @@ DirWalkerMove::~DirWalkerMove()
 }
 
 
+void DirWalkerMove::handleStart()
+{
+}
+
+
 void DirWalkerMove::handleFile( const QFileInfo &fileInfo )
 {
    mSrcFile = fileInfo.absoluteFilePath();
    mDestFile = mSrcFile;
    mDestFile.replace( 0, mSrcBaseLen, mDestBase );
 
-#if 0
    if( QFile::rename( mSrcFile, mDestFile ) )
    {
-      mpDatabase->rename();
-      if( mpDatabase->getTrackInfo( &mTrackInfo, mSrcFile ) ) //TODO
-      {
-         mQFileInfo.setFile( mDestFile );
-         mTrackInfo.mDirectory = mQFileInfo.absolutePath();
-         mpDatabase->updateTrackInfo( &mTrackInfo, true );
-      }
+      mpDatabase->rename( mSrcFile, mDestFile );
    }
-#endif
 }
 
 
@@ -82,4 +79,9 @@ void DirWalkerMove::handleOther( const QFileInfo &fileInfo )
    mDestFile = mSrcFile;
    mDestFile.replace( 0, mSrcBaseLen, mDestBase );
    QFile::rename( mSrcFile, mDestFile );
+}
+
+
+void DirWalkerMove::handleEnd()
+{
 }

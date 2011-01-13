@@ -30,9 +30,14 @@ DirWalkerUpdate::~DirWalkerUpdate()
 }
 
 
+void DirWalkerUpdate::handleStart()
+{
+}
+
+
 void DirWalkerUpdate::handleFile( const QFileInfo &fileInfo )
 {
-   mpDatabaseWorker->updateFile( fileInfo );
+   mpDatabaseWorker->handleFile( fileInfo );
 }
 
 
@@ -48,4 +53,10 @@ void DirWalkerUpdate::handleDirLeave( const QFileInfo &/*fileInfo*/ )
 
 void DirWalkerUpdate::handleOther( const QFileInfo &/*fileInfo*/ )
 {
+}
+
+
+void DirWalkerUpdate::handleEnd()
+{
+   mpDatabaseWorker->handleEnd();
 }

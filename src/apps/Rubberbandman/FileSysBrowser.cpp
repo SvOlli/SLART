@@ -276,14 +276,7 @@ void FileSysBrowser::menuRename()
       {
          if( qd.rename( mFileInfo.fileName(), text ) )
          {
-            if( mFileInfo.isDir() )
-            {
-               mpDatabase->rename( qfi.absoluteFilePath(), mFileInfo.absoluteFilePath() );
-            }
-            else
-            {
-               mpDatabase->rename( qfi.fileName(), mFileInfo.absolutePath(), mFileInfo.fileName() );
-            }
+            mpDatabase->rename( mFileInfo.absoluteFilePath(), qfi.absoluteFilePath() );
             if( MySettings().VALUE_AUTORESCAN )
             {
                handleRootDir();

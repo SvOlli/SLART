@@ -33,6 +33,8 @@ public:
    DirWalkerUpdate( DatabaseWorker *databaseWorker );
    virtual ~DirWalkerUpdate();
 
+   /* called on start */
+   virtual void handleStart();
    /* handle a file entry */
    virtual void handleFile( const QFileInfo &fileInfo );
    /* handle a directory entry upon entering */
@@ -41,6 +43,8 @@ public:
    virtual void handleDirLeave( const QFileInfo &fileInfo );
    /* handle an other entry (link, etc.) */
    virtual void handleOther( const QFileInfo &fileInfo );
+   /* called on end */
+   virtual void handleEnd();
 
 private:
    DatabaseWorker    *mpDatabaseWorker;

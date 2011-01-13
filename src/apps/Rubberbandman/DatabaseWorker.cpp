@@ -20,6 +20,7 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
+#include <DirWalkerCallbackProxy.hpp>
 
 /* local headers */
 #include "DirWalkerUpdate.hpp"
@@ -101,6 +102,7 @@ void DatabaseWorker::run()
             DirWalkerUpdate walkerCallbacks( this );
             mDirWalker.run( &walkerCallbacks, mPath );
          }
+         exec();
          break;
       case CLEANUP:
          mpDatabase->getTrackInfoList( this, "cleanup" );
@@ -136,13 +138,19 @@ void DatabaseWorker::cleanup( const TrackInfoList &trackInfoList )
    }
    emit progress( mChecked, mProcessed );
    //mpDatabase->cleanup(); //TODO
-   emit quit();
+   mpDatabase->call( this, "quit" );
 }
 
 
-void DatabaseWorker::updateFile( const QFileInfo &fileInfo )
+void DatabaseWorker::handleFile( const QFileInfo &fileInfo )
 {
    mpDatabase->getTrackInfo( this, "updateTrackInfoFromFile", fileInfo.absoluteFilePath() );
+}
+
+
+void DatabaseWorker::handleEnd()
+{
+   mpDatabase->call( this, "quit" );
 }
 
 
@@ -196,7 +204,8 @@ void DatabaseWorker::importM3u()
 
    QString fileName;
    QString fileBase( mPath + "/../" );
-   QFileInfo qfi;
+   QFileInfo fileInfo;
+   TrackInfo ti;
    while( !m3uFile.atEnd() )
    {
       fileName = QString::fromLocal8Bit( m3uFile.readLine() );
@@ -206,14 +215,36 @@ void DatabaseWorker::importM3u()
          {
             fileName.chop(1);
          }
-         if( !fileName.startsWith( "/" ) )
+         if( fileName.startsWith( "/" ) )
+         {
+            fileInfo.setFile( fileName );
+         }
+         else
          {
             /* a bit of an ugly trick, but gets the job done better than most
                other solutions */
-            qfi.setFile( fileBase + fileName );
-            fileName = qfi.absoluteFilePath();
+            fileInfo.setFile( fileBase + fileName );
+            fileName = fileInfo.absoluteFilePath();
          }
-         mpDatabase->getTrackInfo( this, "updateTrackInfoFromFile", fileName );
+         ti.clear();
+         ti.mDirectory = fileInfo.absolutePath();
+         ti.mFileName  = fileInfo.fileName();
+         TagLib::FileRef f( fileInfo.absoluteFilePath().toLocal8Bit().data() );
+         if( f.file() && f.tag() )
+         {
+            ti.mArtist       = QString::fromUtf8( f.tag()->artist().toCString( true ) );
+            ti.mTitle        = QString::fromUtf8( f.tag()->title().toCString( true ) );
+            ti.mAlbum        = QString::fromUtf8( f.tag()->album().toCString( true ) );
+            ti.mTrackNr      = f.tag()->track();
+            ti.mYear         = f.tag()->year();
+            ti.mGenre        = QString::fromUtf8( f.tag()->genre().toCString( true ) );
+            if( f.audioProperties() )
+            {
+               ti.mPlayTime  = f.audioProperties()->length();
+            }
+            ti.mLastTagsRead = fileInfo.lastModified().toTime_t();
+         }
+         mpDatabase->updateTrackInfo( ti, true );
       }
    }
    m3uFile.close();

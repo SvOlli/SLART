@@ -50,12 +50,11 @@ public:
    /* run the job */
    void run();
 
-   /* callback for update */
-   void updateFile( const QFileInfo &fileInfo );
-   /* callback for update */
-   void updateDir( const QFileInfo &fileInfo );
-
 public slots:
+   /* callback for update */
+   void handleFile( const QFileInfo &fileInfo );
+   /* callback for update */
+   void handleEnd();
    /* read track info from the file */
    void updateTrackInfoFromFile( const TrackInfo &trackInfo );
    /*  */

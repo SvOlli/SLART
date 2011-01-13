@@ -31,6 +31,11 @@ DirWalkerDelete::~DirWalkerDelete()
 }
 
 
+void DirWalkerDelete::handleStart()
+{
+}
+
+
 void DirWalkerDelete::handleFile( const QFileInfo &fileInfo )
 {
    QFile::remove( fileInfo.absoluteFilePath() );
@@ -52,4 +57,9 @@ void DirWalkerDelete::handleDirLeave( const QFileInfo &fileInfo )
 void DirWalkerDelete::handleOther( const QFileInfo &fileInfo )
 {
    QFile::remove( fileInfo.absoluteFilePath() );
+}
+
+
+void DirWalkerDelete::handleEnd()
+{
 }
