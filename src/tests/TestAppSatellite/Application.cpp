@@ -11,6 +11,7 @@
 #include <QtGui>
 
 /* local library headers */
+#include <Satellite.hpp>
 
 /* local headers */
 #include "MainWindow.hpp"
@@ -27,10 +28,14 @@ int main(int argc, char *argv[])
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("TestAppSatellite");
 
+   Satellite::create();
+
    MainWindow window;
    window.show();
 
    retval = app.exec();
+
+   Satellite::destroy();
 
    return retval;
 }

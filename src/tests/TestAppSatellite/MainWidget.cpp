@@ -1,5 +1,5 @@
 /**
- * MainWidget.cpp
+ * src/tests/TestAppSatellite/MainWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
@@ -15,14 +15,14 @@
 
 /* local library headers */
 #include <Satellite.hpp>
-#include <SatelliteServer.hpp>
+//#include <SatelliteServer.hpp>
 
 /* local headers */
 
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpSatellite( new Satellite( this ) )
+, mpSatellite( Satellite::get() )
 #if SLARTCOM_DEBUG
 , mpDebugBuffer( new QListWidget( this ) )
 #else
