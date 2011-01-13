@@ -863,7 +863,7 @@ void DatabaseThread::deleteFolder( const QString &folder )
 
 void DatabaseThread::rename( const QString &oldName, const QString &newName )
 {
-#if 1
+#if 0
 TRACESTART(DatabaseThread::rename)
 #endif
    mpQuery->prepare( "SELECT Directory || '/' || FileName AS FilePath FROM slart_tracks"
@@ -898,6 +898,9 @@ TRACESTART(DatabaseThread::rename)
       mpQuery->bindValue( ":newFileName", newInfo.fileName() );
       mpQuery->bindValue( ":oldDirName",  oldInfo.absolutePath() );
       mpQuery->bindValue( ":oldFileName", oldInfo.fileName() );
+#if 0
+TRACEMSG << oldInfo.absoluteFilePath() << "->" << newInfo.absoluteFilePath();
+#endif
       if( !mpQuery->exec() )
       {
          logError();
@@ -912,7 +915,7 @@ TRACESTART(DatabaseThread::rename)
       }
       else
       {
-#if 1
+#if 0
 TRACEMSG << "rows:" << mpQuery->numRowsAffected();
 #endif
       }
@@ -948,12 +951,15 @@ TRACEMSG << "rows:" << mpQuery->numRowsAffected();
          {
             prepare();
 
-            newDirName = oldName;
+            newDirName = directory;
             newDirName.replace( 0, oldName.size(), newName );
             mpQuery->prepare( "UPDATE slart_tracks SET Directory = :newDirName"
                               " WHERE Directory = :oldDirName;" );
             mpQuery->bindValue( ":newDirName", newDirName );
             mpQuery->bindValue( ":oldDirName", directory );
+#if 0
+TRACEMSG << directory << "->" << newDirName;
+#endif
             if( !mpQuery->exec() )
             {
                logError();
@@ -968,7 +974,7 @@ TRACEMSG << "rows:" << mpQuery->numRowsAffected();
             }
             else
             {
-#if 1
+#if 0
 TRACEMSG << "rows:" << mpQuery->numRowsAffected();
 #endif
             }
