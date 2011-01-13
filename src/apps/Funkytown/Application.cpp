@@ -15,6 +15,7 @@
 /* local library headers */
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
+#include <Satellite.hpp>
 #include <SorcererLoader.hpp>
 #include <Translate.hpp>
 
@@ -34,6 +35,8 @@ int main(int argc, char *argv[])
 
    Translate translate;
    translate.install( &app );
+
+   Satellite::create();
 
    QStringList *startUrls = new QStringList();
    MySettings settings;
@@ -84,6 +87,8 @@ int main(int argc, char *argv[])
    delete startUrls;
    window.show();
    retval = app.exec();
+
+   Satellite::destroy();
 
    return retval;
 }
