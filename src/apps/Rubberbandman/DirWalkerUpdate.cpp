@@ -36,16 +36,16 @@ void DirWalkerUpdate::handleFile( const QFileInfo &fileInfo )
 }
 
 
-void DirWalkerUpdate::handleDirEntry( const QFileInfo &fileInfo )
+void DirWalkerUpdate::handleDirEntry( const QFileInfo &/*fileInfo*/ )
 {
 }
 
 
-void DirWalkerUpdate::handleDirLeave( const QFileInfo &fileInfo )
+void DirWalkerUpdate::handleDirLeave( const QFileInfo &/*fileInfo*/ )
 {
 }
 
 
-void DirWalkerUpdate::handleOther( const QFileInfo &fileInfo )
+void DirWalkerUpdate::handleOther( const QFileInfo &/*fileInfo*/ )
 {
 }

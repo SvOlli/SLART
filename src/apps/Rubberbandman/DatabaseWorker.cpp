@@ -33,6 +33,7 @@ DatabaseWorker::DatabaseWorker()
 , mMode( NONE )
 , mpDatabase( DatabaseInterface::get() )
 {
+   moveToThread( this );
 }
 
 
@@ -103,6 +104,7 @@ void DatabaseWorker::run()
          break;
       case CLEANUP:
          mpDatabase->getTrackInfoList( this, "cleanup" );
+         exec();
          break;
       case IMPORT:
          importM3u();
@@ -117,7 +119,7 @@ void DatabaseWorker::run()
 
 void DatabaseWorker::cleanup( const TrackInfoList &trackInfoList )
 {
-   QFileInfo     qfi;
+   QFileInfo qfi;
    foreach( mTrackInfo, trackInfoList )
    {
       qfi.setFile( mTrackInfo.mDirectory + "/" + mTrackInfo.mFileName );
@@ -134,6 +136,7 @@ void DatabaseWorker::cleanup( const TrackInfoList &trackInfoList )
    }
    emit progress( mChecked, mProcessed );
    //mpDatabase->cleanup(); //TODO
+   emit quit();
 }
 
 

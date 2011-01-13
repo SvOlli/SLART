@@ -17,6 +17,7 @@
 #include <DatabaseInterface.hpp>
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
+#include <Satellite.hpp>
 #include <SorcererLoader.hpp>
 #include <Translate.hpp>
 
@@ -44,6 +45,8 @@ int main(int argc, char *argv[])
 
    Translate translate;
    translate.install( &app );
+
+   DatabaseInterface::create();
 
    QStringList args( QApplication::arguments() );
    if( args.size() > 1 )
@@ -121,6 +124,8 @@ int main(int argc, char *argv[])
    {
       if( useGUI )
       {
+         Satellite::create();
+
          SorcererLoader::detect( &app );
 
          {
@@ -138,6 +143,8 @@ int main(int argc, char *argv[])
          window.show();
 
          retval = app.exec();
+
+         Satellite::destroy();
       }
    }
 
