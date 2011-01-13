@@ -35,7 +35,7 @@
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( DatabaseInterface::get() )
-, mpSatellite( Satellite::get( this ) )
+, mpSatellite( Satellite::get() )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
 , mpFileName( new ScrollLine( this ) )
 , mpTrackInfo( new TrackInfoWidget( false, this ) )
