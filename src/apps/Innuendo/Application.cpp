@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
       Translate translate;
       translate.install( &app );
 
+      Satellite::create();
+
       SorcererLoader::detect( &app );
       {
          QFile qssFile( MySettings().styleSheetFile() );
@@ -53,6 +55,8 @@ int main(int argc, char *argv[])
       window.show();
 
       retval = app.exec();
+
+      Satellite::destroy();
    }
    else
    {

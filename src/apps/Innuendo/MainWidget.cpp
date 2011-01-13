@@ -30,7 +30,7 @@
 
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpSatellite( Satellite::get( this ) )
+, mpSatellite( Satellite::get() )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
 , mpMessageBuffer( new LogListWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
