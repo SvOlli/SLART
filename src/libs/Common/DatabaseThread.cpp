@@ -968,7 +968,7 @@ void DatabaseThread::getAllColumnData( QObject *target, const QString &method,
 {
    QStringList list;
 
-   mpQuery->prepare( QString("SELECT DISTINCT %1 FROM slart_folders ORDER BY %1;" )
+   mpQuery->prepare( QString("SELECT DISTINCT %1 FROM slart_tracks ORDER BY %2;" )
                      .arg( columnName, columnName ) );
    emit working( true );
    if( !mpQuery->exec() )

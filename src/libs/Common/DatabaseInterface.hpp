@@ -33,8 +33,12 @@ class Satellite;
 class DatabaseInterface
 {
 public:
-   static DatabaseInterface *get();
+   /*  */
+   static void create();
+   /*  */
    static void destroy();
+   /*  */
+   static DatabaseInterface *get();
 
    /* test for the existance of the Database file */
    static bool exists();

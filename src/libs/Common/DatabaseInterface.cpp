@@ -26,23 +26,23 @@
 #include "MySettings.hpp"
 #include "Satellite.hpp"
 
-#ifndef SQLITE_BUSY
-#define SQLITE_BUSY    5
-#define SQLITE_LOCKED  6
-#endif
-
 #include "Trace.hpp"
 
 
 DatabaseInterface *DatabaseInterface::cpInterface = 0;
 
 
-DatabaseInterface *DatabaseInterface::get()
+void DatabaseInterface::create()
 {
    if( !cpInterface )
    {
       cpInterface = new DatabaseInterface();
    }
+}
+
+
+DatabaseInterface *DatabaseInterface::get()
+{
    return cpInterface;
 }
 
