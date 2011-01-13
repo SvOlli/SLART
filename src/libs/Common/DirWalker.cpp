@@ -33,6 +33,15 @@ DirWalker::~DirWalker()
 void DirWalker::run( DirWalkerCallbacks *callbacks,
                      const QString &directoryPath )
 {
+   callbacks->handleStart();
+   runDir( callbacks, directoryPath );
+   callbacks->handleEnd();
+}
+
+
+void DirWalker::runDir( DirWalkerCallbacks *callbacks,
+                        const QString &directoryPath )
+{
    QDir dir( directoryPath );
    QFileInfoList entries( dir.entryInfoList( QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot ) );
    int i;
@@ -42,7 +51,7 @@ void DirWalker::run( DirWalkerCallbacks *callbacks,
       if( entries.at(i).isDir() )
       {
          callbacks->handleDirEntry( entries.at(i) );
-         run( callbacks, entries.at(i).absoluteFilePath() );
+         runDir( callbacks, entries.at(i).absoluteFilePath() );
          callbacks->handleDirLeave( entries.at(i) );
       }
       else if( entries.at(i).isFile() )

@@ -32,6 +32,8 @@ class DirWalkerCallbacks
 public:
    /* must be virtual because of virtual functions */
    virtual ~DirWalkerCallbacks(){}
+   /* called on start */
+   virtual void handleStart()                               = 0;
    /* handle a file entry */
    virtual void handleFile( const QFileInfo &fileInfo )     = 0;
    /* handle a directory entry upon entering */
@@ -40,6 +42,8 @@ public:
    virtual void handleDirLeave( const QFileInfo &fileInfo ) = 0;
    /* handle an other entry (link, etc.) */
    virtual void handleOther( const QFileInfo &fileInfo )    = 0;
+   /* called on end */
+   virtual void handleEnd()                                 = 0;
 };
 
 
@@ -56,6 +60,11 @@ public:
 private:
    DirWalker( const DirWalker &that );
    DirWalker &operator=( const DirWalker &that );
+
+   /* let the directory walker travel the filesystem */
+   void runDir( DirWalkerCallbacks *callbacks,
+                const QString &directoryPath );
+
 };
 
 #endif
