@@ -17,6 +17,7 @@
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 #include <SorcererLoader.hpp>
+#include <Translate.hpp>
 
 /* local headers */
 #include "CommandLineHandler.hpp"
@@ -37,7 +38,12 @@ int main(int argc, char *argv[])
 #else
    bool useGUI = true;
 #endif
-   QApplication app(argc, argv, useGUI);
+   QApplication app( argc, argv, useGUI );
+
+   Translate translate;
+   translate.install( &app );
+
+   Satellite::create();
 
    QStringList args( QApplication::arguments() );
    if( args.size() > 1 )
@@ -70,6 +76,8 @@ int main(int argc, char *argv[])
          retval = app.exec();
       }
    }
+
+   Satellite::destroy();
 
    return retval;
 }

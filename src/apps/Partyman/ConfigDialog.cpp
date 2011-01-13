@@ -66,7 +66,7 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 {
    gpConfig = this;
 
-   setWindowTitle( QApplication::applicationName()+tr(" Settings") );
+   setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon(":/PartymanSmile.png") );
 
    mpGlobalSettings->showClipboard();
@@ -188,11 +188,11 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 
    mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs = new QTabWidget( this );
-   tabs->addTab( dermixdTab,       QString(tr("DerMixD")) );
-   tabs->addTab( partymanTab,      QString(tr("Partyman")) );
-   tabs->addTab( randomTab,        QString(tr("Random")) );
-   tabs->addTab( displayTab,       QString(tr("Display")) );
-   tabs->addTab( mpGlobalSettings, QString(tr("Global")) );
+   tabs->addTab( dermixdTab,       tr("DerMixD") );
+   tabs->addTab( partymanTab,      tr("Partyman") );
+   tabs->addTab( randomTab,        tr("Random") );
+   tabs->addTab( displayTab,       tr("Display") );
+   tabs->addTab( mpGlobalSettings, tr("Global") );
 
    mainLayout->addWidget( about );
    mainLayout->addWidget( tabs );

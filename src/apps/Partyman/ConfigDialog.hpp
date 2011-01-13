@@ -115,7 +115,7 @@ private:
 #define VALUE_DERMIXDRUN          value("DerMixDrun", true).toBool()
 #define VALUE_LOGCMD              value("LogCmd", "").toString()
 #define VALUE_LISTPATTERN         value("ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|").toString()
-#define VALUE_NAMEPATTERN         value("NamePattern", QApplication::applicationName()+": |$TITLE|").toString()
+#define VALUE_NAMEPATTERN         value("NamePattern", QApplication::applicationName() + ": " + "|$TITLE|").toString()
 #define VALUE_NORMALIZEMODE       value("NormalizeMode", 0).toInt()
 #define VALUE_NORMALIZEVALUE      value("NormalizeValue", 0.4).toDouble()
 #define VALUE_PLAYERPATTERN       value("PlayerPattern", "|$ARTIST| - |$TITLE|").toString()

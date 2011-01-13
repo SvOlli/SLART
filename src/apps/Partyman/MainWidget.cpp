@@ -167,7 +167,7 @@ void MainWidget::allowAutostart( bool allow )
    mAllowAutostart = allow;
    if( !allow )
    {
-      QMessageBox::warning( this, QApplication::applicationName()+tr(": database empty"),
-                            QString(tr("The database is empty. Please run Rubberbandman.")) );
+      QMessageBox::warning( this, QApplication::applicationName() + ": " + tr("database empty"),
+                            tr("The database is empty. Please run Rubberbandman.") );
    }
 }

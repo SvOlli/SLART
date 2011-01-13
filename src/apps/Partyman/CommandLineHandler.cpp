@@ -1,5 +1,5 @@
 /**
- * src/apps/Partyman/SearchLineEdit.cpp
+ * src/apps/Partyman/CommandLineHandler.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
@@ -27,7 +27,7 @@
 
 CommandLineHandler::CommandLineHandler( const QStringList &list, QObject *parent )
 : QObject( parent )
-, mpSatellite( new Satellite( this ) )
+, mpSatellite( Satellite::get() )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPing ) )
 , mConnected( false )
 , mList( list )

@@ -31,7 +31,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 : QWidget( parent, flags )
 , mpConfig( config )
 , mpPlaylist( playlist )
-, mpSatellite( Satellite::get( this ) )
+, mpSatellite( Satellite::get() )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpConnectButton( new QPushButton( tr("Connect"), this ) )
@@ -261,7 +261,7 @@ void ControlWidget::initConnect()
          if( !mDerMixDstarted )
          {
             QMessageBox::critical( this, QApplication::applicationName(),
-                                   QString(tr("Could not start DerMixD")) );
+                                   tr("Could not start DerMixD") );
          }
       }
       else
@@ -285,7 +285,8 @@ void ControlWidget::initConnect()
 
 void ControlWidget::initDisconnect( eErrorCode errorcode )
 {
-   emit requestChangeTitle( mPartymanIcon, QApplication::applicationName()+tr(" (disconnected)") );
+   emit requestChangeTitle( mPartymanIcon, QApplication::applicationName() +
+                            ": " + tr("(disconnected)") );
    mpTrayIcon->setToolTip( QString() );
    mpTrayIcon->setContextMenu( mpTrayIconStopMenu );
    if( mConnected )
@@ -345,7 +346,8 @@ void ControlWidget::handlePause( bool reset )
    }
    else
    {
-      emit requestChangeTitle( mPauseIcon, QApplication::applicationName()+tr(" (paused)") );
+      emit requestChangeTitle( mPauseIcon, QApplication::applicationName() +
+                               ": " + tr("(paused)") );
       mpPauseAction->setIcon( mPlayIcon );
       mpPauseAction->setText( tr("Resume") );
       if( mKioskMode )
