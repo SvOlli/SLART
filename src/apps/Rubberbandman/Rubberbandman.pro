@@ -61,6 +61,15 @@ SOURCES += MainWidget.cpp
 HEADERS += MyTreeView.hpp
 SOURCES += MyTreeView.cpp
 
+HEADERS += RecurseWorker.hpp
+SOURCES += RecurseWorker.cpp
+
 HEADERS += SatelliteWidget.hpp
 SOURCES += SatelliteWidget.cpp
+
+HEADERS += TrackReader.hpp
+SOURCES += TrackReader.cpp
+
+HEADERS += TrackWriter.hpp
+SOURCES += TrackWriter.cpp
 

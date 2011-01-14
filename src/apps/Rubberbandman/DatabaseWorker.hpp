@@ -16,6 +16,7 @@
 
 /* Qt headers */
 #include <QString>
+#include <QTime>
 
 /* local library headers */
 #include <TrackInfo.hpp>
@@ -59,25 +60,29 @@ public slots:
    void updateTrackInfoFromFile( const TrackInfo &trackInfo );
    /*  */
    void cleanup( const TrackInfoList &trackInfoList );
+   /*  */
+   void updateStatus();
 
 signals:
    /* emit progress */
    void progress( int checked, int processed );
 
 private:
+   DatabaseWorker( const DatabaseWorker &that );
+   DatabaseWorker &operator=( const DatabaseWorker &that );
+
    /* subroutine for better reading of code */
    void importM3u();
 
-   enum { NONE, UPDATE, CLEANUP, IMPORT } mMode;
+   enum { ModeNone, ModeUpdate, ModeCleanup, ModeImport } mMode;
    DatabaseInterface    *mpDatabase;
-   FileSysTreeModel     *mpTreeModel;
    bool                 mCancel;
    int                  mChecked;
-   int                  mLastChecked;
    int                  mProcessed;
    QString              mPath;
    DirWalker            mDirWalker;
    TrackInfo            mTrackInfo;
+   QTime                mTime;
 };
 
 #endif

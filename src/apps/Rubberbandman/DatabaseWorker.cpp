@@ -26,13 +26,20 @@
 #include "DirWalkerUpdate.hpp"
 
 
-static const int UPDATE_INCREMENT = 200;
+static const int UPDATE_TIMEOUT_MS = 333;
 
 
 DatabaseWorker::DatabaseWorker()
 : QThread( 0 )
-, mMode( NONE )
+, mMode( ModeNone )
 , mpDatabase( DatabaseInterface::get() )
+, mCancel( false )
+, mChecked( 0 )
+, mProcessed( 0 )
+, mPath()
+, mDirWalker()
+, mTrackInfo()
+, mTime()
 {
    moveToThread( this );
 }
@@ -48,13 +55,19 @@ DatabaseWorker::~DatabaseWorker()
 }
 
 
+void DatabaseWorker::updateStatus()
+{
+   emit progress( mChecked, mProcessed );
+}
+
+
 bool DatabaseWorker::initUpdate( const QString &baseDir )
 {
-   if( mMode != NONE )
+   if( mMode != ModeNone )
    {
       return false;
    }
-   mMode   = UPDATE;
+   mMode   = ModeUpdate;
    mCancel = false;
    mPath   = baseDir;
 
@@ -64,11 +77,11 @@ bool DatabaseWorker::initUpdate( const QString &baseDir )
 
 bool DatabaseWorker::initCleanup()
 {
-   if( mMode != NONE )
+   if( mMode != ModeNone )
    {
       return false;
    }
-   mMode   = CLEANUP;
+   mMode   = ModeCleanup;
    mCancel = false;
 
    return true;
@@ -77,11 +90,11 @@ bool DatabaseWorker::initCleanup()
 
 bool DatabaseWorker::initImport( const QString &fileName )
 {
-   if( mMode != NONE )
+   if( mMode != ModeNone )
    {
       return false;
    }
-   mMode   = IMPORT;
+   mMode   = ModeImport;
    mCancel = false;
    mPath   = fileName;
 
@@ -92,30 +105,30 @@ bool DatabaseWorker::initImport( const QString &fileName )
 void DatabaseWorker::run()
 {
    mChecked     = 0;
-   mLastChecked = 0;
    mProcessed   = 0;
    emit progress( mChecked, mProcessed );
+   mTime.start();
    switch( mMode )
    {
-      case UPDATE:
+      case ModeUpdate:
          {
             DirWalkerUpdate walkerCallbacks( this );
             mDirWalker.run( &walkerCallbacks, mPath );
          }
          exec();
          break;
-      case CLEANUP:
+      case ModeCleanup:
          mpDatabase->getTrackInfoList( this, "cleanup" );
          exec();
          break;
-      case IMPORT:
+      case ModeImport:
          importM3u();
          break;
       default:
          break;
    }
    emit progress( mChecked, mProcessed );
-   mMode = NONE;
+   mMode = ModeNone;
 }
 
 
@@ -130,10 +143,11 @@ void DatabaseWorker::cleanup( const TrackInfoList &trackInfoList )
          mpDatabase->deleteTrackInfo( mTrackInfo );
          ++mProcessed;
       }
-      if( ++mChecked >= mLastChecked + UPDATE_INCREMENT )
+      ++mChecked;
+      if( mTime.elapsed() > UPDATE_TIMEOUT_MS )
       {
          emit progress( mChecked, mProcessed );
-         mLastChecked = mChecked;
+         mTime.restart();
       }
    }
    emit progress( mChecked, mProcessed );
@@ -181,11 +195,12 @@ void DatabaseWorker::updateTrackInfoFromFile( const TrackInfo &trackInfo )
          ++mProcessed;
       }
    }
+   ++mChecked;
 
-   if( ++mChecked >= mLastChecked + UPDATE_INCREMENT )
+   if( mTime.elapsed() > UPDATE_TIMEOUT_MS )
    {
       emit progress( mChecked, mProcessed );
-      mLastChecked = mChecked;
+      mTime.restart();
    }
 }
 

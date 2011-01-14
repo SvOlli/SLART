@@ -39,6 +39,7 @@ class QPushButton;
 class DatabaseInterface;
 class ScrollLine;
 class LineEdit;
+class RecurseWorker;
 
 
 class InfoEdit : public QWidget
@@ -47,7 +48,11 @@ Q_OBJECT
 
 public:
    InfoEdit( QWidget *parent = 0 );
+   virtual ~InfoEdit();
+
+   /*  */
    QString tagsFileName( const QString &pattern, bool filterPath = true );
+   /*  */
    QString fileName();
 
    /* add the current entry to the completer */
@@ -91,12 +96,11 @@ private:
    void loadFile( const QString &fullpath );
    /* save the currently edited tags */
    void saveFile();
-   /* walk through the directory tree */
-   void recurse( const QDir &dir, bool isBase = true );
    /* update the info of the track concerning flags and folders */
    void updateDatabaseInfo( bool withRecurse );
 
    DatabaseInterface    *mpDatabase;
+   RecurseWorker        *mpRecurseWorker;
    TrackInfo            mTrackInfo;
 
    QPushButton          *mpButtonSet;
@@ -135,28 +139,10 @@ private:
    QAction              *mpRecurseSetFolders;
    QAction              *mpRecurseUnsetFolders;
 
-   enum { MODE_NOTHING,
-          MODE_SETTAGS,
-          MODE_NORM_ARTIST,
-          MODE_NORM_TITLE } mRecurseMode;
    bool                 mIsValid;
    bool                 mIsFile;
    bool                 mCancel;
-   TagList              mTagList;
    QString              mFileName;
-   QString              mRecurseArtist;
-   QString              mRecurseTitle;
-   QString              mRecurseAlbum;
-   QString              mRecurseYear;
-   QString              mRecurseGenre;
-   bool                 mRecurseSetFlags;
-   bool                 mRecurseUnsetFlags;
-   bool                 mRecurseFavoriteTrackFlag;
-   bool                 mRecurseUnwantedTrackFlag;
-   bool                 mRecurseTrackScannedFlag;
-   bool                 mRecurseSetFolders;
-   bool                 mRecurseUnsetFolders;
-   QStringList          mRecurseFolders;
 };
 
 #endif
