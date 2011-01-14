@@ -459,8 +459,6 @@ void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
                                      bool favorite, bool leastplayed,
                                      const QString &folder )
 {
-   TrackInfo trackInfo;
-
    QString sql( "SELECT id FROM slart_tracks WHERE Flags & " );
 
    if( favorite )
@@ -523,10 +521,8 @@ void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
    {
       mpQuery->clear();
       emit working( false );
-      bool success = false;
       if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( bool, success ),
-                                      Q_ARG( TrackInfo, trackInfo ) ) )
+                                      Q_ARG( TrackInfo, TrackInfo() ) ) )
       {
          qFatal( "%s:%d call failed in %s", __FILE__, __LINE__, Q_FUNC_INFO );
       }
