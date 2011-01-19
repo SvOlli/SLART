@@ -57,6 +57,8 @@ public:
 public slots:
    /*  */
    void updateTrackInfo( const TrackInfo &trackInfo );
+   /* final call of a batch to stop event loop */
+   void done();
 
 signals:
    /* emit some kind of progress */

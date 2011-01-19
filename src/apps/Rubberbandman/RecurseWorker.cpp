@@ -138,9 +138,15 @@ void RecurseWorker::run()
       mPatternWithTrackNr    = settings.VALUE_WITHTRACKNR;
    }
    workDir( mDir );
-   mpDatabase->call( this, "quit" );
+   mpDatabase->call( this, "done" );
    exec();
-   mMode = ModeNormTitle;
+}
+
+
+void RecurseWorker::done()
+{
+   mMode = ModeNothing;
+   quit();
 }
 
 
@@ -313,6 +319,9 @@ void RecurseWorker::updateTrackInfo( const TrackInfo &trackInfo )
    }
    else
    {
-      QFile::rename( oldpath, newpath );
+      if( oldpath != newpath )
+      {
+         QFile::rename( oldpath, newpath );
+      }
    }
 }
