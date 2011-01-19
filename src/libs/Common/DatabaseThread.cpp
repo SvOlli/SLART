@@ -194,7 +194,7 @@ DatabaseThread::~DatabaseThread()
 {
    if( isRunning() )
    {
-      quit();
+      call( this, "quit" );
       wait();
    }
    if( mpQuery )
