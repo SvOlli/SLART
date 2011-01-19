@@ -61,44 +61,44 @@ void DatabaseWorker::updateStatus()
 }
 
 
-bool DatabaseWorker::initUpdate( const QString &baseDir )
+void DatabaseWorker::startUpdate( const QString &baseDir )
 {
    if( mMode != ModeNone )
    {
-      return false;
+      return;
    }
    mMode   = ModeUpdate;
    mCancel = false;
    mPath   = baseDir;
 
-   return true;
+   start();
 }
 
 
-bool DatabaseWorker::initCleanup()
+void DatabaseWorker::startCleanup()
 {
    if( mMode != ModeNone )
    {
-      return false;
+      return;
    }
    mMode   = ModeCleanup;
    mCancel = false;
 
-   return true;
+   start();
 }
 
 
-bool DatabaseWorker::initImport( const QString &fileName )
+void DatabaseWorker::startImport( const QString &fileName )
 {
    if( mMode != ModeNone )
    {
-      return false;
+      return;
    }
    mMode   = ModeImport;
    mCancel = false;
    mPath   = fileName;
 
-   return true;
+   start();
 }
 
 

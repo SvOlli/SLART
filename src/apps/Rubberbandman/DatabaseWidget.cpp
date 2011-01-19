@@ -120,8 +120,7 @@ void DatabaseWidget::handleUpdate( bool checked )
    QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
    if( !baseDir.isEmpty() )
    {
-      mpDatabaseWorker->initUpdate( baseDir );
-      mpDatabaseWorker->start();
+      mpDatabaseWorker->startUpdate( baseDir );
    }
    else
    {
@@ -140,8 +139,7 @@ void DatabaseWidget::handleCleanup( bool checked )
    disableButtons( true );
    mCheckedText   = tr( "entries checked" );
    mProcessedText = tr( "cleaned" );
-   mpDatabaseWorker->initCleanup();
-   mpDatabaseWorker->start();
+   mpDatabaseWorker->startCleanup();
 }
 
 
@@ -163,8 +161,7 @@ void DatabaseWidget::handleImport( bool checked )
    {
       mCheckedText   = tr( "files scanned" );
       mProcessedText = tr( "added" );
-      mpDatabaseWorker->initImport( fileDialog.selectedFiles().at(0) );
-      mpDatabaseWorker->start();
+      mpDatabaseWorker->startImport( fileDialog.selectedFiles().at(0) );
    }
    else
    {

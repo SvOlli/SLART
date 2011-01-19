@@ -42,12 +42,12 @@ public:
 
    /* cancel current run */
    void cancel() { mCancel = true; }
-   /* initialize for update */
-   bool initUpdate( const QString &baseDir );
-   /* initialize for cleanup */
-   bool initCleanup();
-   /* initialize for import */
-   bool initImport( const QString &fileName );
+   /* start update */
+   void startUpdate( const QString &baseDir );
+   /* start cleanup */
+   void startCleanup();
+   /* start import */
+   void startImport( const QString &fileName );
    /* run the job */
    void run();
 

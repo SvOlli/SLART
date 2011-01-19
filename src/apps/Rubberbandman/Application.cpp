@@ -52,7 +52,6 @@ int main(int argc, char *argv[])
    if( args.size() > 1 )
    {
       QTextStream stdErr( ::stderr, QIODevice::WriteOnly );
-      stdErr << "qt_" + QLocale::system().name() << endl << QLibraryInfo::location(QLibraryInfo::TranslationsPath) << endl;
       args.takeFirst(); // first argument is program name
       const QString _cleanup( "-cleanup" );
       const QString _basedir( "-basedir" );
@@ -78,14 +77,15 @@ int main(int argc, char *argv[])
          }
          else if( arg == _cleanup )
          {
-            databaseWorker->initCleanup();
+            databaseWorker->startCleanup();
             Console console( QObject::tr( "entries checked" ),
                              QObject::tr( "cleaned" ) );
             QObject::connect( databaseWorker, SIGNAL(progress(int,int)),
                               &console, SLOT(handleProgress(int,int)) );
             QObject::connect( databaseWorker, SIGNAL(finished()),
                               qApp, SLOT(quit()) );
-            QTimer::singleShot( 1, databaseWorker, SLOT(start()) );
+            console.message( QObject::tr("cleaning up") );
+            QTimer::singleShot( 0, databaseWorker, SLOT(start()) );
             app.exec();
          }
          else if( arg == _update )
@@ -98,15 +98,15 @@ int main(int argc, char *argv[])
                }
                else
                {
-                  databaseWorker->initUpdate( baseDir );
+                  databaseWorker->startUpdate( baseDir );
                   Console console( QObject::tr( "files scanned" ),
                                    QObject::tr( "updated" ) );
                   QObject::connect( databaseWorker, SIGNAL(progress(int,int)),
                                     &console, SLOT(handleProgress(int,int)) );
                   QObject::connect( databaseWorker, SIGNAL(finished()),
                                     qApp, SLOT(quit()) );
-                  QTimer::singleShot( 1, databaseWorker, SLOT(start()) );
-                  console.message( QObject::tr("scanning %1").arg( baseDir ) );
+                  QTimer::singleShot( 0, databaseWorker, SLOT(start()) );
+                  console.message( QObject::tr("updating %1").arg( baseDir ) );
                   app.exec();
                }
             }
