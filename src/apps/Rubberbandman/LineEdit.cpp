@@ -45,10 +45,18 @@ void LineEdit::addCompleterText( const QString &string )
    QStringList list( model->stringList() );
    if( string.isEmpty() )
    {
+      if( list.contains( text() ) )
+      {
+         return;
+      }
       list << text();
    }
    else
    {
+      if( list.contains( string ) )
+      {
+         return;
+      }
       list << string;
    }
    model->setStringList( list );
