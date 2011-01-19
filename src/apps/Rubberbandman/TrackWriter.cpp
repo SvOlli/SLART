@@ -109,6 +109,7 @@ void TrackWriter::write( const TrackInfo &trackInfo )
       ti.mFileName = newName;
    }
    DatabaseInterface *database = DatabaseInterface::get();
+   ti.mLastTagsRead = QFileInfo( ti.mDirectory + "/" + ti.mFileName ).lastModified().toTime_t();
    database->updateTrackInfo( ti, true );
 
    if( mpTarget && !mMethod.isEmpty() )
