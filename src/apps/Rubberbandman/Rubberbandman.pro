@@ -17,7 +17,7 @@ LIBS += -lCommon -lTag
 RESOURCES = $${TOPSRC}/libs/Common/Resources/Common.qrc
 RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
 
-TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_en.ts
+TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}.ts
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
 SOURCES += Application.cpp

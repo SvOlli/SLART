@@ -26,7 +26,7 @@
     </message>
     <message>
         <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="118"/>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="164"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="162"/>
         <source>files scanned</source>
         <translation>Dateien eingelesen</translation>
     </message>
@@ -36,34 +36,34 @@
         <translation>aktualisiert</translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="141"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="140"/>
         <source>entries checked</source>
         <translation>Einträge überprüft</translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="142"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="141"/>
         <source>cleaned</source>
         <translation>entfernt</translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="165"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="163"/>
         <source>added</source>
         <translation>hinzugefügt</translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="220"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="217"/>
         <source>Done: </source>
         <translation>Ferrig: </translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="246"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="243"/>
         <source>Partyman is set to local mode.
 Nonexistant files will be removed from database.
 Tags will be scanned.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="252"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="249"/>
         <source>Partyman is set to remote mode.
 Nonexistant files will not be removed from database.
 Tags will not be scanned.</source>

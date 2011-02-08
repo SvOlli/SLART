@@ -85,7 +85,7 @@ Now Playing</source>
     </message>
     <message>
         <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="118"/>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="164"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="162"/>
         <source>files scanned</source>
         <translation></translation>
     </message>
@@ -95,34 +95,34 @@ Now Playing</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="141"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="140"/>
         <source>entries checked</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="142"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="141"/>
         <source>cleaned</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="165"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="163"/>
         <source>added</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="220"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="217"/>
         <source>Done: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="246"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="243"/>
         <source>Partyman is set to local mode.
 Nonexistant files will be removed from database.
 Tags will be scanned.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="252"/>
+        <location filename="../apps/Rubberbandman/DatabaseWidget.cpp" line="249"/>
         <source>Partyman is set to remote mode.
 Nonexistant files will not be removed from database.
 Tags will not be scanned.</source>
@@ -182,7 +182,7 @@ Tags will not be scanned.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/FileSysBrowser.cpp" line="305"/>
+        <location filename="../apps/Rubberbandman/FileSysBrowser.cpp" line="298"/>
         <source>Delete %1</source>
         <translation></translation>
     </message>
@@ -193,12 +193,12 @@ Tags will not be scanned.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/FileSysBrowser.cpp" line="296"/>
+        <location filename="../apps/Rubberbandman/FileSysBrowser.cpp" line="289"/>
         <source>New name is not valid.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/FileSysBrowser.cpp" line="306"/>
+        <location filename="../apps/Rubberbandman/FileSysBrowser.cpp" line="299"/>
         <source>Really Delete %1 ?</source>
         <translation></translation>
     </message>
@@ -206,127 +206,127 @@ Tags will not be scanned.</source>
 <context>
     <name>InfoEdit</name>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="35"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="39"/>
         <source>Norm. Artist</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="36"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="40"/>
         <source>Norm. Title</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="37"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="41"/>
         <source>Cancel</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="38"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="42"/>
         <source>File Information</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="39"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="43"/>
         <source>Tag Information</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="40"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="44"/>
         <source>Database Information</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="51"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="55"/>
         <source>Flags</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="54"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="58"/>
         <source>Folders</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="102"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="92"/>
         <source>Path:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="103"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="93"/>
         <source>File:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="104"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="94"/>
         <source>Size:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="105"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="95"/>
         <source>Play Time:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="121"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="111"/>
         <source>Artist:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="122"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="112"/>
         <source>Title:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="123"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="113"/>
         <source>Album:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="124"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="114"/>
         <source>Track:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="125"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="115"/>
         <source>Year:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="126"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="116"/>
         <source>Genre:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="545"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="368"/>
         <source>Save Changes</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="554"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="377"/>
         <source>Set Recursive</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="777"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="538"/>
         <source>Set Selected Flags</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="782"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="542"/>
         <source>Unset Selected Flags</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="789"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="548"/>
         <source>Set Selected Folders</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="794"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="552"/>
         <source>Unset Selected Folders</source>
         <translation></translation>
     </message>
     <message numerus="yes">
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="802"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="560"/>
         <source>%n Time(s) Played</source>
         <translation>
             <numerusform>%n Time Played</numerusform>
@@ -334,22 +334,22 @@ Tags will not be scanned.</source>
         </translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="812"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="570"/>
         <source>Not In Database</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="815"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="573"/>
         <source>Favorite</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="821"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="579"/>
         <source>No Autoplay</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="827"/>
+        <location filename="../apps/Rubberbandman/InfoEdit.cpp" line="585"/>
         <source>Track Is Scanned</source>
         <translation></translation>
     </message>
@@ -380,38 +380,43 @@ Tags will not be scanned.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../apps/Rubberbandman/Application.cpp" line="79"/>
+        <location filename="../apps/Rubberbandman/Application.cpp" line="81"/>
         <source>entries checked</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/Application.cpp" line="80"/>
+        <location filename="../apps/Rubberbandman/Application.cpp" line="82"/>
         <source>cleaned</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/Application.cpp" line="94"/>
+        <location filename="../apps/Rubberbandman/Application.cpp" line="87"/>
+        <source>cleaning up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../apps/Rubberbandman/Application.cpp" line="97"/>
         <source>%1 is not a directory
 </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/Application.cpp" line="99"/>
+        <location filename="../apps/Rubberbandman/Application.cpp" line="102"/>
         <source>files scanned</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/Application.cpp" line="100"/>
+        <location filename="../apps/Rubberbandman/Application.cpp" line="103"/>
         <source>updated</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/Application.cpp" line="106"/>
-        <source>scanning %1</source>
-        <translation></translation>
+        <location filename="../apps/Rubberbandman/Application.cpp" line="109"/>
+        <source>updating %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apps/Rubberbandman/Application.cpp" line="113"/>
+        <location filename="../apps/Rubberbandman/Application.cpp" line="116"/>
         <source>Usage:	%1 (%2) (%3 &lt;directory&gt;) (%4)
 </source>
         <translation></translation>
