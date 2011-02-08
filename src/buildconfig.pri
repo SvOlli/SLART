@@ -53,8 +53,8 @@ CODECFORTR     = UTF-8
 
 contains( QMAKE_CXX, g++ ) {
   QMAKE_CXXFLAGS_DEBUG += -pedantic -Wno-long-long
-  QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
+  QMAKE_CXXFLAGS_RELEASE += -ffunction-sections -fdata-sections
   !macx {
-    QMAKE_LFLAGS += -Wl,--gc-sections -rdynamic
+    QMAKE_LFLAGS_RELEASE += -Wl,--gc-sections -rdynamic
   }
 }
