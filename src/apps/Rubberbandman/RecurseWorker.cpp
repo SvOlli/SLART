@@ -299,6 +299,8 @@ void RecurseWorker::updateTrackInfo( const TrackInfo &trackInfo )
    QFileInfo qfi( oldpath );
    QString newpath( qfi.absolutePath() + "/" + newname + "." + qfi.suffix().toLower() );
    QString tmppath( qfi.absolutePath() + "/" + newname + ".rbm." + qfi.suffix().toLower() );
+   ti.mFileName = newname + "." + qfi.suffix().toLower();
+   mpDatabase->updateTrackInfo( ti );
 
    if( tagsChanged )
    {

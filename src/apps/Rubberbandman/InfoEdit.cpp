@@ -413,19 +413,19 @@ void InfoEdit::handleSetSave()
          {
             ti.setFlag( TrackInfo::ScannedWithPeak, true );
          }
-         if( mpRecurseSetFlags )
+         if( mpRecurseSetFlags->isChecked() )
          {
             recurseFlags |= RecurseWorker::SetFlags;
          }
-         if( mpRecurseUnsetFlags )
+         if( mpRecurseUnsetFlags->isChecked() )
          {
             recurseFlags |= RecurseWorker::UnsetFlags;
          }
-         if( mpRecurseSetFolders )
+         if( mpRecurseSetFolders->isChecked() )
          {
             recurseFlags |= RecurseWorker::SetGroups;
          }
-         if( mpRecurseUnsetFolders )
+         if( mpRecurseUnsetFolders->isChecked() )
          {
             recurseFlags |= RecurseWorker::UnsetGroups;
          }
