@@ -260,10 +260,10 @@ void RecurseWorker::updateTrackInfo( const TrackInfo &trackInfo )
       }
       if( mSetGroups || mUnsetGroups )
       {
-         QStringList folders( ti.getFolders() );
-         foreach( const QString &folder, folders )
+         QStringList groups( mTrackInfo.getFolders() );
+         foreach( const QString &group, groups )
          {
-            mTrackInfo.setFolder( folder, mSetGroups );
+            ti.setFolder( group, mSetGroups );
          }
       }
       break;
