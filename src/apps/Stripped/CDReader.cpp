@@ -61,6 +61,8 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
             this, SIGNAL(stateRip()) );
    connect( mpCDReaderThread, SIGNAL(gotToc()),
             this, SIGNAL(gotToc()) );
+   connect( mpCDReaderThread, SIGNAL(noEject()),
+            this, SLOT(noEject()) );
    connect( mpCDReaderThread, SIGNAL(foundDevices(const QStringList &)),
             this, SIGNAL(foundDevices(const QStringList &)) );
    connect( mpCDReaderThread, SIGNAL(message(const QString &)),
@@ -151,4 +153,12 @@ void CDReader::cancel()
 void CDReader::readSettings()
 {
    mpParanoiaStatus->setVisible( MySettings().VALUE_SHOWSTATS );
+}
+
+
+void CDReader::noEject()
+{
+   QMessageBox::warning( this, tr("%1: Read Error").arg( QApplication::applicationName() ),
+                         tr("There has been an error during reading the disc.\n"
+                            "Therefore the disc has not been ejected.") );
 }

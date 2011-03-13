@@ -68,6 +68,8 @@ public slots:
    void cancel();
    /* (re-)read the settings */
    void readSettings();
+   /* pop up that there's been an error and no eject */
+   void noEject();
 
 signals:
    /* signalize "no disc"-state */

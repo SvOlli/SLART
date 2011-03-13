@@ -71,6 +71,7 @@ CDReaderThread::CDReaderThread()
 , mpCallbackFunction( new unsigned long[ MAX_PARANOIA_FUNCTION ] )
 , mCancel( false )
 , mTrackHasErrors( false )
+, mDiscHasErrors( false )
 , mDevice()
 , mDevices()
 , mEncoders()
@@ -359,6 +360,7 @@ void CDReaderThread::runReadAudioData()
          mpCallbackFunction[n] = 0;
       }
       mTrackHasErrors = false;
+      mDiscHasErrors = false;
 
       TagList tagList;
       tagList.set( "ALBUMARTIST", albumartist );
@@ -446,9 +448,13 @@ printf("\n");
             disconnect( thread, SIGNAL(encodingFail()),
                         this, SLOT(cancel()) );
 
-            if( mTrackHasErrors && autoEnqueue )
+            if( mTrackHasErrors )
             {
-               doenqueue = true;
+               mDiscHasErrors = true;
+               if( autoEnqueue )
+               {
+                  doenqueue = true;
+               }
             }
             encoder->finalize( doenqueue, mCancel );
          }
@@ -473,7 +479,14 @@ printf("\n");
    emit stateDisc();
    if( MySettings().VALUE_AUTOEJECT && !mCancel )
    {
-      runEject();
+      if( mDiscHasErrors )
+      {
+         emit noEject();
+      }
+      else
+      {
+         runEject();
+      }
    }
 }
 

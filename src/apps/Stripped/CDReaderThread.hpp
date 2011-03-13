@@ -82,6 +82,8 @@ signals:
    void message( const QString &message = QString() );
    /* send current read errors of track */
    void errors( int track, unsigned int elements, const unsigned long *counts );
+   /* signalize that disc has not been ejected because of errors */
+   void noEject();
    /* send progress of track */
    void progress( int percent );
    /* track has been enabled/disabled */
@@ -120,6 +122,7 @@ private:
    unsigned long        *mpCallbackFunction;
    bool                 mCancel;
    bool                 mTrackHasErrors;
+   bool                 mDiscHasErrors;
    QString              mDevice;
    QStringList          mDevices;
    MagicEncoderList     mEncoders;
