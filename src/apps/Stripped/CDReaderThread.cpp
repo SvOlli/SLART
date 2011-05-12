@@ -345,6 +345,7 @@ void CDReaderThread::runReadAudioData()
    ::cdio_paranoia_modeset( mpParanoia, PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP );
 
    emit setTrackDisabled( -1, true );
+   mDiscHasErrors = false;
    for( track = 0; track < 100; track++ )
    {
       mpCDEdit->trackInfo( track, &dorip, &doenqueue, &artist, &title,
@@ -360,7 +361,6 @@ void CDReaderThread::runReadAudioData()
          mpCallbackFunction[n] = 0;
       }
       mTrackHasErrors = false;
-      mDiscHasErrors = false;
 
       TagList tagList;
       tagList.set( "ALBUMARTIST", albumartist );
