@@ -149,7 +149,6 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 
 ControlWidget::~ControlWidget()
 {
-   saveTracks( false );
    mpPlayer[0]->disconnect();
    mpPlayer[1]->disconnect();
 
@@ -332,8 +331,16 @@ void ControlWidget::initDisconnect( eErrorCode errorcode )
 
 void ControlWidget::handlePause( bool reset )
 {
-   mpPlayer[0]->pause();
-   mpPlayer[1]->pause();
+   if( mpPlayer[1]->getState() == PlayerFSM::endingpaused )
+   {
+      mpPlayer[1]->pause();
+      mpPlayer[0]->pause();
+   }
+   else
+   {
+      mpPlayer[0]->pause();
+      mpPlayer[1]->pause();
+   }
    if( mPaused || reset )
    {
       mpPauseAction->setIcon( mPauseIcon );
