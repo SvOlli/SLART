@@ -554,7 +554,7 @@ void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const
 
 void ControlWidget::handleDerMixDstartup()
 {
-   QStringList data( QString::fromLocal8Bit( mDerMixDprocess.readAllStandardError() ).split('\n') );
+   QStringList data( QString::fromLocal8Bit( mDerMixDprocess.readAllStandardError().constData() ).split('\n') );
 
    foreach( const QString &line, data )
    {

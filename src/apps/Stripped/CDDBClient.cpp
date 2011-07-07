@@ -188,7 +188,7 @@ void CDDBClient::startRequest( const QString &cmd, const QStringList &parameter 
    else
    {
       Q_ASSERT_X( false, "CDDBClient::startRequest",
-                  QString("undefined command: %1").arg(cmd).toLocal8Bit() );
+                  QString("undefined command: %1").arg(cmd).toLocal8Bit().constData() );
    }
 }
 
@@ -205,7 +205,7 @@ void CDDBClient::handleQueryData( QNetworkReply *reply )
    {
       return;
    }
-   QString data( QString::fromUtf8( reply->readAll() ) );
+   QString data( QString::fromUtf8( reply->readAll().constData() ) );
    data.remove( '\r' );
    QStringList response( data.split( '\n', QString::SkipEmptyParts ) );
 
@@ -281,7 +281,7 @@ void CDDBClient::handleReadData( QNetworkReply *reply )
    {
       return;
    }
-   QString data( QString::fromUtf8( reply->readAll() ) );
+   QString data( QString::fromUtf8( reply->readAll().constData() ) );
    data.remove( '\r' );
    QStringList response( data.split( '\n', QString::SkipEmptyParts ) );
    QString line;

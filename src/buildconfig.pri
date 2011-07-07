@@ -24,7 +24,7 @@ build_pass:CONFIG(release, debug|release) {
   TARGETARCH = "debug"
 }
 
-contains(TEMPLATE,app) {
+contains( TEMPLATE, app ) {
   is_test = $$find( OUT_PWD, "/tests/" )
   count( is_test, 1 ) {
     DESTDIR    = $${BUILDDIR}/build/$${TARGETARCH}/test
@@ -50,6 +50,11 @@ UI_SOURCES_DIR = $${BUILDDIR}/build/$${TARGETARCH}/tmp/$${TARGET}/ui_sources
 
 CODECFORSRC    = UTF-8
 CODECFORTR     = UTF-8
+#QMAKE_CXXFLAGS += -DQT_NO_CAST_FROM_ASCII=QT_NO_CAST_FROM_ASCII
+QMAKE_CXXFLAGS += -DQT_NO_CAST_TO_ASCII=QT_NO_CAST_TO_ASCII
+QMAKE_CXXFLAGS += -DQT_NO_CAST_FROM_BYTEARRAY=QT_NO_CAST_FROM_BYTEARRAY
+QMAKE_CXXFLAGS += -DQT_NO_URL_CAST_FROM_STRING=QT_NO_URL_CAST_FROM_STRING
+#QMAKE_CXXFLAGS += -DQT_NO_KEYWORDS=QT_NO_KEYWORDS
 
 contains( QMAKE_CXX, g++ ) {
   QMAKE_CXXFLAGS_DEBUG += -pedantic -Wno-long-long

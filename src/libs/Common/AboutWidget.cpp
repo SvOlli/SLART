@@ -59,7 +59,7 @@ void AboutWidget::handleLink( const QString &link )
    }
    else
    {
-      QDesktopServices::openUrl( link );
+      QDesktopServices::openUrl( QUrl(link) );
    }
 }
 

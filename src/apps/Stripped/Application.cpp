@@ -15,6 +15,7 @@
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Trace.hpp>
 #include <Translate.hpp>
 
 /* local headers */
@@ -28,6 +29,8 @@ int main(int argc, char *argv[])
    QApplication::setOrganizationName("SLART");
    QApplication::setOrganizationDomain("svolli.org");
    QApplication::setApplicationName("Stripped");
+
+   enableCore();
 
    QApplication app( argc, argv );
 

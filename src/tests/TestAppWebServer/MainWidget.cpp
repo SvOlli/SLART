@@ -114,7 +114,7 @@ void MainWidget::request( QTcpSocket *id,
                      " <album>%4</album>\n"
                      " <track>%5</track>\n"
                      "</response>\n" );
-      QByteArray replyMsg( reply.arg( Qt::escape( QString::fromUtf8(mMsg) ),
+      QByteArray replyMsg( reply.arg( Qt::escape( QString::fromUtf8(mMsg.constData()) ),
                                       Qt::escape( mTrackInfo.mArtist ),
                                       Qt::escape( mTrackInfo.mTitle ),
                                       Qt::escape( mTrackInfo.mAlbum ),
@@ -159,7 +159,7 @@ void MainWidget::newMsg( const QByteArray &msg )
 
    mMsg = msg;
 
-   QStringList list( QString::fromUtf8(mMsg).split('\n') );
+   QStringList list( QString::fromUtf8(mMsg.constData()).split('\n') );
    if( (list.size() > 1) && (list.at(0) == "p0p") )
    {
       gotData = mpDatabase->getTrackInfo( 0, list.at(1) );

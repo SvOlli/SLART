@@ -285,7 +285,7 @@ void Satellite::send1( const QByteArray &message )
 
 QStringList Satellite::split( const QByteArray &message )
 {
-   return QString::fromUtf8( message )
+   return QString::fromUtf8( message.constData() )
             .remove('\r')
             .split('\n', QString::SkipEmptyParts);
 }

@@ -197,15 +197,15 @@ void TheMagic::downloadClose()
    {
       if( mContentType.contains( "UTF-8", Qt::CaseInsensitive ) || mContentType.contains( "UTF8", Qt::CaseInsensitive ) )
       {
-         mBuffer = QString::fromUtf8( mpBuffer->buffer() );
+         mBuffer = QString::fromUtf8( mpBuffer->buffer().constData() );
       }
       else if( mContentType.contains( "8859-1", Qt::CaseInsensitive ) )
       {
-         mBuffer = QString::fromLatin1( mpBuffer->buffer() );
+         mBuffer = QString::fromLatin1( mpBuffer->buffer().constData() );
       }
       else
       {
-         mBuffer = QString::fromLocal8Bit( mpBuffer->buffer() );
+         mBuffer = QString::fromLocal8Bit( mpBuffer->buffer().constData() );
       }
       mpBuffer->close();
       delete mpBuffer;

@@ -59,7 +59,7 @@ TRACESTART(ImportFolder::ImportFolder)
       QFileInfo qfi;
       while( !m3uFile.atEnd() )
       {
-         fileName = QString::fromLocal8Bit( m3uFile.readLine() );
+         fileName = QString::fromLocal8Bit( m3uFile.readLine().constData() );
          if( !fileName.startsWith("#") )
          {
             if( fileName.endsWith("\n") )

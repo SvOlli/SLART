@@ -223,7 +223,7 @@ void DatabaseWorker::importM3u()
    TrackInfo ti;
    while( !m3uFile.atEnd() )
    {
-      fileName = QString::fromLocal8Bit( m3uFile.readLine() );
+      fileName = QString::fromLocal8Bit( m3uFile.readLine().constData() );
       if( !fileName.startsWith("#") )
       {
          if( fileName.right(1) == QChar('\n') )

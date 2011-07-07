@@ -291,7 +291,7 @@ void PlayerWidget::handleResponse()
 {
    while( mpSocket->bytesAvailable() )
    {
-      QString data( QString::fromLocal8Bit( mpSocket->readLine() ) );
+      QString data( QString::fromLocal8Bit( mpSocket->readLine().constData() ) );
       data = data.simplified();
       if( !data.size() )
       {

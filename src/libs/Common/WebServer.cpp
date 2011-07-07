@@ -93,7 +93,7 @@ void WebServer::handleNewConnection()
    connect( socket, SIGNAL(disconnected()),
             socket, SLOT(deleteLater()) );
    socket->waitForReadyRead();
-   line = QString::fromUtf8( socket->readLine() );
+   line = QString::fromUtf8( socket->readLine().constData() );
    QStringList requestLine( line.split( QString(" ") ) );
    if( requestLine.size() < 3 )
    {
@@ -138,7 +138,7 @@ void WebServer::handleNewConnection()
       int colpos;
       for(;;)
       {
-         line = QString::fromUtf8(socket->readLine());
+         line = QString::fromUtf8( socket->readLine().constData() );
          line.remove( "\n" );
          line.remove( "\r" );
          if( line.isEmpty() )
@@ -158,7 +158,7 @@ void WebServer::handleNewConnection()
 
       if( content_length > 0 )
       {
-         QStringList form( QString::fromUtf8( data ).split('&') );
+         QStringList form( QString::fromUtf8( data.constData() ).split('&') );
          foreach( const QString &entry, form )
          {
             colpos = entry.indexOf( "=" );

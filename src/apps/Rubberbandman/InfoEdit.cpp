@@ -500,7 +500,14 @@ void InfoEdit::saveFile()
 QString InfoEdit::tagsFileName( const QString &pattern, bool filterPath )
 {
    TagList tagList;
-   // TODO
+   tagList.set( "ARTIST", mTrackInfo.mArtist );
+   tagList.set( "TITLE", mTrackInfo.mTitle );
+   tagList.set( "ALBUM", mTrackInfo.mAlbum );
+   tagList.set( "TRACKNUMBER", (mTrackInfo.mTrackNr < 0) ? QString() : QString::number(mTrackInfo.mTrackNr) );
+   tagList.set( "DATE", (mTrackInfo.mYear < 0) ? QString() : QString::number(mTrackInfo.mYear) );
+   tagList.set( "GENRE", mTrackInfo.mGenre );
+   tagList.set( "DIRECTORY", mTrackInfo.mDirectory );
+   tagList.set( "FILENAME", mTrackInfo.mFileName );
    return tagList.fileName( pattern, filterPath );
 }
 
@@ -557,7 +564,7 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
       }
       else
       {
-         timesPlayed = tr("%n Time(s) Played","",mTrackInfo.mTimesPlayed);
+         timesPlayed = tr("%n Time(s) Played", 0, mTrackInfo.mTimesPlayed);
       }
       mpShowTimesPlayed->setText( timesPlayed );
 

@@ -84,7 +84,7 @@ void MainWidget::addMessage( const QByteArray &message, QListWidget *list )
       list = mpMessageBuffer;
    }
 
-   list->addItem( QString::fromUtf8(message) );
+   list->addItem( QString::fromUtf8(message.constData()) );
 
    while( list->count() > 500 )
    {

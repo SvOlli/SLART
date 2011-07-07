@@ -204,7 +204,7 @@ void CDReaderThread::runGetDevices()
 void CDReaderThread::runReadToc()
 {
    mCancel = false;
-   mpCdIo  = ::cdio_open( mDevice.toLocal8Bit(), DRIVER_UNKNOWN );
+   mpCdIo  = ::cdio_open( mDevice.toLocal8Bit().constData(), DRIVER_UNKNOWN );
    mpDrive = ::cdio_cddap_identify_cdio( mpCdIo, CDDA_MESSAGE_PRINTIT, NULL );
 
    emit stateScan();
@@ -494,7 +494,7 @@ printf("\n");
 void CDReaderThread::runEject()
 {
    driver_return_code_t retval;
-   mpCdIo = ::cdio_open( mDevice.toLocal8Bit(), DRIVER_UNKNOWN );
+   mpCdIo = ::cdio_open( mDevice.toLocal8Bit().constData(), DRIVER_UNKNOWN );
    /* first try mmc command */
    retval = ::mmc_eject_media( mpCdIo );
    if( retval < 0 )
