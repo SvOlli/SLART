@@ -9,6 +9,7 @@ if [ -x /usr/bin/apt-get ]; then
 
   for pkg in \
     g++ \
+    qmake \
     libqt4-dev \
     libqt4-sql-sqlite \
     libasound2-dev \
@@ -28,7 +29,7 @@ if [ -x /usr/bin/apt-get ]; then
 fi
 
 # Tiny Core Linux
-if [ -x /usr/bin/tce-load -w -i ]; then
+if [ -x /usr/bin/tce-load ]; then
   /usr/bin/tce-load -w -i alsa.tcz
   /usr/bin/tce-load -w -i alsa-devs.tcz
   /usr/bin/tce-load -w -i compiletc.tcz
