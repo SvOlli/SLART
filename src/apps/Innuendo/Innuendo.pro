@@ -12,6 +12,10 @@ include( ../../buildconfig.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
+contains( TARGETARCH, debug ) {
+QT += sql
+}
+QMAKE_CXXFLAGS_DEBUG += -DCOREDUMP_SIZE_MB=100
 
 # Input
 RESOURCES = $${TOPSRC}/libs/Common/Resources/Common.qrc

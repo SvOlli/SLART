@@ -16,6 +16,9 @@ TRANSLATIONS += ../../../translations/$${TARGET}_de.ts
 
 INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
+contains( TARGETARCH, debug ) {
+QT += sql
+}
 
 HEADERS += MagicEncoder.hpp
 SOURCES += MagicEncoder.cpp

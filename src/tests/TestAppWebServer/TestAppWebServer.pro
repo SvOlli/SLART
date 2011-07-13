@@ -12,6 +12,9 @@ include( ../../buildconfig.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
+contains( TARGETARCH, debug ) {
+QT += sql network
+}
 
 # Input
 RESOURCES = Resources/TestAppWebServer.qrc

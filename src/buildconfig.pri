@@ -59,7 +59,9 @@ QMAKE_CXXFLAGS += -DQT_NO_URL_CAST_FROM_STRING=QT_NO_URL_CAST_FROM_STRING
 contains( QMAKE_CXX, g++ ) {
   QMAKE_CXXFLAGS_DEBUG += -pedantic -Wno-long-long
   QMAKE_CXXFLAGS_RELEASE += -ffunction-sections -fdata-sections
+  #QMAKE_CXXFLAGS_DEBUG += -ffunction-sections -fdata-sections
   !macx {
     QMAKE_LFLAGS_RELEASE += -Wl,--gc-sections -rdynamic
+    #QMAKE_LFLAGS_DEBUG += -Wl,--gc-sections -rdynamic
   }
 }

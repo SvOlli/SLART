@@ -18,6 +18,7 @@
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 #include <SorcererLoader.hpp>
+#include <Trace.hpp>
 #include <Translate.hpp>
 
 /* local headers */
@@ -34,6 +35,8 @@ int main(int argc, char *argv[])
    QApplication::setOrganizationName("SLART");
    QApplication::setOrganizationDomain("svolli.org");
    QApplication::setApplicationName("Karmadrome");
+
+   enableCore();
 
 #ifdef Q_WS_X11
    bool useGUI = getenv("DISPLAY") != 0;

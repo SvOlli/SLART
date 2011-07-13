@@ -17,6 +17,9 @@ TRANSLATIONS += ../../../translations/MagicEncoderFlac_de.ts
 
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib $${TOPSRC}/libs/Magic/MagicEncoder
 LIBS += -lMagicEncoder -lCommon -lTag
+contains( TARGETARCH, debug ) {
+QT += sql network
+}
 LIBS += -lFLAC++
 
 HEADERS += MagicEncoderFlac.hpp

@@ -13,6 +13,9 @@ include( ../../buildconfig.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib
 LIBS += -lCommon -lTag
+contains( TARGETARCH, debug ) {
+#QT += sql network
+}
 
 # Input
 RESOURCES += $${TOPSRC}/libs/Common/Resources/Common.qrc

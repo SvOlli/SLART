@@ -12,6 +12,7 @@ include( ../../buildconfig.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
+QMAKE_CXXFLAGS_DEBUG += -DCOREDUMP_SIZE_MB=100
 
 # Input
 RESOURCES = Resources/Partyman.qrc

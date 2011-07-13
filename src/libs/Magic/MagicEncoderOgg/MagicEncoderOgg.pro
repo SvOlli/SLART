@@ -17,6 +17,9 @@ TRANSLATIONS += ../../../translations/MagicEncoderOgg_de.ts
 
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib $${TOPSRC}/libs/Magic/MagicEncoder
 LIBS += -lMagicEncoder -lCommon -lTag
+contains( TARGETARCH, debug ) {
+QT += sql network
+}
 LIBS += -lvorbisenc -lvorbis -lm -logg
 PKGCONFIG += vorbisenc
 

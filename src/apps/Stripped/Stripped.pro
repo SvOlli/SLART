@@ -13,7 +13,11 @@ include( ../../buildconfig.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/Magic
 LIBS += -lCommon
+contains( TARGETARCH, debug ) {
+QT += sql
+}
 PKGCONFIG += libcdio_paranoia libcdio
+QMAKE_CXXFLAGS_DEBUG += -DCOREDUMP_SIZE_MB=100
 
 # Input
 RESOURCES = $${TOPSRC}/libs/Common/Resources/Common.qrc

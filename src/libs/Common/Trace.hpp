@@ -10,6 +10,11 @@
 #define TRACE_HPP TRACE_HPP
 
 /* system headers */
+#ifndef Q_OS_WIN32
+#include <cstdio>
+#include <sys/time.h>
+#include <sys/resource.h>
+#endif
 
 /* Qt headers */
 #include <QString>
@@ -63,5 +68,26 @@ public:
 private:
    static volatile unsigned int mDepth;
 };
+
+static inline void enableCore()
+{
+#ifndef Q_OS_WIN32
+#if COREDUMP_SIZE_MB
+   struct rlimit rlim;
+   if( getrlimit( RLIMIT_CORE, &rlim ) )
+   {
+      perror( "getrlimit" );
+      exit(1);
+   }
+   rlim.rlim_cur = (COREDUMP_SIZE_MB) * 1024 * 1024;
+   rlim.rlim_max = (COREDUMP_SIZE_MB) * 1024 * 1024;
+   if( setrlimit( RLIMIT_CORE, &rlim ) )
+   {
+      perror( "setrlimit" );
+      exit(1);
+   }
+#endif
+#endif
+}
 
 #endif

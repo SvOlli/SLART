@@ -17,6 +17,9 @@ TRANSLATIONS += ../../../translations/MagicEncoderMp3_de.ts
 
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib $${TOPSRC}/libs/Magic/MagicEncoder
 LIBS += -lMagicEncoder -lCommon -lTag
+contains( TARGETARCH, debug ) {
+QT += sql network
+}
 LIBS += -lmp3lame
 
 HEADERS += MagicEncoderMp3.hpp

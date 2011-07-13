@@ -13,6 +13,7 @@
 
 /* local library headers */
 #include <SorcererLoader.hpp>
+#include <Trace.hpp>
 #include <Translate.hpp>
 
 /* local headers */
@@ -25,6 +26,8 @@ int main(int argc, char *argv[])
    QApplication::setOrganizationName("SLART");
    QApplication::setOrganizationDomain("svolli.org");
    QApplication::setApplicationName("Sorcerer");
+
+   enableCore();
 
    QApplication app( argc, argv );
 

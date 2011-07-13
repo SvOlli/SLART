@@ -17,6 +17,7 @@
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 #include <SorcererLoader.hpp>
+#include <Trace.hpp>
 #include <Translate.hpp>
 
 /* local headers */
@@ -30,6 +31,8 @@ int main(int argc, char *argv[])
    QApplication::setOrganizationName("SLART");
    QApplication::setOrganizationDomain("svolli.org");
    QApplication::setApplicationName("Funkytown");
+
+   enableCore();
 
    QApplication app( argc, argv );
 
@@ -63,7 +66,7 @@ int main(int argc, char *argv[])
          }
          while( !input.atEnd() )
          {
-            line = QString::fromLocal8Bit( input.readLine() );
+            line = QString::fromLocal8Bit( input.readLine().constData() );
             if( line.startsWith("http") )
             {
                *startUrls << line.trimmed();
