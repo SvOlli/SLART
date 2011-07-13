@@ -47,6 +47,10 @@ public slots:
    void handleFavoriteButton();
    /* handle the "No Auto" checkbox */
    void handleUnwantedButton();
+   /* display a menu to change groups part 1: get groups from database */
+   void handleGroupsMenu();
+   /* display a menu to change groups part 2: get selection an update */
+   void handleGroupsMenu( const QStringList &groups );
    /* remotely set both "Favorite" and "No Auto" checkboxes */
    void setFavoriteUnwanted( bool favorite, bool unwanted );
    /* update the track data */

@@ -71,6 +71,17 @@ TrackInfoWidget::TrackInfoWidget( bool includeFolders, QWidget *parent )
    connect( mpUnwantedButton, SIGNAL(clicked()),
             this, SLOT(handleUnwantedButton()) );
 
+   if( includeFolders )
+   {
+      mpFavoriteButton->setContextMenuPolicy( Qt::CustomContextMenu );
+      mpUnwantedButton->setContextMenuPolicy( Qt::CustomContextMenu );
+
+      connect( mpFavoriteButton, SIGNAL(customContextMenuRequested(QPoint)),
+               this, SLOT(handleGroupsMenu()) );
+      connect( mpUnwantedButton, SIGNAL(customContextMenuRequested(QPoint)),
+               this, SLOT(handleGroupsMenu()) );
+   }
+
    update( false );
 }
 
@@ -134,6 +145,16 @@ TrackInfoWidget::TrackInfoWidget( Database *database,
    connect( mpUnwantedButton, SIGNAL(clicked()),
             this, SLOT(handleUnwantedButton()) );
 
+   if( includeFolders )
+   {
+      mpFavoriteButton->setContextMenuPolicy( Qt::CustomContextMenu );
+      mpUnwantedButton->setContextMenuPolicy( Qt::CustomContextMenu );
+
+      connect( mpFavoriteButton, SIGNAL(customContextMenuRequested(QPoint)),
+               this, SLOT(handleGroupsMenu()) );
+      connect( mpUnwantedButton, SIGNAL(customContextMenuRequested(QPoint)),
+               this, SLOT(handleGroupsMenu()) );
+   }
    update( false );
 }
 
@@ -176,6 +197,45 @@ void TrackInfoWidget::handleUnwantedButton()
    {
       DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
       DatabaseInterface::get()->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
+   }
+}
+
+
+void TrackInfoWidget::handleGroupsMenu()
+{
+   if( mpDatabase )
+   {
+      handleGroupsMenu( mpDatabase->getFolders() );
+   }
+   else
+   {
+      DatabaseInterface::get()->getFolders( this, "handleGroupsMenu" );
+   }
+}
+
+
+void TrackInfoWidget::handleGroupsMenu( const QStringList &groups )
+{
+   QMenu menu;
+   foreach( const QString &group, groups )
+   {
+      QAction *action = menu.addAction( group );
+      action->setCheckable( true );
+      action->setChecked( mTrackInfo.isInFolder( group ) );
+   }
+   QAction *selected = menu.exec( QCursor::pos() );
+   if( selected )
+   {
+      mTrackInfo.setFolder( selected->text(), selected->isChecked() );
+      if( mpDatabase )
+      {
+         mpDatabase->updateTrackInfo( &mTrackInfo );
+      }
+      else
+      {
+         DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
+         DatabaseInterface::get()->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
+      }
    }
 }
 
