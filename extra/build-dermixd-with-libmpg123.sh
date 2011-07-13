@@ -53,8 +53,8 @@ echo "target directory: ${target_dir}"
 
 sleep 1
 
-mkdir -p "${target_dir}/share/doc/SLART"
-cat >"${target_dir}/share/doc/SLART/README.DerMixD" <<EOF
+mkdir -p "${target_dir}/DEBIAN/root/usr/share/doc/slart" "${target_dir}/bin"
+cat >"${target_dir}/DEBIAN/root/usr/share/doc/slart/README.DerMixD" <<EOF
 This package contains DerMixD ${dermixd_version},
 which itself contains libmpg123 ${mpg123_version} statically linked in.
 
@@ -100,10 +100,12 @@ sed -i Makefile \
     -e "s@^EXTRA_LIBS=.*\$@EXTRA_LIBS=-L${mpg123_dir}/src/libmpg123/.libs@" \
     -e 's@ \$(LDFLAGS) \(.*\)@ \1 $(LDFLAGS)@'
 
-make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes clean gnu-alsa
+make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes clean gnu-alsa ||
+make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes gnu-alsa
 cp dermixd dermixd-alsa
 
-make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes clean gnu-oss
+make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes clean gnu-oss ||
+make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes gnu-oss
 cp dermixd dermixd-oss
 
 strip -R .note -R .comment dermixd-alsa dermixd-oss
