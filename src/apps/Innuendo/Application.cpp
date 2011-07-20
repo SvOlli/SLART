@@ -40,9 +40,9 @@ int main(int argc, char *argv[])
       Translate translate;
       translate.install( &app );
 
-      Satellite::create();
-
       SorcererLoader::detect( &app );
+
+      Satellite::create();
       {
          QFile qssFile( MySettings().styleSheetFile() );
          if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )

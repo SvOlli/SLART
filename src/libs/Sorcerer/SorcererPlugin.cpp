@@ -15,7 +15,9 @@
 #include <QtGui>
 
 /* local library headers */
+#include <DatabaseInterface.hpp>
 #include <MainWindow.hpp>
+#include <Satellite.hpp>
 #include <Version.hpp>
 
 /* local headers */
@@ -23,7 +25,9 @@
 
 
 SorcererPlugin::SorcererPlugin()
-: mGlobal("Global")
+: mStopDatabase( false )
+, mStopSatellite( false )
+, mGlobal("Global")
 , mFunkytown("Funkytown")
 , mInnuendo("Innuendo")
 , mKarmadrome("Karmadrome")
@@ -32,11 +36,30 @@ SorcererPlugin::SorcererPlugin()
 , mRubberbandman("Rubberbandman")
 , mStripped("Stripped")
 {
+   if( !DatabaseInterface::get() )
+   {
+      mStopDatabase = true;
+      DatabaseInterface::create();
+   }
+
+   if( !Satellite::get() )
+   {
+      mStopSatellite = true;
+      Satellite::create();
+   }
 }
 
 
 SorcererPlugin::~SorcererPlugin()
 {
+   if( mStopDatabase )
+   {
+      DatabaseInterface::destroy();
+   }
+   if( mStopSatellite )
+   {
+      Satellite::destroy();
+   }
 }
 
 

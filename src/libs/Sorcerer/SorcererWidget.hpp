@@ -18,6 +18,7 @@
 #include <QString>
 
 /* local library headers */
+#include <TrackInfo.hpp>
 
 /* local headers */
 
@@ -28,7 +29,7 @@ class QPushButton;
 class QTabWidget;
 
 /* forward declaration of local classes */
-class Database;
+class DatabaseInterface;
 class DatabaseWidget;
 class ProxyWidget;
 class SatelliteConfigWidget;
@@ -51,6 +52,8 @@ public slots:
    void handleNextButton();
    /* unlock the option to leave database tab when everything is ok */
    void unlockDatabase();
+   /* handler for unlockDatabase() reply */
+   void countTracks( const TrackInfoList &list );
    /* unlock the option to leave communication tab */
    void unlockCommunication();
 
@@ -62,7 +65,7 @@ private:
    SorcererWidget( const SorcererWidget &that );
    SorcererWidget &operator=( const SorcererWidget &that );
 
-   Database                *mpDatabase;
+   DatabaseInterface       *mpDatabase;
    QTabWidget              *mpTabs;
    QLabel                  *mpHint;
    QPushButton             *mpNext;

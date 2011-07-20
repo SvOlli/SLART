@@ -22,6 +22,7 @@ build_pass:CONFIG(release, debug|release) {
   TARGETARCH = "release"
 } else {
   TARGETARCH = "debug"
+  QT += network sql
 }
 
 contains( TEMPLATE, app ) {
@@ -57,7 +58,7 @@ QMAKE_CXXFLAGS += -DQT_NO_URL_CAST_FROM_STRING=QT_NO_URL_CAST_FROM_STRING
 #QMAKE_CXXFLAGS += -DQT_NO_KEYWORDS=QT_NO_KEYWORDS
 
 contains( QMAKE_CXX, g++ ) {
-  QMAKE_CXXFLAGS_DEBUG += -pedantic -Wno-long-long
+  QMAKE_CXXFLAGS_DEBUG += -pedantic -Wno-long-long -DDEBUG=DEBUG
   QMAKE_CXXFLAGS_RELEASE += -ffunction-sections -fdata-sections
   #QMAKE_CXXFLAGS_DEBUG += -ffunction-sections -fdata-sections
   !macx {

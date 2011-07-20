@@ -39,12 +39,12 @@ int main(int argc, char *argv[])
    Translate translate;
    translate.install( &app );
 
-   Satellite::create();
-
    QStringList *startUrls = new QStringList();
    MySettings settings;
 
    SorcererLoader::detect( &app );
+
+   Satellite::create();
    {
       QFile qssFile( settings.styleSheetFile() );
       if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )

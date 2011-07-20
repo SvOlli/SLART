@@ -201,6 +201,7 @@ DatabaseThread::~DatabaseThread()
    {
       mpQuery->clear();
       delete mpQuery;
+      mpQuery = 0;
    }
    if( mpSqlDB )
    {

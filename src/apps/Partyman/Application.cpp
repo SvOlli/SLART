@@ -46,11 +46,10 @@ int main(int argc, char *argv[])
    Translate translate;
    translate.install( &app );
 
-   Satellite::create();
-
    QStringList args( QApplication::arguments() );
    if( args.size() > 1 )
    {
+      Satellite::create();
       args.takeFirst(); // first argument is program name
       CommandLineHandler commandLineHandler( args );
       retval = app.exec();
@@ -61,6 +60,7 @@ int main(int argc, char *argv[])
       {
          SorcererLoader::detect( &app );
 
+         Satellite::create();
          {
             QFile qssFile( settings.styleSheetFile() );
             if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )

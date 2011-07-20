@@ -127,10 +127,9 @@ int main(int argc, char *argv[])
    {
       if( useGUI )
       {
-         Satellite::create();
-
          SorcererLoader::detect( &app );
 
+         Satellite::create();
          {
             QFile qssFile( MySettings().styleSheetFile() );
             if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )

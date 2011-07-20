@@ -20,6 +20,7 @@
 #include <QtSql>
 
 /* local library headers */
+#include <DatabaseInterface.hpp>
 
 /* local headers */
 #include "MySettings.hpp"
@@ -59,6 +60,11 @@ Database::Database( const QString &fileName )
 , mUpdateMessage()
 , mNotifyDisabled( false )
 {
+   if( DatabaseInterface::get() )
+   {
+      qFatal( "Can't use Database and DatabaseInterface at the same time" );
+   }
+
    qsrand( time((time_t*)0) );
 
    if( mpSqlDB->lastError().type() != QSqlError::NoError )

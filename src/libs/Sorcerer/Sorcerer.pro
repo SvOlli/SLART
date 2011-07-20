@@ -13,9 +13,6 @@ include( ../../buildconfig.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib
 LIBS += -lCommon -lTag
-contains( TARGETARCH, debug ) {
-#QT += sql network
-}
 
 # Input
 RESOURCES += $${TOPSRC}/libs/Common/Resources/Common.qrc
@@ -38,3 +35,7 @@ SOURCES += $${TOPSRC}/apps/Rubberbandman/DatabaseWidget.cpp
 
 HEADERS += $${TOPSRC}/apps/Rubberbandman/DatabaseWorker.hpp
 SOURCES += $${TOPSRC}/apps/Rubberbandman/DatabaseWorker.cpp
+
+HEADERS += $${TOPSRC}/apps/Rubberbandman/DirWalkerUpdate.hpp
+SOURCES += $${TOPSRC}/apps/Rubberbandman/DirWalkerUpdate.cpp
+

@@ -16,7 +16,7 @@
 
 /* local library headers */
 #include <AboutWidget.hpp>
-#include <Database.hpp>
+#include <DatabaseInterface.hpp>
 #include <ProxyWidget.hpp>
 #include <MySettings.hpp>
 #include "../../apps/Innuendo/SatelliteConfigWidget.hpp"
@@ -27,7 +27,7 @@
 
 SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpDatabase( new Database() )
+, mpDatabase( DatabaseInterface::get() )
 , mpTabs( new QTabWidget( this ) )
 , mpHint( new QLabel( this ) )
 , mpNext( new QPushButton( tr("Next"), this ) )
@@ -96,7 +96,6 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
 
 SorcererWidget::~SorcererWidget()
 {
-   delete mpDatabase;
 }
 
 
@@ -185,10 +184,16 @@ void SorcererWidget::handleNextButton()
 
 void SorcererWidget::unlockDatabase()
 {
-   if( Database::exists() )
+   if( DatabaseInterface::exists() )
    {
-      mDatabaseOk = mpDatabase->getTrackInfoList( 0 ) > 2;
+      mpDatabase->getTrackInfoList( this, "countTracks" );
    }
+}
+
+void SorcererWidget::countTracks( const TrackInfoList &list )
+{
+   mDatabaseOk = list.count() > 2;
+
    if( mDatabaseOk )
    {
       mpNext->setDisabled( false );

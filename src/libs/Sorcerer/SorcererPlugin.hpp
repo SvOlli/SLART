@@ -54,6 +54,8 @@ private:
    void setDefault( MySettings *settings, const QString &name,
                     const QVariant &value );
 
+   bool       mStopDatabase;
+   bool       mStopSatellite;
    MySettings mGlobal;
    MySettings mFunkytown;
    MySettings mInnuendo;
