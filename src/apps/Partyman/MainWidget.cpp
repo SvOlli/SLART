@@ -28,15 +28,20 @@
 #include "PlaylistControlWidget.hpp"
 
 
-static MainWidget *mpMainWidget = 0;
+#if CRASH_HANDLER
+static MainWidget *gpMainWidget = 0;
 
 
 static void signalHandler( int signum )
 {
-   if( mpMainWidget ) delete mpMainWidget;
-
+   if( gpMainWidget )
+   {
+      delete gpMainWidget;
+      gpMainWidget = 0;
+   }
    raise( signum );
 }
+#endif
 
 
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
@@ -48,7 +53,9 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpPlaylist( new PlaylistControlWidget( mpDatabase, mpConfig, this ) )
 , mpControl( new ControlWidget( mpDatabase, mpConfig, mpPlaylist, this ) )
 {
-   mpMainWidget = this;
+#if CRASH_HANDLER
+   gpMainWidget = this;
+#endif
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
 
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
@@ -57,6 +64,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mpParent->setAttribute( Qt::WA_AlwaysShowToolTips, true );
    mpParent->setWindowIcon( QIcon( ":/PartymanSmile.png" ) );
 
+#if CRASH_HANDLER
 #if (!defined Q_OS_WIN32) || (defined __MINGW32__)
    int i;
    for( i = 1; i < 32; i++ )
@@ -74,6 +82,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             break;
       }
    }
+#endif
 #endif
 
    connect( mpControl, SIGNAL(requestAddToPlaylist(QStringList,bool)),
@@ -110,7 +119,16 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
 MainWidget::~MainWidget()
 {
-   mpMainWidget = 0;
+#if CRASH_HANDLER
+   gpMainWidget = 0;
+
+   delete mpControl;
+   mpControl = 0;
+   delete mpPlaylist;
+   mpPlaylist = 0;
+   delete mpDatabase;
+   mpDatabase = 0;
+
 #if (!defined Q_OS_WIN32) || (defined __MINGW32__)
    int i;
    for( i = 1; i < 32; i++ )
@@ -129,13 +147,7 @@ MainWidget::~MainWidget()
       }
    }
 #endif
-
-   delete mpControl;
-   mpControl = 0;
-   delete mpPlaylist;
-   mpPlaylist = 0;
-   delete mpDatabase;
-   mpDatabase = 0;
+#endif
 }
 
 
