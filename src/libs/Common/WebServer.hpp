@@ -9,14 +9,19 @@
 #ifndef WEBSERVER_HPP
 #define WEBSERVER_HPP WEBSERVER_HPP
 
-/*
- * this class is only for receiving WebServer messages
- * sending of WebServer messages is handled by the MySettings class
- */
-
+/* base class */
 #include <QObject>
+
+/* system headers */
+
+/* Qt headers */
 #include <QDir>
 
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QHttpRequestHeader;
 class QHttpResponseHeader;
 class QTcpServer;

@@ -79,12 +79,12 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 
    setLayout( mainLayout );
 
-   connect( mpFreeDBImport, SIGNAL(processed(unsigned, const char *)),
-            this, SLOT(handleProgress(unsigned, const char *)) );
+   connect( mpFreeDBImport, SIGNAL(processed(unsigned,const char*)),
+            this, SLOT(handleProgress(unsigned,const char*)) );
    connect( browseButton, SIGNAL(clicked()),
             this, SLOT(setFileName()) );
-   connect( mpImportFile, SIGNAL(textChanged(const QString &)),
-            this, SLOT(checkValidFile(const QString &)) );
+   connect( mpImportFile, SIGNAL(textChanged(QString)),
+            this, SLOT(checkValidFile(QString)) );
    connect( mpImportButton, SIGNAL(clicked()),
             this, SLOT(handleImport()) );
    connect( okButton, SIGNAL(clicked()),

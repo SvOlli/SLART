@@ -35,14 +35,14 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
 
 #if SLARTCOM_DEBUG
-   connect( mpSatellite, SIGNAL(debug(const QString&)),
-            this, SLOT(addDebug(const QString&)) );
+   connect( mpSatellite, SIGNAL(debug(QString)),
+            this, SLOT(addDebug(QString)) );
    mainLayout->addWidget( mpDebugBuffer );
    mainLayout->setStretchFactor( mpDebugBuffer, 4 );
 #endif
 
-   connect( mpSatellite, SIGNAL(received(const QByteArray&)),
-            this, SLOT(addMessage(const QByteArray&)) );
+   connect( mpSatellite, SIGNAL(received(QByteArray)),
+            this, SLOT(addMessage(QByteArray)) );
    mainLayout->addWidget( mpMessageBuffer );
    mainLayout->setStretchFactor( mpMessageBuffer, 1 );
 
@@ -50,8 +50,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handleInput()) );
    mainLayout->addWidget( mpInput );
 
-   connect( this, SIGNAL(sendText(const QByteArray&)),
-            mpSatellite, SLOT(send(const QByteArray&)) );
+   connect( this, SIGNAL(sendText(QByteArray)),
+            mpSatellite, SLOT(send(QByteArray)) );
 
    setLayout( mainLayout );
 

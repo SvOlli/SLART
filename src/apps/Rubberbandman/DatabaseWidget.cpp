@@ -66,8 +66,8 @@ DatabaseWidget::DatabaseWidget( QWidget *parent )
             this, SLOT(handleCleanup(bool)) );
    connect( mpImportButton, SIGNAL(clicked(bool)),
             this, SLOT(handleImport(bool)) );
-   connect( mpBaseDir, SIGNAL(textChanged(const QString &)),
-            this, SLOT(checkValidDir(const QString &)) );
+   connect( mpBaseDir, SIGNAL(textChanged(QString)),
+            this, SLOT(checkValidDir(QString)) );
    connect( mpDatabaseWorker, SIGNAL(progress(int,int)),
             this, SLOT(handleProgress(int,int)) );
    connect( mpDatabaseWorker, SIGNAL(finished()),

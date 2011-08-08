@@ -153,12 +153,12 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 
    setLayout( mainLayout );
 
-   connect( mpCDReader, SIGNAL(foundDevices(const QStringList &)),
-            this, SLOT(handleDevices(const QStringList &)) );
+   connect( mpCDReader, SIGNAL(foundDevices(QStringList)),
+            this, SLOT(handleDevices(QStringList)) );
    connect( mpDirButton, SIGNAL(clicked()),
             this, SLOT(setRippingDir()) );
-   connect( mpPattern, SIGNAL(textChanged(const QString&)),
-            this, SLOT(updatePattern(const QString &)) );
+   connect( mpPattern, SIGNAL(textChanged(QString)),
+            this, SLOT(updatePattern(QString)) );
    connect( okButton, SIGNAL(clicked()),
             this, SLOT(accept()) );
    connect( cancelButton, SIGNAL(clicked()),
@@ -289,8 +289,8 @@ void ConfigDialog::handleDevices( const QStringList &devices )
 TRACESTART(ConfigDialog::handleDevices);
 TRACEMSG << devices;
 #endif
-   disconnect( mpDevicesBox, SIGNAL(currentIndexChanged(const QString&)),
-               this, SLOT(handleDevice(const QString&)) );
+   disconnect( mpDevicesBox, SIGNAL(currentIndexChanged(QString)),
+               this, SLOT(handleDevice(QString)) );
    mpDevicesBox->clear();
    if( devices.size() )
    {
@@ -303,8 +303,8 @@ TRACEMSG << devices;
       emit stateNoDrive();
    }
    mpDevicesBox->addItem( tr("Rescan") );
-   connect( mpDevicesBox, SIGNAL(currentIndexChanged(const QString&)),
-            this, SLOT(handleDevice(const QString&)) );
+   connect( mpDevicesBox, SIGNAL(currentIndexChanged(QString)),
+            this, SLOT(handleDevice(QString)) );
 }
 
 

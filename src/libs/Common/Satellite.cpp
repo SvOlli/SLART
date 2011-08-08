@@ -184,8 +184,8 @@ void Satellite::runServer()
       connect( mpServer, SIGNAL(finished()),
                this, SLOT(serverShutdown()) );
 #if SATELLITESERVER_DEBUG
-      connect( mpServer, SIGNAL(debug(const QByteArray&)),
-               this,     SIGNAL(debug(const QByteArray&)) );
+      connect( mpServer, SIGNAL(debug(QByteArray)),
+               this,     SIGNAL(debug(QByteArray)) );
 #endif
 #endif
    }

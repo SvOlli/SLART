@@ -44,12 +44,12 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mainLayout->addWidget( mpMessageBuffer );
    setLayout( mainLayout );
 
-   connect( mpWebServer, SIGNAL(request( QTcpSocket *, const QHttpRequestHeader & )),
-            this, SLOT(request( QTcpSocket *, const QHttpRequestHeader & )) );
-   connect( this, SIGNAL(response( QTcpSocket *, const QHttpResponseHeader &, const QByteArray & )),
-            mpWebServer, SLOT(response( QTcpSocket *, const QHttpResponseHeader &, const QByteArray & )) );
-   connect( mpSatellite, SIGNAL(received(const QByteArray &) ),
-            this, SLOT(newMsg(const QByteArray &)) );
+   connect( mpWebServer, SIGNAL(request(QTcpSocket*,QHttpRequestHeader)),
+            this, SLOT(request(QTcpSocket*,QHttpRequestHeader)) );
+   connect( this, SIGNAL(response(QTcpSocket*,QHttpResponseHeader,QByteArray)),
+            mpWebServer, SLOT(response(QTcpSocket*,QHttpResponseHeader,QByteArray)) );
+   connect( mpSatellite, SIGNAL(received(QByteArray) ),
+            this, SLOT(newMsg(QByteArray)) );
 
    mpMessageBuffer->setAlternatingRowColors( true );
    mpWebServer->start( 22222, QString(":/web/") );

@@ -64,10 +64,10 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
             this, SLOT(handleComboBox(int)) );
    connect( mpSplit, SIGNAL(activated(const QString &)),
             this, SLOT(handleSplit(const QString &)) );
-   connect( mpNAM, SIGNAL( finished( QNetworkReply* ) ),
-            this, SLOT( handleQueryData( QNetworkReply* ) ) );
-   connect( mpNAM, SIGNAL( finished( QNetworkReply* ) ),
-            this, SLOT( handleReadData( QNetworkReply* ) ) );
+   connect( mpNAM, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(handleQueryData(QNetworkReply*)) );
+   connect( mpNAM, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(handleReadData(QNetworkReply*)) );
 
    clear();
    setLayout( mainLayout );

@@ -42,8 +42,8 @@ BrowseWidget::BrowseWidget( QWidget *parent )
    layout->addWidget( mpInfoEdit );
    setLayout( layout );
 
-   connect( mpFileSysBrowser, SIGNAL(clicked(const QString&)),
-            mpInfoEdit, SLOT(load(const QString&)) );
+   connect( mpFileSysBrowser, SIGNAL(clicked(QString)),
+            mpInfoEdit, SLOT(load(QString)) );
    connect( mpInfoEdit, SIGNAL(updated()),
             mpFileSysBrowser, SLOT(handleRootDir()) );
 }

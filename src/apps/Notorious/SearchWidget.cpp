@@ -68,15 +68,15 @@ SearchWidget::SearchWidget( QWidget *parent, Qt::WindowFlags flags )
 
    setLayout( layout );
 
-   connect( mpTitle, SIGNAL(textChanged(const QString&)),
+   connect( mpTitle, SIGNAL(textChanged(QString)),
             this, SLOT(generateSQL()) );
    connect( mpExact, SIGNAL(clicked()),
             this, SLOT(generateSQL()) );
    connect( mpTrack, SIGNAL(currentIndexChanged(int)),
             this, SLOT(generateSQL()) );
-   connect( mpMinTime, SIGNAL(textChanged(const QString&)),
+   connect( mpMinTime, SIGNAL(textChanged(QString)),
             this, SLOT(generateSQL()) );
-   connect( mpMaxTime, SIGNAL(textChanged(const QString&)),
+   connect( mpMaxTime, SIGNAL(textChanged(QString)),
             this, SLOT(generateSQL()) );
    connect( mpTitle, SIGNAL(returnPressed()),
             this, SLOT(checkSubmit()) );

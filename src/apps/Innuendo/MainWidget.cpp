@@ -87,15 +87,15 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handlePingButton()) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
-   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
-            this, SLOT(handleSatellite(const QByteArray &)) );
+   connect( mpSatellite, SIGNAL(received(QByteArray)),
+            this, SLOT(handleSatellite(QByteArray)) );
    connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
             mpConfig, SLOT(readSettings()) );
    connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
             this, SLOT(noAutostart()) );
 #if SATELLITE_DEBUG
-   connect( mpSatellite, SIGNAL(debug(const QByteArray &)),
-            this, SLOT(handleSatellite(const QByteArray &)) );
+   connect( mpSatellite, SIGNAL(debug(QByteArray)),
+            this, SLOT(handleSatellite(QByteArray)) );
 #endif
    connect( mpMessageBuffer, SIGNAL(itemClicked(QListWidgetItem*)),
             this, SLOT(listWidgetItemToClipboard(QListWidgetItem*)) );

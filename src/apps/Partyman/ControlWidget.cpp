@@ -112,16 +112,16 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
             this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
-   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
-            this, SLOT(handleSatellite(const QByteArray &)) );
+   connect( mpSatellite, SIGNAL(received(QByteArray)),
+            this, SLOT(handleSatellite(QByteArray)) );
    connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
             mpConfig, SLOT(readSettings()) );
    connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
             this, SLOT(initDisconnect()) );
-   connect( mpPlayer[0], SIGNAL(trackPlaying(const TrackInfo &)),
-            this, SLOT(handleTrackPlaying(const TrackInfo &)) );
-   connect( mpPlayer[1], SIGNAL(trackPlaying(const TrackInfo &)),
-            this, SLOT(handleTrackPlaying(const TrackInfo &)) );
+   connect( mpPlayer[0], SIGNAL(trackPlaying(TrackInfo)),
+            this, SLOT(handleTrackPlaying(TrackInfo)) );
+   connect( mpPlayer[1], SIGNAL(trackPlaying(TrackInfo)),
+            this, SLOT(handleTrackPlaying(TrackInfo)) );
    connect( mpTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(handleTrayIcon(QSystemTrayIcon::ActivationReason)) );
    connect( &mTrayIconClickTimer, SIGNAL(timeout()),

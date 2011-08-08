@@ -42,8 +42,8 @@ void SatelliteServerRunner::run()
 {
    SatelliteServer *mpServer = new SatelliteServer( mPort, mHost );
 #if SATELLITESERVER_DEBUG
-   connect( mpServer, SIGNAL(debug(const QByteArray&)),
-            this,     SIGNAL(debug(const QByteArray&)) );
+   connect( mpServer, SIGNAL(debug(QByteArray)),
+            this,     SIGNAL(debug(QByteArray)) );
 #endif
    if( mpServer->listen() )
    {

@@ -102,12 +102,12 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(writeSettings()) );
    connect( this, SIGNAL(rejected()),
             this, SLOT(readSettings()) );
-   connect( mpWithTrackNr, SIGNAL(textChanged(const QString&)),
-            this, SLOT(updateWithTrackNr(const QString &)) );
-   connect( mpWithoutTrackNr, SIGNAL(textChanged(const QString&)),
-            this, SLOT(updateWithoutTrackNr(const QString &)) );
-   connect( mpPlayingPattern, SIGNAL(textChanged(const QString&)),
-            this, SLOT(updatePlayingPattern(const QString &)) );
+   connect( mpWithTrackNr, SIGNAL(textChanged(QString)),
+            this, SLOT(updateWithTrackNr(QString)) );
+   connect( mpWithoutTrackNr, SIGNAL(textChanged(QString)),
+            this, SLOT(updateWithoutTrackNr(QString)) );
+   connect( mpPlayingPattern, SIGNAL(textChanged(QString)),
+            this, SLOT(updatePlayingPattern(QString)) );
 
    readSettings();
 

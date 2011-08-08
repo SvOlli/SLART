@@ -82,14 +82,14 @@ FileSysBrowser::FileSysBrowser( QWidget *parent )
    mpRootDir->setText( settings.VALUE_ROOTDIRECTORY );
    handleRootDir();
    mpView->setAnimated( true );
-   connect( mpView, SIGNAL(clicked(const QModelIndex&)),
-            this, SLOT(entryClicked(const QModelIndex&)) );
+   connect( mpView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(entryClicked(QModelIndex)) );
    connect( mpRootDir, SIGNAL(returnPressed()),
             this, SLOT(handleRootDir()) );
    connect( mpDotButton, SIGNAL(clicked()),
             this, SLOT(handleDotButton()) );
-   connect( mpView, SIGNAL(customContextMenuRequested(const QPoint&)),
-            this, SLOT(contextMenu(const QPoint&)) );
+   connect( mpView, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(contextMenu(QPoint)) );
    connect( mpMenuSendToPartyman, SIGNAL(triggered()),
             this, SLOT(menuSendToPartyman()) );
    connect( mpMenuRescan, SIGNAL(triggered()),

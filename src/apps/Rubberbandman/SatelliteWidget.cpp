@@ -64,8 +64,8 @@ SatelliteWidget::SatelliteWidget( QWidget *parent )
    mainLayout->addWidget( mpInfoEdit );
    setLayout(mainLayout);
 
-   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
-            this, SLOT(handleSatellite(const QByteArray &)) );
+   connect( mpSatellite, SIGNAL(received(QByteArray)),
+            this, SLOT(handleSatellite(QByteArray)) );
    connect( mpNowPlaying, SIGNAL(clicked()),
             this, SLOT(handleNowPlaying()) );
    connect( mpShowInFilesystem, SIGNAL(clicked()),

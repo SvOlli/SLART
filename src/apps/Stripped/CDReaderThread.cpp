@@ -390,8 +390,8 @@ void CDReaderThread::runReadAudioData()
             thread->start();
             encoder->setTags( tagList );
             encoder->initialize( fileName );
-            connect( this, SIGNAL(encodeThis(const QByteArray &)),
-                     thread, SLOT(encodeCDAudio(const QByteArray &)) );
+            connect( this, SIGNAL(encodeThis(QByteArray)),
+                     thread, SLOT(encodeCDAudio(QByteArray)) );
             connect( this, SIGNAL(encodeDone()),
                      thread, SLOT(quit()) );
             connect( thread, SIGNAL(encodingFail()),
@@ -441,8 +441,8 @@ printf("\n");
          if( encoder->useEncoder() )
          {
             QThread *thread = encoder->workerThread();
-            disconnect( this, SIGNAL(encodeThis(const QByteArray &)),
-                        thread, SLOT(encodeCDAudio(const QByteArray &)) );
+            disconnect( this, SIGNAL(encodeThis(QByteArray)),
+                        thread, SLOT(encodeCDAudio(QByteArray)) );
             disconnect( this, SIGNAL(encodeDone()),
                         thread, SLOT(quit()) );
             disconnect( thread, SIGNAL(encodingFail()),

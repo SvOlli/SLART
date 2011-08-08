@@ -63,10 +63,10 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
             this, SIGNAL(gotToc()) );
    connect( mpCDReaderThread, SIGNAL(noEject()),
             this, SLOT(noEject()) );
-   connect( mpCDReaderThread, SIGNAL(foundDevices(const QStringList &)),
-            this, SIGNAL(foundDevices(const QStringList &)) );
-   connect( mpCDReaderThread, SIGNAL(message(const QString &)),
-            this, SIGNAL(message(const QString &)) );
+   connect( mpCDReaderThread, SIGNAL(foundDevices(QStringList)),
+            this, SIGNAL(foundDevices(QStringList)) );
+   connect( mpCDReaderThread, SIGNAL(message(QString)),
+            this, SIGNAL(message(QString)) );
    connect( mpCDReaderThread, SIGNAL(setTrackDisabled(int,bool)),
             this, SIGNAL(setTrackDisabled(int,bool)) );
    connect( mpCDReaderThread, SIGNAL(ensureVisible(int)),

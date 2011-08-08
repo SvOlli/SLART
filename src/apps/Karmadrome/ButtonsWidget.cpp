@@ -82,7 +82,8 @@ void ButtonsWidget::updateButtons( const QStringList &fileNames )
       button->setCheckable( true );
       button->setToolTip( fileNames.at(i) );
       mButtonList.append( button );
-      connect( button, SIGNAL(clicked()), mpSignalMapper, SLOT(map()) );
+      connect( button, SIGNAL(clicked()),
+               mpSignalMapper, SLOT(map()) );
       mpSignalMapper->setMapping( button, static_cast<QWidget*>(button) );
       mpMainLayout->addWidget( button, i / rows, i % rows );
       mpMainLayout->setRowStretch( i / rows, 0 );

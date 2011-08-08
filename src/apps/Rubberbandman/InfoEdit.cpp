@@ -170,17 +170,17 @@ InfoEdit::InfoEdit( QWidget *parent )
             this, SLOT(handleNormalizeArtist()) );
    connect( mpButtonNormTitle,  SIGNAL(clicked()),
             this, SLOT(handleNormalizeTitle()) );
-   connect( mpEditArtist, SIGNAL(textChanged(const QString&)),
+   connect( mpEditArtist, SIGNAL(textChanged(QString)),
             this, SLOT(handleChange()) );
-   connect( mpEditTitle, SIGNAL(textChanged(const QString&)),
+   connect( mpEditTitle, SIGNAL(textChanged(QString)),
             this, SLOT(handleChange()) );
-   connect( mpEditAlbum, SIGNAL(textChanged(const QString&)),
+   connect( mpEditAlbum, SIGNAL(textChanged(QString)),
             this, SLOT(handleChange()) );
-   connect( mpEditTrackNr, SIGNAL(textChanged(const QString&)),
+   connect( mpEditTrackNr, SIGNAL(textChanged(QString)),
             this, SLOT(handleChange()) );
-   connect( mpEditYear, SIGNAL(textChanged(const QString&)),
+   connect( mpEditYear, SIGNAL(textChanged(QString)),
             this, SLOT(handleChange()) );
-   connect( mpEditGenre, SIGNAL(textChanged(const QString&)),
+   connect( mpEditGenre, SIGNAL(textChanged(QString)),
             this, SLOT(handleChange()) );
 
    connect( mpMenuFlags, SIGNAL(triggered(QAction*)),

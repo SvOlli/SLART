@@ -157,11 +157,16 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
    outerLayout->addWidget( mpScrollArea );
    outerLayout->addLayout( buttonLayout );
 
-   connect( mpToggleRipButton,      SIGNAL(clicked()), this, SLOT(handleTrackNr()) );
-   connect( mpToggleEnqueueButton,  SIGNAL(clicked()), this, SLOT(handleEnqueueTrack()) );
-   connect( mpCopyArtistButton,     SIGNAL(clicked()), this, SLOT(handleTrackArtist()) );
-   connect( mpNormalizeTitleButton, SIGNAL(clicked()), this, SLOT(handleNormalizeTitle()) );
-   connect( mpCopyYearButton,       SIGNAL(clicked()), this, SLOT(handleTrackYear()) );
+   connect( mpToggleRipButton, SIGNAL(clicked()),
+            this, SLOT(handleTrackNr()) );
+   connect( mpToggleEnqueueButton, SIGNAL(clicked()),
+            this, SLOT(handleEnqueueTrack()) );
+   connect( mpCopyArtistButton, SIGNAL(clicked()),
+            this, SLOT(handleTrackArtist()) );
+   connect( mpNormalizeTitleButton, SIGNAL(clicked()),
+            this, SLOT(handleNormalizeTitle()) );
+   connect( mpCopyYearButton, SIGNAL(clicked()),
+            this, SLOT(handleTrackYear()) );
 
    clear();
    setLayout( outerLayout );

@@ -75,12 +75,12 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    layout->addWidget( mpMagicQueue );
    setLayout( layout );
 
-   connect( mpHttp, SIGNAL(requestFinished(int, bool)),
-            this, SLOT(httpRequestFinished(int, bool)) );
-   connect( mpHttp, SIGNAL(dataReadProgress(int, int)),
-            this, SLOT(updateDataReadProgress(int, int)) );
-   connect( mpHttp, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
-            this, SLOT(readResponseHeader(const QHttpResponseHeader &)) );
+   connect( mpHttp, SIGNAL(requestFinished(int,bool)),
+            this, SLOT(httpRequestFinished(int,bool)) );
+   connect( mpHttp, SIGNAL(dataReadProgress(int,int)),
+            this, SLOT(updateDataReadProgress(int,int)) );
+   connect( mpHttp, SIGNAL(responseHeaderReceived(QHttpResponseHeader)),
+            this, SLOT(readResponseHeader(QHttpResponseHeader)) );
    connect( mpTimer, SIGNAL(timeout()),
             this, SLOT(startDownload()) );
 

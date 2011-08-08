@@ -50,11 +50,11 @@ PlaylistContentWidget::PlaylistContentWidget( Database *database, bool allowReso
 #else
    setDefaultDropAction( Qt::MoveAction );
 #endif
-   connect( this, SIGNAL(clicked(const QModelIndex&)),
-            this, SLOT(handleClick(const QModelIndex&)) );
-   connect( this, SIGNAL(doubleClicked(const QModelIndex&)),
-            this, SLOT(handleDoubleClick(const QModelIndex&)) );
-   connect( mpPlaylistModel, SIGNAL(rowsRemoved(const QModelIndex&,int,int)),
+   connect( this, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(handleClick(QModelIndex)) );
+   connect( this, SIGNAL(doubleClicked(QModelIndex)),
+            this, SLOT(handleDoubleClick(QModelIndex)) );
+   connect( mpPlaylistModel, SIGNAL(rowsRemoved(QModelIndex,int,int)),
             this, SIGNAL(dataRemoved()) );
 }
 

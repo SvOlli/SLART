@@ -33,10 +33,10 @@ GenericSatMsgHandler::GenericSatMsgHandler( Satellite *satellite, StartupMode mo
 , mpSatellite( satellite )
 , mWithQuitDialog( mode == WithPingAndDialog )
 {
-   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
-            this, SLOT(handle(const QByteArray &)) );
-   connect( this, SIGNAL(reply(const QByteArray &)),
-            mpSatellite, SLOT(send(const QByteArray &)) );
+   connect( mpSatellite, SIGNAL(received(QByteArray)),
+            this, SLOT(handle(QByteArray)) );
+   connect( this, SIGNAL(reply(QByteArray)),
+            mpSatellite, SLOT(send(QByteArray)) );
    if( mode != WithoutPing )
    {
       connect( mpSatellite, SIGNAL(connected()),

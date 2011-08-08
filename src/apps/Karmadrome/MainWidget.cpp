@@ -93,8 +93,8 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpDatabase->getFolders( this, "updateFolderNames" );
 
    mpDatabase->connectActivityIndicator( mpFileName, SLOT(setDisabled(bool)) );
-   connect( mpSatellite, SIGNAL(received(const QByteArray &)),
-            this, SLOT(handleSatellite(const QByteArray &)) );
+   connect( mpSatellite, SIGNAL(received(QByteArray)),
+            this, SLOT(handleSatellite(QByteArray)) );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfigDialog, SLOT(exec()) );
@@ -109,18 +109,18 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 
    connect( mpReadButton, SIGNAL(clicked()),
             this, SLOT(handleReadButton()) );
-   connect( mpExportMenu, SIGNAL(triggered(QAction *)),
-            this, SLOT(handleExport(QAction *)) );
-   connect( mpImportMenu, SIGNAL(triggered(QAction *)),
-            this, SLOT(handleImport(QAction *)) );
+   connect( mpExportMenu, SIGNAL(triggered(QAction*)),
+            this, SLOT(handleExport(QAction*)) );
+   connect( mpImportMenu, SIGNAL(triggered(QAction*)),
+            this, SLOT(handleImport(QAction*)) );
    connect( mpListButtons, SIGNAL(clicked(QWidget*)),
             this, SLOT(addToList(QWidget*)) );
    connect( mpAddButton, SIGNAL(clicked()),
             this, SLOT(handleAdd()) );
-   connect( mpRemoveMenu, SIGNAL(triggered(QAction *)),
-            this, SLOT(handleRemove(QAction *)) );
-   connect( mpTrackInfo, SIGNAL(checkboxClicked(const TrackInfo&)),
-            this, SLOT(updateTrackInfo(const TrackInfo&)));
+   connect( mpRemoveMenu, SIGNAL(triggered(QAction*)),
+            this, SLOT(handleRemove(QAction*)) );
+   connect( mpTrackInfo, SIGNAL(checkboxClicked(TrackInfo)),
+            this, SLOT(updateTrackInfo(TrackInfo)));
 
    labelReadButton();
 

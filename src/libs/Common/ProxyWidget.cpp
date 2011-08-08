@@ -65,8 +65,10 @@ ProxyWidget::ProxyWidget( QWidget *parent )
 
    setLayout( mainLayout );
 
-   connect( mpProxyOnButton,   SIGNAL(clicked()), this, SLOT(updateWidgets()) );
-   connect( mpProxyAuthButton, SIGNAL(clicked()), this, SLOT(updateWidgets()) );
+   connect( mpProxyOnButton, SIGNAL(clicked()),
+            this, SLOT(updateWidgets()) );
+   connect( mpProxyAuthButton, SIGNAL(clicked()),
+            this, SLOT(updateWidgets()) );
 }
 
 

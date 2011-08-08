@@ -78,8 +78,8 @@ MainWidget::MainWidget( QWidget *parent )
             mpConfigDialog, SLOT(exec()) );
    connect( mpDownloadHandler, SIGNAL(downloadActive(bool)),
             this, SLOT(downloadActive(bool)) );
-   connect( mpDownloadHandler, SIGNAL(errorMessage(const QString&)),
-            mpConfigDialog, SLOT(logMessage(const QString&)) );
+   connect( mpDownloadHandler, SIGNAL(errorMessage(QString)),
+            mpConfigDialog, SLOT(logMessage(QString)) );
 
    MainWindow *mainWindow = qobject_cast<MainWindow*>(parent);
    if( mainWindow )

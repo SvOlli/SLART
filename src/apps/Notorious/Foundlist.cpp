@@ -24,12 +24,12 @@ Foundlist::Foundlist( QWidget *parent )
 , mQuery( this )
 {
    setSelectionBehavior( QAbstractItemView::SelectRows );
-   connect( &mQuery, SIGNAL( newData(int) ),
-            this, SLOT( handleNewData(int) ) );
-   connect( &mQuery, SIGNAL( running(bool) ),
-            this, SIGNAL( queryRunning(bool) ) );
-   connect( this, SIGNAL( itemClicked( QTableWidgetItem * ) ),
-            this, SLOT( handleClicked( QTableWidgetItem * ) ) );
+   connect( &mQuery, SIGNAL(newData(int)),
+            this, SLOT(handleNewData(int)) );
+   connect( &mQuery, SIGNAL(running(bool)),
+            this, SIGNAL(queryRunning(bool)) );
+   connect( this, SIGNAL(itemClicked(QTableWidgetItem*) ),
+            this, SLOT(handleClicked(QTableWidgetItem*)) );
 }
 
 

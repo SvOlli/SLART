@@ -49,10 +49,10 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    mainLayout->addWidget( mpTabs );
    mainLayout->addWidget( mpSettingsButton );
 
-   connect( mpSatelliteWidget, SIGNAL( showInFilesystem(const QString&) ),
-            mpBrowseWidget, SLOT(scrollTo(const QString&)) );
-   connect( mpSatelliteWidget, SIGNAL( showInFilesystem(const QString&) ),
-            this, SLOT( goToFilesystem() ) );
+   connect( mpSatelliteWidget, SIGNAL(showInFilesystem(QString)),
+            mpBrowseWidget, SLOT(scrollTo(QString)) );
+   connect( mpSatelliteWidget, SIGNAL(showInFilesystem(QString)),
+            this, SLOT(goToFilesystem()) );
    connect( mpTabs, SIGNAL(currentChanged(int)),
             this, SLOT(handleTabChange(int)) );
    connect( mpSettingsButton, SIGNAL(clicked()),

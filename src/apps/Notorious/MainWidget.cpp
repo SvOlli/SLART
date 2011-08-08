@@ -51,16 +51,16 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 
    setLayout( mainLayout );
 
-   connect( mpSearch, SIGNAL( submit( const QString &) ),
-            this, SLOT( runQuery(const QString &) ) );
-   connect( mpFound, SIGNAL( clicked( const QString &, const QString & ) ),
-            this, SLOT( handleClicked( const QString &, const QString & ) ) );
-   connect( mpFound, SIGNAL( queryRunning(bool) ),
-            mpSearch, SLOT(query1Running(bool) ) );
-   connect( mpCDInfo, SIGNAL( queryRunning(bool) ),
-            mpSearch, SLOT(query2Running(bool) ) );
-   connect( mpSettingsButton, SIGNAL( clicked() ),
-            mpConfig, SLOT( exec() ) );
+   connect( mpSearch, SIGNAL(submit(QString)),
+            this, SLOT(runQuery(QString)) );
+   connect( mpFound, SIGNAL(clicked(QString,QString)),
+            this, SLOT(handleClicked(QString,QString)) );
+   connect( mpFound, SIGNAL(queryRunning(bool)),
+            mpSearch, SLOT(query1Running(bool)) );
+   connect( mpCDInfo, SIGNAL(queryRunning(bool)),
+            mpSearch, SLOT(query2Running(bool)) );
+   connect( mpSettingsButton, SIGNAL(clicked()),
+            mpConfig, SLOT(exec()) );
 
    mpSettingsButton->setObjectName( QString("SettingsButton") );
 
