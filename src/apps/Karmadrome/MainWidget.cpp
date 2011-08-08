@@ -306,7 +306,7 @@ void MainWidget::handleAdd()
       else
       {
          mpDatabase->insertFolder( folder );
-         updateLists();
+         mpDatabase->getFolders( this, "updateFolderNames" );
       }
    }
 }
@@ -484,7 +484,7 @@ void MainWidget::removeFolder( const QStringList &entries )
    }
    mpDatabase->deleteFolder( mpCurrentAction->text() );
    mpCurrentAction = 0;
-   updateLists();
+   mpDatabase->getFolders( this, "updateFolderNames" );
    setButtonsEnabled();
 }
 
