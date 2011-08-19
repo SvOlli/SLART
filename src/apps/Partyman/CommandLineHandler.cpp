@@ -30,8 +30,14 @@ CommandLineHandler::CommandLineHandler( const QStringList &list, QObject *parent
 , mpSatellite( Satellite::get() )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPing ) )
 , mConnected( false )
-, mList( list )
+, mList()
 {
+   QFileInfo fileInfo;
+   foreach( const QString &file, list )
+   {
+      fileInfo.setFile( file );
+      mList << fileInfo.absoluteFilePath();
+   }
    connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
             this, SLOT(gotPing()) );
    connect( this, SIGNAL(done()),
@@ -49,11 +55,10 @@ CommandLineHandler::~CommandLineHandler()
 void CommandLineHandler::gotPing()
 {
    mConnected = true;
-   QFileInfo fileInfo;
-   foreach( const QString &file, mList )
+   QString fileName;
+   foreach( fileName, mList )
    {
-      fileInfo.setFile( file );
-      mpSatellite->send( fileInfo.absoluteFilePath().prepend( "P0Q\n" ).toUtf8() );
+      mpSatellite->send( fileName.prepend( "P0Q\n" ).toUtf8() );
    }
    emit done();
 }
