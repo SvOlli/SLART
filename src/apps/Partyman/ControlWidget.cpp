@@ -189,8 +189,6 @@ void ControlWidget::saveTracks( bool unload )
       }
    }
 
-   mpPlaylist->savePlaylist( current, next );
-
    if( unload )
    {
       if( !next.isEmpty() )
@@ -201,7 +199,13 @@ void ControlWidget::saveTracks( bool unload )
       {
          mpPlaylist->addEntries( QStringList( current ), true );
       }
+      mpPlaylist->setCurrentNext();
    }
+   else
+   {
+      mpPlaylist->setCurrentNext( current, next );
+   }
+   mpPlaylist->savePlaylist();
 }
 
 

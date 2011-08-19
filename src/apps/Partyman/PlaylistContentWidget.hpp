@@ -24,6 +24,7 @@
 /* forward declaration of Qt classes */
 class QDragEnterEvent;
 class QDropEvent;
+class QTimer;
 
 /* forward declaration of local classes */
 class Database;
@@ -68,12 +69,16 @@ signals:
    void context( const QModelIndex &index, int key );
    /* some data has been removed, so others can update the counter */
    void dataRemoved();
+   /* content has changed, should be saved */
+   void contentChanged();
 
 protected:
    /* catch right mouse button */
    virtual void contextMenuEvent( QContextMenuEvent *event );
    /* for handling key presses */
    virtual void keyPressEvent( QKeyEvent *event );
+   /* for detecting a drop event to save playlist */
+   virtual void dropEvent( QDropEvent *event );
 
 #if USE_DRAG_WORKAROUND
    /* workaround for missing setDefaultDropAction() */
@@ -87,6 +92,7 @@ private:
    Database             *mpDatabase;
    TrackInfoListModel   *mpPlaylistModel;
 
+   QTimer               *mpTimer;
 };
 
 #endif

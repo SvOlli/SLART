@@ -44,6 +44,8 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
 , mpHelpText( new QTextBrowser( this ) )
 , mpSplitter( new QSplitter( Qt::Vertical, parent ) )
 , mpFKeyMapper( new QSignalMapper( this ) )
+, mCurrentFile()
+, mNextFile()
 {
    MySettings settings;
    qsrand( time((time_t*)0) );
@@ -59,13 +61,13 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
    mpPlaylistContent->setAutoFillBackground( false );
    mpPlaylistContent->setHidden( false );
    mpPlaylistContent->addItems( settings.value( "Playlist", QStringList() ).toStringList() );
-   settings.remove( "Playlist" );
    QStringList playlistAppend( settings.value( "PlaylistAppend", QStringList() ).toStringList() );
    if( playlistAppend.size() > 0 )
    {
       settings.remove( "PlaylistAppend" );
       mpPlaylistContent->addItems( playlistAppend );
    }
+   savePlaylist();
 
    mpHelpText->setReadOnly( true );
    mpHelpText->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
@@ -95,6 +97,8 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
             mpTreeView, SLOT(expand(QModelIndex)) );
    connect( mpPlaylistContent, SIGNAL(context(QModelIndex,int)),
             this, SLOT(deleteEntry(QModelIndex,int)) );
+   connect( mpPlaylistContent, SIGNAL(contentChanged()),
+            this, SLOT(savePlaylist()) );
    connect( mpTabs, SIGNAL(currentChanged(int)),
             this, SLOT(handleTabChange(int)) );
    connect( mpConfig, SIGNAL(configChanged()),
@@ -241,6 +245,7 @@ void PlaylistControlWidget::getNextTrack( QString *fileName )
    if( mpPlaylistContent->count() > 0 )
    {
       *fileName = mpPlaylistContent->takeFilePath(0);
+      savePlaylist();
    }
    else
    {
@@ -405,18 +410,25 @@ void PlaylistControlWidget::updateTrackInfo()
 }
 
 
-void PlaylistControlWidget::savePlaylist( const QString &current, const QString &next )
+void PlaylistControlWidget::setCurrentNext( const QString &current, const QString &next )
+{
+   mCurrentFile = current;
+   mNextFile    = next;
+}
+
+
+void PlaylistControlWidget::savePlaylist()
 {
    MySettings settings;
    QStringList playlist;
 
-   if( !current.isEmpty() )
+   if( !mCurrentFile.isEmpty() )
    {
-      playlist << current;
+      playlist << mCurrentFile;
    }
-   if( !next.isEmpty() )
+   if( !mNextFile.isEmpty() )
    {
-      playlist << next;
+      playlist << mNextFile;
    }
 
    playlist << mpPlaylistContent->allFilePaths();

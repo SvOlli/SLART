@@ -13,6 +13,7 @@
 
 /* Qt headers */
 #include <QtGui>
+#include <QTimer>
 
 /* local library headers */
 #include <Database.hpp>
@@ -28,7 +29,11 @@ PlaylistContentWidget::PlaylistContentWidget( Database *database, bool allowReso
 : QListView( parent )
 , mpDatabase( database )
 , mpPlaylistModel( new TrackInfoListModel( mpDatabase, this ) )
+, mpTimer( new QTimer( this ) )
 {
+   mpTimer->setInterval( 5000 );
+   mpTimer->setSingleShot( true );
+
    setEditTriggers( QAbstractItemView::NoEditTriggers );
    setMouseTracking( true );
    setAlternatingRowColors( true );
@@ -56,6 +61,10 @@ PlaylistContentWidget::PlaylistContentWidget( Database *database, bool allowReso
             this, SLOT(handleDoubleClick(QModelIndex)) );
    connect( mpPlaylistModel, SIGNAL(rowsRemoved(QModelIndex,int,int)),
             this, SIGNAL(dataRemoved()) );
+   connect( mpTimer, SIGNAL(timeout()),
+            this, SIGNAL(contentChanged()) );
+   connect( this, SIGNAL(indexesMoved(QModelIndexList)),
+            mpTimer, SLOT(start()) );
 }
 
 
@@ -78,6 +87,7 @@ void PlaylistContentWidget::addItems( const QStringList &items, bool atStart )
       idx = mpPlaylistModel->index( startRow + i );
       mpPlaylistModel->setData( idx, items.at(i) );
    }
+   mpTimer->start();
 }
 
 
@@ -110,6 +120,7 @@ void PlaylistContentWidget::removeSelectedItems( QStringList *list )
             mpPlaylistModel->removeRow( idx.row(), QModelIndex() );
          }
       }
+      mpTimer->start();
    }
 }
 
@@ -144,6 +155,7 @@ int PlaylistContentWidget::count()
 void PlaylistContentWidget::clear()
 {
    mpPlaylistModel->setList( TrackInfoList() );
+   mpTimer->start();
 }
 
 
@@ -172,6 +184,13 @@ void PlaylistContentWidget::handleDoubleClick( const QModelIndex &idx )
 void PlaylistContentWidget::contextMenuEvent( QContextMenuEvent *event )
 {
    emit context( indexAt( event->pos() ), 0 );
+}
+
+
+void PlaylistContentWidget::dropEvent( QDropEvent *event )
+{
+   mpTimer->start();
+   QListView::dropEvent( event );
 }
 
 

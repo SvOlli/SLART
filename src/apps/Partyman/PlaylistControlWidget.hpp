@@ -53,8 +53,9 @@ public:
    void getNextTrack( QString *fileName );
    /* set checkboxes of trackinfo */
    void setTrackInfoFavoriteUnwanted( bool favorite, bool unwanted );
-   /* save the playlist to settings (prepend current and next, if any) */
-   void savePlaylist( const QString &current = QString(), const QString &next = QString() );
+   /* save the current and next track for later saving of complete playlist */
+   void setCurrentNext( const QString &current = QString(),
+                        const QString &next = QString() );
 
 public slots:
    /* add internal entries */
@@ -75,6 +76,8 @@ public slots:
    void finishBrowserUpdate();
    /* pass the update through to track info */
    void updateTrackInfo();
+   /* save the playlist to settings (prepend current and next, if any) */
+   void savePlaylist();
 
 signals:
    /* unfold a node */
@@ -93,19 +96,21 @@ private:
    bool getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
                         bool favoriteOnly, bool leastPlayed, const QString &playFolder );
 
-   Database              *mpDatabase;
-   ConfigDialog          *mpConfig;
-   QTabWidget            *mpTabs;
-   PlaylistContentWidget *mpPlaylistContent;
-   FileSysTreeView       *mpTreeView;
-   FileSysTreeModel      *mpTreeModel;
-   FileSysTreeModel      *mpNextTreeModel;
-   FileSysTreeUpdate     *mpTreeUpdate;
-   SearchWidget          *mpSearch;
-   TrackInfoWidget       *mpTrackInfo;
-   QTextBrowser          *mpHelpText;
-   QSplitter             *mpSplitter;
-   QSignalMapper         *mpFKeyMapper;
+   Database                *mpDatabase;
+   ConfigDialog            *mpConfig;
+   QTabWidget              *mpTabs;
+   PlaylistContentWidget   *mpPlaylistContent;
+   FileSysTreeView         *mpTreeView;
+   FileSysTreeModel        *mpTreeModel;
+   FileSysTreeModel        *mpNextTreeModel;
+   FileSysTreeUpdate       *mpTreeUpdate;
+   SearchWidget            *mpSearch;
+   TrackInfoWidget         *mpTrackInfo;
+   QTextBrowser            *mpHelpText;
+   QSplitter               *mpSplitter;
+   QSignalMapper           *mpFKeyMapper;
+   QString                 mCurrentFile;
+   QString                 mNextFile;
 };
 
 #endif
