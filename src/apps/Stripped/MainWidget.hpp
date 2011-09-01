@@ -38,33 +38,84 @@ class GenericSatMsgHandler;
 class Satellite;
 
 
+/*!
+ \brief the main widget
+
+ \class MainWidget MainWidget.hpp "apps/Stripped/MainWidget.hpp"
+*/
 class MainWidget : public QWidget
 {
 Q_OBJECT
 
 public:
+   /*!
+    \brief default constructor
+
+    \fn MainWidget
+    \param parent
+    \param flags
+   */
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   virtual ~MainWidget();
 
 public slots:
-   /* handle eject button */
+   /*!
+    \brief handle eject button
+
+    \fn eject
+   */
    void eject();
-   /* update configuration changes */
-   void handleConfigUpdate();
-   /* set buttons active according to state "no drive found" */
+
+   /*!
+    \brief set buttons active according to state "no drive found"
+
+    \fn stateNoDrive
+   */
    void stateNoDrive();
-   /* set buttons active according to state "no disc inserted" */
+
+   /*!
+    \brief set buttons active according to state "no disc inserted"
+
+    \fn stateNoDisc
+   */
    void stateNoDisc();
-   /* set buttons active according to state "disc read" */
+
+   /*!
+    \brief set buttons active according to state "disc read"
+
+    \fn stateDisc
+   */
    void stateDisc();
-   /* set buttons active according to state "scanning the disc" */
+
+   /*!
+    \brief set buttons active according to state "scanning the disc"
+
+    \fn stateScan
+   */
    void stateScan();
-   /* set buttons active according to state "connecting to freedb" */
+
+   /*!
+    \brief set buttons active according to state "connecting to freedb"
+
+    \fn stateNet
+   */
    void stateNet();
-   /* set buttons active according to state "ripping tracks" */
+
+   /*!
+    \brief set buttons active according to state "ripping tracks"
+
+    \fn stateRip
+   */
    void stateRip();
 
 signals:
-   /* request a new icon and title */
+   /*!
+    \brief request a new icon and title
+
+    \fn requestChangeTitle
+    \param icon
+    \param title
+   */
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:

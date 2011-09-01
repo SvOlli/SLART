@@ -16,6 +16,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QStateMachine>
 #include <QStringList>
 #include <QTimer>
 
@@ -27,17 +28,25 @@
 #include "CDInfo.hpp"
 #include "ConfigDialog.hpp"
 
+#include <Trace.hpp>
 
 CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
 : QWidget( parent )
+, mRequestType( NoRequest )
+, mpStateMachine( new QStateMachine( this ) )
+, mpStateEjected( new QState( mpStateMachine ) )
+, mpStateCleared( new QState( mpStateMachine ) )
+, mpStateQuery( new QState( mpStateMachine ) )
+, mpStateRead( new QState( mpStateMachine ) )
+, mpStateCDText( new QState( mpStateMachine ) )
+, mpStateDone( new QState( mpStateMachine ) )
 , mpCount( new QLabel( this ) )
 , mpHits( new QComboBox( this ) )
 , mpSplitLabel( new QLabel( tr("Split:"), this ) )
 , mpSplit( new QComboBox( this ) )
 , mpNAM( new QNetworkAccessManager( this ) )
 , mpCDInfo( cdinfo )
-, mQueryReplies()
-, mReadReplies()
+, mpMessageResetTimer( new QTimer( this ) )
 , mReadCDTextMessage( tr("Read CD-Text") )
 , mQueryCDDBMessage( tr("Query FreeDB") )
 {
@@ -59,18 +68,83 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    mainLayout->setStretchFactor( mpSplitLabel, 0 );
    mainLayout->setStretchFactor( mpSplit,      0 );
 
+   /* setting up the state machine and states */
+   mpStateMachine->setInitialState( mpStateEjected );
+
+   mpStateEjected->assignProperty( this, "statusMessage", tr("ejected") );
+   mpStateEjected->assignProperty( mpHits, "enabled", false );
+   mpStateEjected->assignProperty( mpSplit, "enabled", false );
+   mpStateEjected->addTransition( this, SIGNAL(cdinsert()), mpStateCleared );
+   connect( mpStateEjected, SIGNAL(entered()),
+            this, SLOT(handleStateEjected()) );
+
+   mpStateCleared->assignProperty( this, "statusMessage", tr("cleared") );
+   mpStateCleared->assignProperty( mpHits, "enabled", false );
+   mpStateCleared->assignProperty( mpSplit, "enabled", false );
+   mpStateCleared->addTransition( this, SIGNAL(automatic()), mpStateQuery );
+   mpStateCleared->addTransition( this, SIGNAL(eject()), mpStateEjected );
+   mpStateCleared->addTransition( this, SIGNAL(found()), mpStateDone );
+   connect( mpStateCleared, SIGNAL(entered()),
+            this, SLOT(handleStateCleared()) );
+
+   mpStateQuery->assignProperty( this, "statusMessage", tr("query") );
+   mpStateQuery->assignProperty( mpHits, "enabled", false );
+   mpStateQuery->assignProperty( mpSplit, "enabled", false );
+   mpStateQuery->addTransition( this, SIGNAL(cdinsert()), mpStateCleared );
+   mpStateQuery->addTransition( this, SIGNAL(error()), mpStateCleared );
+   mpStateQuery->addTransition( this, SIGNAL(found()), mpStateDone );
+   mpStateQuery->addTransition( this, SIGNAL(automatic()), mpStateRead );
+   mpStateQuery->addTransition( this, SIGNAL(eject()), mpStateEjected );
+   connect( mpStateQuery, SIGNAL(entered()),
+            this, SLOT(handleStateQuery()) );
+
+   mpStateRead->assignProperty( this, "statusMessage", tr("read") );
+   mpStateRead->assignProperty( mpHits, "enabled", false );
+   mpStateRead->assignProperty( mpSplit, "enabled", false );
+   mpStateRead->addTransition( this, SIGNAL(cdinsert()), mpStateCleared );
+   mpStateRead->addTransition( this, SIGNAL(error()), mpStateCleared );
+   mpStateRead->addTransition( this, SIGNAL(gotdata()), mpStateDone);
+   mpStateRead->addTransition( this, SIGNAL(eject()), mpStateEjected );
+   connect( mpStateRead, SIGNAL(entered()),
+            this, SLOT(handleStateRead()) );
+
+   mpStateCDText->assignProperty( this, "statusMessage", tr("cdtext") );
+   mpStateCDText->assignProperty( mpHits, "enabled", false );
+   mpStateCDText->assignProperty( mpSplit, "enabled", false );
+   mpStateCDText->addTransition( this, SIGNAL(cdinsert()), mpStateCleared );
+   mpStateCDText->addTransition( this, SIGNAL(error()), mpStateQuery );
+   mpStateCDText->addTransition( this, SIGNAL(gotdata()), mpStateDone );
+   mpStateCDText->addTransition( this, SIGNAL(eject()), mpStateEjected );
+   connect( mpStateCDText, SIGNAL(entered()),
+            this, SLOT(handleStateCDText()) );
+
+   mpStateDone->assignProperty( this, "statusMessage", tr("done") );
+   mpStateDone->assignProperty( mpHits, "enabled", true );
+   mpStateDone->assignProperty( mpSplit, "enabled", true );
+   mpStateDone->addTransition( this, SIGNAL(cdinsert()), mpStateCleared );
+   mpStateDone->addTransition( this, SIGNAL(query()), mpStateQuery );
+   mpStateDone->addTransition( this, SIGNAL(cdtext()), mpStateCDText );
+   mpStateDone->addTransition( this, SIGNAL(select()), mpStateRead );
+   mpStateDone->addTransition( this, SIGNAL(eject()), mpStateEjected );
+   connect( mpStateDone, SIGNAL(entered()),
+            this, SLOT(handleStateDone()) );
+
+   mpMessageResetTimer->setInterval( 1500 );
+   mpMessageResetTimer->setSingleShot( true );
+   connect( mpMessageResetTimer, SIGNAL(timeout()),
+            this, SIGNAL(message()) );
 
    connect( mpHits, SIGNAL(activated(int)),
-            this, SLOT(handleComboBox(int)) );
+            this, SLOT(handleComboBox()) );
    connect( mpSplit, SIGNAL(activated(const QString &)),
             this, SLOT(handleSplit(const QString &)) );
    connect( mpNAM, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(handleQueryData(QNetworkReply*)) );
-   connect( mpNAM, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(handleReadData(QNetworkReply*)) );
+            this, SLOT(handleServerReply(QNetworkReply*)) );
 
    clear();
    setLayout( mainLayout );
+
+   mpStateMachine->start();
 }
 
 
@@ -79,32 +153,114 @@ CDDBClient::~CDDBClient()
 }
 
 
+CDDBClient::RequestType CDDBClient::requestType() const
+{
+   return mRequestType;
+}
+
+
+void CDDBClient::setRequestType( RequestType value )
+{
+   mRequestType = value;
+}
+
+
+QString CDDBClient::statusMessage() const
+{
+   return mStatusMessage;
+}
+
+
+void CDDBClient::setStatusMessage( const QString &value )
+{
+   mStatusMessage = value;
+   emit message( mStatusMessage );
+   qDebug() << value;
+}
+
+
+void CDDBClient::handleStateEjected()
+{
+   mpMessageResetTimer->start();
+}
+
+
+void CDDBClient::handleStateCleared()
+{
+   clear();
+   if( MySettings().VALUE_AUTOFREEDB )
+   {
+      emit automatic();
+   }
+   else
+   {
+      emit found();
+   }
+   mpMessageResetTimer->start();
+}
+
+
+void CDDBClient::handleStateQuery()
+{
+   QStringList parameters;
+   parameters.append( mpCDInfo->cddbDiscID() );
+   parameters.append( QString::number( mpCDInfo->tracks() ) );
+   for( int i = 1; i <= mpCDInfo->tracks(); i++ )
+   {
+      parameters.append( QString::number( 150 + mpCDInfo->firstSector(i) ) );
+   }
+   parameters.append( QString::number( ( mpCDInfo->lastSector(-1) -
+                                          mpCDInfo->firstSector(-1) )
+                                        / 75 + 2 ) );
+
+   startRequest( RequestQuery, parameters );
+
+   mpMessageResetTimer->start();
+}
+
+
+void CDDBClient::handleStateRead()
+{
+   QStringList parameters( mpHits->currentText().split( ' ', QString::SkipEmptyParts ) );
+   if( parameters.size() > 2 )
+   {
+      while( parameters.size() > 2 )
+      {
+         parameters.removeLast();
+      }
+      startRequest( RequestTracks, parameters );
+   }
+   mpMessageResetTimer->start();
+}
+
+
+void CDDBClient::handleStateCDText()
+{
+   emit requestCDText();
+   mpMessageResetTimer->start();
+}
+
+
+void CDDBClient::handleStateDone()
+{
+   mRequestType = NoRequest;
+   mpMessageResetTimer->start();
+}
+
+
 void CDDBClient::clear()
 {
+   int index = mpHits->currentIndex();
    mpHits->clear();
    mpHits->addItem( mReadCDTextMessage );
    mpHits->addItem( mQueryCDDBMessage );
    mpHits->insertSeparator( mpHits->count() );
-   mpHits->setCurrentIndex( mpHits->findText( mQueryCDDBMessage) );
+   if( (index < 0) || (index > mpHits->findText( mQueryCDDBMessage )) )
+   {
+      index = mpHits->findText( mQueryCDDBMessage );
+   }
+   mpHits->setCurrentIndex( index );
    mpCount->setText( "0:" );
-}
-
-
-void CDDBClient::cancel()
-{
-   QNetworkReply *reply = 0;
-   while( mQueryReplies.size() )
-   {
-      reply = mQueryReplies.takeFirst();
-      reply->close();
-      reply->deleteLater();
-   }
-   while( mReadReplies.size() )
-   {
-      reply = mReadReplies.takeFirst();
-      reply->close();
-      reply->deleteLater();
-   }
 }
 
 
@@ -115,96 +271,79 @@ void CDDBClient::handleSplit( const QString &token )
 }
 
 
-void CDDBClient::handleComboBox( int index )
+void CDDBClient::handleComboBox()
 {
-   if( (index < 0) || (index > mpHits->count()) )
+   int index = mpHits->currentIndex();
+
+   if( !mpCDInfo->tracks() )
    {
       return;
    }
-   /* make sure that combo box shows right entry, even if called from code */
-   mpHits->setCurrentIndex( index );
+
    if( index == mpHits->findText( mReadCDTextMessage ) )
    {
-      emit requestCDText();
+      emit cdtext();
    }
    else if( index == mpHits->findText( mQueryCDDBMessage ) )
    {
-      /* request from FreeDB */
-      if( !mpCDInfo->tracks() )
-      {
-         emit stateNet();
-         return;
-      }
-      QStringList parameters;
-      parameters.append( mpCDInfo->cddbDiscID() );
-      parameters.append( QString::number( mpCDInfo->tracks() ) );
-      for( int i = 1; i <= mpCDInfo->tracks(); i++ )
-      {
-         parameters.append( QString::number( 150 + mpCDInfo->firstSector(i) ) );
-      }
-      parameters.append( QString::number( ( mpCDInfo->lastSector(-1) -
-                                             mpCDInfo->firstSector(-1) )
-                                           / 75 + 2 ) );
-
-      emit message( tr("Querying FreeDB") );
-      startRequest( "query", parameters );
+      emit stateNet();
+      emit query();
    }
    else
    {
-      QStringList parameters( mpHits->currentText().split( ' ', QString::SkipEmptyParts ) );
-      if( parameters.size() > 2 )
-      {
-         while( parameters.size() > 2 )
-         {
-            parameters.removeLast();
-         }
-         emit message( tr("Reading data from FreeDB") );
-         emit stateNet();
-         startRequest( "read", parameters );
-      }
+      emit stateNet();
+      emit select();
    }
 }
 
 
-void CDDBClient::startRequest( const QString &cmd, const QStringList &parameter )
+void CDDBClient::startRequest( RequestType type, const QStringList &parameter )
 {
-   if( cmd.isEmpty() )
+   QString cmd;
+   switch( type )
    {
-      return;
+   case RequestQuery:
+      cmd = "query";
+      break;
+   case RequestTracks:
+      cmd = "read";
+      break;
+   default:
+      qFatal( "CDDBClient::startRequest: illegal RequestType" );
    }
-   /* TODO: get useful name */
+   mRequestType = type;
+
    QString url( "http://freedb.freedb.org/~cddb/cddb.cgi?cmd=cddb %1 %2&hello=svolli localhost Stripped alpha&proto=6" );
 
    QNetworkRequest request( QUrl( url.arg( cmd, parameter.join(" ") ).replace( ' ', '+' ) ) );
    ProxyWidget::setProxy( mpNAM );
-   if( cmd == "query" )
+   mpNAM->get( request );
+}
+
+
+void CDDBClient::handleServerReply( QNetworkReply *reply )
+{
+   reply->deleteLater();
+   if( reply->error() != QNetworkReply::NoError )
    {
-      mQueryReplies.append( mpNAM->get( request ) );
+      return;
    }
-   else if( cmd == "read" )
+   switch( mRequestType )
    {
-      mReadReplies.append( mpNAM->get( request ) );
-   }
-   else
-   {
-      Q_ASSERT_X( false, "CDDBClient::startRequest",
-                  QString("undefined command: %1").arg(cmd).toLocal8Bit().constData() );
+   case RequestQuery:
+      handleQueryData( reply );
+      break;
+   case RequestTracks:
+      handleReadData( reply );
+      break;
+   default:
+      break;
    }
 }
 
 
 void CDDBClient::handleQueryData( QNetworkReply *reply )
 {
-   if( !mQueryReplies.contains( reply ) )
-   {
-      return;
-   }
-   /* remove reply from cancel-list and mark it for deletion */
-   mQueryReplies.takeAt( mQueryReplies.indexOf( reply ) )->deleteLater();
-   if( reply->error() != QNetworkReply::NoError )
-   {
-      return;
-   }
    QString data( QString::fromUtf8( reply->readAll().constData() ) );
    data.remove( '\r' );
    QStringList response( data.split( '\n', QString::SkipEmptyParts ) );
@@ -256,14 +395,16 @@ void CDDBClient::handleQueryData( QNetworkReply *reply )
       default:
          break;
    }
-   QTimer::singleShot( 1500, this, SIGNAL( message() ) );
    mpCount->setText( QString::number( mpHits->count() - 3 ) + ":" );
-   if( MySettings().VALUE_AUTOFREEDB && (mpHits->count() > 3) )
+
+   mpHits->setCurrentIndex( (mpHits->count() > 3) ? 3 : 1 );
+   if( MySettings().VALUE_AUTOFREEDB )
    {
-      handleComboBox( 3 );
+      emit automatic();
    }
    else
    {
+      emit found();
       emit stateDisc();
    }
 }
@@ -271,16 +412,6 @@ void CDDBClient::handleQueryData( QNetworkReply *reply )
 
 void CDDBClient::handleReadData( QNetworkReply *reply )
 {
-   if( !mReadReplies.contains( reply ) )
-   {
-      return;
-   }
-   /* remove reply from cancel-list and mark it for deletion */
-   mReadReplies.takeAt( mReadReplies.indexOf( reply ) )->deleteLater();
-   if( reply->error() != QNetworkReply::NoError )
-   {
-      return;
-   }
    QString data( QString::fromUtf8( reply->readAll().constData() ) );
    data.remove( '\r' );
    QStringList response( data.split( '\n', QString::SkipEmptyParts ) );
@@ -322,9 +453,8 @@ void CDDBClient::handleReadData( QNetworkReply *reply )
          currentTrack = tracknr;
       }
    }
-   QTimer::singleShot( 1500, this, SIGNAL( message() ) );
 
    emit stateDisc();
+   emit gotdata();
    handleSplit();
 }
-

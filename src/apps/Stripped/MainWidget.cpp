@@ -47,7 +47,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 , mpEjectButton( new QPushButton( tr("Eject"), this ) )
 {
    mpCDEdit->setDisabled( true );
-   mpCDDBClient->setDisabled( true );
+   //mpCDDBClient->setDisabled( true );
    mpSettingsButton->setDisabled( false );
    mpCancelButton->setDisabled( true );
    mpScanButton->setDisabled( true );
@@ -80,14 +80,14 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpSettingsButton, SIGNAL(pressed()),
             mpConfigDialog, SLOT(exec()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
-            this, SLOT(handleConfigUpdate()) );
+            mpCDReader, SLOT(readSettings()) );
    connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
             mpConfigDialog, SLOT(readSettings()) );
 
    connect( mpCancelButton, SIGNAL(clicked()),
             mpCDReader, SLOT(cancel()) );
    connect( mpCancelButton, SIGNAL(clicked()),
-            mpCDDBClient, SLOT(cancel()) );
+            mpCDDBClient, SIGNAL(cancel()) );
 
    connect( mpScanButton, SIGNAL(pressed()),
             mpCDReader, SLOT(readToc()) );
@@ -99,6 +99,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    connect( mpEjectButton, SIGNAL(pressed()),
             this, SLOT(eject()) );
+   connect( mpEjectButton, SIGNAL(pressed()),
+            mpCDDBClient, SIGNAL(eject()) );
 
    /* edit sheet interaction */
    connect( mpCDReader, SIGNAL(gotToc()),
@@ -114,6 +116,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpConfigDialog, SIGNAL(stateNoDrive()),
             this, SLOT(stateNoDrive()) );
 
+   connect( mpCDReader, SIGNAL(gotToc()),
+            mpCDDBClient, SIGNAL(cdinsert()) );
    connect( mpCDReader, SIGNAL(stateNoDisc()),
             this, SLOT(stateNoDisc()) );
    connect( mpCDReader, SIGNAL(stateDisc()),
@@ -136,8 +140,13 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             mpMessage, SLOT(setText(QString)) );
 
    mpSatellite->restart();
-   handleConfigUpdate();
+   mpCDReader->readSettings();
    WidgetShot::addWidget( "MainWidget", this );
+}
+
+
+MainWidget::~MainWidget()
+{
 }
 
 
@@ -149,28 +158,11 @@ void MainWidget::eject()
 }
 
 
-void MainWidget::handleConfigUpdate()
-{
-   MySettings settings;
-   if( settings.VALUE_AUTOFREEDB )
-   {
-      connect( mpCDReader, SIGNAL(gotToc()),
-               mpCDDBClient, SLOT(handleComboBox()) );
-   }
-   else
-   {
-      disconnect( mpCDReader, SIGNAL(gotToc()),
-                  mpCDDBClient, SLOT(handleComboBox()) );
-   }
-   mpCDReader->readSettings();
-}
-
-
 void MainWidget::stateNoDrive()
 {
    mpCDEdit->clear();
    mpCDEdit->setDisabled( true );
-   mpCDDBClient->setDisabled( true );
+   //mpCDDBClient->setDisabled( true );
    mpSettingsButton->setDisabled( false );
    mpCancelButton->setDisabled( true );
    mpScanButton->setDisabled( true );
@@ -185,7 +177,7 @@ void MainWidget::stateNoDisc()
 {
    mpCDEdit->clear();
    mpCDEdit->setDisabled( true );
-   mpCDDBClient->setDisabled( true );
+   //mpCDDBClient->setDisabled( true );
    mpSettingsButton->setDisabled( false );
    mpCancelButton->setDisabled( true );
    mpScanButton->setDisabled( false );
@@ -197,7 +189,7 @@ void MainWidget::stateNoDisc()
 void MainWidget::stateDisc()
 {
    mpCDEdit->setDisabled( false );
-   mpCDDBClient->setDisabled( false );
+   //mpCDDBClient->setDisabled( false );
    mpSettingsButton->setDisabled( false );
    mpCancelButton->setDisabled( true );
    mpScanButton->setDisabled( false );
@@ -209,7 +201,7 @@ void MainWidget::stateDisc()
 void MainWidget::stateScan()
 {
    mpCDEdit->setDisabled( false );
-   mpCDDBClient->setDisabled( false );
+   //mpCDDBClient->setDisabled( false );
    mpSettingsButton->setDisabled( true );
    mpCancelButton->setDisabled( false );
    mpScanButton->setDisabled( true );
@@ -221,7 +213,7 @@ void MainWidget::stateScan()
 void MainWidget::stateNet()
 {
    mpCDEdit->setDisabled( false );
-   mpCDDBClient->setDisabled( false );
+   //mpCDDBClient->setDisabled( false );
    mpSettingsButton->setDisabled( true );
    mpCancelButton->setDisabled( false );
    mpScanButton->setDisabled( true );
@@ -233,7 +225,7 @@ void MainWidget::stateNet()
 void MainWidget::stateRip()
 {
    mpCDEdit->setDisabled( false );
-   mpCDDBClient->setDisabled( false );
+   //mpCDDBClient->setDisabled( false );
    mpSettingsButton->setDisabled( true );
    mpCancelButton->setDisabled( false );
    mpScanButton->setDisabled( true );
