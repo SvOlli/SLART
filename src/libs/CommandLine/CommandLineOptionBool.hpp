@@ -25,15 +25,39 @@
 /* forward declaration of local classes */
 
 
+/*!
+ \brief helper for class CommandLine, handle bool options
+
+ \class CommandLineOptionBool CommandLineOptionBool.hpp "libs/CommandLine/CommandLineOptionBool.hpp"
+*/
 class CommandLineOptionBool : public CommandLineOption
 {
 public:
+   /*!
+    \brief created via CommandLine::option
+
+    \fn CommandLineOptionBool
+    \param name name of the parameter
+    \param desc description for help message
+    \param value pointer of value to set
+    \param setTo value to set to
+   */
    CommandLineOptionBool( const QString &name, const QString &desc, bool *value, bool setTo );
    virtual ~CommandLineOptionBool();
 
-   /* try to parse option name without argument */
+   /*!
+    \brief try to parse option name without argument
+
+    \fn parse
+    \param name
+   */
    virtual bool parse( const QString &name );
-   /* try to parse option name with an argument */
+   /*!
+    \brief try to parse option name with an argument
+
+    \fn parse
+    \param name
+   */
    virtual bool parse( const QString &name, const QString &option );
 
 private:

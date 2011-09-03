@@ -24,17 +24,44 @@
 /* forward declaration of local classes */
 
 
+/*!
+ \brief helper for class CommandLine, handle string options
+
+ \class CommandLineOptionString CommandLineOptionString.hpp "libs/CommandLine/CommandLineOptionString.hpp"
+*/
 class CommandLineOptionString : public CommandLineOption
 {
 public:
+   /*!
+    \brief created via CommandLine::option
+
+    \fn CommandLineOptionString
+    \param name name of the parameter
+    \param desc description for help message
+    \param value pointer of value to set
+   */
    CommandLineOptionString( const QString &name, const QString &desc, QString *value );
    virtual ~CommandLineOptionString();
 
-   /* try to parse option name without argument */
+   /*!
+    \brief try to parse option name without argument
+
+    \fn parse
+    \param name
+   */
    virtual bool parse( const QString &name );
-   /* try to parse option name with an argument */
+   /*!
+    \brief try to parse option name with an argument
+
+    \fn parse
+    \param name
+   */
    virtual bool parse( const QString &name, const QString &option );
-   /* generate help message for this option */
+   /*!
+    \brief generate help message for this option
+
+    \fn help
+   */
    virtual QString help();
 
 private:
