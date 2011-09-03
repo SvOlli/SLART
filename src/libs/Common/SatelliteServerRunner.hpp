@@ -28,6 +28,11 @@
 class SatelliteServer;
 
 
+/*!
+ \brief thread container to run the Satellite server in, started from Satellite on demand
+
+ \class SatelliteServerRunner SatelliteServerRunner.hpp "libs/Common/SatelliteServerRunner.hpp"
+*/
 class SatelliteServerRunner : public QThread
 {
 Q_OBJECT
@@ -35,12 +40,21 @@ Q_OBJECT
 public:
    SatelliteServerRunner( quint16 port, const QHostAddress &host );
    virtual ~SatelliteServerRunner();
-   /* method called by QThread::start() to to run the server */
+   /*!
+    \brief method called by QThread::start() to to run the server
+
+    \fn run
+   */
    void run();
 
 signals:
 #if SATELLITESERVER_DEBUG
-   /* output debug messages (depricated) */
+   /*!
+    \brief output debug messages (depricated)
+
+    \fn debug
+    \param message
+   */
    void debug( const QByteArray &message );
 #endif
 

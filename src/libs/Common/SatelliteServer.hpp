@@ -33,6 +33,11 @@ class QTcpSocket;
 /* forward declaration of local classes */
 
 
+/*!
+ \brief the server handling the Satellite comminication
+
+ \class SatelliteServer SatelliteServer.hpp "libs/Common/SatelliteServer.hpp"
+*/
 class SatelliteServer : public QObject
 {
 Q_OBJECT
@@ -40,20 +45,43 @@ Q_OBJECT
 public:
    SatelliteServer( quint16 port, const QHostAddress &host, QObject *parent = 0 );
    virtual ~SatelliteServer();
-   /* start the server */
+   /*!
+    \brief start the server
+
+    \fn listen
+   */
    bool listen();
 
 private slots:
-   /* handle client connect */
+   /*!
+    \brief handle client connect
+
+    \fn connected
+   */
    void connected();
-   /* handle data incoming from client */
+   /*!
+    \brief handle data incoming from client
+
+    \fn incomingData
+    \param client
+   */
    void incomingData( QObject *client );
-   /* handle client disconnect */
+   /*!
+    \brief handle client disconnect
+
+    \fn disconnected
+    \param client
+   */
    void disconnected( QObject *client );
 
 signals:
 #if SATELLITESERVER_DEBUG
-   /* output debug messages (depricated) */
+   /*!
+    \brief output debug messages (depricated)
+
+    \fn debug
+    \param message
+   */
    void debug( const QByteArray &message );
 #endif
 
