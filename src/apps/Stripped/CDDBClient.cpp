@@ -91,7 +91,6 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    mpStateQuery->assignProperty( mpHits, "enabled", false );
    mpStateQuery->assignProperty( mpSplit, "enabled", false );
    mpStateQuery->addTransition( this, SIGNAL(cdinsert()), mpStateCleared );
-   mpStateQuery->addTransition( this, SIGNAL(error()), mpStateCleared );
    mpStateQuery->addTransition( this, SIGNAL(found()), mpStateDone );
    mpStateQuery->addTransition( this, SIGNAL(automatic()), mpStateRead );
    mpStateQuery->addTransition( this, SIGNAL(eject()), mpStateEjected );
@@ -102,8 +101,7 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    mpStateRead->assignProperty( mpHits, "enabled", false );
    mpStateRead->assignProperty( mpSplit, "enabled", false );
    mpStateRead->addTransition( this, SIGNAL(cdinsert()), mpStateCleared );
-   mpStateRead->addTransition( this, SIGNAL(error()), mpStateCleared );
-   mpStateRead->addTransition( this, SIGNAL(gotdata()), mpStateDone);
+   mpStateRead->addTransition( this, SIGNAL(gotdata()), mpStateDone );
    mpStateRead->addTransition( this, SIGNAL(eject()), mpStateEjected );
    connect( mpStateRead, SIGNAL(entered()),
             this, SLOT(handleStateRead()) );
@@ -112,7 +110,6 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    mpStateCDText->assignProperty( mpHits, "enabled", false );
    mpStateCDText->assignProperty( mpSplit, "enabled", false );
    mpStateCDText->addTransition( this, SIGNAL(cdinsert()), mpStateCleared );
-   mpStateCDText->addTransition( this, SIGNAL(error()), mpStateQuery );
    mpStateCDText->addTransition( this, SIGNAL(gotdata()), mpStateDone );
    mpStateCDText->addTransition( this, SIGNAL(eject()), mpStateEjected );
    connect( mpStateCDText, SIGNAL(entered()),
@@ -202,6 +199,7 @@ void CDDBClient::handleStateCleared()
 
 void CDDBClient::handleStateQuery()
 {
+   emit stateNet();
    QStringList parameters;
    parameters.append( mpCDInfo->cddbDiscID() );
    parameters.append( QString::number( mpCDInfo->tracks() ) );
@@ -221,6 +219,7 @@ void CDDBClient::handleStateQuery()
 
 void CDDBClient::handleStateRead()
 {
+   emit stateNet();
    QStringList parameters( mpHits->currentText().split( ' ', QString::SkipEmptyParts ) );
    if( parameters.size() > 2 )
    {
@@ -245,6 +244,7 @@ void CDDBClient::handleStateDone()
 {
    mRequestType = NoRequest;
    mpMessageResetTimer->start();
+   emit stateDisc();
 }
 
 
@@ -286,12 +286,10 @@ void CDDBClient::handleComboBox()
    }
    else if( index == mpHits->findText( mQueryCDDBMessage ) )
    {
-      emit stateNet();
       emit query();
    }
    else
    {
-      emit stateNet();
       emit select();
    }
 }
@@ -359,12 +357,6 @@ void CDDBClient::handleQueryData( QNetworkReply *reply )
          break;
       case 202:
          /* found none */
-         for( int i = -1; i < 100; i++ )
-         {
-            mpCDInfo->setTitle( i, QString(), true );
-         }
-         emit stateDisc();
-         emit infoUpdated();
          break;
       case 210:
       case 211:
@@ -398,14 +390,13 @@ void CDDBClient::handleQueryData( QNetworkReply *reply )
    mpCount->setText( QString::number( mpHits->count() - 3 ) + ":" );
 
    mpHits->setCurrentIndex( (mpHits->count() > 3) ? 3 : 1 );
-   if( MySettings().VALUE_AUTOFREEDB )
+   if( MySettings().VALUE_AUTOFREEDB && (mpHits->count() > 3) )
    {
       emit automatic();
    }
    else
    {
       emit found();
-      emit stateDisc();
    }
 }
 
@@ -454,7 +445,6 @@ void CDDBClient::handleReadData( QNetworkReply *reply )
       }
    }
 
-   emit stateDisc();
    emit gotdata();
    handleSplit();
 }

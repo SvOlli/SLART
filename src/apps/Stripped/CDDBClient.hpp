@@ -220,12 +220,6 @@ signals:
     \fn gotdata
    */
    void gotdata();
-   /*!
-    \brief used for state machine transitions: an error occured
-
-    \fn error
-   */
-   void error();
 
    /*!
     \brief signalize "net access"-state
@@ -267,8 +261,8 @@ private:
     \brief send out a command to freedb server
 
     \fn startRequest
-    \param cmd
-    \param parameters
+    \param cmd type of request (query cd or read data)
+    \param parameters parameters needed for cmd
    */
    void startRequest( RequestType type, const QStringList &parameters );
 
