@@ -28,7 +28,6 @@
 /*!
  \brief helper for class CommandLine, basis for all other CommandLineOption* classes
 
- \class CommandLineOption CommandLineOption.hpp "libs/CommandLine/CommandLineOption.hpp"
 */
 class CommandLineOption
 {
@@ -39,27 +38,23 @@ public:
    /*!
     \brief try to parse option name without argument
 
-    \fn parse
     \param name
    */
    virtual bool parse( const QString &name ) = 0;
    /*!
     \brief try to parse option name with an argument
 
-    \fn parse
     \param name
    */
    virtual bool parse( const QString &name, const QString &option ) = 0;
    /*!
     \brief check if parsing was successful
 
-    \fn check
    */
    virtual bool check();
    /*!
     \brief generate help message for this option
 
-    \fn help
    */
    virtual QString help();
 

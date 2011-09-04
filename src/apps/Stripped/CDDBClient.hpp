@@ -38,7 +38,6 @@ class CDInfo;
 /*!
  \brief handle freedb connection via cddb protocol over http
 
- \class CDDBClient CDDBClient.hpp "apps/Stripped/CDDBClient.hpp"
 */
 class CDDBClient : public QWidget
 {
@@ -66,13 +65,11 @@ public:
    /*!
     \brief getter for the replyHander property
 
-    \fn replyHandler
    */
    RequestType requestType() const;
    /*!
     \brief setter for the replyHander property
 
-    \fn setReplyHandler
     \param value
    */
    void setRequestType( RequestType value );
@@ -80,13 +77,11 @@ public:
    /*!
     \brief getter for the status message
 
-    \fn statusMessage
    */
    QString statusMessage() const;
    /*!
     \brief setter for the status message
 
-    \fn setStatusMessage
     \param value
    */
    void setStatusMessage( const QString &value );
@@ -95,14 +90,12 @@ public slots:
    /*!
     \brief clear all data
 
-    \fn clear
    */
    void clear();
 
    /*!
     \brief handle a change of combo box: load cd data from net or cd-text
 
-    \fn handleComboBox
     \param index
    */
    void handleComboBox();
@@ -110,7 +103,6 @@ public slots:
    /*!
     \brief split the artist and title
 
-    \fn handleSplit
     \param token the text to split at
    */
    void handleSplit( const QString &token = QString() );
@@ -118,7 +110,6 @@ public slots:
    /*!
     \brief handle the reply from the freedb server
 
-    \fn handleServerReply
     \param reply
    */
    void handleServerReply( QNetworkReply *reply );
@@ -126,42 +117,36 @@ public slots:
    /*!
     \brief called when entering mpStateEjected (no disc in drive)
 
-    \fn handleStateEjected
    */
    void handleStateEjected();
 
    /*!
     \brief called when entering mpStateCleared (disc just got inserted, clear all)
 
-    \fn handleStateCleared
    */
    void handleStateCleared();
 
    /*!
     \brief called when entering mpStateQuery (query the freedb for possible discs)
 
-    \fn handleStateQuery
    */
    void handleStateQuery();
 
    /*!
     \brief called when entering mpStateRead (read track listing from freedb)
 
-    \fn handleStateRead
    */
    void handleStateRead();
 
    /*!
     \brief called when entering mpStateCDText (read track listing from cdtext)
 
-    \fn handleStateCDText
    */
    void handleStateCDText();
 
    /*!
     \brief called when entering mpStateDone (done with actions, waiting for user)
 
-    \fn handleStateDone
    */
    void handleStateDone();
 
@@ -169,86 +154,72 @@ signals:
    /*!
     \brief used for state machine transitions: cd got inserted
 
-    \fn cdinsert
    */
    void cdinsert();
    /*!
     \brief used for state machine transitions: query freedb for possible cds
 
-    \fn query
    */
    void query();
    /*!
     \brief used for state machine transitions: read track info from cd-text
 
-    \fn cdtext
    */
    void cdtext();
    /*!
     \brief used for state machine transitions: request a selected cd from freedb
 
-    \fn select
    */
    void select();
    /*!
     \brief used for state machine transitions: eject cd
 
-    \fn eject
    */
    void eject();
    /*!
     \brief used for state machine transitions: do automatic action (when enabled)
 
-    \fn automatic
    */
    void automatic();
    /*!
     \brief used for state machine transitions: cancel current action
 
-    \fn cancel
    */
    void cancel();
    /*!
     \brief used for state machine transitions: found cd(s) in query
 
-    \fn found
    */
    void found();
    /*!
     \brief used for state machine transitions: got track data for a selected cd
 
-    \fn gotdata
    */
    void gotdata();
 
    /*!
     \brief signalize "net access"-state
 
-    \fn stateNet
    */
    void stateNet();
    /*!
     \brief signalize "disc read"-state
 
-    \fn stateDisc
    */
    void stateDisc();
    /*!
     \brief signalize that track info has been updated
 
-    \fn infoUpdated
    */
    void infoUpdated();
    /*!
     \brief signalize the request to read cd-text
 
-    \fn requestCDText
    */
    void requestCDText();
    /*!
     \brief send out info message
 
-    \fn message
     \param message
    */
    void message( const QString &message = QString() );
@@ -260,7 +231,6 @@ private:
    /*!
     \brief send out a command to freedb server
 
-    \fn startRequest
     \param cmd type of request (query cd or read data)
     \param parameters parameters needed for cmd
    */
@@ -269,7 +239,6 @@ private:
    /*!
     \brief handle the "match a cd"-reply
 
-    \fn handleQueryData
     \param reply TODO
    */
    void handleQueryData( QNetworkReply *reply );
@@ -277,7 +246,6 @@ private:
    /*!
     \brief handle the "get cd data"-reply
 
-    \fn handleQueryData
     \param reply TODO
    */
    void handleReadData( QNetworkReply *reply );

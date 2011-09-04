@@ -27,7 +27,6 @@ class CommandLineOption;
 /*!
  \brief handling of command line parameters
 
- \class CommandLine CommandLine.hpp "libs/CommandLine/CommandLine.hpp"
 */
 class CommandLine
 {
@@ -35,7 +34,6 @@ public:
    /*!
     \brief
 
-    \fn CommandLine
    */
    CommandLine();
    virtual ~CommandLine();
@@ -44,7 +42,6 @@ public:
    /*!
     \brief add an option with a boolean value (enable/disable)
 
-    \fn option
     \param name name of the parameter
     \param desc description for help message
     \param value pointer of value to set
@@ -55,7 +52,6 @@ public:
    /*!
     \brief add an option with a string parameter, new value replaces old
 
-    \fn option
     \param name name of the parameter
     \param desc description for help message
     \param value pointer of value to set
@@ -65,7 +61,6 @@ public:
    /*!
     \brief add an option with an integer parameter, new value replaces old
 
-    \fn option
     \param name
     \param desc
     \param value
@@ -75,7 +70,6 @@ public:
    /*!
     \brief add an option with a string parameter, new value adds up to old ones
 
-    \fn option
     \param name
     \param desc
     \param value
@@ -85,7 +79,6 @@ public:
    /*!
     \brief add an option with an integer parameter, new value adds up to old ones
 
-    \fn option
     \param name
     \param desc
     \param value
@@ -96,7 +89,6 @@ public:
    /*!
     \brief parse the list of commandline parameters returning non parameters
 
-    \fn parse
     \param nonOptions
    */
    void parse( QStringList *nonOptions );
@@ -104,14 +96,12 @@ public:
    /*!
     \brief check if parsing was without faults
 
-    \fn check
    */
    bool check();
 
    /*!
     \brief generate help message of all options
 
-    \fn help
    */
    QString help();
 
