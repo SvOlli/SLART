@@ -23,6 +23,11 @@
 /* forward declaration of local classes */
 class CommandLineOption;
 
+/*!
+  \addtogroup CommandLine CommandLine: handling command line parameters
+
+ @{
+ */
 
 /*!
  \brief handling of command line parameters
@@ -108,5 +113,7 @@ public:
 private:
    QList<CommandLineOption*>    mOptions;
 };
+
+/*! @} */
 
 #endif

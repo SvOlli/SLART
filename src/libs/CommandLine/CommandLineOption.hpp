@@ -26,6 +26,12 @@
 
 
 /*!
+  \addtogroup CommandLine CommandLine: handling command line parameters
+
+ @{
+ */
+
+/*!
  \brief helper for class CommandLine, basis for all other CommandLineOption* classes
 
 */
@@ -38,13 +44,16 @@ public:
    /*!
     \brief try to parse option name without argument
 
-    \param name
+    \return parameter belongs to this object
+    \param name name of parameter
    */
    virtual bool parse( const QString &name ) = 0;
    /*!
     \brief try to parse option name with an argument
 
-    \param name
+    \return parameter belongs to this object
+    \param name name of parameter
+    \param option value of parameter
    */
    virtual bool parse( const QString &name, const QString &option ) = 0;
    /*!
@@ -55,19 +64,19 @@ public:
    /*!
     \brief generate help message for this option
 
+    \return string describing option
    */
    virtual QString help();
 
-   const QString mName;
-   const QString mType;
-   const QString mDesc;
+   const QString mName; /*!< \brief name of the parameter */
+   const QString mType; /*!< \brief type of the parameter for help */
+   const QString mDesc; /*!< \brief description of the parameter for help */
 
 protected:
-   bool          mFail;
+   bool          mFail; /*!< \brief indicate failure during parameter evaluation */
 
 private:
-   CommandLineOption( const CommandLineOption &that );
-   CommandLineOption &operator=( const CommandLineOption &that );
+   Q_DISABLE_COPY( CommandLineOption )
 };
 
 #endif
