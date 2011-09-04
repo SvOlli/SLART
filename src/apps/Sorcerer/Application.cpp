@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
    Translate translate;
    translate.install( &app );
 
-   SorcererLoader::detect( &app, true );
+   SorcererLoader::detect( true );
 
    return retval;
 }

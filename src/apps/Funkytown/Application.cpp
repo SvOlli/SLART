@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
    QStringList *startUrls = new QStringList();
    MySettings settings;
 
-   SorcererLoader::detect( &app );
+   SorcererLoader::detect();
 
    Satellite::create();
    {

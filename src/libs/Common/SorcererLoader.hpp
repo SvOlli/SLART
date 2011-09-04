@@ -33,7 +33,7 @@ class SorcererLoader
 {
 public:
    /* detect if Sorcerer needs to be loaded and run */
-   static void detect( QApplication *app, bool force = false );
+   static void detect( bool force = false );
 
 private:
    SorcererLoader();
@@ -41,14 +41,14 @@ private:
    SorcererLoader( const SorcererLoader &that );
    SorcererLoader &operator=( const SorcererLoader &that );
 
-   /* used for loading Sorcerer */
-   static QPluginLoader *cpPluginLoader;
    /* search for Sorcerer and try loading it */
-   static SorcererInterface *tryLoading( QApplication *app );
    /* try to load Sorcerer from the specified dir */
+   static SorcererInterface *tryLoading();
    static SorcererInterface *tryLoading( const QDir &dir );
    /* remove Sorcerer from memory */
    static void unload();
+
+   static QPluginLoader *cpPluginLoader; /*!< \brief used for loading Sorcerer */
 };
 
 #endif /* SORCERERLOADER_HPP */

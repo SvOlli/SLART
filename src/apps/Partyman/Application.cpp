@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
    {
       if( useGUI )
       {
-         SorcererLoader::detect( &app );
+         SorcererLoader::detect();
 
          Satellite::create();
          {

@@ -63,22 +63,22 @@ SorcererPlugin::~SorcererPlugin()
 }
 
 
-int SorcererPlugin::setup( QApplication *app )
+int SorcererPlugin::setup()
 {
    MainWindow window( false );
    SorcererWidget *sorcererWidget = new SorcererWidget( &window );
    window.setMainWidget( sorcererWidget );
-   if( app->applicationName() == "Sorcerer" )
+   if( qApp->applicationName() == "Sorcerer" )
    {
-      window.changeTitle( QIcon(), app->applicationName() );
+      window.changeTitle( QIcon(), qApp->applicationName() );
    }
    else
    {
       window.changeTitle( QIcon(),
-                          QString("Sorcerer (running for %1)").arg(app->applicationName()) );
+                          QString("Sorcerer (running for %1)").arg(qApp->applicationName()) );
    }
    window.show();
-   app->exec();
+   qApp->exec();
 
    int errors = sorcererWidget->errors();
    delete sorcererWidget;
@@ -87,11 +87,11 @@ int SorcererPlugin::setup( QApplication *app )
 }
 
 
-void SorcererPlugin::cleanup( QApplication *app )
+void SorcererPlugin::cleanup()
 {
    if( mGlobal.value( "ShowCleanupDialog", false ).toBool() )
    {
-      QMessageBox::information( 0, app->applicationName(),
+      QMessageBox::information( 0, qApp->applicationName(),
                                 QObject::tr("New version (%1 -> %2).\n"
                                             "Cleaning up registry.")
                                 .arg(mGlobal.value("Version","none").toString(), SLART_VERSION) );

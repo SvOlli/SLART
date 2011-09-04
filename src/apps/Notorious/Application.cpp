@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
    translate.install( &app );
 
    MySettings settings;
-   //SorcererLoader::detect( &app );
+   //SorcererLoader::detect();
    {
       QFile qssFile( settings.styleSheetFile() );
       if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )

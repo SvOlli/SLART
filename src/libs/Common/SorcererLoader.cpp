@@ -31,7 +31,7 @@
 QPluginLoader *SorcererLoader::cpPluginLoader = 0;
 
 
-void SorcererLoader::detect( QApplication *app, bool force )
+void SorcererLoader::detect( bool force )
 {
    SorcererInterface *sorcerer = 0;
    MySettings settings;
@@ -73,21 +73,21 @@ void SorcererLoader::detect( QApplication *app, bool force )
 
    if( setup || cleanup || hidden )
    {
-      sorcerer = tryLoading( app );
+      sorcerer = tryLoading();
       if( !sorcerer )
       {
-         QMessageBox::critical( 0, app->applicationName(),
+         QMessageBox::critical( 0, qApp->applicationName(),
                                 QObject::tr("Loading Sorcerer failed!\nCannot start.\nSorry.") );
          ::exit( 1 );
       }
 
       if( setup )
       {
-         if( sorcerer->setup( app ) )
+         if( sorcerer->setup() )
          {
             if( !force)
             {
-               QMessageBox::critical( 0, app->applicationName(),
+               QMessageBox::critical( 0, qApp->applicationName(),
                                       QObject::tr("Setup failed!\nCannot start.\nSorry.") );
             }
             ::exit( 1 );
@@ -95,7 +95,7 @@ void SorcererLoader::detect( QApplication *app, bool force )
       }
       if( cleanup )
       {
-         sorcerer->cleanup( app );
+         sorcerer->cleanup();
       }
       if( hidden )
       {
@@ -106,14 +106,10 @@ void SorcererLoader::detect( QApplication *app, bool force )
 }
 
 
-SorcererInterface *SorcererLoader::tryLoading( QApplication *app )
+SorcererInterface *SorcererLoader::tryLoading()
 {
    SorcererInterface *sorcerer = 0;
-   if( !app )
-   {
-      app = qApp;
-   }
-   QDir sorcererDir( app->applicationDirPath() );
+   QDir sorcererDir( qApp->applicationDirPath() );
 #if defined Q_OS_MAC
    if( sorcererDir.dirName() == "MacOS" )
    {

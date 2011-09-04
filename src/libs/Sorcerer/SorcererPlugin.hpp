@@ -38,10 +38,10 @@ public:
    SorcererPlugin();
    virtual ~SorcererPlugin();
    /* run main setup */
-   virtual int setup( QApplication *app );
    /* run cleanup of obsolete registry settings */
-   virtual void cleanup( QApplication *app );
    /* run installation of hidden registry settings */
+   virtual int setup();
+   virtual void cleanup();
    virtual void hidden();
 
 private:
