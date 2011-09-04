@@ -22,17 +22,44 @@ class QApplication;
 
 /* forward declaration of local classes */
 
+/*!
+  \addtogroup Sorcerer Sorcerer: setup wizard
+  @{
+  */
 
+
+/*!
+ \brief plugin interface for Sorcerer, the setup wizard
+
+*/
 class SorcererInterface
 {
 public:
+   /*!
+    \brief destructor
+
+   */
    virtual ~SorcererInterface() {}
-   virtual int setup( QApplication *app ) = 0;
-   virtual void cleanup( QApplication *app ) = 0;
+   /*!
+    \brief run the setup wizard
+
+   */
+   virtual int setup() = 0;
+   /*!
+    \brief cleanup of obsolete registry settings
+
+   */
+   virtual void cleanup() = 0;
+   /*!
+    \brief installation of hidden registry settings
+
+   */
    virtual void hidden() = 0;
 };
 
 Q_DECLARE_INTERFACE(SorcererInterface,
                     "org.svolli.SLART.SorcererInterface/1.0")
+
+/*! @} */
 
 #endif

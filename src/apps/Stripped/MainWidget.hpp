@@ -39,12 +39,17 @@ class Satellite;
 
 
 /*!
+  \addtogroup Stripped Stripped: CD-ripping
+  @{
+  */
+
+/*!
  \brief the main widget
 
 */
 class MainWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    /*!
@@ -129,5 +134,7 @@ private:
    QPushButton          *mpRipButton;
    QPushButton          *mpEjectButton;
 };
+
+/*! @} */
 
 #endif

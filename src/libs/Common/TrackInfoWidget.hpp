@@ -34,7 +34,7 @@ class ScrollLine;
 
 class TrackInfoWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    TrackInfoWidget( bool includeFolders, QWidget *parent = 0 );

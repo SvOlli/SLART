@@ -37,7 +37,7 @@ class DatabaseInterface;
 
 class FileSysBrowser : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    FileSysBrowser( QWidget *parent = 0 );

@@ -36,6 +36,11 @@ class CDInfo;
 
 
 /*!
+  \addtogroup Stripped
+  @{
+  */
+
+/*!
  \brief handle freedb connection via cddb protocol over http
 
 */
@@ -53,7 +58,7 @@ class CDDBClient : public QWidget
 
 public:
    /*!
-    \brief the type of the current FreeDB request
+    \brief the type of the current CDDB request
 
     \enum RequestType
    */
@@ -269,5 +274,7 @@ private:
    QString                 mQueryCDDBMessage;
    QString                 mStatusMessage;
 };
+
+/*! @} */
 
 #endif

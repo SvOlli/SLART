@@ -286,7 +286,7 @@ void ControlWidget::initConnect()
 }
 
 
-void ControlWidget::initDisconnect( eErrorCode errorcode )
+void ControlWidget::initDisconnect( ErrorCode errorCode )
 {
    emit requestChangeTitle( mPartymanIcon, QApplication::applicationName() +
                             ": " + tr("(disconnected)") );
@@ -303,18 +303,18 @@ void ControlWidget::initDisconnect( eErrorCode errorcode )
       mpSkipAction->setDisabled( true );
       mpConnectButton->setMenu( 0 );
       mpConnectButton->setChecked( false );
-      switch( errorcode )
+      switch( errorCode )
       {
-         case noConnection:
+         case ErrorNoConnection:
             errorText = tr("Could not connect to DerMixD. Is it running?");
             break;
-         case connectionLost:
+         case ErrorConnectionLost:
             errorText = tr("The connection to DerMixD was lost.");
             break;
-         case wrongVersion:
+         case ErrorWrongVersion:
             errorText = tr("The Version of DerMixD is not compatible.");
             break;
-         case noError:
+         case ErrorNone:
          default:
             break;
       }

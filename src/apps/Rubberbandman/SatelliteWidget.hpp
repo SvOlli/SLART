@@ -36,7 +36,7 @@ class Satellite;
 
 class SatelliteWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    SatelliteWidget( QWidget *parent = 0 );

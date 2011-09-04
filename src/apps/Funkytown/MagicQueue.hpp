@@ -32,7 +32,7 @@ class TheMagic;
 
 class MagicQueue : public QListWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    MagicQueue( QWidget *parent = 0 );

@@ -44,14 +44,16 @@ class TrackInfo;
 
 class ControlWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
+   Q_ENUMS( ErrorCode )
+
 public:
-   enum eErrorCode
+   enum ErrorCode
    {
-      noError,
-      noConnection,
-      connectionLost,
-      wrongVersion
+      ErrorNone,
+      ErrorNoConnection,
+      ErrorConnectionLost,
+      ErrorWrongVersion
    };
 
    ControlWidget( Database *database, ConfigDialog *config,
@@ -83,7 +85,7 @@ public slots:
    /* handle connect to DerMixD */
    void initConnect();
    /* handle disconnect from DerMixD */
-   void initDisconnect( eErrorCode errorCode = noError );
+   void initDisconnect( ErrorCode errorCode = ErrorNone );
    /* skip to next track */
    void handleSkipTrack();
    /* handle (un)pausing */

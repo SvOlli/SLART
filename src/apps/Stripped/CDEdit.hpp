@@ -33,88 +33,194 @@ class QScrollArea;
 class CDInfo;
 class CDDBClient;
 
+/*!
+  \addtogroup Stripped
+  @{
+  */
 
+/*!
+ \brief widget to edit cd description
+
+*/
 class CDEdit : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
-   CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent = 0 );
+   /*!
+    \brief constructor
 
-   /* get the track info by tracknr */
+    \param info pointer to data container
+    \param cddbClient pointer to CDDBClient
+    \param parent parent widget
+   */
+   CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent = 0 );
+   /*!
+    \brief destructor
+    */
+   virtual ~CDEdit();
+
+   /*!
+    \brief get the track info by tracknr
+
+    \param tracknr track number to get data for
+    \param dorip indicator if track should be ripped
+    \param doenqueue indicator if track should be enqueued after ripping
+    \param artist name of artist
+    \param title name of track title
+    \param albumartist name of album artist
+    \param albumtitle name of album title
+    \param genre genre description
+    \param year year of creation
+   */
    void trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *artist, QString *title,
                    QString *albumartist, QString *albumtitle, QString *genre, int *year );
-   /* update function for reading of cdtext */
+
+   /*!
+    \brief update function for reading of cdtext
+
+    \param track track number
+    \param artist name of artist
+    \param title name of track title
+   */
    void updateCDText( int track, const QString &artist, const QString &title );
-   /* clear the sheet */
+
+   /*!
+    \brief clear the sheet
+
+   */
    void clear();
-   /* check if the sheet is empty */
+
+   /*!
+    \brief check if the sheet is empty
+
+   */
    bool isEmpty();
-   /* move the focus up or down by one line */
+
+   /*!
+    \brief move the focus up or down by one line
+
+    Callback for CDEditCheckBox and CDEditLineEdit.
+
+    \param widget widget invoking callback
+    \param isUp indicator if key was up (true) of down (false)
+   */
    void keyUpDown( QWidget *widget, bool isUp );
 
 signals:
-   /* signalize if the TOC contains data */
+
+   /*!
+    \brief signalize if the TOC contains data
+
+    \param flag data available
+   */
    void containsData( bool flag );
 
 public slots:
-   /* handle toggle all tracks button */
+
+   /*!
+    \brief handle toggle all tracks button
+
+   */
    void handleTrackNr();
-   /* handle toggle enqueue button */
+
+   /*!
+    \brief handle toggle enqueue button
+
+   */
    void handleEnqueueTrack();
-   /* handle copy track artist button */
+
+   /*!
+    \brief handle copy track artist button
+
+   */
    void handleTrackArtist();
-   /* handle normalize title button */
+
+   /*!
+    \brief handle normalize title button
+
+   */
    void handleNormalizeTitle();
-   /* handle copy track year button */
+
+   /*!
+    \brief handle copy track year button
+
+   */
    void handleTrackYear();
-   /* hide a track from sheet */
+
+   /*!
+    \brief hide a track from sheet
+
+    \param track track number
+    \param hide indicator if track should be hidden or not
+   */
    void setTrackHidden( int track, bool hide );
-   /* disable a track on sheet (being read) */
+
+   /*!
+    \brief disable a track on sheet (being read)
+
+    \param track track number
+    \param disabled indicator if track should be disabled or not
+   */
    void setTrackDisabled( int track, bool disabled );
-   /* update sheet */
+
+   /*!
+    \brief update sheet
+
+   */
    void update();
-   /* ensure that a certain track is visible on sheet */
-   void ensureVisible( int tracknr );
+
+   /*!
+    \brief ensure that a certain track is visible on sheet
+
+    \param tracknr track number
+   */
+   void ensureVisible( int track );
 
 private:
-   CDEdit( const CDEdit &that );
-   CDEdit &operator=( const CDEdit &that );
+   Q_DISABLE_COPY( CDEdit )
 
+   /*!
+    \brief make sure that a widget is in visible area
+
+    \param widget widget to show
+   */
    void ensureVisibleFocus( QWidget *widget );
 
-   CDInfo       *mpCDInfo;
-   CDDBClient   *mpCDDBClient;
-   QScrollArea  *mpScrollArea;
-   QWidget      *mpScrollWidget;
-   QGridLayout  *mpMainLayout;
-   QLabel       *mpLabelDiscArtist;
-   QLabel       *mpLabelDiscTitle;
-   QLabel       *mpLabelDiscGenre;
-   QLineEdit    *mpDiscArtist;
-   QLineEdit    *mpDiscTitle;
-   QLineEdit    *mpDiscGenre;
-   QLabel       *mpLabelDiscID;
-   QLabel       *mpDiscID;
-   QLabel       *mpDiscPlaytime;
-   QLabel       *mpLabelTrackNr;
-   QLabel       *mpLabelEnqueueTrack;
-   QLabel       *mpLabelTrackArtist;
-   QLabel       *mpLabelTrackTitle;
-   QLabel       *mpLabelTrackYear;
-   QLabel       *mpLabelTrackPlaytime;
-   QCheckBox    **mpTrackNr;
-   QCheckBox    **mpEnqueueTrack;
-   QLineEdit    **mpTrackArtist;
-   QLineEdit    **mpTrackTitle;
-   QLineEdit    **mpTrackYear;
-   QLabel       **mpTrackPlaytime;
-   QPushButton  *mpToggleRipButton;
-   QPushButton  *mpToggleEnqueueButton;
-   QPushButton  *mpCopyArtistButton;
-   QPushButton  *mpNormalizeTitleButton;
-   QPushButton  *mpCopyYearButton;
-   int          mLastColumn;
+   CDInfo       *mpCDInfo; /*!< TODO */
+   CDDBClient   *mpCDDBClient; /*!< TODO */
+   QScrollArea  *mpScrollArea; /*!< TODO */
+   QWidget      *mpScrollWidget; /*!< TODO */
+   QGridLayout  *mpMainLayout; /*!< TODO */
+   QLabel       *mpLabelDiscArtist; /*!< TODO */
+   QLabel       *mpLabelDiscTitle; /*!< TODO */
+   QLabel       *mpLabelDiscGenre; /*!< TODO */
+   QLineEdit    *mpDiscArtist; /*!< TODO */
+   QLineEdit    *mpDiscTitle; /*!< TODO */
+   QLineEdit    *mpDiscGenre; /*!< TODO */
+   QLabel       *mpLabelDiscID; /*!< TODO */
+   QLabel       *mpDiscID; /*!< TODO */
+   QLabel       *mpDiscPlaytime; /*!< TODO */
+   QLabel       *mpLabelTrackNr; /*!< TODO */
+   QLabel       *mpLabelEnqueueTrack; /*!< TODO */
+   QLabel       *mpLabelTrackArtist; /*!< TODO */
+   QLabel       *mpLabelTrackTitle; /*!< TODO */
+   QLabel       *mpLabelTrackYear; /*!< TODO */
+   QLabel       *mpLabelTrackPlaytime; /*!< TODO */
+   QCheckBox    **mpTrackNr; /*!< TODO */
+   QCheckBox    **mpEnqueueTrack; /*!< TODO */
+   QLineEdit    **mpTrackArtist; /*!< TODO */
+   QLineEdit    **mpTrackTitle; /*!< TODO */
+   QLineEdit    **mpTrackYear; /*!< TODO */
+   QLabel       **mpTrackPlaytime; /*!< TODO */
+   QPushButton  *mpToggleRipButton; /*!< TODO */
+   QPushButton  *mpToggleEnqueueButton; /*!< TODO */
+   QPushButton  *mpCopyArtistButton; /*!< TODO */
+   QPushButton  *mpNormalizeTitleButton; /*!< TODO */
+   QPushButton  *mpCopyYearButton; /*!< TODO */
+   int          mLastColumn; /*!< TODO */
 };
+
+/*! @} */
 
 #endif

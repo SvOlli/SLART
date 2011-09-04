@@ -28,42 +28,83 @@
 /* forward declaration of local classes */
 class MySettings;
 
+/*!
+  \addtogroup Sorcerer
+  @{
+  */
 
+/*!
+ \brief implementation of the setup wizard plugin
+
+*/
 class SorcererPlugin : public QObject, public SorcererInterface
 {
-Q_OBJECT
-Q_INTERFACES(SorcererInterface)
+   Q_OBJECT
+   Q_INTERFACES(SorcererInterface)
 
 public:
+   /*!
+    \brief constructor
+
+   */
    SorcererPlugin();
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~SorcererPlugin();
-   /* run main setup */
-   /* run cleanup of obsolete registry settings */
-   /* run installation of hidden registry settings */
+
+   /*!
+    \brief run the setup wizard
+
+   */
    virtual int setup();
+
+   /*!
+    \brief cleanup of obsolete registry settings
+
+   */
    virtual void cleanup();
+
+   /*!
+    \brief installation of hidden registry settings
+
+   */
    virtual void hidden();
 
 private:
-   SorcererPlugin( const SorcererPlugin &that );
-   SorcererPlugin &operator=( const SorcererPlugin &that );
+   Q_DISABLE_COPY( SorcererPlugin )
 
-   /* subroutine that cleans up common settings for a program */
+   /*!
+    \brief subroutine that cleans up common settings for a program
+
+    \param pointer to settings to clean up
+   */
    void cleanupSettings( MySettings *settings );
-   /* subroutine that does not overwrite any settings */
+
+   /*!
+    \brief subroutine that does not overwrite any settings
+
+    \param settings pointer to settings
+    \param name name of parameter
+    \param value default value to set
+   */
    void setDefault( MySettings *settings, const QString &name,
                     const QVariant &value );
 
-   bool       mStopDatabase;
-   bool       mStopSatellite;
-   MySettings mGlobal;
-   MySettings mFunkytown;
-   MySettings mInnuendo;
-   MySettings mKarmadrome;
-   MySettings mNotorious;
-   MySettings mPartyman;
-   MySettings mRubberbandman;
-   MySettings mStripped;
+   bool       mStopDatabase; /*!< TODO */
+   bool       mStopSatellite; /*!< TODO */
+   MySettings mGlobal; /*!< TODO */
+   MySettings mFunkytown; /*!< TODO */
+   MySettings mInnuendo; /*!< TODO */
+   MySettings mKarmadrome; /*!< TODO */
+   MySettings mNotorious; /*!< TODO */
+   MySettings mPartyman; /*!< TODO */
+   MySettings mRubberbandman; /*!< TODO */
+   MySettings mStripped; /*!< TODO */
 };
+
+/*! @} */
 
 #endif

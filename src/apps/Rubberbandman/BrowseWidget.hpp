@@ -33,7 +33,7 @@ class InfoEdit;
 
 class BrowseWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    BrowseWidget( QWidget *parent = 0 );

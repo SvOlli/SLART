@@ -32,7 +32,7 @@ class Satellite;
 
 class MagicEncoderProxy : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    MagicEncoderProxy( Satellite *satellite = 0, QObject *parent = 0 );
@@ -82,5 +82,7 @@ private:
    MagicEncoderInterface   *mpPlugin;
    Satellite               *mpSatellite;
 };
+
+/*! @} */
 
 #endif /* MAGICENCODERPROXY_HPP */

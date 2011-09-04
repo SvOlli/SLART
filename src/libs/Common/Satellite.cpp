@@ -25,12 +25,13 @@
 QPointer<Satellite> Satellite::cpSatellite = 0;
 
 
-void Satellite::create()
+Satellite *Satellite::create()
 {
    if( !cpSatellite )
    {
       cpSatellite = new Satellite();
    }
+   return cpSatellite;
 }
 
 

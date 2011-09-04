@@ -34,7 +34,7 @@ class ProxyWidget;
 
 class ConfigDialog : public QDialog
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    ConfigDialog( QWidget *parent = 0 );

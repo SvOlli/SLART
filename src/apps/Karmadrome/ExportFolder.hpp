@@ -30,7 +30,7 @@ class Database;
 
 class ExportFolder : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    ExportFolder( const QString &folder, const QString &fileName,

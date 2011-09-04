@@ -29,10 +29,15 @@ extern "C" {
 
 /* forward declaration of local classes */
 
+/*!
+  \addtogroup MagicEncoderMp3 MagicEncoderMp3: interface for mp3 audio encoding
+  @{
+  */
+
 
 class MagicEncoderMp3 : public MagicEncoder
 {
-Q_OBJECT
+   Q_OBJECT
 Q_INTERFACES(MagicEncoderInterface)
 
    friend class MagicEncoderMp3Config;
@@ -74,5 +79,7 @@ private:
    const int            mMp3BufferSize;
    unsigned char        *mpMp3Buffer;
 };
+
+/*! @} */
 
 #endif

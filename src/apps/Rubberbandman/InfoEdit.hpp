@@ -44,7 +44,7 @@ class RecurseWorker;
 
 class InfoEdit : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    InfoEdit( QWidget *parent = 0 );

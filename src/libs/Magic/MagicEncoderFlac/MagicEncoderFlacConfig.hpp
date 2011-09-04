@@ -31,7 +31,7 @@ class ScrollLine;
 
 class MagicEncoderFlacConfig : public MagicEncoderConfig
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    MagicEncoderFlacConfig( MagicEncoderFlac *encoder, QWidget *parent, QAbstractButton *button );

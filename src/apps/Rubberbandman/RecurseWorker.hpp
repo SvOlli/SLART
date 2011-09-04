@@ -33,7 +33,7 @@ class DatabaseInterface;
 
 class RecurseWorker : public QThread
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    enum Flag {

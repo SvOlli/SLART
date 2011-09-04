@@ -30,7 +30,7 @@ class TrackInfo;
 
 class ImportFolder : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    ImportFolder( const QString &folder, const QString &fileName, bool cleanImport );

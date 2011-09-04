@@ -28,35 +28,74 @@ class QLabel;
 /* forward declaration of local classes */
 class CDInfo;
 
+/*!
+  \addtogroup Stripped
+  @{
+  */
 
+/*!
+ \brief visualize the ripping status
+
+*/
 class ParanoiaStatus : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent parent widget
+   */
    ParanoiaStatus( QWidget *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~ParanoiaStatus();
 
+   /*!
+    \brief detect if any errors happend during ripping
+
+   */
    bool hasErrors();
 
 public slots:
-   /* set all entries to 0 */
+   /*  */
+   /*!
+    \brief set all entries to 0
+
+   */
    void clear();
-   /* switch to status of the given track */
+   /*  */
+   /*!
+    \brief switch to status of the given track
+
+    \param track track number to switch to
+   */
    void handleTrackNr( int track );
-   /* update the status of a track */
+   /*  */
+   /*!
+    \brief update the status of a track
+
+    \param track track number
+    \param elements number of elements
+    \param counts pointer to list of counts
+   */
    void update( int track, unsigned int elements, const unsigned long *counts );
 
 signals:
 
 private:
-   ParanoiaStatus( const ParanoiaStatus &that );
-   ParanoiaStatus &operator=( const ParanoiaStatus &that );
+   Q_DISABLE_COPY( ParanoiaStatus )
 
-   int               *mpData;
-   QSpinBox          *mpTrackNr;
-   QLabel            **mpTrackErrors;
-   QLabel            **mpTotalErrors;
+   int               *mpData; /*!< TODO */
+   QSpinBox          *mpTrackNr; /*!< TODO */
+   QLabel            **mpTrackErrors; /*!< TODO */
+   QLabel            **mpTotalErrors; /*!< TODO */
 };
+
+/*! @} */
 
 #endif

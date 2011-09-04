@@ -29,7 +29,7 @@ class TrackInfo;
 
 class TrackReader : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    TrackReader( QObject *target, const QString &method,

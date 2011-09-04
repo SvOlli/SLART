@@ -173,6 +173,11 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
 }
 
 
+CDEdit::~CDEdit()
+{
+}
+
+
 void CDEdit::clear()
 {
    mpDiscArtist->clear();
@@ -422,11 +427,11 @@ void CDEdit::trackInfo( int tracknr, bool *dorip, bool *doenqueue, QString *arti
 }
 
 
-void CDEdit::ensureVisible( int tracknr )
+void CDEdit::ensureVisible( int track )
 {
-   if( mpTrackTitle[tracknr]->isVisible() )
+   if( mpTrackTitle[track]->isVisible() )
    {
-      mpScrollArea->ensureWidgetVisible( mpTrackTitle[tracknr], 5, 5 );
+      mpScrollArea->ensureWidgetVisible( mpTrackTitle[track], 5, 5 );
    }
 }
 

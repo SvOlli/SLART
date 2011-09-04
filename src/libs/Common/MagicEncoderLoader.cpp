@@ -32,15 +32,10 @@
 
 
 MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
-                                                 Satellite *satellite,
-                                                 QApplication *app )
+                                                 Satellite *satellite)
 {
    MagicEncoderList encoderList;
-   if( !app )
-   {
-      app = qApp;
-   }
-   QDir pluginsDir( app->applicationDirPath() );
+   QDir pluginsDir( qApp->applicationDirPath() );
 #if defined Q_OS_MAC
    if( pluginsDir.dirName() == "MacOS" )
    {

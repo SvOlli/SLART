@@ -32,7 +32,7 @@ class Satellite;
 
 class DatabaseThread : public QThread
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    DatabaseThread( const QString &fileName = QString() );

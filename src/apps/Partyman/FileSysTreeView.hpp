@@ -27,7 +27,7 @@
 
 class FileSysTreeView : public QTreeView
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    FileSysTreeView( QWidget *parent = 0 );

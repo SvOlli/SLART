@@ -33,10 +33,14 @@ class CDEdit;
 class CDInfo;
 class Encoder;
 
+/*!
+  \addtogroup Stripped
+  @{
+  */
 
 class CDReaderThread : public QThread
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    CDReaderThread();
@@ -127,5 +131,7 @@ private:
    QStringList          mDevices;
    MagicEncoderList     mEncoders;
 };
+
+/*! @} */
 
 #endif

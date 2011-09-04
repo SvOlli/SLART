@@ -29,32 +29,87 @@ class QByteArray;
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Common
+ @{
+ */
+
+/*!
+ \brief Encrypt data using the xxtea algorithm. If data size is less then 8 bytes no encryption will take place.
+ If data size is not a multiple of 4 bytes, the last not fitting bytes will not encrypted.
+
+*/
 class Xxtea
 {
 public:
+   /*!
+    \brief creator
+
+   */
    Xxtea();
+   /*!
+    \brief destructor
+
+   */
    virtual ~Xxtea();
-   /* set the key as 4 32-bit unsigned integer */
+
+   /*!
+    \brief set the key as 4 32-bit unsigned integer
+
+    \param k0
+    \param k1
+    \param k2
+    \param k3
+   */
    void setKey( quint32 k0, quint32 k1, quint32 k2, quint32 k3 );
-   /* set the key as a 16 byte array, returns true if data was valid and accepted */
+   /*!
+    \brief set the key as a 16 byte array, returns true if data was valid and accepted
+
+    \param key
+   */
    bool setKey( const QByteArray &key );
-   /* get the key */
+   /*!
+    \brief get the key
+
+   */
    QByteArray getKey();
-   /* set the data to work upon, returns true if data was valid (needs to be a
-      mutiple of 4 bytes) */
+   /*!
+    \brief set the data to work upon, returns true if data was valid (needs to be a
+      mutiple of 4 bytes, returns )
+
+    \return false if data isn't a multiple of 4 bytes
+    \param data
+   */
    bool setData( QByteArray *data );
-   /* encode the data */
+
+   /*!
+    \brief encode the data
+
+    \return false if data isn't a multiple of 4 bytes
+   */
    bool encode();
-   /* decode the data */
+
+   /*!
+    \brief decode the data
+
+    \return false if data isn't a multiple of 4 bytes
+   */
    bool decode();
 
 private:
    Xxtea( const Xxtea &that );
+   /*!
+    \brief
+
+    \param that
+   */
    Xxtea &operator=( const Xxtea &that );
 
-   const quint32  mDelta;
-   quint32        *mpKey;
-   QByteArray     *mpData;
+   const quint32  mDelta; /*!< "delta" from algorithm */
+   quint32        *mpKey; /*!< array of key components */
+   QByteArray     *mpData; /*!< pointer to the data */
 };
+
+/*! @} */
 
 #endif

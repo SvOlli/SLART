@@ -30,7 +30,7 @@ class MagicEncoderMp3;
 
 class MagicEncoderMp3Config : public MagicEncoderConfig
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    MagicEncoderMp3Config( MagicEncoderMp3 *encoder, QWidget *parent, QAbstractButton *button );

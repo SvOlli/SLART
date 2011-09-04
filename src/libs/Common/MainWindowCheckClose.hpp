@@ -28,7 +28,7 @@ class QCloseEvent;
 
 class MainWindowCheckClose : public MainWindow
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    MainWindowCheckClose( bool saveWindow = true,

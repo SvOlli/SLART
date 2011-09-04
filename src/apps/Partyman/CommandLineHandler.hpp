@@ -30,7 +30,7 @@ class Satellite;
 
 class CommandLineHandler : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    CommandLineHandler( const QStringList &list, QObject *parent = 0 );

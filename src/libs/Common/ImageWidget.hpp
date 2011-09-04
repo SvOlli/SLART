@@ -28,7 +28,7 @@ class QImage;
 
 class ImageWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    ImageWidget( QWidget *parent );

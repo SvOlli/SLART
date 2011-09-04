@@ -30,10 +30,14 @@ class ScrollLine;
 
 /* forward declaration of local classes */
 
+/*!
+  \addtogroup MagicEncoder MagicEncoder: abstract interface for audio encoding
+  @{
+  */
 
 class MagicEncoder : public QThread, public MagicEncoderInterface
 {
-Q_OBJECT
+   Q_OBJECT
 Q_INTERFACES(MagicEncoderInterface)
 
 public:
@@ -103,5 +107,7 @@ private:
 #define VALUE_DIRECTORY          value( "Directory", QDir::current().absolutePath() ).toString()
 #define VALUE_DIRECTORY_OVERRIDE value( "DirectoryOverride", false ).toBool()
 #define VALUE_USE_ENCODER        value( "UseEncoder", false ).toBool()
+
+/*! @} */
 
 #endif

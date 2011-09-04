@@ -36,7 +36,7 @@ class MyClipboard;
 
 class ConfigDialog : public QDialog
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    ConfigDialog( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );

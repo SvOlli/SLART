@@ -28,7 +28,7 @@
 
 class Foundlist : public QTableWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    Foundlist( QWidget *parent = 0 );

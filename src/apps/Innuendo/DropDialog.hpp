@@ -39,7 +39,7 @@ class ProxyWidget;
 
 class DropDialog : public QDialog
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    DropDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );

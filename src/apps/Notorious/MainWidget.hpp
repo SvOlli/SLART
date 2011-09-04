@@ -30,32 +30,59 @@ class FreeDB;
 class Foundlist;
 class SearchWidget;
 
+/*!
+  \addtogroup Notorious Notorious: FreeDB browser
+  @{
+  */
 
+
+/*!
+ \brief
+
+*/
 class MainWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
+   /*!
+    \brief
+
+    \param parent
+    \param flags
+   */
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 protected:
 
 public slots:
+   /*!
+    \brief
+
+    \param query
+   */
    void runQuery( const QString &query );
+   /*!
+    \brief
+
+    \param category
+    \param id
+   */
    void handleClicked( const QString &category, const QString &id );
 
 signals:
 
 private:
-   MainWidget( const MainWidget &that );
-   MainWidget &operator=( const MainWidget &that );
+   Q_DISABLE_COPY( MainWidget )
 
-   FreeDB       *mpFreeDB;
-   SearchWidget *mpSearch;
-   Foundlist    *mpFound;
-   Foundlist    *mpCDInfo;
-   ConfigDialog *mpConfig;
-   QPushButton  *mpSettingsButton;
+   FreeDB       *mpFreeDB; /*!< TODO */
+   SearchWidget *mpSearch; /*!< TODO */
+   Foundlist    *mpFound; /*!< TODO */
+   Foundlist    *mpCDInfo; /*!< TODO */
+   ConfigDialog *mpConfig; /*!< TODO */
+   QPushButton  *mpSettingsButton; /*!< TODO */
 };
+
+/*! @} */
 
 #endif

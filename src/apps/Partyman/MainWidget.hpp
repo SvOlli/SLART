@@ -29,40 +29,83 @@ class ControlWidget;
 class Database;
 class PlaylistControlWidget;
 
+/*!
+  \addtogroup Partyman Partyman: dual slot audio player
+  @{
+  */
 
+
+
+/*!
+ \brief
+
+*/
 class MainWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
+
+   /*!
+    \brief
+
+    \param parent
+    \param flags
+   */
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   /*!
+    \brief
+
+   */
    virtual ~MainWidget();
 
    /* prepare startup of application */
+   /*!
+    \brief
+
+   */
    void startUp();
 
 protected:
 
 public slots:
    /* handle request for new icon and title */
+   /*!
+    \brief
+
+    \param icon
+    \param title
+   */
    void changeTitle( const QIcon &icon, const QString &title );
    /* don't autostart if database is empty */
+   /*!
+    \brief
+
+    \param allow
+   */
    void allowAutostart( bool allow );
 
 signals:
    /* request a new icon and title */
+   /*!
+    \brief
+
+    \param icon
+    \param title
+   */
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
-   MainWidget( const MainWidget &that );
-   MainWidget &operator=( const MainWidget &that );
+   Q_DISABLE_COPY( MainWidget )
 
-   bool                    mAllowAutostart;
-   QWidget                 *mpParent;
-   Database                *mpDatabase;
-   ConfigDialog            *mpConfig;
-   PlaylistControlWidget   *mpPlaylist;
-   ControlWidget           *mpControl;
+   bool                    mAllowAutostart; /*!< TODO */
+   QWidget                 *mpParent; /*!< TODO */
+   Database                *mpDatabase; /*!< TODO */
+   ConfigDialog            *mpConfig; /*!< TODO */
+   PlaylistControlWidget   *mpPlaylist; /*!< TODO */
+   ControlWidget           *mpControl; /*!< TODO */
 };
+
+/*! @} */
 
 #endif

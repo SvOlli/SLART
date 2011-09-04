@@ -25,10 +25,16 @@
 
 /* forward declaration of local classes */
 
+/*!
+  \addtogroup MagicEncoderFlac MagicEncoderWav: interface for wave audio encoding
+  @{
+  */
+
+
 
 class MagicEncoderWav : public MagicEncoder
 {
-Q_OBJECT
+   Q_OBJECT
 Q_INTERFACES(MagicEncoderInterface)
 
    friend class MagicEncoderWavConfig;
@@ -57,5 +63,7 @@ private:
    /* encoder internal data */
    unsigned int         *mpWavHeader;
 };
+
+/*! @} */
 
 #endif

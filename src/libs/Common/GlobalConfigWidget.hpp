@@ -21,7 +21,7 @@ class QSpinBox;
 
 class GlobalConfigWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    GlobalConfigWidget( QWidget *parent = 0 );

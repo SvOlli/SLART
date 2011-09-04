@@ -33,7 +33,7 @@ class PlaylistControlWidget;
 
 class SearchWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    SearchWidget( Database *database, PlaylistControlWidget *parent );

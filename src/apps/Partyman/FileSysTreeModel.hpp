@@ -30,7 +30,7 @@ class FileSysTreeItem;
 
 class FileSysTreeModel : public QAbstractItemModel
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    FileSysTreeModel( QObject *parent = 0 );

@@ -271,7 +271,7 @@ void CDReaderThread::runReadCDText()
 {
    cdtext_t *cdtext;
    track_t track, first, last;
-   bool useLatin1 = MySettings().VALUE_CDTEXT_LATIN1;
+   bool useLatin1 = ConfigDialog::value( ConfigDialog::ParameterCDTextLatin1 );
 
    if( !mpCdIo )
    {
@@ -322,16 +322,16 @@ void CDReaderThread::runReadAudioData()
    int sector = 0;
    char *buffer = 0;
    mCancel = false;
-   QString createPattern;
-   QString artist, title, albumartist, albumtitle, genre;
-   bool autoEnqueue;
-   bool dorip, doenqueue;
+   QString artist;
+   QString title;
+   QString albumartist;
+   QString albumtitle;
+   QString genre;
+   bool dorip;
+   bool doenqueue;
    int year;
-   {
-      MySettings settings;
-      createPattern = settings.VALUE_CREATEPATTERN;
-      autoEnqueue   = settings.VALUE_AUTOENQUEUE;
-   }
+   QString createPattern = ConfigDialog::value( ConfigDialog::ParameterCreatePattern );
+   bool autoEnqueue      = ConfigDialog::value( ConfigDialog::ParameterAutoEnqueue );
 
 
    if( !mpCdIo || !mpDrive )
@@ -341,6 +341,7 @@ void CDReaderThread::runReadAudioData()
 
    emit stateRip();
 
+//   qDebug() << "cdio_set_speed(): " << ::cdio_set_speed( mpCdIo, 1 );
    mpParanoia = ::cdio_paranoia_init( mpDrive );
    ::cdio_paranoia_modeset( mpParanoia, PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP );
 
@@ -477,7 +478,7 @@ printf("\n");
    }
    emit setTrackDisabled( -1, false );
    emit stateDisc();
-   if( MySettings().VALUE_AUTOEJECT && !mCancel )
+   if( ConfigDialog::value( ConfigDialog::ParameterAutoEject ) && !mCancel )
    {
       if( mDiscHasErrors )
       {

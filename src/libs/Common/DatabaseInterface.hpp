@@ -34,7 +34,7 @@ class DatabaseInterface
 {
 public:
    /*  */
-   static void create();
+   static DatabaseInterface *create();
    /*  */
    static void destroy();
    /*  */

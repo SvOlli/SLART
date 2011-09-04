@@ -30,7 +30,7 @@ class ScrollLine;
 
 class MagicEncoderWavConfig : public MagicEncoderConfig
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    MagicEncoderWavConfig( MagicEncoderWav *encoder, QWidget *parent, QAbstractButton *button );

@@ -28,10 +28,15 @@
 
 /* forward declaration of local classes */
 
+/*!
+  \addtogroup MagicEncoderFlac MagicEncoderFlac: interface for FLAC audio encoding
+  @{
+  */
+
 
 class MagicEncoderFlac : public MagicEncoder
 {
-Q_OBJECT
+   Q_OBJECT
 Q_INTERFACES(MagicEncoderInterface)
 
    friend class MagicEncoderFlacConfig;
@@ -70,5 +75,7 @@ private:
    FLAC__StreamMetadata          *mpMetadata;
    FLAC__int32                   *mpPcm;
 };
+
+/*! @} */
 
 #endif

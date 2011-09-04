@@ -38,7 +38,7 @@ class DatabaseWorker;
 
 class DatabaseWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    DatabaseWidget( QWidget *parent = 0 );

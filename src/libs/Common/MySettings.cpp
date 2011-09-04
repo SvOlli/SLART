@@ -14,14 +14,14 @@
 #include "Trace.hpp"
 
 
-MySettings::MySettings()
-: QSettings( QApplication::organizationName(), QApplication::applicationName() )
+MySettings::MySettings( QObject *parent )
+: QSettings( QApplication::organizationName(), QApplication::applicationName(), parent )
 {
 }
 
 
-MySettings::MySettings( const QString &application )
-: QSettings( QApplication::organizationName(), application )
+MySettings::MySettings( const QString &application, QObject *parent )
+: QSettings( QApplication::organizationName(), application, parent )
 {
 }
 

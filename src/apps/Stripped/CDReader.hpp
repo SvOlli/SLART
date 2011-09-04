@@ -39,71 +39,180 @@ class CDReaderThread;
 class Encoder;
 class ParanoiaStatus;
 
+/*!
+  \addtogroup Stripped
+  @{
+  */
 
+
+/*!
+ \brief
+
+*/
 class CDReader : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
-   CDReader( CDInfo *info, CDEdit *edit, QWidget *parent = 0 );
-   virtual ~CDReader();
+   /*!
+    \brief constructor
 
-   /* set the encoder to use */
+    \param info
+    \param edit
+    \param parent
+   */
+   CDReader( CDInfo *info, CDEdit *edit, QWidget *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
+   virtual ~CDReader();
+   /*  */
+   /*!
+    \brief set the encoder to use
+
+    \param encoders
+   */
    void setEncoders( const MagicEncoderList &encoders );
-   /* insert available devices into given combobox */
+   /*  */
+   /*!
+    \brief insert available devices into given combobox
+
+   */
    void getDevices();
 
 public slots:
-   /* read the toc */
+   /*  */
+   /*!
+    \brief read the toc
+
+   */
    void readToc();
-   /* read the cd-text */
+   /*  */
+   /*!
+    \brief read the cd-text
+
+   */
    void readCDText();
-   /* rip tracks */
+   /*  */
+   /*!
+    \brief rip tracks
+
+   */
    void readTracks();
-   /* set the device to use */
+   /*  */
+   /*!
+    \brief set the device to use
+
+    \param device
+   */
    void setDevice( const QString &device );
-   /* eject disc */
+   /*  */
+   /*!
+    \brief eject disc
+
+   */
    void eject();
-   /* handle cancel button */
+   /*  */
+   /*!
+    \brief handle cancel button
+
+   */
    void cancel();
-   /* (re-)read the settings */
+   /*  */
+   /*!
+    \brief (re-)read the settings
+
+   */
    void readSettings();
-   /* pop up that there's been an error and no eject */
+   /*  */
+   /*!
+    \brief pop up that there's been an error and no eject
+
+   */
    void noEject();
 
 signals:
-   /* signalize "no disc"-state */
+   /*  */
+   /*!
+    \brief signalize "no disc"-state
+
+   */
    void stateNoDisc();
-   /* signalize "disc inserted"-state */
+   /*  */
+   /*!
+    \brief signalize "disc inserted"-state
+
+   */
    void stateDisc();
-   /* signalize "reading toc"-state */
+   /*  */
+   /*!
+    \brief signalize "reading toc"-state
+
+   */
    void stateScan();
-   /* signalize "ripping audio"-state */
+   /*  */
+   /*!
+    \brief signalize "ripping audio"-state
+
+   */
    void stateRip();
-   /* signalize "toc read"-state */
+   /*  */
+   /*!
+    \brief signalize "toc read"-state
+
+   */
    void gotToc();
-   /* send a list of devices that've been found */
+   /*  */
+   /*!
+    \brief send a list of devices that have been found
+
+    \param devices
+   */
    void foundDevices( const QStringList &devices );
-   /* send status message */
+   /*  */
+   /*!
+    \brief send status message
+
+    \param message
+   */
    void message( const QString &message = QString() );
-   /* send progress of track */
+   /*  */
+   /*!
+    \brief send progress of track
+
+    \param percent
+   */
    void progress( int percent );
-   /* track has been enabled/disabled */
+   /*  */
+   /*!
+    \brief track has been enabled / disabled
+
+    \param track
+    \param disabled
+   */
    void setTrackDisabled( int track, bool disabled );
-   /* make sure that the track is visible */
+   /*  */
+   /*!
+    \brief make sure that the track is visible
+
+    \param track
+   */
    void ensureVisible( int track );
 
 private:
-   CDReader( const CDReader &that );
-   CDReader &operator=( const CDReader &that );
+   Q_DISABLE_COPY( CDReader )
 
-   CDReaderThread       *mpCDReaderThread;
-   CDInfo               *mpCDInfo;
-   CDEdit               *mpCDEdit;
-   QProgressBar         *mpProgressBar;
-   ParanoiaStatus       *mpParanoiaStatus;
-   MagicEncoderList     mEncoders;
-   QString              mDevice;
+   CDReaderThread       *mpCDReaderThread; /*!< TODO */
+   CDInfo               *mpCDInfo; /*!< TODO */
+   CDEdit               *mpCDEdit; /*!< TODO */
+   QProgressBar         *mpProgressBar; /*!< TODO */
+   ParanoiaStatus       *mpParanoiaStatus; /*!< TODO */
+   MagicEncoderList     mEncoders; /*!< TODO */
+   QString              mDevice; /*!< TODO */
 };
+
+/*! @} */
 
 #endif

@@ -31,7 +31,7 @@ class Satellite;
 
 class MainWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );

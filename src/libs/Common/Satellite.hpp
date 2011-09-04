@@ -39,51 +39,57 @@ class SatelliteServerRunner;
 
 
 /*!
+  \addtogroup Satellite Satellite: interprocess communication
+
+  \brief part of \ref Common
+  @{
+  */
+
+/*!
  \brief central interface for Satellite interprocess communication
 
- \class Satellite Satellite.hpp "libs/Common/Satellite.hpp"
 */
+
+
 class Satellite : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    /*!
     \brief create the central Satellite instance available via get()
 
-    \fn create
    */
-   static void create();
+   static Satellite* create();
+
    /*!
     \brief destroy the central Satellite
 
-    \fn destroy
    */
    static void destroy();
+
    /*!
     \brief get applications central Satellite
 
-    \fn get
    */
    static Satellite* get();
 
    /*!
     \brief test applications can access Satellite without enableing in settings
 
-    \fn setTestApp
     \param isTestApp
    */
    void setTestApp( bool isTestApp );
+
    /*!
     \brief is this application running the server?
 
-    \fn isRunningServer
    */
    bool isRunningServer();
+
    /*!
     \brief wait for a connection, so application can write to satellite right away
 
-    \fn waitForConnected
     \param msecs maximum time to wait
       */
    bool waitForConnected( int msecs = 30000 );
@@ -91,14 +97,13 @@ public:
    /*!
     \brief send message without running a server
 
-    \fn send1
     \param message
    */
    static void send1( const QByteArray &message );
+
    /*!
     \brief helper function: split up the lines of a Satellite message to several strings
 
-    \fn split
     \param message
    */
    static QStringList split( const QByteArray &message );
@@ -107,14 +112,13 @@ public slots:
    /*!
     \brief start the client and connect to server
 
-    \fn restart
    */
    void restart();
+
    /*!
     \brief send the message to all other clients
 
-    \fn send
-    \param message
+    \param message message to send
    */
    void send( const QByteArray &message );
 
@@ -122,39 +126,37 @@ private slots:
    /*!
     \brief connection to server failed
 
-    \fn connectFail
     \param socketError
    */
    void connectFail( QAbstractSocket::SocketError socketError );
+
    /*!
     \brief server has new data from another client
 
-    \fn incomingData
    */
    void incomingData();
+
    /*!
     \brief connection to server was closed
 
-    \fn disconnected
    */
    void disconnected();
+
    /*!
     \brief try to start the server
 
-    \fn runServer
    */
    void runServer();
 #if SATELLITE_DEBUG
    /*!
     \brief send message that server is shut down
 
-    \fn serverShutdown
    */
    void serverShutdown();
+
    /*!
     \brief send message that connection to server was successful
 
-    \fn connectSuccess
    */
    void connectSuccess();
 #endif
@@ -163,21 +165,20 @@ signals:
    /*!
     \brief connection to the bus was successful
 
-    \fn connected
    */
    void connected();
+
    /*!
     \brief the message send from another client
 
-    \fn received
-    \param message
+    \param message message received
    */
    void received( const QByteArray &message );
+
 #if SATELLITE_DEBUG
    /*!
     \brief output debug messages (depricated)
 
-    \fn debug
     \param message
    */
    void debug( const QByteArray &message );
@@ -208,5 +209,7 @@ private:
 #define VALUE_SATELLITE_HOST  value( "SatelliteHost", "127.0.0.1" ).toString()
 #define VALUE_SATELLITE_PORT  value( "SatellitePort", 24222 ).toInt()
 #define VALUE_USE_SATELLITE   value( "UseSatellite", false ).toBool()
+
+/*! @} */
 
 #endif

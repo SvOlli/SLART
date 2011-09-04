@@ -30,7 +30,7 @@ class QTimer;
 
 class ScrollLine : public QLineEdit
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    ScrollLine( QWidget *parent, bool autoScroll = true );

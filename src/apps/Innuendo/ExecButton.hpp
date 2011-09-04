@@ -29,7 +29,7 @@
 
 class ExecButton : public QPushButton
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    ExecButton( const QString &name, QWidget *parent = 0 );

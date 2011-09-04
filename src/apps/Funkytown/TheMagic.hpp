@@ -35,7 +35,7 @@ class Satellite;
 
 class TheMagic : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
    friend class MagicQueue;
 

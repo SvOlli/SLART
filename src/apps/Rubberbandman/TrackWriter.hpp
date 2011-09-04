@@ -29,7 +29,7 @@ class TrackInfo;
 
 class TrackWriter : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    TrackWriter( QObject *target = 0, const QString &method = QString(),

@@ -13,20 +13,57 @@
 
 class QMainWindow;
 
+/*!
+  \addtogroup Common
 
+  @{
+  */
+
+/*!
+ \brief
+
+*/
 class MySettings : public QSettings
 {
-public:
-   MySettings();
-   MySettings( const QString &application );
+   Q_OBJECT
 
-   /* save main window settings */
+public:
+   /*!
+    \brief constructor
+
+    \param parent parent object
+   */
+   MySettings( QObject *parent = 0 );
+   /*!
+    \brief constructor
+
+    \param application application name
+    \param parent parent object
+   */
+   MySettings( const QString &application, QObject *parent = 0 );
+
+   /*!
+    \brief save main window settings
+
+    \param mainWindow
+   */
    void saveMainWindow( QMainWindow *mainWindow );
-   /* restore main window settings */
+
+   /*!
+    \brief restore main window settings
+
+    \param mainWindow
+   */
    void setMainWindow( QMainWindow *mainWindow );
 
-   /* get the filename of the style sheet to load */
+   /*!
+    \brief get the filename of the style sheet to load
+
+   */
    QString styleSheetFile();
+
+private:
+   Q_DISABLE_COPY( MySettings )
 };
 
 #endif

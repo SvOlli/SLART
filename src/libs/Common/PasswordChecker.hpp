@@ -28,7 +28,7 @@
 
 class PasswordChecker : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    /* get the singleton of the PasswordChecker */

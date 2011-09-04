@@ -29,7 +29,7 @@ class Satellite;
 
 class GenericSatMsgHandler : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    enum StartupMode { WithoutPing, WithPing, WithPingAndDialog };

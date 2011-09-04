@@ -32,33 +32,68 @@ class DatabaseWidget;
 class SatelliteWidget;
 
 
+/*!
+  \addtogroup Rubberbandman Rubberbandman: tag editor and database manager
+  @{
+  */
+
+/*!
+ \brief
+
+*/
 class MainWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
+   /*!
+    \brief
+
+    \param parent
+    \param flags
+   */
    MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   /*!
+    \brief
+
+   */
    virtual ~MainWidget();
 
 public slots:
    /* switch to filesystem tab */
+   /*!
+    \brief
+
+   */
    void goToFilesystem();
    /* save current tab for restart */
+   /*!
+    \brief
+
+    \param tabNr
+   */
    void handleTabChange( int tabNr );
 
 signals:
+   /*!
+    \brief
+
+    \param icon
+    \param title
+   */
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
-   MainWidget( const MainWidget &that );
-   MainWidget &operator=( const MainWidget &that );
+   Q_DISABLE_COPY( MainWidget )
 
-   BrowseWidget      *mpBrowseWidget;
-   SatelliteWidget   *mpSatelliteWidget;
-   DatabaseWidget    *mpDatabaseWidget;
-   QTabWidget        *mpTabs;
-   QPushButton       *mpSettingsButton;
-   ConfigDialog      *mpConfigDialog;
+   BrowseWidget      *mpBrowseWidget; /*!< TODO */
+   SatelliteWidget   *mpSatelliteWidget; /*!< TODO */
+   DatabaseWidget    *mpDatabaseWidget; /*!< TODO */
+   QTabWidget        *mpTabs; /*!< TODO */
+   QPushButton       *mpSettingsButton; /*!< TODO */
+   ConfigDialog      *mpConfigDialog; /*!< TODO */
 };
+
+/*! @} */
 
 #endif

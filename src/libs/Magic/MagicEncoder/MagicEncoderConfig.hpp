@@ -30,39 +30,69 @@ class QPushButton;
 
 /* forward declaration of local classes */
 
+/*!
+  \addtogroup MagicEncoder
+  @{
+  */
 
+/*!
+ \brief base for magic encoder configuration widget
+
+*/
 class MagicEncoderConfig : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent parent widget
+    \param button TODO
+   */
    MagicEncoderConfig( QWidget *parent, QAbstractButton *button );
+   /*!
+    \brief descructor
+
+   */
    virtual ~MagicEncoderConfig();
 
-   /* read settings from storage */
+   /*!
+    \brief read settings from storage
+
+   */
    virtual void readSettings() = 0;
-   /* write settings to storage */
+
+   /*!
+    \brief write settings to storage
+
+   */
    virtual void writeSettings() = 0;
 
 public slots:
-   /* handle the dot button by display filesystem browser */
+   /*!
+    \brief handle the dot button by display filesystem browser
+
+   */
    void selectDirectory();
 
 signals:
-   /* signals that the use encoder checkbox has been clicked in configuration widget */
+   /*!
+    \brief signals that the use encoder checkbox has been clicked in configuration widget
+
+    \param on
+   */
    void useEncoderClicked( bool on );
 
 protected:
-   QAbstractButton      *mpExternalUseEncoder;
-   QCheckBox            *mpUseEncoder;
-   QCheckBox            *mpDirOverride;
-   QLineEdit            *mpDirEdit;
-   QPushButton          *mpDotButton;
+   QAbstractButton      *mpExternalUseEncoder; /*!< TODO */
+   QCheckBox            *mpUseEncoder; /*!< TODO */
+   QCheckBox            *mpDirOverride; /*!< TODO */
+   QLineEdit            *mpDirEdit; /*!< TODO */
+   QPushButton          *mpDotButton; /*!< TODO */
 
 private:
-   MagicEncoderConfig( const MagicEncoderConfig &that );
-   MagicEncoderConfig &operator=( const MagicEncoderConfig &that );
-
+   Q_DISABLE_COPY( MagicEncoderConfig )
 };
 
 #define VALUE_DIRECTORY          value( "Directory", QDir::current().absolutePath() ).toString()

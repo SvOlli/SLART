@@ -34,13 +34,17 @@ class QTcpSocket;
 
 
 /*!
+  \addtogroup Satellite
+  @{
+  */
+
+/*!
  \brief the server handling the Satellite comminication
 
- \class SatelliteServer SatelliteServer.hpp "libs/Common/SatelliteServer.hpp"
 */
 class SatelliteServer : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    SatelliteServer( quint16 port, const QHostAddress &host, QObject *parent = 0 );
@@ -48,7 +52,6 @@ public:
    /*!
     \brief start the server
 
-    \fn listen
    */
    bool listen();
 
@@ -56,20 +59,17 @@ private slots:
    /*!
     \brief handle client connect
 
-    \fn connected
    */
    void connected();
    /*!
     \brief handle data incoming from client
 
-    \fn incomingData
     \param client
    */
    void incomingData( QObject *client );
    /*!
     \brief handle client disconnect
 
-    \fn disconnected
     \param client
    */
    void disconnected( QObject *client );
@@ -79,7 +79,6 @@ signals:
    /*!
     \brief output debug messages (depricated)
 
-    \fn debug
     \param message
    */
    void debug( const QByteArray &message );
@@ -96,4 +95,7 @@ private:
    quint16              mPort;
    QHostAddress         mHost;
 };
+
+/*! @} */
+
 #endif

@@ -17,13 +17,13 @@
 /* local library headers */
 #include <MagicEncoderInterface.hpp>
 #include <MySettings.hpp>
-#include <ConfigDialog.hpp>
 #include <TagList.hpp>
 
 /* local headers */
 #include "CDInfo.hpp"
 #include "CDEdit.hpp"
 #include "CDReaderThread.hpp"
+#include "ConfigDialog.hpp"
 #include "ParanoiaStatus.hpp"
 
 
@@ -152,7 +152,7 @@ void CDReader::cancel()
 
 void CDReader::readSettings()
 {
-   mpParanoiaStatus->setVisible( MySettings().VALUE_SHOWSTATS );
+   mpParanoiaStatus->setVisible( ConfigDialog::value( ConfigDialog::ParameterShowStats ) );
 }
 
 

@@ -29,7 +29,7 @@ class FreeDBQuery;
 
 class FreeDB : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    FreeDB( QObject *parent = 0 );

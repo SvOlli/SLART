@@ -34,7 +34,7 @@ class FileSysTreeModel;
 
 class DatabaseWorker : public QThread
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    DatabaseWorker();

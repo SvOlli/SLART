@@ -29,7 +29,7 @@ class MagicEncoderOgg;
 
 class MagicEncoderOggConfig : public MagicEncoderConfig
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    MagicEncoderOggConfig( MagicEncoderOgg *encoder, QWidget *parent, QAbstractButton *button );

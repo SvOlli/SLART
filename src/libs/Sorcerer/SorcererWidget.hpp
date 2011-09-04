@@ -34,52 +34,102 @@ class DatabaseWidget;
 class ProxyWidget;
 class SatelliteConfigWidget;
 
+/*!
+  \addtogroup Sorcerer
 
+  @{
+  */
+
+
+/*!
+ \brief
+
+*/
 class SorcererWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent parent widget
+    \param flags window flags
+   */
    SorcererWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   /*!
+    \brief
+
+   */
    virtual ~SorcererWidget();
-   /* bitmask of errors occured */
+   /*!
+    \brief bitmask of errors occured
+
+   */
    int errors();
 
 public slots:
-   /* handle the change of a tab */
+   /*!
+    \brief handle the change of a tab
+
+    \param newTab
+   */
    void handleTabChange( int newTab );
-   /* handle the next button */
+
+   /*!
+    \brief handle the next button
+
+   */
    void handleNextButton();
-   /* unlock the option to leave database tab when everything is ok */
+
+   /*!
+    \brief unlock the option to leave database tab when everything is ok
+
+   */
    void unlockDatabase();
-   /* handler for unlockDatabase() reply */
+
+   /*!
+    \brief handler for unlockDatabase() reply
+
+    \param list
+   */
    void countTracks( const TrackInfoList &list );
-   /* unlock the option to leave communication tab */
+
+   /*!
+    \brief unlock the option to leave communication tab
+
+   */
    void unlockCommunication();
 
 signals:
-   /* request a new icon and title */
+   /*!
+    \brief request a new icon and title
+
+    \param icon
+    \param title
+   */
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
-   SorcererWidget( const SorcererWidget &that );
-   SorcererWidget &operator=( const SorcererWidget &that );
+   Q_DISABLE_COPY( SorcererWidget )
 
-   DatabaseInterface       *mpDatabase;
-   QTabWidget              *mpTabs;
-   QLabel                  *mpHint;
-   QPushButton             *mpNext;
+   DatabaseInterface       *mpDatabase; /*!< TODO */
+   QTabWidget              *mpTabs; /*!< TODO */
+   QLabel                  *mpHint; /*!< TODO */
+   QPushButton             *mpNext; /*!< TODO */
 
-   DatabaseWidget          *mpDatabaseWidget;
-   SatelliteConfigWidget   *mpSatelliteConfigWidget;
-   ProxyWidget             *mpProxyWidget;
+   DatabaseWidget          *mpDatabaseWidget; /*!< TODO */
+   SatelliteConfigWidget   *mpSatelliteConfigWidget; /*!< TODO */
+   ProxyWidget             *mpProxyWidget; /*!< TODO */
 
-   int                     mLastTab;
-   bool                    mDatabaseOk;
-   bool                    mCommunicationOk;
-   bool                    mProxyOk;
-   const QString           mQuit;
-   const QString           mStart;
+   int                     mLastTab; /*!< TODO */
+   bool                    mDatabaseOk; /*!< TODO */
+   bool                    mCommunicationOk; /*!< TODO */
+   bool                    mProxyOk; /*!< TODO */
+   const QString           mQuit; /*!< TODO */
+   const QString           mStart; /*!< TODO */
 };
+
+/*! @} */
 
 #endif

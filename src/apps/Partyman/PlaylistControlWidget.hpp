@@ -42,7 +42,7 @@ class TrackInfoWidget;
 
 class PlaylistControlWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    PlaylistControlWidget( Database *database, ConfigDialog *config,

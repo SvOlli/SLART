@@ -40,7 +40,7 @@ class TheMagic;
 
 class DownloadHandler : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    DownloadHandler( QWidget *parent = 0 );

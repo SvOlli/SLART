@@ -16,7 +16,7 @@ class QUrl;
 
 class AboutWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    AboutWidget( QWidget *parent, const QString &aboutText = QString() );

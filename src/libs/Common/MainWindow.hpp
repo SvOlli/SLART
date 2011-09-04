@@ -16,9 +16,17 @@
 class QApplication;
 class QDir;
 
+/*!
+  \addtogroup Common Common: commonly used routines
+
+  \brief also contains \ref Satellite
+ @{
+ */
+
+
 class MainWindow : public QMainWindow
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    MainWindow( bool saveWindow = true,
@@ -48,5 +56,7 @@ private:
    int           mForbidMove;
    QWidget       *mpMainWidget;
 };
+
+/*! @} */
 
 #endif

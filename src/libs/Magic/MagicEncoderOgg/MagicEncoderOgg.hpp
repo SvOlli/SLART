@@ -29,10 +29,15 @@ extern "C" {
 
 /* forward declaration of local classes */
 
+/*!
+  \addtogroup MagicEncoderOgg MagicEncoderOgg: interface for OggVorbis audio encoding
+  @{
+  */
+
 
 class MagicEncoderOgg : public MagicEncoder
 {
-Q_OBJECT
+   Q_OBJECT
 Q_INTERFACES(MagicEncoderInterface)
 
    friend class MagicEncoderOggConfig;
@@ -76,5 +81,7 @@ private:
    ::vorbis_dsp_state            mVorbisDspState;
    ::vorbis_block                mVorbisBlock;
 };
+
+/*! @} */
 
 #endif

@@ -321,7 +321,7 @@ void PlayerWidget::handleResponse()
 
          if(!ok)
          {
-            mpControlWidget->initDisconnect( ControlWidget::wrongVersion );
+            mpControlWidget->initDisconnect( ControlWidget::ErrorWrongVersion );
          }
       }
 
@@ -374,11 +374,11 @@ void PlayerWidget::handleError( QAbstractSocket::SocketError /*socketError*/ )
 {
    if( mpFSM->getState() != PlayerFSM::disconnected )
    {
-      mpControlWidget->initDisconnect( ControlWidget::connectionLost );
+      mpControlWidget->initDisconnect( ControlWidget::ErrorConnectionLost );
    }
    else
    {
-      mpControlWidget->initDisconnect( ControlWidget::noConnection );
+      mpControlWidget->initDisconnect( ControlWidget::ErrorNoConnection );
    }
 }
 

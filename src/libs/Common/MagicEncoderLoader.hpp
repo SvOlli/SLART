@@ -37,8 +37,7 @@ class MagicEncoderLoader
 public:
    /* function to load MagicEncoders */
    static MagicEncoderList tryLoading( const QString &msgHeader,
-                                       Satellite *satellite = 0,
-                                       QApplication *app = 0 );
+                                       Satellite *satellite = 0 );
 
 private:
    MagicEncoderLoader();
@@ -50,5 +49,7 @@ private:
    static MagicEncoderList tryLoading( const QString &msgHeader, const QDir &dir,
                                        Satellite *satellite = 0 );
 };
+
+/*! @} */
 
 #endif /* MAGICENCODERLOADER_HPP */

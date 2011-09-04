@@ -2,5 +2,6 @@
 .cproject
 workspace/
 build/
+docs/generated-*
 *.pro.user*
 src-build-desktop

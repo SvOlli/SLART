@@ -30,7 +30,7 @@ class QSignalMapper;
 
 class SatelliteConfigWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    SatelliteConfigWidget( QWidget *parent = 0 );

@@ -25,76 +25,193 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Stripped
+  @{
+  */
+
+/*!
+ \brief data storage class for cd and track information
+
+*/
 class CDInfo
 {
 public:
+   /*!
+    \brief constructor
+
+   */
    CDInfo();
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~CDInfo();
 
-   /* reset data */
+   /*!
+    \brief reset data
+
+   */
    void clear();
 
-   /* set the global disc data (also resets all other data) */
+   /*!
+    \brief set the global disc data (also resets all other data)
+
+    \param tracks
+    \param startSector
+    \param endSector
+   */
    void setDisc( int tracks, int startSector, int endSector );
-   /* set the data for a track */
+
+   /*!
+    \brief set the data for a track
+
+    \param track
+    \param startSector
+    \param endSector
+    \param isAudio
+    \param copyProhib
+    \param preEmp
+    \param twoChannels
+   */
    void setTrack( int track, int startSector, int endSector,
                   bool isAudio, bool copyProhib, bool preEmp, bool twoChannels );
-   /* set the artist for a track */
+
+   /*!
+    \brief set the artist for a track
+
+    \param track track number to set artist (-1: disc)
+    \param artist artist name to set / append
+    \param append data should be appended instead of replaced
+   */
    void setArtist( int track = -1, const QString &artist = QString(), bool append = false );
-   /* set the title for a track */
+
+   /*!
+    \brief set the title for a track
+
+    \param track track number to set title (-1: disc)
+    \param title track title to set / append
+    \param append data should be appended instead of replaced
+   */
    void setTitle( int track = -1, const QString &title = QString(), bool append = false );
-   /* set the genre of the disc */
+
+   /*!
+    \brief set the genre of the disc
+
+    \param genre to set / append
+    \param append data should be appended instead of replaced
+   */
    void setGenre( const QString &genre = QString(), bool append = false );
-   /* set the year of the disc */
+
+   /*!
+    \brief set the year of the disc
+
+    \param year year of the disc
+   */
    void setYear( int year );
-   /* split the title to artist and title according to separator */
+
+   /*!
+    \brief split the title to artist and title according to separator
+
+    \param separator the separator to set, e.g. " / "
+   */
    void splitTitle( const QString &separator );
-   /* calculate the cddb discid */
+
+   /*!
+    \brief calculate the cddb discid
+
+   */
    void calcCddbDiscID();
-   /* return the cddb discid */
+
+   /*!
+    \brief return the cddb discid
+
+   */
    QString cddbDiscID();
-   /* return the number of tracks */
+
+   /*!
+    \brief return the number of tracks
+
+   */
    int tracks();
-   /* return the first sector of a track or disc if no track is given */
+
+   /*!
+    \brief return the first sector of a track or disc if no track is given
+
+    \param track track number to get sector for (-1: disc)
+   */
    int firstSector( int track = -1 );
-   /* return the last sector of a track or disc if no track is given */
+
+   /*!
+    \brief return the last sector of a track or disc if no track is given
+
+    \param track track number to get sector for (-1: disc)
+   */
    int lastSector( int track = -1 );
-   /* return the length of a track or disc if no track is given if mm:ss format */
+
+   /*!
+    \brief return the length of a track or disc if no track is given if mm:ss format
+
+    \param track track number to get length for (-1: disc)
+   */
    QString length( int track = -1 );
-   /* return if track is audio */
+
+   /*!
+    \brief return if track is audio
+
+    \param track track number
+   */
    bool isAudio( int track );
-   /* get the title of a track or disc, if no parameter */
+
+   /*!
+    \brief get the title of a track or disc, if no parameter
+
+    \param track track number to get title for (-1: disc)
+   */
    QString title( int track = -1 );
-   /* get the artist of a track or disc, if no parameter */
+
+   /*!
+    \brief get the artist of a track or disc, if no parameter
+
+    \param track track number to get artist name for (-1: disc)
+   */
    QString artist( int track = -1 );
-   /* get the genre of the disc */
+
+   /*!
+    \brief get the genre of the disc
+
+   */
    QString genre();
-   /* get the year of the disc */
+
+   /*!
+    \brief get the year of the disc
+
+   */
    int year();
 
 private:
-   CDInfo( const CDInfo &that );
-   CDInfo &operator=( const CDInfo &that );
+   Q_DISABLE_COPY( CDInfo )
 
-   /* Disc Info */
-   int            mNumTracks;
-   int            mDiscStartSector;
-   int            mDiscEndSector;
-   unsigned long  mDiscID;
-   int            mDiscYear;
-   QString        *mpDiscGenre;
-   QString        *mpDiscArtist;
-   QString        *mpDiscTitle;
+   int            mNumTracks; /*!< \brief disc info: number of tracks */
+   int            mDiscStartSector; /*!< \brief disc info: disc start sector */
+   int            mDiscEndSector; /*!< \brief disc info: disc end sector */
+   unsigned long  mDiscID; /*!< \brief disc info: cddb disc id */
+   int            mDiscYear; /*!< \brief disc info: disc year */
+   QString        *mpDiscGenre; /*!< \brief disc info: genre */
+   QString        *mpDiscArtist; /*!< \brief disc info: album artist name */
+   QString        *mpDiscTitle; /*!< \brief disc info: album title */
 
-   /* Tracks Info */
-   int            *mpTrackStartSector;
-   int            *mpTrackEndSector;
-   bool           *mpTrackIsAudio;
-   bool           *mpTrackCopyProhib;
-   bool           *mpTrackPreEmp;
-   bool           *mpTrack2Channels;
-   QString        **mpTrackArtist;
-   QString        **mpTrackTitle;
+   int            *mpTrackStartSector; /*!< \brief tracks info: track start sector */
+   int            *mpTrackEndSector; /*!< \brief tracks info: track end sector */
+   bool           *mpTrackIsAudio; /*!< \brief tracks info: track is audio */
+   bool           *mpTrackCopyProhib; /*!< \brief tracks info: copying of track is prohibited */
+   bool           *mpTrackPreEmp; /*!< \brief tracks info: track pre emphasis */
+   bool           *mpTrack2Channels; /*!< \brief tracks info: track is two channels */
+   QString        **mpTrackArtist; /*!< \brief tracks info: track artist name */
+   QString        **mpTrackTitle; /*!< \brief tracks info: track title */
 };
+
+/*! @} */
 
 #endif

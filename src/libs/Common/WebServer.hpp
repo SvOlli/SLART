@@ -30,7 +30,7 @@ class QTcpSocket;
 
 class WebServer : public QObject
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    WebServer( QObject *parent = 0 );

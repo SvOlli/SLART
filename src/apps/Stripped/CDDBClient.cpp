@@ -185,7 +185,7 @@ void CDDBClient::handleStateEjected()
 void CDDBClient::handleStateCleared()
 {
    clear();
-   if( MySettings().VALUE_AUTOFREEDB )
+   if( ConfigDialog::value( ConfigDialog::ParameterAutoFreeDB ) )
    {
       emit automatic();
    }
@@ -390,7 +390,8 @@ void CDDBClient::handleQueryData( QNetworkReply *reply )
    mpCount->setText( QString::number( mpHits->count() - 3 ) + ":" );
 
    mpHits->setCurrentIndex( (mpHits->count() > 3) ? 3 : 1 );
-   if( MySettings().VALUE_AUTOFREEDB && (mpHits->count() > 3) )
+   if( ConfigDialog::value( ConfigDialog::ParameterAutoFreeDB ) &&
+       (mpHits->count() > 3) )
    {
       emit automatic();
    }

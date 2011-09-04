@@ -30,7 +30,7 @@ class QTimer;
 
 class LineEdit : public QLineEdit
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    LineEdit( QWidget *parent );

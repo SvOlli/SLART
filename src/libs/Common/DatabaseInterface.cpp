@@ -32,12 +32,13 @@
 DatabaseInterface *DatabaseInterface::cpInterface = 0;
 
 
-void DatabaseInterface::create()
+DatabaseInterface *DatabaseInterface::create()
 {
    if( !cpInterface )
    {
       cpInterface = new DatabaseInterface();
    }
+   return cpInterface;
 }
 
 

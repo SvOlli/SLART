@@ -33,7 +33,7 @@ class Foundlist;
 
 class FreeDBQuery : public QThread
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    FreeDBQuery( Foundlist *parent = 0 );

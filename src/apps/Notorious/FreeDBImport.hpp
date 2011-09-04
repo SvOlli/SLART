@@ -32,7 +32,7 @@ class QString;
 
 class FreeDBImport : public QThread
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    FreeDBImport( QObject *parent = 0 );

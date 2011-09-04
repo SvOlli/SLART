@@ -31,7 +31,7 @@ class QSignalMapper;
 
 class ButtonsWidget : public QGroupBox
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    ButtonsWidget( QWidget *parent = 0 );

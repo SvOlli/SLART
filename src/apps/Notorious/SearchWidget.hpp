@@ -34,7 +34,7 @@ class QString;
 
 class SearchWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    SearchWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );

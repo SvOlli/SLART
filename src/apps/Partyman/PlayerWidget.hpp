@@ -40,7 +40,7 @@ class TimeSlider;
 
 class PlayerWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
    friend class PlayerFSMDisconnected;
    friend class PlayerFSMSearching;

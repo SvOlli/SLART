@@ -33,7 +33,7 @@ class QSpinBox;
 
 class ProxyWidget : public QWidget
 {
-Q_OBJECT
+   Q_OBJECT
 
 public:
    ProxyWidget( QWidget *parent = 0 );

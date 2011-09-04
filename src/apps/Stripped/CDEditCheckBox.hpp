@@ -26,16 +26,49 @@
 class CDEdit;
 
 
+/*!
+  \addtogroup Stripped
+  @{
+  */
+
+/*!
+ \brief helper for CDEdit providing a checkbox that can be left with cursor up / down
+
+*/
 class CDEditCheckBox : public QCheckBox
 {
-Q_OBJECT
+   Q_OBJECT
+
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    CDEditCheckBox( CDEdit *parent );
+
+   /*!
+    \brief constructor that allow setting a text
+
+    \param text
+    \param parent
+   */
    CDEditCheckBox( const QString &text, CDEdit *parent );
+
 protected:
+   /*!
+    \brief Reimplemented from QCheckBox::keyPressEvent()
+
+    Handling of cursor up / down keys
+
+    \param event
+   */
    void keyPressEvent( QKeyEvent *event );
+
 private:
-   CDEdit   *mpParent;
+   CDEdit   *mpParent; /*!< TODO */
 };
+
+/*! @} */
 
 #endif
