@@ -19,6 +19,16 @@ class QPushButton;
 class QSpinBox;
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class GlobalConfigWidget : public QWidget
 {
    Q_OBJECT
@@ -27,35 +37,74 @@ public:
    GlobalConfigWidget( QWidget *parent = 0 );
    virtual ~GlobalConfigWidget();
 
-   /* read settings */
+   /*!
+    \brief read settings
+
+   */
    void readSettings();
-   /* write settings */
+   /*!
+    \brief write settings
+
+   */
    void writeSettings();
-   /* write to the clipboard (copy and/or selection buffer) according to settings */
+   /*!
+    \brief write to the clipboard (copy and/or selection buffer) according to settings
+
+   */
    static void setClipboard( const QString &text );
-   /* read from clipboard (copy or selection buffer) according to settings */
+   /*!
+    \brief read from clipboard (copy or selection buffer) according to settings
+
+   */
    static QString getClipboard();
-   /* remove/replace chars illegal for a fileName */
+   /*!
+    \brief remove/replace chars illegal for a fileName
+
+   */
    static QString correctFileName( QString fileName, bool withDir );
-   /* show clipboard options on panel */
+   /*!
+    \brief show clipboard options on panel
+
+   */
    void showClipboard( bool allow = true );
-   /* show animation option on panel */
+   /*!
+    \brief show animation option on panel
+
+   */
    void showAnimate( bool allow = true );
-   /* show normalize options on panel */
+   /*!
+    \brief show normalize options on panel
+
+   */
    void showNormalize( bool allow = true );
-   /* show doubleclick interal options on panel */
+   /*!
+    \brief show doubleclick interal options on panel
+
+   */
    void showDoubleClickInterval( bool allow = true );
 
 public slots:
-   /* change the filename according to checkbox */
+   /*!
+    \brief change the filename according to checkbox
+
+   */
    void updateStyleSheetFileName();
-   /* handle the click of the dots button */
+   /*!
+    \brief handle the click of the dots button
+
+   */
    void selectFile();
-   /* set the "use satellite" checkbox */
+   /*!
+    \brief set the "use satellite" checkbox
+
+   */
    void setSatelliteClicked( bool isSet );
 
 signals:
-   /* signalize that the "use satellite" checkbox has been clicked */
+   /*!
+    \brief signalize that the "use satellite" checkbox has been clicked
+
+   */
    void useSatelliteClicked( bool isSet );
 
 private:
@@ -76,6 +125,8 @@ private:
    QLabel       *mpDoubleClickLabel;
    QSpinBox     *mpDoubleClickInterval;
 };
+
+/*! @} */
 
 /* defaults */
 #define VALUE_ANIMATEVIEWS             value("AnimateViews", false).toBool()

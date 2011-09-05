@@ -25,6 +25,16 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Funkytown
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class Cookie
 {
    friend class UnitTest;
@@ -46,5 +56,7 @@ private:
    QString mData;
 
 };
+
+/*! @} */
 
 #endif

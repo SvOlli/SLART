@@ -31,6 +31,16 @@ class FileSysBrowser;
 class InfoEdit;
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class BrowseWidget : public QWidget
 {
    Q_OBJECT
@@ -39,7 +49,10 @@ public:
    BrowseWidget( QWidget *parent = 0 );
 
 public slots:
-   /* show a specific file in filesystem tree */
+   /*!
+    \brief show a specific file in filesystem tree
+
+   */
    void scrollTo( const QString &fileName );
 
 private:
@@ -49,5 +62,7 @@ private:
    FileSysBrowser *mpFileSysBrowser;
    InfoEdit       *mpInfoEdit;
 };
+
+/*! @} */
 
 #endif

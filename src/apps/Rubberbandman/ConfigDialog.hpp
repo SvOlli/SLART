@@ -35,6 +35,16 @@ class GlobalConfigWidget;
 class ProxyWidget;
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ConfigDialog : public QDialog
 {
    Q_OBJECT
@@ -43,21 +53,42 @@ public:
    ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
-   /* show dialog */
+   /*!
+    \brief show dialog
+
+   */
    void exec();
-   /* read settings from storage */
+   /*!
+    \brief read settings from storage
+
+   */
    void readSettings();
-   /* write settings to storage */
+   /*!
+    \brief write settings to storage
+
+   */
    void writeSettings();
-   /* update example */
+   /*!
+    \brief update example
+
+   */
    void updateWithTrackNr( const QString &text );
-   /* update example */
+   /*!
+    \brief update example
+
+   */
    void updateWithoutTrackNr( const QString &text );
-   /* update example */
+   /*!
+    \brief update example
+
+   */
    void updatePlayingPattern( const QString &text );
 
 signals:
-   /* configuration has changed */
+   /*!
+    \brief configuration has changed
+
+   */
    void configChanged();
 
 private:
@@ -77,6 +108,8 @@ private:
    QLabel               *mpPlayingPatternExample;
    TagList              mTagList;
 };
+
+/*! @} */
 
 /* defaults */
 #define VALUE_AUTORESCAN      value( "AutoRescan", true ).toBool()

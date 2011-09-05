@@ -28,6 +28,16 @@
 class Database;
 
 
+/*!
+  \addtogroup Innuendo
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class LogListWidget : public QListWidget
 {
    Q_OBJECT
@@ -45,5 +55,7 @@ private:
    LogListWidget( const LogListWidget &that );
    LogListWidget &operator=( const LogListWidget &that );
 };
+
+/*! @} */
 
 #endif

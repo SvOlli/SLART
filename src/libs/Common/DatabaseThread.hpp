@@ -30,6 +30,16 @@ class QSqlQuery;
 class Satellite;
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class DatabaseThread : public QThread
 {
    Q_OBJECT
@@ -38,18 +48,30 @@ public:
    DatabaseThread( const QString &fileName = QString() );
    virtual ~DatabaseThread();
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    void run();
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    void registerUpdate( Satellite *satellite, const QByteArray &message );
 
-   /* generate the filename for DatabaseThread */
+   /*!
+    \brief generate the filename for DatabaseThread
+
+   */
    static QString getDatabaseFileName();
 
 private slots:
 
-   /* disable the next satellite notify */
+   /*!
+    \brief disable the next satellite notify
+
+   */
    void disableNotify();
 
    /* get track information from database by id or filename
@@ -57,10 +79,16 @@ private slots:
    void getTrackInfo( QObject *target, const QString &method,
                       int id, const QString &fileName );
 
-   /* update track information to database */
+   /*!
+    \brief update track information to database
+
+   */
    void updateTrackInfo( const TrackInfo &trackInfo, bool allowinsert = false );
 
-   /* delete track information from database */
+   /*!
+    \brief delete track information from database
+
+   */
    void deleteTrackInfo( const TrackInfo &trackInfo );
 
    /* get a list of track information matching to the search string
@@ -73,7 +101,10 @@ private slots:
    void getPathNameList( QObject *target, const QString &method,
                         const QString &search = QString() );
 
-   /* get a random track */
+   /*!
+    \brief get a random track
+
+   */
    void getRandomTrack( QObject *target, const QString &method,
                         bool favorite, bool leastplayed,
                         const QString &folder = QString() );
@@ -88,13 +119,22 @@ private slots:
    void getFolder( QObject *target, const QString &method,
                    const QString &folder );
 
-   /* add a folder */
+   /*!
+    \brief add a folder
+
+   */
    void insertFolder( const QString &folder );
 
-   /* remove a folder */
+   /*!
+    \brief remove a folder
+
+   */
    void deleteFolder( const QString &folder );
 
-   /* rename */
+   /*!
+    \brief rename
+
+   */
    void rename( const QString &oldName, const QString &newName );
 
    /* get all unique entries of a column
@@ -102,24 +142,39 @@ private slots:
    void getAllColumnData( QObject *target, const QString &method,
                           const QString &columnName );
 
-   /* for synchronization purposes */
+   /*!
+    \brief for synchronization purposes
+
+   */
    void call( QObject *target, const QString &method );
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    void commit( bool intermediate = false );
 
 signals:
-   /*  */
+   /*!
+    \brief 
+
+   */
    void working( bool on );
 
 private:
    DatabaseThread( const DatabaseThread &that );
    DatabaseThread &operator=( const DatabaseThread &that );
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    void prepare();
 
-   /* send out an error description to Innuendo */
+   /*!
+    \brief send out an error description to Innuendo
+
+   */
    void logError( const QString &note = QString() );
 
    QSqlDatabase            *mpSqlDB;
@@ -132,5 +187,7 @@ private:
    QByteArray              mUpdateMessage;
    bool                    mNotifyDisabled;
 };
+
+/*! @} */
 
 #endif

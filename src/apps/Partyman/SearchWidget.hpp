@@ -31,6 +31,16 @@ class PlaylistContentWidget;
 class PlaylistControlWidget;
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class SearchWidget : public QWidget
 {
    Q_OBJECT
@@ -40,13 +50,25 @@ public:
    virtual ~SearchWidget();
 
 public slots:
-   /* execute search */
+   /*!
+    \brief execute search
+
+   */
    void search();
-   /* do something with selected items */
+   /*!
+    \brief do something with selected items
+
+   */
    void selectedEntries( const QModelIndex &index, int key );
-   /* handle focus */
+   /*!
+    \brief handle focus
+
+   */
    void setFocus();
-   /* update the number of found entries */
+   /*!
+    \brief update the number of found entries
+
+   */
    void updateCounter();
 
 private:
@@ -59,5 +81,7 @@ private:
    QLineEdit             *mpInput;
    QLabel                *mpFound;
 };
+
+/*! @} */
 
 #endif

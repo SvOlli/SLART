@@ -28,28 +28,58 @@ class QFileInfo;
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class DirWalkerCallbackProxy : public DirWalkerCallbacks
 {
 public:
    DirWalkerCallbackProxy( QObject *target, enum Qt::ConnectionType connectionType = Qt::QueuedConnection );
    virtual ~DirWalkerCallbackProxy();
 
-   /* called on start */
+   /*!
+    \brief called on start
+
+   */
    virtual void handleStart();
-   /* handle a file entry */
+   /*!
+    \brief handle a file entry
+
+   */
    virtual void handleFile( const QFileInfo &fileInfo );
-   /* handle a directory entry upon entering */
+   /*!
+    \brief handle a directory entry upon entering
+
+   */
    virtual void handleDirEntry( const QFileInfo &fileInfo );
-   /* handle a directory entry upon leaving */
+   /*!
+    \brief handle a directory entry upon leaving
+
+   */
    virtual void handleDirLeave( const QFileInfo &fileInfo );
-   /* handle an other entry (link, etc.) */
+   /*!
+    \brief handle an other entry (link, etc.)
+
+   */
    virtual void handleOther( const QFileInfo &fileInfo );
-   /* called on start */
+   /*!
+    \brief called on start
+
+   */
    virtual void handleEnd();
 
 private:
    QObject                    *mpTarget;
    enum Qt::ConnectionType    mConnectionType;
 };
+
+/*! @} */
 
 #endif

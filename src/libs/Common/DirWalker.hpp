@@ -26,34 +26,83 @@ class QString;
 /* forward declaration of local classes */
 
 
-/* interface to provide callbacks */
+/*!
+    \brief interface to provide callbacks
+
+   */
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class DirWalkerCallbacks
 {
 public:
-   /* must be virtual because of virtual functions */
+   /*!
+    \brief must be virtual because of virtual functions
+
+   */
    virtual ~DirWalkerCallbacks(){}
-   /* called on start */
+   /*!
+    \brief called on start
+
+   */
    virtual void handleStart()                               = 0;
-   /* handle a file entry */
+   /*!
+    \brief handle a file entry
+
+   */
    virtual void handleFile( const QFileInfo &fileInfo )     = 0;
-   /* handle a directory entry upon entering */
+   /*!
+    \brief handle a directory entry upon entering
+
+   */
    virtual void handleDirEntry( const QFileInfo &fileInfo ) = 0;
-   /* handle a directory entry upon leaving */
+   /*!
+    \brief handle a directory entry upon leaving
+
+   */
    virtual void handleDirLeave( const QFileInfo &fileInfo ) = 0;
-   /* handle an other entry (link, etc.) */
+   /*!
+    \brief handle an other entry (link, etc.)
+
+   */
    virtual void handleOther( const QFileInfo &fileInfo )    = 0;
-   /* called on end */
+   /*!
+    \brief called on end
+
+   */
    virtual void handleEnd()                                 = 0;
 };
 
+/*! @} */
 
+
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class DirWalker
 {
 public:
    DirWalker();
    virtual ~DirWalker();
 
-   /* let the directory walker travel the filesystem */
+   /*!
+    \brief let the directory walker travel the filesystem
+
+   */
    void run( DirWalkerCallbacks *callbacks,
              const QString &directoryPath );
 
@@ -61,10 +110,15 @@ private:
    DirWalker( const DirWalker &that );
    DirWalker &operator=( const DirWalker &that );
 
-   /* let the directory walker travel the filesystem */
+   /*!
+    \brief let the directory walker travel the filesystem
+
+   */
    void runDir( DirWalkerCallbacks *callbacks,
                 const QString &directoryPath );
 
 };
+
+/*! @} */
 
 #endif

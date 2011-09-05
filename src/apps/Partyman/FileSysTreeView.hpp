@@ -25,6 +25,16 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class FileSysTreeView : public QTreeView
 {
    Q_OBJECT
@@ -34,24 +44,41 @@ public:
    virtual ~FileSysTreeView();
 
 protected:
-   /* handle right mouse button */
+   /*!
+    \brief handle right mouse button
+
+   */
    virtual void contextMenuEvent( QContextMenuEvent *event );
-   /* handle return/enter key */
+   /*!
+    \brief handle return/enter key
+
+   */
    virtual void keyPressEvent( QKeyEvent *event );
 
 signals:
-   /* emit the request for enqueueing */
+   /*!
+    \brief emit the request for enqueueing
+
+   */
    void context( const QModelIndex &index );
 
 private slots:
-   /* emit add request if the index represents a file */
+   /*!
+    \brief emit add request if the index represents a file
+
+   */
    void addIfFile( const QModelIndex &index );
-   /* set the tool tip if an entry is truncated */
+   /*!
+    \brief set the tool tip if an entry is truncated
+
+   */
    void setToolTip( const QModelIndex &index );
 
 private:
    FileSysTreeView( const FileSysTreeView &that );
    FileSysTreeView &operator=( const FileSysTreeView &that );
 };
+
+/*! @} */
 
 #endif

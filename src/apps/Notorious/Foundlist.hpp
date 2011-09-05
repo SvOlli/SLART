@@ -26,6 +26,16 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Notorious
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class Foundlist : public QTableWidget
 {
    Q_OBJECT
@@ -49,5 +59,7 @@ private:
 
    FreeDBQuery mQuery;
 };
+
+/*! @} */
 
 #endif

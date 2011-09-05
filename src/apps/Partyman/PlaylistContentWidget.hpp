@@ -37,6 +37,16 @@ class TrackInfoListModel;
 # define USE_DRAG_WORKAROUND 1
 #endif
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class PlaylistContentWidget : public QListView
 {
    Q_OBJECT
@@ -45,43 +55,88 @@ public:
    PlaylistContentWidget( Database *database, bool allowResort, QWidget *parent = 0 );
    virtual ~PlaylistContentWidget();
 
-   /* remove selected items from list widget and put them into the list parameter */
+   /*!
+    \brief remove selected items from list widget and put them into the list parameter
+
+   */
    void removeSelectedItems( QStringList *list = 0 );
-   /* get a list with all elements */
+   /*!
+    \brief get a list with all elements
+
+   */
    QStringList allFilePaths();
-   /* get and remove an element from the list */
+   /*!
+    \brief get and remove an element from the list
+
+   */
    QString takeFilePath( int i );
-   /* get number of elements in the list */
+   /*!
+    \brief get number of elements in the list
+
+   */
    int count();
-   /* clear the list */
+   /*!
+    \brief clear the list
+
+   */
    void clear();
 
 public slots:
-   /* add tracks to the list */
+   /*!
+    \brief add tracks to the list
+
+   */
    void addItems( const QStringList &items, bool atStart = false );
-   /* handle single click */
+   /*!
+    \brief handle single click
+
+   */
    void handleClick( const QModelIndex &idx );
-   /* handle double click */
+   /*!
+    \brief handle double click
+
+   */
    void handleDoubleClick( const QModelIndex &idx );
 
 signals:
-   /* signal that right mousebutton has been pressed */
+   /*!
+    \brief signal that right mousebutton has been pressed
+
+   */
    void context( const QModelIndex &index, int key );
-   /* some data has been removed, so others can update the counter */
+   /*!
+    \brief some data has been removed, so others can update the counter
+
+   */
    void dataRemoved();
-   /* content has changed, should be saved */
+   /*!
+    \brief content has changed, should be saved
+
+   */
    void contentChanged();
 
 protected:
-   /* catch right mouse button */
+   /*!
+    \brief catch right mouse button
+
+   */
    virtual void contextMenuEvent( QContextMenuEvent *event );
-   /* for handling key presses */
+   /*!
+    \brief for handling key presses
+
+   */
    virtual void keyPressEvent( QKeyEvent *event );
-   /* for detecting a drop event to save playlist */
+   /*!
+    \brief for detecting a drop event to save playlist
+
+   */
    virtual void dropEvent( QDropEvent *event );
 
 #if USE_DRAG_WORKAROUND
-   /* workaround for missing setDefaultDropAction() */
+   /*!
+    \brief workaround for missing setDefaultDropAction()
+
+   */
    void startDrag( Qt::DropActions supportedActions );
 #endif
 
@@ -94,5 +149,7 @@ private:
 
    QTimer               *mpTimer;
 };
+
+/*! @} */
 
 #endif

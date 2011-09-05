@@ -42,6 +42,16 @@ class Satellite;
 class TrackInfo;
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ControlWidget : public QWidget
 {
    Q_OBJECT
@@ -60,63 +70,141 @@ public:
                   PlaylistControlWidget *playlist, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    virtual ~ControlWidget();
 
-   /* callback for player to request next track */
+   /*!
+    \brief callback for player to request next track
+
+   */
    void getNextTrack( QString *fileName );
-   /* change the FSM state of the other player */
+   /*!
+    \brief change the FSM state of the other player
+
+   */
    void changeOtherState( int player, PlayerFSM::tState state );
-   /* add files to playlist (for unloading) */
+   /*!
+    \brief add files to playlist (for unloading)
+
+   */
    void addToPlaylist( const QStringList &entries );
-   /* run SLARTCommunication & execute external logger */
+   /*!
+    \brief run SLARTCommunication & execute external logger
+
+   */
    void log( const QString &udpEvent, const QString &logEvent, const QString &data = QString() );
-   /* signalise that skipping is possible again */
+   /*!
+    \brief signalise that skipping is possible again
+
+   */
    void allowSkip();
-   /* check if skip button is locked in */
+   /*!
+    \brief check if skip button is locked in
+
+   */
    bool isSkipChecked();
-   /* save the current tracks for restart */
+   /*!
+    \brief save the current tracks for restart
+
+   */
    void saveTracks( bool unload );
 
 private:
 
 public slots:
-   /* (re-)read configuration */
+   /*!
+    \brief (re-)read configuration
+
+   */
    void readConfig();
-   /* only allow connect if a valid database is provided */
+   /*!
+    \brief only allow connect if a valid database is provided
+
+   */
    void allowConnect( bool allowed );
-   /* handle connect to DerMixD */
+   /*!
+    \brief handle connect to DerMixD
+
+   */
    void initConnect();
-   /* handle disconnect from DerMixD */
+   /*!
+    \brief handle disconnect from DerMixD
+
+   */
    void initDisconnect( ErrorCode errorCode = ErrorNone );
-   /* skip to next track */
+   /*!
+    \brief skip to next track
+
+   */
    void handleSkipTrack();
-   /* handle (un)pausing */
+   /*!
+    \brief handle (un)pausing
+
+   */
    void handlePause( bool reset = false );
-   /* handle load from clipboard */
+   /*!
+    \brief handle load from clipboard
+
+   */
    void handleLoad();
-   /* handle remote requests */
+   /*!
+    \brief handle remote requests
+
+   */
    void handleSatellite( const QByteArray &msg );
-   /* handle process startup */
+   /*!
+    \brief handle process startup
+
+   */
    void handleDerMixDstartup();
-   /* handle process finish */
+   /*!
+    \brief handle process finish
+
+   */
    void handleDerMixDfinish( int exitCode, QProcess::ExitStatus exitStatus );
-   /* handle process error */
+   /*!
+    \brief handle process error
+
+   */
    void handleDerMixDerror( QProcess::ProcessError error );
-   /* handle the info of the currently played track */
+   /*!
+    \brief handle the info of the currently played track
+
+   */
    void handleTrackPlaying( const TrackInfo &trackInfo );
-   /* handle the click on the tray icon */
+   /*!
+    \brief handle the click on the tray icon
+
+   */
    void handleTrayIcon( QSystemTrayIcon::ActivationReason reason );
-   /* disable some elements of the user interface, if running in kiosk mode */
+   /*!
+    \brief disable some elements of the user interface, if running in kiosk mode
+
+   */
    void handleKioskMode( bool enable );
 
 signals:
-   /* request a new icon and title */
+   /*!
+    \brief request a new icon and title
+
+   */
    void requestChangeTitle( const QIcon &icon, const QString &title );
-   /* request for adding file to playlist (used for unload) */
+   /*!
+    \brief request for adding file to playlist (used for unload)
+
+   */
    void requestAddToPlaylist( const QStringList &entries, bool atStart );
-   /* signal if a connection has been established or cut off */
+   /*!
+    \brief signal if a connection has been established or cut off
+
+   */
    void signalConnected( bool connected );
-   /* signal to handle a "k0u" and "r0u" SLART message */
+   /*!
+    \brief signal to handle a "k0u" and "r0u" SLART message
+
+   */
    void trackUpdate();
-   /* request to change the tab */
+   /*!
+    \brief request to change the tab
+
+   */
    void requestTab( int tabNr );
 
 private:
@@ -156,5 +244,7 @@ private:
    bool                    mDerMixDstarted;
    QByteArray              mLastP0p;
 };
+
+/*! @} */
 
 #endif

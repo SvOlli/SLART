@@ -32,6 +32,16 @@ class DatabaseInterface;
 class FileSysTreeModel;
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class DatabaseWorker : public QThread
 {
    Q_OBJECT
@@ -40,38 +50,74 @@ public:
    DatabaseWorker();
    virtual ~DatabaseWorker();
 
-   /* cancel current run */
+   /*!
+    \brief cancel current run
+
+   */
    void cancel() { mCancel = true; }
-   /* start update */
+   /*!
+    \brief start update
+
+   */
    void startUpdate( const QString &baseDir );
-   /* start cleanup */
+   /*!
+    \brief start cleanup
+
+   */
    void startCleanup();
-   /* start import */
+   /*!
+    \brief start import
+
+   */
    void startImport( const QString &fileName );
-   /* run the job */
+   /*!
+    \brief run the job
+
+   */
    void run();
 
 public slots:
-   /* callback for update */
+   /*!
+    \brief callback for update
+
+   */
    void handleFile( const QFileInfo &fileInfo );
-   /* callback for update */
+   /*!
+    \brief callback for update
+
+   */
    void handleEnd();
-   /* read track info from the file */
+   /*!
+    \brief read track info from the file
+
+   */
    void updateTrackInfoFromFile( const TrackInfo &trackInfo );
-   /*  */
+   /*!
+    \brief 
+
+   */
    void cleanup( const TrackInfoList &trackInfoList );
-   /*  */
+   /*!
+    \brief 
+
+   */
    void updateStatus();
 
 signals:
-   /* emit progress */
+   /*!
+    \brief emit progress
+
+   */
    void progress( int checked, int processed );
 
 private:
    DatabaseWorker( const DatabaseWorker &that );
    DatabaseWorker &operator=( const DatabaseWorker &that );
 
-   /* subroutine for better reading of code */
+   /*!
+    \brief subroutine for better reading of code
+
+   */
    void importM3u();
 
    enum { ModeNone, ModeUpdate, ModeCleanup, ModeImport } mMode;
@@ -84,5 +130,7 @@ private:
    TrackInfo            mTrackInfo;
    QTime                mTime;
 };
+
+/*! @} */
 
 #endif

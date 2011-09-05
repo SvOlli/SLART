@@ -23,6 +23,16 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Notorious
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class TarEntry
 {
 public:
@@ -59,6 +69,8 @@ private:
    QString mExt[100];
 #endif
 };
+
+/*! @} */
 
 #endif
 

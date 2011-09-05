@@ -27,6 +27,16 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Innuendo
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ExecButton : public QPushButton
 {
    Q_OBJECT
@@ -36,11 +46,20 @@ public:
    virtual ~ExecButton();
 
 private slots:
-   /* handle click on button */
+   /*!
+    \brief handle click on button
+
+   */
    void handleClick();
-   /* callback for QProcess */
+   /*!
+    \brief callback for QProcess
+
+   */
    void handleError( QProcess::ProcessError error );
-   /* callback for QProcess */
+   /*!
+    \brief callback for QProcess
+
+   */
    void handleFinished( int exitCode, QProcess::ExitStatus exitStatus );
 
 private:
@@ -51,5 +70,7 @@ private:
    QProcess  mProcess;
    bool      mTerminating;
 };
+
+/*! @} */
 
 #endif

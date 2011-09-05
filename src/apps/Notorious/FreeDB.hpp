@@ -27,6 +27,16 @@ class QSqlDatabase;
 class FreeDBQuery;
 
 
+/*!
+  \addtogroup Notorious
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class FreeDB : public QObject
 {
    Q_OBJECT
@@ -45,6 +55,8 @@ private:
    FreeDBQuery  *mpSearchQuery;
    FreeDBQuery  *mpInfoQuery;
 };
+
+/*! @} */
 
 
 #endif

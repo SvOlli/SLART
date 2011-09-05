@@ -28,6 +28,16 @@
 class Database;
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class TrackInfoListModel : public QAbstractListModel
 {
    Q_OBJECT
@@ -35,41 +45,83 @@ class TrackInfoListModel : public QAbstractListModel
 public:
    TrackInfoListModel( Database *database, QObject *parent = 0 );
 
-   /* get number of elements in list */
+   /*!
+    \brief get number of elements in list
+
+   */
    int rowCount( const QModelIndex &parent = QModelIndex() ) const;
 
-   /* get data for display, reimplemented to match model requirements */
+   /*!
+    \brief get data for display, reimplemented to match model requirements
+
+   */
    QVariant data( const QModelIndex &index, int role ) const;
-   /* set the data */
+   /*!
+    \brief set the data
+
+   */
    bool setData( const QModelIndex &index, const QVariant &value, int role = Qt::DisplayRole );
 
-   /* reimplemented to match model requirements */
+   /*!
+    \brief reimplemented to match model requirements
+
+   */
    Qt::ItemFlags flags(const QModelIndex &index) const;
 
-   /* insert empty rows */
+   /*!
+    \brief insert empty rows
+
+   */
    bool insertRows( int row, int count, const QModelIndex &parent = QModelIndex() );
-   /* remove rows and drop their data */
+   /*!
+    \brief remove rows and drop their data
+
+   */
    bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
 
-   /* get the model data */
+   /*!
+    \brief get the model data
+
+   */
    TrackInfoList list() const;
-   /* set the model data */
+   /*!
+    \brief set the model data
+
+   */
    void setList( const TrackInfoList &list );
 
-   /* reimplemented to match model requirements */
+   /*!
+    \brief reimplemented to match model requirements
+
+   */
    QStringList mimeTypes() const;
-   /* reimplemented for drag'n'drop */
+   /*!
+    \brief reimplemented for drag'n'drop
+
+   */
    Qt::DropActions supportedDragActions() const;
-   /* reimplemented for drag'n'drop */
+   /*!
+    \brief reimplemented for drag'n'drop
+
+   */
    Qt::DropActions supportedDropActions() const;
-   /* get the mime data, reimplemented to match model requirements */
+   /*!
+    \brief get the mime data, reimplemented to match model requirements
+
+   */
    QMimeData *mimeData( const QModelIndexList &indexes ) const;
-   /* handle mime data of dropped objects */
+   /*!
+    \brief handle mime data of dropped objects
+
+   */
    bool dropMimeData( const QMimeData *data, Qt::DropAction action,
                       int row, int column, const QModelIndex &parent );
 
 public slots:
-   /* re-read configuration */
+   /*!
+    \brief re-read configuration
+
+   */
    void readSettings();
 
 private:
@@ -81,5 +133,7 @@ private:
    QString        mDisplayPattern;
    TrackInfoList  mList;
 };
+
+/*! @} */
 
 #endif

@@ -27,6 +27,16 @@ class QString;
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Funkytown
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class CookieJar
 {
    friend class UnitTest;
@@ -35,13 +45,21 @@ public:
    CookieJar();
    virtual ~CookieJar();
 
-   /* store a cookie */
+   /*!
+    \brief store a cookie
+
+   */
    void store( const QString &line );
-   /* retrieve a cookie */
+   /*!
+    \brief retrieve a cookie
+
+   */
    QStringList take( const QString &host, const QString &path );
 
 private:
    QList<Cookie>        mTheJar;
 };
+
+/*! @} */
 
 #endif

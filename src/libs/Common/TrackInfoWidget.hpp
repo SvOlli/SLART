@@ -32,6 +32,16 @@ class Database;
 class ScrollLine;
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class TrackInfoWidget : public QWidget
 {
    Q_OBJECT
@@ -43,25 +53,52 @@ public:
    virtual ~TrackInfoWidget();
 
 public slots:
-   /* handle the "Favorite" checkbox */
+   /*!
+    \brief handle the "Favorite" checkbox
+
+   */
    void handleFavoriteButton();
-   /* handle the "No Auto" checkbox */
+   /*!
+    \brief handle the "No Auto" checkbox
+
+   */
    void handleUnwantedButton();
-   /* display a menu to change groups part 1: get groups from database */
+   /*!
+    \brief display a menu to change groups part 1: get groups from database
+
+   */
    void handleGroupsMenu();
-   /* display a menu to change groups part 2: get selection an update */
+   /*!
+    \brief display a menu to change groups part 2: get selection an update
+
+   */
    void handleGroupsMenu( const QStringList &groups );
-   /* remotely set both "Favorite" and "No Auto" checkboxes */
+   /*!
+    \brief remotely set both "Favorite" and "No Auto" checkboxes
+
+   */
    void setFavoriteUnwanted( bool favorite, bool unwanted );
-   /* update the track data */
+   /*!
+    \brief update the track data
+
+   */
    void getTrack( const TrackInfo &trackInfo );
-   /* update the displayed track info */
+   /*!
+    \brief update the displayed track info
+
+   */
    void update( bool reread = true );
-   /*  */
+   /*!
+    \brief 
+
+   */
    void updateTrackInfo( const TrackInfo &trackInfo );
 
 signals:
-   /* either "Favorite" or "No Auto" checkbox has been clicked */
+   /*!
+    \brief either "Favorite" or "No Auto" checkbox has been clicked
+
+   */
    void checkboxClicked( const TrackInfo &trackInfo );
 
 private:
@@ -79,5 +116,7 @@ private:
    QCheckBox   *mpFavoriteButton;
    QCheckBox   *mpUnwantedButton;
 };
+
+/*! @} */
 
 #endif

@@ -29,6 +29,16 @@ class MagicEncoderFlac;
 class ScrollLine;
 
 
+/*!
+  \addtogroup MagicEncoderFlac
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class MagicEncoderFlacConfig : public MagicEncoderConfig
 {
    Q_OBJECT
@@ -37,9 +47,15 @@ public:
    MagicEncoderFlacConfig( MagicEncoderFlac *encoder, QWidget *parent, QAbstractButton *button );
    virtual ~MagicEncoderFlacConfig();
 
-   /* read settings from storage */
+   /*!
+    \brief read settings from storage
+
+   */
    void readSettings();
-   /* write settings to storage */
+   /*!
+    \brief write settings to storage
+
+   */
    void writeSettings();
 
 private:
@@ -48,10 +64,15 @@ private:
 
    MagicEncoderFlac     *mpEncoder;
 
-   /* configuration widget */
+   /*!
+    \brief configuration widget
+
+   */
    QSpinBox             *mpQuality;
    QCheckBox            *mpUseOga;
 };
+
+/*! @} */
 
 #define VALUE_FLACQUALITY        value( "FlacQuality", 5 ).toInt()
 #define VALUE_FLACUSEOGA         value( "FlacUseOga", false ).toBool()

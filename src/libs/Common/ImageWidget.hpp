@@ -26,6 +26,16 @@ class QImage;
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ImageWidget : public QWidget
 {
    Q_OBJECT
@@ -35,17 +45,32 @@ public:
    virtual ~ImageWidget();
 
 protected:
-   /* intercepting paint event for scaled drawing */
+   /*!
+    \brief intercepting paint event for scaled drawing
+
+   */
    void paintEvent( QPaintEvent *event );
 
 public slots:
-   /* set the image data */
+   /*!
+    \brief set the image data
+
+   */
    void setImage( const QImage &image );
-   /* load image data from file */
+   /*!
+    \brief load image data from file
+
+   */
    void setImage( const QString &fileName );
-   /* set aspect ratio: Qt::IgnoreAspectRatio, Qt::KeepAspectRatio, Qt::KeepAspectRatioByExpanding */
+   /*!
+    \brief set aspect ratio: Qt::IgnoreAspectRatio, Qt::KeepAspectRatio, Qt::KeepAspectRatioByExpanding
+
+   */
    void setAspectRatioMode( Qt::AspectRatioMode mode );
-   /* set transformation mode: Qt::FastTransformation, Qt::SmoothTransformation */
+   /*!
+    \brief set transformation mode: Qt::FastTransformation, Qt::SmoothTransformation
+
+   */
    void setTransformationMode( Qt::TransformationMode mode );
 
 signals:
@@ -60,4 +85,6 @@ private:
    QImage                  *mpImage;
 };
 
-#endif /* IMAGEWIDGET_HPP_ */
+/*! @} */
+
+#endif

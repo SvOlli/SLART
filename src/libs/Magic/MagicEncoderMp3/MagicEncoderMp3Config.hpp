@@ -28,6 +28,16 @@ class QDoubleSpinBox;
 class MagicEncoderMp3;
 
 
+/*!
+  \addtogroup MagicEncoderMp3
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class MagicEncoderMp3Config : public MagicEncoderConfig
 {
    Q_OBJECT
@@ -36,9 +46,15 @@ public:
    MagicEncoderMp3Config( MagicEncoderMp3 *encoder, QWidget *parent, QAbstractButton *button );
    virtual ~MagicEncoderMp3Config();
 
-   /* read settings from storage */
+   /*!
+    \brief read settings from storage
+
+   */
    void readSettings();
-   /* write settings to storage */
+   /*!
+    \brief write settings to storage
+
+   */
    void writeSettings();
 
 private:
@@ -47,10 +63,15 @@ private:
 
    MagicEncoderMp3      *mpEncoder;
 
-   /* configuration widget */
+   /*!
+    \brief configuration widget
+
+   */
    QDoubleSpinBox       *mpQuality;
    QCheckBox            *mpUseLatin1;
 };
+
+/*! @} */
 
 #define VALUE_USE_LATIN1         value( "UseLatin1", false ).toBool()
 #define VALUE_VBRQUALITY         value( "VBRQuality", 4.0 ).toDouble()

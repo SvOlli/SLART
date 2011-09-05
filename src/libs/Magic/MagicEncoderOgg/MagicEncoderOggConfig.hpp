@@ -27,6 +27,16 @@ class QDoubleSpinBox;
 class MagicEncoderOgg;
 
 
+/*!
+  \addtogroup MagicEncoderOgg
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class MagicEncoderOggConfig : public MagicEncoderConfig
 {
    Q_OBJECT
@@ -35,9 +45,15 @@ public:
    MagicEncoderOggConfig( MagicEncoderOgg *encoder, QWidget *parent, QAbstractButton *button );
    virtual ~MagicEncoderOggConfig();
 
-   /* read settings from storage */
+   /*!
+    \brief read settings from storage
+
+   */
    void readSettings();
-   /* write settings to storage */
+   /*!
+    \brief write settings to storage
+
+   */
    void writeSettings();
 
 private:
@@ -46,9 +62,14 @@ private:
 
    MagicEncoderOgg      *mpEncoder;
 
-   /* configuration widget */
+   /*!
+    \brief configuration widget
+
+   */
    QDoubleSpinBox       *mpQuality;
 };
+
+/*! @} */
 
 #define VALUE_OGGQUALITY         value( "OggQuality", 0.4 ).toDouble()
 

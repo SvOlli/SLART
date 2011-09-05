@@ -32,6 +32,16 @@ class QString;
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Notorious
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class SearchWidget : public QWidget
 {
    Q_OBJECT
@@ -73,5 +83,7 @@ private:
    QTime       mTime2;
    QString     mSQL;
 };
+
+/*! @} */
 
 #endif

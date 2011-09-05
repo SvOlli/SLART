@@ -37,6 +37,16 @@ class PlayerFSMEndingPaused;
 class PlayerWidget;
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class PlayerFSM
 {
 public:
@@ -47,11 +57,20 @@ public:
    PlayerFSM( PlayerWidget *playerWidget );
    virtual ~PlayerFSM();
 
-   /* change the state of the FSM */
+   /*!
+    \brief change the state of the FSM
+
+   */
    bool changeState( tState newState );
-   /* get the state of the FSM */
+   /*!
+    \brief get the state of the FSM
+
+   */
    tState getState();
-   /* handle messages from DerMixD */
+   /*!
+    \brief handle messages from DerMixD
+
+   */
    void handleDerMixD( const QString &msg );
 
 private:
@@ -69,5 +88,7 @@ private:
    PlayerFSMEndingPaused        *mpStateEndingPaused;
    PlayerFSMBase                *mpStateClass;
 };
+
+/*! @} */
 
 #endif

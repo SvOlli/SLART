@@ -25,18 +25,39 @@
 /* forward declaration of local classes */
 
 
-/* a very nasty hack to change the protected button variables */
+/*!
+    \brief a very nasty hack to change the protected button variables
+
+   */
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class MyMouseEvent : public QMouseEvent
 {
-   /* everything private, usage only via reinterpret_cast */
+   /*!
+    \brief everything private, usage only via reinterpret_cast
+
+   */
 private:
    MyMouseEvent();
    MyMouseEvent( const MyMouseEvent &that );
    MyMouseEvent &operator=( const MyMouseEvent &that );
    virtual ~MyMouseEvent();
 public:
-   /* only cause for this class: modify the mouse button */
+   /*!
+    \brief only cause for this class: modify the mouse button
+
+   */
    void setMouseButton( Qt::MouseButton bt );
 };
+
+/*! @} */
 
 #endif

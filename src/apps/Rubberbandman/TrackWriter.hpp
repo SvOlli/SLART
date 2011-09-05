@@ -27,6 +27,16 @@
 class TrackInfo;
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class TrackWriter : public QObject
 {
    Q_OBJECT
@@ -36,7 +46,10 @@ public:
                 enum Qt::ConnectionType type = Qt::AutoConnection );
    virtual ~TrackWriter();
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    void write( const TrackInfo &trackInfo );
 
 public slots:
@@ -51,5 +64,7 @@ private:
    QString                 mMethod;
    enum Qt::ConnectionType mType;
 };
+
+/*! @} */
 
 #endif

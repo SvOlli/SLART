@@ -23,6 +23,16 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Notorious
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class FreeDBEntry
 {
 public:
@@ -44,5 +54,7 @@ public:
    QString ext;
 #endif
 };
+
+/*! @} */
 
 #endif

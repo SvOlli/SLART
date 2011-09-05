@@ -28,6 +28,16 @@
 class FileSysTreeItem;
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class FileSysTreeModel : public QAbstractItemModel
 {
    Q_OBJECT
@@ -36,31 +46,70 @@ public:
    FileSysTreeModel( QObject *parent = 0 );
    virtual ~FileSysTreeModel();
 
-   /* clear the complete model */
+   /*!
+    \brief clear the complete model
+
+   */
    void clear();
-   /* return the data of an index */
+   /*!
+    \brief return the data of an index
+
+   */
    QVariant data( const QModelIndex &index, int role ) const;
-   /* set item flags to enabled */
+   /*!
+    \brief set item flags to enabled
+
+   */
    Qt::ItemFlags flags(const QModelIndex &index) const;
-   /* for dragging */
+   /*!
+    \brief for dragging
+
+   */
    Qt::DropActions supportedDragActions() const;
-   /* for dragging: set the mime data of files */
+   /*!
+    \brief for dragging: set the mime data of files
+
+   */
    virtual QMimeData *mimeData( const QModelIndexList &indexes ) const;
-   /* for dragging: set the mime type to file urls */
+   /*!
+    \brief for dragging: set the mime type to file urls
+
+   */
    virtual QStringList mimeTypes() const;
-   /* return index of a specific point */
+   /*!
+    \brief return index of a specific point
+
+   */
    QModelIndex index( int row, int column, const QModelIndex &parent = QModelIndex() ) const;
-   /* return parent of an index */
+   /*!
+    \brief return parent of an index
+
+   */
    QModelIndex parent(const QModelIndex &index) const;
-   /* return number of rows of an index */
+   /*!
+    \brief return number of rows of an index
+
+   */
    int rowCount( const QModelIndex &parent = QModelIndex() ) const;
-   /* return number of columns of an index */
+   /*!
+    \brief return number of columns of an index
+
+   */
    int columnCount( const QModelIndex &parent = QModelIndex() ) const;
-   /* set the complete model data */
+   /*!
+    \brief set the complete model data
+
+   */
    void setModelData( const QStringList &filenames );
-   /* add one data */
+   /*!
+    \brief add one data
+
+   */
    void addModelData( const QString &filename );
-   /* get the full path of an index */
+   /*!
+    \brief get the full path of an index
+
+   */
    QString getPath( const QModelIndex &index ) const;
 
 private:
@@ -69,5 +118,7 @@ private:
 
    FileSysTreeItem *mpRootItem;
 };
+
+/*! @} */
 
 #endif

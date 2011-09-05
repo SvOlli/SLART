@@ -31,6 +31,16 @@ class QFileInfo;
 class DatabaseInterface;
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class RecurseWorker : public QThread
 {
    Q_OBJECT
@@ -47,31 +57,55 @@ public:
    RecurseWorker();
    virtual ~RecurseWorker();
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    void startSetTags( const QString &dir, const TrackInfo &ti, Flags flags );
-   /*  */
+   /*!
+    \brief 
+
+   */
    void startNormArtist( const QString &dir );
-   /*  */
+   /*!
+    \brief 
+
+   */
    void startNormTitle( const QString &dir );
 
 public slots:
-   /*  */
+   /*!
+    \brief 
+
+   */
    void updateTrackInfo( const TrackInfo &trackInfo );
-   /* final call of a batch to stop event loop */
+   /*!
+    \brief final call of a batch to stop event loop
+
+   */
    void done();
 
 signals:
-   /* emit some kind of progress */
+   /*!
+    \brief emit some kind of progress
+
+   */
    void currentPath( const QString &path );
 
 private:
    RecurseWorker( const RecurseWorker &that );
    RecurseWorker &operator=( const RecurseWorker &that );
 
-   /* run the job */
+   /*!
+    \brief run the job
+
+   */
    void run();
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    void workDir( const QString &dir );
 
    enum { ModeNothing,
@@ -96,5 +130,7 @@ private:
    TagList              mTagList;
    DatabaseInterface    *mpDatabase;
 };
+
+/*! @} */
 
 #endif

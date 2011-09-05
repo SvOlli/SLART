@@ -28,6 +28,16 @@ class QTimer;
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class LineEdit : public QLineEdit
 {
    Q_OBJECT
@@ -37,9 +47,15 @@ public:
    virtual ~LineEdit();
 
 public slots:
-   /* set texts for auto complete */
+   /*!
+    \brief set texts for auto complete
+
+   */
    void setCompleterTexts( const QStringList &list );
-   /* add one text for auto complete */
+   /*!
+    \brief add one text for auto complete
+
+   */
    void addCompleterText( const QString &text = QString() );
 
 protected:
@@ -48,5 +64,7 @@ private:
    LineEdit( const LineEdit &that );
    LineEdit &operator=( const LineEdit &that );
 };
+
+/*! @} */
 
 #endif

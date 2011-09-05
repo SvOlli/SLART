@@ -34,6 +34,16 @@ class GlobalConfigWidget;
 class ProxyWidget;
 
 
+/*!
+  \addtogroup Karmadrome
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ConfigDialog : public QDialog
 {
    Q_OBJECT
@@ -42,15 +52,27 @@ public:
    ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
-   /* execute the dialog */
+   /*!
+    \brief execute the dialog
+
+   */
    void exec();
-   /* read settings from storage */
+   /*!
+    \brief read settings from storage
+
+   */
    void readSettings();
-   /* write settings to storage */
+   /*!
+    \brief write settings to storage
+
+   */
    void writeSettings();
 
 signals:
-   /* configuration has changed */
+   /*!
+    \brief configuration has changed
+
+   */
    void configChanged();
 
 private:
@@ -65,6 +87,8 @@ private:
    QCheckBox            *mpRandomizeExport;
    QCheckBox            *mpUseCheckBoxes;
 };
+
+/*! @} */
 
 /* defaults */
 #define VALUE_CLEARBEFOREIMPORT  value( "ClearBeforeImport", false ).toBool()

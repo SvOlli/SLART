@@ -37,6 +37,16 @@ class GlobalConfigWidget;
 class ProxyWidget;
 
 
+/*!
+  \addtogroup Innuendo
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class DropDialog : public QDialog
 {
    Q_OBJECT
@@ -44,25 +54,43 @@ class DropDialog : public QDialog
 public:
    DropDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
-   /* for implementing dropping */
+   /*!
+    \brief for implementing dropping
+
+   */
    void dropEvent( QDropEvent *event );
 
 protected:
-   /* for implementing dropping */
+   /*!
+    \brief for implementing dropping
+
+   */
    void dragEnterEvent( QDragEnterEvent *event );
 
 public slots:
-   /* handle the dropdown list containing mime types */
+   /*!
+    \brief handle the dropdown list containing mime types
+
+   */
    void mimeDataByIndex( int index );
-   /* target for clipboard button */
+   /*!
+    \brief target for clipboard button
+
+   */
    void handleClipboard();
 
 private:
    DropDialog( const DropDialog &that );
    DropDialog &operator=( const DropDialog &that );
-   /* handle the drop */
+   /*!
+    \brief handle the drop
+
+   */
    void handleDropData();
-   /* analyse the mime data */
+   /*!
+    \brief analyse the mime data
+
+   */
    void getMimeData( const QMimeData *mimeData );
 
    QComboBox       *mpMimeTypes;
@@ -75,5 +103,7 @@ private:
    QSignalMapper   *mpSignalMapper;
    QStringList     mMimeDataCache;
 };
+
+/*! @} */
 
 #endif

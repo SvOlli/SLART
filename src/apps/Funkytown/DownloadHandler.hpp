@@ -38,6 +38,16 @@ class ScrollLine;
 class TheMagic;
 
 
+/*!
+  \addtogroup Funkytown
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class DownloadHandler : public QWidget
 {
    Q_OBJECT
@@ -45,25 +55,49 @@ class DownloadHandler : public QWidget
 public:
    DownloadHandler( QWidget *parent = 0 );
 
-   /* run a download request */
+   /*!
+    \brief run a download request
+
+   */
    void run( const QString &url );
 
 public slots:
-   /* callback for QHttp */
+   /*!
+    \brief callback for QHttp
+
+   */
    void httpRequestFinished( int requestId, bool error );
-   /* callback for QHttp */
+   /*!
+    \brief callback for QHttp
+
+   */
    void readResponseHeader( const QHttpResponseHeader &responseHeader );
-   /* update the progress bar */
+   /*!
+    \brief update the progress bar
+
+   */
    void updateDataReadProgress( int bytesRead, int totalBytes );
-   /* start the download */
+   /*!
+    \brief start the download
+
+   */
    void startDownload();
-   /* handle change of the enqueue checkbox */
+   /*!
+    \brief handle change of the enqueue checkbox
+
+   */
    void handleEnqueue( bool checked );
 
 signals:
-   /* signalize if download active or application is idle */
+   /*!
+    \brief signalize if download active or application is idle
+
+   */
    void downloadActive( bool active );
-   /* send a message if an error occured */
+   /*!
+    \brief send a message if an error occured
+
+   */
    void errorMessage( const QString &message );
 
 private:
@@ -84,5 +118,7 @@ private:
    TheMagic                     *mpTheMagic;
    CookieJar                    mCookieJar;
 };
+
+/*! @} */
 
 #endif

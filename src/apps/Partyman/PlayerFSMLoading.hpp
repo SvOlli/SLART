@@ -25,16 +25,35 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class PlayerFSMLoading : public PlayerFSMBase
 {
 public:
    PlayerFSMLoading( PlayerWidget *playerWidget );
 
-   /* called when state is entered, returns success */
+   /*!
+    \brief called when state is entered, returns success
+
+   */
    bool enter();
-   /* called when state is left */
+   /*!
+    \brief called when state is left
+
+   */
    void leave();
-   /* called when DerMixD sends some output, returns state change request */
+   /*!
+    \brief called when DerMixD sends some output, returns state change request
+
+   */
    PlayerFSM::tState handleDerMixD( const QString &msg );
 
 private:
@@ -43,6 +62,8 @@ private:
    PlayerFSMLoading( const PlayerFSMLoading &that );
    PlayerFSMLoading &operator=( const PlayerFSMLoading &that );
 };
+
+/*! @} */
 
 #endif
 

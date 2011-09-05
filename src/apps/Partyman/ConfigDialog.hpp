@@ -34,6 +34,16 @@ class GlobalConfigWidget;
 class MyClipboard;
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ConfigDialog : public QDialog
 {
    Q_OBJECT
@@ -42,25 +52,52 @@ public:
    ConfigDialog( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
-   /* execute the dialog */
+   /*!
+    \brief execute the dialog
+
+   */
    void exec();
-   /* read settings from storage */
+   /*!
+    \brief read settings from storage
+
+   */
    void readSettings();
-   /* write settings to storage */
+   /*!
+    \brief write settings to storage
+
+   */
    void writeSettings();
-   /* handle "start DerMixD" checkbox */
+   /*!
+    \brief handle "start DerMixD" checkbox
+
+   */
    void handleDerMixDrun( bool checked );
-   /* handle "Nomalize" combobox */
+   /*!
+    \brief handle "Nomalize" combobox
+
+   */
    void handleNormalizeMode( int mode );
-   /* handle "Show Tray Icon" checkbox */
+   /*!
+    \brief handle "Show Tray Icon" checkbox
+
+   */
    void handleShowTrayIcon( bool checked );
-   /* activate kiosk mode */
+   /*!
+    \brief activate kiosk mode
+
+   */
    void handleStartKiosk();
 
 signals:
-   /* configuration has changed */
+   /*!
+    \brief configuration has changed
+
+   */
    void configChanged();
-   /* update of browser tree requested */
+   /*!
+    \brief update of browser tree requested
+
+   */
    void updateBrowser();
 
 private:
@@ -102,6 +139,8 @@ private:
    QPushButton          *mpStartKioskButton;
    GlobalConfigWidget   *mpGlobalSettings;
 };
+
+/*! @} */
 
 /* defaults */
 #define VALUE_AUTOCONNECT         value("AutoConnect", false).toBool()

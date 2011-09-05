@@ -25,25 +25,43 @@ class QString;
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class Translate
 {
 public:
    Translate();
    virtual ~Translate();
 
-   /* install the translators */
+   /*!
+    \brief install the translators
+
+   */
    void install( QCoreApplication *app = 0 );
 
 private:
    Translate( const Translate &that );
    Translate &operator=( const Translate &that );
 
-   /* get the location of own translation files */
+   /*!
+    \brief get the location of own translation files
+
+   */
    static QString location( QCoreApplication *app );
 
    QTranslator    *mpQtTranslator;
    QTranslator    *mpLibTranslator;
    QTranslator    *mpAppTranslator;
 };
+
+/*! @} */
 
 #endif

@@ -26,6 +26,16 @@
 #include "SearchWidget.hpp"
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class SearchLineEdit : public QLineEdit
 {
 public:
@@ -35,5 +45,7 @@ protected:
 private:
    SearchWidget *mpSearchWidget;
 };
+
+/*! @} */
 
 #endif

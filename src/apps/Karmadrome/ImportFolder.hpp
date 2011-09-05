@@ -28,6 +28,16 @@ class DatabaseInterface;
 class TrackInfo;
 
 
+/*!
+  \addtogroup Karmadrome
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ImportFolder : public QObject
 {
    Q_OBJECT
@@ -37,7 +47,10 @@ public:
    virtual ~ImportFolder();
 
 public slots:
-   /*  */
+   /*!
+    \brief 
+
+   */
    void addEntryToFolder( const TrackInfo &ti );
 
 signals:
@@ -53,5 +66,7 @@ private:
    const QString     mUnwanted;
    QString           mFolder;
 };
+
+/*! @} */
 
 #endif

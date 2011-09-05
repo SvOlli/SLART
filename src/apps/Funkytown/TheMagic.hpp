@@ -33,6 +33,16 @@ class MagicQueue;
 class Satellite;
 
 
+/*!
+  \addtogroup Funkytown
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class TheMagic : public QObject
 {
    Q_OBJECT
@@ -45,31 +55,61 @@ public:
 
    TheMagic( const TheMagic &that );
 
-   /* the magic that gonna happen before the download */
+   /*!
+    \brief the magic that gonna happen before the download
+
+   */
    void preDownload();
-   /* the magic that gonna happen after the download */
+   /*!
+    \brief the magic that gonna happen after the download
+
+   */
    void postDownload( bool success );
-   /* return filename for the file that being downloaded, if any */
+   /*!
+    \brief return filename for the file that being downloaded, if any
+
+   */
    QString fileName();
-   /* return referer, if any */
+   /*!
+    \brief return referer, if any
+
+   */
    QString referer();
-   /* note that the download has failed */
+   /*!
+    \brief note that the download has failed
+
+   */
    void fail();
-   /* sset the content (mime-)type, used for 8bit conversion */
+   /*!
+    \brief sset the content (mime-)type, used for 8bit conversion
+
+   */
    void setContentType( const QString &contentType );
-   /* the device handler to write the data to */
+   /*!
+    \brief the device handler to write the data to
+
+   */
    QIODevice *ioDevice();
 
-   /* the url to download */
+   /*!
+    \brief the url to download
+
+   */
    QString          mURL;
-   /* marker if the list entry has been selected (for sending to Partyman) */
+   /*!
+    \brief marker if the list entry has been selected (for sending to Partyman)
+
+   */
    bool             mSelected;
 
 
 private:
    TheMagic &operator=( const TheMagic &that );
 
-   /* the different states of downloading and analysing */
+   /*!
+    \brief the different states of downloading and analysing
+
+   */
    enum { stageFresh, stageGenericFile, stageGenericHTML,
           stageMySpaceHTML, stageMySpaceOldXML,
           stageMySpacePlaylists, stageMySpaceArtistPlaylist,
@@ -111,5 +151,7 @@ private:
    void parseMySpaceArtistPlaylist();
    void parseMySpaceSong();
 };
+
+/*! @} */
 
 #endif

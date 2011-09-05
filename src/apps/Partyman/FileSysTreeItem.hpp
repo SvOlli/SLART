@@ -26,23 +26,51 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class FileSysTreeItem
 {
 public:
    FileSysTreeItem( const QVariant &data, FileSysTreeItem *parent = 0 );
    virtual ~FileSysTreeItem();
 
-   /* return child item by row number */
+   /*!
+    \brief return child item by row number
+
+   */
    FileSysTreeItem *child( int row );
-   /* return child item by path and create one if none exists */
+   /*!
+    \brief return child item by path and create one if none exists
+
+   */
    FileSysTreeItem *child( const QVariant &data );
-   /* return number of childs */
+   /*!
+    \brief return number of childs
+
+   */
    int childCount() const;
-   /* return path */
+   /*!
+    \brief return path
+
+   */
    QVariant data() const;
-   /* return own row id */
+   /*!
+    \brief return own row id
+
+   */
    int row() const;
-   /* return parent */
+   /*!
+    \brief return parent
+
+   */
    FileSysTreeItem *parent();
 
 private:
@@ -53,5 +81,7 @@ private:
    QVariant                mItemData;
    QList<FileSysTreeItem*> mChildItems;
 };
+
+/*! @} */
 
 #endif

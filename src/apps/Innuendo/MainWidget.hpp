@@ -38,6 +38,16 @@ class LogListWidget;
 class Satellite;
 
 
+/*!
+  \addtogroup Innuendo
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class MainWidget : public QWidget
 {
    Q_OBJECT
@@ -47,28 +57,52 @@ public:
    virtual ~MainWidget();
 
 public slots:
-   /* re-read config */
+   /*!
+    \brief re-read config
+
+   */
    void readConfig();
-   /* handle the ping button */
+   /*!
+    \brief handle the ping button
+
+   */
    void handlePingButton();
-   /* handle SLART message */
+   /*!
+    \brief handle SLART message
+
+   */
    void handleSatellite( const QByteArray &msg );
-   /* copy clicked line of message buffer to clipboard */
+   /*!
+    \brief copy clicked line of message buffer to clipboard
+
+   */
    void listWidgetItemToClipboard( QListWidgetItem *item );
 
 private slots:
-   /* autostart */
+   /*!
+    \brief autostart
+
+   */
    void autostart();
-   /* prohibit autostart, in case Innuendo is already running */
+   /*!
+    \brief prohibit autostart, in case Innuendo is already running
+
+   */
    void noAutostart();
 
 signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 protected:
-   /* for implementing dropping */
+   /*!
+    \brief for implementing dropping
+
+   */
    virtual void dragEnterEvent( QDragEnterEvent *event );
-   /* for implementing dropping */
+   /*!
+    \brief for implementing dropping
+
+   */
    virtual void dropEvent( QDropEvent *event );
 
 private:
@@ -86,5 +120,7 @@ private:
    int                  mNumExecButtons;
    QStringList          mAutostart;
 };
+
+/*! @} */
 
 #endif

@@ -28,6 +28,16 @@ class QSignalMapper;
 
 
 
+/*!
+  \addtogroup Innuendo
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class SatelliteConfigWidget : public QWidget
 {
    Q_OBJECT
@@ -35,23 +45,44 @@ class SatelliteConfigWidget : public QWidget
 public:
    SatelliteConfigWidget( QWidget *parent = 0 );
    virtual ~SatelliteConfigWidget();
-   /* read the settings */
+   /*!
+    \brief read the settings
+
+   */
    void readSettings();
-   /* write the settings */
+   /*!
+    \brief write the settings
+
+   */
    void writeSettings();
 
 public slots:
-   /* handshake from global "use satellite" */
+   /*!
+    \brief handshake from global "use satellite"
+
+   */
    void setInnuendoClicked( bool isSet );
-   /* handle "Full Communication" */
+   /*!
+    \brief handle "Full Communication"
+
+   */
    void setAll( bool isSet = true );
-   /* handle "No Communication" */
+   /*!
+    \brief handle "No Communication"
+
+   */
    void setNone();
 
 signals:
-   /* handshake to global "use satellite" */
+   /*!
+    \brief handshake to global "use satellite"
+
+   */
    void useInnuendoClicked( bool isSet );
-   /* signal full or no communication clicked */
+   /*!
+    \brief signal full or no communication clicked
+
+   */
    void fullOrNoCommunication();
 
 private:
@@ -60,5 +91,7 @@ private:
 
    QList<QCheckBox*>    mButtonList;
 };
+
+/*! @} */
 
 #endif

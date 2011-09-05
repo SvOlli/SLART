@@ -30,6 +30,16 @@ class TheMagic;
 #define LIST_NEEDS_FIXING 0
 
 
+/*!
+  \addtogroup Funkytown
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class MagicQueue : public QListWidget
 {
    Q_OBJECT
@@ -38,15 +48,27 @@ public:
    MagicQueue( QWidget *parent = 0 );
    virtual ~MagicQueue();
 
-   /* generate a magic item from url and cue it */
+   /*!
+    \brief generate a magic item from url and cue it
+
+   */
    void addUrl( const QString &addurl );
-   /* cue an anready generated magic item */
+   /*!
+    \brief cue an anready generated magic item
+
+   */
    void addMagic( TheMagic *addmagic );
-   /* get the next magic item from the cue */
+   /*!
+    \brief get the next magic item from the cue
+
+   */
    TheMagic *getMagic();
 
 public slots:
-   /* handler to set selection of an item in the queue */
+   /*!
+    \brief handler to set selection of an item in the queue
+
+   */
    void handleSelect( QListWidgetItem *item );
 
 private:
@@ -59,5 +81,7 @@ private:
    void updateList();
 #endif
 };
+
+/*! @} */
 
 #endif

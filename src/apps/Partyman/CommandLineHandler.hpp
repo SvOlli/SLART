@@ -28,6 +28,16 @@ class GenericSatMsgHandler;
 class Satellite;
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class CommandLineHandler : public QObject
 {
    Q_OBJECT
@@ -37,9 +47,15 @@ public:
    virtual ~CommandLineHandler();
 
 public slots:
-   /* another instance of Partyman was found on the bus */
+   /*!
+    \brief another instance of Partyman was found on the bus
+
+   */
    void gotPing();
-   /* no Partyman was found, so queue it */
+   /*!
+    \brief no Partyman was found, so queue it
+
+   */
    void timeout();
 
 signals:
@@ -51,5 +67,7 @@ private:
    bool                 mConnected;
    QStringList          mList;
 };
+
+/*! @} */
 
 #endif

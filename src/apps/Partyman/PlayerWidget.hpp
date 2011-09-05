@@ -38,6 +38,16 @@ class ScrollLine;
 class TimeSlider;
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class PlayerWidget : public QWidget
 {
    Q_OBJECT
@@ -57,61 +67,136 @@ public:
                  ControlWidget *controlWidget, Qt::WindowFlags flags = 0 );
    virtual ~PlayerWidget();
 
-   /* get a new track from playlist */
+   /*!
+    \brief get a new track from playlist
+
+   */
    void getNextTrack( bool armed = true );
-   /* get name of the currently loaded track */
+   /*!
+    \brief get name of the currently loaded track
+
+   */
    QString getCurrentTrack() const;
-   /* update the time display */
+   /*!
+    \brief update the time display
+
+   */
    void updateTime( const QString &msg = QString(), bool force = false );
-   /* set the track info like filename */
+   /*!
+    \brief set the track info like filename
+
+   */
    void setInfo( const QString &line );
-   /* updating the time played */
+   /*!
+    \brief updating the time played
+
+   */
    void setPlayingStatus( const QString &line );
-   /* set playing state */
+   /*!
+    \brief set playing state
+
+   */
    void setState( PlayerFSM::tState state );
-   /* connect to DerMixD */
+   /*!
+    \brief connect to DerMixD
+
+   */
    void connectTo( const QString &hostname, int port );
-   /* disconnect from DerMixD */
+   /*!
+    \brief disconnect from DerMixD
+
+   */
    void disconnect();
-   /* skip current track */
+   /*!
+    \brief skip current track
+
+   */
    bool skip();
-   /* report playing state */
+   /*!
+    \brief report playing state
+
+   */
    PlayerFSM::tState getState();
-   /* toggle pause */
+   /*!
+    \brief toggle pause
+
+   */
    void pause();
-   /* toggle pause */
+   /*!
+    \brief toggle pause
+
+   */
    void disablePlayPosition( bool disable );
-   /* (re-)read configuration */
+   /*!
+    \brief (re-)read configuration
+
+   */
    void readConfig();
-   /* disable slider while playing, if running in kiosk mode */
+   /*!
+    \brief disable slider while playing, if running in kiosk mode
+
+   */
    void handleKioskMode( bool enable );
 
 public slots:
-   /* lock seek slider from getting status updates */
+   /*!
+    \brief lock seek slider from getting status updates
+
+   */
    void lock();
-   /* jump to a position in track */
+   /*!
+    \brief jump to a position in track
+
+   */
    void seek();
-   /* handle the change of the play position (pre-seek) */
+   /*!
+    \brief handle the change of the play position (pre-seek)
+
+   */
    void playPosChange( int action );
-   /* handle unload request */
+   /*!
+    \brief handle unload request
+
+   */
    void unload();
-   /* handle successful connection to DerMixD */
+   /*!
+    \brief handle successful connection to DerMixD
+
+   */
    void handleConnect();
-   /* handle disconnect from DerMixD */
+   /*!
+    \brief handle disconnect from DerMixD
+
+   */
    void handleDisconnect();
-   /* handle responses from DerMixD */
+   /*!
+    \brief handle responses from DerMixD
+
+   */
    void handleResponse();
-   /* handle DerMixD connection errors */
+   /*!
+    \brief handle DerMixD connection errors
+
+   */
    void handleError( QAbstractSocket::SocketError socketError );
 
 signals:
-   /* signal the track playing on start/resume */
+   /*!
+    \brief signal the track playing on start/resume
+
+   */
    void trackPlaying( const TrackInfo &trackInfo );
 
 protected:
-   /* reimplemented for the drop of drag'n'drop of tracks */
+   /*!
+    \brief reimplemented for the drop of drag'n'drop of tracks
+
+   */
    void dragEnterEvent( QDragEnterEvent *event );
-   /* reimplemented for the drop of drag'n'drop of tracks */
+   /*!
+    \brief reimplemented for the drop of drag'n'drop of tracks
+
+   */
    void dropEvent( QDropEvent *event );
 
 private:
@@ -120,13 +205,25 @@ private:
    PlayerWidget( const PlayerWidget &that );
    PlayerWidget &operator=( const PlayerWidget &that );
 
-   /* send a command to DerMixD */
+   /*!
+    \brief send a command to DerMixD
+
+   */
    void sendCommand( const QString &command, const QString &parameter = QString() );
-   /* enable/disable watching of track status */
+   /*!
+    \brief enable/disable watching of track status
+
+   */
    void watch( bool turnWatchOn );
-   /* adjust volume for normalization */
+   /*!
+    \brief adjust volume for normalization
+
+   */
    void handleScan( const QString &data );
-   /* set the volume according to peak or power */
+   /*!
+    \brief set the volume according to peak or power
+
+   */
    bool setVolume();
 
    int           mPlayer;
@@ -153,5 +250,7 @@ private:
    QString       mDisplayPattern;
    TrackInfo     mTrackInfo;
 };
+
+/*! @} */
 
 #endif

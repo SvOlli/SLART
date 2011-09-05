@@ -40,6 +40,16 @@ class TrackInfo;
 class TrackInfoWidget;
 
 
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class PlaylistControlWidget : public QWidget
 {
    Q_OBJECT
@@ -49,50 +59,101 @@ public:
                    QWidget *parent = 0, Qt::WindowFlags f = 0 );
    virtual ~PlaylistControlWidget();
 
-   /* get name of next track either from playlist */
+   /*!
+    \brief get name of next track either from playlist
+
+   */
    void getNextTrack( QString *fileName );
-   /* set checkboxes of trackinfo */
+   /*!
+    \brief set checkboxes of trackinfo
+
+   */
    void setTrackInfoFavoriteUnwanted( bool favorite, bool unwanted );
-   /* save the current and next track for later saving of complete playlist */
+   /*!
+    \brief save the current and next track for later saving of complete playlist
+
+   */
    void setCurrentNext( const QString &current = QString(),
                         const QString &next = QString() );
 
 public slots:
-   /* add internal entries */
+   /*!
+    \brief add internal entries
+
+   */
    void addEntries( const QModelIndex &qmi );
-   /* delete entries */
+   /*!
+    \brief delete entries
+
+   */
    void deleteEntry( const QModelIndex &qmi, int key );
-   /* add external entries */
+   /*!
+    \brief add external entries
+
+   */
    void addEntries( const QStringList &entries, bool atStart = false );
-   /* save current tab for restart */
+   /*!
+    \brief save current tab for restart
+
+   */
    void handleTabChange( int tabNr );
-   /* re-read config parameters */
+   /*!
+    \brief re-read config parameters
+
+   */
    void readConfig();
-   /* pass the track info through to track info */
+   /*!
+    \brief pass the track info through to track info
+
+   */
    void getTrack( const TrackInfo &trackInfo );
-   /* start the background update of the browser */
+   /*!
+    \brief start the background update of the browser
+
+   */
    void startBrowserUpdate();
-   /* finish up the browser background update */
+   /*!
+    \brief finish up the browser background update
+
+   */
    void finishBrowserUpdate();
-   /* pass the update through to track info */
+   /*!
+    \brief pass the update through to track info
+
+   */
    void updateTrackInfo();
-   /* save the playlist to settings (prepend current and next, if any) */
+   /*!
+    \brief save the playlist to settings (prepend current and next, if any)
+
+   */
    void savePlaylist();
 
 signals:
-   /* unfold a node */
+   /*!
+    \brief unfold a node
+
+   */
    void expand( const QModelIndex &qmi );
-   /* tell if the current playlist is valid */
+   /*!
+    \brief tell if the current playlist is valid
+
+   */
    void playlistIsValid( bool isValid );
 
 private:
    PlaylistControlWidget( const PlaylistControlWidget &that );
    PlaylistControlWidget &operator=( const PlaylistControlWidget &that );
 
-   /* add entries to a stringlist */
+   /*!
+    \brief add entries to a stringlist
+
+   */
    void addEntries( QStringList *list, const QModelIndex &qmi );
 
-   /* get a random track from database */
+   /*!
+    \brief get a random track from database
+
+   */
    bool getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
                         bool favoriteOnly, bool leastPlayed, const QString &playFolder );
 
@@ -112,5 +173,7 @@ private:
    QString                 mCurrentFile;
    QString                 mNextFile;
 };
+
+/*! @} */
 
 #endif

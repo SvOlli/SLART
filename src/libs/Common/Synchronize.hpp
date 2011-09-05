@@ -24,15 +24,31 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class Synchronize
 {
 public:
    Synchronize();
    virtual ~Synchronize();
 
-   /* wait until someone else calls release() */
+   /*!
+    \brief wait until someone else calls release()
+
+   */
    bool wait();
-   /* let the waiting call continue */
+   /*!
+    \brief let the waiting call continue
+
+   */
    void release();
 
 private:
@@ -42,5 +58,7 @@ private:
    QMutex         mMutex;
    QWaitCondition mWaitCondition;
 };
+
+/*! @} */
 
 #endif

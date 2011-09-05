@@ -30,29 +30,63 @@ class DatabaseThread;
 class Satellite;
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class DatabaseInterface
 {
 public:
-   /*  */
+   /*!
+    \brief 
+
+   */
    static DatabaseInterface *create();
-   /*  */
+   /*!
+    \brief 
+
+   */
    static void destroy();
-   /*  */
+   /*!
+    \brief 
+
+   */
    static DatabaseInterface *get();
 
-   /* test for the existance of the Database file */
+   /*!
+    \brief test for the existance of the Database file
+
+   */
    static bool exists();
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    void connectActivityIndicator( QObject *object, const char *slot );
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    void disconnectActivityIndicator( QObject *object, const char *slot );
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    void registerUpdate( Satellite *satellite, const QByteArray &message );
 
-   /* disable the next satellite notify */
+   /*!
+    \brief disable the next satellite notify
+
+   */
    void disableNotify();
 
    /* get track information from database by id
@@ -65,13 +99,22 @@ public:
    void getTrackInfo( QObject *target, const QString &method,
                       const QString &fileName );
 
-   /* update track information to database */
+   /*!
+    \brief update track information to database
+
+   */
    void updateTrackInfo( const TrackInfo &trackInfo, bool allowinsert = false );
 
-   /* delete track information from database */
+   /*!
+    \brief delete track information from database
+
+   */
    void deleteTrackInfo( const TrackInfo &trackInfo );
 
-   /* delete track information from database by file name */
+   /*!
+    \brief delete track information from database by file name
+
+   */
    void deleteTrackInfo( const QString &fileName );
 
    /* get a list of track information matching to the search string
@@ -84,7 +127,10 @@ public:
    void getPathNameList( QObject *target, const QString &method,
                         const QString &search = QString() );
 
-   /* get a random track */
+   /*!
+    \brief get a random track
+
+   */
    void getRandomTrack( QObject *target, const QString &method,
                         bool favorite, bool leastplayed,
                         const QString &folder = QString() );
@@ -99,13 +145,22 @@ public:
    void getFolder( QObject *target, const QString &method,
                    const QString &folder );
 
-   /* add a folder */
+   /*!
+    \brief add a folder
+
+   */
    void insertFolder( const QString &folder );
 
-   /* remove a folder */
+   /*!
+    \brief remove a folder
+
+   */
    void deleteFolder( const QString &folder );
 
-   /* rename */
+   /*!
+    \brief rename
+
+   */
    void rename( const QString &oldName, const QString &newName );
 
    enum Column { Artist, Title, Album, Genre };
@@ -115,7 +170,10 @@ public:
    void getAllColumnData( QObject *target, const QString &method,
                           Column column );
 
-   /* for synchronization purposes */
+   /*!
+    \brief for synchronization purposes
+
+   */
    void call( QObject *target, const QString &method );
 
 private:
@@ -128,5 +186,7 @@ private:
    static DatabaseInterface   *cpInterface;
    DatabaseThread             *mpDatabase;
 };
+
+/*! @} */
 
 #endif

@@ -32,6 +32,16 @@ class GlobalConfigWidget;
 class ProxyWidget;
 
 
+/*!
+  \addtogroup Funkytown
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ConfigDialog : public QDialog
 {
    Q_OBJECT
@@ -40,15 +50,30 @@ public:
    ConfigDialog( QWidget *parent = 0 );
 
 public slots:
-   /* execute the dialog */
+   /*!
+    \brief execute the dialog
+
+   */
    void exec();
-   /* read settings from storage */
+   /*!
+    \brief read settings from storage
+
+   */
    void readSettings();
-   /* write settings to storage */
+   /*!
+    \brief write settings to storage
+
+   */
    void writeSettings();
-   /* send a message to log widget */
+   /*!
+    \brief send a message to log widget
+
+   */
    void logMessage( const QString &message );
-   /* handle the clear button */
+   /*!
+    \brief handle the clear button
+
+   */
    void handleClear();
 
 private:
@@ -66,6 +91,8 @@ private:
    QLabel             *mpDownloadedBytes;
    QPushButton        *mpClearButton;
 };
+
+/*! @} */
 
 /* defaults */
 #define VALUE_BYTES               value("Bytes", 0).toULongLong()

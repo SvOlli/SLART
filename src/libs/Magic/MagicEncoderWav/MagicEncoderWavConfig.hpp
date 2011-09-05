@@ -28,6 +28,16 @@ class MagicEncoderWav;
 class ScrollLine;
 
 
+/*!
+  \addtogroup MagicEncoderWav
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class MagicEncoderWavConfig : public MagicEncoderConfig
 {
    Q_OBJECT
@@ -36,9 +46,15 @@ public:
    MagicEncoderWavConfig( MagicEncoderWav *encoder, QWidget *parent, QAbstractButton *button );
    virtual ~MagicEncoderWavConfig();
 
-   /* read settings from storage */
+   /*!
+    \brief read settings from storage
+
+   */
    void readSettings();
-   /* write settings to storage */
+   /*!
+    \brief write settings to storage
+
+   */
    void writeSettings();
 
 private:
@@ -48,5 +64,7 @@ private:
    MagicEncoderWav      *mpEncoder;
 
 };
+
+/*! @} */
 
 #endif

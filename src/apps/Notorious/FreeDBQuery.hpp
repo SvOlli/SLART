@@ -31,6 +31,16 @@
 class QString;
 class Foundlist;
 
+/*!
+  \addtogroup Notorious
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class FreeDBQuery : public QThread
 {
    Q_OBJECT
@@ -56,6 +66,8 @@ private:
    QString    mCategory;
 
 };
+
+/*! @} */
 
 
 #endif

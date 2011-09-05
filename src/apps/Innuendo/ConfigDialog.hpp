@@ -35,6 +35,16 @@ class ProxyWidget;
 class SatelliteConfigWidget;
 
 
+/*!
+  \addtogroup Innuendo
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ConfigDialog : public QDialog
 {
    Q_OBJECT
@@ -43,15 +53,27 @@ public:
    ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
-   /* execute the dialog */
+   /*!
+    \brief execute the dialog
+
+   */
    void exec();
-   /* read settings from storage */
+   /*!
+    \brief read settings from storage
+
+   */
    void readSettings();
-   /* write settings to storage */
+   /*!
+    \brief write settings to storage
+
+   */
    void writeSettings();
 
 signals:
-   /* configuration has changed */
+   /*!
+    \brief configuration has changed
+
+   */
    void configChanged();
 
 private:
@@ -70,6 +92,8 @@ private:
    QPushButton             *mpAutostartNotorious;
    QPushButton             *mpAutostartCreep;
 };
+
+/*! @} */
 
 /* defaults */
 #define VALUE_BUFFERSIZE         value( "BufferSize", 500 ).toInt()

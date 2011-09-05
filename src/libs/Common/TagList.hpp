@@ -12,29 +12,66 @@
 #include <QStringList>
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class TagList
 {
 public:
    TagList();
    TagList &operator=( const TagList &that );
 
-   /* return number of tags */
+   /*!
+    \brief return number of tags
+
+   */
    int count() const;
-   /* clear all tags */
+   /*!
+    \brief clear all tags
+
+   */
    void clear();
-   /* read tag name */
+   /*!
+    \brief read tag name
+
+   */
    QString tagAt( int i ) const;
-   /* read tag value */
+   /*!
+    \brief read tag value
+
+   */
    QString valueAt( int i ) const;
-   /* set/add tag */
+   /*!
+    \brief set/add tag
+
+   */
    void set( const QString &tag, const QString &value = QString() );
-   /* get a tag */
+   /*!
+    \brief get a tag
+
+   */
    QString get( const QString &tag );
-   /* generate filename according to tags */
+   /*!
+    \brief generate filename according to tags
+
+   */
    QString fileName( const QString &pattern, bool filterPath = true );
-   /* normalize a string */
+   /*!
+    \brief normalize a string
+
+   */
    static QString normalizeString( const QString &string );
-   /* normalize a tag */
+   /*!
+    \brief normalize a tag
+
+   */
    QString normalizeTag( const QString &tag );
 
 private:
@@ -43,5 +80,7 @@ private:
    QStringList mTags;
    QStringList mValues;
 };
+
+/*! @} */
 
 #endif

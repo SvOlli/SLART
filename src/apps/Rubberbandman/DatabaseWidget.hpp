@@ -36,6 +36,16 @@ class Database;
 class DatabaseWorker;
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class DatabaseWidget : public QWidget
 {
    Q_OBJECT
@@ -44,25 +54,52 @@ public:
    DatabaseWidget( QWidget *parent = 0 );
 
 public slots:
-   /* handle update button */
+   /*!
+    \brief handle update button
+
+   */
    void handleUpdate( bool checked );
-   /* handle cleanup button */
+   /*!
+    \brief handle cleanup button
+
+   */
    void handleCleanup( bool checked );
-   /* handle import button */
+   /*!
+    \brief handle import button
+
+   */
    void handleImport( bool checked );
-   /* pop up requester for selecting base dir */
+   /*!
+    \brief pop up requester for selecting base dir
+
+   */
    void setBaseDir();
-   /* update buttons to show if base dir is valid */
+   /*!
+    \brief update buttons to show if base dir is valid
+
+   */
    void checkValidDir( const QString &dirName );
-   /* update output from worker */
+   /*!
+    \brief update output from worker
+
+   */
    void handleProgress( int checked, int processed );
-   /* handle finishing worker */
+   /*!
+    \brief handle finishing worker
+
+   */
    void handleFinished();
-   /* read the Partyman configuration to determine if running in local mode */
+   /*!
+    \brief read the Partyman configuration to determine if running in local mode
+
+   */
    void readPartymanConfig( const QHostInfo &hi = QHostInfo() );
 
 signals:
-   /* for Sorcerer: signal, that the database has been updated / created */
+   /*!
+    \brief for Sorcerer: signal, that the database has been updated / created
+
+   */
    void databaseUpdated();
 
 private:
@@ -82,5 +119,7 @@ private:
    QString        mCheckedText;
    QString        mProcessedText;
 };
+
+/*! @} */
 
 #endif

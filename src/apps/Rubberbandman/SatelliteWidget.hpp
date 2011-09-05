@@ -34,6 +34,16 @@ class InfoEdit;
 class Satellite;
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class SatelliteWidget : public QWidget
 {
    Q_OBJECT
@@ -42,19 +52,37 @@ public:
    SatelliteWidget( QWidget *parent = 0 );
 
 public slots:
-   /* handle SLART message to read tags of current track */
+   /*!
+    \brief handle SLART message to read tags of current track
+
+   */
    void handleSatellite( const QByteArray &message );
-   /* handle the now playing button */
+   /*!
+    \brief handle the now playing button
+
+   */
    void handleNowPlaying();
-   /* handle the show in filesystem button */
+   /*!
+    \brief handle the show in filesystem button
+
+   */
    void handleShowInFilesystem();
-   /* handle the "Get Random Track" button */
+   /*!
+    \brief handle the "Get Random Track" button
+
+   */
    void handleGetRandom();
 
 signals:
-   /* emit track path from show in filesystem button */
+   /*!
+    \brief emit track path from show in filesystem button
+
+   */
    void showInFilesystem( const QString &path );
-   /* emit that partyman did an update on the config */
+   /*!
+    \brief emit that partyman did an update on the config
+
+   */
    void partymanConfigUpdate();
 
 private:
@@ -70,5 +98,7 @@ private:
    QPushButton          *mpGetRandom;
    TrackInfo            mTrackInfo;
 };
+
+/*! @} */
 
 #endif

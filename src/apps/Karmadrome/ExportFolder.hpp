@@ -28,6 +28,16 @@ class Database;
 
 
 
+/*!
+  \addtogroup Karmadrome
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ExportFolder : public QObject
 {
    Q_OBJECT
@@ -38,7 +48,10 @@ public:
    virtual ~ExportFolder();
 
 public slots:
-   /* import a playlist from m3u file */
+   /*!
+    \brief import a playlist from m3u file
+
+   */
    void writeData( const QStringList &entries );
 
 private:
@@ -49,5 +62,7 @@ private:
    bool        mRandomize;
    QString     mFileName;
 };
+
+/*! @} */
 
 #endif

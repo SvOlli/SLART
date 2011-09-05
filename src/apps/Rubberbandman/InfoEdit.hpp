@@ -42,6 +42,16 @@ class LineEdit;
 class RecurseWorker;
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class InfoEdit : public QWidget
 {
    Q_OBJECT
@@ -50,53 +60,110 @@ public:
    InfoEdit( QWidget *parent = 0 );
    virtual ~InfoEdit();
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    QString tagsFileName( const QString &pattern, bool filterPath = true );
-   /*  */
+   /*!
+    \brief 
+
+   */
    QString fileName();
 
-   /* add the current entry to the completer */
+   /*!
+    \brief add the current entry to the completer
+
+   */
    static void addToCompleter( QLineEdit *lineEdit );
 
 public slots:
-   /* load tags from a file */
+   /*!
+    \brief load tags from a file
+
+   */
    void load( const QString &fullpath = QString() );
-   /*  */
+   /*!
+    \brief 
+
+   */
    void loadTrackInfo( const TrackInfo &trackInfo );
-   /* handle save button */
+   /*!
+    \brief handle save button
+
+   */
    void handleSetSave();
-   /* handle norm. artist button */
+   /*!
+    \brief handle norm. artist button
+
+   */
    void handleNormalizeArtist();
-   /* handle norm. title button */
+   /*!
+    \brief handle norm. title button
+
+   */
    void handleNormalizeTitle();
-   /* handle cancel button */
+   /*!
+    \brief handle cancel button
+
+   */
    void handleCancel();
-   /* enable save button */
+   /*!
+    \brief enable save button
+
+   */
    void handleChange();
-   /* handle the flags menu */
+   /*!
+    \brief handle the flags menu
+
+   */
    void handleFlagsMenu( QAction *action );
-   /* handle the folders menu */
+   /*!
+    \brief handle the folders menu
+
+   */
    void handleFoldersMenu( QAction *action );
-   /*  */
+   /*!
+    \brief 
+
+   */
    void handleFoldersEntries( const QStringList &folders );
 
 signals:
-   /* data has been read */
+   /*!
+    \brief data has been read
+
+   */
    void fileStats( bool isValid, bool isFile );
-   /* the data has been updated */
+   /*!
+    \brief the data has been updated
+
+   */
    void updated();
 
 private:
    InfoEdit( const InfoEdit &that );
    InfoEdit &operator=( const InfoEdit &that );
 
-   /* normalize a line edit field */
+   /*!
+    \brief normalize a line edit field
+
+   */
    void normalize( QLineEdit *lineEdit );
-   /* load tags from a file */
+   /*!
+    \brief load tags from a file
+
+   */
    void loadFile( const QString &fullpath );
-   /* save the currently edited tags */
+   /*!
+    \brief save the currently edited tags
+
+   */
    void saveFile();
-   /* update the info of the track concerning flags and folders */
+   /*!
+    \brief update the info of the track concerning flags and folders
+
+   */
    void updateDatabaseInfo( bool withRecurse );
 
    DatabaseInterface    *mpDatabase;
@@ -144,5 +211,7 @@ private:
    bool                 mCancel;
    QString              mFileName;
 };
+
+/*! @} */
 
 #endif

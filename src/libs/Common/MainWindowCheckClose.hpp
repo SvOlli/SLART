@@ -26,6 +26,16 @@ class QCloseEvent;
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class MainWindowCheckClose : public MainWindow
 {
    Q_OBJECT
@@ -36,15 +46,23 @@ public:
    virtual ~MainWindowCheckClose();
 
 public slots:
-   /* prohibit closing of window (Partyman kiosk mode) */
+   /*!
+    \brief prohibit closing of window (Partyman kiosk mode)
+
+   */
    void prohibitClose( bool prohibit ) { mProhibitCloseWindow = prohibit; };
 
 protected:
-   /* intercept for writing the settings */
+   /*!
+    \brief intercept for writing the settings
+
+   */
    virtual void closeEvent( QCloseEvent *event );
 
 private:
    bool  mProhibitCloseWindow;
 };
 
-#endif /* MAINWINDOWCHECKCLOSE_HPP */
+/*! @} */
+
+#endif

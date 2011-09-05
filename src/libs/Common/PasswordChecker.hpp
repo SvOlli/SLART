@@ -26,33 +26,64 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class PasswordChecker : public QObject
 {
    Q_OBJECT
 
 public:
-   /* get the singleton of the PasswordChecker */
+   /*!
+    \brief get the singleton of the PasswordChecker
+
+   */
    static PasswordChecker *get( QWidget *parent = 0 );
-   /* set the message that will be displayed during locking */
+   /*!
+    \brief set the message that will be displayed during locking
+
+   */
    void setLockMessage( const QString &header, const QString &message );
-   /* set the message that will be displayed during unlocking */
+   /*!
+    \brief set the message that will be displayed during unlocking
+
+   */
    void setUnlockMessage( const QString &header, const QString &message );
-   /* display dialog for locking */
+   /*!
+    \brief display dialog for locking
+
+   */
    bool lock();
-   /* display dialog for unlocking */
+   /*!
+    \brief display dialog for unlocking
+
+   */
    bool unlock();
 
 signals:
    void enabled( bool enabled );
 
 private:
-   /* singleton: constructor is private */
+   /*!
+    \brief singleton: constructor is private
+
+   */
    PasswordChecker( QWidget *parent = 0 );
    virtual ~PasswordChecker();
    PasswordChecker( const PasswordChecker &that );
    PasswordChecker &operator=( const PasswordChecker &that );
 
-   /* singleton: only instance of PasswordChecker */
+   /*!
+    \brief singleton: only instance of PasswordChecker
+
+   */
    static PasswordChecker  *cpPasswordChecker;
 
    QWidget                 *mpParent;
@@ -63,4 +94,6 @@ private:
    QString                 mUnlockMessage;
 };
 
-#endif /* PASSWORDCHECKER_HPP */
+/*! @} */
+
+#endif

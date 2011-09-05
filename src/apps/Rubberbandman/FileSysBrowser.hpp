@@ -35,6 +35,16 @@ class QTreeView;
 class DatabaseInterface;
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class FileSysBrowser : public QWidget
 {
    Q_OBJECT
@@ -43,35 +53,74 @@ public:
    FileSysBrowser( QWidget *parent = 0 );
 
 public slots:
-   /* get the index of clicked entry */
+   /*!
+    \brief get the index of clicked entry
+
+   */
    void entryClicked( const QModelIndex &index );
-   /* change the root dir */
+   /*!
+    \brief change the root dir
+
+   */
    void handleRootDir();
-   /* handle dir up button */
+   /*!
+    \brief handle dir up button
+
+   */
    void handleDotButton();
-   /* show a filename in browser */
+   /*!
+    \brief show a filename in browser
+
+   */
    void scrollTo( const QString &fileName );
-   /* handle right mouse button (send track name to Partyman) */
+   /*!
+    \brief handle right mouse button (send track name to Partyman)
+
+   */
    void contextMenu( const QPoint &pos );
-   /* handle menu entry "Send To Partyman" */
+   /*!
+    \brief handle menu entry "Send To Partyman"
+
+   */
    void menuSendToPartyman();
-   /* handle menu entries "Move" and "Move Directory" */
+   /*!
+    \brief handle menu entries "Move" and "Move Directory"
+
+   */
    void menuMove( bool withContent = false );
-   /* handle menu entry "Move Content" with wrapper for menuMove() */
+   /*!
+    \brief handle menu entry "Move Content" with wrapper for menuMove()
+
+   */
    void menuMoveContent();
-   /* handle menu entry "Rename" */
+   /*!
+    \brief handle menu entry "Rename"
+
+   */
    void menuRename();
-   /* handle menu entry "Delete" */
+   /*!
+    \brief handle menu entry "Delete"
+
+   */
    void menuDelete();
 
 signals:
-   /* emit the path of clicked entry */
+   /*!
+    \brief emit the path of clicked entry
+
+   */
    void clicked( const QString &path );
 
 protected:
-   /* reimplemented for the drop of drag'n'drop of tracks */
+   /*!
+    \brief reimplemented for the drop of drag'n'drop of tracks
+
+   */
    virtual void dragEnterEvent( QDragEnterEvent *event );
-   /* reimplemented for the drop of drag'n'drop of tracks */
+   /*!
+    \brief reimplemented for the drop of drag'n'drop of tracks
+
+   */
    virtual void dropEvent( QDropEvent *event );
 
 private:
@@ -93,5 +142,7 @@ private:
    QModelIndex          mContextModelIndex;
    QFileInfo            mFileInfo;
 };
+
+/*! @} */
 
 #endif

@@ -27,6 +27,16 @@ class QByteArray;
 class Satellite;
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class GenericSatMsgHandler : public QObject
 {
    Q_OBJECT
@@ -37,19 +47,34 @@ public:
    virtual ~GenericSatMsgHandler();
 
 public slots:
-   /* handle the message */
+   /*!
+    \brief handle the message
+
+   */
    void handle( const QByteArray &msg );
 
 signals:
-   /* send out a reply */
+   /*!
+    \brief send out a reply
+
+   */
    void reply( const QByteArray &msg );
-   /* signalize to update config */
+   /*!
+    \brief signalize to update config
+
+   */
    void updateConfig();
-   /* singalize that another instance is already running */
+   /*!
+    \brief singalize that another instance is already running
+
+   */
    void anotherInstance();
 
 private slots:
-   /* send the PNG command to see if another instance is running */
+   /*!
+    \brief send the PNG command to see if another instance is running
+
+   */
    void sendPing();
 
 private:
@@ -63,5 +88,7 @@ private:
    Satellite   *mpSatellite;
    bool        mWithQuitDialog;
 };
+
+/*! @} */
 
 #endif

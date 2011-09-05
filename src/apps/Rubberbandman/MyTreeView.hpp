@@ -6,7 +6,10 @@
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-/* class declaration */
+/*!
+    \brief class declaration
+
+   */
 #include <QTreeView>
 
 /* system headers */
@@ -25,6 +28,16 @@
 #include "ConfigDialog.hpp"
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class MyTreeView : public QTreeView
 {
 public:
@@ -32,6 +45,11 @@ public:
    virtual ~MyTreeView();
 
 protected:
-   /* handle return/enter key */
+   /*!
+    \brief handle return/enter key
+
+   */
    virtual void keyPressEvent( QKeyEvent *event );
 };
+
+/*! @} */

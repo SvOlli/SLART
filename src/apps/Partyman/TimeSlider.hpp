@@ -26,22 +26,50 @@
 /* forward declaration of local classes */
 
 
-/* slightly modify the behaviour of the slider */
+/*!
+    \brief slightly modify the behaviour of the slider
+
+   */
+/*!
+  \addtogroup Partyman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class TimeSlider : public QSlider
 {
 public:
    TimeSlider( Qt::Orientation orientation, QWidget *parent = 0 );
 
 protected:
-   /* reimplemented for mapping of mouse button 2 to 3 */
+   /*!
+    \brief reimplemented for mapping of mouse button 2 to 3
+
+   */
    void mousePressEvent( QMouseEvent *event );
-   /* reimplemented for mapping of mouse button 2 to 3 */
+   /*!
+    \brief reimplemented for mapping of mouse button 2 to 3
+
+   */
    void mouseReleaseEvent( QMouseEvent *event );
-   /* reimplemented for timeout handling */
+   /*!
+    \brief reimplemented for timeout handling
+
+   */
    void wheelEvent( QWheelEvent *event );
-   /* reimplemented for handling of auto-repeat */
+   /*!
+    \brief reimplemented for handling of auto-repeat
+
+   */
    void keyPressEvent( QKeyEvent *event );
-   /* reimplemented for handling of auto-repeat */
+   /*!
+    \brief reimplemented for handling of auto-repeat
+
+   */
    void keyReleaseEvent( QKeyEvent *event );
 
 private:
@@ -50,5 +78,7 @@ private:
 
    QTimer mWheelTimeout;
 };
+
+/*! @} */
 
 #endif

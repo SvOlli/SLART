@@ -28,6 +28,16 @@ class Database;
 
 
 
+/*!
+  \addtogroup Karmadrome
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ExportFolderList : public QObject
 {
    Q_OBJECT
@@ -37,7 +47,10 @@ public:
    virtual ~ExportFolderList();
 
 public slots:
-   /*  */
+   /*!
+    \brief 
+
+   */
    void writeData( const QStringList &entries );
 
 signals:
@@ -48,5 +61,7 @@ private:
 
    QString     mFileName;
 };
+
+/*! @} */
 
 #endif

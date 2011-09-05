@@ -27,6 +27,16 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class Console : public QObject
 {
    Q_OBJECT
@@ -37,11 +47,17 @@ public:
             QObject *parent = 0 );
    virtual ~Console();
 
-   /*  */
+   /*!
+    \brief 
+
+   */
    void message( const QString &msg );
 
 public slots:
-   /*  */
+   /*!
+    \brief 
+
+   */
    void handleProgress( int checked, int processed );
 
 private:
@@ -52,5 +68,7 @@ private:
    QString        mCheckedText;
    QString        mProcessedText;
 };
+
+/*! @} */
 
 #endif

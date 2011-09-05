@@ -28,6 +28,16 @@ class QTcpServer;
 class QTcpSocket;
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class WebServer : public QObject
 {
    Q_OBJECT
@@ -58,5 +68,7 @@ private:
    QTcpSocket   *mpTcpSocket;
    QDir         mWebDir;
 };
+
+/*! @} */
 
 #endif

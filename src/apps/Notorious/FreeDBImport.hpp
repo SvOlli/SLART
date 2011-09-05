@@ -30,6 +30,16 @@
 
 class QString;
 
+/*!
+  \addtogroup Notorious
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class FreeDBImport : public QThread
 {
    Q_OBJECT
@@ -50,6 +60,8 @@ private:
    TarEntry mTarEntry;
    QString  mFileName;
 };
+
+/*! @} */
 
 
 #endif

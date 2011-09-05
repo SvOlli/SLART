@@ -29,6 +29,16 @@
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class WidgetShot
 {
 public:
@@ -42,5 +52,7 @@ private:
 
    static QHash< QString, QPointer<QWidget> > *cpWidgetList;
 };
+
+/*! @} */
 
 #endif

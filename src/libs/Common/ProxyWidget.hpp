@@ -31,6 +31,16 @@ class QSpinBox;
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ProxyWidget : public QWidget
 {
    Q_OBJECT
@@ -42,13 +52,22 @@ public:
    static void setProxy( QHttp *http );
    /* set proxy in QNetworkAccessManager class */
    static void setProxy( QNetworkAccessManager *nam );
-   /* read settings from storage */
+   /*!
+    \brief read settings from storage
+
+   */
    void readSettings();
-   /* write settings from storage */
+   /*!
+    \brief write settings from storage
+
+   */
    void writeSettings();
 
 public slots:
-   /* enable/disable widget according to settings */
+   /*!
+    \brief enable/disable widget according to settings
+
+   */
    void updateWidgets( bool disabled = false );
 
 private:
@@ -68,5 +87,7 @@ private:
    QLineEdit    *mpProxyLoginInput;
    QLineEdit    *mpProxyPasswordInput;
 };
+
+/*! @} */
 
 #endif

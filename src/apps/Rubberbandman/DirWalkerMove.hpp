@@ -30,23 +30,51 @@
 class DatabaseInterface;
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class DirWalkerMove : public DirWalkerCallbacks
 {
 public:
    DirWalkerMove( const QString &srcpath, const QString &destpath );
    virtual ~DirWalkerMove();
 
-   /* called on start */
+   /*!
+    \brief called on start
+
+   */
    virtual void handleStart();
-   /* handle a file entry */
+   /*!
+    \brief handle a file entry
+
+   */
    virtual void handleFile( const QFileInfo &fileInfo );
-   /* handle a directory entry upon entering */
+   /*!
+    \brief handle a directory entry upon entering
+
+   */
    virtual void handleDirEntry( const QFileInfo &fileInfo );
-   /* handle a directory entry upon leaving */
+   /*!
+    \brief handle a directory entry upon leaving
+
+   */
    virtual void handleDirLeave( const QFileInfo &fileInfo );
-   /* handle an other entry (link, etc.) */
+   /*!
+    \brief handle an other entry (link, etc.)
+
+   */
    virtual void handleOther( const QFileInfo &fileInfo );
-   /* called on end */
+   /*!
+    \brief called on end
+
+   */
    virtual void handleEnd();
 
 private:
@@ -60,5 +88,7 @@ private:
    QDir                 mQDir;
    QFileInfo            mQFileInfo;
 };
+
+/*! @} */
 
 #endif

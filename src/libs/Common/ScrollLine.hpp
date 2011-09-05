@@ -28,6 +28,16 @@ class QTimer;
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ScrollLine : public QLineEdit
 {
    Q_OBJECT
@@ -36,23 +46,44 @@ public:
    ScrollLine( QWidget *parent, bool autoScroll = true );
    virtual ~ScrollLine();
 
-   /* set the filename to use when dragged */
+   /*!
+    \brief set the filename to use when dragged
+
+   */
    void setDragFileName( const QString &fileName = QString() );
 
 public slots:
-   /* callback for timer to scroll */
+   /*!
+    \brief callback for timer to scroll
+
+   */
    void scrolling();
-   /* intercept setText for resetting scroll position */
+   /*!
+    \brief intercept setText for resetting scroll position
+
+   */
    void setText( const QString &text );
 
 protected:
-   /* handle mouse event for correct copy'n'paste */
+   /*!
+    \brief handle mouse event for correct copy'n'paste
+
+   */
    void mouseDoubleClickEvent( QMouseEvent *event );
-   /* handle mouse event for correct copy'n'paste */
+   /*!
+    \brief handle mouse event for correct copy'n'paste
+
+   */
    void mousePressEvent( QMouseEvent *event );
-   /* handle mouse event for correct copy'n'paste */
+   /*!
+    \brief handle mouse event for correct copy'n'paste
+
+   */
    void mouseReleaseEvent( QMouseEvent *event );
-   /* intecepting paint event to change coloring role */
+   /*!
+    \brief intecepting paint event to change coloring role
+
+   */
    void paintEvent( QPaintEvent *event );
 
 private:
@@ -65,5 +96,7 @@ private:
    int                  mPosition;
    QString              mDragFileName;
 };
+
+/*! @} */
 
 #endif

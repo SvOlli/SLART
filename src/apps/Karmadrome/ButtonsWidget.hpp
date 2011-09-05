@@ -29,6 +29,16 @@ class QSignalMapper;
 /* forward declaration of local classes */
 
 
+/*!
+  \addtogroup Karmadrome
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class ButtonsWidget : public QGroupBox
 {
    Q_OBJECT
@@ -38,13 +48,22 @@ public:
    ButtonsWidget( const QString &title, QWidget *parent = 0 );
 
 public slots:
-   /* update the button list: replace all existing buttons */
+   /*!
+    \brief update the button list: replace all existing buttons
+
+   */
    void updateButtons( const QStringList &list );
-   /* set buttons checked state */
+   /*!
+    \brief set buttons checked state
+
+   */
    void lockButtons( const QStringList &list );
 
 signals:
-   /* signalize the widget clicked on */
+   /*!
+    \brief signalize the widget clicked on
+
+   */
    void clicked( QWidget *widget );
 
 private:
@@ -55,5 +74,7 @@ private:
    QSignalMapper           *mpSignalMapper;
    QList<QAbstractButton*> mButtonList;
 };
+
+/*! @} */
 
 #endif

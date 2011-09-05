@@ -27,6 +27,16 @@
 class TrackInfo;
 
 
+/*!
+  \addtogroup Rubberbandman
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class TrackReader : public QObject
 {
    Q_OBJECT
@@ -39,7 +49,10 @@ public:
    void read( const QString &fileName );
 
 public slots:
-   /*  */
+   /*!
+    \brief 
+
+   */
    void handleTrackInfo( const TrackInfo &trackInfo );
 
 protected:
@@ -52,5 +65,7 @@ private:
    QString                 mMethod;
    enum Qt::ConnectionType mType;
 };
+
+/*! @} */
 
 #endif

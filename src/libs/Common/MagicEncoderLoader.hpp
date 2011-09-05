@@ -32,10 +32,23 @@ class Satellite;
 typedef QList<MagicEncoderProxy*> MagicEncoderList;
 
 
+/*!
+  \addtogroup Common
+
+  @{
+*/
+
+/*!
+ \brief TODO
+
+*/
 class MagicEncoderLoader
 {
 public:
-   /* function to load MagicEncoders */
+   /*!
+    \brief function to load MagicEncoders
+
+   */
    static MagicEncoderList tryLoading( const QString &msgHeader,
                                        Satellite *satellite = 0 );
 
@@ -45,11 +58,14 @@ private:
    MagicEncoderLoader( const MagicEncoderLoader &that );
    MagicEncoderLoader &operator=( const MagicEncoderLoader &that );
 
-   /* internal function to load MagicEncoders */
+   /*!
+    \brief internal function to load MagicEncoders
+
+   */
    static MagicEncoderList tryLoading( const QString &msgHeader, const QDir &dir,
                                        Satellite *satellite = 0 );
 };
 
 /*! @} */
 
-#endif /* MAGICENCODERLOADER_HPP */
+#endif
