@@ -77,6 +77,9 @@ SOURCES += SatelliteServerRunner.cpp
 HEADERS += ScrollLine.hpp
 SOURCES += ScrollLine.cpp
 
+HEADERS += Settings.hpp
+SOURCES += Settings.cpp
+
 HEADERS += SorcererLoader.hpp
 SOURCES += SorcererLoader.cpp
 
