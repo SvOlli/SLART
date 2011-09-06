@@ -25,7 +25,7 @@
 #include "ExportFolder.hpp"
 #include "ExportFolderList.hpp"
 #include "ImportFolder.hpp"
-#include "MainWidget.hpp"
+#include "KarmadromeMainWidget.hpp"
 
 
 int main(int argc, char *argv[])
@@ -211,7 +211,7 @@ int main(int argc, char *argv[])
          }
 
          MainWindow window;
-         MainWidget *mainWidget = new MainWidget( &window );
+         KarmadromeMainWidget *mainWidget = new KarmadromeMainWidget( &window );
          window.setMainWidget( mainWidget );
          window.show();
 

@@ -9,47 +9,86 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP MAINWINDOW_HPP
 
+/* base class */
 #include <QMainWindow>
 
+/* system headers */
+
+/* Qt headers */
 #include <QPoint>
 
-class QApplication;
-class QDir;
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 
 /*!
-  \addtogroup Common Common: commonly used routines
+  \addtogroup Common
 
   \brief also contains \ref Satellite
  @{
  */
-
 
 class MainWindow : public QMainWindow
 {
    Q_OBJECT
 
 public:
+
+   /*!
+    \brief constructor
+
+    \param saveWindow
+    \param parent
+    \param flags
+   */
    MainWindow( bool saveWindow = true,
                QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   /*!
+    \brief destructor
+
+   */
    virtual ~MainWindow();
-   /* set the main widget */
+   /*!
+    \brief set the main widget
+
+    \param mainWidget
+   */
    void setMainWidget( QWidget *mainWidget );
-   /* add the MainWidget to the WidgetShot class */
+   /*!
+    \brief add the MainWidget to the WidgetShot class
+
+   */
    void enableScreenshot();
 
 public slots:
-   /* handle request for new icon and title */
+   /*!
+    \brief handle request for new icon and title
+
+    \param icon
+    \param title
+   */
    void changeTitle( const QIcon &icon, const QString &title );
 
 protected:
-   /* intercept for writing the settings */
+   /*!
+    \brief intercept for writing the settings
+
+    \param event
+   */
    virtual void closeEvent( QCloseEvent *event );
-   /* very ugly workaround for wrong position restoration on Ubuntu */
+   /*!
+    \brief very ugly workaround for wrong position restoration on Ubuntu
+
+    \param event
+   */
    virtual bool event( QEvent *event );
 
 private:
-   MainWindow( const MainWindow &that );
-   MainWindow &operator=( const MainWindow &that );
+   Q_DISABLE_COPY( MainWindow )
 
    bool          mProhibitCloseWindow;
    bool          mSaveWindow;

@@ -44,8 +44,8 @@ SOURCES += FreeDBImport.cpp
 HEADERS += FreeDBQuery.hpp
 SOURCES += FreeDBQuery.cpp
 
-HEADERS += MainWidget.hpp
-SOURCES += MainWidget.cpp
+HEADERS += NotoriousMainWidget.hpp
+SOURCES += NotoriousMainWidget.cpp
 
 HEADERS += SearchWidget.hpp
 SOURCES += SearchWidget.cpp

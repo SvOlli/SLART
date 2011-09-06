@@ -34,35 +34,75 @@ extern "C" {
   @{
   */
 
+/*!
+ \brief
 
+*/
 class MagicEncoderOgg : public MagicEncoder
 {
    Q_OBJECT
-Q_INTERFACES(MagicEncoderInterface)
+   Q_INTERFACES(MagicEncoderInterface)
 
    friend class MagicEncoderOggConfig;
 
 public:
+   /*!
+    \brief constructor
+
+   */
    MagicEncoderOgg();
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~MagicEncoderOgg();
 
-   /* supply the a handle to the configuration widget */
+   /*!
+    \brief supply the a handle to the configuration widget
+
+    \param parent
+    \param button
+   */
    MagicEncoderConfig *configWidget( QWidget *parent, QAbstractButton *button );
-   /* initialize the encoder */
+
+   /*!
+    \brief initialize the encoder
+
+    \param fileName
+   */
    bool initialize( const QString &fileName );
-   /* finalize (clean up) the encoder */
+
+   /*!
+    \brief finalize (clean up) the encoder
+
+    \param enqueue
+    \param cancel
+   */
    bool finalize( bool enqueue, bool cancel );
 
-   /* encode raw cd audio data */
+   /*!
+    \brief encode raw cd audio data
+
+    \param data
+   */
    void encodeCDAudio( const QByteArray &data );
 
 private:
-   MagicEncoderOgg( const MagicEncoderOgg &that );
-   MagicEncoderOgg &operator=( const MagicEncoderOgg &that );
+   Q_DISABLE_COPY( MagicEncoderOgg )
 
-   /* ogg initialize helper function call on first encode */
+   /*!
+    \brief ogg initialize helper function call on first encode
+
+   */
    bool oggInit();
-   /* encode raw cd audio data */
+
+   /*!
+    \brief encode raw cd audio data
+
+    \param data
+    \param size
+   */
    bool encodeCDAudio( const char *data, int size );
 
    /* settings */

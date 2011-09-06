@@ -1,5 +1,5 @@
 /**
- * src/apps/Karmadrome/MainWidget.cpp
+ * src/apps/Karmadrome/KarmadromeMainWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "MainWidget.hpp"
+#include "KarmadromeMainWidget.hpp"
 
 /* system headers */
 
@@ -32,7 +32,7 @@
 #include "ImportFolder.hpp"
 
 
-MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
+KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( DatabaseInterface::get() )
 , mpSatellite( Satellite::get() )
@@ -134,12 +134,12 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 }
 
 
-MainWidget::~MainWidget()
+KarmadromeMainWidget::~KarmadromeMainWidget()
 {
 }
 
 
-void MainWidget::addToList( QWidget *widget )
+void KarmadromeMainWidget::addToList( QWidget *widget )
 {
    QAbstractButton *button = qobject_cast<QAbstractButton*>(widget);
    if( !button )
@@ -160,13 +160,13 @@ void MainWidget::addToList( QWidget *widget )
 }
 
 
-void MainWidget::sendK0u()
+void KarmadromeMainWidget::sendK0u()
 {
    mpSatellite->send( QByteArray("k0u") );
 }
 
 
-void MainWidget::handleSatellite( const QByteArray &msg )
+void KarmadromeMainWidget::handleSatellite( const QByteArray &msg )
 {
    QStringList message( Satellite::split( msg ) );
    if( message.count() > 2 )
@@ -260,7 +260,7 @@ void MainWidget::handleSatellite( const QByteArray &msg )
 }
 
 
-void MainWidget::updateLists()
+void KarmadromeMainWidget::updateLists()
 {
    int i;
 
@@ -290,7 +290,7 @@ void MainWidget::updateLists()
 }
 
 
-void MainWidget::handleAdd()
+void KarmadromeMainWidget::handleAdd()
 {
    bool ok;
    QString folder( QInputDialog::getText( this, QApplication::applicationName(),
@@ -312,7 +312,7 @@ void MainWidget::handleAdd()
 }
 
 
-void MainWidget::handleExport( QAction *action )
+void KarmadromeMainWidget::handleExport( QAction *action )
 {
    MySettings settings;
    setButtonsEnabled( false );
@@ -365,7 +365,7 @@ void MainWidget::handleExport( QAction *action )
 }
 
 
-void MainWidget::handleImport( QAction *action )
+void KarmadromeMainWidget::handleImport( QAction *action )
 {
    MySettings settings;
    setButtonsEnabled( false );
@@ -415,7 +415,7 @@ void MainWidget::handleImport( QAction *action )
 }
 
 
-void MainWidget::handleRemove( QAction *action )
+void KarmadromeMainWidget::handleRemove( QAction *action )
 {
    setButtonsEnabled( false );
    if( QMessageBox::Ok == QMessageBox::question( this, QApplication::applicationName(),
@@ -433,7 +433,7 @@ void MainWidget::handleRemove( QAction *action )
 }
 
 
-void MainWidget::handleReadButton()
+void KarmadromeMainWidget::handleReadButton()
 {
    mpFileName->setText( GlobalConfigWidget::getClipboard() );
    mpFileName->setDragFileName( mpFileName->text() );
@@ -441,7 +441,7 @@ void MainWidget::handleReadButton()
 }
 
 
-void MainWidget::labelReadButton()
+void KarmadromeMainWidget::labelReadButton()
 {
    MySettings settings( "Global" );
    int mode = settings.VALUE_CLIPBOARDMODE;
@@ -467,7 +467,7 @@ void MainWidget::labelReadButton()
 }
 
 
-void MainWidget::updateTrackInfo( const TrackInfo &trackInfo )
+void KarmadromeMainWidget::updateTrackInfo( const TrackInfo &trackInfo )
 {
    mTrackInfo = trackInfo;
    mpListButtons->setDisabled( !mTrackInfo.isInDatabase() );
@@ -476,7 +476,7 @@ void MainWidget::updateTrackInfo( const TrackInfo &trackInfo )
 }
 
 
-void MainWidget::removeFolder( const QStringList &entries )
+void KarmadromeMainWidget::removeFolder( const QStringList &entries )
 {
    foreach( const QString &entry, entries )
    {
@@ -489,7 +489,7 @@ void MainWidget::removeFolder( const QStringList &entries )
 }
 
 
-void MainWidget::removeFolderFromTrack( const TrackInfo &ti )
+void KarmadromeMainWidget::removeFolderFromTrack( const TrackInfo &ti )
 {
    TrackInfo trackInfo( ti );
    trackInfo.setFolder( mpCurrentAction->text(), false );
@@ -497,7 +497,7 @@ void MainWidget::removeFolderFromTrack( const TrackInfo &ti )
 }
 
 
-void MainWidget::setButtonsEnabled( bool enabled )
+void KarmadromeMainWidget::setButtonsEnabled( bool enabled )
 {
    mpRemoveButton->setEnabled( enabled );
    mpExportButton->setEnabled( enabled );
@@ -505,7 +505,7 @@ void MainWidget::setButtonsEnabled( bool enabled )
 }
 
 
-void MainWidget::updateFolderNames( const QStringList &list )
+void KarmadromeMainWidget::updateFolderNames( const QStringList &list )
 {
    mFolders = list;
    mFolders.sort();

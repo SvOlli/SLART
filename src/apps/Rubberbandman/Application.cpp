@@ -26,7 +26,7 @@
 #include "ConfigDialog.hpp"
 #include "Console.hpp"
 #include "DatabaseWorker.hpp"
-#include "MainWidget.hpp"
+#include "RubberbandmanMainWidget.hpp"
 
 
 int main(int argc, char *argv[])
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
          }
 
          MainWindow window;
-         MainWidget *mainWidget = new MainWidget( &window );
+         RubberbandmanMainWidget *mainWidget = new RubberbandmanMainWidget( &window );
          window.setMainWidget( mainWidget );
          window.show();
 

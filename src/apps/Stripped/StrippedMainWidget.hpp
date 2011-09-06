@@ -1,13 +1,13 @@
 /**
- * src/apps/Stripped/MainWidget.hpp
+ * src/apps/Stripped/StrippedMainWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef MAINWIDGET_HPP
-#define MAINWIDGET_HPP MAINWIDGET_HPP
+#ifndef STRIPPEDMAINWIDGET_HPP
+#define STRIPPEDMAINWIDGET_HPP STRIPPEDMAINWIDGET_HPP
 
 /* base class */
 #include <QWidget>
@@ -47,7 +47,7 @@ class Satellite;
  \brief the main widget
 
 */
-class MainWidget : public QWidget
+class StrippedMainWidget : public QWidget
 {
    Q_OBJECT
 
@@ -58,8 +58,8 @@ public:
     \param parent
     \param flags
    */
-   MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   virtual ~MainWidget();
+   StrippedMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   virtual ~StrippedMainWidget();
 
 public slots:
    /*!
@@ -114,8 +114,7 @@ signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
-   MainWidget( const MainWidget &that );
-   MainWidget &operator=( const MainWidget &that );
+   Q_DISABLE_COPY( StrippedMainWidget )
 
 public:
 private:

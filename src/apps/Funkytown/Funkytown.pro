@@ -26,9 +26,6 @@ TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
 SOURCES += Application.cpp
 
-HEADERS += MainWidget.hpp
-SOURCES += MainWidget.cpp
-
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp
 
@@ -40,6 +37,9 @@ SOURCES += CookieJar.cpp
 
 HEADERS += DownloadHandler.hpp
 SOURCES += DownloadHandler.cpp
+
+HEADERS += FunkytownMainWidget.hpp
+SOURCES += FunkytownMainWidget.cpp
 
 HEADERS += MagicQueue.hpp
 SOURCES += MagicQueue.cpp

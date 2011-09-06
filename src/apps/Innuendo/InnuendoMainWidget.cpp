@@ -1,5 +1,5 @@
 /**
- * src/apps/Innuendo/MainWidget.cpp
+ * src/apps/Innuendo/InnuendoMainWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "MainWidget.hpp"
+#include "InnuendoMainWidget.hpp"
 
 /* system headers */
 
@@ -28,7 +28,7 @@
 #include "LogListWidget.hpp"
 
 
-MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
+InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get() )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
@@ -110,7 +110,7 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 }
 
 
-MainWidget::~MainWidget()
+InnuendoMainWidget::~InnuendoMainWidget()
 {
    delete[] mpExecButtons;
 }
@@ -143,7 +143,7 @@ TRACEMSG << mpExecButtons[i]->text() << mpExecButtons[i]->isChecked();
 #endif
 
 
-void MainWidget::autostart()
+void InnuendoMainWidget::autostart()
 {
    if( mAutostart.count() > 0 )
    {
@@ -161,25 +161,25 @@ void MainWidget::autostart()
 }
 
 
-void MainWidget::noAutostart()
+void InnuendoMainWidget::noAutostart()
 {
    mAutostart.clear();
 }
 
 
-void MainWidget::readConfig()
+void InnuendoMainWidget::readConfig()
 {
    mpSatellite->restart();
 }
 
 
-void MainWidget::handlePingButton()
+void InnuendoMainWidget::handlePingButton()
 {
    mpSatellite->send( "PNG" );
 }
 
 
-void MainWidget::handleSatellite( const QByteArray &msg )
+void InnuendoMainWidget::handleSatellite( const QByteArray &msg )
 {
    QListWidgetItem *item = new QListWidgetItem( QDateTime::currentDateTime().toString(), mpMessageBuffer );
    item->setBackground( QBrush( mpMessageBuffer->palette().color( QPalette::AlternateBase ) ) );
@@ -203,19 +203,19 @@ void MainWidget::handleSatellite( const QByteArray &msg )
 }
 
 
-void MainWidget::listWidgetItemToClipboard( QListWidgetItem *item )
+void InnuendoMainWidget::listWidgetItemToClipboard( QListWidgetItem *item )
 {
    GlobalConfigWidget::setClipboard( item->text() );
 }
 
 
-void MainWidget::dragEnterEvent( QDragEnterEvent *event )
+void InnuendoMainWidget::dragEnterEvent( QDragEnterEvent *event )
 {
    event->acceptProposedAction();
 }
 
 
-void MainWidget::dropEvent( QDropEvent *event )
+void InnuendoMainWidget::dropEvent( QDropEvent *event )
 {
    mpDropDialog->dropEvent( event );
    mpDropDialog->show();

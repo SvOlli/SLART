@@ -38,7 +38,7 @@ extern "C" {
 class MagicEncoderMp3 : public MagicEncoder
 {
    Q_OBJECT
-Q_INTERFACES(MagicEncoderInterface)
+   Q_INTERFACES(MagicEncoderInterface)
 
    friend class MagicEncoderMp3Config;
 
@@ -46,19 +46,38 @@ public:
    MagicEncoderMp3();
    virtual ~MagicEncoderMp3();
 
-   /* supply the a handle to the configuration widget */
+   /*!
+    \brief supply the a handle to the configuration widget
+
+    \param parent
+    \param button
+   */
    MagicEncoderConfig *configWidget( QWidget *parent, QAbstractButton *button );
-   /* initialize the encoder */
+
+   /*!
+    \brief initialize the encoder
+
+    \param fileName
+   */
    bool initialize( const QString &fileName );
-   /* finalize (clean up) the encoder */
+
+   /*!
+    \brief finalize (clean up) the encoder
+
+    \param enqueue
+    \param cancel
+   */
    bool finalize( bool enqueue, bool cancel );
 
-   /* encode raw cd audio data */
+   /*!
+    \brief encode raw cd audio data
+
+    \param data
+   */
    void encodeCDAudio( const QByteArray &data );
 
 private:
-   MagicEncoderMp3( const MagicEncoderMp3 &that );
-   MagicEncoderMp3 &operator=( const MagicEncoderMp3 &that );
+   Q_DISABLE_COPY( MagicEncoderMp3 )
 
    bool initialize();
    /* encode raw cd audio data */

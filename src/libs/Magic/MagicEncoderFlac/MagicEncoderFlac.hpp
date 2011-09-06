@@ -37,7 +37,7 @@
 class MagicEncoderFlac : public MagicEncoder
 {
    Q_OBJECT
-Q_INTERFACES(MagicEncoderInterface)
+   Q_INTERFACES(MagicEncoderInterface)
 
    friend class MagicEncoderFlacConfig;
 
@@ -45,19 +45,38 @@ public:
    MagicEncoderFlac();
    virtual ~MagicEncoderFlac();
 
-   /* supply the a handle to the configuration widget */
+   /*!
+    \brief supply the a handle to the configuration widget
+
+    \param parent
+    \param button
+   */
    MagicEncoderConfig *configWidget( QWidget *parent, QAbstractButton *button );
-   /* initialize the encoder */
+
+   /*!
+    \brief initialize the encoder
+
+    \param fileName
+   */
    bool initialize( const QString &fileName );
-   /* finalize (clean up) the encoder */
+
+   /*!
+    \brief finalize (clean up) the encoder
+
+    \param enqueue
+    \param cancel
+   */
    bool finalize( bool enqueue, bool cancel );
 
-   /* encode raw cd audio data */
+   /*!
+    \brief encode raw cd audio data
+
+    \param data
+   */
    void encodeCDAudio( const QByteArray &data );
 
 private:
-   MagicEncoderFlac( const MagicEncoderFlac &that );
-   MagicEncoderFlac &operator=( const MagicEncoderFlac &that );
+   Q_DISABLE_COPY( MagicEncoderFlac )
 
    /* encode raw cd audio data */
    bool encodeCDAudio( const char *data, int size );

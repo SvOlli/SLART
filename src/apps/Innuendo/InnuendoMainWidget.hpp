@@ -1,13 +1,13 @@
 /**
- * src/apps/Innuendo/MainWidget.hpp
+ * src/apps/Innuendo/InnuendoMainWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef MAINWIDGET_HPP
-#define MAINWIDGET_HPP MAINWIDGET_HPP
+#ifndef INNUENDOMAINWIDGET_HPP
+#define INNUENDOMAINWIDGET_HPP INNUENDOMAINWIDGET_HPP
 
 /* base class */
 #include <QWidget>
@@ -48,13 +48,13 @@ class Satellite;
  \brief TODO
 
 */
-class MainWidget : public QWidget
+class InnuendoMainWidget : public QWidget
 {
    Q_OBJECT
 
 public:
-   MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   virtual ~MainWidget();
+   InnuendoMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   virtual ~InnuendoMainWidget();
 
 public slots:
    /*!
@@ -106,8 +106,7 @@ protected:
    virtual void dropEvent( QDropEvent *event );
 
 private:
-   MainWidget( const MainWidget &that );
-   MainWidget &operator=( const MainWidget &that );
+   Q_DISABLE_COPY( InnuendoMainWidget )
 
    Satellite            *mpSatellite;
    GenericSatMsgHandler *mpGenericSatMsgHandler;

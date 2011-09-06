@@ -22,9 +22,6 @@ TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
 SOURCES += Application.cpp
 
-HEADERS += MainWidget.hpp
-SOURCES += MainWidget.cpp
-
 HEADERS += CommandLineHandler.hpp
 SOURCES += CommandLineHandler.cpp
 
@@ -33,6 +30,9 @@ SOURCES += ControlWidget.cpp
 
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp
+
+HEADERS += PartymanMainWidget.hpp
+SOURCES += PartymanMainWidget.cpp
 
 HEADERS += PlaylistControlWidget.hpp
 SOURCES += PlaylistControlWidget.cpp

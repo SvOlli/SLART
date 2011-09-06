@@ -21,7 +21,7 @@
 #include <Translate.hpp>
 
 /* local headers */
-#include "MainWidget.hpp"
+#include "FunkytownMainWidget.hpp"
 
 
 int main(int argc, char *argv[])
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
    }
 
    MainWindow window;
-   MainWidget *mainWidget = new MainWidget( &window );
+   FunkytownMainWidget *mainWidget = new FunkytownMainWidget( &window );
    window.setMainWidget( mainWidget );
    foreach( const QString &url, *startUrls )
    {

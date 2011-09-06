@@ -22,7 +22,7 @@
 
 /* local headers */
 #include "CommandLineHandler.hpp"
-#include "MainWidget.hpp"
+#include "PartymanMainWidget.hpp"
 
 
 int main(int argc, char *argv[])
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
          }
 
          MainWindowCheckClose window;
-         MainWidget *mainWidget = new MainWidget( &window );
+         PartymanMainWidget *mainWidget = new PartymanMainWidget( &window );
          window.setMainWidget( mainWidget );
          window.show();
          mainWidget->startUp();

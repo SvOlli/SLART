@@ -1,5 +1,5 @@
 /**
- * src/apps/Rubberbandman/MainWidget.cpp
+ * src/apps/Rubberbandman/RubberbandmanMainWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "MainWidget.hpp"
+#include "RubberbandmanMainWidget.hpp"
 
 /* system headers */
 
@@ -27,7 +27,7 @@
 #include "SatelliteWidget.hpp"
 
 
-MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
+RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpBrowseWidget( new BrowseWidget( this ) )
 , mpSatelliteWidget( new SatelliteWidget( this ) )
@@ -70,18 +70,18 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 }
 
 
-MainWidget::~MainWidget()
+RubberbandmanMainWidget::~RubberbandmanMainWidget()
 {
 }
 
 
-void MainWidget::goToFilesystem()
+void RubberbandmanMainWidget::goToFilesystem()
 {
    mpTabs->setCurrentWidget( mpBrowseWidget );
 }
 
 
-void MainWidget::handleTabChange( int tabNr )
+void RubberbandmanMainWidget::handleTabChange( int tabNr )
 {
    MySettings().setValue( "CurrentTab", tabNr );
 }

@@ -1,13 +1,13 @@
 /**
- * src/apps/Karmadrome/MainWidget.hpp
+ * src/apps/Karmadrome/KarmadromeMainWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef MAINWIDGET_HPP
-#define MAINWIDGET_HPP MAINWIDGET_HPP
+#ifndef KARMADROMEMAINWIDGET_HPP
+#define KARMADROMEMAINWIDGET_HPP KARMADROMEMAINWIDGET_HPP
 
 /* base class */
 #include <QWidget>
@@ -48,7 +48,7 @@ class ScrollLine;
  \brief
 
 */
-class MainWidget : public QWidget
+class KarmadromeMainWidget : public QWidget
 {
    Q_OBJECT
 
@@ -59,12 +59,12 @@ public:
     \param parent
     \param flags
    */
-   MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   KarmadromeMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    /*!
     \brief
 
    */
-   virtual ~MainWidget();
+   virtual ~KarmadromeMainWidget();
 
 public slots:
    /* add currently played track to the list */
@@ -178,7 +178,7 @@ signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
-   Q_DISABLE_COPY( MainWidget )
+   Q_DISABLE_COPY( KarmadromeMainWidget )
 
    DatabaseInterface    *mpDatabase; /*!< TODO */
    Satellite            *mpSatellite; /*!< TODO */

@@ -56,14 +56,14 @@ SOURCES += InfoEdit.cpp
 HEADERS += LineEdit.hpp
 SOURCES += LineEdit.cpp
 
-HEADERS += MainWidget.hpp
-SOURCES += MainWidget.cpp
-
 HEADERS += MyTreeView.hpp
 SOURCES += MyTreeView.cpp
 
 HEADERS += RecurseWorker.hpp
 SOURCES += RecurseWorker.cpp
+
+HEADERS += RubberbandmanMainWidget.hpp
+SOURCES += RubberbandmanMainWidget.cpp
 
 HEADERS += SatelliteWidget.hpp
 SOURCES += SatelliteWidget.cpp

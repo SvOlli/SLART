@@ -85,8 +85,7 @@ signals:
 #endif
 
 private:
-   SatelliteServer( const SatelliteServer &that );
-   SatelliteServer &operator=( const SatelliteServer &that );
+   Q_DISABLE_COPY( SatelliteServer )
 
    QTcpServer           *mpTcpServer;
    QSignalMapper        *mpClientsReadMapper;

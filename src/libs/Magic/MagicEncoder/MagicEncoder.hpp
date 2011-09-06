@@ -35,73 +35,170 @@ class ScrollLine;
   @{
   */
 
+/*!
+ \brief
+
+*/
 class MagicEncoder : public QThread, public MagicEncoderInterface
 {
    Q_OBJECT
-Q_INTERFACES(MagicEncoderInterface)
+   Q_INTERFACES(MagicEncoderInterface)
 
 public:
+   /*!
+    \brief constructor
+
+    \param encoderName
+   */
    MagicEncoder( const QString &encoderName );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~MagicEncoder();
 
-   /* constructor replacement */
+
+   /*!
+    \brief constructor replacement
+
+    \param parent
+    \param msgHeader
+   */
    virtual void setup( MagicEncoderProxy *parent, const QString &msgHeader );
-   /* supply the a handle to the configuration widget */
+
+   /*!
+    \brief supply the a handle to the configuration widget
+
+    \param parent
+    \param button
+   */
    virtual MagicEncoderConfig *configWidget( QWidget *parent, QAbstractButton *button ) = 0;
-   /* supply a handle to the worker thread for signal/slot communication */
+
+   /*!
+    \brief supply a handle to the worker thread for signal/slot communication
+
+   */
    virtual QThread *workerThread();
-   /* get the filename of the shared object */
+
+   /*!
+    \brief get the filename of the shared object
+
+   */
    virtual QString pluginFileName();
-   /* implementation of function to run as thread */
+
+   /*!
+    \brief implementation of function to run as thread
+
+   */
    void run();
-   /* name of the encoder */
+
+   /*!
+    \brief name of the encoder
+
+   */
    QString name();
-   /* set the tags of the encoded file, always called before(!) initialize */
+
+   /*!
+    \brief set the tags of the encoded file, always called before(!) initialize
+
+    \param tagList
+   */
    void setTags( const TagList &tagList );
-   /* should the encoder be used? */
+
+   /*!
+    \brief should the encoder be used?
+
+   */
    bool useEncoder();
-   /* should the track be enqueued after encoding? */
+
+   /*!
+    \brief should the track be enqueued after encoding?
+
+    \param activate
+   */
    void setEnqueue( bool activate );
-   /* set the directory to write the files to */
+
+   /*!
+    \brief set the directory to write the files to
+
+    \param dirOverride
+   */
    void setDirectory( ScrollLine *dirOverride );
-   /* initialize the encoder */
+
+   /*!
+    \brief initialize the encoder
+
+    \param fileName
+   */
    virtual bool initialize( const QString &fileName) = 0;
-   /* finalize (clean up) the encoder and close the file */
+
+   /*!
+    \brief finalize (clean up) the encoder and close the file
+
+    \param enqueue
+    \param cancel
+   */
    virtual bool finalize( bool enqueue, bool cancel ) = 0;
 
 public slots:
-   /* encode raw cd audio data */
+
+   /*!
+    \brief encode raw cd audio data
+
+    \param data
+   */
    virtual void encodeCDAudio( const QByteArray &data ) = 0;
 
 signals:
-   /* signals that the encoding has failed */
+
+   /*!
+    \brief signals that the encoding has failed
+
+   */
    void encodingFail();
-   /* signals that the use encoder checkbox has been clicked in configuration widget */
+
+   /*!
+    \brief signals that the use encoder checkbox has been clicked in configuration widget
+
+    \param on
+   */
    void useEncoderClicked( bool on );
 
 protected:
-   /* initialize the encoder (create the output file) */
+
+   /*!
+    \brief initialize the encoder (create the output file)
+
+    \param fileName
+    \param extension
+   */
    virtual bool initialize( const QString &fileName, const char *extension );
-   /* write a chunk of encoded audio data */
+
+   /*!
+    \brief write a chunk of encoded audio data
+
+    \param buffer
+    \param size
+   */
    bool writeChunk( const char* buffer, qint64 size );
 
    /* settings */
-   MagicEncoderProxy *mpProxy;
-   bool              mUseEncoder;
-   bool              mEnqueue;
-   bool              mDirOverride;
-   QString           mDirectory;
-   QString           mPluginFileName;
-   QString           mMsgHeader;
-   const QString     mName;
-   QFile             mFile;
-   TagList           mTagList;
+   MagicEncoderProxy *mpProxy; /*!< TODO */
+   bool              mUseEncoder; /*!< TODO */
+   bool              mEnqueue; /*!< TODO */
+   bool              mDirOverride; /*!< TODO */
+   QString           mDirectory; /*!< TODO */
+   QString           mPluginFileName; /*!< TODO */
+   QString           mMsgHeader; /*!< TODO */
+   const QString     mName; /*!< TODO */
+   QFile             mFile; /*!< TODO */
+   TagList           mTagList; /*!< TODO */
 
 private:
-   MagicEncoder( const MagicEncoder &that );
-   MagicEncoder &operator=( const MagicEncoder &that );
+   Q_DISABLE_COPY( MagicEncoder )
 
-   QString           mFileName;
+   QString           mFileName; /*!< TODO */
 };
 
 #define VALUE_DIRECTORY          value( "Directory", QDir::current().absolutePath() ).toString()

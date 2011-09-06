@@ -185,11 +185,20 @@ signals:
 #endif
 
 private:
+   /*!
+    \brief constructor
+
+    \param parent parent object
+   */
    Satellite( QObject *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~Satellite();
 
-   Satellite( const Satellite &that );
-   Satellite &operator=( const Satellite &that );
+   Q_DISABLE_COPY( Satellite )
 
    bool                             mIsTestApp;
    QTcpSocket                       *mpServerConnection;

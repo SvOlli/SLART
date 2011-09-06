@@ -79,9 +79,12 @@ public:
    */
    void cleanup();
 
-   /* get track information from database
-      empty fileName: search for TrackInfo by trackInfo->mID
-      trackInfo = 0: only test if fileName is in database */
+   /*!
+    \brief get track information from database
+
+    \param trackInfo (trackInfo = 0: only test if fileName is in database)
+    \param fileName (empty fileName: search for TrackInfo by trackInfo->mID)
+   */
    bool getTrackInfo( TrackInfo *trackInfo, const QString &fileName = QString() );
    /*!
     \brief update track information to database

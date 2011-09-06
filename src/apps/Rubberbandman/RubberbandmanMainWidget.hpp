@@ -1,13 +1,13 @@
 /**
- * src/apps/Rubberbandman/MainWidget.hpp
+ * src/apps/Rubberbandman/RubberbandmanMainWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef MAINWIDGET_HPP
-#define MAINWIDGET_HPP MAINWIDGET_HPP
+#ifndef RUBBERBANDMANMAINWIDGET_HPP
+#define RUBBERBANDMANMAINWIDGET_HPP RUBBERBANDMANMAINWIDGET_HPP
 
 /* base class */
 #include <QWidget>
@@ -41,7 +41,7 @@ class SatelliteWidget;
  \brief
 
 */
-class MainWidget : public QWidget
+class RubberbandmanMainWidget : public QWidget
 {
    Q_OBJECT
 
@@ -52,12 +52,12 @@ public:
     \param parent
     \param flags
    */
-   MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   RubberbandmanMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    /*!
     \brief
 
    */
-   virtual ~MainWidget();
+   virtual ~RubberbandmanMainWidget();
 
 public slots:
    /* switch to filesystem tab */
@@ -84,7 +84,7 @@ signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
-   Q_DISABLE_COPY( MainWidget )
+   Q_DISABLE_COPY( RubberbandmanMainWidget )
 
    BrowseWidget      *mpBrowseWidget; /*!< TODO */
    SatelliteWidget   *mpSatelliteWidget; /*!< TODO */

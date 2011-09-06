@@ -37,6 +37,6 @@ SOURCES += ExportFolderList.cpp
 HEADERS += ImportFolder.hpp
 SOURCES += ImportFolder.cpp
 
-HEADERS += MainWidget.hpp
-SOURCES += MainWidget.cpp
+HEADERS += KarmadromeMainWidget.hpp
+SOURCES += KarmadromeMainWidget.cpp
 

@@ -20,7 +20,7 @@
 #include <Translate.hpp>
 
 /* local headers */
-#include "MainWidget.hpp"
+#include "InnuendoMainWidget.hpp"
 
 
 int main(int argc, char *argv[])
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
       }
 
       MainWindow window;
-      MainWidget *mainWidget = new MainWidget( &window );
+      InnuendoMainWidget *mainWidget = new InnuendoMainWidget( &window );
       window.setMainWidget( mainWidget );
       window.show();
 

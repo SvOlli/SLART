@@ -1,5 +1,5 @@
 /**
- * src/apps/Funkytown/MainWidget.cpp
+ * src/apps/Funkytown/FunkytownMainWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "MainWidget.hpp"
+#include "FunkytownMainWidget.hpp"
 
 /* system headers */
 
@@ -25,7 +25,7 @@
 #include "MainWindow.hpp"
 
 
-MainWidget::MainWidget( QWidget *parent )
+FunkytownMainWidget::FunkytownMainWidget( QWidget *parent )
 : QWidget( parent )
 , mpLayout( new QGridLayout( this ) )
 , mpDirText( new QLabel( tr("Target Dir:"), this ) )
@@ -96,7 +96,12 @@ MainWidget::MainWidget( QWidget *parent )
 }
 
 
-void MainWidget::setDownloadDir()
+FunkytownMainWidget::~FunkytownMainWidget()
+{
+}
+
+
+void FunkytownMainWidget::setDownloadDir()
 {
    QFileDialog fileDialog( this );
 
@@ -116,7 +121,7 @@ void MainWidget::setDownloadDir()
 }
 
 
-void MainWidget::downloadUserPage( const QString &name )
+void FunkytownMainWidget::downloadUserPage( const QString &name )
 {
    if( !name.isEmpty() )
    {
@@ -135,7 +140,7 @@ void MainWidget::downloadUserPage( const QString &name )
 }
 
 
-void MainWidget::downloadActive( bool active )
+void FunkytownMainWidget::downloadActive( bool active )
 {
    mpDirButton->setDisabled( active );
    if( active )
@@ -149,7 +154,7 @@ void MainWidget::downloadActive( bool active )
 }
 
 
-void MainWidget::dragEnterEvent( QDragEnterEvent *event )
+void FunkytownMainWidget::dragEnterEvent( QDragEnterEvent *event )
 {
    if( event->mimeData()->hasFormat("text/plain") )
    {
@@ -158,7 +163,7 @@ void MainWidget::dragEnterEvent( QDragEnterEvent *event )
 }
 
 
-void MainWidget::dropEvent( QDropEvent *event )
+void FunkytownMainWidget::dropEvent( QDropEvent *event )
 {
    const QMimeData *mimeData = event->mimeData();
 

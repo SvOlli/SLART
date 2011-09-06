@@ -1,13 +1,13 @@
 /**
- * src/apps/Partyman/MainWidget.hpp
+ * src/apps/Partyman/PartymanMainWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef MAINWIDGET_HPP
-#define MAINWIDGET_HPP MAINWIDGET_HPP
+#ifndef PARTYMANMAINWIDGET_HPP
+#define PARTYMANMAINWIDGET_HPP PARTYMANMAINWIDGET_HPP
 
 /* base class */
 #include <QWidget>
@@ -34,34 +34,32 @@ class PlaylistControlWidget;
   @{
   */
 
-
-
 /*!
  \brief
 
 */
-class MainWidget : public QWidget
+class PartymanMainWidget : public QWidget
 {
    Q_OBJECT
 
 public:
 
    /*!
-    \brief
+    \brief constuctor
 
     \param parent
     \param flags
    */
-   MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   PartymanMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+
    /*!
-    \brief
+    \brief destructor
 
    */
-   virtual ~MainWidget();
+   virtual ~PartymanMainWidget();
 
-   /* prepare startup of application */
    /*!
-    \brief
+    \brief prepare startup of application
 
    */
    void startUp();
@@ -69,26 +67,23 @@ public:
 protected:
 
 public slots:
-   /* handle request for new icon and title */
    /*!
-    \brief
+    \brief handle request for new icon and title
 
     \param icon
     \param title
    */
    void changeTitle( const QIcon &icon, const QString &title );
-   /* don't autostart if database is empty */
    /*!
-    \brief
+    \brief don't autostart if database is empty
 
     \param allow
    */
    void allowAutostart( bool allow );
 
 signals:
-   /* request a new icon and title */
    /*!
-    \brief
+    \brief request a new icon and title
 
     \param icon
     \param title
@@ -96,7 +91,7 @@ signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
-   Q_DISABLE_COPY( MainWidget )
+   Q_DISABLE_COPY( PartymanMainWidget )
 
    bool                    mAllowAutostart; /*!< TODO */
    QWidget                 *mpParent; /*!< TODO */

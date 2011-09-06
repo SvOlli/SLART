@@ -27,9 +27,6 @@ TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
 SOURCES += Application.cpp
 
-HEADERS += MainWidget.hpp
-SOURCES += MainWidget.cpp
-
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp
 
@@ -56,3 +53,6 @@ SOURCES += CDDBClient.cpp
 
 HEADERS += ParanoiaStatus.hpp
 SOURCES += ParanoiaStatus.cpp
+
+HEADERS += StrippedMainWidget.hpp
+SOURCES += StrippedMainWidget.cpp

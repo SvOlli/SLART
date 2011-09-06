@@ -25,21 +25,20 @@ TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
 SOURCES += Application.cpp
 
-HEADERS += LogListWidget.hpp
-SOURCES += LogListWidget.cpp
-
-HEADERS += MainWidget.hpp
-SOURCES += MainWidget.cpp
-
-HEADERS += ExecButton.hpp
-SOURCES += ExecButton.cpp
-
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp
-
-HEADERS += SatelliteConfigWidget.hpp
-SOURCES += SatelliteConfigWidget.cpp
 
 HEADERS += DropDialog.hpp
 SOURCES += DropDialog.cpp
 
+HEADERS += ExecButton.hpp
+SOURCES += ExecButton.cpp
+
+HEADERS += InnuendoMainWidget.hpp
+SOURCES += InnuendoMainWidget.cpp
+
+HEADERS += LogListWidget.hpp
+SOURCES += LogListWidget.cpp
+
+HEADERS += SatelliteConfigWidget.hpp
+SOURCES += SatelliteConfigWidget.cpp

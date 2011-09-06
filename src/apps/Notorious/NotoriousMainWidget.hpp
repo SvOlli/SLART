@@ -40,7 +40,7 @@ class SearchWidget;
  \brief
 
 */
-class MainWidget : public QWidget
+class NotoriousMainWidget : public QWidget
 {
    Q_OBJECT
 
@@ -51,7 +51,7 @@ public:
     \param parent
     \param flags
    */
-   MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   NotoriousMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 protected:
 
@@ -73,7 +73,7 @@ public slots:
 signals:
 
 private:
-   Q_DISABLE_COPY( MainWidget )
+   Q_DISABLE_COPY( NotoriousMainWidget )
 
    FreeDB       *mpFreeDB; /*!< TODO */
    SearchWidget *mpSearch; /*!< TODO */

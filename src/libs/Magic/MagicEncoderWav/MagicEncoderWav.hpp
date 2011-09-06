@@ -26,11 +26,9 @@
 /* forward declaration of local classes */
 
 /*!
-  \addtogroup MagicEncoderFlac MagicEncoderWav: interface for wave audio encoding
+  \addtogroup MagicEncoderWav MagicEncoderWav: interface for wave audio encoding
   @{
   */
-
-
 
 class MagicEncoderWav : public MagicEncoder
 {
@@ -40,28 +38,53 @@ Q_INTERFACES(MagicEncoderInterface)
    friend class MagicEncoderWavConfig;
 
 public:
+   /*!
+    \brief constructor
+
+   */
    MagicEncoderWav();
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~MagicEncoderWav();
 
-   /* supply the a handle to the configuration widget */
+   /*!
+    \brief supply the a handle to the configuration widget
+
+    \param parent
+    \param button
+   */
    MagicEncoderConfig *configWidget( QWidget *parent, QAbstractButton *button );
-   /* initialize the encoder */
+
+   /*!
+    \brief initialize the encoder
+
+    \param fileName
+   */
    bool initialize( const QString &fileName );
-   /* finalize (clean up) the encoder */
+
+   /*!
+    \brief finalize (clean up) the encoder
+
+    \param enqueue
+    \param cancel
+   */
    bool finalize( bool enqueue, bool cancel );
 
-   /* encode raw cd audio data */
+   /*!
+    \brief encode raw cd audio data
+
+    \param data
+   */
    void encodeCDAudio( const QByteArray &data );
 
 private:
-   MagicEncoderWav( const MagicEncoderWav &that );
-   MagicEncoderWav &operator=( const MagicEncoderWav &that );
+   Q_DISABLE_COPY( MagicEncoderWav )
 
-   /* configuration widget */
-   MagicEncoderConfig   *mpConfigWidget;
-
-   /* encoder internal data */
-   unsigned int         *mpWavHeader;
+   MagicEncoderConfig   *mpConfigWidget;  /*!< \brief configuration widget */
+   unsigned int         *mpWavHeader;     /*!< \brief encoder internal data */
 };
 
 /*! @} */

@@ -1,5 +1,5 @@
 /**
- * src/apps/Notorious/MainWidget.cpp
+ * src/apps/Notorious/NotoriousMainWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "MainWidget.hpp"
+#include "NotoriousMainWidget.hpp"
 
 /* system headers */
 
@@ -24,7 +24,7 @@
 #include "SearchWidget.hpp"
 
 
-MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
+NotoriousMainWidget::NotoriousMainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpFreeDB( new FreeDB( this ) )
 , mpSearch( new SearchWidget( this ) )
@@ -68,13 +68,13 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 }
 
 
-void MainWidget::runQuery( const QString &query )
+void NotoriousMainWidget::runQuery( const QString &query )
 {
    mpFound->runQuery( query );
 }
 
 
-void MainWidget::handleClicked( const QString &category, const QString &id )
+void NotoriousMainWidget::handleClicked( const QString &category, const QString &id )
 {
    QString query( "id = '" );
    query.append( id );

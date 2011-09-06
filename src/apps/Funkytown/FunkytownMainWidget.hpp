@@ -1,13 +1,13 @@
 /**
- * src/apps/Funkytown/MainWidget.hpp
+ * src/apps/Funkytown/FunkytownMainWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef MAINWIDGET_HPP
-#define MAINWIDGET_HPP MAINWIDGET_HPP
+#ifndef FUNKYTOWNMAINWIDGET_HPP
+#define FUNKYTOWNMAINWIDGET_HPP FUNKYTOWNMAINWIDGET_HPP
 
 /* base class */
 #include <QWidget>
@@ -40,49 +40,51 @@ class DownloadHandler;
   @{
   */
 
-
 /*!
  \brief
 
 */
-class MainWidget : public QWidget
+class FunkytownMainWidget : public QWidget
 {
    Q_OBJECT
 
 public:
    /*!
-    \brief
+    \brief constructor
 
     \param parent
    */
-   MainWidget( QWidget *parent = 0 );
+   FunkytownMainWidget( QWidget *parent = 0 );
+   /*!
+    \brief destructor
+
+    */
+   virtual ~FunkytownMainWidget();
 
 public slots:
-   /* open download dir requester */
    /*!
-    \brief
+    \brief open download dir requester
 
    */
    void setDownloadDir();
-   /* enqueue a download */
+
    /*!
-    \brief
+    \brief enqueue a download
 
     \param name
    */
    void downloadUserPage( const QString &name = QString() );
-   /* handle if download is active */
+
    /*!
-    \brief
+    \brief handle if download is active
 
     \param downloadActive
    */
    void downloadActive( bool downloadActive = false );
 
 signals:
-   /* request to change the title and icon */
    /*!
-    \brief
+    \brief request to change the title and icon
 
     \param icon
     \param title
@@ -90,34 +92,22 @@ signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 protected:
-   /* for implementing dropping */
    /*!
-    \brief
+    \brief for implementing dropping
 
     \param event
    */
    void dragEnterEvent( QDragEnterEvent *event );
-   /* for implementing dropping */
+
    /*!
-    \brief
+    \brief for implementing dropping
 
     \param event
    */
    void dropEvent( QDropEvent *event );
 
 private:
-   /*!
-    \brief
-
-    \param that
-   */
-   MainWidget( const MainWidget &that );
-   /*!
-    \brief
-
-    \param that
-   */
-   MainWidget &operator=( const MainWidget &that );
+   Q_DISABLE_COPY( FunkytownMainWidget )
 
    QGridLayout             *mpLayout; /*!< TODO */
    QLabel                  *mpDirText; /*!< TODO */

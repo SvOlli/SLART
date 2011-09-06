@@ -61,8 +61,7 @@ signals:
 #endif
 
 private:
-   SatelliteServerRunner( const SatelliteServerRunner &that );
-   SatelliteServerRunner &operator=( const SatelliteServerRunner &that );
+   Q_DISABLE_COPY( SatelliteServerRunner )
 
    SatelliteServer      *mpServer;
    const quint16        mPort;

@@ -1,5 +1,5 @@
 /**
- * src/apps/Stripped/MainWidget.cpp
+ * src/apps/Stripped/StrippedMainWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "MainWidget.hpp"
+#include "StrippedMainWidget.hpp"
 
 /* system headers */
 
@@ -29,7 +29,7 @@
 #include "ConfigDialog.hpp"
 
 
-MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
+StrippedMainWidget::StrippedMainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::create() )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithoutPing ) )
@@ -145,12 +145,12 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 }
 
 
-MainWidget::~MainWidget()
+StrippedMainWidget::~StrippedMainWidget()
 {
 }
 
 
-void MainWidget::eject()
+void StrippedMainWidget::eject()
 {
    mpCDDBClient->clear();
    mpCDEdit->clear();
@@ -158,7 +158,7 @@ void MainWidget::eject()
 }
 
 
-void MainWidget::stateNoDrive()
+void StrippedMainWidget::stateNoDrive()
 {
    mpCDEdit->clear();
    mpCDEdit->setDisabled( true );
@@ -173,7 +173,7 @@ void MainWidget::stateNoDrive()
 }
 
 
-void MainWidget::stateNoDisc()
+void StrippedMainWidget::stateNoDisc()
 {
    mpCDEdit->clear();
    mpCDEdit->setDisabled( true );
@@ -186,7 +186,7 @@ void MainWidget::stateNoDisc()
 }
 
 
-void MainWidget::stateDisc()
+void StrippedMainWidget::stateDisc()
 {
    mpCDEdit->setDisabled( false );
    //mpCDDBClient->setDisabled( false );
@@ -198,7 +198,7 @@ void MainWidget::stateDisc()
 }
 
 
-void MainWidget::stateScan()
+void StrippedMainWidget::stateScan()
 {
    mpCDEdit->setDisabled( false );
    //mpCDDBClient->setDisabled( false );
@@ -210,7 +210,7 @@ void MainWidget::stateScan()
 }
 
 
-void MainWidget::stateNet()
+void StrippedMainWidget::stateNet()
 {
    mpCDEdit->setDisabled( false );
    //mpCDDBClient->setDisabled( false );
@@ -222,7 +222,7 @@ void MainWidget::stateNet()
 }
 
 
-void MainWidget::stateRip()
+void StrippedMainWidget::stateRip()
 {
    mpCDEdit->setDisabled( false );
    //mpCDDBClient->setDisabled( false );

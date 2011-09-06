@@ -1,5 +1,5 @@
 /**
- * src/apps/Partyman/MainWidget.cpp
+ * src/apps/Partyman/PartymanMainWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "MainWidget.hpp"
+#include "PartymanMainWidget.hpp"
 
 /* system headers */
 #include <csignal>
@@ -44,7 +44,7 @@ static void signalHandler( int signum )
 #endif
 
 
-MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
+PartymanMainWidget::PartymanMainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mAllowAutostart( false )
 , mpParent( parent )
@@ -117,7 +117,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 }
 
 
-MainWidget::~MainWidget()
+PartymanMainWidget::~PartymanMainWidget()
 {
 #if CRASH_HANDLER
    gpMainWidget = 0;
@@ -151,13 +151,13 @@ MainWidget::~MainWidget()
 }
 
 
-void MainWidget::changeTitle( const QIcon &icon, const QString &title )
+void PartymanMainWidget::changeTitle( const QIcon &icon, const QString &title )
 {
    emit requestChangeTitle( icon, title );
 }
 
 
-void MainWidget::startUp()
+void PartymanMainWidget::startUp()
 {
    MySettings settings;
    mpControl->readConfig();
@@ -174,7 +174,7 @@ void MainWidget::startUp()
 }
 
 
-void MainWidget::allowAutostart( bool allow )
+void PartymanMainWidget::allowAutostart( bool allow )
 {
    mAllowAutostart = allow;
    if( !allow )
