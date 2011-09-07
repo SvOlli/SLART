@@ -35,7 +35,7 @@ extern "C" {
   */
 
 /*!
- \brief
+ \brief plugin for encoding raw audio data to OggVorbis
 
 */
 class MagicEncoderOgg : public MagicEncoder
@@ -105,21 +105,16 @@ private:
    */
    bool encodeCDAudio( const char *data, int size );
 
-   /* settings */
-   float                         mQuality;
-
-   /* configuration widget */
-   QPointer<MagicEncoderConfig>  mpConfigWidget;
-
-   /* encoder internal data */
-   bool                          mIsInit;
-   ::ogg_stream_state            mOggPagegStream;
-   ::ogg_page                    mOggPage;
-   ::ogg_packet                  mOggPacket;
-   ::vorbis_info                 mVorbisInfo;
-   ::vorbis_comment              mVorbisComment;
-   ::vorbis_dsp_state            mVorbisDspState;
-   ::vorbis_block                mVorbisBlock;
+   float                         mQuality; /*!< \brief widget for quality setting */
+   QPointer<MagicEncoderConfig>  mpConfigWidget; /*!< \brief configuration widget */
+   bool                          mIsInit; /*!< \brief internal data */
+   ::ogg_stream_state            mOggPagegStream; /*!< \brief internal data used for ogg encoding */
+   ::ogg_page                    mOggPage; /*!< \brief internal data used for ogg encoding */
+   ::ogg_packet                  mOggPacket; /*!< \brief internal data used for ogg encoding */
+   ::vorbis_info                 mVorbisInfo; /*!< \brief internal data used for ogg encoding */
+   ::vorbis_comment              mVorbisComment; /*!< \brief internal data used for ogg encoding */
+   ::vorbis_dsp_state            mVorbisDspState; /*!< \brief internal data used for ogg encoding */
+   ::vorbis_block                mVorbisBlock; /*!< \brief internal data used for ogg encoding */
 };
 
 /*! @} */

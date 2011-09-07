@@ -50,7 +50,18 @@ class FileSysBrowser : public QWidget
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    FileSysBrowser( QWidget *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
+   virtual ~FileSysBrowser();
 
 public slots:
    /*!
@@ -124,8 +135,7 @@ protected:
    virtual void dropEvent( QDropEvent *event );
 
 private:
-   FileSysBrowser( const FileSysBrowser &that );
-   FileSysBrowser &operator=( const FileSysBrowser &that );
+   Q_DISABLE_COPY( FileSysBrowser )
 
    DatabaseInterface    *mpDatabase;
    QLineEdit            *mpRootDir;

@@ -67,102 +67,101 @@ public:
    virtual ~KarmadromeMainWidget();
 
 public slots:
-   /* add currently played track to the list */
    /*!
-    \brief
+    \brief add currently played track to the list
 
     \param widget
    */
+
    void addToList( QWidget *widget );
-   /* handle SLART message */
    /*!
-    \brief
+    \brief handle SLART message
 
     \param msg
    */
+
    void handleSatellite( const QByteArray &msg );
-   /* handle adding of new playlist */
    /*!
-    \brief
+    \brief handle adding of new playlist
 
    */
+
    void handleAdd();
-   /* handle menu to export of playlist to m3u file */
    /*!
-    \brief
+    \brief handle menu to export of playlist to m3u file
 
     \param action
    */
+
    void handleExport( QAction *action );
-   /* handle menu to import of playlist from m3u file */
    /*!
-    \brief
+    \brief handle menu to import of playlist from m3u file
 
     \param action
    */
    void handleImport( QAction *action );
-   /* handle removal of playlist */
+
    /*!
-    \brief
+    \brief handle removal of playlist
 
     \param action
    */
    void handleRemove( QAction *action );
-   /* handle "Read Clipboard" button */
+
    /*!
-    \brief
+    \brief handle "Read Clipboard" button
 
    */
    void handleReadButton();
-   /* label "Read Clipboard" button according to settings */
+
    /*!
-    \brief
+    \brief label "Read Clipboard" button according to settings
 
    */
    void labelReadButton();
-   /* update the lists containing the playlists */
+
    /*!
-    \brief
+    \brief update the lists containing the playlists
 
    */
    void updateLists();
-   /* slot for timer to send out k0u notification */
+
    /*!
-    \brief
+    \brief slot for timer to send out k0u notification
 
    */
    void sendK0u();
-   /* sync TrackInfo data */
+
    /*!
-    \brief
+    \brief sync TrackInfo data
 
     \param trackInfo
    */
    void updateTrackInfo( const TrackInfo &trackInfo );
-   /*  */
+
    /*!
-    \brief
+    \brief TODO
 
     \param enabled
    */
    void setButtonsEnabled( bool enabled = true );
-   /*  */
+
    /*!
-    \brief
+    \brief TODO
 
     \param list
    */
    void updateFolderNames( const QStringList &list );
-   /*  */
+
    /*!
-    \brief
+    \brief TODO
 
     \param entries
    */
    void removeFolder( const QStringList &entries );
-   /*  */
+
    /*!
-    \brief
+    \brief TODO
 
     \param trackInfo
    */
@@ -170,7 +169,7 @@ public slots:
 
 signals:
    /*!
-    \brief
+    \brief TODO
 
     \param icon
     \param title

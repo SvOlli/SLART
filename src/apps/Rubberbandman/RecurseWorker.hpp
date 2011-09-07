@@ -93,8 +93,7 @@ signals:
    void currentPath( const QString &path );
 
 private:
-   RecurseWorker( const RecurseWorker &that );
-   RecurseWorker &operator=( const RecurseWorker &that );
+   Q_DISABLE_COPY( RecurseWorker )
 
    /*!
     \brief run the job
@@ -108,6 +107,10 @@ private:
    */
    void workDir( const QString &dir );
 
+   /*!
+    \brief mode of operation
+
+   */
    enum { ModeNothing,
           ModeSetTags,
           ModeNormArtist,

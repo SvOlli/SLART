@@ -51,7 +51,18 @@ class DatabaseWidget : public QWidget
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    DatabaseWidget( QWidget *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
+   virtual ~DatabaseWidget();
 
 public slots:
    /*!
@@ -103,9 +114,13 @@ signals:
    void databaseUpdated();
 
 private:
-   DatabaseWidget( const DatabaseWidget &that );
-   DatabaseWidget &operator=( const DatabaseWidget &that );
+   Q_DISABLE_COPY( DatabaseWidget )
 
+   /*!
+    \brief disable all buttons
+
+    \param disable
+   */
    void disableButtons( bool disable );
 
    DatabaseWorker *mpDatabaseWorker;

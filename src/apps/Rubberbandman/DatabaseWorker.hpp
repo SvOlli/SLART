@@ -47,7 +47,16 @@ class DatabaseWorker : public QThread
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+   */
    DatabaseWorker();
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~DatabaseWorker();
 
    /*!
@@ -111,8 +120,7 @@ signals:
    void progress( int checked, int processed );
 
 private:
-   DatabaseWorker( const DatabaseWorker &that );
-   DatabaseWorker &operator=( const DatabaseWorker &that );
+   Q_DISABLE_COPY( DatabaseWorker )
 
    /*!
     \brief subroutine for better reading of code
@@ -120,7 +128,12 @@ private:
    */
    void importM3u();
 
+   /*!
+    \brief mode of operation
+
+   */
    enum { ModeNone, ModeUpdate, ModeCleanup, ModeImport } mMode;
+
    DatabaseInterface    *mpDatabase;
    bool                 mCancel;
    int                  mChecked;

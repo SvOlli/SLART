@@ -36,7 +36,7 @@ class ScrollLine;
 */
 
 /*!
- \brief TODO
+ \brief configuration widget
 
 */
 class MagicEncoderFlacConfig : public MagicEncoderConfig
@@ -44,7 +44,19 @@ class MagicEncoderFlacConfig : public MagicEncoderConfig
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param encoder
+    \param parent
+    \param button
+   */
    MagicEncoderFlacConfig( MagicEncoderFlac *encoder, QWidget *parent, QAbstractButton *button );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~MagicEncoderFlacConfig();
 
    /*!
@@ -59,17 +71,11 @@ public:
    void writeSettings();
 
 private:
-   MagicEncoderFlacConfig( const MagicEncoderFlacConfig &that );
-   MagicEncoderFlacConfig &operator=( const MagicEncoderFlacConfig &that );
+   Q_DISABLE_COPY( MagicEncoderFlacConfig )
 
-   MagicEncoderFlac     *mpEncoder;
-
-   /*!
-    \brief configuration widget
-
-   */
-   QSpinBox             *mpQuality;
-   QCheckBox            *mpUseOga;
+   MagicEncoderFlac     *mpEncoder; /*!< \brief handle for encoder */
+   QSpinBox             *mpQuality; /*!< \brief widget for quality setting */
+   QCheckBox            *mpUseOga; /*!< \brief widget for changing container format */
 };
 
 /*! @} */

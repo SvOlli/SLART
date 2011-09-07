@@ -62,20 +62,19 @@ public:
    bool hasErrors();
 
 public slots:
-   /*  */
    /*!
     \brief set all entries to 0
 
    */
    void clear();
-   /*  */
+
    /*!
     \brief switch to status of the given track
 
     \param track track number to switch to
    */
    void handleTrackNr( int track );
-   /*  */
+
    /*!
     \brief update the status of a track
 

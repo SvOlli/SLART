@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QPointer>
 
 /* local library headers */
 
@@ -30,10 +31,14 @@
   @{
   */
 
+/*!
+ \brief plugin for encoding raw audio data to wave
+
+*/
 class MagicEncoderWav : public MagicEncoder
 {
    Q_OBJECT
-Q_INTERFACES(MagicEncoderInterface)
+   Q_INTERFACES(MagicEncoderInterface)
 
    friend class MagicEncoderWavConfig;
 
@@ -83,8 +88,8 @@ public:
 private:
    Q_DISABLE_COPY( MagicEncoderWav )
 
-   MagicEncoderConfig   *mpConfigWidget;  /*!< \brief configuration widget */
-   unsigned int         *mpWavHeader;     /*!< \brief encoder internal data */
+   QPointer<MagicEncoderConfig>  mpConfigWidget;   /*!< \brief configuration widget */
+   unsigned int                  *mpWavHeader;     /*!< \brief wave header data */
 };
 
 /*! @} */

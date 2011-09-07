@@ -77,6 +77,11 @@ SatelliteWidget::SatelliteWidget( QWidget *parent )
 }
 
 
+SatelliteWidget::~SatelliteWidget()
+{
+}
+
+
 void SatelliteWidget::handleSatellite( const QByteArray &msg )
 {
    QStringList message( Satellite::split( msg ) );

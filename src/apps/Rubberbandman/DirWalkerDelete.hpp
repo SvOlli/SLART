@@ -41,7 +41,16 @@ class DatabaseInterface;
 class DirWalkerDelete : public DirWalkerCallbacks
 {
 public:
+   /*!
+    \brief constructor
+
+   */
    DirWalkerDelete();
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~DirWalkerDelete();
 
    /*!
@@ -76,6 +85,8 @@ public:
    virtual void handleEnd();
 
 private:
+   Q_DISABLE_COPY( DirWalkerDelete )
+
    DatabaseInterface    *mpDatabase;
    QDir                 mDir;
 };

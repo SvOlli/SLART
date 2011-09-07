@@ -43,7 +43,17 @@ class DatabaseInterface;
 class DirWalkerMove : public DirWalkerCallbacks
 {
 public:
+   /*!
+    \brief constructor
+
+    \param databaseWorker
+   */
    DirWalkerMove( const QString &srcpath, const QString &destpath );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~DirWalkerMove();
 
    /*!
@@ -78,6 +88,8 @@ public:
    virtual void handleEnd();
 
 private:
+   Q_DISABLE_COPY( DirWalkerMove )
+
    DatabaseInterface    *mpDatabase;
    int                  mSrcBaseLen;
    QString              mDestBase;

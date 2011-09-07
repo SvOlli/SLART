@@ -50,7 +50,19 @@ class ConfigDialog : public QDialog
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+    \param flags
+   */
    ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+
+   /*!
+    \brief destructor
+
+   */
+   virtual ~ConfigDialog();
 
 public slots:
    /*!
@@ -92,8 +104,7 @@ signals:
    void configChanged();
 
 private:
-   ConfigDialog( const ConfigDialog &that );
-   ConfigDialog &operator=( const ConfigDialog &that );
+   Q_DISABLE_COPY( ConfigDialog )
 
    GlobalConfigWidget   *mpGlobalConfigWidget;
    QCheckBox            *mpAutoRescan;

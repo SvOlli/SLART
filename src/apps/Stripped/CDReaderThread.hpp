@@ -38,98 +38,237 @@ class Encoder;
   @{
   */
 
+/*!
+ \brief worker thread for cd reading
+
+*/
 class CDReaderThread : public QThread
 {
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+   */
    CDReaderThread();
+   /*!
+    \brief destructor
+
+   */
    virtual ~CDReaderThread();
 
-   /* constructor replacement */
+   /*!
+    \brief constructor replacement as constructor does not take arguments
+
+    \param info
+    \param edit
+    \param encoders
+    \param device
+   */
    void setup( CDInfo *info, CDEdit *edit,
                const MagicEncoderList &encoders, const QString &device );
-   /* wrapper to get all cd-capable devices in an own thread */
+
+   /*!
+    \brief wrapper to get all cd-capable devices in an own thread
+
+   */
    void startGetDevices();
-   /* wrapper to read the toc in an own thread */
+
+   /*!
+    \brief wrapper to read the toc in an own thread
+
+   */
    void startReadToc();
-   /* wrapper to read cd-text in an own thread */
+
+   /*!
+    \brief wrapper to read cd-text in an own thread
+
+   */
    void startReadCDText();
-   /* wrapper to read audio data in an own thread */
+
+   /*!
+    \brief wrapper to read audio data in an own thread
+
+   */
    void startReadAudioData();
-   /* wrapper to eject the disc in an own thread */
+
+   /*!
+    \brief wrapper to eject the disc in an own thread
+
+   */
    void startEject();
-   /* implemented run of QThread */
+
+   /*!
+    \brief implemented run of QThread
+
+   */
    void run();
 
-   /* callback for cdparanoia status */
+   /*!
+    \brief callback for cdparanoia status
+
+    \param inpos
+    \param function
+   */
    void callback( long inpos, ::paranoia_cb_mode_t function );
 
 public slots:
-   /* cancel the current action */
+
+   /*!
+    \brief cancel the current action
+
+   */
    void cancel();
 
 signals:
-   /* signalize "no disc"-state */
+
+   /*!
+    \brief signalize "no disc"-state
+
+   */
    void stateNoDisc();
-   /* signalize "disc inserted"-state */
+
+   /*!
+    \brief signalize "disc inserted"-state
+
+   */
    void stateDisc();
-   /* signalize "reading toc"-state */
+
+   /*!
+    \brief signalize "reading toc"-state
+
+   */
    void stateScan();
-   /* signalize "ripping audio"-state */
+
+   /*!
+    \brief signalize "ripping audio"-state
+
+   */
    void stateRip();
-   /* signalize "toc read"-state */
+
+   /*!
+    \brief signalize "toc read"-state
+
+   */
    void gotToc();
-   /* send a list of devices that've been found */
+
+   /*!
+    \brief send a list of devices that've been found
+
+    \param devices
+   */
    void foundDevices( const QStringList &devices );
-   /* send status message */
+
+   /*!
+    \brief send status message
+
+    \param message
+   */
    void message( const QString &message = QString() );
-   /* send current read errors of track */
+
+   /*!
+    \brief send current read errors of track
+
+    \param track
+    \param elements
+    \param counts
+   */
    void errors( int track, unsigned int elements, const unsigned long *counts );
-   /* signalize that disc has not been ejected because of errors */
+
+   /*!
+    \brief signalize that disc has not been ejected because of errors
+
+   */
    void noEject();
-   /* send progress of track */
+
+   /*!
+    \brief send progress of track
+
+    \param percent
+   */
    void progress( int percent );
-   /* track has been enabled/disabled */
+
+   /*!
+    \brief track has been enabled/disabled
+
+    \param track
+    \param disabled
+   */
    void setTrackDisabled( int track, bool disabled );
-   /* make sure that the track is visible */
+
+   /*!
+    \brief make sure that the track is visible
+
+    \param track
+   */
    void ensureVisible( int track );
-   /* encode audio data to target formats */
+
+   /*!
+    \brief encode audio data to target formats
+
+    \param data
+   */
    void encodeThis( const QByteArray &data );
-   /* finalize encoding */
+
+   /*!
+    \brief finalize encoding
+
+   */
    void encodeDone();
 
 private:
-   CDReaderThread( const CDReaderThread &that );
-   CDReaderThread &operator=( const CDReaderThread &that );
+   Q_DISABLE_COPY( CDReaderThread )
 
-   /* real routine to get drives */
+   /*!
+    \brief real routine to get drives
+
+   */
    void runGetDevices();
-   /* real routine to read the toc */
+
+   /*!
+    \brief real routine to read the toc
+
+   */
    void runReadToc();
-   /* real routine to read cd-text */
+
+   /*!
+    \brief real routine to read cd-text
+
+   */
    void runReadCDText();
-   /* real routine to read audio data */
+
+   /*!
+    \brief real routine to read audio data
+
+   */
    void runReadAudioData();
-   /* real routine to eject CD from drive */
+
+   /*!
+    \brief real routine to eject CD from drive
+
+   */
    void runEject();
 
-   /* internal mode of operation, since there's only on run() */
-   enum { modeUndefined, modeGetDevices, modeReadToc, modeReadCDText,
-          modeReadAudioData, modeEject } mMode;
+   /*!
+    \brief internal mode of operation, since there's only on run()
 
-   ::CdIo_t             *mpCdIo;
-   ::cdrom_drive_t      *mpDrive;
-   ::cdrom_paranoia_t   *mpParanoia;
-   CDInfo               *mpCDInfo;
-   CDEdit               *mpCDEdit;
-   unsigned long        *mpCallbackFunction;
-   bool                 mCancel;
-   bool                 mTrackHasErrors;
-   bool                 mDiscHasErrors;
-   QString              mDevice;
-   QStringList          mDevices;
-   MagicEncoderList     mEncoders;
+   */
+   enum { modeUndefined, modeGetDevices, modeReadToc, modeReadCDText,
+          modeReadAudioData, modeEject } mMode; /*!< TODO */
+
+   ::CdIo_t             *mpCdIo; /*!< TODO */
+   ::cdrom_drive_t      *mpDrive; /*!< TODO */
+   ::cdrom_paranoia_t   *mpParanoia; /*!< TODO */
+   CDInfo               *mpCDInfo; /*!< TODO */
+   CDEdit               *mpCDEdit; /*!< TODO */
+   unsigned long        *mpCallbackFunction; /*!< TODO */
+   bool                 mCancel; /*!< TODO */
+   bool                 mTrackHasErrors; /*!< TODO */
+   bool                 mDiscHasErrors; /*!< TODO */
+   QString              mDevice; /*!< TODO */
+   QStringList          mDevices; /*!< TODO */
+   MagicEncoderList     mEncoders; /*!< TODO */
 };
 
 /*! @} */

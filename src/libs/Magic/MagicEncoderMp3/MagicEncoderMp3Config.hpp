@@ -35,7 +35,7 @@ class MagicEncoderMp3;
 */
 
 /*!
- \brief TODO
+ \brief configuration widget
 
 */
 class MagicEncoderMp3Config : public MagicEncoderConfig
@@ -43,7 +43,19 @@ class MagicEncoderMp3Config : public MagicEncoderConfig
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param encoder
+    \param parent
+    \param button
+   */
    MagicEncoderMp3Config( MagicEncoderMp3 *encoder, QWidget *parent, QAbstractButton *button );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~MagicEncoderMp3Config();
 
    /*!
@@ -58,17 +70,11 @@ public:
    void writeSettings();
 
 private:
-   MagicEncoderMp3Config( const MagicEncoderMp3Config &that );
-   MagicEncoderMp3Config &operator=( const MagicEncoderMp3Config &that );
+   Q_DISABLE_COPY( MagicEncoderMp3Config )
 
-   MagicEncoderMp3      *mpEncoder;
-
-   /*!
-    \brief configuration widget
-
-   */
-   QDoubleSpinBox       *mpQuality;
-   QCheckBox            *mpUseLatin1;
+   MagicEncoderMp3      *mpEncoder; /*!< \brief handle for encoder */
+   QDoubleSpinBox       *mpQuality; /*!< \brief quality control widget */
+   QCheckBox            *mpUseLatin1; /*!< \brief use latin1 widget */
 };
 
 /*! @} */

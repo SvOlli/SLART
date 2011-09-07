@@ -42,8 +42,20 @@ class TrackWriter : public QObject
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param target
+    \param method
+    \param type
+   */
    TrackWriter( QObject *target = 0, const QString &method = QString(),
                 enum Qt::ConnectionType type = Qt::AutoConnection );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~TrackWriter();
 
    /*!
@@ -57,8 +69,7 @@ public slots:
 protected:
 
 private:
-   TrackWriter( const TrackWriter &that );
-   TrackWriter &operator=( const TrackWriter &that );
+   Q_DISABLE_COPY( TrackWriter )
 
    QObject                 *mpTarget;
    QString                 mMethod;

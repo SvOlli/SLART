@@ -51,6 +51,7 @@ public:
     \param button TODO
    */
    MagicEncoderConfig( QWidget *parent, QAbstractButton *button );
+
    /*!
     \brief descructor
 
@@ -85,11 +86,11 @@ signals:
    void useEncoderClicked( bool on );
 
 protected:
-   QAbstractButton      *mpExternalUseEncoder; /*!< TODO */
-   QCheckBox            *mpUseEncoder; /*!< TODO */
-   QCheckBox            *mpDirOverride; /*!< TODO */
-   QLineEdit            *mpDirEdit; /*!< TODO */
-   QPushButton          *mpDotButton; /*!< TODO */
+   QAbstractButton      *mpExternalUseEncoder; /*!< \brief handle for external "enable" button */
+   QCheckBox            *mpUseEncoder; /*!< \brief internal button for enabling encoder */
+   QCheckBox            *mpDirOverride; /*!< \brief override for destination directory */
+   QLineEdit            *mpDirEdit; /*!< \brief data for override destination directory */
+   QPushButton          *mpDotButton; /*!< \brief button for directory requester */
 
 private:
    Q_DISABLE_COPY( MagicEncoderConfig )

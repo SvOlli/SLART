@@ -43,7 +43,17 @@ class LineEdit : public QLineEdit
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    LineEdit( QWidget *parent );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~LineEdit();
 
 public slots:
@@ -61,8 +71,7 @@ public slots:
 protected:
 
 private:
-   LineEdit( const LineEdit &that );
-   LineEdit &operator=( const LineEdit &that );
+   Q_DISABLE_COPY( LineEdit )
 };
 
 /*! @} */

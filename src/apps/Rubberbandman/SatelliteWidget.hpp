@@ -49,7 +49,18 @@ class SatelliteWidget : public QWidget
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    SatelliteWidget( QWidget *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
+   virtual ~SatelliteWidget();
 
 public slots:
    /*!
@@ -86,8 +97,7 @@ signals:
    void partymanConfigUpdate();
 
 private:
-   SatelliteWidget( const SatelliteWidget &that );
-   SatelliteWidget &operator=( const SatelliteWidget &that );
+   Q_DISABLE_COPY( SatelliteWidget )
 
    DatabaseInterface    *mpDatabase;
    InfoEdit             *mpInfoEdit;

@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QObject>
 
 /* local library headers */
 
@@ -40,7 +41,17 @@ class DatabaseWorker;
 class DirWalkerUpdate : public DirWalkerCallbacks
 {
 public:
+   /*!
+    \brief constructor
+
+    \param databaseWorker
+   */
    DirWalkerUpdate( DatabaseWorker *databaseWorker );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~DirWalkerUpdate();
 
    /*!
@@ -48,26 +59,31 @@ public:
 
    */
    virtual void handleStart();
+
    /*!
     \brief handle a file entry
 
    */
    virtual void handleFile( const QFileInfo &fileInfo );
+
    /*!
     \brief handle a directory entry upon entering
 
    */
    virtual void handleDirEntry( const QFileInfo &fileInfo );
+
    /*!
     \brief handle a directory entry upon leaving
 
    */
    virtual void handleDirLeave( const QFileInfo &fileInfo );
+
    /*!
     \brief handle an other entry (link, etc.)
 
    */
    virtual void handleOther( const QFileInfo &fileInfo );
+
    /*!
     \brief called on end
 
@@ -75,7 +91,9 @@ public:
    virtual void handleEnd();
 
 private:
-   DatabaseWorker    *mpDatabaseWorker;
+   Q_DISABLE_COPY( DirWalkerUpdate )
+
+   DatabaseWorker    *mpDatabaseWorker; /*!< \brief TODO */
 };
 
 /*! @} */

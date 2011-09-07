@@ -94,6 +94,11 @@ DatabaseWidget::DatabaseWidget( QWidget *parent )
 }
 
 
+DatabaseWidget::~DatabaseWidget()
+{
+}
+
+
 void DatabaseWidget::disableButtons( bool disable )
 {
    mpUpdateButton->setDisabled( disable | !mPartymanLocal );

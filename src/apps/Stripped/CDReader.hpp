@@ -46,7 +46,7 @@ class ParanoiaStatus;
 
 
 /*!
- \brief
+ \brief interface for reading data from cd
 
 */
 class CDReader : public QWidget
@@ -68,14 +68,14 @@ public:
 
    */
    virtual ~CDReader();
-   /*  */
+
    /*!
     \brief set the encoder to use
 
     \param encoders
    */
    void setEncoders( const MagicEncoderList &encoders );
-   /*  */
+
    /*!
     \brief insert available devices into given combobox
 
@@ -83,50 +83,49 @@ public:
    void getDevices();
 
 public slots:
-   /*  */
    /*!
     \brief read the toc
 
    */
    void readToc();
-   /*  */
+
    /*!
     \brief read the cd-text
 
    */
    void readCDText();
-   /*  */
+
    /*!
     \brief rip tracks
 
    */
    void readTracks();
-   /*  */
+
    /*!
     \brief set the device to use
 
     \param device
    */
    void setDevice( const QString &device );
-   /*  */
+
    /*!
     \brief eject disc
 
    */
    void eject();
-   /*  */
+
    /*!
     \brief handle cancel button
 
    */
    void cancel();
-   /*  */
+
    /*!
     \brief (re-)read the settings
 
    */
    void readSettings();
-   /*  */
+
    /*!
     \brief pop up that there's been an error and no eject
 
@@ -134,58 +133,58 @@ public slots:
    void noEject();
 
 signals:
-   /*  */
+
    /*!
     \brief signalize "no disc"-state
 
    */
    void stateNoDisc();
-   /*  */
+
    /*!
     \brief signalize "disc inserted"-state
 
    */
    void stateDisc();
-   /*  */
+
    /*!
     \brief signalize "reading toc"-state
 
    */
    void stateScan();
-   /*  */
+
    /*!
     \brief signalize "ripping audio"-state
 
    */
    void stateRip();
-   /*  */
+
    /*!
     \brief signalize "toc read"-state
 
    */
    void gotToc();
-   /*  */
+
    /*!
     \brief send a list of devices that have been found
 
     \param devices
    */
    void foundDevices( const QStringList &devices );
-   /*  */
+
    /*!
     \brief send status message
 
     \param message
    */
    void message( const QString &message = QString() );
-   /*  */
+
    /*!
     \brief send progress of track
 
     \param percent
    */
    void progress( int percent );
-   /*  */
+
    /*!
     \brief track has been enabled / disabled
 
@@ -193,7 +192,7 @@ signals:
     \param disabled
    */
    void setTrackDisabled( int track, bool disabled );
-   /*  */
+
    /*!
     \brief make sure that the track is visible
 

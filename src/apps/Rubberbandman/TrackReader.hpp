@@ -42,10 +42,24 @@ class TrackReader : public QObject
    Q_OBJECT
 
 public:
+
+   /*!
+    \brief constructor
+
+   */
    TrackReader( QObject *target, const QString &method,
                 enum Qt::ConnectionType type = Qt::AutoConnection );
+   /*!
+    \brief destructor
+
+   */
    virtual ~TrackReader();
 
+   /*!
+    \brief read a track
+
+    \param fileName
+   */
    void read( const QString &fileName );
 
 public slots:
@@ -58,8 +72,7 @@ public slots:
 protected:
 
 private:
-   TrackReader( const TrackReader &that );
-   TrackReader &operator=( const TrackReader &that );
+   Q_DISABLE_COPY( TrackReader )
 
    QObject                 *mpTarget;
    QString                 mMethod;

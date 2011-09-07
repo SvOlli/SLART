@@ -28,7 +28,7 @@ MagicEncoderFlac::MagicEncoderFlac()
 : MagicEncoder( tr("FLAC") )
 , mQuality( 0 )
 , mUseOga( false )
-, mSize( 0 )
+, mPcmSize( 0 )
 , mpConfigWidget()
 , mpEncoder( 0 )
 , mpMetadata( 0 )
@@ -152,7 +152,7 @@ bool MagicEncoderFlac::encodeCDAudio( const char* data, int size )
 {
    bool ok( true );
    FLAC__byte  *buffer = (FLAC__byte*)data;
-   if( size > mSize )
+   if( size > mPcmSize )
    {
       if( mpPcm )
       {
@@ -160,7 +160,7 @@ bool MagicEncoderFlac::encodeCDAudio( const char* data, int size )
          mpPcm = 0;
       }
       mpPcm  = new FLAC__int32[size/2];
-      mSize = size;
+      mPcmSize = size;
    }
 
    for( int i = 0; i < size/2; i++ )
@@ -170,7 +170,7 @@ bool MagicEncoderFlac::encodeCDAudio( const char* data, int size )
                  (FLAC__int16)buffer[2*i]);
    }
    /* feed samples to encoder */
-   ok &= mpEncoder->process_interleaved(mpPcm, size/4);
+   ok &= mpEncoder->process_interleaved( mpPcm, size/4 );
 
    return ok;
 }

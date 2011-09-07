@@ -38,7 +38,7 @@ class SatelliteWidget;
   */
 
 /*!
- \brief
+ \brief the main widget
 
 */
 class RubberbandmanMainWidget : public QWidget

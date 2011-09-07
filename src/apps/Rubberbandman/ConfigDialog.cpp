@@ -115,6 +115,11 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 }
 
 
+ConfigDialog::~ConfigDialog()
+{
+}
+
+
 void ConfigDialog::exec()
 {
    readSettings();

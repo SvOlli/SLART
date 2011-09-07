@@ -49,6 +49,11 @@ BrowseWidget::BrowseWidget( QWidget *parent )
 }
 
 
+BrowseWidget::~BrowseWidget()
+{
+}
+
+
 void BrowseWidget::scrollTo( const QString &fileName )
 {
    mpFileSysBrowser->scrollTo( fileName );

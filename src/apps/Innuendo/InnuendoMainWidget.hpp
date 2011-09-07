@@ -39,7 +39,7 @@ class Satellite;
 
 
 /*!
-  \addtogroup Innuendo
+  \addtogroup Innuendo Innuendo: central application
 
   @{
 */

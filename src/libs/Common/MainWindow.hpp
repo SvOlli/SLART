@@ -26,18 +26,21 @@
 /* forward declaration of local classes */
 
 /*!
-  \addtogroup Common
+  \addtogroup Common Common: common subroutines
 
   \brief also contains \ref Satellite
  @{
  */
 
+/*!
+ \brief the main window
+
+*/
 class MainWindow : public QMainWindow
 {
    Q_OBJECT
 
 public:
-
    /*!
     \brief constructor
 
@@ -47,17 +50,20 @@ public:
    */
    MainWindow( bool saveWindow = true,
                QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+
    /*!
     \brief destructor
 
    */
    virtual ~MainWindow();
+
    /*!
     \brief set the main widget
 
     \param mainWidget
    */
    void setMainWidget( QWidget *mainWidget );
+
    /*!
     \brief add the MainWidget to the WidgetShot class
 
@@ -80,6 +86,7 @@ protected:
     \param event
    */
    virtual void closeEvent( QCloseEvent *event );
+
    /*!
     \brief very ugly workaround for wrong position restoration on Ubuntu
 

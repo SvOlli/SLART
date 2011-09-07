@@ -34,6 +34,10 @@
   */
 
 
+/*!
+ \brief plugin for encoding raw audio data to FLAC
+
+*/
 class MagicEncoderFlac : public MagicEncoder
 {
    Q_OBJECT
@@ -42,7 +46,15 @@ class MagicEncoderFlac : public MagicEncoder
    friend class MagicEncoderFlacConfig;
 
 public:
+   /*!
+    \brief constructor
+
+   */
    MagicEncoderFlac();
+   /*!
+    \brief destructor
+
+   */
    virtual ~MagicEncoderFlac();
 
    /*!
@@ -78,21 +90,21 @@ public:
 private:
    Q_DISABLE_COPY( MagicEncoderFlac )
 
-   /* encode raw cd audio data */
+   /*!
+    \brief encode raw cd audio data
+
+    \param data
+    \param size
+   */
    bool encodeCDAudio( const char *data, int size );
 
-   /* settings */
-   int                           mQuality;
-   bool                          mUseOga;
-   int                           mSize;
-
-   /* configuration widget */
-   QPointer<MagicEncoderConfig>  mpConfigWidget;
-
-   /* encoder internal data */
-   FLAC::Encoder::File           *mpEncoder;
-   FLAC__StreamMetadata          *mpMetadata;
-   FLAC__int32                   *mpPcm;
+   int                           mQuality; /*!< \brief quality */
+   bool                          mUseOga; /*!< \brief use oga instead of FLAC container */
+   int                           mPcmSize; /*!< \brief PCM data size */
+   QPointer<MagicEncoderConfig>  mpConfigWidget; /*!< \brief configuration widget */
+   FLAC::Encoder::File           *mpEncoder; /*!< \brief FLAC file handle */
+   FLAC__StreamMetadata          *mpMetadata; /*!< \brief FLAC metadata */
+   FLAC__int32                   *mpPcm; /*!< \brief buffer for PCM data in format needed by FLAC */
 };
 
 /*! @} */

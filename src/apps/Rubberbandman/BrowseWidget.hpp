@@ -46,7 +46,18 @@ class BrowseWidget : public QWidget
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    BrowseWidget( QWidget *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
+   virtual ~BrowseWidget();
 
 public slots:
    /*!
@@ -56,8 +67,7 @@ public slots:
    void scrollTo( const QString &fileName );
 
 private:
-   BrowseWidget( const BrowseWidget &that );
-   BrowseWidget &operator=( const BrowseWidget &that );
+   Q_DISABLE_COPY( BrowseWidget )
 
    FileSysBrowser *mpFileSysBrowser;
    InfoEdit       *mpInfoEdit;

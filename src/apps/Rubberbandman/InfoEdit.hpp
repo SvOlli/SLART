@@ -57,16 +57,26 @@ class InfoEdit : public QWidget
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    InfoEdit( QWidget *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~InfoEdit();
 
    /*!
-    \brief 
+    \brief TODO
 
    */
    QString tagsFileName( const QString &pattern, bool filterPath = true );
    /*!
-    \brief 
+    \brief TODO
 
    */
    QString fileName();
@@ -83,48 +93,57 @@ public slots:
 
    */
    void load( const QString &fullpath = QString() );
+
    /*!
-    \brief 
+    \brief TODO
 
    */
    void loadTrackInfo( const TrackInfo &trackInfo );
+
    /*!
     \brief handle save button
 
    */
    void handleSetSave();
+
    /*!
     \brief handle norm. artist button
 
    */
    void handleNormalizeArtist();
+
    /*!
     \brief handle norm. title button
 
    */
    void handleNormalizeTitle();
+
    /*!
     \brief handle cancel button
 
    */
    void handleCancel();
+
    /*!
     \brief enable save button
 
    */
    void handleChange();
+
    /*!
     \brief handle the flags menu
 
    */
    void handleFlagsMenu( QAction *action );
+
    /*!
     \brief handle the folders menu
 
    */
    void handleFoldersMenu( QAction *action );
+
    /*!
-    \brief 
+    \brief TODO
 
    */
    void handleFoldersEntries( const QStringList &folders );
@@ -135,6 +154,7 @@ signals:
 
    */
    void fileStats( bool isValid, bool isFile );
+
    /*!
     \brief the data has been updated
 
@@ -142,24 +162,26 @@ signals:
    void updated();
 
 private:
-   InfoEdit( const InfoEdit &that );
-   InfoEdit &operator=( const InfoEdit &that );
+   Q_DISABLE_COPY( InfoEdit )
 
    /*!
     \brief normalize a line edit field
 
    */
    void normalize( QLineEdit *lineEdit );
+
    /*!
     \brief load tags from a file
 
    */
    void loadFile( const QString &fullpath );
+
    /*!
     \brief save the currently edited tags
 
    */
    void saveFile();
+
    /*!
     \brief update the info of the track concerning flags and folders
 

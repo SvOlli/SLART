@@ -40,8 +40,20 @@
 */
 class MyTreeView : public QTreeView
 {
+   Q_OBJECT
+
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    MyTreeView( QWidget *parent );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~MyTreeView();
 
 protected:

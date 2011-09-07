@@ -109,6 +109,11 @@ FileSysBrowser::FileSysBrowser( QWidget *parent )
 }
 
 
+FileSysBrowser::~FileSysBrowser()
+{
+}
+
+
 void FileSysBrowser::entryClicked( const QModelIndex &index )
 {
    emit clicked( mpModel->filePath(index) );

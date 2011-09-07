@@ -34,7 +34,7 @@
 */
 
 /*!
- \brief TODO
+ \brief generating text console output for non gui operation
 
 */
 class Console : public QObject
@@ -42,9 +42,21 @@ class Console : public QObject
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param checkedText
+    \param processedText
+    \param parent
+   */
    Console( const QString &checkedText,
             const QString &processedText,
             QObject *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~Console();
 
    /*!
@@ -61,8 +73,7 @@ public slots:
    void handleProgress( int checked, int processed );
 
 private:
-   Console( const Console &that );
-   Console &operator=( const Console &that );
+   Q_DISABLE_COPY( Console )
 
    QTextStream    mStdOut;
    QString        mCheckedText;

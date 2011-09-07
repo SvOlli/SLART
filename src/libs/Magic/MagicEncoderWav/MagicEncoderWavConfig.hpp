@@ -35,7 +35,7 @@ class ScrollLine;
 */
 
 /*!
- \brief TODO
+ \brief configuration widget
 
 */
 class MagicEncoderWavConfig : public MagicEncoderConfig
@@ -43,7 +43,19 @@ class MagicEncoderWavConfig : public MagicEncoderConfig
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param encoder
+    \param parent
+    \param button
+   */
    MagicEncoderWavConfig( MagicEncoderWav *encoder, QWidget *parent, QAbstractButton *button );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~MagicEncoderWavConfig();
 
    /*!
@@ -51,6 +63,7 @@ public:
 
    */
    void readSettings();
+
    /*!
     \brief write settings to storage
 
@@ -58,10 +71,9 @@ public:
    void writeSettings();
 
 private:
-   MagicEncoderWavConfig( const MagicEncoderWavConfig &that );
-   MagicEncoderWavConfig &operator=( const MagicEncoderWavConfig &that );
+   Q_DISABLE_COPY( MagicEncoderWavConfig )
 
-   MagicEncoderWav      *mpEncoder;
+   MagicEncoderWav      *mpEncoder; /*!< \brief handle for encoder */
 
 };
 

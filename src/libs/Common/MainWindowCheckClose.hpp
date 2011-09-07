@@ -33,7 +33,8 @@ class QCloseEvent;
 */
 
 /*!
- \brief TODO
+ \brief specialized version of MainWindow that has an option of to prohibite
+   closing of the main window
 
 */
 class MainWindowCheckClose : public MainWindow
@@ -41,8 +42,19 @@ class MainWindowCheckClose : public MainWindow
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param saveWindow
+    \param parent
+    \param flags
+   */
    MainWindowCheckClose( bool saveWindow = true,
                          QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   /*!
+    \brief destructor
+
+   */
    virtual ~MainWindowCheckClose();
 
 public slots:
@@ -50,7 +62,7 @@ public slots:
     \brief prohibit closing of window (Partyman kiosk mode)
 
    */
-   void prohibitClose( bool prohibit ) { mProhibitCloseWindow = prohibit; };
+   void prohibitClose( bool prohibit ) { mProhibitCloseWindow = prohibit; }
 
 protected:
    /*!
@@ -60,7 +72,7 @@ protected:
    virtual void closeEvent( QCloseEvent *event );
 
 private:
-   bool  mProhibitCloseWindow;
+   bool  mProhibitCloseWindow; /*!< \brief flag to store of close is prohibited */
 };
 
 /*! @} */
