@@ -108,8 +108,7 @@ signals:
    void useSatelliteClicked( bool isSet );
 
 private:
-   GlobalConfigWidget( const GlobalConfigWidget &that );
-   GlobalConfigWidget &operator=( const GlobalConfigWidget &that );
+   Q_DISABLE_COPY( GlobalConfigWidget )
 
    QCheckBox    *mpUseSatellite;
    QLabel       *mpSatellitePortLabel;

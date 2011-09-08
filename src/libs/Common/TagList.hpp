@@ -75,6 +75,11 @@ public:
    QString normalizeTag( const QString &tag );
 
 private:
+   /*!
+    \brief private copy constructor to disable default
+
+    \param that
+   */
    TagList( const TagList &that );
 
    QStringList mTags;

@@ -68,6 +68,11 @@ public:
    bool unlock();
 
 signals:
+   /*!
+    \brief TODO
+
+    \param enabled
+   */
    void enabled( bool enabled );
 
 private:
@@ -77,8 +82,7 @@ private:
    */
    PasswordChecker( QWidget *parent = 0 );
    virtual ~PasswordChecker();
-   PasswordChecker( const PasswordChecker &that );
-   PasswordChecker &operator=( const PasswordChecker &that );
+   Q_DISABLE_COPY( PasswordChecker )
 
    /*!
     \brief singleton: only instance of PasswordChecker

@@ -49,11 +49,56 @@ public:
       None             = 0x00000000
    };
 
+   /*!
+    \brief TODO
+
+   */
    TrackInfo();
+   /*!
+    \brief
+
+    \param that
+   */
    TrackInfo( const TrackInfo &that );
+   /*!
+    \brief
+
+    \param that
+   */
    TrackInfo &operator=( const TrackInfo &that );
+   /*!
+    \brief
+
+    \param that
+   */
    bool operator==( const TrackInfo &that ) const;
+   /*!
+    \brief
+
+    \param that
+   */
    bool operator!=( const TrackInfo &that ) const;
+
+   /*!
+    \brief constructor
+
+    \param directory
+    \param filename
+    \param artist
+    \param title
+    \param album
+    \param tracknr
+    \param year
+    \param genre
+    \param playtime
+    \param lastscanned
+    \param lasttagsread
+    \param timesplayed
+    \param volume
+    \param folders
+    \param flags
+    \param id
+   */
    TrackInfo( const QString &directory,
               const QString &filename,
               const QString &artist,

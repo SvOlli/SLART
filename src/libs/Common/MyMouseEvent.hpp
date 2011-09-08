@@ -46,10 +46,20 @@ class MyMouseEvent : public QMouseEvent
 
    */
 private:
+   Q_DISABLE_COPY( MyMouseEvent )
+
+   /*!
+    \brief constructor
+
+   */
    MyMouseEvent();
-   MyMouseEvent( const MyMouseEvent &that );
-   MyMouseEvent &operator=( const MyMouseEvent &that );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~MyMouseEvent();
+
 public:
    /*!
     \brief only cause for this class: modify the mouse button

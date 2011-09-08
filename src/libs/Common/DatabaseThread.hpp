@@ -74,8 +74,15 @@ private slots:
    */
    void disableNotify();
 
-   /* get track information from database by id or filename
-      return call parameters: bool found, TrackInfo */
+   /*!
+    \brief get track information from database by id or filename
+      return call parameters: bool found, TrackInfo
+
+    \param target
+    \param method
+    \param id
+    \param fileName
+   */
    void getTrackInfo( QObject *target, const QString &method,
                       int id, const QString &fileName );
 
@@ -91,13 +98,25 @@ private slots:
    */
    void deleteTrackInfo( const TrackInfo &trackInfo );
 
-   /* get a list of track information matching to the search string
-      return call parameters: TrackInfoList */
+   /*!
+    \brief get a list of track information matching to the search string
+      return call parameters: TrackInfoList
+
+    \param target
+    \param method
+    \param search
+   */
    void getTrackInfoList( QObject *target, const QString &method,
                           const QString &search = QString() );
 
-   /* get a list of file names matching to the search string
-      return call parameters: QStringList */
+   /*!
+    \brief get a list of file names matching to the search string
+      return call parameters: QStringList
+
+    \param target
+    \param method
+    \param search
+   */
    void getPathNameList( QObject *target, const QString &method,
                         const QString &search = QString() );
 
@@ -109,13 +128,24 @@ private slots:
                         bool favorite, bool leastplayed,
                         const QString &folder = QString() );
 
-   /* get a list of all available folders
-      return call parameters: QStringList */
+   /*!
+    \brief get a list of all available folders
+      return call parameters: QStringList
+
+    \param target
+    \param method
+   */
    void getFolders( QObject *target, const QString &method );
 
-   /* get all entries of a list
+   /*!
+    \brief get all entries of a list
       QChar(1) = Favorite, QChar(2) = No Auto
-      return call parameters: QStringList */
+      return call parameters: QStringList
+
+    \param target
+    \param method
+    \param folder
+   */
    void getFolder( QObject *target, const QString &method,
                    const QString &folder );
 
@@ -137,8 +167,14 @@ private slots:
    */
    void rename( const QString &oldName, const QString &newName );
 
-   /* get all unique entries of a column
-      return call parameters: QStringList */
+   /*!
+    \brief get all unique entries of a column
+      return call parameters: QStringList
+
+    \param target
+    \param method
+    \param columnName
+   */
    void getAllColumnData( QObject *target, const QString &method,
                           const QString &columnName );
 
@@ -162,8 +198,7 @@ signals:
    void working( bool on );
 
 private:
-   DatabaseThread( const DatabaseThread &that );
-   DatabaseThread &operator=( const DatabaseThread &that );
+   Q_DISABLE_COPY( DatabaseThread )
 
    /*!
     \brief 

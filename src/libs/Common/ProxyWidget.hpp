@@ -46,17 +46,39 @@ class ProxyWidget : public QWidget
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    ProxyWidget( QWidget *parent = 0 );
 
-   /* set proxy in QHttp class */
+   /*!
+    \brief destructor
+
+   */
+   virtual ~ProxyWidget();
+
+   /*!
+    \brief set proxy in QHttp class
+
+    \param http
+   */
    static void setProxy( QHttp *http );
-   /* set proxy in QNetworkAccessManager class */
+
+   /*!
+    \brief set proxy in QNetworkAccessManager class
+
+    \param nam
+   */
    static void setProxy( QNetworkAccessManager *nam );
+
    /*!
     \brief read settings from storage
 
    */
    void readSettings();
+
    /*!
     \brief write settings from storage
 
@@ -71,8 +93,7 @@ public slots:
    void updateWidgets( bool disabled = false );
 
 private:
-   ProxyWidget( const ProxyWidget &that );
-   ProxyWidget &operator=( const ProxyWidget &that );
+   Q_DISABLE_COPY( ProxyWidget )
 
    QLabel       *mpProxyOnLabel;
    QLabel       *mpProxyHostLabel;

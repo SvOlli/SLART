@@ -87,8 +87,7 @@ protected:
    void paintEvent( QPaintEvent *event );
 
 private:
-   ScrollLine( const ScrollLine &that );
-   ScrollLine &operator=( const ScrollLine &that );
+   Q_DISABLE_COPY( ScrollLine )
 
    static QTimer        *cpTimer;
    bool                 mClicked;

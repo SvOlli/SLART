@@ -42,8 +42,24 @@ class GenericSatMsgHandler : public QObject
    Q_OBJECT
 
 public:
+   /*!
+    \brief howto startup this class
+
+   */
    enum StartupMode { WithoutPing, WithPing, WithPingAndDialog };
+
+   /*!
+    \brief constructor
+
+    \param satellite
+    \param mode
+   */
    GenericSatMsgHandler( Satellite *satellite, StartupMode mode );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~GenericSatMsgHandler();
 
 public slots:
@@ -78,8 +94,7 @@ private slots:
    void sendPing();
 
 private:
-   GenericSatMsgHandler( const GenericSatMsgHandler &that );
-   GenericSatMsgHandler &operator=( const GenericSatMsgHandler &that );
+   Q_DISABLE_COPY( GenericSatMsgHandler )
 
    /* for handling two instances running:
       show the error message and quit the program */

@@ -43,25 +43,64 @@ class WebServer : public QObject
    Q_OBJECT
 
 public:
+
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    WebServer( QObject *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~WebServer();
 
+   /*!
+    \brief TODO
+
+    \param port
+    \param webPath
+   */
    bool start( quint16 port = 0, const QString &webPath = QString() );
+
+   /*!
+    \brief TODO
+
+   */
    void stop();
 
 public slots:
+   /*!
+    \brief
+
+   */
    void handleNewConnection();
+
+   /*!
+    \brief TODO
+
+    \param id
+    \param header
+    \param data
+   */
    void response( QTcpSocket *id,
                   const QHttpResponseHeader &header,
                   const QByteArray &data );
 
 signals:
+   /*!
+    \brief TODO
+
+    \param id
+    \param header
+   */
    void request( QTcpSocket *id,
                  const QHttpRequestHeader &header );
 
 private:
-   WebServer( const WebServer &that );
-   WebServer &operator=( const WebServer &that );
+   Q_DISABLE_COPY( WebServer )
 
    QObject      *mpParent;
    QTcpServer   *mpTcpServer;

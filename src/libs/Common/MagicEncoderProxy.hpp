@@ -130,8 +130,7 @@ public slots:
    void encodeCDAudio( const QByteArray &data );
 
 private:
-   MagicEncoderProxy( const MagicEncoderProxy &that );
-   MagicEncoderProxy &operator=( const MagicEncoderProxy &that );
+   Q_DISABLE_COPY( MagicEncoderProxy )
 
    QPluginLoader           *mpPluginLoader;
    MagicEncoderInterface   *mpPlugin;

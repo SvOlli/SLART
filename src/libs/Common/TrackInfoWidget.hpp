@@ -102,8 +102,7 @@ signals:
    void checkboxClicked( const TrackInfo &trackInfo );
 
 private:
-   TrackInfoWidget( const TrackInfoWidget &that );
-   TrackInfoWidget &operator=( const TrackInfoWidget &that );
+   Q_DISABLE_COPY( TrackInfoWidget )
 
    Database    *mpDatabase;
    TrackInfo   mTrackInfo;

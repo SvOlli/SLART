@@ -26,6 +26,11 @@ MySettings::MySettings( const QString &application, QObject *parent )
 }
 
 
+MySettings::~MySettings()
+{
+}
+
+
 void MySettings::setMainWindow( QMainWindow *mainWindow )
 {
    QPoint defaultPos( -1, -1 );

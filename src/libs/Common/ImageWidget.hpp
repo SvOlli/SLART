@@ -41,7 +41,17 @@ class ImageWidget : public QWidget
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    ImageWidget( QWidget *parent );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~ImageWidget();
 
 protected:
@@ -77,8 +87,7 @@ signals:
    void currentRatio( float radio );
 
 private:
-   ImageWidget( const ImageWidget &that );
-   ImageWidget &operator=( const ImageWidget &that );
+   Q_DISABLE_COPY( ImageWidget )
 
    Qt::AspectRatioMode     mAspectRatioMode;
    Qt::TransformationMode  mTransformationMode;

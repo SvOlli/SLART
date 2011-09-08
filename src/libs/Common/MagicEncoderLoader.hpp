@@ -53,10 +53,20 @@ public:
                                        Satellite *satellite = 0 );
 
 private:
+
+   /*!
+    \brief constructor
+
+   */
    MagicEncoderLoader();
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~MagicEncoderLoader();
-   MagicEncoderLoader( const MagicEncoderLoader &that );
-   MagicEncoderLoader &operator=( const MagicEncoderLoader &that );
+
+   Q_DISABLE_COPY( MagicEncoderLoader )
 
    /*!
     \brief internal function to load MagicEncoders

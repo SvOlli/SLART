@@ -34,6 +34,7 @@ public:
     \param parent parent object
    */
    MySettings( QObject *parent = 0 );
+
    /*!
     \brief constructor
 
@@ -41,6 +42,12 @@ public:
     \param parent parent object
    */
    MySettings( const QString &application, QObject *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
+   virtual ~MySettings();
 
    /*!
     \brief save main window settings

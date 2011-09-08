@@ -89,13 +89,25 @@ public:
    */
    void disableNotify();
 
-   /* get track information from database by id
-      return call parameters: bool found, TrackInfo */
+   /*!
+    \brief get track information from database by id
+      return call parameters: bool found, TrackInfo
+
+    \param target
+    \param method
+    \param id
+   */
    void getTrackInfo( QObject *target, const QString &method,
                       int id );
 
-   /* get track information from database by filename
-      return call parameters: bool found, TrackInfo */
+   /*!
+    \brief get track information from database by filename
+      return call parameters: bool found, TrackInfo
+
+    \param target
+    \param method
+    \param fileName
+   */
    void getTrackInfo( QObject *target, const QString &method,
                       const QString &fileName );
 
@@ -117,13 +129,25 @@ public:
    */
    void deleteTrackInfo( const QString &fileName );
 
-   /* get a list of track information matching to the search string
-      return call parameters: TrackInfoList */
+   /*!
+    \brief get a list of track information matching to the search string
+      return call parameters: TrackInfoList
+
+    \param target
+    \param method
+    \param search
+   */
    void getTrackInfoList( QObject *target, const QString &method,
                           const QString &search = QString() );
 
-   /* get a list of file names matching to the search string
-      return call parameters: QStringList */
+   /*!
+    \brief get a list of file names matching to the search string
+      return call parameters: QStringList
+
+    \param target
+    \param method
+    \param search
+   */
    void getPathNameList( QObject *target, const QString &method,
                         const QString &search = QString() );
 
@@ -135,13 +159,24 @@ public:
                         bool favorite, bool leastplayed,
                         const QString &folder = QString() );
 
-   /* get a list of all available folders
-      return call parameters: QStringList */
+   /*!
+    \brief get a list of all available folders
+      return call parameters: QStringList
+
+    \param target
+    \param method
+   */
    void getFolders( QObject *target, const QString &method );
 
-   /* get all entries of a list
+   /*!
+    \brief get all entries of a list
       QChar(1) = Favorite, QChar(2) = No Auto
-      return call parameters: QStringList */
+      return call parameters: QStringList
+
+    \param target
+    \param method
+    \param folder
+   */
    void getFolder( QObject *target, const QString &method,
                    const QString &folder );
 
@@ -163,10 +198,20 @@ public:
    */
    void rename( const QString &oldName, const QString &newName );
 
-   enum Column { Artist, Title, Album, Genre };
-   /* get all unique entries of a column
-      return call parameters: QStringList */
+   /*!
+    \brief TODO
 
+   */
+   enum Column { Artist, Title, Album, Genre };
+
+   /*!
+    \brief get all unique entries of a column
+      return call parameters: QStringList
+
+    \param target
+    \param method
+    \param column
+   */
    void getAllColumnData( QObject *target, const QString &method,
                           Column column );
 
@@ -180,8 +225,7 @@ private:
    DatabaseInterface( const QString &fileName = QString() );
    virtual ~DatabaseInterface();
 
-   DatabaseInterface( const DatabaseInterface &that );
-   DatabaseInterface &operator=( const DatabaseInterface &that );
+   Q_DISABLE_COPY( DatabaseInterface )
 
    static DatabaseInterface   *cpInterface;
    DatabaseThread             *mpDatabase;

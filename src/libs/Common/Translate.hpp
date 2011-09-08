@@ -48,8 +48,7 @@ public:
    void install( QCoreApplication *app = 0 );
 
 private:
-   Translate( const Translate &that );
-   Translate &operator=( const Translate &that );
+   Q_DISABLE_COPY( Translate )
 
    /*!
     \brief get the location of own translation files

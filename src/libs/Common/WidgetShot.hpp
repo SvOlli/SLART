@@ -36,21 +36,39 @@
 */
 
 /*!
- \brief TODO
+ \brief static methods to enable "screenshots" of application windows / widgets
 
 */
 class WidgetShot
 {
 public:
+   /*!
+    \brief
+
+    \param widgetName
+    \param widget
+   */
    static void addWidget( const QString &widgetName, QWidget *widget );
+   /*!
+    \brief
+
+    \param widgetName
+    \param fileName
+   */
    static void shootWidget( const QString &widgetName, const QString &fileName );
 
 private:
-   WidgetShot();
-   WidgetShot( const WidgetShot &that );
-   WidgetShot &operator=( const WidgetShot &that );
 
-   static QHash< QString, QPointer<QWidget> > *cpWidgetList;
+   /*!
+    \brief private construtor, class only uses static methods
+
+    \param
+   */
+   WidgetShot();
+
+   Q_DISABLE_COPY( WidgetShot )
+
+   static QHash< QString, QPointer<QWidget> > *cpWidgetList; /*!< \brief TODO */
 };
 
 /*! @} */

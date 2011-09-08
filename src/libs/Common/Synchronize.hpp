@@ -52,8 +52,7 @@ public:
    void release();
 
 private:
-   Synchronize( const Synchronize &that );
-   Synchronize &operator=( const Synchronize &that );
+   Q_DISABLE_COPY( Synchronize )
 
    QMutex         mMutex;
    QWaitCondition mWaitCondition;

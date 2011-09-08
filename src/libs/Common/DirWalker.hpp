@@ -14,6 +14,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QObject>
 
 /* local library headers */
 
@@ -107,8 +108,7 @@ public:
              const QString &directoryPath );
 
 private:
-   DirWalker( const DirWalker &that );
-   DirWalker &operator=( const DirWalker &that );
+   Q_DISABLE_COPY( DirWalker )
 
    /*!
     \brief let the directory walker travel the filesystem
