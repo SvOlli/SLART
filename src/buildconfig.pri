@@ -26,11 +26,16 @@ build_pass:CONFIG(release, debug|release) {
 }
 
 contains( TEMPLATE, app ) {
+  is_tool = $$find( OUT_PWD, "/tools/" )
   is_test = $$find( OUT_PWD, "/tests/" )
-  count( is_test, 1 ) {
-    DESTDIR    = $${BUILDDIR}/build/$${TARGETARCH}/test
+  count( is_tool, 1 ) {
+    DESTDIR    = $${BUILDDIR}/build/$${TARGETARCH}/tools
   } else {
-    DESTDIR    = $${BUILDDIR}/build/$${TARGETARCH}/bin
+    count( is_test, 1 ) {
+      DESTDIR  = $${BUILDDIR}/build/$${TARGETARCH}/test
+    } else {
+      DESTDIR  = $${BUILDDIR}/build/$${TARGETARCH}/bin
+    }
   }
 } else {
   contains( CONFIG, plugin ) {

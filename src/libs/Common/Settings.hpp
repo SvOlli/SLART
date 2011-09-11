@@ -10,11 +10,15 @@
 #define SETTINGS_HPP SETTINGS_HPP
 
 /* base class */
+#include <QObject>
 
 /* system headers */
 
 /* Qt headers */
-#include <QPointer>
+#include <QCoreApplication>
+#include <QDir>
+#include <QPoint>
+#include <QSize>
 
 /* local library headers */
 #include "MySettings.hpp"
@@ -31,75 +35,48 @@
   */
 
 /*!
- \brief
+ \brief abstraction layer
 
 */
-class Settings
+class Settings : public QObject
 {
+   Q_OBJECT
+
 public:
-   /*!
-    \brief parameter for value() / setValue (for boolean types)
 
-   */
-   enum StrippedBool
-   {
-      StrippedAutoEject, StrippedAutoEnqueue, StrippedAutoFreeDB,
-      StrippedCDTextLatin1, StrippedDirectoryOverride, StrippedShowStats
-   };
-   /*!
-    \brief parameter for value() / setValue (for string types)
-
-   */
-   enum StrippedString
-   {
-      StrippedCreatePattern, StrippedDevice, StrippedDirectory,
-      ParameterStyleSheet
-   };
-
-   /*!
-    \brief create and get global instance
-
-    \param cdreader
-    \param parent
-    \param flags
-   */
-   static void createGlobal( QObject *parent = 0 );
-
-   /*!
-    \brief destroy global instance
-
-   */
-   static void destroyGlobal();
-
-   /*!
-    \brief get value from settings storage
-
-    \param id key to get value for
-   */
-   static bool value( enum StrippedBool id );
-   /*!
-    \brief set value from settings storage
-
-    \param id key to set value for
-    \param value value to set
-   */
-   static void setValue( enum StrippedBool id, bool value );
-   /*!
-    \brief get value from settings storage
-
-    \param id key to get value for
-   */
-   static QString value( enum StrippedString id );
-   /*!
-    \brief set value from settings storage
-
-    \param id key to set value for
-    \param value value to set
-   */
-   static void setValue( enum StrippedString id, const QString &value );
+#include "SettingsGenerated.hpp"
 
 private:
-   static QPointer<MySettings>      cpSettings; /*!< TODO */
+   /*!
+    \brief get MySettings pointer according to application name
+
+    \param applicationName
+   */
+   static MySettings *get( const QString &applicationName = QCoreApplication::applicationName() );
+
+   /*!
+    \brief get MySettings pointer according to application name
+
+    \param applicationName
+   */
+   static void remove( const QString &key,
+                       const QString &applicationName = QString() );
+
+   /*!
+    \brief constructor
+
+    \param parent parent QObject
+   */
+   Settings( QObject *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
+   virtual ~Settings();
+
+   QMap<QString,MySettings*>  mSettings; /*!< map for storing settings pointers */
+   static Settings            *cpSettings; /*!< handle for static functions */
 };
 
 /*! @} */
