@@ -27,17 +27,13 @@
 
 
 /*!
-    \brief slightly modify the behaviour of the slider
-
-   */
-/*!
   \addtogroup Partyman
 
   @{
 */
 
 /*!
- \brief TODO
+ \brief slightly modify the behaviour of the slider
 
 */
 class TimeSlider : public QSlider
@@ -73,10 +69,9 @@ protected:
    void keyReleaseEvent( QKeyEvent *event );
 
 private:
-   TimeSlider( const TimeSlider &that );
-   TimeSlider &operator=( const TimeSlider &that );
+   Q_DISABLE_COPY( TimeSlider )
 
-   QTimer mWheelTimeout;
+   QTimer mWheelTimeout; /*!< TODO */
 };
 
 /*! @} */

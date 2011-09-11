@@ -35,7 +35,7 @@ class PlaylistControlWidget;
   */
 
 /*!
- \brief
+ \brief the central widget
 
 */
 class PartymanMainWidget : public QWidget
@@ -43,7 +43,6 @@ class PartymanMainWidget : public QWidget
    Q_OBJECT
 
 public:
-
    /*!
     \brief constuctor
 

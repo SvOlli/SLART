@@ -12,7 +12,7 @@ mydir()
 
 cd "$(mydir)/.."
 
-OUTPUT_PATH="${PWD}/docs/generated-fsm-graphs"
+OUTPUT_PATH="${PWD}/docs/generated/fsm-graphs"
 SRC_PATH="${PWD}/src"
 
 catsrc()

@@ -37,10 +37,15 @@ class CommandLine
 {
 public:
    /*!
-    \brief
+    \brief constructor
 
    */
    CommandLine();
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~CommandLine();
 
 

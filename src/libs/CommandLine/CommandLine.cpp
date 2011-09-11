@@ -18,12 +18,12 @@
 /* local library headers */
 
 /* local headers */
+#include "CommandLineOptionBool.hpp"
+#include "CommandLineOptionString.hpp"
 
 /* forward declaration of Qt classes */
 
 /* forward declaration of local classes */
-#include "CommandLineOptionBool.hpp"
-#include "CommandLineOptionString.hpp"
 
 
 CommandLine::CommandLine()

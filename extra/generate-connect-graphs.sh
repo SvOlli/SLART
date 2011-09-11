@@ -12,7 +12,7 @@ mydir()
 
 cd "$(mydir)/.."
 
-OUTPUT_PATH="${PWD}/docs/generated-connect-graphs"
+OUTPUT_PATH="${PWD}/docs/generated/connect-graphs"
 SRC_PATH="${PWD}/src"
 
 

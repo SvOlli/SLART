@@ -97,13 +97,7 @@ public:
    bool decode();
 
 private:
-   Xxtea( const Xxtea &that );
-   /*!
-    \brief
-
-    \param that
-   */
-   Xxtea &operator=( const Xxtea &that );
+   Q_DISABLE_COPY( Xxtea )
 
    const quint32  mDelta; /*!< "delta" from algorithm */
    quint32        *mpKey; /*!< array of key components */
