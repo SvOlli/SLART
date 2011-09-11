@@ -63,6 +63,9 @@ int main( int argc, char *argv[] )
 
       QFile hpp( handler.hppFileName() );
       hpp.open( QIODevice::WriteOnly );
+      hpp.write( QByteArray("#ifndef SETTINGS_HPP\n"
+                            "#error this file should only be included from Settings.hpp\n"
+                            "#endif\n\n") );
       hpp.write( handler.enums( 1 ).toLocal8Bit() );
       hpp.write( handler.declarations( 1 ).toLocal8Bit() );
       hpp.close();

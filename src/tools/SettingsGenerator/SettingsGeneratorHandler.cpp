@@ -100,7 +100,7 @@ QString SettingsGeneratorHandler::declarations( int start ) const
           << " \\brief cleanup unused registry entries\n"
           << " automatically generated"
           << " */"
-          << "void cleanup();";
+          << "void cleanup();\n";
 
    retval.replaceInStrings( QRegExp("^"), QString( start * mSpaces, QChar(' ') ) );
    retval.replaceInStrings( "\t", QString( mSpaces, QChar(' ') ) );

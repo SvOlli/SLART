@@ -1,4 +1,6 @@
-#ifdef SETTINGS_HPP
+#ifndef SETTINGS_HPP
+#error this file should only be included from Settings.hpp
+#endif
 
    /*!
     \brief enum for value() and setValue()
@@ -1173,5 +1175,3 @@
     automatically generated
     */
    void cleanup();
-
-#endif
