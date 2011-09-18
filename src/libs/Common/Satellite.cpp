@@ -22,7 +22,7 @@
 #include "MySettings.hpp"
 
 /* class variable instantiation */
-QPointer<Satellite> Satellite::cpSatellite = 0;
+Satellite *Satellite::cpSatellite = 0;
 
 
 Satellite *Satellite::create()

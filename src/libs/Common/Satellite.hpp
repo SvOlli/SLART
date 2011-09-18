@@ -206,7 +206,7 @@ private:
    quint16                          mPort;
    QHostAddress                     mHost;
 
-   static QPointer<Satellite>       cpSatellite;
+   static Satellite                 *cpSatellite;
 };
 
 #define SATELLITE_PKGINFO_HEADER_TYPE     quint64

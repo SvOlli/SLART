@@ -31,7 +31,7 @@
 
 StrippedMainWidget::StrippedMainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
-, mpSatellite( Satellite::create() )
+, mpSatellite( Satellite::get() )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithoutPing ) )
 , mpCDInfo( new CDInfo() )
 , mpCDDBClient( new CDDBClient( mpCDInfo, this ) )
