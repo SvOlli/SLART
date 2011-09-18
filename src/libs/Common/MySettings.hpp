@@ -14,13 +14,13 @@
 class QMainWindow;
 
 /*!
-  \addtogroup Common
+ \addtogroup Common
 
-  @{
-  */
+ @{
+*/
 
 /*!
- \brief
+ \brief adopted version of QSettings
 
 */
 class MySettings : public QSettings
