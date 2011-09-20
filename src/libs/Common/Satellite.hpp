@@ -28,7 +28,6 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
-class QIcon;
 class QListWidget;
 class QLineEdit;
 class QSignalMapper;
@@ -54,6 +53,8 @@ class SatelliteServerRunner;
 class Satellite : public QObject
 {
    Q_OBJECT
+
+   friend class SatelliteServer; /*!< \brief for access to configuration */
 
 public:
    /*!
@@ -198,26 +199,43 @@ private:
    */
    virtual ~Satellite();
 
+   /*!
+    \brief hook for configuration
+
+    implemented in SatelliteConfig.cpp
+   */
+   static bool enabled();
+
+   /*!
+    \brief hook for configuration
+
+    implemented in SatelliteConfig.cpp
+   */
+   static quint16 port();
+
+   /*!
+    \brief hook for configuration
+
+    implemented in SatelliteConfig.cpp
+   */
+   static QHostAddress host();
+
    Q_DISABLE_COPY( Satellite )
 
-   bool                             mIsTestApp;
-   QTcpSocket                       *mpServerConnection;
-   QPointer<SatelliteServerRunner>  mpServer;
-   quint16                          mPort;
-   QHostAddress                     mHost;
+   bool                             mIsTestApp; /*!< \brief a test app always uses Satellite */
+   QTcpSocket                       *mpServerConnection; /*!< \brief tcp socket to server */
+   QPointer<SatelliteServerRunner>  mpServer; /*!< \brief hold server thread, if needed */
 
-   static Satellite                 *cpSatellite;
+   static Satellite                 *cpSatellite; /*!< \brief pointer of global Satellite */
 };
 
+#ifdef SATELLITE_PKG_HEADER
 #define SATELLITE_PKGINFO_HEADER_TYPE     quint64
 #define SATELLITE_PKGINFO_HEADER_SIZE     (qint64)sizeof( SATELLITE_PKGINFO_HEADER_TYPE )
 #define SATELLITE_PKGINFO_MAGIC_VALUE     (quint32)0x53415400
 #define SATELLITE_PKGINFO_CHECKSUM_TYPE   quint16
 #define SATELLITE_PKGINFO_CHECKSUM_SIZE   (qint64)sizeof( SATELLITE_PKGINFO_CHECKSUM_TYPE )
-
-#define VALUE_SATELLITE_HOST  value( "SatelliteHost", "127.0.0.1" ).toString()
-#define VALUE_SATELLITE_PORT  value( "SatellitePort", 24222 ).toInt()
-#define VALUE_USE_SATELLITE   value( "UseSatellite", false ).toBool()
+#endif
 
 /*! @} */
 

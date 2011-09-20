@@ -19,17 +19,16 @@
 /* local library headers */
 
 /* local headers */
+#define SATELLITE_PKG_HEADER SATELLITE_PKG_HEADER
 #include "Satellite.hpp"
 
 
-SatelliteServer::SatelliteServer( quint16 port, const QHostAddress &host, QObject *parent )
+SatelliteServer::SatelliteServer( QObject *parent )
 : QObject( parent )
 , mpTcpServer( new QTcpServer( this ) )
 , mpClientsReadMapper( new QSignalMapper( this ) )
 , mpClientsDisconnectMapper( new QSignalMapper( this ) )
 , mClientConnections()
-, mPort( port )
-, mHost( host )
 {
    connect( mpTcpServer, SIGNAL(newConnection()),
             this, SLOT(connected()) );
@@ -50,8 +49,8 @@ bool SatelliteServer::listen()
 {
 #if SATELLITESERVER_DEBUG
    emit debug( "s:trying to run server on " +
-               mHost.toString().toAscii() + ":" + QByteArray::number(mPort) );
-   bool success = mpTcpServer->listen( mHost, mPort );
+               mHost.toString().toAscii() + ":" + QByteArray::number(Satellite::port()) );
+   bool success = mpTcpServer->listen( Satellite::host(), Satellite::port() );
 
    if( success )
    {
@@ -59,7 +58,7 @@ bool SatelliteServer::listen()
    }
    return success;
 #else
-   return mpTcpServer->listen( mHost, mPort );
+   return mpTcpServer->listen( Satellite::host(), Satellite::port() );
 #endif
 }
 

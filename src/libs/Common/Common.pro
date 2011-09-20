@@ -67,6 +67,7 @@ SOURCES += PasswordChecker.cpp
 
 HEADERS += Satellite.hpp
 SOURCES += Satellite.cpp
+SOURCES += SatelliteConfig.cpp
 
 HEADERS += SatelliteServer.hpp
 SOURCES += SatelliteServer.cpp

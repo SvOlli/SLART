@@ -47,7 +47,7 @@ class SatelliteServer : public QObject
    Q_OBJECT
 
 public:
-   SatelliteServer( quint16 port, const QHostAddress &host, QObject *parent = 0 );
+   SatelliteServer( QObject *parent = 0 );
    virtual ~SatelliteServer();
    /*!
     \brief start the server
@@ -87,12 +87,10 @@ signals:
 private:
    Q_DISABLE_COPY( SatelliteServer )
 
-   QTcpServer           *mpTcpServer;
-   QSignalMapper        *mpClientsReadMapper;
-   QSignalMapper        *mpClientsDisconnectMapper;
-   QList<QTcpSocket*>   mClientConnections;
-   quint16              mPort;
-   QHostAddress         mHost;
+   QTcpServer           *mpTcpServer; /*!< \brief the socket server */
+   QSignalMapper        *mpClientsReadMapper; /*!< \brief signal mapper for handling new data */
+   QSignalMapper        *mpClientsDisconnectMapper; /*!< \brief signal mapper for handling disconnects */
+   QList<QTcpSocket*>   mClientConnections; /*!< \brief a list of all connections in use */
 };
 
 /*! @} */

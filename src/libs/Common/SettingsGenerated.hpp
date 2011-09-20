@@ -196,8 +196,7 @@
       GlobalAnimateViews,
       GlobalNormalizeCase,
       GlobalNormalizeSpaces,
-      GlobalShowCleanupDialog,
-      GlobalUseSatellite
+      GlobalShowCleanupDialog
    };
    /*!
     \brief enum for value() and setValue()

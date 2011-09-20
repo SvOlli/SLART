@@ -9,6 +9,7 @@
 #include "GlobalConfigWidget.hpp"
 #include "MySettings.hpp"
 #include "Satellite.hpp"
+#include "Settings.hpp"
 
 #include <QtGui>
 
@@ -105,9 +106,9 @@ void GlobalConfigWidget::readSettings()
 {
    MySettings settings( "Global" );
    MySettings appSettings;
-   mpUseSatellite->setChecked( appSettings.VALUE_USE_SATELLITE );
-   mpSatellitePort->setEnabled( appSettings.VALUE_USE_SATELLITE );
-   mpSatellitePort->setValue( settings.VALUE_SATELLITE_PORT );
+   mpUseSatellite->setChecked( Settings::value( Settings::CommonUseSatellite ) );
+   mpSatellitePort->setEnabled( Settings::value( Settings::CommonUseSatellite ) );
+   mpSatellitePort->setValue( Settings::value( Settings::GlobalSatellitePort ) );
    mpUseGlobalStyleSheetFile->setChecked( appSettings.VALUE_USEGLOBALSTYLESHEETFILE );
    if( mpUseGlobalStyleSheetFile->isChecked() )
    {
@@ -131,9 +132,9 @@ void GlobalConfigWidget::writeSettings()
 {
    MySettings settings( "Global" );
    MySettings appSettings;
-   appSettings.setValue( "UseSatellite", mpUseSatellite->isChecked() );
-   settings.setValue( "SatellitePort", mpSatellitePort->value() );
-   mpSatellitePort->setValue( settings.VALUE_SATELLITE_PORT );
+   Settings::setValue( Settings::CommonUseSatellite, mpUseSatellite->isChecked() );
+   Settings::setValue( Settings::GlobalSatellitePort, mpSatellitePort->value() );
+   mpSatellitePort->setValue( Settings::value( Settings::GlobalSatellitePort ) );
    appSettings.setValue( "UseGlobalStyleSheetFile", mpUseGlobalStyleSheetFile->isChecked() );
    if( mpUseGlobalStyleSheetFile->isChecked() )
    {

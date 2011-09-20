@@ -709,9 +709,6 @@ void Settings::setValue( GlobalBool id, bool value )
    case GlobalShowCleanupDialog:
       settings->setValue( "ShowCleanupDialog", value );
       break;
-   case GlobalUseSatellite:
-      settings->setValue( "UseSatellite", value );
-      break;
    default:
       qFatal( "illegal GlobalBool value" );
    }
@@ -736,9 +733,6 @@ bool Settings::value( GlobalBool id )
       break;
    case GlobalShowCleanupDialog:
       retval = settings->value( "ShowCleanupDialog" ).toBool();
-      break;
-   case GlobalUseSatellite:
-      retval = settings->value( "UseSatellite", false ).toBool();
       break;
    default:
       qFatal( "illegal GlobalBool value" );

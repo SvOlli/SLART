@@ -42,7 +42,7 @@ class SatelliteServerRunner : public QThread
    Q_OBJECT
 
 public:
-   SatelliteServerRunner( quint16 port, const QHostAddress &host );
+   SatelliteServerRunner();
    virtual ~SatelliteServerRunner();
    /*!
     \brief method called by QThread::start() to to run the server
@@ -63,9 +63,7 @@ signals:
 private:
    Q_DISABLE_COPY( SatelliteServerRunner )
 
-   SatelliteServer      *mpServer;
-   const quint16        mPort;
-   const QHostAddress   mHost;
+   SatelliteServer      *mpServer; /*!< \brief the server running */
 };
 
 /*! @} */

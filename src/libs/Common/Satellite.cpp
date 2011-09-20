@@ -7,6 +7,7 @@
  */
 
 /* class declaration */
+#define SATELLITE_PKG_HEADER SATELLITE_PKG_HEADER
 #include "Satellite.hpp"
 
 /* system headers */
@@ -56,13 +57,7 @@ Satellite::Satellite( QObject *parent )
 , mIsTestApp( false )
 , mpServerConnection( new QTcpSocket( this ) )
 , mpServer( 0 )
-, mPort( 0 )
-, mHost( QHostAddress::LocalHost )
 {
-   MySettings settings("Global");
-   mHost.setAddress( settings.VALUE_SATELLITE_HOST );
-   mPort = settings.VALUE_SATELLITE_PORT;
-
    connect( mpServerConnection, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(connectFail(QAbstractSocket::SocketError)) );
    connect( mpServerConnection, SIGNAL(disconnected()),
@@ -102,15 +97,15 @@ void Satellite::restart()
 #if SATELLITE_DEBUG
    emit debug( "c:connecting to server" );
 #endif
-   if( !mIsTestApp && !MySettings().VALUE_USE_SATELLITE )
+   if( !mIsTestApp && !Satellite::enabled() )
    {
       return;
    }
 
    if( mpServerConnection->state() != QAbstractSocket::UnconnectedState )
    {
-      if( (mpServerConnection->peerPort()    != mPort) ||
-          (mpServerConnection->peerAddress() != mHost) )
+      if( (mpServerConnection->peerPort()    != port()) ||
+          (mpServerConnection->peerAddress() != host()) )
       {
          mpServerConnection->disconnectFromHost();
       }
@@ -118,7 +113,7 @@ void Satellite::restart()
 
    if( mpServerConnection->state() == QAbstractSocket::UnconnectedState )
    {
-      mpServerConnection->connectToHost( mHost, mPort );
+      mpServerConnection->connectToHost( host(), port() );
       connect( mpServerConnection, SIGNAL(connected()),
                this, SIGNAL(connected()) );
    }
@@ -179,7 +174,7 @@ void Satellite::runServer()
 #endif
    if( mpServer == 0 )
    {
-      mpServer = new SatelliteServerRunner( mPort, mHost );
+      mpServer = new SatelliteServerRunner();
       mpServer->start();
 #if SATELLITE_DEBUG
       connect( mpServer, SIGNAL(finished()),
@@ -260,12 +255,8 @@ void Satellite::send1( const QByteArray &message )
    else
    {
       QTcpSocket socket;
-      MySettings settings("Global");
 
-      QHostAddress host( settings.VALUE_SATELLITE_HOST );
-      qint16       port( settings.VALUE_SATELLITE_PORT );
-
-      socket.connectToHost( host, port, QIODevice::WriteOnly );
+      socket.connectToHost( Satellite::host(), Satellite::port(), QIODevice::WriteOnly );
       if( socket.waitForConnected( 1000 ) )
       {
          SATELLITE_PKGINFO_HEADER_TYPE   header( SATELLITE_PKGINFO_MAGIC_VALUE );
