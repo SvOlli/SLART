@@ -80,8 +80,6 @@ SOURCES += ScrollLine.cpp
 
 HEADERS += Settings.hpp
 SOURCES += Settings.cpp
-
-HEADERS += SettingsGenerated.hpp
 SOURCES += SettingsGenerated.cpp
 
 HEADERS += SorcererLoader.hpp
