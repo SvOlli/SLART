@@ -49,6 +49,9 @@ int main( int argc, char *argv[] )
    QStringList args( app.arguments() );
    qDebug() << args.takeFirst();
 
+   QStringList sourceData;
+   QStringList targetData;
+   bool useCode = true;
    foreach( const QString &name, args )
    {
       QFileInfo iniFileInfo( name );
@@ -62,12 +65,31 @@ int main( int argc, char *argv[] )
       //qDebug() << ini.value( "includes" ).toStringList();
 
       QFile hpp( handler.hppFileName() );
+      hpp.open( QIODevice::ReadOnly );
+      sourceData = QString( hpp.readAll() ).split("\n");
+      hpp.close();
+
+      foreach( const QString &line, sourceData )
+      {
+         if( line.contains( "/* generated code end */" ) )
+         {
+            useCode = true;
+         }
+         if( useCode )
+         {
+            targetData << line;
+         }
+         if( line.contains( "/* generated code start */" ) )
+         {
+            useCode = false;
+            targetData << "";
+            targetData << handler.enums( 1 );
+            targetData << handler.declarations( 1 );
+         }
+      }
+
       hpp.open( QIODevice::WriteOnly );
-      hpp.write( QByteArray("#ifndef SETTINGS_HPP\n"
-                            "#error this file should only be included from Settings.hpp\n"
-                            "#endif\n\n") );
-      hpp.write( handler.enums( 1 ).toLocal8Bit() );
-      hpp.write( handler.declarations( 1 ).toLocal8Bit() );
+      hpp.write( targetData.join( "\n" ).toLocal8Bit() );
       hpp.close();
       qDebug() << "wrote:" << hpp.fileName();
 
