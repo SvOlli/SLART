@@ -23,51 +23,13 @@
 #include <MySettings.hpp>
 #include <ProxyWidget.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 #include <WidgetShot.hpp>
 
 /* local headers */
 #include "CDReader.hpp"
 
 /* class variable instantiation */
-QPointer<ConfigDialog> ConfigDialog::cpConfigDialog = 0;
-
-
-ConfigDialog *ConfigDialog::createGlobal( CDReader *cdreader, QWidget *parent, Qt::WindowFlags flags )
-{
-   if( !cpConfigDialog )
-   {
-      cpConfigDialog = new ConfigDialog( cdreader, parent, flags );
-   }
-   else
-   {
-      cpConfigDialog->mpCDReader = cdreader;
-      cdreader->getDevices();
-      connect( cdreader, SIGNAL(foundDevices(QStringList)),
-               cpConfigDialog, SLOT(handleDevices(QStringList)) );
-      foreach( MagicEncoderProxy *encoder, cpConfigDialog->mEncoders )
-      {
-         encoder->configWidget()->readSettings();
-      }
-      cdreader->setEncoders( cpConfigDialog->mEncoders );
-   }
-   return cpConfigDialog;
-}
-
-
-ConfigDialog *ConfigDialog::get()
-{
-   return cpConfigDialog;
-}
-
-
-void ConfigDialog::destroyGlobal()
-{
-   if( cpConfigDialog )
-   {
-      delete cpConfigDialog;
-      cpConfigDialog = 0;
-   }
-}
 
 
 ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags flags )
@@ -93,7 +55,6 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 , mTagList()
 , mEncoders()
 {
-   cpConfigDialog = this;
    int i = 0;
    int encodersActive = 0;
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
@@ -233,88 +194,6 @@ ConfigDialog::~ConfigDialog()
 }
 
 
-bool ConfigDialog::value( enum ParameterBool id )
-{
-   switch( id )
-   {
-   case ParameterAutoEject:
-      return cpConfigDialog->mpSettings->value( "AutoEject", false ).toBool();
-   case ParameterAutoEnqueue:
-      return cpConfigDialog->mpSettings->value( "AutoEnqueue", false ).toBool();
-   case ParameterAutoFreeDB:
-      return cpConfigDialog->mpSettings->value( "AutoFreeDB", true ).toBool();
-   case ParameterCDTextLatin1:
-      return cpConfigDialog->mpSettings->value( "CDTextLatin1", false ).toBool();
-   case ParameterDirectoryOverride:
-      return cpConfigDialog->mpSettings->value( "DirectoryOverride", false ).toBool();
-   case ParameterShowStats:
-      return cpConfigDialog->mpSettings->value( "ShowStats", false ).toBool();
-   default:
-      qFatal( "illegal ParameterBool value" );
-      return false;
-   }
-}
-
-
-void ConfigDialog::setValue( enum ParameterBool id, bool value )
-{
-   switch( id )
-   {
-   case ParameterAutoEject:
-      cpConfigDialog->mpSettings->setValue( "AutoEject", value );
-   case ParameterAutoEnqueue:
-      cpConfigDialog->mpSettings->setValue( "AutoEnqueue", value );
-   case ParameterAutoFreeDB:
-      cpConfigDialog->mpSettings->setValue( "AutoFreeDB", value );
-   case ParameterCDTextLatin1:
-      cpConfigDialog->mpSettings->setValue( "CDTextLatin1", value );
-   case ParameterDirectoryOverride:
-      cpConfigDialog->mpSettings->setValue( "DirectoryOverride", value );
-   case ParameterShowStats:
-      cpConfigDialog->mpSettings->setValue( "ShowStats", value );
-   default:
-      qFatal( "illegal ParameterBool value" );
-   }
-}
-
-
-QString ConfigDialog::value( enum ParameterString id )
-{
-   switch( id )
-   {
-   case ParameterCreatePattern:
-      return cpConfigDialog->mpSettings->value( "CreatePattern", "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString();
-   case ParameterDevice:
-      return cpConfigDialog->mpSettings->value( "Device", QString("/dev/cdrom") ).toString();
-   case ParameterDirectory:
-      return cpConfigDialog->mpSettings->value( "Directory", QDir::current().absolutePath() ).toString();
-   case ParameterStyleSheet:
-      return cpConfigDialog->mpSettings->value( "StyleSheet", QString() ).toString();
-   default:
-      qFatal( "illegal ParameterString value" );
-      return QString();
-   }
-}
-
-
-void ConfigDialog::setValue( enum ParameterString id, const QString &value )
-{
-   switch( id )
-   {
-   case ParameterCreatePattern:
-      cpConfigDialog->mpSettings->setValue( "CreatePattern", value );
-   case ParameterDevice:
-      cpConfigDialog->mpSettings->setValue( "Device", value );
-   case ParameterDirectory:
-      cpConfigDialog->mpSettings->setValue( "Directory", value );
-   case ParameterStyleSheet:
-      cpConfigDialog->mpSettings->setValue( "StyleSheet", value );
-   default:
-      qFatal( "illegal ParameterString value" );
-   }
-}
-
-
 void ConfigDialog::exec()
 {
    readSettings();
@@ -346,7 +225,6 @@ void ConfigDialog::setRippingDir()
 
    if( fileDialog.exec() )
    {
-      MySettings settings;
       QString result( fileDialog.selectedFiles().at(0) );
       mpDirEdit->setText( result );
    }
@@ -355,24 +233,23 @@ void ConfigDialog::setRippingDir()
 
 void ConfigDialog::readSettings()
 {
-   MySettings settings;
    int i;
-   i = mpDevicesBox->findText( value( ParameterDevice ) );
+   i = mpDevicesBox->findText( Settings::value( Settings::StrippedDevice ) );
    if( i >= 0 )
    {
       mpDevicesBox->setCurrentIndex( i );
    }
-   mpAutoFreeDB->setChecked( value( ParameterAutoFreeDB ) );
-   mpAutoEject->setChecked( value( ParameterAutoFreeDB ) );
-   mpAutoEnqueue->setChecked( value( ParameterAutoEnqueue ) );
-   mpCDTextLatin1->setChecked( value( ParameterCDTextLatin1 ) );
-   mpShowStats->setChecked( value( ParameterShowStats ) );
+   mpAutoFreeDB->setChecked( Settings::value( Settings::StrippedAutoFreeDB ) );
+   mpAutoEject->setChecked( Settings::value( Settings::StrippedAutoEject ) );
+   mpAutoEnqueue->setChecked( Settings::value( Settings::StrippedAutoEnqueue ) );
+   mpCDTextLatin1->setChecked( Settings::value( Settings::StrippedCDTextLatin1 ) );
+   mpShowStats->setChecked( Settings::value( Settings::StrippedShowStats ) );
    if( i < 0 )
    {
       i = 0;
    }
-   mpDirEdit->setText( value( ParameterDirectory ).replace( '/', QDir::separator() ) );
-   mpPattern->setText( value( ParameterCreatePattern ) );
+   mpDirEdit->setText( Settings::value( Settings::StrippedDirectory ).replace( '/', QDir::separator() ) );
+   mpPattern->setText( Settings::value( Settings::StrippedCreatePattern ) );
 
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
@@ -391,15 +268,14 @@ void ConfigDialog::readSettings()
 
 void ConfigDialog::writeSettings()
 {
-   MySettings settings;
-   cpConfigDialog->mpSettings->setValue( "Device", mpDevicesBox->currentText() );
-   cpConfigDialog->mpSettings->setValue( "AutoFreeDB", mpAutoFreeDB->isChecked() );
-   cpConfigDialog->mpSettings->setValue( "AutoEject", mpAutoEject->isChecked() );
-   cpConfigDialog->mpSettings->setValue( "AutoEnqueue", mpAutoEnqueue->isChecked() );
-   cpConfigDialog->mpSettings->setValue( "CDTextLatin1", mpCDTextLatin1->isChecked() );
-   cpConfigDialog->mpSettings->setValue( "ShowStats", mpShowStats->isChecked() );
-   cpConfigDialog->mpSettings->setValue( "CreatePattern", mpPattern->text() );
-   cpConfigDialog->mpSettings->setValue( "Directory", mpDirEdit->text().replace('\\','/') );
+   Settings::setValue( Settings::StrippedDevice, mpDevicesBox->currentText() );
+   Settings::setValue( Settings::StrippedAutoFreeDB, mpAutoFreeDB->isChecked() );
+   Settings::setValue( Settings::StrippedAutoEject, mpAutoEject->isChecked() );
+   Settings::setValue( Settings::StrippedAutoEnqueue, mpAutoEnqueue->isChecked() );
+   Settings::setValue( Settings::StrippedCDTextLatin1, mpCDTextLatin1->isChecked() );
+   Settings::setValue( Settings::StrippedShowStats, mpShowStats->isChecked() );
+   Settings::setValue( Settings::StrippedCreatePattern, mpPattern->text() );
+   Settings::setValue( Settings::StrippedDirectory, mpDirEdit->text().replace('\\','/') );
 
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
@@ -425,7 +301,7 @@ TRACEMSG << devices;
    if( devices.size() )
    {
       mpDevicesBox->addItems( devices );
-      mpDevicesBox->setCurrentIndex( mpDevicesBox->findText( value( ParameterDevice ) ) );
+      mpDevicesBox->setCurrentIndex( mpDevicesBox->findText( Settings::value( Settings::StrippedDevice ) ) );
       mpDevicesBox->insertSeparator( mpDevicesBox->count() );
    }
    else

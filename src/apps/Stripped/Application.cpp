@@ -39,7 +39,6 @@ int main(int argc, char *argv[])
    translate.install( &app );
 
    Satellite::create();
-   ConfigDialog::createGlobal();
 
    MySettings settings;
 
@@ -70,7 +69,6 @@ int main(int argc, char *argv[])
    retval = app.exec();
 
    Satellite::destroy();
-   ConfigDialog::destroyGlobal();
 
    return retval;
 }

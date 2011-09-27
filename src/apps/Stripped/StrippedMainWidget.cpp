@@ -38,7 +38,7 @@ StrippedMainWidget::StrippedMainWidget( QWidget *parent , Qt::WindowFlags flags 
 , mpCDEdit( new CDEdit( mpCDInfo, mpCDDBClient, this ) )
 , mpCDReader( new CDReader( mpCDInfo, mpCDEdit, this ) )
 , mpMessage( new QLabel( this ) )
-, mpConfigDialog( ConfigDialog::createGlobal( mpCDReader ) )
+, mpConfigDialog( new ConfigDialog( mpCDReader, this ) )
 , mpButtonLayout( new QHBoxLayout() )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpCancelButton( new QPushButton( tr("Cancel"), this ) )

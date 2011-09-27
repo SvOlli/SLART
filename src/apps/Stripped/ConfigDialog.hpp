@@ -53,75 +53,22 @@ class ProxyWidget;
 class ConfigDialog : public QDialog
 {
    Q_OBJECT
-   Q_ENUMS(ParameterBool ParameterString)
 
 public:
    /*!
-    \brief parameter for value() / setValue (for boolean types)
-
-   */
-   enum ParameterBool
-   {
-      ParameterAutoEject, ParameterAutoEnqueue, ParameterAutoFreeDB,
-      ParameterCDTextLatin1, ParameterDirectoryOverride, ParameterShowStats
-   };
-   /*!
-    \brief parameter for value() / setValue (for string types)
-
-   */
-   enum ParameterString
-   {
-      ParameterCreatePattern, ParameterDevice, ParameterDirectory,
-      ParameterStyleSheet
-   };
-
-   /*!
-    \brief create and get global instance
+    \brief constructor
 
     \param cdreader
     \param parent
     \param flags
    */
-   static ConfigDialog *createGlobal( CDReader *cdreader = 0, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   ConfigDialog( CDReader *cdreader, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
    /*!
-    \brief get global instance
+    \brief destructor
 
    */
-   static ConfigDialog *get();
-
-   /*!
-    \brief destroy global instance
-
-   */
-   static void destroyGlobal();
-
-   /*!
-    \brief get value from settings storage
-
-    \param id key to get value for
-   */
-   static bool value( enum ParameterBool id );
-   /*!
-    \brief set value from settings storage
-
-    \param id key to set value for
-    \param value value to set
-   */
-   static void setValue( enum ParameterBool id, bool value );
-   /*!
-    \brief get value from settings storage
-
-    \param id key to get value for
-   */
-   static QString value( enum ParameterString id );
-   /*!
-    \brief set value from settings storage
-
-    \param id key to set value for
-    \param value value to set
-   */
-   static void setValue( enum ParameterString id, const QString &value );
+   virtual ~ConfigDialog();
 
 public slots:
 
@@ -184,21 +131,6 @@ signals:
    void configChanged();
 
 private:
-   /*!
-    \brief constructor
-
-    \param cdreader
-    \param parent
-    \param flags
-   */
-   ConfigDialog( CDReader *cdreader, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
-   /*!
-    \brief destructor
-
-   */
-   virtual ~ConfigDialog();
-
    Q_DISABLE_COPY( ConfigDialog )
 
    CDReader             *mpCDReader; /*!< TODO */
@@ -221,8 +153,6 @@ private:
    MySettings           *mpSettings;
    TagList              mTagList; /*!< TODO */
    MagicEncoderList     mEncoders; /*!< TODO */
-
-   static QPointer<ConfigDialog> cpConfigDialog; /*!< TODO */
 };
 
 /* defaults */

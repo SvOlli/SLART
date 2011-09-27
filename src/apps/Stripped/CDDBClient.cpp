@@ -21,12 +21,11 @@
 #include <QTimer>
 
 /* local library headers */
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <ProxyWidget.hpp>
 
 /* local headers */
 #include "CDInfo.hpp"
-#include "ConfigDialog.hpp"
 
 #include <Trace.hpp>
 
@@ -185,7 +184,7 @@ void CDDBClient::handleStateEjected()
 void CDDBClient::handleStateCleared()
 {
    clear();
-   if( ConfigDialog::value( ConfigDialog::ParameterAutoFreeDB ) )
+   if( Settings::value( Settings::StrippedAutoFreeDB ) )
    {
       emit automatic();
    }
@@ -390,7 +389,7 @@ void CDDBClient::handleQueryData( QNetworkReply *reply )
    mpCount->setText( QString::number( mpHits->count() - 3 ) + ":" );
 
    mpHits->setCurrentIndex( (mpHits->count() > 3) ? 3 : 1 );
-   if( ConfigDialog::value( ConfigDialog::ParameterAutoFreeDB ) &&
+   if( Settings::value( Settings::StrippedAutoFreeDB ) &&
        (mpHits->count() > 3) )
    {
       emit automatic();

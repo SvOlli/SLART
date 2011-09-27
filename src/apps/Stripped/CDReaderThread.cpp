@@ -17,13 +17,12 @@
 
 /* local library headers */
 #include <MagicEncoderProxy.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <Satellite.hpp>
 
 /* local headers */
 #include "CDEdit.hpp"
 #include "CDInfo.hpp"
-#include "ConfigDialog.hpp"
 
 
 #include <Trace.hpp>
@@ -271,7 +270,7 @@ void CDReaderThread::runReadCDText()
 {
    cdtext_t *cdtext;
    track_t track, first, last;
-   bool useLatin1 = ConfigDialog::value( ConfigDialog::ParameterCDTextLatin1 );
+   bool useLatin1 = Settings::value( Settings::StrippedCDTextLatin1 );
 
    if( !mpCdIo )
    {
@@ -330,8 +329,8 @@ void CDReaderThread::runReadAudioData()
    bool dorip;
    bool doenqueue;
    int year;
-   QString createPattern = ConfigDialog::value( ConfigDialog::ParameterCreatePattern );
-   bool autoEnqueue      = ConfigDialog::value( ConfigDialog::ParameterAutoEnqueue );
+   QString createPattern = Settings::value( Settings::StrippedCreatePattern );
+   bool autoEnqueue      = Settings::value( Settings::StrippedAutoEnqueue );
 
 
    if( !mpCdIo || !mpDrive )
@@ -478,7 +477,7 @@ printf("\n");
    }
    emit setTrackDisabled( -1, false );
    emit stateDisc();
-   if( ConfigDialog::value( ConfigDialog::ParameterAutoEject ) && !mCancel )
+   if( Settings::value( Settings::StrippedAutoEject ) && !mCancel )
    {
       if( mDiscHasErrors )
       {
