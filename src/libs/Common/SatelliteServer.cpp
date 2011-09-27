@@ -45,12 +45,12 @@ SatelliteServer::~SatelliteServer()
 }
 
 
-bool SatelliteServer::listen()
+bool SatelliteServer::listen( const QHostAddress &host, quint16 port )
 {
 #if SATELLITESERVER_DEBUG
    emit debug( "s:trying to run server on " +
                mHost.toString().toAscii() + ":" + QByteArray::number(Satellite::port()) );
-   bool success = mpTcpServer->listen( Satellite::host(), Satellite::port() );
+   bool success = mpTcpServer->listen( host, port );
 
    if( success )
    {
@@ -58,7 +58,7 @@ bool SatelliteServer::listen()
    }
    return success;
 #else
-   return mpTcpServer->listen( Satellite::host(), Satellite::port() );
+   return mpTcpServer->listen( host, port );
 #endif
 }
 

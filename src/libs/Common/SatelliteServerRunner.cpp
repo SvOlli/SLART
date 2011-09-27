@@ -19,9 +19,11 @@
 #include "SatelliteServer.hpp"
 
 
-SatelliteServerRunner::SatelliteServerRunner()
+SatelliteServerRunner::SatelliteServerRunner( const QHostAddress &host, quint16 port )
 : QThread()
 , mpServer( 0 )
+, mPort( port )
+, mHostAddress( host )
 {
 }
 
@@ -43,7 +45,7 @@ void SatelliteServerRunner::run()
    connect( mpServer, SIGNAL(debug(QByteArray)),
             this,     SIGNAL(debug(QByteArray)) );
 #endif
-   if( mpServer->listen() )
+   if( mpServer->listen( mHostAddress, mPort ) )
    {
       exec();
    }

@@ -34,7 +34,7 @@ class SatelliteServer;
   */
 
 /*!
- \brief thread container to run the Satellite server in, started from Satellite on demand
+ \brief thread container to run the SatelliteServer in, started from Satellite on demand
 
 */
 class SatelliteServerRunner : public QThread
@@ -42,8 +42,20 @@ class SatelliteServerRunner : public QThread
    Q_OBJECT
 
 public:
-   SatelliteServerRunner();
+   /*!
+    \brief constructor
+
+    \param host the host to bind to
+    \param port the port to open
+   */
+   SatelliteServerRunner( const QHostAddress &host, quint16 port );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~SatelliteServerRunner();
+
    /*!
     \brief method called by QThread::start() to to run the server
 
@@ -64,6 +76,8 @@ private:
    Q_DISABLE_COPY( SatelliteServerRunner )
 
    SatelliteServer      *mpServer; /*!< \brief the server running */
+   quint16              mPort; /*!< \brief the port to open */
+   QHostAddress         mHostAddress; /*! \brief the host to bind to */
 };
 
 /*! @} */

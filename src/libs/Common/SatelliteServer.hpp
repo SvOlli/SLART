@@ -53,7 +53,7 @@ public:
     \brief start the server
 
    */
-   bool listen();
+   bool listen( const QHostAddress &host, quint16 port );
 
 private slots:
    /*!

@@ -174,7 +174,7 @@ void Satellite::runServer()
 #endif
    if( mpServer == 0 )
    {
-      mpServer = new SatelliteServerRunner();
+      mpServer = new SatelliteServerRunner( host(), port() );
       mpServer->start();
 #if SATELLITE_DEBUG
       connect( mpServer, SIGNAL(finished()),
