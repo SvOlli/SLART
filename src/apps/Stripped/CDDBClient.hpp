@@ -207,21 +207,19 @@ signals:
 
    */
    void stateNet();
+
    /*!
     \brief signalize "disc read"-state
 
    */
+
    void stateDisc();
    /*!
     \brief signalize that track info has been updated
 
    */
-   void infoUpdated();
-   /*!
-    \brief signalize the request to read cd-text
-
-   */
    void requestCDText();
+
    /*!
     \brief send out info message
 

@@ -266,7 +266,6 @@ void CDDBClient::clear()
 void CDDBClient::handleSplit( const QString &token )
 {
    mpCDInfo->splitTitle( token.isEmpty() ? mpSplit->currentText() : token );
-   emit infoUpdated();
 }
 
 
@@ -445,6 +444,6 @@ void CDDBClient::handleReadData( QNetworkReply *reply )
       }
    }
 
-   emit gotdata();
    handleSplit();
+   emit gotdata();
 }

@@ -154,6 +154,12 @@ signals:
    void gotToc();
 
    /*!
+    \brief signalize "cdtext read"-state
+
+   */
+   void gotData();
+
+   /*!
     \brief send a list of devices that've been found
 
     \param devices

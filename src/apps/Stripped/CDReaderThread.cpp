@@ -308,8 +308,8 @@ void CDReaderThread::runReadCDText()
       }
       cdtext_destroy( cdtext );
    }
-   emit gotToc();
    emit stateDisc();
+   emit gotData();
 }
 
 

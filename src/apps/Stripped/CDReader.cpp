@@ -60,6 +60,8 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
             this, SIGNAL(stateRip()) );
    connect( mpCDReaderThread, SIGNAL(gotToc()),
             this, SIGNAL(gotToc()) );
+   connect( mpCDReaderThread, SIGNAL(gotData()),
+            this, SIGNAL(gotData()) );
    connect( mpCDReaderThread, SIGNAL(noEject()),
             this, SLOT(noEject()) );
    connect( mpCDReaderThread, SIGNAL(foundDevices(QStringList)),

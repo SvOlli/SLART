@@ -105,7 +105,7 @@ StrippedMainWidget::StrippedMainWidget( QWidget *parent , Qt::WindowFlags flags 
    /* edit sheet interaction */
    connect( mpCDReader, SIGNAL(gotToc()),
             mpCDEdit, SLOT(update()) );
-   connect( mpCDDBClient, SIGNAL(infoUpdated()),
+   connect( mpCDDBClient, SIGNAL(gotdata()),
             mpCDEdit, SLOT(update()) );
    connect( mpCDReader, SIGNAL(setTrackDisabled(int,bool)),
             mpCDEdit, SLOT(setTrackDisabled(int,bool)) );
@@ -118,6 +118,8 @@ StrippedMainWidget::StrippedMainWidget( QWidget *parent , Qt::WindowFlags flags 
 
    connect( mpCDReader, SIGNAL(gotToc()),
             mpCDDBClient, SIGNAL(cdinsert()) );
+   connect( mpCDReader, SIGNAL(gotData()),
+            mpCDDBClient, SIGNAL(gotdata()) );
    connect( mpCDReader, SIGNAL(stateNoDisc()),
             this, SLOT(stateNoDisc()) );
    connect( mpCDReader, SIGNAL(stateDisc()),
