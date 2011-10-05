@@ -19,11 +19,16 @@ extern "C" {
 #include <QTcpSocket>
 
 /* local library headers */
+#define SATELLITE_PKG_HEADER SATELLITE_PKG_HEADER
 #include <Satellite.hpp>
 
 
 static char GROUPNAME[] = "SLART";
 static char PROGNAME[] = "Creep";
+
+#define VALUE_SATELLITE_HOST  value( "SatelliteHost", "127.0.0.1" ).toString()
+#define VALUE_SATELLITE_PORT  value( "SatellitePort", 24222 ).toInt()
+#define VALUE_USE_SATELLITE   value( "UseSatellite", false ).toBool()
 
 
 static void send( const QByteArray &message )

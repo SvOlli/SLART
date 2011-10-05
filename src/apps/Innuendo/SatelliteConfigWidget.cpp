@@ -74,7 +74,7 @@ void SatelliteConfigWidget::readSettings()
 {
    foreach( QAbstractButton *button, mButtonList )
    {
-      button->setChecked( MySettings( button->text() ).VALUE_USE_SATELLITE );
+      button->setChecked( MySettings( button->text() ).value( "UseSatellite", false ).toBool() );
    }
    emit useInnuendoClicked( mButtonList.at(0)->isChecked() );
 }

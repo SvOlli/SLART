@@ -54,8 +54,6 @@ class Satellite : public QObject
 {
    Q_OBJECT
 
-   friend class SatelliteServer; /*!< \brief for access to configuration */
-
 public:
    /*!
     \brief create the central Satellite instance available via get()
