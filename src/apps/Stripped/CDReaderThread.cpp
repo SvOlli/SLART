@@ -71,6 +71,8 @@ CDReaderThread::CDReaderThread()
 , mCancel( false )
 , mTrackHasErrors( false )
 , mDiscHasErrors( false )
+, mPackets( 0 )
+, mPacketsMutex()
 , mDevice()
 , mDevices()
 , mEncoders()
@@ -431,6 +433,9 @@ fflush(stdout);
          {
             break;
          }
+         mPacketsMutex.lock();
+         mPackets++;
+         mPacketsMutex.unlock();
       }
 #if 0
 printf("\n");
@@ -522,4 +527,13 @@ void CDReaderThread::cancel()
 {
    mCancel = true;
    /* TODO: set timer to stop thread */
+}
+
+
+double CDReaderThread::reportSectors()
+{
+   QMutexLocker locker( &mPacketsMutex );
+   double retval = 1.0f * mPackets / 75;
+   mPackets = 0;
+   return retval;
 }

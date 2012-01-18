@@ -37,7 +37,9 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
 , mpCDInfo( info )
 , mpCDEdit( edit )
 , mpProgressBar( new QProgressBar( this ) )
+, mpRippingSpeed( new QLabel( this ) )
 , mpParanoiaStatus( new ParanoiaStatus( this ) )
+, mpTimer( new QTimer( this ) )
 , mEncoders()
 , mDevice()
 {
@@ -47,8 +49,9 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
    QGridLayout *mainLayout = new QGridLayout( this );
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 
-   mainLayout->addWidget( mpProgressBar, 0, 0 );
-   mainLayout->addWidget( mpParanoiaStatus, 1, 0 );
+   mainLayout->addWidget( mpRippingSpeed, 0, 0 );
+   mainLayout->addWidget( mpProgressBar, 0, 1 );
+   mainLayout->addWidget( mpParanoiaStatus, 1, 0, 1, 2 );
 
    connect( mpCDReaderThread, SIGNAL(stateNoDisc()),
             this, SIGNAL(stateNoDisc()) );
@@ -80,6 +83,14 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
             mpParanoiaStatus, SLOT(clear()) );
    connect( mpCDReaderThread, SIGNAL(errors(int,unsigned int,const unsigned long*)),
             mpParanoiaStatus, SLOT(update(int,unsigned int,const unsigned long*)) );
+   connect( mpCDReaderThread, SIGNAL(reportSpeed(double)),
+            this, SLOT(rippingSpeed(double)) );
+
+   mpTimer->setInterval( 1000 );
+   mpTimer->setSingleShot( false );
+   connect( mpTimer, SIGNAL(timeout()),
+            this, SLOT(updateRippingSpeed()) );
+   mpTimer->start();
 
    readSettings();
    setLayout( mainLayout );
@@ -162,4 +173,10 @@ void CDReader::noEject()
    QMessageBox::warning( this, tr("%1: Read Error").arg( QApplication::applicationName() ),
                          tr("There has been an error during reading the disc.\n"
                             "Therefore the disc has not been ejected.") );
+}
+
+void CDReader::updateRippingSpeed()
+{
+   double speed = mpCDReaderThread->reportSectors();
+   mpRippingSpeed->setText( tr("Ripping Speed: %1x").arg(speed,3,'g',2) );
 }

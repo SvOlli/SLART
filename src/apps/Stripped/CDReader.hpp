@@ -31,6 +31,7 @@ class QCheckBox;
 class QComboBox;
 class QLabel;
 class QProgressBar;
+class QTimer;
 
 /* forward declaration of local classes */
 class CDEdit;
@@ -132,6 +133,12 @@ public slots:
    */
    void noEject();
 
+   /*!
+    \brief display ripping speed
+
+   */
+   void updateRippingSpeed();
+
 signals:
 
    /*!
@@ -213,7 +220,9 @@ private:
    CDInfo               *mpCDInfo; /*!< TODO */
    CDEdit               *mpCDEdit; /*!< TODO */
    QProgressBar         *mpProgressBar; /*!< TODO */
+   QLabel               *mpRippingSpeed; /*!< TODO */
    ParanoiaStatus       *mpParanoiaStatus; /*!< TODO */
+   QTimer               *mpTimer; /*!< TODO */
    MagicEncoderList     mEncoders; /*!< TODO */
    QString              mDevice; /*!< TODO */
 };

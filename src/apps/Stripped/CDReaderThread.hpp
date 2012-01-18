@@ -20,6 +20,7 @@ extern "C" {
 
 /* Qt headers */
 #include <QStringList>
+#include <QMutex>
 
 /* local library headers */
 #include <MagicEncoderLoader.hpp>
@@ -27,6 +28,7 @@ extern "C" {
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QTimer;
 
 /* forward declaration of local classes */
 class CDEdit;
@@ -112,6 +114,12 @@ public:
     \param function
    */
    void callback( long inpos, ::paranoia_cb_mode_t function );
+
+   /*!
+    \brief report the ripping speed
+
+   */
+   double reportSectors();
 
 public slots:
 
@@ -272,6 +280,8 @@ private:
    bool                 mCancel; /*!< TODO */
    bool                 mTrackHasErrors; /*!< TODO */
    bool                 mDiscHasErrors; /*!< TODO */
+   unsigned long        mPackets;
+   QMutex               mPacketsMutex;
    QString              mDevice; /*!< TODO */
    QStringList          mDevices; /*!< TODO */
    MagicEncoderList     mEncoders; /*!< TODO */
