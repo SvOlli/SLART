@@ -483,7 +483,7 @@ void KarmadromeMainWidget::removeFolder( const QStringList &entries )
       mpDatabase->getTrackInfo( this, "removeFolderFromTrack", entry );
    }
    mpDatabase->deleteFolder( mpCurrentAction->text() );
-   mpCurrentAction = 0;
+   //mpCurrentAction = 0;
    mpDatabase->getFolders( this, "updateFolderNames" );
    setButtonsEnabled();
 }
