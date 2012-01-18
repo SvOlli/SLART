@@ -48,6 +48,7 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
 , mpMessageResetTimer( new QTimer( this ) )
 , mReadCDTextMessage( tr("Read CD-Text") )
 , mQueryCDDBMessage( tr("Query FreeDB") )
+, mLastParameter()
 {
    QHBoxLayout *mainLayout = new QHBoxLayout( this );
 
@@ -93,6 +94,7 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    mpStateQuery->addTransition( this, SIGNAL(found()), mpStateDone );
    mpStateQuery->addTransition( this, SIGNAL(automatic()), mpStateRead );
    mpStateQuery->addTransition( this, SIGNAL(eject()), mpStateEjected );
+   mpStateQuery->addTransition( this, SIGNAL(cancel()), mpStateCleared );
    connect( mpStateQuery, SIGNAL(entered()),
             this, SLOT(handleStateQuery()) );
 
@@ -102,6 +104,7 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    mpStateRead->addTransition( this, SIGNAL(cdinsert()), mpStateCleared );
    mpStateRead->addTransition( this, SIGNAL(gotdata()), mpStateDone );
    mpStateRead->addTransition( this, SIGNAL(eject()), mpStateEjected );
+   mpStateRead->addTransition( this, SIGNAL(cancel()), mpStateCleared );
    connect( mpStateRead, SIGNAL(entered()),
             this, SLOT(handleStateRead()) );
 
@@ -308,6 +311,7 @@ void CDDBClient::startRequest( RequestType type, const QStringList &parameter )
       qFatal( "CDDBClient::startRequest: illegal RequestType" );
    }
    mRequestType = type;
+   mLastParameter = parameter;
 
    QString url( "http://freedb.freedb.org/~cddb/cddb.cgi?cmd=cddb %1 %2&hello=svolli localhost Stripped alpha&proto=6" );
 
@@ -319,8 +323,21 @@ void CDDBClient::startRequest( RequestType type, const QStringList &parameter )
 
 void CDDBClient::handleServerReply( QNetworkReply *reply )
 {
+   QNetworkReply::NetworkError error = reply->error();
    reply->deleteLater();
-   if( reply->error() != QNetworkReply::NoError )
+   switch( error )
+   {
+   case QNetworkReply::UnknownContentError:
+      startRequest( mRequestType, mLastParameter );
+      /* slip through */
+   case QNetworkReply::NoError:
+      break;
+   default:
+      emit cdinsert();
+      return;
+   }
+
+   if( error != QNetworkReply::NoError )
    {
       return;
    }

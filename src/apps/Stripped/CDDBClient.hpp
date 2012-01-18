@@ -15,8 +15,7 @@
 /* system headers */
 
 /* Qt headers */
-#include <QList>
-#include <QString>
+#include <QStringList>
 
 /* local library headers */
 
@@ -271,6 +270,7 @@ private:
    QString                 mReadCDTextMessage;
    QString                 mQueryCDDBMessage;
    QString                 mStatusMessage;
+   QStringList             mLastParameter;
 };
 
 /*! @} */
