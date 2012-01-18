@@ -159,11 +159,10 @@ void PartymanMainWidget::changeTitle( const QIcon &icon, const QString &title )
 
 void PartymanMainWidget::startUp()
 {
-   MySettings settings;
    mpControl->readConfig();
    mpPlaylist->startBrowserUpdate();
    QCoreApplication::processEvents();
-   if( settings.VALUE_AUTOCONNECT && mAllowAutostart )
+   if( MySettings().VALUE_AUTOCONNECT && mAllowAutostart )
    {
       mpControl->initConnect();
    }

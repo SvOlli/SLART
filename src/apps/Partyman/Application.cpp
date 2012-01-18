@@ -35,7 +35,6 @@ int main(int argc, char *argv[])
 
    enableCore();
 
-   MySettings settings;
 #ifdef Q_WS_X11
    bool useGUI = getenv("DISPLAY") != 0;
 #else
@@ -62,7 +61,7 @@ int main(int argc, char *argv[])
 
          Satellite::create();
          {
-            QFile qssFile( settings.styleSheetFile() );
+            QFile qssFile( MySettings().styleSheetFile() );
             if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
             {
                app.setStyleSheet( qssFile.readAll() );

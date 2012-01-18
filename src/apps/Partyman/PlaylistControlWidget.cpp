@@ -419,7 +419,6 @@ void PlaylistControlWidget::setCurrentNext( const QString &current, const QStrin
 
 void PlaylistControlWidget::savePlaylist()
 {
-   MySettings settings;
    QStringList playlist;
 
    if( !mCurrentFile.isEmpty() )
@@ -435,10 +434,10 @@ void PlaylistControlWidget::savePlaylist()
 
    if( playlist.count() > 0 )
    {
-      settings.setValue( "Playlist", playlist );
+      MySettings().setValue( "Playlist", playlist );
    }
    else
    {
-      settings.remove( "Playlist" );
+      MySettings().remove( "Playlist" );
    }
 }

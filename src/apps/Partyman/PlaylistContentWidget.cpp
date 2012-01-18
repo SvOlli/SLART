@@ -18,7 +18,6 @@
 /* local library headers */
 #include <Database.hpp>
 #include <GlobalConfigWidget.hpp>
-#include <MySettings.hpp>
 #include <Trace.hpp>
 
 /* local headers */

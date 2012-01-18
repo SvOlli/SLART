@@ -65,8 +65,7 @@ SearchWidget::SearchWidget( Database *database, PlaylistControlWidget *parent )
 
 SearchWidget::~SearchWidget()
 {
-   MySettings settings;
-   settings.setValue( "Search", mpInput->text() );
+   MySettings().setValue( "Search", mpInput->text() );
 }
 
 

@@ -247,7 +247,6 @@ void ControlWidget::initConnect()
 
       if( settings.VALUE_DERMIXDRUN )
       {
-         QMutex mutex;
          QStringList args;
          QString params( settings.VALUE_DERMIXDPARAMS );
          args << "-c" << "-p" << QString::number( port );
