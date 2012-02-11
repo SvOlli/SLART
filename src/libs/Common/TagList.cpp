@@ -224,3 +224,14 @@ QString TagList::normalizeTag( const QString &tag )
 
    return value;
 }
+
+
+MyLuaTable TagList::toLuaTable()
+{
+   MyLuaTable retval;
+   for( int i = 0; i < count(); i++ )
+   {
+      retval.insert( tagAt(i).toLower(), valueAt(i) );
+   }
+   return retval;
+}

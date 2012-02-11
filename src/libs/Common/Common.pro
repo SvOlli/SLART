@@ -7,7 +7,7 @@
 TARGET = Common
 TEMPLATE = lib
 CONFIG += qt staticlib
-QT += sql network
+QT += sql network lua
 
 include( ../../buildconfig.pri )
 
@@ -52,6 +52,9 @@ SOURCES += MainWindow.cpp
 
 HEADERS += MainWindowCheckClose.hpp
 SOURCES += MainWindowCheckClose.cpp
+
+HEADERS += MyLua.hpp
+SOURCES += MyLua.cpp
 
 HEADERS += MyMouseEvent.hpp
 SOURCES += MyMouseEvent.cpp

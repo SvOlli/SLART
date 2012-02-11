@@ -9,7 +9,19 @@
 #ifndef TAGLIST_HPP
 #define TAGLIST_HPP TAGLIST_HPP
 
+/* system headers */
+
+/* Qt headers */
 #include <QStringList>
+
+/* local library headers */
+#include <MyLua.hpp>
+
+/* local headers */
+
+/* forward declaration of Qt classes */
+
+/* forward declaration of local classes */
 
 
 /*!
@@ -73,6 +85,12 @@ public:
 
    */
    QString normalizeTag( const QString &tag );
+
+   /*!
+    \brief convert to lua.table
+
+   */
+   MyLuaTable toLuaTable();
 
 private:
    /*!

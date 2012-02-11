@@ -14,6 +14,13 @@ count( TOPSRC, 0 ) {
 }
 BUILDDIR = $${TOPSRC}/..
 
+contains( QT, lua ) {
+  INCLUDEPATH += /usr/include/lua5.1
+  LIBS += -llua5.1
+  QT -= lua
+  !build_pass:message("Lua configuration added. Check INCLUDEPATH and LIBS.")
+}
+
 count( TARGET, 0 ) {
   error(TARGET not set $$TARGET)
 }
