@@ -28,6 +28,7 @@ class QSpinBox;
 /*!
  \brief TODO
 
+ \dotfile "graphs/libs/Common/GlobalConfigWidget_connect.dot" "Connect Graph"
 */
 class GlobalConfigWidget : public QWidget
 {

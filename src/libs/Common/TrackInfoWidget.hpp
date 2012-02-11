@@ -41,6 +41,7 @@ class ScrollLine;
 /*!
  \brief TODO
 
+ \dotfile "graphs/libs/Common/TrackInfoWidget_connect.dot" "Connect Graph"
 */
 class TrackInfoWidget : public QWidget
 {

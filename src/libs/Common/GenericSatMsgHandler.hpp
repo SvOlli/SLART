@@ -36,6 +36,7 @@ class Satellite;
 /*!
  \brief TODO
 
+ \dotfile "graphs/libs/Common/GenericSatMsgHandler_connect.dot" "Connect Graph"
 */
 class GenericSatMsgHandler : public QObject
 {

@@ -37,6 +37,7 @@ class QTimer;
 /*!
  \brief TODO
 
+ \dotfile "graphs/libs/Common/ScrollLine_connect.dot" "Connect Graph"
 */
 class ScrollLine : public QLineEdit
 {

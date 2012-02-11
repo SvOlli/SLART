@@ -41,6 +41,7 @@ class QTcpSocket;
 /*!
  \brief the server handling the Satellite comminication
 
+ \dotfile "graphs/libs/Common/SatelliteServer_connect.dot" "Connect Graph"
 */
 class SatelliteServer : public QObject
 {

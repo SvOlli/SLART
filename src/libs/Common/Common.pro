@@ -91,6 +91,18 @@ SOURCES += SorcererLoader.cpp
 HEADERS += Synchronize.hpp
 SOURCES += Synchronize.cpp
 
+HEADERS += SyntaxHighlighter.hpp
+SOURCES += SyntaxHighlighter.cpp
+
+HEADERS += SyntaxHighlighterLua.hpp
+SOURCES += SyntaxHighlighterLua.cpp
+
+HEADERS += SyntaxHighlightingRule.hpp
+SOURCES += SyntaxHighlightingRule.cpp
+
+HEADERS += SyntaxHighlightingRuleComment.hpp
+SOURCES += SyntaxHighlightingRuleComment.cpp
+
 HEADERS += TagList.hpp
 SOURCES += TagList.cpp
 

@@ -40,6 +40,7 @@ class QSpinBox;
 /*!
  \brief TODO
 
+ \dotfile "graphs/libs/Common/ProxyWidget_connect.dot" "Connect Graph"
 */
 class ProxyWidget : public QWidget
 {

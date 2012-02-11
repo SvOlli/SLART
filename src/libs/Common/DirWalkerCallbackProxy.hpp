@@ -37,6 +37,7 @@ class QFileInfo;
 /*!
  \brief TODO
 
+ \dotfile "graphs/libs/Common/DirWalkerCallbackProxy_connect.dot" "Connect Graph"
 */
 class DirWalkerCallbackProxy : public DirWalkerCallbacks
 {

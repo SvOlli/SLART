@@ -37,6 +37,7 @@ class QTcpSocket;
 /*!
  \brief TODO
 
+ \dotfile "graphs/libs/Common/WebServer_connect.dot" "Connect Graph"
 */
 class WebServer : public QObject
 {

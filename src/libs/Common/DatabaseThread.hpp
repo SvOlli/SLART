@@ -39,6 +39,7 @@ class Satellite;
 /*!
  \brief TODO
 
+ \dotfile "graphs/libs/Common/DatabaseThread_connect.dot" "Connect Graph"
 */
 class DatabaseThread : public QThread
 {

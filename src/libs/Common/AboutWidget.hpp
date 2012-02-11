@@ -23,6 +23,7 @@ class QUrl;
 /*!
  \brief TODO
 
+ \dotfile "graphs/libs/Common/AboutWidget_connect.dot" "Connect Graph"
 */
 class AboutWidget : public QWidget
 {

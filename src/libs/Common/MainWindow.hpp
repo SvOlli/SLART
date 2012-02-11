@@ -35,6 +35,7 @@
 /*!
  \brief the main window
 
+ \dotfile "graphs/libs/Common/MainWindow_connect.dot" "Connect Graph"
 */
 class MainWindow : public QMainWindow
 {

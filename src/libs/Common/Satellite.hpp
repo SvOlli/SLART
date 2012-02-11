@@ -47,9 +47,8 @@ class SatelliteServerRunner;
 /*!
  \brief central interface for Satellite interprocess communication
 
+ \dotfile "graphs/libs/Common/Satellite_connect.dot" "Connect Graph"
 */
-
-
 class Satellite : public QObject
 {
    Q_OBJECT

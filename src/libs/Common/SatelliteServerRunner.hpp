@@ -36,6 +36,7 @@ class SatelliteServer;
 /*!
  \brief thread container to run the SatelliteServer in, started from Satellite on demand
 
+ \dotfile "graphs/libs/Common/SatelliteServerRunner_connect.dot" "Connect Graph"
 */
 class SatelliteServerRunner : public QThread
 {

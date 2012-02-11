@@ -39,6 +39,7 @@ class Satellite;
 /*!
  \brief TODO
 
+ \dotfile "graphs/libs/Common/DatabaseInterface_connect.dot" "Connect Graph"
 */
 class DatabaseInterface
 {
