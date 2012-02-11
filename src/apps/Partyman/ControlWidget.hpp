@@ -51,6 +51,7 @@ class TrackInfo;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Partyman/ControlWidget_connect.dot" "Connect Graph"
 */
 class ControlWidget : public QWidget
 {

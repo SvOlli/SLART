@@ -37,6 +37,7 @@ class PlaylistControlWidget;
 /*!
  \brief the central widget
 
+ \dotfile "graphs/apps/Partyman/PartymanMainWidget_connect.dot" "Connect Graph"
 */
 class PartymanMainWidget : public QWidget
 {

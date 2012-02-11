@@ -43,13 +43,27 @@ class MyClipboard;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Rubberbandman/ConfigDialog_connect.dot" "Connect Graph"
 */
 class ConfigDialog : public QDialog
 {
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param database database to use
+    \param parent parent widget
+    \param flags window flags
+   */
    ConfigDialog( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+
+   /*!
+    \brief destructor
+
+   */
+   virtual ~ConfigDialog();
 
 public slots:
    /*!

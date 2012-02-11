@@ -46,6 +46,7 @@ class TrackInfoListModel;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Partyman/PlaylistContentWidget_connect.dot" "Connect Graph"
 */
 class PlaylistContentWidget : public QListView
 {

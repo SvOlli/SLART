@@ -49,6 +49,7 @@ class TrackInfoWidget;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Partyman/PlaylistControlWidget_connect.dot" "Connect Graph"
 */
 class PlaylistControlWidget : public QWidget
 {

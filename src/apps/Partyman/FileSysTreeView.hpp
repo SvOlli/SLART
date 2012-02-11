@@ -34,6 +34,7 @@
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Partyman/FileSysTreeView_connect.dot" "Connect Graph"
 */
 class FileSysTreeView : public QTreeView
 {

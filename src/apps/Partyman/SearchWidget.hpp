@@ -40,6 +40,7 @@ class PlaylistControlWidget;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Partyman/SearchWidget_connect.dot" "Connect Graph"
 */
 class SearchWidget : public QWidget
 {

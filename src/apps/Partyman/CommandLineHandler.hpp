@@ -37,13 +37,24 @@ class Satellite;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Partyman/CommandLineHandler_connect.dot" "Connect Graph"
 */
 class CommandLineHandler : public QObject
 {
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param list list to send
+    \param parent parent object
+   */
    CommandLineHandler( const QStringList &list, QObject *parent = 0 );
+   /*!
+    \brief destructor
+
+   */
    virtual ~CommandLineHandler();
 
 public slots:
@@ -59,13 +70,17 @@ public slots:
    void timeout();
 
 signals:
+   /*!
+    \brief signalize completion of task
+
+   */
    void done();
 
 private:
-   Satellite            *mpSatellite;
-   GenericSatMsgHandler *mpGenericSatMsgHandler;
-   bool                 mConnected;
-   QStringList          mList;
+   Satellite            *mpSatellite; /*!< \brief satellite instance */
+   GenericSatMsgHandler *mpGenericSatMsgHandler; /*!< \brief generic satellite message handler instance */
+   bool                 mConnected; /*!< \brief connected to bus? */
+   QStringList          mList; /*!< \brief list to send */
 };
 
 /*! @} */

@@ -47,6 +47,7 @@ class TimeSlider;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Partyman/PlayerWidget_connect.dot" "Connect Graph"
 */
 class PlayerWidget : public QWidget
 {

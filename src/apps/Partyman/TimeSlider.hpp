@@ -35,6 +35,7 @@
 /*!
  \brief slightly modify the behaviour of the slider
 
+ \dotfile "graphs/apps/Partyman/TimerSlider_connect.dot" "Connect Graph"
 */
 class TimeSlider : public QSlider
 {
