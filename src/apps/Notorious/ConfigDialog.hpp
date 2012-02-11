@@ -42,6 +42,7 @@ class FreeDBImport;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Karmadrome/ConfigDialog_connect.dot" "Connect Graph"
 */
 class ConfigDialog : public QDialog
 {

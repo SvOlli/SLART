@@ -35,6 +35,7 @@
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Karmadrome/Foundlist_connect.dot" "Connect Graph"
 */
 class Foundlist : public QTableWidget
 {

@@ -39,6 +39,7 @@ class SearchWidget;
 /*!
  \brief
 
+ \dotfile "graphs/apps/Karmadrome/MainWidget_connect.dot" "Connect Graph"
 */
 class NotoriousMainWidget : public QWidget
 {

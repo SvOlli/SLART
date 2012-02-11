@@ -41,6 +41,7 @@ class QString;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Karmadrome/SearchWidget_connect.dot" "Connect Graph"
 */
 class SearchWidget : public QWidget
 {
