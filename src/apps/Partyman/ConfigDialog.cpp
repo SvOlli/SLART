@@ -230,6 +230,11 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 }
 
 
+ConfigDialog::~ConfigDialog()
+{
+}
+
+
 void ConfigDialog::exec()
 {
    if( !(PasswordChecker::get()->unlock()) )

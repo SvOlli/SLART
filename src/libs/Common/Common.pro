@@ -17,6 +17,12 @@ TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 HEADERS += AboutWidget.hpp
 SOURCES += AboutWidget.cpp
 
+HEADERS += CodeEditor.hpp
+SOURCES += CodeEditor.cpp
+
+HEADERS += CodeEditorLineNumberArea.hpp
+SOURCES += CodeEditorLineNumberArea.cpp
+
 HEADERS += Database.hpp
 SOURCES += Database.cpp
 

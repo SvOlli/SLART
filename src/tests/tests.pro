@@ -6,6 +6,7 @@
 
 TEMPLATE = subdirs
 
+SUBDIRS += TestAppCodeEditor
 SUBDIRS += TestAppCommandLine
 SUBDIRS += TestAppDatabaseBrowser
 SUBDIRS += TestAppSatellite
