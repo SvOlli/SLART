@@ -25,15 +25,10 @@ extern "C" {
 /* local headers */
 
 /* class variables */
-
-
-typedef void (*mylua_callback_print) (void *handle, const char *string);
-
-
 QMap<lua_State*,MyLua*> MyLua::cAllLua;
 
 
-int MyLua::lua_cmd_print( lua_State *L )
+int MyLua::luaCmdPrint( lua_State *L )
 {
    QStringList output;
 
@@ -73,6 +68,50 @@ int MyLua::lua_cmd_print( lua_State *L )
 }
 
 
+int MyLua::luaCmdStringCamel( lua_State *L )
+{
+   size_t l;
+   int i;
+   const char *s = luaL_checklstring(L, 1, &l);
+
+   QString string( QString::fromUtf8(s) );
+   bool nextUpper = true;
+   for( i = 0; i < string.size(); i++ )
+   {
+      if( nextUpper )
+      {
+         string.replace( i, 1, string.at(i).toUpper() );
+      }
+      else
+      {
+         string.replace( i, 1, string.at(i).toLower() );
+      }
+
+      switch( string.at(i).toAscii() )
+      {
+         case ' ':
+         case '.':
+         case '-':
+            nextUpper = true;
+            break;
+         case '(':
+         case ')':
+         case '[':
+         case ']':
+         case '\'':
+         case '"':
+            break;
+         default:
+            nextUpper = false;
+            break;
+      }
+   }
+
+   lua_pushstring( L, string.toUtf8().constData() );
+   return 1;
+}
+
+
 MyLua::MyLua( QObject *parent )
 : QThread( parent )
 , mpL( lua_open() )
@@ -80,9 +119,23 @@ MyLua::MyLua( QObject *parent )
 {
    cAllLua.insert( mpL, this );
    luaL_openlibs( mpL );
+
+   /* add "print" function */
    lua_pushstring( mpL, "print" );
-   lua_pushcfunction( mpL, MyLua::lua_cmd_print );
+   lua_pushcfunction( mpL, MyLua::luaCmdPrint );
    lua_rawset( mpL, LUA_GLOBALSINDEX );
+
+   /* add string.camel function */
+   /* get "string" table */
+   lua_pushstring( mpL, "string" );
+   lua_gettable( mpL, LUA_GLOBALSINDEX );
+   /* add "camel" function */
+   lua_pushstring( mpL, "camel" );
+   lua_pushcfunction( mpL, MyLua::luaCmdStringCamel );
+   lua_settable( mpL, -3 );
+   /* write back "string" table */
+   lua_setglobal( mpL, "string" );
+
    moveToThread( this );
 }
 

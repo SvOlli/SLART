@@ -143,7 +143,15 @@ private:
     \param L lua state
     \return int number of return values
    */
-   static int lua_cmd_print( lua_State *L );
+   static int luaCmdPrint( lua_State *L );
+
+   /*!
+    \brief internal use only: callback for lua command "string.camel"
+
+    \param L lua state
+    \return int number of return values
+   */
+   static int luaCmdStringCamel( lua_State *L );
 
    static QMap<lua_State*,MyLua*>   cAllLua; /*! \brief needed for finding *this from lua_State *L */
    lua_State                        *mpL;    /*! \brief lua_State parameter for lua commands */
