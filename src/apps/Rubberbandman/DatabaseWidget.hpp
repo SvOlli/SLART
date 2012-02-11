@@ -45,6 +45,7 @@ class DatabaseWorker;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Rubberbandman/DatabaseWidget_connect.dot" "Connect Graph"
 */
 class DatabaseWidget : public QWidget
 {

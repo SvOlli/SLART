@@ -51,6 +51,7 @@ class RecurseWorker;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Rubberbandman/InfoEdit_connect.dot" "Connect Graph"
 */
 class InfoEdit : public QWidget
 {

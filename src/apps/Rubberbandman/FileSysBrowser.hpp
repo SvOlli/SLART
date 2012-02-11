@@ -44,6 +44,7 @@ class DatabaseInterface;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Rubberbandman/FileSysBrowser_connect.dot" "Connect Graph"
 */
 class FileSysBrowser : public QWidget
 {

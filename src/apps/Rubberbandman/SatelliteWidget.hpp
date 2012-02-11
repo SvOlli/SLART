@@ -43,6 +43,7 @@ class Satellite;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Rubberbandman/SatelliteWidget_connect.dot" "Connect Graph"
 */
 class SatelliteWidget : public QWidget
 {

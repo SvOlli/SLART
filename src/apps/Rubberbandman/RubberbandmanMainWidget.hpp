@@ -40,6 +40,7 @@ class SatelliteWidget;
 /*!
  \brief the main widget
 
+ \dotfile "graphs/apps/Rubberbandman/RubberbandmanMainWidget_connect.dot" "Connect Graph"
 */
 class RubberbandmanMainWidget : public QWidget
 {

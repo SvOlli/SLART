@@ -40,6 +40,7 @@ class InfoEdit;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Rubberbandman/Rubberbandman_connect.dot" "Connect Graph"
 */
 class BrowseWidget : public QWidget
 {
