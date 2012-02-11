@@ -42,6 +42,9 @@ class CDInfo;
 /*!
  \brief handle freedb connection via cddb protocol over http
 
+ \dotfile "graphs/apps/Stripped/CDDBClient_connect.dot" "Connect Graph"
+
+ \dotfile "graphs/apps/Stripped/CDDBClient_fsm.dot" "State Machine Chart"
 */
 class CDDBClient : public QWidget
 {

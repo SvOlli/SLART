@@ -49,6 +49,7 @@ class ParanoiaStatus;
 /*!
  \brief interface for reading data from cd
 
+ \dotfile "graphs/apps/Stripped/CDReader_connect.dot" "Connect Graph"
 */
 class CDReader : public QWidget
 {

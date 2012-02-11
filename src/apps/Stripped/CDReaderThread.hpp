@@ -43,6 +43,7 @@ class Encoder;
 /*!
  \brief worker thread for cd reading
 
+ \dotfile "graphs/apps/Stripped/CDReaderThread_connect.dot" "Connect Graph"
 */
 class CDReaderThread : public QThread
 {

@@ -49,6 +49,7 @@ class ProxyWidget;
 /*!
  \brief
 
+ \dotfile "graphs/apps/Stripped/ConfigDialog_connect.dot" "Connect Graph"
 */
 class ConfigDialog : public QDialog
 {

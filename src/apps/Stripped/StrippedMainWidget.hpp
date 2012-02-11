@@ -46,6 +46,7 @@ class Satellite;
 /*!
  \brief the main widget
 
+ \dotfile "graphs/apps/Stripped/StrippedMainWidget_connect.dot" "Connect Graph"
 */
 class StrippedMainWidget : public QWidget
 {
@@ -55,8 +56,8 @@ public:
    /*!
     \brief default constructor
 
-    \param parent
-    \param flags
+    \param parent parent widget
+    \param flags window flags
    */
    StrippedMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    virtual ~StrippedMainWidget();

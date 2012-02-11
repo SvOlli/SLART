@@ -41,6 +41,7 @@ class CDDBClient;
 /*!
  \brief widget to edit cd description
 
+ \dotfile "graphs/apps/Stripped/CDEdit_connect.dot" "Connect Graph"
 */
 class CDEdit : public QWidget
 {

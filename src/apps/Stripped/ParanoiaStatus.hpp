@@ -36,6 +36,7 @@ class CDInfo;
 /*!
  \brief visualize the ripping status
 
+ \dotfile "graphs/apps/Stripped/ParanoiaStatus_connect.dot" "Connect Graph"
 */
 class ParanoiaStatus : public QWidget
 {
