@@ -38,6 +38,7 @@ class QSignalMapper;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Karmadrome/ButtonsWidget_connect.dot" "Connect Graph"
 */
 class ButtonsWidget : public QGroupBox
 {

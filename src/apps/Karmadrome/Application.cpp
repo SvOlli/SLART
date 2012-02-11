@@ -27,7 +27,14 @@
 #include "ImportFolder.hpp"
 #include "KarmadromeMainWidget.hpp"
 
+/*!
+ \addtogroup Karmadrome
 
+ @{
+ \dotfile "graphs/apps/Karmadrome/Application_connect.dot" "Connect Graph"
+
+ @}
+ */
 int main(int argc, char *argv[])
 {
    int retval = 0;

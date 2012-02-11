@@ -47,6 +47,7 @@ class ScrollLine;
 /*!
  \brief
 
+ \dotfile "graphs/apps/Karmadrome/KarmadromeMainWidget_connect.dot" "Connect Graph"
 */
 class KarmadromeMainWidget : public QWidget
 {
