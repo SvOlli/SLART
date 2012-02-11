@@ -43,6 +43,7 @@ class DownloadHandler;
 /*!
  \brief
 
+ \dotfile "graphs/apps/Funkytown/FunkytownMainWidget_connect.dot" "Connect Graph"
 */
 class FunkytownMainWidget : public QWidget
 {

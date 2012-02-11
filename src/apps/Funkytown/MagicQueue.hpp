@@ -39,6 +39,7 @@ class TheMagic;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Funkytown/MagicQueue_connect.dot" "Connect Graph"
 */
 class MagicQueue : public QListWidget
 {

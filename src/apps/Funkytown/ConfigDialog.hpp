@@ -41,6 +41,7 @@ class ProxyWidget;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Funkytown/ConfigDialog_connect.dot" "Connect Graph"
 */
 class ConfigDialog : public QDialog
 {

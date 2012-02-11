@@ -47,6 +47,7 @@ class TheMagic;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Funkytown/DownloadHandler_connect.dot" "Connect Graph"
 */
 class DownloadHandler : public QWidget
 {
