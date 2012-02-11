@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/PlayerFSMPaused.cpp
  * written by Sven Oliver Moll
  *

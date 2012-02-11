@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Stripped/CDInfo.hpp
  * written by Sven Oliver Moll
  *

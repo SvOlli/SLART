@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/FileSysTreeUpdate.cpp
  * written by Sven Oliver Moll
  *

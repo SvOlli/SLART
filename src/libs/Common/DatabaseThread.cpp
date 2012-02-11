@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/DatabaseThread.cpp
  * written by Sven Oliver Moll
  *

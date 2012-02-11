@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Stripped/Application.cpp
  * written by Sven Oliver Moll
  *

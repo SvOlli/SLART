@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Notorious/TarEntry.hpp
  * written by Sven Oliver Moll
  *

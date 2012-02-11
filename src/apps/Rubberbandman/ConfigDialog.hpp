@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/ConfigDialog.hpp
  * written by Sven Oliver Moll
  *

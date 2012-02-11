@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Sorcerer/SatelliteConfigWidget.cpp
  * written by Sven Oliver Moll
  *

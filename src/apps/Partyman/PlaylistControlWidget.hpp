@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/PlaylistControlWidget.hpp
  * written by Sven Oliver Moll
  *

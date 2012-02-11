@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Funkytown/FunkytownMainWidget.cpp
  * written by Sven Oliver Moll
  *

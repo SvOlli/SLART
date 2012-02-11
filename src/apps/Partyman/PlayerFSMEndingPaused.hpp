@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/PlayerFSMEndingPaused.hpp
  * written by Sven Oliver Moll
  *

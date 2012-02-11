@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Funkytown/ConfigDialog.hpp
  * written by Sven Oliver Moll
  *

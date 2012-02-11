@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Notorious/Foundlist.cpp
  * written by Sven Oliver Moll
  *

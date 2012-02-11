@@ -1,4 +1,4 @@
-/**
+/*
  * src/tests/TestAppWebServer/MainWidget.hpp
  * written by Sven Oliver Moll
  *

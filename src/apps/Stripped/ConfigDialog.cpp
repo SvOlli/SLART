@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Stripped/ConfigDialog.cpp
  * written by Sven Oliver Moll
  *

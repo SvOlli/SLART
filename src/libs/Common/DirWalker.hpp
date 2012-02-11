@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/DirWalker.hpp
  * written by Sven Oliver Moll
  *

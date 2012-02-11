@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/Settings.hpp
  * written by Sven Oliver Moll
  *

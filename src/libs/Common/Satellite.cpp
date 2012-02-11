@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/Satellite.cpp
  * written by Sven Oliver Moll
  *

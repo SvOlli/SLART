@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Karmadrome/ExportFolder.hpp
  * written by Sven Oliver Moll
  *

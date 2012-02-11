@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/ConfigDialog.cpp
  * written by Sven Oliver Moll
  *

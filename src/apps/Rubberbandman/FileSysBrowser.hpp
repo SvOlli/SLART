@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/FileSysBrowser.hpp
  * written by Sven Oliver Moll
  *

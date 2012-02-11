@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/MagicEncoderProxy.hpp
  * written by Sven Oliver Moll
  *

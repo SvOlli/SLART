@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Karmadrome/Application.cpp
  * written by Sven Oliver Moll
  *

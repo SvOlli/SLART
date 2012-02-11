@@ -1,10 +1,13 @@
-/**
+/*
  * src/apps/Rubberbandman/MyTreeView.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
+
+#ifndef MYTREEVIEW_HPP
+#define MYTREEVIEW_HPP MYTREEVIEW_HPP
 
 /*!
     \brief class declaration
@@ -65,3 +68,5 @@ protected:
 };
 
 /*! @} */
+
+#endif

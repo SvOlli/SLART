@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/PlayerFSMBase.hpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/Translate.hpp
  * written by Sven Oliver Moll
 *

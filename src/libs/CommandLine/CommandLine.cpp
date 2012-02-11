@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/CommandLine/CommandLine.cpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/CommandLine/CommandLineOption.cpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Magic/MagicEncoder/MagicEncoderConfig.cpp
  * written by Sven Oliver Moll
  *

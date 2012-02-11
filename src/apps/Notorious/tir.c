@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Notorious/tir.c
  * written by Sven Oliver Moll
  *

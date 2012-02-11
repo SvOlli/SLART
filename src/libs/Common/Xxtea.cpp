@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/Xxtea.cpp
  * written by Sven Oliver Moll
  *

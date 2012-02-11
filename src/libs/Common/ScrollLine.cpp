@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/ScrollLine.cpp
  * written by Sven Oliver Moll
  *

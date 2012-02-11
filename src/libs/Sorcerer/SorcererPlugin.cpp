@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Sorcerer/SorcererPlugin.cpp
  * written by Sven Oliver Moll
  *

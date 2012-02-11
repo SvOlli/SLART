@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/SatelliteServer.cpp
  * written by Sven Oliver Moll
  *

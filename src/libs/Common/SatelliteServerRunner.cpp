@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/SatelliteServerRunner.cpp
  * written by Sven Oliver Moll
  *

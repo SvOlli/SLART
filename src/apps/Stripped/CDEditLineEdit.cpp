@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Stripped/CDEditLineEdit.cpp
  * written by Sven Oliver Moll
  *

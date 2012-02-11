@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Magic/MagicEncoderWav/MagicEncoderWav.cpp
  * written by Sven Oliver Moll
  *

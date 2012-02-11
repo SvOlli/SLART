@@ -1,4 +1,4 @@
-/**
+/*
  * src/tests/TestAppSatellite/MainWidget.cpp
  * written by Sven Oliver Moll
  *

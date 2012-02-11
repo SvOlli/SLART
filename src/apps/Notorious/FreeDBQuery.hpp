@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Notorious/FreeDBQuery.hpp
  * written by Sven Oliver Moll
  *

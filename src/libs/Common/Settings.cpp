@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/Settings.cpp
  * written by Sven Oliver Moll
  *

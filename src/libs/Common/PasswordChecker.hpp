@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/PasswordChecker.hpp
  * written by Sven Oliver Moll
  *
@@ -7,7 +7,7 @@
  */
 
 #ifndef PASSWORDCHECKER_HPP
-#define PASSWORDCHECKER_HPP
+#define PASSWORDCHECKER_HPP PASSWORDCHECKER_HPP
 
 /* base class */
 #include <QObject>

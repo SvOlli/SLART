@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/FileSysTreeItem.hpp
  * written by Sven Oliver Moll
  *

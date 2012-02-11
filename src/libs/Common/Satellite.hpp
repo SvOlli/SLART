@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Satellite/Satellite.hpp
  * written by Sven Oliver Moll
  *

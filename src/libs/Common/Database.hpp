@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/Database.hpp
  * written by Sven Oliver Moll
  *

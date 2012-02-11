@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/CommandLineHandler.cpp
  * written by Sven Oliver Moll
  *

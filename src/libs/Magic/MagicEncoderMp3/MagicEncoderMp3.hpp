@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Magic/MagicEncoderMp3/MagicEncoderMp3.hpp
  * written by Sven Oliver Moll
  *

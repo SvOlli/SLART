@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/SearchWidget.cpp
  * written by Sven Oliver Moll
  *

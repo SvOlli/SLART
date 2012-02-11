@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/ProxyWidget.hpp
  * written by Sven Oliver Moll
  *

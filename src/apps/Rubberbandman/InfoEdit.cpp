@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/InfoEdit.cpp
  * written by Sven Oliver Moll
  *

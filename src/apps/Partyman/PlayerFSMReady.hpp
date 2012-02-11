@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/PlayerFSMReady.hpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/ProxyWidget.cpp
  * written by Sven Oliver Moll
  *

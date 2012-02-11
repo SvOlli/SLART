@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/MagicEncoderLoader.cpp
  * written by Sven Oliver Moll
  *

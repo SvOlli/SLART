@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/TrackWriter.hpp
  * written by Sven Oliver Moll
  *

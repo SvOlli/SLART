@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Notorious/MainWidget.hpp
  * written by Sven Oliver Moll
  *

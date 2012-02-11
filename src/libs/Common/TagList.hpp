@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/TagList.hpp
  * written by Sven Oliver Moll
  *

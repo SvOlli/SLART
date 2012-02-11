@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/DatabaseInterface.cpp
  * written by Sven Oliver Moll
  *

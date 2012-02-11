@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Karmadrome/KarmadromeMainWidget.hpp
  * written by Sven Oliver Moll
  *

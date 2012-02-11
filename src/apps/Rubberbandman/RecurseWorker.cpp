@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/RecurseWorker.cpp
  * written by Sven Oliver Moll
  *

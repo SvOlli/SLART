@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/LineEdit.cpp
  * written by Sven Oliver Moll
  *

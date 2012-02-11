@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/GenericSatMsgHandler.hpp
  * written by Sven Oliver Moll
  *

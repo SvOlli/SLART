@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Sorcerer/SorcererInterface.hpp
  * written by Sven Oliver Moll
  *

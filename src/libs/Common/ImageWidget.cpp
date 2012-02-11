@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/ImageWidget.cpp
  * written by Sven Oliver Moll
  *

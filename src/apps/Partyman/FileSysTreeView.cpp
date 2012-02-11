@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/FileSysTreeView.cpp
  * written by Sven Oliver Moll
  *

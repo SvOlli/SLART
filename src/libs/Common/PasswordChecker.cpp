@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/PasswordChecker.cpp
  * written by Sven Oliver Moll
  *

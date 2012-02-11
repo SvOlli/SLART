@@ -1,4 +1,4 @@
-/**
+/*
  * src/tests/TestAppWebServer/Application.cpp
  * written by Sven Oliver Moll
  *

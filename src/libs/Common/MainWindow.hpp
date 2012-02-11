@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/MainWindow.hpp
  * written by Sven Oliver Moll
  *

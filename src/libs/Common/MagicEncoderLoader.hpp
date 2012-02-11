@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/MagicEncoderLoader.hpp
  * written by Sven Oliver Moll
  *

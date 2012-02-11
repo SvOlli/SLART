@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/ControlWidget.cpp
  * written by Sven Oliver Moll
  *

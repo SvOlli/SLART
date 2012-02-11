@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/MainWindowCheckClose.hpp
  * written by Sven Oliver Moll
  *
@@ -7,7 +7,7 @@
  */
 
 #ifndef MAINWINDOWCHECKCLOSE_HPP
-#define MAINWINDOWCHECKCLOSE_HPP
+#define MAINWINDOWCHECKCLOSE_HPP MAINWINDOWCHECKCLOSE_HPP
 
 /* base class */
 #include "MainWindow.hpp"

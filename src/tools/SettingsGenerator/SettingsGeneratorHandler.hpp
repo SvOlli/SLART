@@ -1,4 +1,4 @@
-/**
+/*
  * src/tools/SettingsGenerator/SettingsGeneratorHandler.hpp
  * written by Sven Oliver Moll
  *

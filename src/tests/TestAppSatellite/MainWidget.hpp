@@ -1,4 +1,4 @@
-/**
+/*
  * MainWidget.hpp
  * written by Sven Oliver Moll
  *

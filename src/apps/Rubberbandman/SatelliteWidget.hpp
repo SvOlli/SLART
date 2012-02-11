@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/SLARTComWidget.hpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Stripped/StrippedMainWidget.cpp
  * written by Sven Oliver Moll
  *

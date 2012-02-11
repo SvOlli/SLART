@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/Synchronize.cpp
  * written by Sven Oliver Moll
  *

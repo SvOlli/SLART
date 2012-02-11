@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Notorious/FreeDBImport.cpp
  * written by Sven Oliver Moll
  *

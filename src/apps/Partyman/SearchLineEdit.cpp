@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/SearchLineEdit.cpp
  * written by Sven Oliver Moll
  *

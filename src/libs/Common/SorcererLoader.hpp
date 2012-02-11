@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/SorcererLoader.hpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/PlayerWidget.cpp
  * written by Sven Oliver Moll
  *

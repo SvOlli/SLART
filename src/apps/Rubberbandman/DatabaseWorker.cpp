@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/DatabaseWorker.cpp
  * written by Sven Oliver Moll
  *

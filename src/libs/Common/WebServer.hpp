@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/WebServer.hpp
  * written by Sven Oliver Moll
  *

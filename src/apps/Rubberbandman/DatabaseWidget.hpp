@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/DatabaseWidget.hpp
  * written by Sven Oliver Moll
  *

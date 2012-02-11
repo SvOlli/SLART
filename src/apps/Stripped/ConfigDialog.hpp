@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Stripped/ConfigDialog.hpp
  * written by Sven Oliver Moll
  *

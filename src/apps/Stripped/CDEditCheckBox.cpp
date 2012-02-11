@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Stripped/CDEditCheckBox.cpp
  * written by Sven Oliver Moll
  *

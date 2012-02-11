@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Innuendo/InnuendoMainWidget.hpp
  * written by Sven Oliver Moll
  *

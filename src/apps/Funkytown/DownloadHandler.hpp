@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Funkytown/DownloadHandler.hpp
  * written by Sven Oliver Moll
  *

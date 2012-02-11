@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/PlayerFSMDisconnected.cpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/PlayerFSMEnding.cpp
  * written by Sven Oliver Moll
  *

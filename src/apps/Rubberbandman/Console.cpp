@@ -1,4 +1,4 @@
-/**
+/*
  * src/app/Rubberbandman/Console.cpp
  * written by Sven Oliver Moll
  *

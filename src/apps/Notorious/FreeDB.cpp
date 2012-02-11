@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Notorious/FreeDB.cpp
  * written by Sven Oliver Moll
  *

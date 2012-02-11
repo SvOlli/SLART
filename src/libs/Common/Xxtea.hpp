@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/Xxtea.hpp
  * written by Sven Oliver Moll
  *
@@ -43,7 +43,7 @@ class Xxtea
 {
 public:
    /*!
-    \brief creator
+    \brief constructor
 
    */
    Xxtea();

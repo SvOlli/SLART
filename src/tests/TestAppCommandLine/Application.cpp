@@ -1,4 +1,4 @@
-/**
+/*
  * src/tests/TestAppCommandLine/Application.cpp
  * written by Sven Oliver Moll
  *

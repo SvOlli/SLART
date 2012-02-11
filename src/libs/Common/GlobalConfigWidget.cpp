@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/GlobalConfigWidget.cpp
  * written by Sven Oliver Moll
  *

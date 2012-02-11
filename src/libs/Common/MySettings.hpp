@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/MySettings.hpp
  * written by Sven Oliver Moll
  *

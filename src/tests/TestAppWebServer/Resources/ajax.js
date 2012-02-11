@@ -1,4 +1,4 @@
-/**
+/*
  * src/tests/TestAppWebServer/Resources/ajax.js
  * written by Sven Oliver Moll
  *

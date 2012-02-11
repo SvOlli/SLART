@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/SatelliteConfig.cpp
  * written by Sven Oliver Moll
  *

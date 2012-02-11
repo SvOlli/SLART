@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/WidgetShot.hpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/RubberbandmanMainWidget.cpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * MainWindow.cpp
  * written by Sven Oliver Moll
  *

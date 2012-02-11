@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Innuendo/ExecButton.cpp
  * written by Sven Oliver Moll
  *

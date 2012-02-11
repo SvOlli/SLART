@@ -1,4 +1,4 @@
-/**
+/*
  * src/Partyman/LogListModel.hpp
  * written by Sven Oliver Moll
  *

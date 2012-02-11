@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Funkytown/Cookie.hpp
  * written by Sven Oliver Moll
  *

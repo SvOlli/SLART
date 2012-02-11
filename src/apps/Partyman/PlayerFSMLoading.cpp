@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/PlayerFSMLoading.cpp
  * written by Sven Oliver Moll
  *

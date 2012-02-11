@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Notorious/Application.cpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Stripped/CDReaderThread.cpp
  * written by Sven Oliver Moll
  *

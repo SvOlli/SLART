@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Funkytown/MagicQueue.hpp
  * written by Sven Oliver Moll
  *

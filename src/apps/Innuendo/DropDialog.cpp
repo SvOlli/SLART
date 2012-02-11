@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Innuendo/DropDialog.cpp
  * written by Sven Oliver Moll
  *

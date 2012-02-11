@@ -1,4 +1,4 @@
-/**
+/*
  * src/tools/SettingsGenerator/SettingsGeneratorStorage.hpp
  * written by Sven Oliver Moll
  *

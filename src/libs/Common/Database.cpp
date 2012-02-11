@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/Database.cpp
  * written by Sven Oliver Moll
  *

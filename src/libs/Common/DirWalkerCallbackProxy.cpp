@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/DirWalkerCallbackProxy.cpp
  * written by Sven Oliver Moll
  *

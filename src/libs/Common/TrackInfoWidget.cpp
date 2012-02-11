@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/TrackInfoWidget.cpp
  * written by Sven Oliver Moll
  *

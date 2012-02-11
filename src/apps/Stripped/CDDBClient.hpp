@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Stripped/CDDBClient.hpp
  * written by Sven Oliver Moll
  *

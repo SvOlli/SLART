@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/DirWalkerUpdate.cpp
  * written by Sven Oliver Moll
  *

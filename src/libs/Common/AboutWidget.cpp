@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/AboutWidget.cpp
  * written by Sven Oliver Moll
  *

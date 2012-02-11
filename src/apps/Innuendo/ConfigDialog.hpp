@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Innuendo/ConfigDialog.hpp
  * written by Sven Oliver Moll
  *

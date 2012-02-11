@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Stripped/ParanoiaStatus.cpp
  * written by Sven Oliver Moll
  *

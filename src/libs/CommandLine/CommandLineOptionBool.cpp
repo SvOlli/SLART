@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/CommandLine/CommandLineOptionBool.cpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/MyMouseEvent.cpp
  * written by Sven Oliver Moll
  *

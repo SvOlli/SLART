@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/TrackInfo.hpp
  * written by Sven Oliver Moll
  *

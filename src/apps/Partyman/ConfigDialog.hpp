@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Partyman/ConfigDialog.hpp
  * written by Sven Oliver Moll
  *

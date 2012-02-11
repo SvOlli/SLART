@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Funkytown/CookieJar.cpp
  * written by Sven Oliver Moll
  *

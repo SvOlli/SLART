@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Notorious/SearchWidget.hpp
  * written by Sven Oliver Moll
  *

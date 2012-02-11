@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/MainWidget.hpp
  * written by Sven Oliver Moll
  *

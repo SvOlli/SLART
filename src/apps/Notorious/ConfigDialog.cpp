@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Notorious/ConfigDialog.cpp
  * written by Sven Oliver Moll
  *

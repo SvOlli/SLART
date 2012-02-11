@@ -1,4 +1,4 @@
-/**
+/*
  * src/Partyman/TrackInfoListModel.cpp
  * written by Sven Oliver Moll
  *

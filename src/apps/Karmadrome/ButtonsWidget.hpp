@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Karmadrome/ButtonsWidget.hpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/Trace.cpp
  * written by Sven Oliver Moll
  *

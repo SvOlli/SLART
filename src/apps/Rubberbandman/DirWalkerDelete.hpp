@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/DirWalkerDelete.hpp
  * written by Sven Oliver Moll
  *

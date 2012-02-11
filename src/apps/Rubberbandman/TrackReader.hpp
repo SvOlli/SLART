@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/TrackReader.hpp
  * written by Sven Oliver Moll
  *

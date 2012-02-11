@@ -1,4 +1,4 @@
-/**
+/*
  * src/tests/TestAppXxtea/Application.cpp
  * written by Sven Oliver Moll
  *

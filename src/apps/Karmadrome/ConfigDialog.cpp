@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Karmadrome/ConfigDialog.cpp
  * written by Sven Oliver Moll
  *

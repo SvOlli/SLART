@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Notorious/ConfigDialog.hpp
  * written by Sven Oliver Moll
  *

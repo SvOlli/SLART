@@ -1,4 +1,4 @@
-/**
+/*
  * src/tools/SettingsGenerator/SettingsGenerator.cpp
  * written by Sven Oliver Moll
  *

@@ -1,4 +1,4 @@
-/**
+/*
  * src/libs/Common/MainWindowCheckClose.cpp
  * written by Sven Oliver Moll
  *

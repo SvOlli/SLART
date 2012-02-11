@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Funkytown/TheMagic.cpp
  * written by Sven Oliver Moll
  *

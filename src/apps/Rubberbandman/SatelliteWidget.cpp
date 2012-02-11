@@ -1,4 +1,4 @@
-/**
+/*
  * src/apps/Rubberbandman/SatelliteWidget.cpp
  * written by Sven Oliver Moll
  *
