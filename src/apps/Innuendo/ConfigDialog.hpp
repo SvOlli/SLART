@@ -44,6 +44,7 @@ class SatelliteConfigWidget;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Innuendo/ConfigDialog_connect.dot" "Connect Graph"
 */
 class ConfigDialog : public QDialog
 {

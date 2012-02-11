@@ -37,6 +37,7 @@ class QSignalMapper;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Innuendo/SatelliteConfigWidget_connect.dot" "Connect Graph"
 */
 class SatelliteConfigWidget : public QWidget
 {

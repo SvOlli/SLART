@@ -46,6 +46,7 @@ class ProxyWidget;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Innuendo/DropDialog_connect.dot" "Connect Graph"
 */
 class DropDialog : public QDialog
 {

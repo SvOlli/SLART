@@ -36,6 +36,7 @@
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Innuendo/ExecButton_connect.dot" "Connect Graph"
 */
 class ExecButton : public QPushButton
 {

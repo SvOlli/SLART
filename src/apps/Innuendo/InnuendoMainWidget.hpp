@@ -47,6 +47,7 @@ class Satellite;
 /*!
  \brief TODO
 
+ \dotfile "graphs/apps/Innuendo/InnuendoMainWidget_connect.dot" "Connect Graph"
 */
 class InnuendoMainWidget : public QWidget
 {
