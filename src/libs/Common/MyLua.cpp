@@ -115,8 +115,8 @@ int MyLua::luaCmdStringCamel( lua_State *L )
 MyLua::MyLua( QObject *parent )
 : QThread( parent )
 , mpL( lua_open() )
-, mMutex()
-, mpMutex( new QMutex() )
+, mDataMutex()
+, mpCallerMutex( new QMutex() )
 {
    cAllLua.insert( mpL, this );
    luaL_openlibs( mpL );
@@ -143,10 +143,10 @@ MyLua::MyLua( QObject *parent )
 
 MyLua::~MyLua()
 {
-   QMutexLocker locker(&mMutex);
+   QMutexLocker locker(&mDataMutex);
    cAllLua.remove( mpL );
    lua_close( mpL );
-   delete mpMutex;
+   delete mpCallerMutex;
 }
 
 
@@ -154,9 +154,9 @@ QMutex* MyLua::mutex( bool locked )
 {
    if( locked )
    {
-      mpMutex->lock();
+      mpCallerMutex->lock();
    }
-   return mpMutex;
+   return mpCallerMutex;
 }
 
 
@@ -168,7 +168,7 @@ void MyLua::run()
 
 void MyLua::runCode( const QString &data )
 {
-   QMutexLocker locker(&mMutex);
+   QMutexLocker locker(&mDataMutex);
    int errorcode = luaL_loadstring( mpL, data.toUtf8().constData() );
    if( !errorcode )
    {
@@ -189,7 +189,7 @@ void MyLua::runCode( const QString &data )
 
 void MyLua::setString( const QByteArray &name, const QString &value )
 {
-   QMutexLocker locker(&mMutex);
+   QMutexLocker locker(&mDataMutex);
    lua_pushstring( mpL, value.toUtf8().constData() );
    lua_setglobal( mpL, name.constData() );
 }
@@ -197,7 +197,7 @@ void MyLua::setString( const QByteArray &name, const QString &value )
 
 QString MyLua::getString( const QByteArray &name )
 {
-   QMutexLocker locker(&mMutex);
+   QMutexLocker locker(&mDataMutex);
    QString retval;
    lua_getglobal( mpL, name.constData() );
    if( lua_isstring( mpL, -1 ) )
@@ -211,7 +211,7 @@ QString MyLua::getString( const QByteArray &name )
 
 void MyLua::setTable( const QByteArray &name, const MyLuaTable &values )
 {
-   QMutexLocker locker(&mMutex);
+   QMutexLocker locker(&mDataMutex);
    lua_newtable( mpL );
    foreach( const QString &key, values.keys() )
    {
@@ -226,7 +226,7 @@ void MyLua::setTable( const QByteArray &name, const MyLuaTable &values )
 
 MyLuaTable MyLua::getTable( const QByteArray &name )
 {
-   QMutexLocker locker(&mMutex);
+   QMutexLocker locker(&mDataMutex);
    MyLuaTable table;
 
    lua_pushstring( mpL, name.constData() );

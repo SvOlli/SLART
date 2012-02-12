@@ -161,10 +161,10 @@ private:
    */
    static int luaCmdStringCamel( lua_State *L );
 
-   static QMap<lua_State*,MyLua*>   cAllLua;  /*! \brief needed for finding *this from lua_State *L */
-   lua_State                        *mpL;     /*! \brief lua_State parameter for lua commands */
-   QMutex                           mMutex;   /*! \brief internal mutex for preventing early data access */
-   QMutex                           *mpMutex; /*! \brief external mutex for providing exclusive access */
+   static QMap<lua_State*,MyLua*>   cAllLua;        /*!< \brief needed for finding *this from lua_State *L */
+   lua_State                        *mpL;           /*!< \brief lua_State parameter for lua commands */
+   QMutex                           mDataMutex;     /*!< \brief internal mutex for preventing early data access */
+   QMutex                           *mpCallerMutex; /*!< \brief external mutex for providing exclusive access */
 };
 
 /*! @} */
