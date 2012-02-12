@@ -26,7 +26,7 @@ class QSpinBox;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/libs/Common/GlobalConfigWidget_connect.dot" "Connect Graph"
 */

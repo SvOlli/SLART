@@ -42,7 +42,7 @@ class ProxyWidget;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Rubberbandman/ConfigDialog_connect.dot" "Connect Graph"
 */

@@ -34,7 +34,7 @@ class FreeDBQuery;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class FreeDB : public QObject

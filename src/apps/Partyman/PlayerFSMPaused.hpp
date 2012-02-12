@@ -32,7 +32,7 @@
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class PlayerFSMPaused : public PlayerFSMBase

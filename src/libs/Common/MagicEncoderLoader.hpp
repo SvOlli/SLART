@@ -39,7 +39,7 @@ typedef QList<MagicEncoderProxy*> MagicEncoderList;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class MagicEncoderLoader

@@ -33,7 +33,7 @@
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class PasswordChecker : public QObject
@@ -69,7 +69,7 @@ public:
 
 signals:
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
     \param enabled
    */

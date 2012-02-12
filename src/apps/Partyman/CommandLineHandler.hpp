@@ -35,7 +35,7 @@ class Satellite;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Partyman/CommandLineHandler_connect.dot" "Connect Graph"
 */

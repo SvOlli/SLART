@@ -38,7 +38,7 @@ class DatabaseInterface;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class RecurseWorker : public QThread

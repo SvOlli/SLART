@@ -42,7 +42,7 @@ class SatelliteConfigWidget;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Innuendo/ConfigDialog_connect.dot" "Connect Graph"
 */

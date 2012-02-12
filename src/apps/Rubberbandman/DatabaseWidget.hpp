@@ -43,7 +43,7 @@ class DatabaseWorker;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Rubberbandman/DatabaseWidget_connect.dot" "Connect Graph"
 */

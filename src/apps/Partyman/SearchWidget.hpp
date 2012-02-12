@@ -38,7 +38,7 @@ class PlaylistControlWidget;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Partyman/SearchWidget_connect.dot" "Connect Graph"
 */

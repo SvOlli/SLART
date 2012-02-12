@@ -38,7 +38,7 @@ class QSpinBox;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/libs/Common/ProxyWidget_connect.dot" "Connect Graph"
 */

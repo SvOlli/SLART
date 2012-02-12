@@ -45,7 +45,7 @@ class Satellite;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Innuendo/InnuendoMainWidget_connect.dot" "Connect Graph"
 */

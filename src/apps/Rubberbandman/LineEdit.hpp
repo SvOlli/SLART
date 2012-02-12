@@ -35,7 +35,7 @@ class QTimer;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class LineEdit : public QLineEdit

@@ -35,7 +35,7 @@ class QTcpSocket;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/libs/Common/WebServer_connect.dot" "Connect Graph"
 */
@@ -59,7 +59,7 @@ public:
    virtual ~WebServer();
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
     \param port
     \param webPath
@@ -67,7 +67,7 @@ public:
    bool start( quint16 port = 0, const QString &webPath = QString() );
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
    */
    void stop();
@@ -80,7 +80,7 @@ public slots:
    void handleNewConnection();
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
     \param id
     \param header
@@ -92,7 +92,7 @@ public slots:
 
 signals:
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
     \param id
     \param header

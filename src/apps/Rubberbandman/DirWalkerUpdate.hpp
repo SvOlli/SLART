@@ -35,7 +35,7 @@ class DatabaseWorker;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class DirWalkerUpdate : public DirWalkerCallbacks
@@ -93,7 +93,7 @@ public:
 private:
    Q_DISABLE_COPY( DirWalkerUpdate )
 
-   DatabaseWorker    *mpDatabaseWorker; /*!< \brief TODO */
+   DatabaseWorker    *mpDatabaseWorker; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

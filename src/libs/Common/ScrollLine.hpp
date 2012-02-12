@@ -35,7 +35,7 @@ class QTimer;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/libs/Common/ScrollLine_connect.dot" "Connect Graph"
 */

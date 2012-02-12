@@ -39,7 +39,7 @@ class QString;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Karmadrome/SearchWidget_connect.dot" "Connect Graph"
 */
@@ -49,7 +49,7 @@ class SearchWidget : public QWidget
 
 public:
    SearchWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-   const QString &getSQL() { return mSQL; };
+   const QString &getSQL() { return mSQL; }
 
 public slots:
    void generateSQL();

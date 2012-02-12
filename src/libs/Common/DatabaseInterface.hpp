@@ -37,9 +37,8 @@ class Satellite;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
- \dotfile "graphs/libs/Common/DatabaseInterface_connect.dot" "Connect Graph"
 */
 class DatabaseInterface
 {
@@ -200,7 +199,7 @@ public:
    void rename( const QString &oldName, const QString &newName );
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
    */
    enum Column { Artist, Title, Album, Genre };

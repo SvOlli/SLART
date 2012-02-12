@@ -42,7 +42,8 @@ public slots:
    void handleLoad();
    void handleSave();
    void handleRun();
-   void handleDone();
+   void handleError( const QString &msg );
+   void handleSuccess();
 
 signals:
    void runCode( const QString &code );

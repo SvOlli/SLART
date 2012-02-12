@@ -39,7 +39,7 @@ class ProxyWidget;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Funkytown/ConfigDialog_connect.dot" "Connect Graph"
 */

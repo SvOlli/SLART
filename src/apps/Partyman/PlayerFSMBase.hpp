@@ -34,7 +34,7 @@
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class PlayerFSMBase

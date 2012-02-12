@@ -42,7 +42,7 @@ class DatabaseInterface;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Rubberbandman/FileSysBrowser_connect.dot" "Connect Graph"
 */

@@ -37,7 +37,7 @@ class Satellite;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/libs/Common/DatabaseThread_connect.dot" "Connect Graph"
 */

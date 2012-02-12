@@ -39,7 +39,7 @@ class ScrollLine;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/libs/Common/TrackInfoWidget_connect.dot" "Connect Graph"
 */

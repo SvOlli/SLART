@@ -37,7 +37,7 @@ class Satellite;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class MagicEncoderProxy : public QObject

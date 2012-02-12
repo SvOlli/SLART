@@ -51,13 +51,13 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    connect( mpRunButton, SIGNAL(clicked()),
             this, SLOT(handleRun()) );
    connect( mpLua, SIGNAL(error(QString)),
-            this, SLOT(log(QString)) );
+            this, SLOT(handleError(QString)) );
    connect( mpLua, SIGNAL(print(QString)),
             this, SLOT(log(QString)) );
    connect( this, SIGNAL(runCode(QString)),
             mpLua, SLOT(runCode(QString)) );
    connect( mpLua, SIGNAL(success()),
-            this, SLOT(handleDone()) );
+            this, SLOT(handleSuccess()) );
    mpLoadButton->setShortcut( QKeySequence("Ctrl+O") );
    mpSaveButton->setShortcut( QKeySequence("Ctrl+S") );
    mpRunButton->setShortcut( QKeySequence("F5") );
@@ -173,12 +173,13 @@ void MainWidget::handleRun()
    mpMessageBuffer->clear();
    mMessageBufferAlternateColor = false;
 
+   mpLua->mutex( true );
    mpLua->setTable( "tags", mTagList.toLuaTable() );
    emit runCode( mpCodeEditor->toPlainText() );
 }
 
 
-void MainWidget::handleDone()
+void MainWidget::handleSuccess()
 {
    log( QString("dirname=\"%1\"\nfilename=\"%2\"").arg(mpLua->getString("dirname"),mpLua->getString("filename")) );
    QStringList logTable;
@@ -188,4 +189,12 @@ void MainWidget::handleDone()
       logTable.append( QString("%1=%2").arg( key, table.value(key) ) );
    }
    log( logTable.join("\n") );
+   mpLua->mutex()->unlock();
+}
+
+
+void MainWidget::handleError( const QString &msg )
+{
+   log( msg );
+   mpLua->mutex()->unlock();
 }

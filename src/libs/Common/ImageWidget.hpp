@@ -33,7 +33,7 @@ class QImage;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class ImageWidget : public QWidget

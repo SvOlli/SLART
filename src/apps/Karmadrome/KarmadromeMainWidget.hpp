@@ -141,28 +141,28 @@ public slots:
    void updateTrackInfo( const TrackInfo &trackInfo );
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
     \param enabled
    */
    void setButtonsEnabled( bool enabled = true );
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
     \param list
    */
    void updateFolderNames( const QStringList &list );
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
     \param entries
    */
    void removeFolder( const QStringList &entries );
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
     \param trackInfo
    */
@@ -170,7 +170,7 @@ public slots:
 
 signals:
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
     \param icon
     \param title

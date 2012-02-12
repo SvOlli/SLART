@@ -174,7 +174,7 @@ void CDDBClient::setStatusMessage( const QString &value )
 {
    mStatusMessage = value;
    emit message( mStatusMessage );
-   qDebug() << value;
+   //qDebug() << value;
 }
 
 

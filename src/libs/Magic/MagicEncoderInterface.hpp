@@ -40,7 +40,7 @@ class ScrollLine;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class MagicEncoderInterface

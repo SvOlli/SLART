@@ -68,7 +68,7 @@ private:
 
    Q_DISABLE_COPY( WidgetShot )
 
-   static QHash< QString, QPointer<QWidget> > *cpWidgetList; /*!< \brief TODO */
+   static QHash< QString, QPointer<QWidget> > *cpWidgetList; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

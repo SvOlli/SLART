@@ -39,7 +39,7 @@ class FileSysTreeModel;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class DatabaseWorker : public QThread

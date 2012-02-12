@@ -44,7 +44,7 @@ class PlayerWidget;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class PlayerFSM

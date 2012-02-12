@@ -98,6 +98,14 @@ public:
    */
    int getStack( QStringList *stack );
 
+   /*!
+    \brief mutex used for exclusive access to lua instance
+
+    \param locked lock mutex before returning
+    \return QMutex* pointer of mutex to use
+   */
+   QMutex *mutex( bool locked = false );
+
 public slots:
    /*!
     \brief slot for running code fragment
@@ -153,9 +161,10 @@ private:
    */
    static int luaCmdStringCamel( lua_State *L );
 
-   static QMap<lua_State*,MyLua*>   cAllLua; /*! \brief needed for finding *this from lua_State *L */
-   lua_State                        *mpL;    /*! \brief lua_State parameter for lua commands */
-   QMutex                           mMutex;  /*! \brief mutex for preventing early data access */
+   static QMap<lua_State*,MyLua*>   cAllLua;  /*! \brief needed for finding *this from lua_State *L */
+   lua_State                        *mpL;     /*! \brief lua_State parameter for lua commands */
+   QMutex                           mMutex;   /*! \brief internal mutex for preventing early data access */
+   QMutex                           *mpMutex; /*! \brief external mutex for providing exclusive access */
 };
 
 /*! @} */

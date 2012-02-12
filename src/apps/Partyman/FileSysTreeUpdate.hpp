@@ -35,7 +35,7 @@ class FileSysTreeModel;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class FileSysTreeUpdate : public QThread

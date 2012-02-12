@@ -35,7 +35,7 @@ class FileSysTreeItem;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class FileSysTreeModel : public QAbstractItemModel

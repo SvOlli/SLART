@@ -36,7 +36,7 @@ class QSignalMapper;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Karmadrome/ButtonsWidget_connect.dot" "Connect Graph"
 */

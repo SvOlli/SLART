@@ -44,7 +44,7 @@ class TrackInfoListModel;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Partyman/PlaylistContentWidget_connect.dot" "Connect Graph"
 */

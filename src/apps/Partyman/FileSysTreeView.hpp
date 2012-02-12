@@ -32,7 +32,7 @@
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Partyman/FileSysTreeView_connect.dot" "Connect Graph"
 */

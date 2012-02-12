@@ -49,7 +49,7 @@ class RecurseWorker;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Rubberbandman/InfoEdit_connect.dot" "Connect Graph"
 */
@@ -72,12 +72,12 @@ public:
    virtual ~InfoEdit();
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
    */
    QString tagsFileName( const QString &pattern, bool filterPath = true );
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
    */
    QString fileName();
@@ -96,7 +96,7 @@ public slots:
    void load( const QString &fullpath = QString() );
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
    */
    void loadTrackInfo( const TrackInfo &trackInfo );
@@ -144,7 +144,7 @@ public slots:
    void handleFoldersMenu( QAction *action );
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
    */
    void handleFoldersEntries( const QStringList &folders );

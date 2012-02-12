@@ -21,7 +21,7 @@ class QUrl;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/libs/Common/AboutWidget_connect.dot" "Connect Graph"
 */

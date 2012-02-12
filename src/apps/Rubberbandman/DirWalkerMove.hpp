@@ -37,7 +37,7 @@ class DatabaseInterface;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class DirWalkerMove : public DirWalkerCallbacks

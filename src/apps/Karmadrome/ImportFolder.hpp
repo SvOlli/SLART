@@ -35,7 +35,7 @@ class TrackInfo;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class ImportFolder : public QObject

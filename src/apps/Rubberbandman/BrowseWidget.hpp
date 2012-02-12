@@ -38,7 +38,7 @@ class InfoEdit;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Rubberbandman/Rubberbandman_connect.dot" "Connect Graph"
 */

@@ -37,7 +37,7 @@ class QString;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class FreeDBImport : public QThread

@@ -47,7 +47,7 @@ class TrackInfoWidget;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Partyman/PlaylistControlWidget_connect.dot" "Connect Graph"
 */

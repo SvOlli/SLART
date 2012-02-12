@@ -35,7 +35,7 @@ class QWidget;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class TrackInfo
@@ -50,7 +50,7 @@ public:
    };
 
    /*!
-    \brief TODO
+    \brief \todo complete documentation
 
    */
    TrackInfo();

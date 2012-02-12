@@ -41,7 +41,7 @@ class Satellite;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Rubberbandman/SatelliteWidget_connect.dot" "Connect Graph"
 */

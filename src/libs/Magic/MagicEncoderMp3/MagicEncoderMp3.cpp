@@ -90,27 +90,31 @@ bool MagicEncoderMp3::initialize( const QString &fileName )
       {
          if( mTagList.tagAt(i) == "ALBUM" )
          {
-            ::id3tag_set_album(mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_album( mLame, tagTo8Bit(i).constData() );
          }
          else if( mTagList.tagAt(i) == "ARTIST" )
          {
-            ::id3tag_set_artist(mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_artist( mLame, tagTo8Bit(i).constData() );
          }
          else if( mTagList.tagAt(i) == "TITLE" )
          {
-            ::id3tag_set_title(mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_title( mLame, tagTo8Bit(i).constData() );
          }
          else if( mTagList.tagAt(i) == "TRACKNUMBER" )
          {
-            ::id3tag_set_track(mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_track( mLame, tagTo8Bit(i).constData() );
          }
          else if( mTagList.tagAt(i) == "GENRE" )
          {
-            ::id3tag_set_genre(mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_genre( mLame, tagTo8Bit(i).constData() );
          }
          else if( mTagList.tagAt(i) == "DATE" )
          {
-            ::id3tag_set_year(mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_year( mLame, tagTo8Bit(i).constData() );
+         }
+         else if( mTagList.tagAt(i) == "COMMENT" )
+         {
+            ::id3tag_set_comment( mLame, tagTo8Bit(i).constData() );
          }
       }
    }

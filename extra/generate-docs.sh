@@ -125,7 +125,7 @@ echo "}") > ${dot}
 }
 
 logfile="${OUTPUT_PATH%/graphs}/log"
-echo "generating logfile ${logfile}"
+echo "logging outout to ${logfile}"
 
 mkdir -p "${OUTPUT_PATH}"
 exec > "${logfile}" 2>&1

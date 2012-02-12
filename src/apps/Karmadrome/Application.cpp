@@ -31,6 +31,11 @@
  \addtogroup Karmadrome
 
  @{
+ \brief
+
+ \param argc
+ \param argv
+
  \dotfile "graphs/apps/Karmadrome/Application_connect.dot" "Connect Graph"
 
  @}

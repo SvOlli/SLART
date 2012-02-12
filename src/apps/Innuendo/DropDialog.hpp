@@ -44,7 +44,7 @@ class ProxyWidget;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Innuendo/DropDialog_connect.dot" "Connect Graph"
 */

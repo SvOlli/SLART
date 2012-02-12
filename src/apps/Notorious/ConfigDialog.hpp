@@ -40,7 +40,7 @@ class FreeDBImport;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Karmadrome/ConfigDialog_connect.dot" "Connect Graph"
 */

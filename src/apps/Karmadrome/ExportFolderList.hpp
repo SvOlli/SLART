@@ -35,7 +35,7 @@ class Database;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class ExportFolderList : public QObject

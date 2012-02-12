@@ -40,7 +40,7 @@ class Satellite;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class TheMagic : public QObject

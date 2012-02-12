@@ -34,7 +34,7 @@ class TrackInfo;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class TrackWriter : public QObject

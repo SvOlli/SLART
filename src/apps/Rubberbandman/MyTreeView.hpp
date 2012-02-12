@@ -38,7 +38,7 @@
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class MyTreeView : public QTreeView

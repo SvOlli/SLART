@@ -38,7 +38,7 @@ class Foundlist;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class FreeDBQuery : public QThread

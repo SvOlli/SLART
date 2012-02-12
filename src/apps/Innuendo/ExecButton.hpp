@@ -34,7 +34,7 @@
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Innuendo/ExecButton_connect.dot" "Connect Graph"
 */

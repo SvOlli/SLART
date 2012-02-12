@@ -36,7 +36,7 @@
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class MyMouseEvent : public QMouseEvent

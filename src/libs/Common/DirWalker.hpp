@@ -38,7 +38,7 @@ class QString;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class DirWalkerCallbacks
@@ -91,7 +91,7 @@ public:
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class DirWalker

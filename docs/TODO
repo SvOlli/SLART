@@ -1,25 +1,43 @@
 
+Partyman:
+- stopping does not write current playlist
+- drag from browser
+? better random init via /dev/urandom
+  - only if exists
+? auto-switch to info
+- check all error handling
+- back-to-back optional instead of crossfade
+  - auto back-to-back when track++ and same album
+
 all:
+- add global option to make sure that window is placed on current screen
 - new application for handling global keys (or extend creep?)
   - just task bar icon
   - main screen == config settings
 - use QScript for generating filenames(?)
 - QSqlDatabasePrivate::removeDatabase: connection 'qt_sql_default_connection' is still in use, all queries will cease to work.
-- rename "Folder(s)" to "Label(s)" or "List(s)"
+- rename "Folder(s)" to "Group(s)"(!)
+- add autocompeters to Partyman and Stripped for TrackInfo::displayString
 
 architecture:
 - make configWidget a singleton for better global access
 - move database and config widgets to simple singletons
 - move database to an own thread
+  - on big updates do "intermediate commits"
+  - access: ->slot(obj,cmd)->progress->QMetaMethod::invoke(obj,...)
 - try to handle QEvent::LanguageChange, so language change on the fly works
   - supply translations, loadable from filesys, .../lib
   - set texts not on constructor, but by setTexts() method
 
-0.8:
-- fix Funkytown Satellite connection
-  - no connect
-  - no generic message handler
-- generate screenshots for all applications
+translations:
+- Innuendo
+- Partyman
+- Karmadrome
+- Stripped
+- Funkytown
+- Notorious
+  
+0.8.1:
 
 extra:
 
@@ -34,6 +52,7 @@ Notorious:
 - (0.8) add log of installed archives
 
 Karmadrome:
+- "Add" does not re-create buttons and "Remove"-Menu
 - clicking favorite after folder button prevents folder buttons from saving
 - "clear folder before import" does not work
 
@@ -45,6 +64,11 @@ Funkytown:
 ? add rtmpdump
 
 Stripped:
+- BUG: after restart /dev/sr1 is selected, but /dev/sr0,/dev/scd0 is used
+- display ripping speed in terms of "2.4x"
+  - timer, each second, count bytes read devide / 176400
+- BUG: if after restart /dev/sr1 is removed, field is empty
+- use "Cancel" to unlock blocked FreeDB network connection
 - separate ripping from encoding
   - normalize
   - remove '0's
@@ -59,15 +83,9 @@ Stripped:
 ? move encoders to QPlugins
 - removal of leading / trailing zeros in audio data
 
-Partyman:
-? better random init via /dev/urandom
-  - only if exists
-? auto-switch to info
-- check all error handling
-- back-to-back optional instead of crossfade
-  - auto back-to-back when track++ and same title
-
 Rubberbandman:
+- recursive setting of Folder only doesn't work
+- move of a file doesn't work (at least if it's not in database)
 - dragging of filesystem-item does select entry but not update file information
 - "delete" does not work every time
 - "add folder"/"remove folder"

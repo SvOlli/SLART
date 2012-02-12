@@ -35,7 +35,7 @@ class QSignalMapper;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Innuendo/SatelliteConfigWidget_connect.dot" "Connect Graph"
 */

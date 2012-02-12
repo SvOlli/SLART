@@ -33,7 +33,7 @@
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
 */
 class SearchLineEdit : public QLineEdit

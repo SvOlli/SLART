@@ -49,7 +49,7 @@ class TrackInfo;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Partyman/ControlWidget_connect.dot" "Connect Graph"
 */

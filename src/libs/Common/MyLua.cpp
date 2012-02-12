@@ -116,6 +116,7 @@ MyLua::MyLua( QObject *parent )
 : QThread( parent )
 , mpL( lua_open() )
 , mMutex()
+, mpMutex( new QMutex() )
 {
    cAllLua.insert( mpL, this );
    luaL_openlibs( mpL );
@@ -145,6 +146,17 @@ MyLua::~MyLua()
    QMutexLocker locker(&mMutex);
    cAllLua.remove( mpL );
    lua_close( mpL );
+   delete mpMutex;
+}
+
+
+QMutex* MyLua::mutex( bool locked )
+{
+   if( locked )
+   {
+      mpMutex->lock();
+   }
+   return mpMutex;
 }
 
 

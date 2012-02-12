@@ -45,7 +45,7 @@ class TheMagic;
 */
 
 /*!
- \brief TODO
+ \brief \todo complete documentation
 
  \dotfile "graphs/apps/Funkytown/DownloadHandler_connect.dot" "Connect Graph"
 */
