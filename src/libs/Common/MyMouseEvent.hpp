@@ -26,39 +26,28 @@
 
 
 /*!
-    \brief a very nasty hack to change the protected button variables
-
-   */
-/*!
   \addtogroup Common
 
   @{
 */
 
 /*!
- \brief \todo complete documentation
+ \brief hack to change mouse button in QMouseEvent
 
+ usage only via reinterpret_cast:
+\code
+class::mousePressEvent( QMouseEvent *event )
+if( event->button() == Qt::LeftButton )
+{
+   MyMouseEvent *myevent = reinterpret_cast<MyMouseEvent*>(event);
+   myevent->setMouseButton( Qt::MidButton );
+}
+\endcode
 */
 class MyMouseEvent : public QMouseEvent
 {
-   /*!
-    \brief everything private, usage only via reinterpret_cast
-
-   */
 private:
    Q_DISABLE_COPY( MyMouseEvent )
-
-   /*!
-    \brief constructor
-
-   */
-   MyMouseEvent();
-
-   /*!
-    \brief destructor
-
-   */
-   virtual ~MyMouseEvent();
 
 public:
    /*!
