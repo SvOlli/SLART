@@ -33,6 +33,11 @@ Settings::Settings( QObject *parent )
 
 Settings::~Settings()
 {
+   foreach( const QString &key, mSettings.keys() )
+   {
+      disconnect( mSettings.value( key ), SIGNAL(destroyed(QObject*)),
+                  this, SLOT(mySettingsDestroyed(QObject*)) );
+   }
 }
 
 
@@ -48,9 +53,19 @@ MySettings *Settings::get( const QString &applicationName )
    {
       settings = new MySettings( applicationName, cpSettings );
       cpSettings->mSettings.insert( applicationName, settings );
+      connect( settings, SIGNAL(destroyed(QObject*)),
+               cpSettings, SLOT(mySettingsDestroyed(QObject*)) );
    }
 
    return settings;
+}
+
+
+void Settings::mySettingsDestroyed( QObject *object )
+{
+   MySettings *settings = static_cast<MySettings*>(object);
+
+   mSettings.remove( mSettings.key( settings ) );
 }
 
 
