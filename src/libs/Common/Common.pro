@@ -87,6 +87,9 @@ SOURCES += SatelliteServerRunner.cpp
 HEADERS += ScrollLine.hpp
 SOURCES += ScrollLine.cpp
 
+HEADERS += SingleInstance.hpp
+SOURCES += SingleInstance.cpp
+
 HEADERS += Settings.hpp
 SOURCES += Settings.cpp
 SOURCES += SettingsGenerated.cpp
