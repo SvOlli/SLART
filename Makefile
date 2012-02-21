@@ -34,3 +34,6 @@ install: release
 	  gzip -9 <docs/$$f >$(DESTDIR)$(PREFIX)/share/doc/slart/$$f.gz ; done
 	strip -R .note -R .comment $(DESTDIR)$(PREFIX)/bin/*
 	strip --strip-unneeded $(DESTDIR)$(PREFIX)/lib/*
+
+doc:
+	extra/generate-docs.sh
