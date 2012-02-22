@@ -17,6 +17,7 @@
 /* Qt headers */
 #include <QCoreApplication>
 #include <QMap>
+#include <QMutex>
 #include <QString>
 
 /* local library headers */
@@ -51,16 +52,24 @@ public:
     \return T* pointer to object
    */
    template<typename T>
-   static T* get( const QString &typeName )
+   static T* get( const QString &typeName, bool useParent = true )
    {
       if( !cpSingleInstance )
       {
          cpSingleInstance = new SingleInstance( QCoreApplication::instance() );
       }
+      QMutexLocker locker( &cpSingleInstance->mMapMutex );
       QObject *object = cpSingleInstance->value( typeName );
       if( !object )
       {
-         object = new T( cpSingleInstance );
+         if( useParent )
+         {
+            object = new T( cpSingleInstance );
+         }
+         else
+         {
+            object = new T( 0 );
+         }
          cpSingleInstance->insert( typeName, object );
       }
       return qobject_cast<T*>( object );
@@ -106,6 +115,7 @@ private:
 
    Q_DISABLE_COPY( SingleInstance )
 
+   QMutex                  mMapMutex; /*!< \brief lock access to mObjectMap */
    QMap<QString,QObject*>  mObjectMap; /*!< \brief map of registered objects */
    static SingleInstance   *cpSingleInstance; /*!< \brief pointer of global SingleInstance */
 };

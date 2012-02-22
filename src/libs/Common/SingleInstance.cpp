@@ -12,6 +12,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QMutexLocker>
 
 /* local library headers */
 
@@ -20,9 +21,11 @@
 /* class variable instantiation */
 SingleInstance *SingleInstance::cpSingleInstance = 0;
 
+#include <QtDebug>
 
 SingleInstance::SingleInstance( QObject *parent )
 : QObject( parent )
+, mMapMutex()
 , mObjectMap()
 {
 }
@@ -30,7 +33,16 @@ SingleInstance::SingleInstance( QObject *parent )
 
 SingleInstance::~SingleInstance()
 {
-   mObjectMap.clear();
+   qDebug() << ">> SingleInstance::~SingleInstance()";
+   mMapMutex.lock();
+   foreach( QObject *object, mObjectMap.values() )
+   {
+      disconnect( object, SIGNAL(destroyed(QObject*)),
+                  this, SLOT(remove(QObject*)) );
+      delete object;
+   }
+   mMapMutex.unlock();
+   qDebug() << "<< SingleInstance::~SingleInstance()";
 }
 
 
@@ -50,10 +62,12 @@ void SingleInstance::insert( const QString &typeName, QObject *object )
 
 void SingleInstance::remove( QObject *object )
 {
+   mMapMutex.lock();
    QString typeName( mObjectMap.key( object, QString() ) );
    if( !typeName.isEmpty() )
    {
       mObjectMap.remove( typeName );
    }
+   mMapMutex.unlock();
 }
 
