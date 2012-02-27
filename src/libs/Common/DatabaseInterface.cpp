@@ -72,8 +72,11 @@ DatabaseInterface::DatabaseInterface( const QString &fileName )
 
 DatabaseInterface::~DatabaseInterface()
 {
-   call( mpDatabase, "quit" );
-   mpDatabase->wait();
+   if( mpDatabase->isRunning() )
+   {
+      call( mpDatabase, "quit" );
+      mpDatabase->wait();
+   }
    delete mpDatabase;
 }
 

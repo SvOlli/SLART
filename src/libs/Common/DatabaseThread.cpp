@@ -237,7 +237,7 @@ void DatabaseThread::prepare()
 {
    if( mUpdateCount > 100 )
    {
-      commit( false );
+      commit( true );
    }
    if( !mUpdateCount )
    {
@@ -888,9 +888,9 @@ TRACESTART(DatabaseThread::rename)
 
       mpQuery->clear();
       mpQuery->prepare( "UPDATE slart_tracks SET Directory = :newDirName,"
-                        " FileName = :newDirName"
-                        " WHERE Directory = :oldDirName;"
-                        " AND FileName = :oldDirName");
+                        " FileName = :newFileName"
+                        " WHERE Directory = :oldDirName"
+                        " AND FileName = :oldFileName");
       mpQuery->bindValue( ":newDirName",  newInfo.absolutePath() );
       mpQuery->bindValue( ":newFileName", newInfo.fileName() );
       mpQuery->bindValue( ":oldDirName",  oldInfo.absolutePath() );
