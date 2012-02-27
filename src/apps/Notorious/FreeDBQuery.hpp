@@ -51,7 +51,7 @@ public:
 
    void run();
    void setQuery( const QString &query, const QString &category = QString() );
-   void stop() { mBreak = true; };
+   void stop() { mBreak = true; }
 
    QList<FreeDBEntry> mEntries;
 
@@ -60,6 +60,8 @@ signals:
    void running( bool r );
 
 private:
+   Q_DISABLE_COPY( FreeDBQuery )
+
    Foundlist  *mpParent;
    bool       mBreak;
    QString    mQuery;
