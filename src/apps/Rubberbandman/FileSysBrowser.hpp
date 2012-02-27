@@ -99,7 +99,7 @@ public slots:
     \brief handle menu entries "Move" and "Move Directory"
 
    */
-   void menuMove( bool withContent = false );
+   void menuMove( bool contentOnly = false );
    /*!
     \brief handle menu entry "Move Content" with wrapper for menuMove()
 
