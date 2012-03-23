@@ -181,11 +181,11 @@ QStringList SettingsGeneratorStorage::definition() const
 
    if( mTopPart.startsWith("@") )
    {
-      retval << "\tMySettings *settings = cpSettings->get();";
+      retval << "\tQSettings *settings = cpSettings->get();";
    }
    else
    {
-      retval << "\tMySettings *settings = cpSettings->get( \"" + mTopPart + "\" );";
+      retval << "\tQSettings *settings = cpSettings->get( \"" + mTopPart + "\" );";
    }
 
    foreach( const QString &part, mParts )
@@ -236,11 +236,11 @@ QStringList SettingsGeneratorStorage::definition() const
 
    if( mTopPart.startsWith("@") )
    {
-      retval << "\tMySettings *settings = cpSettings->get();";
+      retval << "\tQSettings *settings = cpSettings->get();";
    }
    else
    {
-      retval << "\tMySettings *settings = cpSettings->get( \"" + mTopPart + "\" );";
+      retval << "\tQSettings *settings = cpSettings->get( \"" + mTopPart + "\" );";
    }
 
    retval << "\tswitch( id )"

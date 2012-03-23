@@ -7,7 +7,7 @@
 
 void Settings::setValue( CommonPoint id, const QPoint &value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonMainWindowPosition:
@@ -23,7 +23,7 @@ void Settings::setValue( CommonPoint id, const QPoint &value )
 QPoint Settings::value( CommonPoint id )
 {
    QPoint retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonMainWindowPosition:
@@ -38,7 +38,7 @@ QPoint Settings::value( CommonPoint id )
 
 void Settings::setValue( CommonSize id, const QSize &value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonMainWindowSize:
@@ -54,7 +54,7 @@ void Settings::setValue( CommonSize id, const QSize &value )
 QSize Settings::value( CommonSize id )
 {
    QSize retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonMainWindowSize:
@@ -69,7 +69,7 @@ QSize Settings::value( CommonSize id )
 
 void Settings::setValue( CommonString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonStyleSheetFile:
@@ -85,7 +85,7 @@ void Settings::setValue( CommonString id, const QString &value )
 QString Settings::value( CommonString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonStyleSheetFile:
@@ -100,7 +100,7 @@ QString Settings::value( CommonString id )
 
 void Settings::setValue( CommonBool id, bool value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonUseGlobalStyleSheetFile:
@@ -119,7 +119,7 @@ void Settings::setValue( CommonBool id, bool value )
 bool Settings::value( CommonBool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonUseGlobalStyleSheetFile:
@@ -137,7 +137,7 @@ bool Settings::value( CommonBool id )
 
 void Settings::setValue( MagicFLACString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    settings->beginGroup( "FLAC" );
    switch( id )
    {
@@ -154,7 +154,7 @@ void Settings::setValue( MagicFLACString id, const QString &value )
 QString Settings::value( MagicFLACString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicFLACDirectory:
@@ -170,7 +170,7 @@ QString Settings::value( MagicFLACString id )
 
 void Settings::setValue( MagicFLACBool id, bool value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    settings->beginGroup( "FLAC" );
    switch( id )
    {
@@ -193,7 +193,7 @@ void Settings::setValue( MagicFLACBool id, bool value )
 bool Settings::value( MagicFLACBool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicFLACDirectoryOverride:
@@ -215,7 +215,7 @@ bool Settings::value( MagicFLACBool id )
 
 void Settings::setValue( MagicFLACInt id, int value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    settings->beginGroup( "FLAC" );
    switch( id )
    {
@@ -232,7 +232,7 @@ void Settings::setValue( MagicFLACInt id, int value )
 int Settings::value( MagicFLACInt id )
 {
    int retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicFLACFlacQuality:
@@ -248,7 +248,7 @@ int Settings::value( MagicFLACInt id )
 
 void Settings::setValue( Magicmp3String id, const QString &value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    settings->beginGroup( "mp3" );
    switch( id )
    {
@@ -265,7 +265,7 @@ void Settings::setValue( Magicmp3String id, const QString &value )
 QString Settings::value( Magicmp3String id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case Magicmp3Directory:
@@ -281,7 +281,7 @@ QString Settings::value( Magicmp3String id )
 
 void Settings::setValue( Magicmp3Bool id, bool value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    settings->beginGroup( "mp3" );
    switch( id )
    {
@@ -307,7 +307,7 @@ void Settings::setValue( Magicmp3Bool id, bool value )
 bool Settings::value( Magicmp3Bool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case Magicmp3DirectoryOverride:
@@ -332,7 +332,7 @@ bool Settings::value( Magicmp3Bool id )
 
 void Settings::setValue( MagicoggString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    settings->beginGroup( "ogg" );
    switch( id )
    {
@@ -349,7 +349,7 @@ void Settings::setValue( MagicoggString id, const QString &value )
 QString Settings::value( MagicoggString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicoggDirectory:
@@ -365,7 +365,7 @@ QString Settings::value( MagicoggString id )
 
 void Settings::setValue( MagicoggBool id, bool value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    settings->beginGroup( "ogg" );
    switch( id )
    {
@@ -385,7 +385,7 @@ void Settings::setValue( MagicoggBool id, bool value )
 bool Settings::value( MagicoggBool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicoggDirectoryOverride:
@@ -404,7 +404,7 @@ bool Settings::value( MagicoggBool id )
 
 void Settings::setValue( MagicoggDouble id, double value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    settings->beginGroup( "ogg" );
    switch( id )
    {
@@ -421,7 +421,7 @@ void Settings::setValue( MagicoggDouble id, double value )
 double Settings::value( MagicoggDouble id )
 {
    double retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicoggOggQuality:
@@ -437,7 +437,7 @@ double Settings::value( MagicoggDouble id )
 
 void Settings::setValue( MagicwavString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    settings->beginGroup( "wav" );
    switch( id )
    {
@@ -454,7 +454,7 @@ void Settings::setValue( MagicwavString id, const QString &value )
 QString Settings::value( MagicwavString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicwavDirectory:
@@ -470,7 +470,7 @@ QString Settings::value( MagicwavString id )
 
 void Settings::setValue( MagicwavBool id, bool value )
 {
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    settings->beginGroup( "wav" );
    switch( id )
    {
@@ -490,7 +490,7 @@ void Settings::setValue( MagicwavBool id, bool value )
 bool Settings::value( MagicwavBool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get();
+   QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicwavDirectoryOverride:
@@ -509,7 +509,7 @@ bool Settings::value( MagicwavBool id )
 
 void Settings::setValue( FunkytownString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get( "Funkytown" );
+   QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownUserAgent:
@@ -525,7 +525,7 @@ void Settings::setValue( FunkytownString id, const QString &value )
 QString Settings::value( FunkytownString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get( "Funkytown" );
+   QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownUserAgent:
@@ -540,7 +540,7 @@ QString Settings::value( FunkytownString id )
 
 void Settings::setValue( FunkytownBool id, bool value )
 {
-   MySettings *settings = cpSettings->get( "Funkytown" );
+   QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownCoverArt:
@@ -562,7 +562,7 @@ void Settings::setValue( FunkytownBool id, bool value )
 bool Settings::value( FunkytownBool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get( "Funkytown" );
+   QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownCoverArt:
@@ -583,7 +583,7 @@ bool Settings::value( FunkytownBool id )
 
 void Settings::setValue( FunkytownUlonglong id, qulonglong value )
 {
-   MySettings *settings = cpSettings->get( "Funkytown" );
+   QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownBytes:
@@ -599,7 +599,7 @@ void Settings::setValue( FunkytownUlonglong id, qulonglong value )
 qulonglong Settings::value( FunkytownUlonglong id )
 {
    qulonglong retval;
-   MySettings *settings = cpSettings->get( "Funkytown" );
+   QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownBytes:
@@ -614,7 +614,7 @@ qulonglong Settings::value( FunkytownUlonglong id )
 
 void Settings::setValue( FunkytownUint id, uint value )
 {
-   MySettings *settings = cpSettings->get( "Funkytown" );
+   QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownFiles:
@@ -630,7 +630,7 @@ void Settings::setValue( FunkytownUint id, uint value )
 uint Settings::value( FunkytownUint id )
 {
    uint retval;
-   MySettings *settings = cpSettings->get( "Funkytown" );
+   QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownFiles:
@@ -645,7 +645,7 @@ uint Settings::value( FunkytownUint id )
 
 void Settings::setValue( GlobalString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get( "Global" );
+   QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalMusicBase:
@@ -670,7 +670,7 @@ void Settings::setValue( GlobalString id, const QString &value )
 QString Settings::value( GlobalString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get( "Global" );
+   QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalMusicBase:
@@ -694,7 +694,7 @@ QString Settings::value( GlobalString id )
 
 void Settings::setValue( GlobalBool id, bool value )
 {
-   MySettings *settings = cpSettings->get( "Global" );
+   QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalAnimateViews:
@@ -719,7 +719,7 @@ void Settings::setValue( GlobalBool id, bool value )
 bool Settings::value( GlobalBool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get( "Global" );
+   QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalAnimateViews:
@@ -743,7 +743,7 @@ bool Settings::value( GlobalBool id )
 
 void Settings::setValue( GlobalInt id, int value )
 {
-   MySettings *settings = cpSettings->get( "Global" );
+   QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalClipboardMode:
@@ -765,7 +765,7 @@ void Settings::setValue( GlobalInt id, int value )
 int Settings::value( GlobalInt id )
 {
    int retval;
-   MySettings *settings = cpSettings->get( "Global" );
+   QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalClipboardMode:
@@ -786,7 +786,7 @@ int Settings::value( GlobalInt id )
 
 void Settings::setValue( GlobalHTTPProxyString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get( "Global" );
+   QSettings *settings = cpSettings->get( "Global" );
    settings->beginGroup( "HTTPProxy" );
    switch( id )
    {
@@ -812,7 +812,7 @@ void Settings::setValue( GlobalHTTPProxyString id, const QString &value )
 QString Settings::value( GlobalHTTPProxyString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get( "Global" );
+   QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalHTTPProxyHost:
@@ -837,7 +837,7 @@ QString Settings::value( GlobalHTTPProxyString id )
 
 void Settings::setValue( GlobalHTTPProxyBool id, bool value )
 {
-   MySettings *settings = cpSettings->get( "Global" );
+   QSettings *settings = cpSettings->get( "Global" );
    settings->beginGroup( "HTTPProxy" );
    switch( id )
    {
@@ -857,7 +857,7 @@ void Settings::setValue( GlobalHTTPProxyBool id, bool value )
 bool Settings::value( GlobalHTTPProxyBool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get( "Global" );
+   QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalHTTPProxyAuth:
@@ -876,7 +876,7 @@ bool Settings::value( GlobalHTTPProxyBool id )
 
 void Settings::setValue( InnuendoStringList id, const QStringList &value )
 {
-   MySettings *settings = cpSettings->get( "Innuendo" );
+   QSettings *settings = cpSettings->get( "Innuendo" );
    switch( id )
    {
    case InnuendoStartup:
@@ -892,7 +892,7 @@ void Settings::setValue( InnuendoStringList id, const QStringList &value )
 QStringList Settings::value( InnuendoStringList id )
 {
    QStringList retval;
-   MySettings *settings = cpSettings->get( "Innuendo" );
+   QSettings *settings = cpSettings->get( "Innuendo" );
    switch( id )
    {
    case InnuendoStartup:
@@ -907,7 +907,7 @@ QStringList Settings::value( InnuendoStringList id )
 
 void Settings::setValue( InnuendoInt id, int value )
 {
-   MySettings *settings = cpSettings->get( "Innuendo" );
+   QSettings *settings = cpSettings->get( "Innuendo" );
    switch( id )
    {
    case InnuendoBufferSize:
@@ -923,7 +923,7 @@ void Settings::setValue( InnuendoInt id, int value )
 int Settings::value( InnuendoInt id )
 {
    int retval;
-   MySettings *settings = cpSettings->get( "Innuendo" );
+   QSettings *settings = cpSettings->get( "Innuendo" );
    switch( id )
    {
    case InnuendoBufferSize:
@@ -938,7 +938,7 @@ int Settings::value( InnuendoInt id )
 
 void Settings::setValue( KarmadromeString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get( "Karmadrome" );
+   QSettings *settings = cpSettings->get( "Karmadrome" );
    switch( id )
    {
    case KarmadromeExportDirectory:
@@ -957,7 +957,7 @@ void Settings::setValue( KarmadromeString id, const QString &value )
 QString Settings::value( KarmadromeString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get( "Karmadrome" );
+   QSettings *settings = cpSettings->get( "Karmadrome" );
    switch( id )
    {
    case KarmadromeExportDirectory:
@@ -975,7 +975,7 @@ QString Settings::value( KarmadromeString id )
 
 void Settings::setValue( KarmadromeBool id, bool value )
 {
-   MySettings *settings = cpSettings->get( "Karmadrome" );
+   QSettings *settings = cpSettings->get( "Karmadrome" );
    switch( id )
    {
    case KarmadromeClearBeforeImport:
@@ -1000,7 +1000,7 @@ void Settings::setValue( KarmadromeBool id, bool value )
 bool Settings::value( KarmadromeBool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get( "Karmadrome" );
+   QSettings *settings = cpSettings->get( "Karmadrome" );
    switch( id )
    {
    case KarmadromeClearBeforeImport:
@@ -1024,7 +1024,7 @@ bool Settings::value( KarmadromeBool id )
 
 void Settings::setValue( KarmadromeInt id, int value )
 {
-   MySettings *settings = cpSettings->get( "Karmadrome" );
+   QSettings *settings = cpSettings->get( "Karmadrome" );
    switch( id )
    {
    case KarmadromeNumberOfColumns:
@@ -1040,7 +1040,7 @@ void Settings::setValue( KarmadromeInt id, int value )
 int Settings::value( KarmadromeInt id )
 {
    int retval;
-   MySettings *settings = cpSettings->get( "Karmadrome" );
+   QSettings *settings = cpSettings->get( "Karmadrome" );
    switch( id )
    {
    case KarmadromeNumberOfColumns:
@@ -1055,7 +1055,7 @@ int Settings::value( KarmadromeInt id )
 
 void Settings::setValue( NotoriousString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get( "Notorious" );
+   QSettings *settings = cpSettings->get( "Notorious" );
    switch( id )
    {
    case NotoriousDatabaseFile:
@@ -1071,7 +1071,7 @@ void Settings::setValue( NotoriousString id, const QString &value )
 QString Settings::value( NotoriousString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get( "Notorious" );
+   QSettings *settings = cpSettings->get( "Notorious" );
    switch( id )
    {
    case NotoriousDatabaseFile:
@@ -1086,7 +1086,7 @@ QString Settings::value( NotoriousString id )
 
 void Settings::setValue( PartymanPoint id, const QPoint &value )
 {
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanSplitterSizes:
@@ -1102,7 +1102,7 @@ void Settings::setValue( PartymanPoint id, const QPoint &value )
 QPoint Settings::value( PartymanPoint id )
 {
    QPoint retval;
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanSplitterSizes:
@@ -1117,7 +1117,7 @@ QPoint Settings::value( PartymanPoint id )
 
 void Settings::setValue( PartymanString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanDerMixDcmd:
@@ -1157,7 +1157,7 @@ void Settings::setValue( PartymanString id, const QString &value )
 QString Settings::value( PartymanString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanDerMixDcmd:
@@ -1196,7 +1196,7 @@ QString Settings::value( PartymanString id )
 
 void Settings::setValue( PartymanStringList id, const QStringList &value )
 {
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanPlayedArtists:
@@ -1215,7 +1215,7 @@ void Settings::setValue( PartymanStringList id, const QStringList &value )
 QStringList Settings::value( PartymanStringList id )
 {
    QStringList retval;
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanPlayedArtists:
@@ -1233,7 +1233,7 @@ QStringList Settings::value( PartymanStringList id )
 
 void Settings::setValue( PartymanBool id, bool value )
 {
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanAutoConnect:
@@ -1273,7 +1273,7 @@ void Settings::setValue( PartymanBool id, bool value )
 bool Settings::value( PartymanBool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanAutoConnect:
@@ -1312,7 +1312,7 @@ bool Settings::value( PartymanBool id )
 
 void Settings::setValue( PartymanDouble id, double value )
 {
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanNormalizeValue:
@@ -1331,7 +1331,7 @@ void Settings::setValue( PartymanDouble id, double value )
 double Settings::value( PartymanDouble id )
 {
    double retval;
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanNormalizeValue:
@@ -1349,7 +1349,7 @@ double Settings::value( PartymanDouble id )
 
 void Settings::setValue( PartymanInt id, int value )
 {
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanCrossfadeTime:
@@ -1383,7 +1383,7 @@ void Settings::setValue( PartymanInt id, int value )
 int Settings::value( PartymanInt id )
 {
    int retval;
-   MySettings *settings = cpSettings->get( "Partyman" );
+   QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanCrossfadeTime:
@@ -1416,7 +1416,7 @@ int Settings::value( PartymanInt id )
 
 void Settings::setValue( RubberbandmanString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get( "Rubberbandman" );
+   QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanPlayingPattern:
@@ -1441,7 +1441,7 @@ void Settings::setValue( RubberbandmanString id, const QString &value )
 QString Settings::value( RubberbandmanString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get( "Rubberbandman" );
+   QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanPlayingPattern:
@@ -1465,7 +1465,7 @@ QString Settings::value( RubberbandmanString id )
 
 void Settings::setValue( RubberbandmanStringList id, const QStringList &value )
 {
-   MySettings *settings = cpSettings->get( "Rubberbandman" );
+   QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanFileExtensions:
@@ -1481,7 +1481,7 @@ void Settings::setValue( RubberbandmanStringList id, const QStringList &value )
 QStringList Settings::value( RubberbandmanStringList id )
 {
    QStringList retval;
-   MySettings *settings = cpSettings->get( "Rubberbandman" );
+   QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanFileExtensions:
@@ -1496,7 +1496,7 @@ QStringList Settings::value( RubberbandmanStringList id )
 
 void Settings::setValue( RubberbandmanBool id, bool value )
 {
-   MySettings *settings = cpSettings->get( "Rubberbandman" );
+   QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanAutoRescan:
@@ -1512,7 +1512,7 @@ void Settings::setValue( RubberbandmanBool id, bool value )
 bool Settings::value( RubberbandmanBool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get( "Rubberbandman" );
+   QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanAutoRescan:
@@ -1527,7 +1527,7 @@ bool Settings::value( RubberbandmanBool id )
 
 void Settings::setValue( RubberbandmanInt id, int value )
 {
-   MySettings *settings = cpSettings->get( "Rubberbandman" );
+   QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanCurrentTab:
@@ -1543,7 +1543,7 @@ void Settings::setValue( RubberbandmanInt id, int value )
 int Settings::value( RubberbandmanInt id )
 {
    int retval;
-   MySettings *settings = cpSettings->get( "Rubberbandman" );
+   QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanCurrentTab:
@@ -1558,7 +1558,7 @@ int Settings::value( RubberbandmanInt id )
 
 void Settings::setValue( StrippedString id, const QString &value )
 {
-   MySettings *settings = cpSettings->get( "Stripped" );
+   QSettings *settings = cpSettings->get( "Stripped" );
    switch( id )
    {
    case StrippedCreatePattern:
@@ -1583,7 +1583,7 @@ void Settings::setValue( StrippedString id, const QString &value )
 QString Settings::value( StrippedString id )
 {
    QString retval;
-   MySettings *settings = cpSettings->get( "Stripped" );
+   QSettings *settings = cpSettings->get( "Stripped" );
    switch( id )
    {
    case StrippedCreatePattern:
@@ -1607,7 +1607,7 @@ QString Settings::value( StrippedString id )
 
 void Settings::setValue( StrippedBool id, bool value )
 {
-   MySettings *settings = cpSettings->get( "Stripped" );
+   QSettings *settings = cpSettings->get( "Stripped" );
    switch( id )
    {
    case StrippedAutoEject:
@@ -1635,7 +1635,7 @@ void Settings::setValue( StrippedBool id, bool value )
 bool Settings::value( StrippedBool id )
 {
    bool retval;
-   MySettings *settings = cpSettings->get( "Stripped" );
+   QSettings *settings = cpSettings->get( "Stripped" );
    switch( id )
    {
    case StrippedAutoEject:
