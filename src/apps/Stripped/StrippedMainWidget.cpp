@@ -29,7 +29,7 @@
 #include "ConfigDialog.hpp"
 
 
-StrippedMainWidget::StrippedMainWidget( QWidget *parent , Qt::WindowFlags flags )
+StrippedMainWidget::StrippedMainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get() )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithoutPing ) )
@@ -39,7 +39,6 @@ StrippedMainWidget::StrippedMainWidget( QWidget *parent , Qt::WindowFlags flags 
 , mpCDReader( new CDReader( mpCDInfo, mpCDEdit, this ) )
 , mpMessage( new QLabel( this ) )
 , mpConfigDialog( new ConfigDialog( mpCDReader, this ) )
-, mpButtonLayout( new QHBoxLayout() )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpCancelButton( new QPushButton( tr("Cancel"), this ) )
 , mpScanButton( new QPushButton( tr("Scan CD"), this ) )
@@ -62,17 +61,18 @@ StrippedMainWidget::StrippedMainWidget( QWidget *parent , Qt::WindowFlags flags 
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
 
    mpCancelButton->setDisabled( true );
-   mpButtonLayout->addWidget( mpSettingsButton );
-   mpButtonLayout->addWidget( mpCancelButton );
-   mpButtonLayout->addWidget( mpScanButton );
-   mpButtonLayout->addWidget( mpRipButton );
-   mpButtonLayout->addWidget( mpEjectButton );
+   QBoxLayout *buttonLayout = new QHBoxLayout();
+   buttonLayout->addWidget( mpSettingsButton );
+   buttonLayout->addWidget( mpCancelButton );
+   buttonLayout->addWidget( mpScanButton );
+   buttonLayout->addWidget( mpRipButton );
+   buttonLayout->addWidget( mpEjectButton );
 
    mainLayout->addWidget( mpCDDBClient );
    mainLayout->addWidget( mpCDEdit );
    mainLayout->addWidget( mpCDReader );
    mainLayout->addWidget( mpMessage );
-   mainLayout->addLayout( mpButtonLayout );
+   mainLayout->addLayout( buttonLayout );
 
    setLayout( mainLayout );
 

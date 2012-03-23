@@ -56,3 +56,6 @@ SOURCES += ParanoiaStatus.cpp
 
 HEADERS += StrippedMainWidget.hpp
 SOURCES += StrippedMainWidget.cpp
+
+HEADERS += StrippedMainWindow.hpp
+SOURCES += StrippedMainWindow.cpp

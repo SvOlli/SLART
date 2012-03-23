@@ -127,7 +127,6 @@ private:
    CDReader             *mpCDReader;
    QLabel               *mpMessage;
    ConfigDialog         *mpConfigDialog;
-   QHBoxLayout          *mpButtonLayout;
    QPushButton          *mpSettingsButton;
    QPushButton          *mpCancelButton;
    QPushButton          *mpScanButton;

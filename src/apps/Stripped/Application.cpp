@@ -12,15 +12,16 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MainWindow.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <SingleInstance.hpp>
 #include <Trace.hpp>
 #include <Translate.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
 #include "StrippedMainWidget.hpp"
+#include "StrippedMainWindow.hpp"
 
 
 int main(int argc, char *argv[])
@@ -40,19 +41,8 @@ int main(int argc, char *argv[])
 
    Satellite::create();
 
-   MySettings settings;
-
-#if MAINWINDOW_SORCERER
-   if( !MySettings().contains( "SLARTCommunication" ) || !Database::exists() )
    {
-      if( !MainWindow::invokeSetUp( &app ) )
-      {
-         QMessageBox::critical( 0, app.applicationName(), QObject::tr("Setup failed!\nCannot start.\nSorry.") );
-         return 1;
-      }
-   }
-#endif
-   {
+      MySettings settings;
       QFile qssFile( settings.styleSheetFile() );
       if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
       {
@@ -61,11 +51,13 @@ int main(int argc, char *argv[])
       }
    }
 
-   MainWindow window;
-   StrippedMainWidget *mainWidget = new StrippedMainWidget( &window );
-   window.setMainWidget( mainWidget );
+#if 0
+   StrippedMainWindow *window = SingleInstance::get<StrippedMainWindow>("MainWindow");
+   window->show();
+#else
+   StrippedMainWindow window;
    window.show();
-
+#endif
    retval = app.exec();
 
    Satellite::destroy();

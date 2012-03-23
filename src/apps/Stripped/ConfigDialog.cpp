@@ -210,7 +210,7 @@ void ConfigDialog::exec()
    if( !encodersActive )
    {
       mpEncoderTabs->setCurrentIndex( 0 );
-      QTimer::singleShot( 100, this, SLOT(exec()) );
+//      QTimer::singleShot( 100, this, SLOT(exec()) );
    }
 }
 
