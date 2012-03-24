@@ -114,21 +114,21 @@ signals:
 private:
    Q_DISABLE_COPY( SorcererWidget )
 
-   DatabaseInterface       *mpDatabase; /*!< TODO */
-   QTabWidget              *mpTabs; /*!< TODO */
-   QLabel                  *mpHint; /*!< TODO */
-   QPushButton             *mpNext; /*!< TODO */
+   DatabaseInterface       *mpDatabase; /*!< \todo */
+   QTabWidget              *mpTabs; /*!< \todo */
+   QLabel                  *mpHint; /*!< \todo */
+   QPushButton             *mpNext; /*!< \todo */
 
-   DatabaseWidget          *mpDatabaseWidget; /*!< TODO */
-   SatelliteConfigWidget   *mpSatelliteConfigWidget; /*!< TODO */
-   ProxyWidget             *mpProxyWidget; /*!< TODO */
+   DatabaseWidget          *mpDatabaseWidget; /*!< \todo */
+   SatelliteConfigWidget   *mpSatelliteConfigWidget; /*!< \todo */
+   ProxyWidget             *mpProxyWidget; /*!< \todo */
 
-   int                     mLastTab; /*!< TODO */
-   bool                    mDatabaseOk; /*!< TODO */
-   bool                    mCommunicationOk; /*!< TODO */
-   bool                    mProxyOk; /*!< TODO */
-   const QString           mQuit; /*!< TODO */
-   const QString           mStart; /*!< TODO */
+   int                     mLastTab; /*!< \todo */
+   bool                    mDatabaseOk; /*!< \todo */
+   bool                    mCommunicationOk; /*!< \todo */
+   bool                    mProxyOk; /*!< \todo */
+   const QString           mQuit; /*!< \todo */
+   const QString           mStart; /*!< \todo */
 };
 
 /*! @} */

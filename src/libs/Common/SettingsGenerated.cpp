@@ -66,6 +66,9 @@ void Settings::setValue( CommonString id, const QString &value )
    QSettings *settings = cpSettings->get();
    switch( id )
    {
+   case CommonDirectory:
+      settings->setValue( "Directory", value );
+      return;
    case CommonStyleSheetFile:
       settings->setValue( "StyleSheetFile", value );
       return;
@@ -80,6 +83,8 @@ QString Settings::value( CommonString id )
    QSettings *settings = cpSettings->get();
    switch( id )
    {
+   case CommonDirectory:
+      return settings->value( "Directory", QDir::currentPath() ).toString();
    case CommonStyleSheetFile:
       return settings->value( "StyleSheetFile" ).toString();
    default:
@@ -1376,9 +1381,6 @@ void Settings::setValue( StrippedString id, const QString &value )
    case StrippedDirectory:
       settings->setValue( "Directory", value );
       return;
-   case StrippedStyleSheet:
-      settings->setValue( "StyleSheet", value );
-      return;
    default:
       qFatal( "illegal StrippedString value" );
    }
@@ -1396,8 +1398,6 @@ QString Settings::value( StrippedString id )
       return settings->value( "Device", "/dev/cdrom" ).toString();
    case StrippedDirectory:
       return settings->value( "Directory", QDir::current().absolutePath() ).toString();
-   case StrippedStyleSheet:
-      return settings->value( "StyleSheet" ).toString();
    default:
       qFatal( "illegal StrippedString value" );
       return QString();
@@ -1466,4 +1466,5 @@ void Settings::cleanup()
    remove( "Stop", "Innuendo" );
    remove( "ButtonRows", "Karmadrome" );
    remove( "DatabaseFilename", "Partyman" );
+   remove( "StyleSheet", "Stripped" );
 }

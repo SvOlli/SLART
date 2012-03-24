@@ -2,7 +2,7 @@
  * src/apps/Partyman/PartymanMainWidget.hpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
@@ -93,12 +93,12 @@ signals:
 private:
    Q_DISABLE_COPY( PartymanMainWidget )
 
-   bool                    mAllowAutostart; /*!< TODO */
-   QWidget                 *mpParent; /*!< TODO */
-   Database                *mpDatabase; /*!< TODO */
-   ConfigDialog            *mpConfig; /*!< TODO */
-   PlaylistControlWidget   *mpPlaylist; /*!< TODO */
-   ControlWidget           *mpControl; /*!< TODO */
+   bool                    mAllowAutostart; /*!< \todo */
+   QWidget                 *mpParent; /*!< \todo */
+   Database                *mpDatabase; /*!< \todo */
+   ConfigDialog            *mpConfig; /*!< \todo */
+   PlaylistControlWidget   *mpPlaylist; /*!< \todo */
+   ControlWidget           *mpControl; /*!< \todo */
 };
 
 /*! @} */

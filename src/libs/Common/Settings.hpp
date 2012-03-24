@@ -71,6 +71,7 @@ public:
     */
    enum CommonString
    {
+      CommonDirectory,
       CommonStyleSheetFile
    };
    /*!
@@ -459,8 +460,7 @@ public:
    {
       StrippedCreatePattern,
       StrippedDevice,
-      StrippedDirectory,
-      StrippedStyleSheet
+      StrippedDirectory
    };
    /*!
     \brief enum for value() and setValue()

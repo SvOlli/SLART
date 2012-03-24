@@ -80,7 +80,7 @@ QVariant TrackInfoListModel::data( const QModelIndex &index, int role ) const
 
 Qt::ItemFlags TrackInfoListModel::flags( const QModelIndex &index ) const
 {
-   /* TODO: set flags according to remote or local mode */
+   /* \todo: set flags according to remote or local mode */
    if( !index.isValid() )
    {
       return Qt::ItemIsDropEnabled;

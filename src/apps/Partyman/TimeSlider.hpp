@@ -2,7 +2,7 @@
  * src/apps/Partyman/PlayerWidget.hpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
@@ -72,7 +72,7 @@ protected:
 private:
    Q_DISABLE_COPY( TimeSlider )
 
-   QTimer mWheelTimeout; /*!< TODO */
+   QTimer mWheelTimeout; /*!< \todo */
 };
 
 /*! @} */

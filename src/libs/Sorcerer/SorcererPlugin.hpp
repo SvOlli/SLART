@@ -93,16 +93,16 @@ private:
    void setDefault( MySettings *settings, const QString &name,
                     const QVariant &value );
 
-   bool       mStopDatabase; /*!< TODO */
-   bool       mStopSatellite; /*!< TODO */
-   MySettings mGlobal; /*!< TODO */
-   MySettings mFunkytown; /*!< TODO */
-   MySettings mInnuendo; /*!< TODO */
-   MySettings mKarmadrome; /*!< TODO */
-   MySettings mNotorious; /*!< TODO */
-   MySettings mPartyman; /*!< TODO */
-   MySettings mRubberbandman; /*!< TODO */
-   MySettings mStripped; /*!< TODO */
+   bool       mStopDatabase; /*!< \todo */
+   bool       mStopSatellite; /*!< \todo */
+   MySettings mGlobal; /*!< \todo */
+   MySettings mFunkytown; /*!< \todo */
+   MySettings mInnuendo; /*!< \todo */
+   MySettings mKarmadrome; /*!< \todo */
+   MySettings mNotorious; /*!< \todo */
+   MySettings mPartyman; /*!< \todo */
+   MySettings mRubberbandman; /*!< \todo */
+   MySettings mStripped; /*!< \todo */
 };
 
 /*! @} */

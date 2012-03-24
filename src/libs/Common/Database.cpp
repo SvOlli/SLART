@@ -85,7 +85,7 @@ Database::Database( const QString &fileName )
 
    if(!mpSqlDB->open())
    {
-      // TODO: some error handling
+      // \todo: some error handling
       logError( QString("open() failed\nDatabase: ") + mpSqlDB->lastError().driverText() );
    }
    mpQuery = new QSqlQuery;
@@ -627,7 +627,7 @@ void Database::deleteFolder( const QString &folder )
       logError();
    }
    mpQuery->clear();
-   // TODO: delete entries from slart_tracks
+   // \todo: delete entries from slart_tracks
 }
 
 

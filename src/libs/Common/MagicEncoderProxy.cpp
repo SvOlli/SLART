@@ -62,13 +62,23 @@ QString MagicEncoderProxy::pluginFileName()
 }
 
 
-MagicEncoderConfig *MagicEncoderProxy::configWidget( QWidget *parent, QAbstractButton *button )
+MagicEncoderConfig *MagicEncoderProxy::configWidget( QWidget *parent )
 {
    if( !mpPlugin )
    {
       return 0;
    }
-   return mpPlugin->configWidget( parent, button );
+   return mpPlugin->configWidget( parent );
+}
+
+
+QAction *MagicEncoderProxy::toggleEnableAction()
+{
+   if( !mpPlugin )
+   {
+      return 0;
+   }
+   return mpPlugin->toggleEnableAction();
 }
 
 

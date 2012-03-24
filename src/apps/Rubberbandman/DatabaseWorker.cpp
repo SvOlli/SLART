@@ -2,7 +2,7 @@
  * src/apps/Rubberbandman/DatabaseWorker.cpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
@@ -151,7 +151,7 @@ void DatabaseWorker::cleanup( const TrackInfoList &trackInfoList )
       }
    }
    emit progress( mChecked, mProcessed );
-   //mpDatabase->cleanup(); //TODO
+   //mpDatabase->cleanup(); //\todo
    mpDatabase->call( this, "quit" );
 }
 

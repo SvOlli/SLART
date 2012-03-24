@@ -67,7 +67,12 @@ public:
     \brief supply the a handle to the configuration widget
 
    */
-   MagicEncoderConfig *configWidget( QWidget *parent = 0, QAbstractButton *button = 0 );
+   MagicEncoderConfig *configWidget( QWidget *parent = 0 );
+   /*!
+    \brief supply an action to enable/disable encoder
+
+   */
+   QAction *toggleEnableAction();
    /*!
     \brief supply a handle to the worker thread for signal/slot communication
 

@@ -106,7 +106,7 @@ private slots:
    void updateLineNumberArea( const QRect &rect, int dy );
 
 private:
-   CodeEditorLineNumberArea  *mpLineNumberArea; /*!< TODO */
+   CodeEditorLineNumberArea  *mpLineNumberArea; /*!< \todo */
 };
 
 /*! @} */

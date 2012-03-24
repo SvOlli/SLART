@@ -180,32 +180,32 @@ signals:
 private:
    Q_DISABLE_COPY( KarmadromeMainWidget )
 
-   DatabaseInterface    *mpDatabase; /*!< TODO */
-   Satellite            *mpSatellite; /*!< TODO */
-   GenericSatMsgHandler *mpGenericSatMsgHandler; /*!< TODO */
-   ScrollLine           *mpFileName; /*!< TODO */
-   TrackInfoWidget      *mpTrackInfo; /*!< TODO */
-   QPushButton          *mpReadButton; /*!< TODO */
-   QPushButton          *mpExportButton; /*!< TODO */
-   QMenu                *mpExportMenu; /*!< TODO */
-   QAction              *mpExportFavorite; /*!< TODO */
-   QAction              *mpExportUnwanted; /*!< TODO */
-   QPushButton          *mpImportButton; /*!< TODO */
-   QMenu                *mpImportMenu; /*!< TODO */
-   QAction              *mpImportFavorite; /*!< TODO */
-   QAction              *mpImportUnwanted; /*!< TODO */
-   ButtonsWidget        *mpListButtons; /*!< TODO */
+   DatabaseInterface    *mpDatabase; /*!< \todo */
+   Satellite            *mpSatellite; /*!< \todo */
+   GenericSatMsgHandler *mpGenericSatMsgHandler; /*!< \todo */
+   ScrollLine           *mpFileName; /*!< \todo */
+   TrackInfoWidget      *mpTrackInfo; /*!< \todo */
+   QPushButton          *mpReadButton; /*!< \todo */
+   QPushButton          *mpExportButton; /*!< \todo */
+   QMenu                *mpExportMenu; /*!< \todo */
+   QAction              *mpExportFavorite; /*!< \todo */
+   QAction              *mpExportUnwanted; /*!< \todo */
+   QPushButton          *mpImportButton; /*!< \todo */
+   QMenu                *mpImportMenu; /*!< \todo */
+   QAction              *mpImportFavorite; /*!< \todo */
+   QAction              *mpImportUnwanted; /*!< \todo */
+   ButtonsWidget        *mpListButtons; /*!< \todo */
 
-   QPushButton          *mpSettingsButton; /*!< TODO */
-   QPushButton          *mpAddButton; /*!< TODO */
-   QPushButton          *mpRemoveButton; /*!< TODO */
-   QMenu                *mpRemoveMenu; /*!< TODO */
-   ConfigDialog         *mpConfigDialog; /*!< TODO */
-   QTimer               *mpTimer; /*!< TODO */
-   QAction              *mpCurrentAction; /*!< TODO */
+   QPushButton          *mpSettingsButton; /*!< \todo */
+   QPushButton          *mpAddButton; /*!< \todo */
+   QPushButton          *mpRemoveButton; /*!< \todo */
+   QMenu                *mpRemoveMenu; /*!< \todo */
+   ConfigDialog         *mpConfigDialog; /*!< \todo */
+   QTimer               *mpTimer; /*!< \todo */
+   QAction              *mpCurrentAction; /*!< \todo */
 
-   QStringList          mFolders; /*!< TODO */
-   TrackInfo            mTrackInfo; /*!< TODO */
+   QStringList          mFolders; /*!< \todo */
+   TrackInfo            mTrackInfo; /*!< \todo */
 };
 
 /*! @} */

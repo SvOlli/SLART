@@ -2,7 +2,7 @@
  * src/apps/Rubberbandman/FileSysBrowser.cpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
@@ -161,7 +161,7 @@ void FileSysBrowser::scrollTo( const QString &fileName )
    QModelIndex qmi( mpModel->index( fileName ) );
    mpView->scrollTo( qmi, QAbstractItemView::PositionAtCenter );
    mpView->setCurrentIndex( qmi );
-   // TODO: only emit if in visible area
+   // \todo: only emit if in visible area
    emit clicked( fileName );
 }
 

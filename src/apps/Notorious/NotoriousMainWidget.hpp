@@ -2,7 +2,7 @@
  * src/apps/Notorious/MainWidget.hpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
@@ -76,12 +76,12 @@ signals:
 private:
    Q_DISABLE_COPY( NotoriousMainWidget )
 
-   FreeDB       *mpFreeDB; /*!< TODO */
-   SearchWidget *mpSearch; /*!< TODO */
-   Foundlist    *mpFound; /*!< TODO */
-   Foundlist    *mpCDInfo; /*!< TODO */
-   ConfigDialog *mpConfig; /*!< TODO */
-   QPushButton  *mpSettingsButton; /*!< TODO */
+   FreeDB       *mpFreeDB; /*!< \todo */
+   SearchWidget *mpSearch; /*!< \todo */
+   Foundlist    *mpFound; /*!< \todo */
+   Foundlist    *mpCDInfo; /*!< \todo */
+   ConfigDialog *mpConfig; /*!< \todo */
+   QPushButton  *mpSettingsButton; /*!< \todo */
 };
 
 /*! @} */

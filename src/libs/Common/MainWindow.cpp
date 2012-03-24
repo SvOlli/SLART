@@ -28,7 +28,7 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
    QApplication::setDoubleClickInterval( MySettings( "Global" ).VALUE_DOUBLECLICKINTERVAL );
 
 /*
-   // TODO: move to MainWidget
+   // \todo: move to MainWidget
    connect( mpMainWidget, SIGNAL(requestChangeTitle(QIcon,QString)),
             this, SLOT(changeTitle(QIcon,QString)) );
    connect( mpMainWidget, SIGNAL(kioskMode(bool)),

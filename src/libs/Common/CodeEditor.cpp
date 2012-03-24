@@ -108,7 +108,7 @@ void CodeEditor::highlightCurrentLine()
    {
       QTextEdit::ExtraSelection selection;
 
-      QColor lineColor( QColor( Qt::yellow ).lighter( 200 ) );
+      QColor lineColor( QColor( Qt::yellow ).lighter( 150 ) );
 
       selection.format.setBackground( lineColor );
       selection.format.setProperty( QTextFormat::FullWidthSelection, true );

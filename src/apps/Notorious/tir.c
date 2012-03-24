@@ -23,7 +23,7 @@
 
 
 /*
- * TODO:
+ * \todo:
  * - handle short reads on header
  * - handle short reads on data
  * - create better error reporting
