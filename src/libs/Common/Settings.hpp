@@ -472,8 +472,7 @@ public:
       StrippedAutoEject,
       StrippedAutoEnqueue,
       StrippedAutoFreeDB,
-      StrippedCDTextLatin1,
-      StrippedShowStats
+      StrippedCDTextLatin1
    };
    /*!
     \brief set a value in registry

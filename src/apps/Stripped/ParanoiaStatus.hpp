@@ -22,8 +22,9 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
-class QSpinBox;
+class QGridLayout;
 class QLabel;
+class QSpinBox;
 
 /* forward declaration of local classes */
 class CDInfo;
@@ -70,6 +71,13 @@ public slots:
    void clear();
 
    /*!
+    \brief change the orientation of the widget
+
+    \param orientation new orientation
+   */
+   void changeOrientation( Qt::Orientation orientation );
+
+   /*!
     \brief switch to status of the given track
 
     \param track track number to switch to
@@ -90,10 +98,14 @@ signals:
 private:
    Q_DISABLE_COPY( ParanoiaStatus )
 
-   int               *mpData; /*!< \todo */
-   QSpinBox          *mpTrackNr; /*!< \todo */
-   QLabel            **mpTrackErrors; /*!< \todo */
-   QLabel            **mpTotalErrors; /*!< \todo */
+   int               *mpData; /*!< \brief \todo */
+   QGridLayout       *mpLayout; /*!< \brief \todo */
+   QLabel            *mpError; /*!< \brief \todo */
+   QSpinBox          *mpTrackNr; /*!< \brief \todo */
+   QLabel            *mpTotal; /*!< \brief \todo */
+   QLabel            **mpHeaders; /*!< \brief \todo */
+   QLabel            **mpTrackErrors; /*!< \brief \todo */
+   QLabel            **mpTotalErrors; /*!< \brief \todo */
 };
 
 /*! @} */

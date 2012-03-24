@@ -1422,9 +1422,6 @@ void Settings::setValue( StrippedBool id, bool value )
    case StrippedCDTextLatin1:
       settings->setValue( "CDTextLatin1", value );
       return;
-   case StrippedShowStats:
-      settings->setValue( "ShowStats", value );
-      return;
    default:
       qFatal( "illegal StrippedBool value" );
    }
@@ -1444,8 +1441,6 @@ bool Settings::value( StrippedBool id )
       return settings->value( "AutoFreeDB", true ).toBool();
    case StrippedCDTextLatin1:
       return settings->value( "CDTextLatin1", false ).toBool();
-   case StrippedShowStats:
-      return settings->value( "ShowStats", false ).toBool();
    default:
       qFatal( "illegal StrippedBool value" );
       return bool();
@@ -1466,5 +1461,6 @@ void Settings::cleanup()
    remove( "Stop", "Innuendo" );
    remove( "ButtonRows", "Karmadrome" );
    remove( "DatabaseFilename", "Partyman" );
+   remove( "ShowStats", "Stripped" );
    remove( "StyleSheet", "Stripped" );
 }

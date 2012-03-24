@@ -63,7 +63,6 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    addToolBar( Qt::BottomToolBarArea, toolBarMain );
    toolBarMain->setObjectName( "Main Actions" );
    toolBarMain->setToolButtonStyle( Qt::ToolButtonTextOnly );
-   //mpActionSettings->setCheckable( true );
    addToolAction( toolBarMain, mpActionSettings );
    addToolAction( toolBarMain, mpActionCancel );
    addToolAction( toolBarMain, mpActionScanCD );
@@ -92,6 +91,8 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    addToolBar( Qt::BottomToolBarArea, toolBarParanoiaStatus );
    toolBarParanoiaStatus->setObjectName( "Paranoia Status" );
    toolBarParanoiaStatus->addWidget( mpParanoiaStatus );
+   connect( toolBarParanoiaStatus, SIGNAL(orientationChanged(Qt::Orientation)),
+            mpParanoiaStatus, SLOT(changeOrientation(Qt::Orientation)) );
    addToolBarBreak( Qt::BottomToolBarArea );
 
    QToolBar *toolBarCDReader = new QToolBar( tr("CDReader"), this );
@@ -122,6 +123,9 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    {
       restoreDockWidget( dock );
    }
+   toolBarMain->show();
+   connect( toolBarMain, SIGNAL(visibilityChanged(bool)),
+            toolBarMain, SLOT(show()) );
 
    /* buttons */
    connect( mpActionSettings, SIGNAL(triggered()),

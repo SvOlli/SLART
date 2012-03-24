@@ -149,7 +149,6 @@ private:
    QCheckBox            *mpAutoEject; /*!< \todo */
    QCheckBox            *mpAutoEnqueue; /*!< \todo */
    QCheckBox            *mpCDTextLatin1; /*!< \todo */
-   QCheckBox            *mpShowStats; /*!< \todo */
    QLabel               *mpDirButtonLabel; /*!< \todo */
    QLineEdit            *mpDirEdit; /*!< \todo */
    QPushButton          *mpDirButton; /*!< \todo */

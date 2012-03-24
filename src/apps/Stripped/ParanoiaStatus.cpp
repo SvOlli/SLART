@@ -27,37 +27,34 @@ static const unsigned int NUMBER_OF_COLUMNS = sizeof(strerror_tr) / sizeof(const
 ParanoiaStatus::ParanoiaStatus( QWidget *parent )
 : QWidget( parent )
 , mpData( new int[NUMBER_OF_TRACKS * NUMBER_OF_COLUMNS] )
+, mpLayout( new QGridLayout( this ) )
+, mpError( new QLabel( tr("Error:" ) ) )
 , mpTrackNr( new QSpinBox( this ) )
+, mpTotal( new QLabel( tr("Total:" ) ) )
+, mpHeaders( new QLabel*[NUMBER_OF_COLUMNS] )
 , mpTrackErrors( new QLabel*[NUMBER_OF_COLUMNS] )
 , mpTotalErrors( new QLabel*[NUMBER_OF_COLUMNS] )
 {
    mpTrackNr->setRange( 0, 99 );
    mpTrackNr->setValue( 1 );
    mpTrackNr->setAlignment( Qt::AlignRight );
-   QGridLayout *layout = new QGridLayout( this );
-   layout->setContentsMargins( 0, 0, 0, 0 );
-   layout->setSpacing( 0 );
-   layout->addWidget( new QLabel( tr("Error:"), this ), 0, 0 );
-   layout->addWidget( mpTrackNr, 1, 0 );
-   layout->addWidget( new QLabel( tr("Total:"), this ), 2, 0 );
+   mpLayout->setContentsMargins( 0, 0, 0, 0 );
+   mpLayout->setSpacing( 0 );
    for( unsigned int i = 0; i < NUMBER_OF_COLUMNS; i++ )
    {
-      QLabel *header = new QLabel( QString::number(i), this );
-      header->setAlignment( Qt::AlignCenter );
-      header->setMinimumWidth( QFontMetrics( QFont() ).width( "000000 " ) );
-      header->setToolTip( strerror_tr[i] );
-      layout->addWidget( header,          0, i + 1 );
+      mpHeaders[i] = new QLabel( QString::number(i), this );
+      mpHeaders[i]->setAlignment( Qt::AlignCenter );
+      mpHeaders[i]->setMinimumWidth( QFontMetrics( QFont() ).width( "00000 " ) );
       mpTrackErrors[i] = new QLabel( this );
       mpTrackErrors[i]->setObjectName( "TrackErrorsLabel" );
       mpTrackErrors[i]->setToolTip( strerror_tr[i] );
       mpTrackErrors[i]->setAlignment( Qt::AlignCenter );
-      layout->addWidget( mpTrackErrors[i], 1, i + 1 );
       mpTotalErrors[i] = new QLabel( this );
       mpTotalErrors[i]->setObjectName( "TotalErrorsLabel" );
       mpTotalErrors[i]->setToolTip( strerror_tr[i] );
       mpTotalErrors[i]->setAlignment( Qt::AlignCenter );
-      layout->addWidget( mpTotalErrors[i], 2, i + 1 );
    }
+   changeOrientation( Qt::Horizontal );
    connect( mpTrackNr, SIGNAL(valueChanged(int)),
             this, SLOT(showTrackStats(int)) );
    clear();
@@ -66,7 +63,38 @@ ParanoiaStatus::ParanoiaStatus( QWidget *parent )
 
 ParanoiaStatus::~ParanoiaStatus()
 {
+   delete[] mpHeaders;
+   delete[] mpTrackErrors;
+   delete[] mpTotalErrors;
    delete[] mpData;
+}
+
+
+void ParanoiaStatus::changeOrientation( Qt::Orientation orientation )
+{
+   mpLayout->addWidget( mpError, 0, 0 );
+   if( orientation == Qt::Horizontal )
+   {
+      mpLayout->addWidget( mpTrackNr, 1, 0 );
+      mpLayout->addWidget( mpTotal,   2, 0 );
+      for( unsigned int i = 0; i < NUMBER_OF_COLUMNS; i++ )
+      {
+         mpLayout->addWidget( mpHeaders[i],     0, i + 1 );
+         mpLayout->addWidget( mpTrackErrors[i], 1, i + 1 );
+         mpLayout->addWidget( mpTotalErrors[i], 2, i + 1 );
+      }
+   }
+   else
+   {
+      mpLayout->addWidget( mpTrackNr, 0, 1 );
+      mpLayout->addWidget( mpTotal,   0, 2 );
+      for( unsigned int i = 0; i < NUMBER_OF_COLUMNS; i++ )
+      {
+         mpLayout->addWidget( mpHeaders[i],     i + 1, 0 );
+         mpLayout->addWidget( mpTrackErrors[i], i + 1, 1 );
+         mpLayout->addWidget( mpTotalErrors[i], i + 1, 2 );
+      }
+   }
 }
 
 

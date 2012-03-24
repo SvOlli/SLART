@@ -42,7 +42,6 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
 , mpAutoEject( new QCheckBox( tr("Automatically eject CD when done"), this ) )
 , mpAutoEnqueue( new QCheckBox( tr("Automatically enqueue tracks with errors in Partyman"), this ) )
 , mpCDTextLatin1( new QCheckBox( tr("Assume CD-Text is encoded as latin-1 instead of utf-8"), this ) )
-, mpShowStats( new QCheckBox( tr("Show CD reading status"), this ) )
 , mpDirButtonLabel( new QLabel( tr("Base Directory:"), this ) )
 , mpDirEdit( new QLineEdit( this ) )
 , mpDirButton( new QPushButton( "...", this ) )
@@ -135,29 +134,10 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
    strLayout->addWidget( mpAutoEject,      5, 0, 1, 3 );
    strLayout->addWidget( mpAutoEnqueue,    6, 0, 1, 3 );
    strLayout->addWidget( mpCDTextLatin1,   7, 0, 1, 3 );
-   strLayout->addWidget( mpShowStats,      8, 0, 1, 3 );
-   strLayout->addWidget( mpEncoderTabs,    9, 0, 1, 3 );
+   strLayout->addWidget( mpEncoderTabs,    8, 0, 1, 3 );
    strLayout->setColumnStretch( 2, 1 );
    strLayout->setRowStretch( 9, 1 );
    strTab->setLayout( strLayout );
-
-   QCheckBox *c2 = new QCheckBox( "c2", this );
-   QCheckBox *c1 = new QCheckBox( "c1", this );
-   QAction *a1 = new QAction( "action", this );
-   strLayout->addWidget( c2, 10, 0, 1, 3 );
-   strLayout->addWidget( c1, 11, 0, 1, 3 );
-   c2->setCheckable( true );
-   c1->setCheckable( true );
-   a1->setCheckable( true );
-   connect( c2, SIGNAL(toggled(bool)),
-            a1, SLOT(setChecked(bool)) );
-   connect( a1, SIGNAL(toggled(bool)),
-            c2, SLOT(setChecked(bool)) );
-
-   connect( c1, SIGNAL(toggled(bool)),
-            a1, SLOT(setChecked(bool)) );
-   connect( a1, SIGNAL(toggled(bool)),
-            c1, SLOT(setChecked(bool)) );
 
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
@@ -264,7 +244,6 @@ void StrippedConfigDialog::readSettings()
    mpAutoEject->setChecked( Settings::value( Settings::StrippedAutoEject ) );
    mpAutoEnqueue->setChecked( Settings::value( Settings::StrippedAutoEnqueue ) );
    mpCDTextLatin1->setChecked( Settings::value( Settings::StrippedCDTextLatin1 ) );
-   mpShowStats->setChecked( Settings::value( Settings::StrippedShowStats ) );
    if( i < 0 )
    {
       i = 0;
@@ -294,7 +273,6 @@ void StrippedConfigDialog::writeSettings()
    Settings::setValue( Settings::StrippedAutoEject, mpAutoEject->isChecked() );
    Settings::setValue( Settings::StrippedAutoEnqueue, mpAutoEnqueue->isChecked() );
    Settings::setValue( Settings::StrippedCDTextLatin1, mpCDTextLatin1->isChecked() );
-   Settings::setValue( Settings::StrippedShowStats, mpShowStats->isChecked() );
    Settings::setValue( Settings::StrippedCreatePattern, mpPattern->text() );
    Settings::setValue( Settings::StrippedDirectory, mpDirEdit->text().replace('\\','/') );
 
