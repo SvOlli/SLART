@@ -55,7 +55,7 @@ MagicEncoderConfig::~MagicEncoderConfig()
 
 void MagicEncoderConfig::selectDirectory()
 {
-   qDebug() << mpDirEdit->text();
+   //qDebug() << mpDirEdit->text();
    QFileDialog fileDialog( mpDirEdit );
 
    fileDialog.setFileMode( QFileDialog::DirectoryOnly );

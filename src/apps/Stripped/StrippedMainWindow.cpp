@@ -199,6 +199,9 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    connect( mpCDReader, SIGNAL(message(QString)),
             mpMessage, SLOT(setText(QString)) );
 
+   connect( mpCDReader, SIGNAL(errors(int,uint,const ulong*)),
+            mpParanoiaStatus, SLOT(update(int,uint,const ulong*)) );
+
    mpSatellite->restart();
    WidgetShot::addWidget( "MainWindow", this );
 }
@@ -250,7 +253,7 @@ void StrippedMainWindow::closeEvent( QCloseEvent *event )
 {
    QSettings *settings = Settings::get();
    settings->setValue( "Geometry", saveGeometry() );
-   //settings->setValue( "State", saveState() );
+   settings->setValue( "State", saveState() );
    event->accept();
 }
 

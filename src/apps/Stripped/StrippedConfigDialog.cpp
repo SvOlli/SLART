@@ -98,7 +98,6 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
       mpEncoderTabs->addTab( encoder->configWidget( this ), encoder->name() );
       QCheckBox *encoderCheckBox = new QCheckBox( encoder->name(), encoders );
       QAction *toggleEnableAction = encoder->toggleEnableAction();
-qDebug() << "Stripped:" << toggleEnableAction->text() << toggleEnableAction;
       connect( encoderCheckBox, SIGNAL(toggled(bool)),
                toggleEnableAction, SLOT(setChecked(bool)) );
       connect( toggleEnableAction, SIGNAL(toggled(bool)),

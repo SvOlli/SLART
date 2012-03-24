@@ -10,7 +10,9 @@
 #include "CDReaderThread.hpp"
 
 /* system headers */
+extern "C" {
 #include <cdio/mmc.h>
+}
 
 /* Qt headers */
 #include <QtGui>
