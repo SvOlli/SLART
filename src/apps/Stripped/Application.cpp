@@ -20,7 +20,6 @@
 
 /* local headers */
 #include "ConfigDialog.hpp"
-#include "StrippedMainWidget.hpp"
 #include "StrippedMainWindow.hpp"
 
 
@@ -51,13 +50,9 @@ int main(int argc, char *argv[])
       }
    }
 
-#if 0
-   StrippedMainWindow *window = SingleInstance::get<StrippedMainWindow>("MainWindow");
-   window->show();
-#else
    StrippedMainWindow window;
    window.show();
-#endif
+
    retval = app.exec();
 
    Satellite::destroy();

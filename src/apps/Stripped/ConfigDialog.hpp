@@ -157,18 +157,6 @@ private:
 };
 
 /* defaults */
-#if 0
-#define VALUE_AUTOEJECT          value( "AutoEject", false ).toBool()
-#define VALUE_AUTOENQUEUE        value( "AutoEnQueue", false ).toBool()
-#define VALUE_AUTOFREEDB         value( "AutoFreeDB", true ).toBool()
-#define VALUE_CDTEXT_LATIN1      value( "CDTextLatin1", false ).toBool()
-#define VALUE_CREATEPATTERN      value( "CreatePattern", "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString()
-#define VALUE_DEVICE             value( "Device", QString("/dev/cdrom") ).toString()
-#define VALUE_DIRECTORY          value( "Directory", QDir::current().absolutePath() ).toString()
-#define VALUE_DIRECTORY_OVERRIDE value( "DirectoryOverride", false ).toBool()
-#define VALUE_SHOWSTATS          value( "ShowStats", false ).toBool()
-#define VALUE_STYLESHEET         value( "StyleSheet", QString() ).toString()
-#endif
 
 /*! @} */
 

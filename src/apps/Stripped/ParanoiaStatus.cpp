@@ -45,6 +45,7 @@ ParanoiaStatus::ParanoiaStatus( QWidget *parent )
    {
       QLabel *header = new QLabel( QString::number(i), this );
       header->setAlignment( Qt::AlignCenter );
+      header->setMinimumWidth( QFontMetrics( QFont() ).width( "000000 " ) );
       header->setToolTip( strerror_tr[i] );
       layout->addWidget( header,          0, i + 1 );
       mpTrackErrors[i] = new QLabel( this );
@@ -59,7 +60,7 @@ ParanoiaStatus::ParanoiaStatus( QWidget *parent )
       layout->addWidget( mpTotalErrors[i], 2, i + 1 );
    }
    connect( mpTrackNr, SIGNAL(valueChanged(int)),
-            this, SLOT(handleTrackNr(int)) );
+            this, SLOT(showTrackStats(int)) );
    clear();
 }
 
@@ -108,7 +109,7 @@ void ParanoiaStatus::clear()
 
    if( mpTrackNr->value() == 1 )
    {
-      handleTrackNr( 1 );
+      showTrackStats( 1 );
    }
    else
    {
@@ -117,7 +118,7 @@ void ParanoiaStatus::clear()
 }
 
 
-void ParanoiaStatus::handleTrackNr( int track )
+void ParanoiaStatus::showTrackStats( int track )
 {
    for( unsigned int i = 0; i < NUMBER_OF_COLUMNS; i++ )
    {
@@ -161,7 +162,7 @@ void ParanoiaStatus::update( int track, unsigned int elements, const unsigned lo
 
    if( mpTrackNr->value() == track )
    {
-      handleTrackNr( track );
+      showTrackStats( track );
    }
    else
    {

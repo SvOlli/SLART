@@ -120,34 +120,40 @@ signals:
 public slots:
 
    /*!
-    \brief handle toggle all tracks button
+    \brief toggle the rip flag on all tracks
 
    */
-   void handleTrackNr();
+   void toggleAllRipFlags();
 
    /*!
-    \brief handle toggle enqueue button
+    \brief toggle the enqueue flag on all tracks
 
    */
-   void handleEnqueueTrack();
+   void toggleAllEnqueueFlags();
 
    /*!
-    \brief handle copy track artist button
+    \brief copy the album artist to all titles
 
    */
-   void handleTrackArtist();
+   void copyTrackArtist();
 
    /*!
-    \brief handle normalize title button
+    \brief normalize all artist entries
 
    */
-   void handleNormalizeTitle();
+   void normalizeArtist();
 
    /*!
-    \brief handle copy track year button
+    \brief normalize all title entries
 
    */
-   void handleTrackYear();
+   void normalizeTitle();
+
+   /*!
+    \brief copy year from first to all other tracks
+
+   */
+   void copyYear();
 
    /*!
     \brief hide a track from sheet
@@ -214,11 +220,6 @@ private:
    QLineEdit    **mpTrackTitle; /*!< TODO */
    QLineEdit    **mpTrackYear; /*!< TODO */
    QLabel       **mpTrackPlaytime; /*!< TODO */
-   QPushButton  *mpToggleRipButton; /*!< TODO */
-   QPushButton  *mpToggleEnqueueButton; /*!< TODO */
-   QPushButton  *mpCopyArtistButton; /*!< TODO */
-   QPushButton  *mpNormalizeTitleButton; /*!< TODO */
-   QPushButton  *mpCopyYearButton; /*!< TODO */
    int          mLastColumn; /*!< TODO */
 };
 

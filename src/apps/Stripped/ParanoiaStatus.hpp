@@ -74,7 +74,7 @@ public slots:
 
     \param track track number to switch to
    */
-   void handleTrackNr( int track );
+   void showTrackStats( int track );
 
    /*!
     \brief update the status of a track

@@ -38,7 +38,6 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
 , mpCDEdit( edit )
 , mpProgressBar( new QProgressBar( this ) )
 , mpRippingSpeed( new QLabel( this ) )
-, mpParanoiaStatus( new ParanoiaStatus( this ) )
 , mpTimer( new QTimer( this ) )
 , mEncoders()
 , mDevice()
@@ -49,9 +48,8 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
    QGridLayout *mainLayout = new QGridLayout( this );
    mainLayout->setContentsMargins( 0, 0, 0, 0 );
 
-   mainLayout->addWidget( mpRippingSpeed, 0, 0 );
-   mainLayout->addWidget( mpProgressBar, 0, 1 );
-   mainLayout->addWidget( mpParanoiaStatus, 1, 0, 1, 2 );
+   mainLayout->addWidget( mpRippingSpeed, 1, 0 );
+   mainLayout->addWidget( mpProgressBar, 0, 0 );
 
    connect( mpCDReaderThread, SIGNAL(stateNoDisc()),
             this, SIGNAL(stateNoDisc()) );
@@ -77,14 +75,8 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
             this, SIGNAL(ensureVisible(int)) );
    connect( mpCDReaderThread, SIGNAL(progress(int)),
             mpProgressBar, SLOT(setValue(int)) );
-   connect( mpCDReaderThread, SIGNAL(stateRip()),
-            mpParanoiaStatus, SLOT(clear()) );
-   connect( mpCDReaderThread, SIGNAL(stateScan()),
-            mpParanoiaStatus, SLOT(clear()) );
    connect( mpCDReaderThread, SIGNAL(errors(int,unsigned int,const unsigned long*)),
-            mpParanoiaStatus, SLOT(update(int,unsigned int,const unsigned long*)) );
-   connect( mpCDReaderThread, SIGNAL(reportSpeed(double)),
-            this, SLOT(rippingSpeed(double)) );
+            this, SIGNAL(errors(int,unsigned int,const unsigned long*)) );
 
    mpTimer->setInterval( 1000 );
    mpTimer->setSingleShot( false );
@@ -92,7 +84,6 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
             this, SLOT(updateRippingSpeed()) );
    mpTimer->start();
 
-   readSettings();
    setLayout( mainLayout );
 }
 
@@ -159,12 +150,6 @@ void CDReader::eject()
 void CDReader::cancel()
 {
    mpCDReaderThread->cancel();
-}
-
-
-void CDReader::readSettings()
-{
-   mpParanoiaStatus->setVisible( Settings::value( Settings::StrippedShowStats ) );
 }
 
 

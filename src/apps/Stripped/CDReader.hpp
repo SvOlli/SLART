@@ -123,12 +123,6 @@ public slots:
    void cancel();
 
    /*!
-    \brief (re-)read the settings
-
-   */
-   void readSettings();
-
-   /*!
     \brief pop up that there's been an error and no eject
 
    */
@@ -214,6 +208,15 @@ signals:
    */
    void ensureVisible( int track );
 
+   /*!
+    \brief send current read errors of track
+
+    \param track
+    \param elements
+    \param counts
+   */
+   void errors( int track, unsigned int elements, const unsigned long *counts );
+
 private:
    Q_DISABLE_COPY( CDReader )
 
@@ -222,7 +225,6 @@ private:
    CDEdit               *mpCDEdit; /*!< TODO */
    QProgressBar         *mpProgressBar; /*!< TODO */
    QLabel               *mpRippingSpeed; /*!< TODO */
-   ParanoiaStatus       *mpParanoiaStatus; /*!< TODO */
    QTimer               *mpTimer; /*!< TODO */
    MagicEncoderList     mEncoders; /*!< TODO */
    QString              mDevice; /*!< TODO */

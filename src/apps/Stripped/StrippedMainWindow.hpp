@@ -15,15 +15,27 @@
 /* system headers */
 
 /* Qt headers */
-#include <QPoint>
 
 /* local library headers */
 
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QAction;
+class QIcon;
+class QLabel;
+class QPushButton;
+class QString;
 
 /* forward declaration of local classes */
+class CDInfo;
+class CDDBClient;
+class CDEdit;
+class CDReader;
+class ConfigDialog;
+class GenericSatMsgHandler;
+class ParanoiaStatus;
+class Satellite;
 
 /*!
   \addtogroup Common Common: common subroutines
@@ -59,6 +71,48 @@ public:
 
 public slots:
    /*!
+    \brief handle eject button
+
+   */
+   void eject();
+
+   /*!
+    \brief set buttons active according to state "no drive found"
+
+   */
+   void stateNoDrive();
+
+   /*!
+    \brief set buttons active according to state "no disc inserted"
+
+   */
+   void stateNoDisc();
+
+   /*!
+    \brief set buttons active according to state "disc read"
+
+   */
+   void stateDisc();
+
+   /*!
+    \brief set buttons active according to state "scanning the disc"
+
+   */
+   void stateScan();
+
+   /*!
+    \brief set buttons active according to state "connecting to freedb"
+
+   */
+   void stateNet();
+
+   /*!
+    \brief set buttons active according to state "ripping tracks"
+
+   */
+   void stateRip();
+
+   /*!
     \brief handle request for new icon and title
 
     \param icon
@@ -84,8 +138,31 @@ protected:
 private:
    Q_DISABLE_COPY( StrippedMainWindow )
 
-   int           mForbidMove;
-   QWidget       *mpMainWidget;
+   void addToolAction( QToolBar *bar, QAction *action, bool checkable = false );
+
+   int         mForbidMove;
+
+   Satellite            *mpSatellite;
+   GenericSatMsgHandler *mpGenericSatMsgHandler;
+   CDInfo               *mpCDInfo;
+   CDDBClient           *mpCDDBClient;
+   CDEdit               *mpCDEdit;
+   CDReader             *mpCDReader;
+   ParanoiaStatus       *mpParanoiaStatus;
+   QLabel               *mpMessage;
+   ConfigDialog         *mpConfigDialog;
+
+   QAction     *mpActionSettings;
+   QAction     *mpActionCancel;
+   QAction     *mpActionScanCD;
+   QAction     *mpActionRipTracks;
+   QAction     *mpActionEject;
+   QAction     *mpActionToggleRip;
+   QAction     *mpActionToggleEnqueue;
+   QAction     *mpActionCopyArtist;
+   QAction     *mpActionNormArtist;
+   QAction     *mpActionNormTitle;
+   QAction     *mpActionCopyYear;
 };
 
 /*! @} */

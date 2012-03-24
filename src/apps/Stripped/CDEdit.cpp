@@ -52,16 +52,9 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
 , mpTrackTitle( 0 )
 , mpTrackYear( 0 )
 , mpTrackPlaytime( 0 )
-, mpToggleRipButton( new QPushButton( tr("Toggle Rip"), this ) )
-, mpToggleEnqueueButton( new QPushButton( tr("Toggle Enqueue"), this ) )
-, mpCopyArtistButton( new QPushButton( tr("Copy Artist"), this ) )
-, mpNormalizeTitleButton( new QPushButton( tr("Norm. Title"), this ) )
-, mpCopyYearButton( new QPushButton( tr("Copy Year"), this ) )
 , mLastColumn( 3 )
 {
    QVBoxLayout *outerLayout  = new QVBoxLayout( this );
-   QHBoxLayout *buttonLayout = new QHBoxLayout();
-
    setFocusPolicy(Qt::StrongFocus);
    outerLayout->setContentsMargins( 0, 0, 0, 0 );
 #if 0
@@ -145,28 +138,10 @@ CDEdit::CDEdit( CDInfo *info, CDDBClient *cddbClient, QWidget *parent )
    }
    mpMainLayout->setRowStretch( 104, 1 );
 
-   buttonLayout->addWidget( mpToggleRipButton );
-   buttonLayout->addWidget( mpToggleEnqueueButton );
-   buttonLayout->addWidget( mpCopyArtistButton );
-   buttonLayout->addWidget( mpNormalizeTitleButton );
-   buttonLayout->addWidget( mpCopyYearButton );
-
    mpScrollWidget->setLayout( mpMainLayout );
    mpScrollArea->setWidget( mpScrollWidget );
    mpScrollArea->setWidgetResizable( true );
    outerLayout->addWidget( mpScrollArea );
-   outerLayout->addLayout( buttonLayout );
-
-   connect( mpToggleRipButton, SIGNAL(clicked()),
-            this, SLOT(handleTrackNr()) );
-   connect( mpToggleEnqueueButton, SIGNAL(clicked()),
-            this, SLOT(handleEnqueueTrack()) );
-   connect( mpCopyArtistButton, SIGNAL(clicked()),
-            this, SLOT(handleTrackArtist()) );
-   connect( mpNormalizeTitleButton, SIGNAL(clicked()),
-            this, SLOT(handleNormalizeTitle()) );
-   connect( mpCopyYearButton, SIGNAL(clicked()),
-            this, SLOT(handleTrackYear()) );
 
    clear();
    setLayout( outerLayout );
@@ -204,7 +179,7 @@ bool CDEdit::isEmpty()
 }
 
 
-void CDEdit::handleTrackNr()
+void CDEdit::toggleAllRipFlags()
 {
    for( int i = 1; i < 100; i++ )
    {
@@ -223,7 +198,7 @@ void CDEdit::handleTrackNr()
 }
 
 
-void CDEdit::handleEnqueueTrack()
+void CDEdit::toggleAllEnqueueFlags()
 {
    for( int i = 1; i < 100; i++ )
    {
@@ -242,7 +217,7 @@ void CDEdit::handleEnqueueTrack()
 }
 
 
-void CDEdit::handleTrackArtist()
+void CDEdit::copyTrackArtist()
 {
    QString artist( mpDiscArtist->text() );
 
@@ -254,7 +229,27 @@ void CDEdit::handleTrackArtist()
 }
 
 
-void CDEdit::handleNormalizeTitle()
+void CDEdit::normalizeArtist()
+{
+   if( mpDiscArtist->isEnabled() )
+   {
+      QString artist( mpDiscArtist->text() );
+      artist = TagList::normalizeString( artist );
+      mpDiscArtist->setText( artist );
+      mpDiscArtist->setCursorPosition( 0 );
+   }
+   for( int i = 0; i < 100; i++ )
+   {
+      if( mpTrackArtist[i]->isEnabled() )
+      {
+         mpTrackArtist[i]->setText( TagList::normalizeString( mpTrackArtist[i]->text() ) );
+         mpTrackArtist[i]->setCursorPosition( 0 );
+      }
+   }
+}
+
+
+void CDEdit::normalizeTitle()
 {
    if( mpDiscTitle->isEnabled() )
    {
@@ -277,7 +272,7 @@ void CDEdit::handleNormalizeTitle()
 }
 
 
-void CDEdit::handleTrackYear()
+void CDEdit::copyYear()
 {
    int i=0;
    QString year;
