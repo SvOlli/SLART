@@ -12,27 +12,24 @@ void Settings::setValue( CommonPoint id, const QPoint &value )
    {
    case CommonMainWindowPosition:
       settings->setValue( "MainWindowPosition", value );
-      break;
+      return;
    default:
       qFatal( "illegal CommonPoint value" );
    }
-   settings->endGroup();
 }
 
 
 QPoint Settings::value( CommonPoint id )
 {
-   QPoint retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonMainWindowPosition:
-      retval = settings->value( "MainWindowPosition" ).toPoint();
-      break;
+      return settings->value( "MainWindowPosition" ).toPoint();
    default:
       qFatal( "illegal CommonPoint value" );
+      return QPoint();
    }
-   return retval;
 }
 
 
@@ -43,27 +40,24 @@ void Settings::setValue( CommonSize id, const QSize &value )
    {
    case CommonMainWindowSize:
       settings->setValue( "MainWindowSize", value );
-      break;
+      return;
    default:
       qFatal( "illegal CommonSize value" );
    }
-   settings->endGroup();
 }
 
 
 QSize Settings::value( CommonSize id )
 {
-   QSize retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonMainWindowSize:
-      retval = settings->value( "MainWindowSize" ).toSize();
-      break;
+      return settings->value( "MainWindowSize" ).toSize();
    default:
       qFatal( "illegal CommonSize value" );
+      return QSize();
    }
-   return retval;
 }
 
 
@@ -74,27 +68,24 @@ void Settings::setValue( CommonString id, const QString &value )
    {
    case CommonStyleSheetFile:
       settings->setValue( "StyleSheetFile", value );
-      break;
+      return;
    default:
       qFatal( "illegal CommonString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( CommonString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonStyleSheetFile:
-      retval = settings->value( "StyleSheetFile" ).toString();
-      break;
+      return settings->value( "StyleSheetFile" ).toString();
    default:
       qFatal( "illegal CommonString value" );
+      return QString();
    }
-   return retval;
 }
 
 
@@ -105,405 +96,344 @@ void Settings::setValue( CommonBool id, bool value )
    {
    case CommonUseGlobalStyleSheetFile:
       settings->setValue( "UseGlobalStyleSheetFile", value );
-      break;
+      return;
    case CommonUseSatellite:
       settings->setValue( "UseSatellite", value );
-      break;
+      return;
    default:
       qFatal( "illegal CommonBool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( CommonBool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case CommonUseGlobalStyleSheetFile:
-      retval = settings->value( "UseGlobalStyleSheetFile" ).toBool();
-      break;
+      return settings->value( "UseGlobalStyleSheetFile" ).toBool();
    case CommonUseSatellite:
-      retval = settings->value( "UseSatellite", false ).toBool();
-      break;
+      return settings->value( "UseSatellite", false ).toBool();
    default:
       qFatal( "illegal CommonBool value" );
+      return bool();
    }
-   return retval;
 }
 
 
 void Settings::setValue( MagicFLACString id, const QString &value )
 {
    QSettings *settings = cpSettings->get();
-   settings->beginGroup( "FLAC" );
    switch( id )
    {
    case MagicFLACDirectory:
-      settings->setValue( "Directory", value );
-      break;
+      settings->setValue( "FLAC/Directory", value );
+      return;
    default:
       qFatal( "illegal MagicFLACString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( MagicFLACString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicFLACDirectory:
-      retval = settings->value( "Directory", QDir::current().absolutePath() ).toString();
-      break;
+      return settings->value( "FLAC/Directory", QDir::current().absolutePath() ).toString();
    default:
       qFatal( "illegal MagicFLACString value" );
+      return QString();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
 void Settings::setValue( MagicFLACBool id, bool value )
 {
    QSettings *settings = cpSettings->get();
-   settings->beginGroup( "FLAC" );
    switch( id )
    {
    case MagicFLACDirectoryOverride:
-      settings->setValue( "DirectoryOverride", value );
-      break;
+      settings->setValue( "FLAC/DirectoryOverride", value );
+      return;
    case MagicFLACFlacUseOga:
-      settings->setValue( "FlacUseOga", value );
-      break;
+      settings->setValue( "FLAC/FlacUseOga", value );
+      return;
    case MagicFLACUseEncoder:
-      settings->setValue( "UseEncoder", value );
-      break;
+      settings->setValue( "FLAC/UseEncoder", value );
+      return;
    default:
       qFatal( "illegal MagicFLACBool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( MagicFLACBool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicFLACDirectoryOverride:
-      retval = settings->value( "DirectoryOverride", false ).toBool();
-      break;
+      return settings->value( "FLAC/DirectoryOverride", false ).toBool();
    case MagicFLACFlacUseOga:
-      retval = settings->value( "FlacUseOga", false ).toBool();
-      break;
+      return settings->value( "FLAC/FlacUseOga", false ).toBool();
    case MagicFLACUseEncoder:
-      retval = settings->value( "UseEncoder", false ).toBool();
-      break;
+      return settings->value( "FLAC/UseEncoder", false ).toBool();
    default:
       qFatal( "illegal MagicFLACBool value" );
+      return bool();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
 void Settings::setValue( MagicFLACInt id, int value )
 {
    QSettings *settings = cpSettings->get();
-   settings->beginGroup( "FLAC" );
    switch( id )
    {
    case MagicFLACFlacQuality:
-      settings->setValue( "FlacQuality", value );
-      break;
+      settings->setValue( "FLAC/FlacQuality", value );
+      return;
    default:
       qFatal( "illegal MagicFLACInt value" );
    }
-   settings->endGroup();
 }
 
 
 int Settings::value( MagicFLACInt id )
 {
-   int retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicFLACFlacQuality:
-      retval = settings->value( "FlacQuality", 5 ).toInt();
-      break;
+      return settings->value( "FLAC/FlacQuality", 5 ).toInt();
    default:
       qFatal( "illegal MagicFLACInt value" );
+      return int();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
 void Settings::setValue( Magicmp3String id, const QString &value )
 {
    QSettings *settings = cpSettings->get();
-   settings->beginGroup( "mp3" );
    switch( id )
    {
    case Magicmp3Directory:
-      settings->setValue( "Directory", value );
-      break;
+      settings->setValue( "mp3/Directory", value );
+      return;
    default:
       qFatal( "illegal Magicmp3String value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( Magicmp3String id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case Magicmp3Directory:
-      retval = settings->value( "Directory", QDir::current().absolutePath() ).toString();
-      break;
+      return settings->value( "mp3/Directory", QDir::current().absolutePath() ).toString();
    default:
       qFatal( "illegal Magicmp3String value" );
+      return QString();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
 void Settings::setValue( Magicmp3Bool id, bool value )
 {
    QSettings *settings = cpSettings->get();
-   settings->beginGroup( "mp3" );
    switch( id )
    {
    case Magicmp3DirectoryOverride:
-      settings->setValue( "DirectoryOverride", value );
-      break;
+      settings->setValue( "mp3/DirectoryOverride", value );
+      return;
    case Magicmp3UseEncoder:
-      settings->setValue( "UseEncoder", value );
-      break;
+      settings->setValue( "mp3/UseEncoder", value );
+      return;
    case Magicmp3UseLatin1:
-      settings->setValue( "UseLatin1", value );
-      break;
+      settings->setValue( "mp3/UseLatin1", value );
+      return;
    case Magicmp3VBRQuality:
-      settings->setValue( "VBRQuality", value );
-      break;
+      settings->setValue( "mp3/VBRQuality", value );
+      return;
    default:
       qFatal( "illegal Magicmp3Bool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( Magicmp3Bool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case Magicmp3DirectoryOverride:
-      retval = settings->value( "DirectoryOverride", false ).toBool();
-      break;
+      return settings->value( "mp3/DirectoryOverride", false ).toBool();
    case Magicmp3UseEncoder:
-      retval = settings->value( "UseEncoder", false ).toBool();
-      break;
+      return settings->value( "mp3/UseEncoder", false ).toBool();
    case Magicmp3UseLatin1:
-      retval = settings->value( "UseLatin1", false ).toBool();
-      break;
+      return settings->value( "mp3/UseLatin1", false ).toBool();
    case Magicmp3VBRQuality:
-      retval = settings->value( "VBRQuality", 4.0 ).toBool();
-      break;
+      return settings->value( "mp3/VBRQuality", 4.0 ).toBool();
    default:
       qFatal( "illegal Magicmp3Bool value" );
+      return bool();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
 void Settings::setValue( MagicoggString id, const QString &value )
 {
    QSettings *settings = cpSettings->get();
-   settings->beginGroup( "ogg" );
    switch( id )
    {
    case MagicoggDirectory:
-      settings->setValue( "Directory", value );
-      break;
+      settings->setValue( "ogg/Directory", value );
+      return;
    default:
       qFatal( "illegal MagicoggString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( MagicoggString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicoggDirectory:
-      retval = settings->value( "Directory", QDir::current().absolutePath() ).toString();
-      break;
+      return settings->value( "ogg/Directory", QDir::current().absolutePath() ).toString();
    default:
       qFatal( "illegal MagicoggString value" );
+      return QString();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
 void Settings::setValue( MagicoggBool id, bool value )
 {
    QSettings *settings = cpSettings->get();
-   settings->beginGroup( "ogg" );
    switch( id )
    {
    case MagicoggDirectoryOverride:
-      settings->setValue( "DirectoryOverride", value );
-      break;
+      settings->setValue( "ogg/DirectoryOverride", value );
+      return;
    case MagicoggUseEncoder:
-      settings->setValue( "UseEncoder", value );
-      break;
+      settings->setValue( "ogg/UseEncoder", value );
+      return;
    default:
       qFatal( "illegal MagicoggBool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( MagicoggBool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicoggDirectoryOverride:
-      retval = settings->value( "DirectoryOverride", false ).toBool();
-      break;
+      return settings->value( "ogg/DirectoryOverride", false ).toBool();
    case MagicoggUseEncoder:
-      retval = settings->value( "UseEncoder", false ).toBool();
-      break;
+      return settings->value( "ogg/UseEncoder", false ).toBool();
    default:
       qFatal( "illegal MagicoggBool value" );
+      return bool();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
 void Settings::setValue( MagicoggDouble id, double value )
 {
    QSettings *settings = cpSettings->get();
-   settings->beginGroup( "ogg" );
    switch( id )
    {
    case MagicoggOggQuality:
-      settings->setValue( "OggQuality", value );
-      break;
+      settings->setValue( "ogg/OggQuality", value );
+      return;
    default:
       qFatal( "illegal MagicoggDouble value" );
    }
-   settings->endGroup();
 }
 
 
 double Settings::value( MagicoggDouble id )
 {
-   double retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicoggOggQuality:
-      retval = settings->value( "OggQuality", 0.4 ).toDouble();
-      break;
+      return settings->value( "ogg/OggQuality", 0.4 ).toDouble();
    default:
       qFatal( "illegal MagicoggDouble value" );
+      return double();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
 void Settings::setValue( MagicwavString id, const QString &value )
 {
    QSettings *settings = cpSettings->get();
-   settings->beginGroup( "wav" );
    switch( id )
    {
    case MagicwavDirectory:
-      settings->setValue( "Directory", value );
-      break;
+      settings->setValue( "wav/Directory", value );
+      return;
    default:
       qFatal( "illegal MagicwavString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( MagicwavString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicwavDirectory:
-      retval = settings->value( "Directory", QDir::current().absolutePath() ).toString();
-      break;
+      return settings->value( "wav/Directory", QDir::current().absolutePath() ).toString();
    default:
       qFatal( "illegal MagicwavString value" );
+      return QString();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
 void Settings::setValue( MagicwavBool id, bool value )
 {
    QSettings *settings = cpSettings->get();
-   settings->beginGroup( "wav" );
    switch( id )
    {
    case MagicwavDirectoryOverride:
-      settings->setValue( "DirectoryOverride", value );
-      break;
+      settings->setValue( "wav/DirectoryOverride", value );
+      return;
    case MagicwavUseEncoder:
-      settings->setValue( "UseEncoder", value );
-      break;
+      settings->setValue( "wav/UseEncoder", value );
+      return;
    default:
       qFatal( "illegal MagicwavBool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( MagicwavBool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get();
    switch( id )
    {
    case MagicwavDirectoryOverride:
-      retval = settings->value( "DirectoryOverride", false ).toBool();
-      break;
+      return settings->value( "wav/DirectoryOverride", false ).toBool();
    case MagicwavUseEncoder:
-      retval = settings->value( "UseEncoder", false ).toBool();
-      break;
+      return settings->value( "wav/UseEncoder", false ).toBool();
    default:
       qFatal( "illegal MagicwavBool value" );
+      return bool();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
@@ -514,27 +444,24 @@ void Settings::setValue( FunkytownString id, const QString &value )
    {
    case FunkytownUserAgent:
       settings->setValue( "UserAgent", value );
-      break;
+      return;
    default:
       qFatal( "illegal FunkytownString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( FunkytownString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownUserAgent:
-      retval = settings->value( "UserAgent", "Shockwave Flash" ).toString();
-      break;
+      return settings->value( "UserAgent", "Shockwave Flash" ).toString();
    default:
       qFatal( "illegal FunkytownString value" );
+      return QString();
    }
-   return retval;
 }
 
 
@@ -545,39 +472,34 @@ void Settings::setValue( FunkytownBool id, bool value )
    {
    case FunkytownCoverArt:
       settings->setValue( "CoverArt", value );
-      break;
+      return;
    case FunkytownOverwrite:
       settings->setValue( "Overwrite", value );
-      break;
+      return;
    case FunkytownTollKeep:
       settings->setValue( "TollKeep", value );
-      break;
+      return;
    default:
       qFatal( "illegal FunkytownBool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( FunkytownBool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownCoverArt:
-      retval = settings->value( "CoverArt", false ).toBool();
-      break;
+      return settings->value( "CoverArt", false ).toBool();
    case FunkytownOverwrite:
-      retval = settings->value( "Overwrite", false ).toBool();
-      break;
+      return settings->value( "Overwrite", false ).toBool();
    case FunkytownTollKeep:
-      retval = settings->value( "TollKeep", true ).toBool();
-      break;
+      return settings->value( "TollKeep", true ).toBool();
    default:
       qFatal( "illegal FunkytownBool value" );
+      return bool();
    }
-   return retval;
 }
 
 
@@ -588,27 +510,24 @@ void Settings::setValue( FunkytownUlonglong id, qulonglong value )
    {
    case FunkytownBytes:
       settings->setValue( "Bytes", value );
-      break;
+      return;
    default:
       qFatal( "illegal FunkytownUlonglong value" );
    }
-   settings->endGroup();
 }
 
 
 qulonglong Settings::value( FunkytownUlonglong id )
 {
-   qulonglong retval;
    QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownBytes:
-      retval = settings->value( "Bytes", 0 ).toULongLong();
-      break;
+      return settings->value( "Bytes", 0 ).toULongLong();
    default:
       qFatal( "illegal FunkytownUlonglong value" );
+      return qulonglong();
    }
-   return retval;
 }
 
 
@@ -619,27 +538,24 @@ void Settings::setValue( FunkytownUint id, uint value )
    {
    case FunkytownFiles:
       settings->setValue( "Files", value );
-      break;
+      return;
    default:
       qFatal( "illegal FunkytownUint value" );
    }
-   settings->endGroup();
 }
 
 
 uint Settings::value( FunkytownUint id )
 {
-   uint retval;
    QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
    case FunkytownFiles:
-      retval = settings->value( "Files", 0 ).toUInt();
-      break;
+      return settings->value( "Files", 0 ).toUInt();
    default:
       qFatal( "illegal FunkytownUint value" );
+      return uint();
    }
-   return retval;
 }
 
 
@@ -650,45 +566,39 @@ void Settings::setValue( GlobalString id, const QString &value )
    {
    case GlobalMusicBase:
       settings->setValue( "MusicBase", value );
-      break;
+      return;
    case GlobalSatelliteHost:
       settings->setValue( "SatelliteHost", value );
-      break;
+      return;
    case GlobalStyleSheetFile:
       settings->setValue( "StyleSheetFile", value );
-      break;
+      return;
    case GlobalVersion:
       settings->setValue( "Version", value );
-      break;
+      return;
    default:
       qFatal( "illegal GlobalString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( GlobalString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalMusicBase:
-      retval = settings->value( "MusicBase", "/" ).toString();
-      break;
+      return settings->value( "MusicBase", "/" ).toString();
    case GlobalSatelliteHost:
-      retval = settings->value( "SatelliteHost", "127.0.0.1" ).toString();
-      break;
+      return settings->value( "SatelliteHost", "127.0.0.1" ).toString();
    case GlobalStyleSheetFile:
-      retval = settings->value( "StyleSheetFile" ).toString();
-      break;
+      return settings->value( "StyleSheetFile" ).toString();
    case GlobalVersion:
-      retval = settings->value( "Version" ).toString();
-      break;
+      return settings->value( "Version" ).toString();
    default:
       qFatal( "illegal GlobalString value" );
+      return QString();
    }
-   return retval;
 }
 
 
@@ -699,45 +609,39 @@ void Settings::setValue( GlobalBool id, bool value )
    {
    case GlobalAnimateViews:
       settings->setValue( "AnimateViews", value );
-      break;
+      return;
    case GlobalNormalizeCase:
       settings->setValue( "NormalizeCase", value );
-      break;
+      return;
    case GlobalNormalizeSpaces:
       settings->setValue( "NormalizeSpaces", value );
-      break;
+      return;
    case GlobalShowCleanupDialog:
       settings->setValue( "ShowCleanupDialog", value );
-      break;
+      return;
    default:
       qFatal( "illegal GlobalBool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( GlobalBool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalAnimateViews:
-      retval = settings->value( "AnimateViews", false ).toBool();
-      break;
+      return settings->value( "AnimateViews", false ).toBool();
    case GlobalNormalizeCase:
-      retval = settings->value( "NormalizeCase", false ).toBool();
-      break;
+      return settings->value( "NormalizeCase", false ).toBool();
    case GlobalNormalizeSpaces:
-      retval = settings->value( "NormalizeSpaces", false ).toBool();
-      break;
+      return settings->value( "NormalizeSpaces", false ).toBool();
    case GlobalShowCleanupDialog:
-      retval = settings->value( "ShowCleanupDialog" ).toBool();
-      break;
+      return settings->value( "ShowCleanupDialog" ).toBool();
    default:
       qFatal( "illegal GlobalBool value" );
+      return bool();
    }
-   return retval;
 }
 
 
@@ -748,129 +652,110 @@ void Settings::setValue( GlobalInt id, int value )
    {
    case GlobalClipboardMode:
       settings->setValue( "ClipboardMode", value );
-      break;
+      return;
    case GlobalDoubleClickInterval:
       settings->setValue( "DoubleClickInterval", value );
-      break;
+      return;
    case GlobalSatellitePort:
       settings->setValue( "SatellitePort", value );
-      break;
+      return;
    default:
       qFatal( "illegal GlobalInt value" );
    }
-   settings->endGroup();
 }
 
 
 int Settings::value( GlobalInt id )
 {
-   int retval;
    QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalClipboardMode:
-      retval = settings->value( "ClipboardMode", 0 ).toInt();
-      break;
+      return settings->value( "ClipboardMode", 0 ).toInt();
    case GlobalDoubleClickInterval:
-      retval = settings->value( "DoubleClickInterval", QApplication::doubleClickInterval() ).toInt();
-      break;
+      return settings->value( "DoubleClickInterval", QApplication::doubleClickInterval() ).toInt();
    case GlobalSatellitePort:
-      retval = settings->value( "SatellitePort", 24222 ).toInt();
-      break;
+      return settings->value( "SatellitePort", 24222 ).toInt();
    default:
       qFatal( "illegal GlobalInt value" );
+      return int();
    }
-   return retval;
 }
 
 
 void Settings::setValue( GlobalHTTPProxyString id, const QString &value )
 {
    QSettings *settings = cpSettings->get( "Global" );
-   settings->beginGroup( "HTTPProxy" );
    switch( id )
    {
    case GlobalHTTPProxyHost:
-      settings->setValue( "Host", value );
-      break;
+      settings->setValue( "HTTPProxy/Host", value );
+      return;
    case GlobalHTTPProxyLogin:
-      settings->setValue( "Login", value );
-      break;
+      settings->setValue( "HTTPProxy/Login", value );
+      return;
    case GlobalHTTPProxyPassword:
-      settings->setValue( "Password", value );
-      break;
+      settings->setValue( "HTTPProxy/Password", value );
+      return;
    case GlobalHTTPProxyPort:
-      settings->setValue( "Port", value );
-      break;
+      settings->setValue( "HTTPProxy/Port", value );
+      return;
    default:
       qFatal( "illegal GlobalHTTPProxyString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( GlobalHTTPProxyString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalHTTPProxyHost:
-      retval = settings->value( "Host" ).toString();
-      break;
+      return settings->value( "HTTPProxy/Host" ).toString();
    case GlobalHTTPProxyLogin:
-      retval = settings->value( "Login" ).toString();
-      break;
+      return settings->value( "HTTPProxy/Login" ).toString();
    case GlobalHTTPProxyPassword:
-      retval = settings->value( "Password" ).toString();
-      break;
+      return settings->value( "HTTPProxy/Password" ).toString();
    case GlobalHTTPProxyPort:
-      retval = settings->value( "Port", "8080" ).toString();
-      break;
+      return settings->value( "HTTPProxy/Port", "8080" ).toString();
    default:
       qFatal( "illegal GlobalHTTPProxyString value" );
+      return QString();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
 void Settings::setValue( GlobalHTTPProxyBool id, bool value )
 {
    QSettings *settings = cpSettings->get( "Global" );
-   settings->beginGroup( "HTTPProxy" );
    switch( id )
    {
    case GlobalHTTPProxyAuth:
-      settings->setValue( "Auth", value );
-      break;
+      settings->setValue( "HTTPProxy/Auth", value );
+      return;
    case GlobalHTTPProxyEnable:
-      settings->setValue( "Enable", value );
-      break;
+      settings->setValue( "HTTPProxy/Enable", value );
+      return;
    default:
       qFatal( "illegal GlobalHTTPProxyBool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( GlobalHTTPProxyBool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get( "Global" );
    switch( id )
    {
    case GlobalHTTPProxyAuth:
-      retval = settings->value( "Auth", false ).toBool();
-      break;
+      return settings->value( "HTTPProxy/Auth", false ).toBool();
    case GlobalHTTPProxyEnable:
-      retval = settings->value( "Enable", false ).toBool();
-      break;
+      return settings->value( "HTTPProxy/Enable", false ).toBool();
    default:
       qFatal( "illegal GlobalHTTPProxyBool value" );
+      return bool();
    }
-   settings->endGroup();
-   return retval;
 }
 
 
@@ -881,27 +766,24 @@ void Settings::setValue( InnuendoStringList id, const QStringList &value )
    {
    case InnuendoStartup:
       settings->setValue( "Startup", value );
-      break;
+      return;
    default:
       qFatal( "illegal InnuendoStringList value" );
    }
-   settings->endGroup();
 }
 
 
 QStringList Settings::value( InnuendoStringList id )
 {
-   QStringList retval;
    QSettings *settings = cpSettings->get( "Innuendo" );
    switch( id )
    {
    case InnuendoStartup:
-      retval = settings->value( "Startup" ).toStringList();
-      break;
+      return settings->value( "Startup" ).toStringList();
    default:
       qFatal( "illegal InnuendoStringList value" );
+      return QStringList();
    }
-   return retval;
 }
 
 
@@ -912,27 +794,24 @@ void Settings::setValue( InnuendoInt id, int value )
    {
    case InnuendoBufferSize:
       settings->setValue( "BufferSize", value );
-      break;
+      return;
    default:
       qFatal( "illegal InnuendoInt value" );
    }
-   settings->endGroup();
 }
 
 
 int Settings::value( InnuendoInt id )
 {
-   int retval;
    QSettings *settings = cpSettings->get( "Innuendo" );
    switch( id )
    {
    case InnuendoBufferSize:
-      retval = settings->value( "BufferSize", 500 ).toInt();
-      break;
+      return settings->value( "BufferSize", 500 ).toInt();
    default:
       qFatal( "illegal InnuendoInt value" );
+      return int();
    }
-   return retval;
 }
 
 
@@ -943,33 +822,29 @@ void Settings::setValue( KarmadromeString id, const QString &value )
    {
    case KarmadromeExportDirectory:
       settings->setValue( "ExportDirectory", value );
-      break;
+      return;
    case KarmadromeImportDirectory:
       settings->setValue( "ImportDirectory", value );
-      break;
+      return;
    default:
       qFatal( "illegal KarmadromeString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( KarmadromeString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get( "Karmadrome" );
    switch( id )
    {
    case KarmadromeExportDirectory:
-      retval = settings->value( "ExportDirectory" ).toString();
-      break;
+      return settings->value( "ExportDirectory" ).toString();
    case KarmadromeImportDirectory:
-      retval = settings->value( "ImportDirectory" ).toString();
-      break;
+      return settings->value( "ImportDirectory" ).toString();
    default:
       qFatal( "illegal KarmadromeString value" );
+      return QString();
    }
-   return retval;
 }
 
 
@@ -980,45 +855,39 @@ void Settings::setValue( KarmadromeBool id, bool value )
    {
    case KarmadromeClearBeforeImport:
       settings->setValue( "ClearBeforeImport", value );
-      break;
+      return;
    case KarmadromeExportAsRelative:
       settings->setValue( "ExportAsRelative", value );
-      break;
+      return;
    case KarmadromeRandomizeExport:
       settings->setValue( "RandomizeExport", value );
-      break;
+      return;
    case KarmadromeUseCheckBoxes:
       settings->setValue( "UseCheckBoxes", value );
-      break;
+      return;
    default:
       qFatal( "illegal KarmadromeBool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( KarmadromeBool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get( "Karmadrome" );
    switch( id )
    {
    case KarmadromeClearBeforeImport:
-      retval = settings->value( "ClearBeforeImport", false ).toBool();
-      break;
+      return settings->value( "ClearBeforeImport", false ).toBool();
    case KarmadromeExportAsRelative:
-      retval = settings->value( "ExportAsRelative", false ).toBool();
-      break;
+      return settings->value( "ExportAsRelative", false ).toBool();
    case KarmadromeRandomizeExport:
-      retval = settings->value( "RandomizeExport" ).toBool();
-      break;
+      return settings->value( "RandomizeExport" ).toBool();
    case KarmadromeUseCheckBoxes:
-      retval = settings->value( "UseCheckBoxes", false ).toBool();
-      break;
+      return settings->value( "UseCheckBoxes", false ).toBool();
    default:
       qFatal( "illegal KarmadromeBool value" );
+      return bool();
    }
-   return retval;
 }
 
 
@@ -1029,27 +898,24 @@ void Settings::setValue( KarmadromeInt id, int value )
    {
    case KarmadromeNumberOfColumns:
       settings->setValue( "NumberOfColumns", value );
-      break;
+      return;
    default:
       qFatal( "illegal KarmadromeInt value" );
    }
-   settings->endGroup();
 }
 
 
 int Settings::value( KarmadromeInt id )
 {
-   int retval;
    QSettings *settings = cpSettings->get( "Karmadrome" );
    switch( id )
    {
    case KarmadromeNumberOfColumns:
-      retval = settings->value( "NumberOfColumns", 3 ).toInt();
-      break;
+      return settings->value( "NumberOfColumns", 3 ).toInt();
    default:
       qFatal( "illegal KarmadromeInt value" );
+      return int();
    }
-   return retval;
 }
 
 
@@ -1060,27 +926,24 @@ void Settings::setValue( NotoriousString id, const QString &value )
    {
    case NotoriousDatabaseFile:
       settings->setValue( "DatabaseFile", value );
-      break;
+      return;
    default:
       qFatal( "illegal NotoriousString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( NotoriousString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get( "Notorious" );
    switch( id )
    {
    case NotoriousDatabaseFile:
-      retval = settings->value( "DatabaseFile" ).toString();
-      break;
+      return settings->value( "DatabaseFile" ).toString();
    default:
       qFatal( "illegal NotoriousString value" );
+      return QString();
    }
-   return retval;
 }
 
 
@@ -1091,27 +954,24 @@ void Settings::setValue( PartymanPoint id, const QPoint &value )
    {
    case PartymanSplitterSizes:
       settings->setValue( "SplitterSizes", value );
-      break;
+      return;
    default:
       qFatal( "illegal PartymanPoint value" );
    }
-   settings->endGroup();
 }
 
 
 QPoint Settings::value( PartymanPoint id )
 {
-   QPoint retval;
    QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanSplitterSizes:
-      retval = settings->value( "SplitterSizes" ).toPoint();
-      break;
+      return settings->value( "SplitterSizes" ).toPoint();
    default:
       qFatal( "illegal PartymanPoint value" );
+      return QPoint();
    }
-   return retval;
 }
 
 
@@ -1122,75 +982,64 @@ void Settings::setValue( PartymanString id, const QString &value )
    {
    case PartymanDerMixDcmd:
       settings->setValue( "DerMixDcmd", value );
-      break;
+      return;
    case PartymanDerMixDhost:
       settings->setValue( "DerMixDhost", value );
-      break;
+      return;
    case PartymanListPattern:
       settings->setValue( "ListPattern", value );
-      break;
+      return;
    case PartymanLogCmd:
       settings->setValue( "LogCmd", value );
-      break;
+      return;
    case PartymanNamePattern:
       settings->setValue( "NamePattern", value );
-      break;
+      return;
    case PartymanPlayFolder:
       settings->setValue( "PlayFolder", value );
-      break;
+      return;
    case PartymanPlayerPattern:
       settings->setValue( "PlayerPattern", value );
-      break;
+      return;
    case PartymanSearch:
       settings->setValue( "Search", value );
-      break;
+      return;
    case PartymanTrayIconPattern:
       settings->setValue( "TrayIconPattern", value );
-      break;
+      return;
    default:
       qFatal( "illegal PartymanString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( PartymanString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanDerMixDcmd:
-      retval = settings->value( "DerMixDcmd", "dermixd" ).toString();
-      break;
+      return settings->value( "DerMixDcmd", "dermixd" ).toString();
    case PartymanDerMixDhost:
-      retval = settings->value( "DerMixDhost", "localhost" ).toString();
-      break;
+      return settings->value( "DerMixDhost", "localhost" ).toString();
    case PartymanListPattern:
-      retval = settings->value( "ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|" ).toString();
-      break;
+      return settings->value( "ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|" ).toString();
    case PartymanLogCmd:
-      retval = settings->value( "LogCmd" ).toString();
-      break;
+      return settings->value( "LogCmd" ).toString();
    case PartymanNamePattern:
-      retval = settings->value( "NamePattern", QApplication::applicationName() + ": " + "|$TITLE|" ).toString();
-      break;
+      return settings->value( "NamePattern", QApplication::applicationName() + ": " + "|$TITLE|" ).toString();
    case PartymanPlayFolder:
-      retval = settings->value( "PlayFolder" ).toString();
-      break;
+      return settings->value( "PlayFolder" ).toString();
    case PartymanPlayerPattern:
-      retval = settings->value( "PlayerPattern", "|$ARTIST| - |$TITLE|" ).toString();
-      break;
+      return settings->value( "PlayerPattern", "|$ARTIST| - |$TITLE|" ).toString();
    case PartymanSearch:
-      retval = settings->value( "Search" ).toString();
-      break;
+      return settings->value( "Search" ).toString();
    case PartymanTrayIconPattern:
-      retval = settings->value( "TrayIconPattern", "|$ARTIST|#n|$TITLE|#n|$ALBUM|" ).toString();
-      break;
+      return settings->value( "TrayIconPattern", "|$ARTIST|#n|$TITLE|#n|$ALBUM|" ).toString();
    default:
       qFatal( "illegal PartymanString value" );
+      return QString();
    }
-   return retval;
 }
 
 
@@ -1201,33 +1050,29 @@ void Settings::setValue( PartymanStringList id, const QStringList &value )
    {
    case PartymanPlayedArtists:
       settings->setValue( "PlayedArtists", value );
-      break;
+      return;
    case PartymanPlaylist:
       settings->setValue( "Playlist", value );
-      break;
+      return;
    default:
       qFatal( "illegal PartymanStringList value" );
    }
-   settings->endGroup();
 }
 
 
 QStringList Settings::value( PartymanStringList id )
 {
-   QStringList retval;
    QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanPlayedArtists:
-      retval = settings->value( "PlayedArtists" ).toStringList();
-      break;
+      return settings->value( "PlayedArtists" ).toStringList();
    case PartymanPlaylist:
-      retval = settings->value( "Playlist" ).toStringList();
-      break;
+      return settings->value( "Playlist" ).toStringList();
    default:
       qFatal( "illegal PartymanStringList value" );
+      return QStringList();
    }
-   return retval;
 }
 
 
@@ -1238,75 +1083,64 @@ void Settings::setValue( PartymanBool id, bool value )
    {
    case PartymanAutoConnect:
       settings->setValue( "AutoConnect", value );
-      break;
+      return;
    case PartymanCountSkip:
       settings->setValue( "CountSkip", value );
-      break;
+      return;
    case PartymanDerMixDlog:
       settings->setValue( "DerMixDlog", value );
-      break;
+      return;
    case PartymanDerMixDrun:
       settings->setValue( "DerMixDrun", value );
-      break;
+      return;
    case PartymanPlayOnlyFavorite:
       settings->setValue( "PlayOnlyFavorite", value );
-      break;
+      return;
    case PartymanPlayOnlyLeastPlayed:
       settings->setValue( "PlayOnlyLeastPlayed", value );
-      break;
+      return;
    case PartymanSplitterVertical:
       settings->setValue( "SplitterVertical", value );
-      break;
+      return;
    case PartymanTrayIcon:
       settings->setValue( "TrayIcon", value );
-      break;
+      return;
    case PartymanTrayIconBubble:
       settings->setValue( "TrayIconBubble", value );
-      break;
+      return;
    default:
       qFatal( "illegal PartymanBool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( PartymanBool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanAutoConnect:
-      retval = settings->value( "AutoConnect", false ).toBool();
-      break;
+      return settings->value( "AutoConnect", false ).toBool();
    case PartymanCountSkip:
-      retval = settings->value( "CountSkip", false ).toBool();
-      break;
+      return settings->value( "CountSkip", false ).toBool();
    case PartymanDerMixDlog:
-      retval = settings->value( "DerMixDlog", false ).toBool();
-      break;
+      return settings->value( "DerMixDlog", false ).toBool();
    case PartymanDerMixDrun:
-      retval = settings->value( "DerMixDrun", true ).toBool();
-      break;
+      return settings->value( "DerMixDrun", true ).toBool();
    case PartymanPlayOnlyFavorite:
-      retval = settings->value( "PlayOnlyFavorite", false ).toBool();
-      break;
+      return settings->value( "PlayOnlyFavorite", false ).toBool();
    case PartymanPlayOnlyLeastPlayed:
-      retval = settings->value( "PlayOnlyLeastPlayed", false ).toBool();
-      break;
+      return settings->value( "PlayOnlyLeastPlayed", false ).toBool();
    case PartymanSplitterVertical:
-      retval = settings->value( "SplitterVertical", false ).toBool();
-      break;
+      return settings->value( "SplitterVertical", false ).toBool();
    case PartymanTrayIcon:
-      retval = settings->value( "TrayIcon", false ).toBool();
-      break;
+      return settings->value( "TrayIcon", false ).toBool();
    case PartymanTrayIconBubble:
-      retval = settings->value( "TrayIconBubble", true ).toBool();
-      break;
+      return settings->value( "TrayIconBubble", true ).toBool();
    default:
       qFatal( "illegal PartymanBool value" );
+      return bool();
    }
-   return retval;
 }
 
 
@@ -1317,33 +1151,29 @@ void Settings::setValue( PartymanDouble id, double value )
    {
    case PartymanNormalizeValue:
       settings->setValue( "NormalizeValue", value );
-      break;
+      return;
    case PartymanTrayIconBubbleTime:
       settings->setValue( "TrayIconBubbleTime", value );
-      break;
+      return;
    default:
       qFatal( "illegal PartymanDouble value" );
    }
-   settings->endGroup();
 }
 
 
 double Settings::value( PartymanDouble id )
 {
-   double retval;
    QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanNormalizeValue:
-      retval = settings->value( "NormalizeValue", 0.4 ).toDouble();
-      break;
+      return settings->value( "NormalizeValue", 0.4 ).toDouble();
    case PartymanTrayIconBubbleTime:
-      retval = settings->value( "TrayIconBubbleTime", 4.0 ).toDouble();
-      break;
+      return settings->value( "TrayIconBubbleTime", 4.0 ).toDouble();
    default:
       qFatal( "illegal PartymanDouble value" );
+      return double();
    }
-   return retval;
 }
 
 
@@ -1354,63 +1184,54 @@ void Settings::setValue( PartymanInt id, int value )
    {
    case PartymanCrossfadeTime:
       settings->setValue( "CrossfadeTime", value );
-      break;
+      return;
    case PartymanCurrentTab:
       settings->setValue( "CurrentTab", value );
-      break;
+      return;
    case PartymanDerMixDport:
       settings->setValue( "DerMixDport", value );
-      break;
+      return;
    case PartymanNormalizeMode:
       settings->setValue( "NormalizeMode", value );
-      break;
+      return;
    case PartymanPlayNotAgainCount:
       settings->setValue( "PlayNotAgainCount", value );
-      break;
+      return;
    case PartymanRandomTries:
       settings->setValue( "RandomTries", value );
-      break;
+      return;
    case PartymanTrayIconBubbleIcon:
       settings->setValue( "TrayIconBubbleIcon", value );
-      break;
+      return;
    default:
       qFatal( "illegal PartymanInt value" );
    }
-   settings->endGroup();
 }
 
 
 int Settings::value( PartymanInt id )
 {
-   int retval;
    QSettings *settings = cpSettings->get( "Partyman" );
    switch( id )
    {
    case PartymanCrossfadeTime:
-      retval = settings->value( "CrossfadeTime", 10 ).toInt();
-      break;
+      return settings->value( "CrossfadeTime", 10 ).toInt();
    case PartymanCurrentTab:
-      retval = settings->value( "CurrentTab", 0 ).toInt();
-      break;
+      return settings->value( "CurrentTab", 0 ).toInt();
    case PartymanDerMixDport:
-      retval = settings->value( "DerMixDport", 8888 ).toInt();
-      break;
+      return settings->value( "DerMixDport", 8888 ).toInt();
    case PartymanNormalizeMode:
-      retval = settings->value( "NormalizeMode", 0 ).toInt();
-      break;
+      return settings->value( "NormalizeMode", 0 ).toInt();
    case PartymanPlayNotAgainCount:
-      retval = settings->value( "PlayNotAgainCount", 10 ).toInt();
-      break;
+      return settings->value( "PlayNotAgainCount", 10 ).toInt();
    case PartymanRandomTries:
-      retval = settings->value( "RandomTries", 10 ).toInt();
-      break;
+      return settings->value( "RandomTries", 10 ).toInt();
    case PartymanTrayIconBubbleIcon:
-      retval = settings->value( "TrayIconBubbleIcon", 0 ).toInt();
-      break;
+      return settings->value( "TrayIconBubbleIcon", 0 ).toInt();
    default:
       qFatal( "illegal PartymanInt value" );
+      return int();
    }
-   return retval;
 }
 
 
@@ -1421,45 +1242,39 @@ void Settings::setValue( RubberbandmanString id, const QString &value )
    {
    case RubberbandmanPlayingPattern:
       settings->setValue( "PlayingPattern", value );
-      break;
+      return;
    case RubberbandmanRootDirectory:
       settings->setValue( "RootDirectory", value );
-      break;
+      return;
    case RubberbandmanWithTrackNr:
       settings->setValue( "WithTrackNr", value );
-      break;
+      return;
    case RubberbandmanWithoutTrackNr:
       settings->setValue( "WithoutTrackNr", value );
-      break;
+      return;
    default:
       qFatal( "illegal RubberbandmanString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( RubberbandmanString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanPlayingPattern:
-      retval = settings->value( "PlayingPattern", "NP: |$ARTIST| - |$TITLE|" ).toString();
-      break;
+      return settings->value( "PlayingPattern", "NP: |$ARTIST| - |$TITLE|" ).toString();
    case RubberbandmanRootDirectory:
-      retval = settings->value( "RootDirectory", "/" ).toString();
-      break;
+      return settings->value( "RootDirectory", "/" ).toString();
    case RubberbandmanWithTrackNr:
-      retval = settings->value( "WithTrackNr", "|$ARTIST| - |$TITLE|" ).toString();
-      break;
+      return settings->value( "WithTrackNr", "|$ARTIST| - |$TITLE|" ).toString();
    case RubberbandmanWithoutTrackNr:
-      retval = settings->value( "WithoutTrackNr", "(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString();
-      break;
+      return settings->value( "WithoutTrackNr", "(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString();
    default:
       qFatal( "illegal RubberbandmanString value" );
+      return QString();
    }
-   return retval;
 }
 
 
@@ -1470,27 +1285,24 @@ void Settings::setValue( RubberbandmanStringList id, const QStringList &value )
    {
    case RubberbandmanFileExtensions:
       settings->setValue( "FileExtensions", value );
-      break;
+      return;
    default:
       qFatal( "illegal RubberbandmanStringList value" );
    }
-   settings->endGroup();
 }
 
 
 QStringList Settings::value( RubberbandmanStringList id )
 {
-   QStringList retval;
    QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanFileExtensions:
-      retval = settings->value( "FileExtensions", QStringList() << "*.mp3" << "*.ogg" << "*.oga" << "*.flac" ).toStringList();
-      break;
+      return settings->value( "FileExtensions", QStringList() << "*.mp3" << "*.ogg" << "*.oga" << "*.flac" ).toStringList();
    default:
       qFatal( "illegal RubberbandmanStringList value" );
+      return QStringList();
    }
-   return retval;
 }
 
 
@@ -1501,27 +1313,24 @@ void Settings::setValue( RubberbandmanBool id, bool value )
    {
    case RubberbandmanAutoRescan:
       settings->setValue( "AutoRescan", value );
-      break;
+      return;
    default:
       qFatal( "illegal RubberbandmanBool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( RubberbandmanBool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanAutoRescan:
-      retval = settings->value( "AutoRescan", true ).toBool();
-      break;
+      return settings->value( "AutoRescan", true ).toBool();
    default:
       qFatal( "illegal RubberbandmanBool value" );
+      return bool();
    }
-   return retval;
 }
 
 
@@ -1532,27 +1341,24 @@ void Settings::setValue( RubberbandmanInt id, int value )
    {
    case RubberbandmanCurrentTab:
       settings->setValue( "CurrentTab", value );
-      break;
+      return;
    default:
       qFatal( "illegal RubberbandmanInt value" );
    }
-   settings->endGroup();
 }
 
 
 int Settings::value( RubberbandmanInt id )
 {
-   int retval;
    QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
    case RubberbandmanCurrentTab:
-      retval = settings->value( "CurrentTab", 0 ).toInt();
-      break;
+      return settings->value( "CurrentTab", 0 ).toInt();
    default:
       qFatal( "illegal RubberbandmanInt value" );
+      return int();
    }
-   return retval;
 }
 
 
@@ -1563,45 +1369,39 @@ void Settings::setValue( StrippedString id, const QString &value )
    {
    case StrippedCreatePattern:
       settings->setValue( "CreatePattern", value );
-      break;
+      return;
    case StrippedDevice:
       settings->setValue( "Device", value );
-      break;
+      return;
    case StrippedDirectory:
       settings->setValue( "Directory", value );
-      break;
+      return;
    case StrippedStyleSheet:
       settings->setValue( "StyleSheet", value );
-      break;
+      return;
    default:
       qFatal( "illegal StrippedString value" );
    }
-   settings->endGroup();
 }
 
 
 QString Settings::value( StrippedString id )
 {
-   QString retval;
    QSettings *settings = cpSettings->get( "Stripped" );
    switch( id )
    {
    case StrippedCreatePattern:
-      retval = settings->value( "CreatePattern", "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString();
-      break;
+      return settings->value( "CreatePattern", "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString();
    case StrippedDevice:
-      retval = settings->value( "Device", "/dev/cdrom" ).toString();
-      break;
+      return settings->value( "Device", "/dev/cdrom" ).toString();
    case StrippedDirectory:
-      retval = settings->value( "Directory", QDir::current().absolutePath() ).toString();
-      break;
+      return settings->value( "Directory", QDir::current().absolutePath() ).toString();
    case StrippedStyleSheet:
-      retval = settings->value( "StyleSheet" ).toString();
-      break;
+      return settings->value( "StyleSheet" ).toString();
    default:
       qFatal( "illegal StrippedString value" );
+      return QString();
    }
-   return retval;
 }
 
 
@@ -1612,51 +1412,44 @@ void Settings::setValue( StrippedBool id, bool value )
    {
    case StrippedAutoEject:
       settings->setValue( "AutoEject", value );
-      break;
+      return;
    case StrippedAutoEnqueue:
       settings->setValue( "AutoEnqueue", value );
-      break;
+      return;
    case StrippedAutoFreeDB:
       settings->setValue( "AutoFreeDB", value );
-      break;
+      return;
    case StrippedCDTextLatin1:
       settings->setValue( "CDTextLatin1", value );
-      break;
+      return;
    case StrippedShowStats:
       settings->setValue( "ShowStats", value );
-      break;
+      return;
    default:
       qFatal( "illegal StrippedBool value" );
    }
-   settings->endGroup();
 }
 
 
 bool Settings::value( StrippedBool id )
 {
-   bool retval;
    QSettings *settings = cpSettings->get( "Stripped" );
    switch( id )
    {
    case StrippedAutoEject:
-      retval = settings->value( "AutoEject", false ).toBool();
-      break;
+      return settings->value( "AutoEject", false ).toBool();
    case StrippedAutoEnqueue:
-      retval = settings->value( "AutoEnqueue", false ).toBool();
-      break;
+      return settings->value( "AutoEnqueue", false ).toBool();
    case StrippedAutoFreeDB:
-      retval = settings->value( "AutoFreeDB", true ).toBool();
-      break;
+      return settings->value( "AutoFreeDB", true ).toBool();
    case StrippedCDTextLatin1:
-      retval = settings->value( "CDTextLatin1", false ).toBool();
-      break;
+      return settings->value( "CDTextLatin1", false ).toBool();
    case StrippedShowStats:
-      retval = settings->value( "ShowStats", false ).toBool();
-      break;
+      return settings->value( "ShowStats", false ).toBool();
    default:
       qFatal( "illegal StrippedBool value" );
+      return bool();
    }
-   return retval;
 }
 
 

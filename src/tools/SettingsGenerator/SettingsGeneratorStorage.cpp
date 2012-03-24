@@ -214,7 +214,7 @@ QStringList SettingsGeneratorStorage::definition() const
    {
       retval << "\tcase " + enumTypeName(i) + ":"
              << "\t\tsettings->setValue( " + entryFormat.arg( mParameterNames.at(i) ) + ", value );"
-             << "\t\tbreak;";
+             << "\t\treturn;";
    }
 
    retval << "\tdefault:"
@@ -238,8 +238,7 @@ QStringList SettingsGeneratorStorage::definition() const
    toType.replace( "PoInt", "Point" );
    toType.prepend( "to" );
 
-   retval << mType + " Settings::value( " + enumTypeName() + " id )\n{"
-          << "\t" + mType + " retval;";
+   retval << mType + " Settings::value( " + enumTypeName() + " id )\n{";
 
    if( mTopPart.startsWith("@") )
    {
@@ -273,15 +272,13 @@ QStringList SettingsGeneratorStorage::definition() const
       }
 
       retval << "\tcase " + enumTypeName( i ) + ":"
-             << "\t\tretval = settings->value( " + entryFormat.arg( mParameterNames.at(i) ) + defaultValue +" )." + toType + "();"
-             << "\t\tbreak;";
+             << "\t\treturn settings->value( " + entryFormat.arg( mParameterNames.at(i) ) + defaultValue +" )." + toType + "();";
    }
 
    retval << "\tdefault:"
           << "\t\tqFatal( \"illegal " + enumTypeName() + " value\" );"
-          << "\t}";
-
-   retval << "\treturn retval;"
+          << "\t\treturn " + mType + "();"
+          << "\t}"
           << "}\n\n";
 
    return retval;
