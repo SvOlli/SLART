@@ -21,9 +21,8 @@
 
 #include <QtDebug>
 
-MagicEncoderConfig::MagicEncoderConfig( QWidget *parent, QAbstractButton *button )
+MagicEncoderConfig::MagicEncoderConfig( QWidget *parent, QAction *toggleEnableAction )
 : QWidget( parent )
-, mpExternalUseEncoder( button )
 , mpUseEncoder( new QCheckBox( tr("Use This Encoder"), this ) )
 , mpDirOverride( new QCheckBox( tr("Override Base Directory"), this ) )
 , mpDirEdit( new QLineEdit( this ) )
@@ -39,13 +38,11 @@ MagicEncoderConfig::MagicEncoderConfig( QWidget *parent, QAbstractButton *button
    /* evil hack */
    mpDotButton->setMaximumWidth( mpDotButton->height() );
 
-   if( button )
-   {
-      connect( button, SIGNAL(clicked(bool)),
-               mpUseEncoder, SLOT(setChecked(bool)) );
-      connect( mpUseEncoder, SIGNAL(clicked(bool)),
-               button, SLOT(setChecked(bool)) );
-   }
+   toggleEnableAction->setCheckable( true );
+   connect( mpUseEncoder, SIGNAL(toggled(bool)),
+            toggleEnableAction, SLOT(setChecked(bool)) );
+   connect( toggleEnableAction, SIGNAL(toggled(bool)),
+            mpUseEncoder, SLOT(setChecked(bool)) );
    connect( mpDotButton, SIGNAL(clicked()),
             this, SLOT(selectDirectory()) );
 }

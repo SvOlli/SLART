@@ -12,13 +12,14 @@
 /* system headers */
 
 /* Qt headers */
+#include <QAction>
 #include <QDir>
 #include <QFileDialog>
 
 /* local library headers */
 #include "../../libs/Common/MagicEncoderProxy.hpp"
-#include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 #include <ScrollLine.hpp>
 
 /* local headers */
@@ -30,7 +31,7 @@
 MagicEncoder::MagicEncoder( const QString &encoderName )
 : QThread( 0 )
 , mpProxy( 0 )
-, mUseEncoder( false )
+, mpToggleEnableAction( 0 )
 , mEnqueue( false )
 , mDirOverride( false )
 , mDirectory()
@@ -44,6 +45,12 @@ MagicEncoder::MagicEncoder( const QString &encoderName )
 
 MagicEncoder::~MagicEncoder()
 {
+}
+
+
+QAction *MagicEncoder::toggleEnableAction()
+{
+   return mpToggleEnableAction;
 }
 
 
@@ -80,7 +87,7 @@ void MagicEncoder::run()
 
 bool MagicEncoder::initialize( const QString &fileName, const char *extension )
 {
-   QString directory = mDirOverride ? mDirectory : MySettings().VALUE_DIRECTORY;
+   QString directory = mDirOverride ? mDirectory : Settings::value( Settings::CommonDirectory );
 
    QFileInfo qfi( directory + QDir::separator() +
                   fileName + extension );
@@ -148,7 +155,7 @@ void MagicEncoder::setTags( const TagList &tagList )
 
 bool MagicEncoder::useEncoder()
 {
-   return mUseEncoder;
+   return mpToggleEnableAction->isChecked();
 }
 
 

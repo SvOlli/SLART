@@ -2,7 +2,7 @@
  * src/apps/Magic/MagicEncoder.hpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
@@ -22,7 +22,7 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
-class QAbstractButton;
+class QAction;
 class QThread;
 
 /* forward declaration of local classes */
@@ -57,7 +57,12 @@ public:
     \brief supply the a handle to the configuration widget
 
    */
-   virtual MagicEncoderConfig *configWidget( QWidget *parent = 0, QAbstractButton *button = 0 ) = 0;
+   virtual MagicEncoderConfig *configWidget( QWidget *parent = 0 ) = 0;
+   /*!
+    \brief supply an action to enable/disable encoder
+
+   */
+   virtual QAction *toggleEnableAction() = 0;
    /*!
     \brief supply a handle to the worker thread for signal/slot communication
 

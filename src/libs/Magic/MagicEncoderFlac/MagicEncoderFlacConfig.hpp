@@ -51,7 +51,7 @@ public:
     \param parent
     \param button
    */
-   MagicEncoderFlacConfig( MagicEncoderFlac *encoder, QWidget *parent, QAbstractButton *button );
+   MagicEncoderFlacConfig( MagicEncoderFlac *encoder, QWidget *parent, QAction *toggleEnableAction );
 
    /*!
     \brief destructor

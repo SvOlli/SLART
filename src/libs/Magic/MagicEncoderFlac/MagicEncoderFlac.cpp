@@ -16,8 +16,8 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <ScrollLine.hpp>
+#include <Settings.hpp>
 #include <TagList.hpp>
 
 /* local headers */
@@ -176,11 +176,12 @@ bool MagicEncoderFlac::encodeCDAudio( const char* data, int size )
 }
 
 
-MagicEncoderConfig *MagicEncoderFlac::configWidget( QWidget *parent, QAbstractButton *button )
+MagicEncoderConfig *MagicEncoderFlac::configWidget( QWidget *parent )
 {
    if( !mpConfigWidget )
    {
-      mpConfigWidget = new MagicEncoderFlacConfig( this, parent, button );
+      mpToggleEnableAction = new QAction( mName, parent );
+      mpConfigWidget = new MagicEncoderFlacConfig( this, parent, mpToggleEnableAction );
    }
    return mpConfigWidget;
 }

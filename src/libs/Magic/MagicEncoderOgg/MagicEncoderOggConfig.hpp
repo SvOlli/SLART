@@ -49,7 +49,7 @@ public:
     \param parent
     \param button
    */
-   MagicEncoderOggConfig( MagicEncoderOgg *encoder, QWidget *parent, QAbstractButton *button );
+   MagicEncoderOggConfig( MagicEncoderOgg *encoder, QWidget *parent, QAction *toggleEnableAction );
 
    /*!
     \brief destructor

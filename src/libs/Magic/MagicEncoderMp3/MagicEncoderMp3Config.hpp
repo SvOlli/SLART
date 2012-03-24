@@ -50,7 +50,7 @@ public:
     \param parent
     \param button
    */
-   MagicEncoderMp3Config( MagicEncoderMp3 *encoder, QWidget *parent, QAbstractButton *button );
+   MagicEncoderMp3Config( MagicEncoderMp3 *encoder, QWidget *parent, QAction *toggleEnableAction );
 
    /*!
     \brief destructor

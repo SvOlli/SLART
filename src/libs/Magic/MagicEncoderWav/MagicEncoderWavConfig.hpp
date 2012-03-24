@@ -50,7 +50,7 @@ public:
     \param parent
     \param button
    */
-   MagicEncoderWavConfig( MagicEncoderWav *encoder, QWidget *parent, QAbstractButton *button );
+   MagicEncoderWavConfig( MagicEncoderWav *encoder, QWidget *parent, QAction *toggleEnableAction );
 
    /*!
     \brief destructor

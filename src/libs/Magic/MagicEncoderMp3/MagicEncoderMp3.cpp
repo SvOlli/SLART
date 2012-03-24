@@ -19,8 +19,8 @@ extern "C" {
 #include <QtGui>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <ScrollLine.hpp>
+#include <Settings.hpp>
 #include <TagList.hpp>
 
 /* local headers */
@@ -167,11 +167,12 @@ bool MagicEncoderMp3::encodeCDAudio( const char* data, int size )
 }
 
 
-MagicEncoderConfig *MagicEncoderMp3::configWidget( QWidget *parent, QAbstractButton *button )
+MagicEncoderConfig *MagicEncoderMp3::configWidget( QWidget *parent )
 {
    if( !mpConfigWidget )
    {
-      mpConfigWidget = new MagicEncoderMp3Config( this, parent, button );
+      mpToggleEnableAction = new QAction( mName, parent );
+      mpConfigWidget = new MagicEncoderMp3Config( this, parent, mpToggleEnableAction );
    }
    return mpConfigWidget;
 }

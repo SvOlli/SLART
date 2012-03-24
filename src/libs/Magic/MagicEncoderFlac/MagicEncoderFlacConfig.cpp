@@ -15,15 +15,17 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <ScrollLine.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "MagicEncoderFlac.hpp"
 
 
-MagicEncoderFlacConfig::MagicEncoderFlacConfig( MagicEncoderFlac *encoder, QWidget *parent, QAbstractButton *button )
-: MagicEncoderConfig( parent, button )
+MagicEncoderFlacConfig::MagicEncoderFlacConfig( MagicEncoderFlac *encoder,
+                                                QWidget *parent,
+                                                QAction *toggleEnableAction )
+: MagicEncoderConfig( parent, toggleEnableAction )
 , mpEncoder( encoder )
 , mpQuality( new QSpinBox( this ) )
 , mpUseOga( new QCheckBox( tr("Use Ogg Container"), this ) )
@@ -59,36 +61,31 @@ MagicEncoderFlacConfig::~MagicEncoderFlacConfig()
 
 void MagicEncoderFlacConfig::readSettings()
 {
-   MySettings settings;
-   settings.beginGroup( mpEncoder->mName );
-   mpEncoder->mUseEncoder  = settings.VALUE_USE_ENCODER;
-   mpEncoder->mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
-   mpEncoder->mDirectory   = settings.VALUE_DIRECTORY;
-   mpEncoder->mQuality     = settings.VALUE_FLACQUALITY;
-   mpEncoder->mUseOga      = settings.VALUE_FLACUSEOGA;
-   mpUseEncoder->setChecked( mpEncoder->mUseEncoder );
-   mpExternalUseEncoder->setChecked( mpEncoder->mUseEncoder );
+   bool enabled = Settings::value( Settings::MagicFLACUseEncoder );
+   mpEncoder->mpToggleEnableAction->setChecked( enabled );
+   mpEncoder->mDirOverride = Settings::value( Settings::MagicFLACDirectoryOverride );
+   mpEncoder->mDirectory   = Settings::value( Settings::MagicFLACDirectory );
+   mpEncoder->mQuality     = Settings::value( Settings::MagicFLACFlacQuality );
+   mpEncoder->mUseOga      = Settings::value( Settings::MagicFLACFlacUseOga );
+   mpUseEncoder->setChecked( enabled );
    mpDirOverride->setChecked( mpEncoder->mDirOverride );
    mpDirEdit->setText( mpEncoder->mDirectory );
    mpQuality->setValue( mpEncoder->mQuality );
    mpUseOga->setChecked( mpEncoder->mUseOga );
-   settings.endGroup();
 }
 
 
 void MagicEncoderFlacConfig::writeSettings()
 {
-   MySettings settings;
-   settings.beginGroup( mpEncoder->mName );
-   mpEncoder->mUseEncoder  = mpUseEncoder->isChecked();
+   bool enabled = mpUseEncoder->isChecked();
+   mpEncoder->mpToggleEnableAction->setChecked( enabled );
    mpEncoder->mDirOverride = mpDirOverride->isChecked();
    mpEncoder->mDirectory   = mpDirEdit->text();
    mpEncoder->mQuality     = mpQuality->value();
    mpEncoder->mUseOga      = mpUseOga->isChecked();
-   settings.setValue( "UseEncoder", mpEncoder->mUseEncoder );
-   settings.setValue( "DirectoryOverride", mpEncoder->mDirOverride );
-   settings.setValue( "Directory", mpEncoder->mDirectory );
-   settings.setValue( "FlacQuality", mpEncoder->mQuality );
-   settings.setValue( "FlacUseOga", mpEncoder->mUseOga );
-   settings.endGroup();
+   Settings::setValue( Settings::MagicFLACUseEncoder, enabled );
+   Settings::setValue( Settings::MagicFLACDirectoryOverride, mpEncoder->mDirOverride );
+   Settings::setValue( Settings::MagicFLACDirectory, mpEncoder->mDirectory );
+   Settings::setValue( Settings::MagicFLACFlacQuality, mpEncoder->mQuality );
+   Settings::setValue( Settings::MagicFLACFlacUseOga, mpEncoder->mUseOga );
 }

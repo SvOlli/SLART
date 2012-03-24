@@ -73,7 +73,13 @@ public:
     \param parent
     \param button
    */
-   virtual MagicEncoderConfig *configWidget( QWidget *parent, QAbstractButton *button ) = 0;
+   virtual MagicEncoderConfig *configWidget( QWidget *parent ) = 0;
+
+   /*!
+    \brief supply an action to enable/disable encoder
+
+   */
+   virtual QAction *toggleEnableAction();
 
    /*!
     \brief supply a handle to the worker thread for signal/slot communication
@@ -184,21 +190,21 @@ protected:
    bool writeChunk( const char* buffer, qint64 size );
 
    /* settings */
-   MagicEncoderProxy *mpProxy; /*!< TODO */
-   bool              mUseEncoder; /*!< TODO */
-   bool              mEnqueue; /*!< TODO */
-   bool              mDirOverride; /*!< TODO */
-   QString           mDirectory; /*!< TODO */
-   QString           mPluginFileName; /*!< TODO */
-   QString           mMsgHeader; /*!< TODO */
-   const QString     mName; /*!< TODO */
-   QFile             mFile; /*!< TODO */
-   TagList           mTagList; /*!< TODO */
+   MagicEncoderProxy *mpProxy; /*!< \todo */
+   QAction           *mpToggleEnableAction; /*!< \todo */
+   bool              mEnqueue; /*!< \todo */
+   bool              mDirOverride; /*!< \todo */
+   QString           mDirectory; /*!< \todo */
+   QString           mPluginFileName; /*!< \todo */
+   QString           mMsgHeader; /*!< \todo */
+   const QString     mName; /*!< \todo */
+   QFile             mFile; /*!< \todo */
+   TagList           mTagList; /*!< \todo */
 
 private:
    Q_DISABLE_COPY( MagicEncoder )
 
-   QString           mFileName; /*!< TODO */
+   QString           mFileName; /*!< \todo */
 };
 
 #define VALUE_DIRECTORY          value( "Directory", QDir::current().absolutePath() ).toString()

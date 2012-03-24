@@ -15,8 +15,8 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <ScrollLine.hpp>
+#include <Settings.hpp>
 #include <TagList.hpp>
 
 /* local headers */
@@ -97,11 +97,12 @@ void MagicEncoderWav::encodeCDAudio( const QByteArray &data )
 }
 
 
-MagicEncoderConfig *MagicEncoderWav::configWidget( QWidget *parent, QAbstractButton *button )
+MagicEncoderConfig *MagicEncoderWav::configWidget( QWidget *parent )
 {
    if( !mpConfigWidget )
    {
-      mpConfigWidget = new MagicEncoderWavConfig( this, parent, button );
+      mpToggleEnableAction = new QAction( mName, parent );
+      mpConfigWidget = new MagicEncoderWavConfig( this, parent, mpToggleEnableAction );
    }
    return mpConfigWidget;
 }

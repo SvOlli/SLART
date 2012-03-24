@@ -15,8 +15,8 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <ScrollLine.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "MagicEncoderOgg.hpp"
@@ -24,8 +24,10 @@
 
 #include <Trace.hpp>
 
-MagicEncoderOggConfig::MagicEncoderOggConfig( MagicEncoderOgg *encoder, QWidget *parent, QAbstractButton *button )
-: MagicEncoderConfig( parent, button )
+MagicEncoderOggConfig::MagicEncoderOggConfig( MagicEncoderOgg *encoder,
+                                              QWidget *parent,
+                                              QAction *toggleEnableAction )
+: MagicEncoderConfig( parent, toggleEnableAction )
 , mpEncoder( encoder )
 , mpQuality( new QDoubleSpinBox( this ) )
 {
@@ -59,31 +61,27 @@ MagicEncoderOggConfig::~MagicEncoderOggConfig()
 
 void MagicEncoderOggConfig::readSettings()
 {
-   MySettings settings;
-   settings.beginGroup( mpEncoder->mName );
-   mpEncoder->mUseEncoder  = settings.VALUE_USE_ENCODER;
-   mpEncoder->mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
-   mpEncoder->mDirectory   = settings.VALUE_DIRECTORY;
-   mpEncoder->mQuality     = settings.VALUE_OGGQUALITY;
-   mpUseEncoder->setChecked( mpEncoder->mUseEncoder );
+   bool enabled = Settings::value( Settings::MagicoggUseEncoder );
+   mpEncoder->mpToggleEnableAction->setChecked( enabled );
+   mpEncoder->mDirOverride = Settings::value( Settings::MagicoggDirectoryOverride );
+   mpEncoder->mDirectory   = Settings::value( Settings::MagicoggDirectory );
+   mpEncoder->mQuality     = Settings::value( Settings::MagicoggOggQuality );
+   mpUseEncoder->setChecked( enabled );
    mpDirOverride->setChecked( mpEncoder->mDirOverride );
    mpDirEdit->setText( mpEncoder->mDirectory );
    mpQuality->setValue( mpEncoder->mQuality );
-   settings.endGroup();
 }
 
 
 void MagicEncoderOggConfig::writeSettings()
 {
-   MySettings settings;
-   settings.beginGroup( mpEncoder->mName );
-   mpEncoder->mUseEncoder  = mpUseEncoder->isChecked();
+   bool enabled = mpUseEncoder->isChecked();
+   mpEncoder->mpToggleEnableAction->setChecked( enabled );
    mpEncoder->mDirOverride = mpDirOverride->isChecked();
    mpEncoder->mDirectory   = mpDirEdit->text();
    mpEncoder->mQuality     = mpQuality->value();
-   settings.setValue( "UseEncoder", mpEncoder->mUseEncoder );
-   settings.setValue( "DirectoryOverride", mpEncoder->mDirOverride );
-   settings.setValue( "Directory", mpEncoder->mDirectory );
-   settings.setValue( "OggQuality", mpEncoder->mQuality );
-   settings.endGroup();
+   Settings::setValue( Settings::MagicoggUseEncoder, enabled );
+   Settings::setValue( Settings::MagicoggDirectoryOverride, mpEncoder->mDirOverride );
+   Settings::setValue( Settings::MagicoggDirectory, mpEncoder->mDirectory );
+   Settings::setValue( Settings::MagicoggOggQuality, mpEncoder->mQuality );
 }

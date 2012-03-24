@@ -15,15 +15,17 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <ScrollLine.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "MagicEncoderMp3.hpp"
 
 
-MagicEncoderMp3Config::MagicEncoderMp3Config( MagicEncoderMp3 *encoder, QWidget *parent, QAbstractButton *button )
-: MagicEncoderConfig( parent, button )
+MagicEncoderMp3Config::MagicEncoderMp3Config( MagicEncoderMp3 *encoder,
+                                              QWidget *parent,
+                                              QAction *toggleEnableAction )
+: MagicEncoderConfig( parent, toggleEnableAction )
 , mpEncoder( encoder )
 , mpQuality( new QDoubleSpinBox( this ) )
 , mpUseLatin1( new QCheckBox( tr("Use Latin1 instead of Utf-8 for tags"), this ) )
@@ -60,35 +62,31 @@ MagicEncoderMp3Config::~MagicEncoderMp3Config()
 
 void MagicEncoderMp3Config::readSettings()
 {
-   MySettings settings;
-   settings.beginGroup( mpEncoder->mName );
-   mpEncoder->mUseEncoder  = settings.VALUE_USE_ENCODER;
-   mpEncoder->mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
-   mpEncoder->mDirectory   = settings.VALUE_DIRECTORY;
-   mpEncoder->mUseLatin1   = settings.VALUE_USE_LATIN1;
-   mpEncoder->mQuality     = settings.VALUE_VBRQUALITY;
-   mpUseEncoder->setChecked( mpEncoder->mUseEncoder );
+   bool enabled = Settings::value( Settings::Magicmp3UseEncoder );
+   mpEncoder->mpToggleEnableAction->setChecked( enabled );
+   mpEncoder->mDirOverride = Settings::value( Settings::Magicmp3DirectoryOverride );
+   mpEncoder->mDirectory   = Settings::value( Settings::Magicmp3Directory );
+   mpEncoder->mUseLatin1   = Settings::value( Settings::Magicmp3UseLatin1 );
+   mpEncoder->mQuality     = Settings::value( Settings::Magicmp3VBRQuality );
+   mpUseEncoder->setChecked( enabled );
    mpDirOverride->setChecked( mpEncoder->mDirOverride );
    mpDirEdit->setText( mpEncoder->mDirectory );
    mpQuality->setValue( mpEncoder->mQuality );
    mpUseLatin1->setChecked( mpEncoder->mUseLatin1 );
-   settings.endGroup();
 }
 
 
 void MagicEncoderMp3Config::writeSettings()
 {
-   MySettings settings;
-   settings.beginGroup( mpEncoder->mName );
-   mpEncoder->mUseEncoder  = mpUseEncoder->isChecked();
+   bool enabled = mpUseEncoder->isChecked();
+   mpEncoder->mpToggleEnableAction->setChecked( enabled );
    mpEncoder->mDirOverride = mpDirOverride->isChecked();
    mpEncoder->mDirectory   = mpDirEdit->text();
    mpEncoder->mQuality     = mpQuality->value();
    mpEncoder->mUseLatin1   = mpUseLatin1->isChecked();
-   settings.setValue( "UseEncoder", mpEncoder->mUseEncoder );
-   settings.setValue( "DirectoryOverride", mpEncoder->mDirOverride );
-   settings.setValue( "Directory", mpEncoder->mDirectory );
-   settings.setValue( "VBRQuality", mpEncoder->mQuality );
-   settings.setValue( "UseLatin1", mpEncoder->mUseLatin1 );
-   settings.endGroup();
+   Settings::setValue( Settings::Magicmp3UseEncoder, enabled );
+   Settings::setValue( Settings::Magicmp3DirectoryOverride, mpEncoder->mDirOverride );
+   Settings::setValue( Settings::Magicmp3Directory, mpEncoder->mDirectory );
+   Settings::setValue( Settings::Magicmp3VBRQuality, mpEncoder->mQuality );
+   Settings::setValue( Settings::Magicmp3UseLatin1, mpEncoder->mUseLatin1 );
 }

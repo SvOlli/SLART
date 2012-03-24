@@ -15,15 +15,17 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <ScrollLine.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "MagicEncoderWav.hpp"
 
 
-MagicEncoderWavConfig::MagicEncoderWavConfig( MagicEncoderWav *encoder, QWidget *parent, QAbstractButton *button )
-: MagicEncoderConfig( parent, button )
+MagicEncoderWavConfig::MagicEncoderWavConfig( MagicEncoderWav *encoder,
+                                              QWidget *parent,
+                                              QAction *toggleEnableAction )
+: MagicEncoderConfig( parent, toggleEnableAction )
 , mpEncoder( encoder )
 {
    QGridLayout *mainLayout = new QGridLayout( this );
@@ -49,27 +51,23 @@ MagicEncoderWavConfig::~MagicEncoderWavConfig()
 
 void MagicEncoderWavConfig::readSettings()
 {
-   MySettings settings;
-   settings.beginGroup( mpEncoder->mName );
-   mpEncoder->mUseEncoder  = settings.VALUE_USE_ENCODER;
-   mpEncoder->mDirOverride = settings.VALUE_DIRECTORY_OVERRIDE;
-   mpEncoder->mDirectory   = settings.VALUE_DIRECTORY;
-   mpUseEncoder->setChecked( mpEncoder->mUseEncoder );
+   bool enabled = Settings::value( Settings::MagicwavUseEncoder );
+   mpEncoder->mpToggleEnableAction->setChecked( enabled );
+   mpEncoder->mDirOverride = Settings::value( Settings::MagicwavDirectoryOverride );
+   mpEncoder->mDirectory   = Settings::value( Settings::MagicwavDirectory );
+   mpUseEncoder->setChecked( enabled );
    mpDirOverride->setChecked( mpEncoder->mDirOverride );
    mpDirEdit->setText( mpEncoder->mDirectory );
-   settings.endGroup();
 }
 
 
 void MagicEncoderWavConfig::writeSettings()
 {
-   MySettings settings;
-   settings.beginGroup( mpEncoder->mName );
-   mpEncoder->mUseEncoder  = mpUseEncoder->isChecked();
+   bool enabled = mpUseEncoder->isChecked();
+   mpEncoder->mpToggleEnableAction->setChecked( enabled );
    mpEncoder->mDirOverride = mpDirOverride->isChecked();
    mpEncoder->mDirectory   = mpDirEdit->text();
-   settings.setValue( "UseEncoder", mpEncoder->mUseEncoder );
-   settings.setValue( "DirectoryOverride", mpEncoder->mDirOverride );
-   settings.setValue( "Directory", mpEncoder->mDirectory );
-   settings.endGroup();
+   Settings::setValue( Settings::MagicwavUseEncoder, enabled );
+   Settings::setValue( Settings::MagicwavDirectoryOverride, mpEncoder->mDirOverride );
+   Settings::setValue( Settings::MagicwavDirectory, mpEncoder->mDirectory );
 }

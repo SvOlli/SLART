@@ -15,8 +15,8 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <ScrollLine.hpp>
+#include <Settings.hpp>
 #include <TagList.hpp>
 
 /* local headers */
@@ -204,11 +204,12 @@ bool MagicEncoderOgg::encodeCDAudio( const char* data, int size )
 }
 
 
-MagicEncoderConfig *MagicEncoderOgg::configWidget( QWidget *parent, QAbstractButton *button )
+MagicEncoderConfig *MagicEncoderOgg::configWidget( QWidget *parent )
 {
    if( !mpConfigWidget )
    {
-      mpConfigWidget = new MagicEncoderOggConfig( this, parent, button );
+      mpToggleEnableAction = new QAction( mName, parent );
+      mpConfigWidget = new MagicEncoderOggConfig( this, parent, mpToggleEnableAction );
    }
    return mpConfigWidget;
 }

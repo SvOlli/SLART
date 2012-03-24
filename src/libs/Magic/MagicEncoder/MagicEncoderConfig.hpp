@@ -49,9 +49,9 @@ public:
     \brief constructor
 
     \param parent parent widget
-    \param button TODO
+    \param toggleEnableAction action for enable/disable
    */
-   MagicEncoderConfig( QWidget *parent, QAbstractButton *button );
+   MagicEncoderConfig( QWidget *parent, QAction *toggleEnableAction );
 
    /*!
     \brief descructor
@@ -87,7 +87,6 @@ signals:
    void useEncoderClicked( bool on );
 
 protected:
-   QAbstractButton      *mpExternalUseEncoder; /*!< \brief handle for external "enable" button */
    QCheckBox            *mpUseEncoder; /*!< \brief internal button for enabling encoder */
    QCheckBox            *mpDirOverride; /*!< \brief override for destination directory */
    QLineEdit            *mpDirEdit; /*!< \brief data for override destination directory */

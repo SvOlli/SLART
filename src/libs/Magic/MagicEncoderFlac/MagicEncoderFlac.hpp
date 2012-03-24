@@ -63,7 +63,7 @@ public:
     \param parent
     \param button
    */
-   MagicEncoderConfig *configWidget( QWidget *parent, QAbstractButton *button );
+   MagicEncoderConfig *configWidget( QWidget *parent );
 
    /*!
     \brief initialize the encoder
