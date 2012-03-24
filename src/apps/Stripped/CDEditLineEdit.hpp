@@ -2,7 +2,7 @@
  * src/apps/Stripped/CDEditLineEdit.hpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
@@ -66,7 +66,7 @@ protected:
    void keyPressEvent( QKeyEvent *event );
 
 private:
-   CDEdit   *mpParent; /*!< TODO */
+   CDEdit   *mpParent; /*!< \todo */
 };
 
 /*! @} */

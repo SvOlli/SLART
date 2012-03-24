@@ -1,13 +1,13 @@
 /*
- * src/apps/Stripped/ConfigDialog.hpp
+ * src/apps/Stripped/StrippedConfigDialog.hpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef CONFIGDIALOG_HPP
-#define CONFIGDIALOG_HPP CONFIGDIALOG_HPP
+#ifndef STRIPPEDCONFIGDIALOG_HPP
+#define STRIPPEDCONFIGDIALOG_HPP STRIPPEDCONFIGDIALOG_HPP
 
 /* base class */
 #include <QDialog>
@@ -15,16 +15,16 @@
 /* system headers */
 
 /* Qt headers */
-#include <QPointer>
+#include <QList>
 
 /* local library headers */
 #include <MagicEncoderLoader.hpp>
-#include <MySettings.hpp>
 #include <TagList.hpp>
 
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QAction;
 class QCheckBox;
 class QComboBox;
 class QDoubleSpinBox;
@@ -38,7 +38,6 @@ class CDReader;
 class ConfigNotifyWidget;
 class Encoder;
 class GlobalConfigWidget;
-class MySettings;
 class ProxyWidget;
 
 /*!
@@ -49,9 +48,9 @@ class ProxyWidget;
 /*!
  \brief
 
- \dotfile "graphs/apps/Stripped/ConfigDialog_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Stripped/StrippedConfigDialog_connect.dot" "Connect Graph"
 */
-class ConfigDialog : public QDialog
+class StrippedConfigDialog : public QDialog
 {
    Q_OBJECT
 
@@ -63,13 +62,20 @@ public:
     \param parent
     \param flags
    */
-   ConfigDialog( CDReader *cdreader, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   StrippedConfigDialog( CDReader *cdreader, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
    /*!
     \brief destructor
 
    */
-   virtual ~ConfigDialog();
+   virtual ~StrippedConfigDialog();
+
+   /*!
+    \brief \todo
+
+    \return QList<QAction *>
+   */
+   QList<QAction*> encoderToggleEnableActions();
 
 public slots:
 
@@ -132,28 +138,27 @@ signals:
    void configChanged();
 
 private:
-   Q_DISABLE_COPY( ConfigDialog )
+   Q_DISABLE_COPY( StrippedConfigDialog )
 
-   CDReader             *mpCDReader; /*!< TODO */
-   GlobalConfigWidget   *mpGlobalConfigWidget; /*!< TODO */
-   ProxyWidget          *mpProxyWidget; /*!< TODO */
-   QLabel               *mpDevicesLabel; /*!< TODO */
-   QComboBox            *mpDevicesBox; /*!< TODO */
-   QCheckBox            *mpAutoFreeDB; /*!< TODO */
-   QCheckBox            *mpAutoEject; /*!< TODO */
-   QCheckBox            *mpAutoEnqueue; /*!< TODO */
-   QCheckBox            *mpCDTextLatin1; /*!< TODO */
-   QCheckBox            *mpShowStats; /*!< TODO */
-   QLabel               *mpDirButtonLabel; /*!< TODO */
-   QLineEdit            *mpDirEdit; /*!< TODO */
-   QPushButton          *mpDirButton; /*!< TODO */
-   QLabel               *mpPatternLabel; /*!< TODO */
-   QLineEdit            *mpPattern; /*!< TODO */
-   QLabel               *mpPatternExample; /*!< TODO */
-   QTabWidget           *mpEncoderTabs; /*!< TODO */
-   MySettings           *mpSettings;
-   TagList              mTagList; /*!< TODO */
-   MagicEncoderList     mEncoders; /*!< TODO */
+   CDReader             *mpCDReader; /*!< \todo */
+   GlobalConfigWidget   *mpGlobalConfigWidget; /*!< \todo */
+   ProxyWidget          *mpProxyWidget; /*!< \todo */
+   QLabel               *mpDevicesLabel; /*!< \todo */
+   QComboBox            *mpDevicesBox; /*!< \todo */
+   QCheckBox            *mpAutoFreeDB; /*!< \todo */
+   QCheckBox            *mpAutoEject; /*!< \todo */
+   QCheckBox            *mpAutoEnqueue; /*!< \todo */
+   QCheckBox            *mpCDTextLatin1; /*!< \todo */
+   QCheckBox            *mpShowStats; /*!< \todo */
+   QLabel               *mpDirButtonLabel; /*!< \todo */
+   QLineEdit            *mpDirEdit; /*!< \todo */
+   QPushButton          *mpDirButton; /*!< \todo */
+   QLabel               *mpPatternLabel; /*!< \todo */
+   QLineEdit            *mpPattern; /*!< \todo */
+   QLabel               *mpPatternExample; /*!< \todo */
+   QTabWidget           *mpEncoderTabs; /*!< \todo */
+   TagList              mTagList; /*!< \todo */
+   MagicEncoderList     mEncoders; /*!< \todo */
 };
 
 /* defaults */

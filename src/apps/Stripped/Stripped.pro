@@ -25,10 +25,7 @@ RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
 
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
-SOURCES += Application.cpp
-
-HEADERS += ConfigDialog.hpp
-SOURCES += ConfigDialog.cpp
+SOURCES += StrippedApplication.cpp
 
 HEADERS += CDReader.hpp
 SOURCES += CDReader.cpp
@@ -53,6 +50,9 @@ SOURCES += CDDBClient.cpp
 
 HEADERS += ParanoiaStatus.hpp
 SOURCES += ParanoiaStatus.cpp
+
+HEADERS += StrippedConfigDialog.hpp
+SOURCES += StrippedConfigDialog.cpp
 
 HEADERS += StrippedMainWindow.hpp
 SOURCES += StrippedMainWindow.cpp

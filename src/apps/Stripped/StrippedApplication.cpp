@@ -1,8 +1,8 @@
 /*
- * src/apps/Stripped/Application.cpp
+ * src/apps/Stripped/StrippedApplication.cpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
@@ -12,14 +12,14 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 #include <SingleInstance.hpp>
 #include <Trace.hpp>
 #include <Translate.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
+#include "StrippedConfigDialog.hpp"
 #include "StrippedMainWindow.hpp"
 
 
@@ -41,8 +41,9 @@ int main(int argc, char *argv[])
    Satellite::create();
 
    {
-      MySettings settings;
-      QFile qssFile( settings.styleSheetFile() );
+      QFile qssFile( Settings::value( Settings::CommonUseGlobalStyleSheetFile ) ?
+                        Settings::value( Settings::GlobalStyleSheetFile ) :
+                        Settings::value( Settings::CommonStyleSheetFile ) );
       if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
       {
          app.setStyleSheet( qssFile.readAll() );

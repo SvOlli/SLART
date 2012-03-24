@@ -17,8 +17,8 @@
 
 /* local library headers */
 #include <MagicEncoderProxy.hpp>
-#include <Settings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "CDEdit.hpp"
@@ -532,7 +532,7 @@ void CDReaderThread::runEject()
 void CDReaderThread::cancel()
 {
    mCancel = true;
-   /* TODO: set timer to stop thread */
+   /* \todo: set timer to stop thread */
 }
 
 

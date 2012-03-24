@@ -2,7 +2,7 @@
  * src/apps/Stripped/StrippedMainWindow.cpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
@@ -26,8 +26,8 @@
 #include "CDEdit.hpp"
 #include "CDInfo.hpp"
 #include "CDReader.hpp"
-#include "ConfigDialog.hpp"
 #include "ParanoiaStatus.hpp"
+#include "StrippedConfigDialog.hpp"
 #include "StrippedMainWindow.hpp"
 
 
@@ -42,7 +42,7 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
 , mpCDReader( new CDReader( mpCDInfo, mpCDEdit, this ) )
 , mpParanoiaStatus( new ParanoiaStatus( this ) )
 , mpMessage( new QLabel( this ) )
-, mpConfigDialog( new ConfigDialog( mpCDReader, this ) )
+, mpConfigDialog( new StrippedConfigDialog( mpCDReader, this ) )
 , mpActionSettings( new QAction( tr("Settings"), this) )
 , mpActionCancel( new QAction( tr("Cancel"), this) )
 , mpActionScanCD( new QAction( tr("Scan CD"), this) )
@@ -100,6 +100,14 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    toolBarCDReader->addWidget( mpCDReader );
    addToolBarBreak( Qt::BottomToolBarArea );
 
+   QToolBar *toolBarEncoders = new QToolBar( tr("Encoders"), this );
+   addToolBar( Qt::TopToolBarArea, toolBarEncoders );
+   toolBarEncoders->setObjectName( "Encoders" );
+   foreach( QAction *toggleEnableAction, mpConfigDialog->encoderToggleEnableActions() )
+   {
+      addToolAction( toolBarEncoders, toggleEnableAction );
+   }
+
    QToolBar *toolBarCDDBClient = new QToolBar( tr("CDDBClient"), this );
    addToolBar( Qt::TopToolBarArea, toolBarCDDBClient );
    toolBarCDDBClient->setObjectName( "CDDBClient" );
@@ -118,8 +126,6 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    /* buttons */
    connect( mpActionSettings, SIGNAL(triggered()),
             mpConfigDialog, SLOT(exec()) );
-   connect( mpConfigDialog, SIGNAL(configChanged()),
-            mpCDReader, SLOT(readSettings()) );
    connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
             mpConfigDialog, SLOT(readSettings()) );
 
@@ -203,9 +209,8 @@ StrippedMainWindow::~StrippedMainWindow()
 }
 
 
-void StrippedMainWindow::addToolAction( QToolBar *bar, QAction *action, bool checkable )
+void StrippedMainWindow::addToolAction( QToolBar *bar, QAction *action )
 {
-   action->setCheckable( checkable );
    bar->addAction( action );
    QToolButton *b = qobject_cast<QToolButton*>( bar->widgetForAction( action ) );
    b->setAutoRaise( false );
@@ -245,7 +250,7 @@ void StrippedMainWindow::closeEvent( QCloseEvent *event )
 {
    QSettings *settings = Settings::get();
    settings->setValue( "Geometry", saveGeometry() );
-   settings->setValue( "State", saveState() );
+   //settings->setValue( "State", saveState() );
    event->accept();
 }
 

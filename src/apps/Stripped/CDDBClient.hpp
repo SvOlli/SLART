@@ -244,14 +244,14 @@ private:
    /*!
     \brief handle the "match a cd"-reply
 
-    \param reply TODO
+    \param reply \todo
    */
    void handleQueryData( QNetworkReply *reply );
 
    /*!
     \brief handle the "get cd data"-reply
 
-    \param reply TODO
+    \param reply \todo
    */
    void handleReadData( QNetworkReply *reply );
 

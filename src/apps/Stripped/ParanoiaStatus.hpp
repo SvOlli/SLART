@@ -90,10 +90,10 @@ signals:
 private:
    Q_DISABLE_COPY( ParanoiaStatus )
 
-   int               *mpData; /*!< TODO */
-   QSpinBox          *mpTrackNr; /*!< TODO */
-   QLabel            **mpTrackErrors; /*!< TODO */
-   QLabel            **mpTotalErrors; /*!< TODO */
+   int               *mpData; /*!< \todo */
+   QSpinBox          *mpTrackNr; /*!< \todo */
+   QLabel            **mpTrackErrors; /*!< \todo */
+   QLabel            **mpTotalErrors; /*!< \todo */
 };
 
 /*! @} */

@@ -2,7 +2,7 @@
  * src/apps/Stripped/CDReader.hpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
@@ -220,14 +220,14 @@ signals:
 private:
    Q_DISABLE_COPY( CDReader )
 
-   CDReaderThread       *mpCDReaderThread; /*!< TODO */
-   CDInfo               *mpCDInfo; /*!< TODO */
-   CDEdit               *mpCDEdit; /*!< TODO */
-   QProgressBar         *mpProgressBar; /*!< TODO */
-   QLabel               *mpRippingSpeed; /*!< TODO */
-   QTimer               *mpTimer; /*!< TODO */
-   MagicEncoderList     mEncoders; /*!< TODO */
-   QString              mDevice; /*!< TODO */
+   CDReaderThread       *mpCDReaderThread; /*!< \todo */
+   CDInfo               *mpCDInfo; /*!< \todo */
+   CDEdit               *mpCDEdit; /*!< \todo */
+   QProgressBar         *mpProgressBar; /*!< \todo */
+   QLabel               *mpRippingSpeed; /*!< \todo */
+   QTimer               *mpTimer; /*!< \todo */
+   MagicEncoderList     mEncoders; /*!< \todo */
+   QString              mDevice; /*!< \todo */
 };
 
 /*! @} */

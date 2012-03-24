@@ -1,13 +1,13 @@
 /*
- * src/apps/Stripped/ConfigDialog.cpp
+ * src/apps/Stripped/StrippedConfigDialog.cpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
 /* class declaration */
-#include "ConfigDialog.hpp"
+#include "StrippedConfigDialog.hpp"
 
 /* system headers */
 
@@ -20,7 +20,6 @@
 #include <MagicEncoderInterface.hpp>
 #include <MagicEncoderProxy.hpp>
 #include <MagicEncoder/MagicEncoderConfig.hpp>
-#include <MySettings.hpp>
 #include <ProxyWidget.hpp>
 #include <Satellite.hpp>
 #include <Settings.hpp>
@@ -32,7 +31,7 @@
 /* class variable instantiation */
 
 
-ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags flags )
+StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpCDReader( cdreader )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
@@ -51,7 +50,6 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 , mpPattern( new QLineEdit( this ) )
 , mpPatternExample( new QLabel( tr(""), this ) )
 , mpEncoderTabs( new QTabWidget( this ) )
-, mpSettings( new MySettings( this ) )
 , mTagList()
 , mEncoders()
 {
@@ -97,8 +95,14 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    i=1;
    foreach( MagicEncoderProxy *encoder, mEncoders )
    {
+      mpEncoderTabs->addTab( encoder->configWidget( this ), encoder->name() );
       QCheckBox *encoderCheckBox = new QCheckBox( encoder->name(), encoders );
-      mpEncoderTabs->addTab( encoder->configWidget( this, encoderCheckBox ), encoder->name() );
+      QAction *toggleEnableAction = encoder->toggleEnableAction();
+qDebug() << "Stripped:" << toggleEnableAction->text() << toggleEnableAction;
+      connect( encoderCheckBox, SIGNAL(toggled(bool)),
+               toggleEnableAction, SLOT(setChecked(bool)) );
+      connect( toggleEnableAction, SIGNAL(toggled(bool)),
+               encoderCheckBox, SLOT(setChecked(bool)) );
       if( encoder->useEncoder() )
       {
          encoderCheckBox->setChecked( true );
@@ -137,6 +141,24 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
    strLayout->setColumnStretch( 2, 1 );
    strLayout->setRowStretch( 9, 1 );
    strTab->setLayout( strLayout );
+
+   QCheckBox *c2 = new QCheckBox( "c2", this );
+   QCheckBox *c1 = new QCheckBox( "c1", this );
+   QAction *a1 = new QAction( "action", this );
+   strLayout->addWidget( c2, 10, 0, 1, 3 );
+   strLayout->addWidget( c1, 11, 0, 1, 3 );
+   c2->setCheckable( true );
+   c1->setCheckable( true );
+   a1->setCheckable( true );
+   connect( c2, SIGNAL(toggled(bool)),
+            a1, SLOT(setChecked(bool)) );
+   connect( a1, SIGNAL(toggled(bool)),
+            c2, SLOT(setChecked(bool)) );
+
+   connect( c1, SIGNAL(toggled(bool)),
+            a1, SLOT(setChecked(bool)) );
+   connect( a1, SIGNAL(toggled(bool)),
+            c1, SLOT(setChecked(bool)) );
 
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
@@ -180,7 +202,7 @@ ConfigDialog::ConfigDialog( CDReader *cdreader, QWidget *parent, Qt::WindowFlags
 }
 
 
-ConfigDialog::~ConfigDialog()
+StrippedConfigDialog::~StrippedConfigDialog()
 {
    foreach( MagicEncoderProxy *encoder, mEncoders )
    {
@@ -194,7 +216,7 @@ ConfigDialog::~ConfigDialog()
 }
 
 
-void ConfigDialog::exec()
+void StrippedConfigDialog::exec()
 {
    readSettings();
    QDialog::exec();
@@ -215,7 +237,7 @@ void ConfigDialog::exec()
 }
 
 
-void ConfigDialog::setRippingDir()
+void StrippedConfigDialog::setRippingDir()
 {
    QFileDialog fileDialog( this );
 
@@ -231,7 +253,7 @@ void ConfigDialog::setRippingDir()
 }
 
 
-void ConfigDialog::readSettings()
+void StrippedConfigDialog::readSettings()
 {
    int i;
    i = mpDevicesBox->findText( Settings::value( Settings::StrippedDevice ) );
@@ -266,7 +288,7 @@ void ConfigDialog::readSettings()
 }
 
 
-void ConfigDialog::writeSettings()
+void StrippedConfigDialog::writeSettings()
 {
    Settings::setValue( Settings::StrippedDevice, mpDevicesBox->currentText() );
    Settings::setValue( Settings::StrippedAutoFreeDB, mpAutoFreeDB->isChecked() );
@@ -289,7 +311,7 @@ void ConfigDialog::writeSettings()
 }
 
 
-void ConfigDialog::handleDevices( const QStringList &devices )
+void StrippedConfigDialog::handleDevices( const QStringList &devices )
 {
 #if 0
 TRACESTART(ConfigDialog::handleDevices);
@@ -314,7 +336,7 @@ TRACEMSG << devices;
 }
 
 
-void ConfigDialog::handleDevice( const QString &device )
+void StrippedConfigDialog::handleDevice( const QString &device )
 {
 #if 0
 TRACESTART(ConfigDialog::handleDevice);
@@ -331,7 +353,18 @@ TRACEMSG << device;
 }
 
 
-void ConfigDialog::updatePattern( const QString &text )
+void StrippedConfigDialog::updatePattern( const QString &text )
 {
    mpPatternExample->setText( mTagList.fileName(text)+".ext" );
+}
+
+
+QList<QAction*> StrippedConfigDialog::encoderToggleEnableActions()
+{
+   QList<QAction*> retval;
+   foreach( MagicEncoderProxy *encoder, mEncoders )
+   {
+      retval << encoder->toggleEnableAction();
+   }
+   return retval;
 }

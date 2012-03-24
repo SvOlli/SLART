@@ -17,7 +17,6 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MySettings.hpp>
 
 /* local headers */
 

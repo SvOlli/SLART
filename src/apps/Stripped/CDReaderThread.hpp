@@ -270,22 +270,22 @@ private:
 
    */
    enum { modeUndefined, modeGetDevices, modeReadToc, modeReadCDText,
-          modeReadAudioData, modeEject } mMode; /*!< TODO */
+          modeReadAudioData, modeEject } mMode; /*!< \todo */
 
-   ::CdIo_t             *mpCdIo; /*!< TODO */
-   ::cdrom_drive_t      *mpDrive; /*!< TODO */
-   ::cdrom_paranoia_t   *mpParanoia; /*!< TODO */
-   CDInfo               *mpCDInfo; /*!< TODO */
-   CDEdit               *mpCDEdit; /*!< TODO */
-   unsigned long        *mpCallbackFunction; /*!< TODO */
-   bool                 mCancel; /*!< TODO */
-   bool                 mTrackHasErrors; /*!< TODO */
-   bool                 mDiscHasErrors; /*!< TODO */
+   ::CdIo_t             *mpCdIo; /*!< \todo */
+   ::cdrom_drive_t      *mpDrive; /*!< \todo */
+   ::cdrom_paranoia_t   *mpParanoia; /*!< \todo */
+   CDInfo               *mpCDInfo; /*!< \todo */
+   CDEdit               *mpCDEdit; /*!< \todo */
+   unsigned long        *mpCallbackFunction; /*!< \todo */
+   bool                 mCancel; /*!< \todo */
+   bool                 mTrackHasErrors; /*!< \todo */
+   bool                 mDiscHasErrors; /*!< \todo */
    unsigned long        mPackets;
    QMutex               mPacketsMutex;
-   QString              mDevice; /*!< TODO */
-   QStringList          mDevices; /*!< TODO */
-   MagicEncoderList     mEncoders; /*!< TODO */
+   QString              mDevice; /*!< \todo */
+   QStringList          mDevices; /*!< \todo */
+   MagicEncoderList     mEncoders; /*!< \todo */
 };
 
 /*! @} */

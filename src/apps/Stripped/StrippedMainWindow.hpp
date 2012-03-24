@@ -32,7 +32,7 @@ class CDInfo;
 class CDDBClient;
 class CDEdit;
 class CDReader;
-class ConfigDialog;
+class StrippedConfigDialog;
 class GenericSatMsgHandler;
 class ParanoiaStatus;
 class Satellite;
@@ -138,7 +138,13 @@ protected:
 private:
    Q_DISABLE_COPY( StrippedMainWindow )
 
-   void addToolAction( QToolBar *bar, QAction *action, bool checkable = false );
+   /*!
+    \brief \todo
+
+    \param bar
+    \param action
+   */
+   void addToolAction( QToolBar *bar, QAction *action );
 
    int         mForbidMove;
 
@@ -150,7 +156,7 @@ private:
    CDReader             *mpCDReader;
    ParanoiaStatus       *mpParanoiaStatus;
    QLabel               *mpMessage;
-   ConfigDialog         *mpConfigDialog;
+   StrippedConfigDialog *mpConfigDialog;
 
    QAction     *mpActionSettings;
    QAction     *mpActionCancel;
