@@ -168,6 +168,7 @@ QStringList SettingsGeneratorStorage::declaration() const
 
 QStringList SettingsGeneratorStorage::definition() const
 {
+   QString entryFormat("");
    QStringList retval;
 
    if( mType == "-" )
@@ -188,31 +189,37 @@ QStringList SettingsGeneratorStorage::definition() const
       retval << "\tQSettings *settings = cpSettings->get( \"" + mTopPart + "\" );";
    }
 
-   foreach( const QString &part, mParts )
+   entryFormat.append( "\"" );
+   if( mParts.size() > 0 )
    {
-      if( part.startsWith("@") )
+      foreach( const QString &part, mParts )
       {
-         retval << "\tsettings->beginGroup( QApplication::applicationName );";
-      }
-      else
-      {
-         retval << "\tsettings->beginGroup( \"" + part + "\" );";
+         if( part.startsWith( "@" ) )
+         {
+            entryFormat.append( "\" + QApplication::applicationName + \"" );
+         }
+         else
+         {
+            entryFormat.append( part );
+         }
+         entryFormat.append( "/" );
       }
    }
+   entryFormat.append( "%1\"" );
+
    retval << "\tswitch( id )"
           << "\t{";
 
    for( int i = 0; i < mParameterNames.size(); i++ )
    {
       retval << "\tcase " + enumTypeName(i) + ":"
-             << "\t\tsettings->setValue( \"" + mParameterNames.at(i) + "\", value );"
+             << "\t\tsettings->setValue( " + entryFormat.arg( mParameterNames.at(i) ) + ", value );"
              << "\t\tbreak;";
    }
 
    retval << "\tdefault:"
           << "\t\tqFatal( \"illegal " + enumTypeName() + " value\" );"
           << "\t}"
-          << "\tsettings->endGroup();"
           << "}\n\n";
 
    QString defaultValue;
@@ -266,7 +273,7 @@ QStringList SettingsGeneratorStorage::definition() const
       }
 
       retval << "\tcase " + enumTypeName( i ) + ":"
-             << "\t\tretval = settings->value( \"" + mParameterNames.at(i) + "\"" + defaultValue +" )." + toType + "();"
+             << "\t\tretval = settings->value( " + entryFormat.arg( mParameterNames.at(i) ) + defaultValue +" )." + toType + "();"
              << "\t\tbreak;";
    }
 
@@ -274,10 +281,6 @@ QStringList SettingsGeneratorStorage::definition() const
           << "\t\tqFatal( \"illegal " + enumTypeName() + " value\" );"
           << "\t}";
 
-   for( int i = 0; i < mParts.size(); i++ )
-   {
-      retval << "\tsettings->endGroup();";
-   }
    retval << "\treturn retval;"
           << "}\n\n";
 
