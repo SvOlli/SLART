@@ -60,7 +60,6 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    setCentralWidget( mpCDEdit );
 
    QToolBar *toolBarMain = new QToolBar( tr("Main Actions"), this );
-   addToolBar( Qt::BottomToolBarArea, toolBarMain );
    toolBarMain->setObjectName( "Main Actions" );
    toolBarMain->setToolButtonStyle( Qt::ToolButtonTextOnly );
    addToolAction( toolBarMain, mpActionSettings );
@@ -70,7 +69,6 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    addToolAction( toolBarMain, mpActionEject );
 
    QToolBar *toolBarEdit = new QToolBar( tr("Edit Tracks"), this );
-   addToolBar( Qt::BottomToolBarArea, toolBarEdit );
    toolBarEdit->setObjectName( "Edit Tracks");
    toolBarEdit->setToolButtonStyle( Qt::ToolButtonTextOnly );
    addToolAction( toolBarEdit, mpActionToggleRip );
@@ -79,31 +77,23 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    addToolAction( toolBarEdit, mpActionNormTitle );
    addToolAction( toolBarEdit, mpActionCopyArtist );
    addToolAction( toolBarEdit, mpActionCopyYear );
-   addToolBarBreak( Qt::BottomToolBarArea );
 
    QToolBar *toolBarMessage = new QToolBar( tr("Message"), this );
-   addToolBar( Qt::BottomToolBarArea, toolBarMessage );
    toolBarMessage->setObjectName( "Message" );
    toolBarMessage->addWidget( mpMessage );
-   addToolBarBreak( Qt::BottomToolBarArea );
 
    QToolBar *toolBarParanoiaStatus = new QToolBar( tr("Paranoia Status"), this );
-   addToolBar( Qt::BottomToolBarArea, toolBarParanoiaStatus );
    toolBarParanoiaStatus->setObjectName( "Paranoia Status" );
    toolBarParanoiaStatus->addWidget( mpParanoiaStatus );
    mpParanoiaStatus->setToolBar( toolBarParanoiaStatus );
    connect( toolBarParanoiaStatus, SIGNAL(orientationChanged(Qt::Orientation)),
             mpParanoiaStatus, SLOT(changeOrientation(Qt::Orientation)) );
-   addToolBarBreak( Qt::BottomToolBarArea );
 
    QToolBar *toolBarCDReader = new QToolBar( tr("CDReader"), this );
-   addToolBar( Qt::BottomToolBarArea, toolBarCDReader );
    toolBarCDReader->setObjectName( "CDReader" );
    toolBarCDReader->addWidget( mpCDReader );
-   addToolBarBreak( Qt::BottomToolBarArea );
 
    QToolBar *toolBarEncoders = new QToolBar( tr("Encoders"), this );
-   addToolBar( Qt::TopToolBarArea, toolBarEncoders );
    toolBarEncoders->setObjectName( "Encoders" );
    foreach( QAction *toggleEnableAction, mpConfigDialog->encoderToggleEnableActions() )
    {
@@ -111,9 +101,21 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    }
 
    QToolBar *toolBarCDDBClient = new QToolBar( tr("CDDBClient"), this );
-   addToolBar( Qt::TopToolBarArea, toolBarCDDBClient );
    toolBarCDDBClient->setObjectName( "CDDBClient" );
    toolBarCDDBClient->addWidget( mpCDDBClient );
+
+   addToolBar( Qt::BottomToolBarArea, toolBarMain );
+   addToolBar( Qt::BottomToolBarArea, toolBarEdit );
+   addToolBarBreak( Qt::BottomToolBarArea );
+   addToolBar( Qt::BottomToolBarArea, toolBarMessage );
+   addToolBarBreak( Qt::BottomToolBarArea );
+   addToolBar( Qt::BottomToolBarArea, toolBarParanoiaStatus );
+   addToolBarBreak( Qt::BottomToolBarArea );
+   addToolBar( Qt::BottomToolBarArea, toolBarCDReader );
+   addToolBarBreak( Qt::BottomToolBarArea );
+
+   addToolBar( Qt::TopToolBarArea, toolBarEncoders );
+   addToolBar( Qt::TopToolBarArea, toolBarCDDBClient );
    addToolBarBreak( Qt::TopToolBarArea );
 
    QSettings *settings = Settings::get();
@@ -275,7 +277,6 @@ void StrippedMainWindow::stateNoDrive()
 {
    mpCDEdit->clear();
    mpCDEdit->setDisabled( true );
-   //mpCDDBClient->setDisabled( true );
    mpActionSettings->setDisabled( false );
    mpActionCancel->setDisabled( true );
    mpActionScanCD->setDisabled( true );
@@ -290,7 +291,6 @@ void StrippedMainWindow::stateNoDisc()
 {
    mpCDEdit->clear();
    mpCDEdit->setDisabled( true );
-   //mpCDDBClient->setDisabled( true );
    mpActionSettings->setDisabled( false );
    mpActionCancel->setDisabled( true );
    mpActionScanCD->setDisabled( false );
@@ -302,7 +302,6 @@ void StrippedMainWindow::stateNoDisc()
 void StrippedMainWindow::stateDisc()
 {
    mpCDEdit->setDisabled( false );
-   //mpCDDBClient->setDisabled( false );
    mpActionSettings->setDisabled( false );
    mpActionCancel->setDisabled( true );
    mpActionScanCD->setDisabled( false );
@@ -314,7 +313,6 @@ void StrippedMainWindow::stateDisc()
 void StrippedMainWindow::stateScan()
 {
    mpCDEdit->setDisabled( false );
-   //mpCDDBClient->setDisabled( false );
    mpActionSettings->setDisabled( true );
    mpActionCancel->setDisabled( false );
    mpActionScanCD->setDisabled( true );
@@ -326,7 +324,6 @@ void StrippedMainWindow::stateScan()
 void StrippedMainWindow::stateNet()
 {
    mpCDEdit->setDisabled( false );
-   //mpCDDBClient->setDisabled( false );
    mpActionSettings->setDisabled( true );
    mpActionCancel->setDisabled( false );
    mpActionScanCD->setDisabled( true );
@@ -338,7 +335,6 @@ void StrippedMainWindow::stateNet()
 void StrippedMainWindow::stateRip()
 {
    mpCDEdit->setDisabled( false );
-   //mpCDDBClient->setDisabled( false );
    mpActionSettings->setDisabled( true );
    mpActionCancel->setDisabled( false );
    mpActionScanCD->setDisabled( true );

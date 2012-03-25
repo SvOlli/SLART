@@ -38,9 +38,8 @@ class ParanoiaStatus;
 class Satellite;
 
 /*!
-  \addtogroup Common Common: common subroutines
+  \addtogroup Stripped Stripped: CD-ripping
 
-  \brief also contains \ref Satellite
  @{
  */
 
