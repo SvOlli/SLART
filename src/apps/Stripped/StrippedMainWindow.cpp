@@ -207,7 +207,7 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
             mpMessage, SLOT(setText(QString)) );
 
    connect( mpCDReader, SIGNAL(errors(int,uint,const ulong*)),
-            mpParanoiaStatus, SLOT(update(int,uint,const ulong*)) );
+            mpParanoiaStatus, SLOT(setTrackData(int,uint,const ulong*)) );
 
    mpSatellite->restart();
    WidgetShot::addWidget( "MainWindow", this );

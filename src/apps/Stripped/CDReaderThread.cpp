@@ -73,8 +73,6 @@ CDReaderThread::CDReaderThread()
 , mCancel( false )
 , mTrackHasErrors( false )
 , mDiscHasErrors( false )
-, mPackets( 0 )
-, mPacketsMutex()
 , mDevice()
 , mDevices()
 , mEncoders()
@@ -329,6 +327,8 @@ void CDReaderThread::runReadAudioData()
    int lastPercent = 0;
    int track = 0;
    int sector = 0;
+   int trackSectorsRead = 0;
+   int totalSectorsRead = 0;
    char *buffer = 0;
    mCancel = false;
    QString artist;
@@ -341,7 +341,8 @@ void CDReaderThread::runReadAudioData()
    int year;
    QString createPattern = Settings::value( Settings::StrippedCreatePattern );
    bool autoEnqueue      = Settings::value( Settings::StrippedAutoEnqueue );
-
+   QTime trackTime;
+   QTime totalTime;
 
    if( !mpCdIo || !mpDrive )
    {
@@ -356,6 +357,7 @@ void CDReaderThread::runReadAudioData()
 
    emit setTrackDisabled( -1, true );
    mDiscHasErrors = false;
+   totalTime.start();
    for( track = 0; track < 100; track++ )
    {
       mpCDEdit->trackInfo( track, &dorip, &doenqueue, &artist, &title,
@@ -414,6 +416,8 @@ void CDReaderThread::runReadAudioData()
       ::cdio_paranoia_seek( mpParanoia, firstSector, SEEK_SET );
       percent = 0;
       lastPercent = 0;
+      trackTime.start();
+      trackSectorsRead = 0;
       for( sector = firstSector; sector <= lastSector; sector++ )
       {
 #if 0
@@ -421,10 +425,11 @@ printf("reading: %02d:%02d.%02d\r", sector/75/60, (sector/75)%60, sector%75);
 fflush(stdout);
 #endif
          percent = (sector - firstSector) * 100 / (lastSector - firstSector);
+         trackSectorsRead++;
          if( percent != lastPercent )
          {
             emit errors( track, MAX_PARANOIA_FUNCTION, mpCallbackFunction );
-            emit progress( percent );
+            emit progress( percent, trackSectorsRead * 1000 / trackTime.elapsed() );
             lastPercent = percent;
          }
          buffer = (char*)::cdio_paranoia_read( mpParanoia, callback0 );
@@ -441,10 +446,8 @@ fflush(stdout);
          {
             break;
          }
-         mPacketsMutex.lock();
-         mPackets++;
-         mPacketsMutex.unlock();
       }
+      totalSectorsRead += trackSectorsRead;
 #if 0
 printf("\n");
 #endif
@@ -483,7 +486,7 @@ printf("\n");
       ::cdio_paranoia_free( mpParanoia );
    }
    emit message( tr("Audio extraction completed.") );
-   emit progress( 0 );
+   emit progress( 0, totalSectorsRead * 1000 / totalTime.elapsed() );
    for( track = 0; track < 100; track++ )
    {
       emit setTrackDisabled( track, false );
@@ -535,13 +538,4 @@ void CDReaderThread::cancel()
 {
    mCancel = true;
    /* \todo: set timer to stop thread */
-}
-
-
-double CDReaderThread::reportSectors()
-{
-   QMutexLocker locker( &mPacketsMutex );
-   double retval = 1.0f * mPackets / 75;
-   mPackets = 0;
-   return retval;
 }

@@ -38,7 +38,6 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
 , mpCDEdit( edit )
 , mpProgressBar( new QProgressBar( this ) )
 , mpRippingSpeed( new QLabel( this ) )
-, mpTimer( new QTimer( this ) )
 , mEncoders()
 , mDevice()
 {
@@ -73,17 +72,12 @@ CDReader::CDReader( CDInfo *info, CDEdit *edit, QWidget *parent )
             this, SIGNAL(setTrackDisabled(int,bool)) );
    connect( mpCDReaderThread, SIGNAL(ensureVisible(int)),
             this, SIGNAL(ensureVisible(int)) );
-   connect( mpCDReaderThread, SIGNAL(progress(int)),
-            mpProgressBar, SLOT(setValue(int)) );
+   connect( mpCDReaderThread, SIGNAL(progress(int,int)),
+            this, SLOT(updateProgress(int,int)) );
    connect( mpCDReaderThread, SIGNAL(errors(int,unsigned int,const unsigned long*)),
             this, SIGNAL(errors(int,unsigned int,const unsigned long*)) );
 
-   mpTimer->setInterval( 1000 );
-   mpTimer->setSingleShot( false );
-   connect( mpTimer, SIGNAL(timeout()),
-            this, SLOT(updateRippingSpeed()) );
-   mpTimer->start();
-
+   updateProgress( 0, 0 );
    setLayout( mainLayout );
 }
 
@@ -160,8 +154,11 @@ void CDReader::noEject()
                             "Therefore the disc has not been ejected.") );
 }
 
-void CDReader::updateRippingSpeed()
+
+void CDReader::updateProgress( int percent, int speed )
 {
-   double speed = mpCDReaderThread->reportSectors();
-   mpRippingSpeed->setText( tr("Ripping Speed: %1x").arg(speed,3,'g',2) );
+   double showSpeed( speed );
+   showSpeed /= 75;
+   mpProgressBar->setValue( percent );
+   mpRippingSpeed->setText( tr("Ripping Speed: %1x").arg(showSpeed,3,'g',2) );
 }

@@ -46,7 +46,7 @@ class ProxyWidget;
   */
 
 /*!
- \brief
+ \brief Application Configuration Dialog
 
  \dotfile "graphs/apps/Stripped/StrippedConfigDialog_connect.dot" "Connect Graph"
 */

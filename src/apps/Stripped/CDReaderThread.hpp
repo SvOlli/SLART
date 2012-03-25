@@ -116,12 +116,6 @@ public:
    */
    void callback( long inpos, ::paranoia_cb_mode_t function );
 
-   /*!
-    \brief report the ripping speed
-
-   */
-   double reportSectors();
-
 public slots:
 
    /*!
@@ -201,8 +195,9 @@ signals:
     \brief send progress of track
 
     \param percent
+    \param speed in sectors/s
    */
-   void progress( int percent );
+   void progress( int percent, int speed );
 
    /*!
     \brief track has been enabled/disabled
@@ -281,8 +276,6 @@ private:
    bool                 mCancel; /*!< \todo */
    bool                 mTrackHasErrors; /*!< \todo */
    bool                 mDiscHasErrors; /*!< \todo */
-   unsigned long        mPackets;
-   QMutex               mPacketsMutex;
    QString              mDevice; /*!< \todo */
    QStringList          mDevices; /*!< \todo */
    MagicEncoderList     mEncoders; /*!< \todo */

@@ -131,8 +131,10 @@ public slots:
    /*!
     \brief display ripping speed
 
+    \param percent percent done
+    \param speed speed in sectors/s
    */
-   void updateRippingSpeed();
+   void updateProgress( int percent, int speed );
 
 signals:
 
@@ -190,8 +192,9 @@ signals:
     \brief send progress of track
 
     \param percent
+    \param speed in bytes/s
    */
-   void progress( int percent );
+   void progress( int percent, int speed );
 
    /*!
     \brief track has been enabled / disabled
@@ -225,7 +228,6 @@ private:
    CDEdit               *mpCDEdit; /*!< \todo */
    QProgressBar         *mpProgressBar; /*!< \todo */
    QLabel               *mpRippingSpeed; /*!< \todo */
-   QTimer               *mpTimer; /*!< \todo */
    MagicEncoderList     mEncoders; /*!< \todo */
    QString              mDevice; /*!< \todo */
 };

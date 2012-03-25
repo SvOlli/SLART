@@ -136,7 +136,7 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
    strLayout->addWidget( mpCDTextLatin1,   7, 0, 1, 3 );
    strLayout->addWidget( mpEncoderTabs,    8, 0, 1, 3 );
    strLayout->setColumnStretch( 2, 1 );
-   strLayout->setRowStretch( 9, 1 );
+   strLayout->setRowStretch( 8, 1 );
    strTab->setLayout( strLayout );
 
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
