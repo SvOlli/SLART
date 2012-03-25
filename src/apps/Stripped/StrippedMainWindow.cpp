@@ -91,6 +91,7 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    addToolBar( Qt::BottomToolBarArea, toolBarParanoiaStatus );
    toolBarParanoiaStatus->setObjectName( "Paranoia Status" );
    toolBarParanoiaStatus->addWidget( mpParanoiaStatus );
+   mpParanoiaStatus->setToolBar( toolBarParanoiaStatus );
    connect( toolBarParanoiaStatus, SIGNAL(orientationChanged(Qt::Orientation)),
             mpParanoiaStatus, SLOT(changeOrientation(Qt::Orientation)) );
    addToolBarBreak( Qt::BottomToolBarArea );

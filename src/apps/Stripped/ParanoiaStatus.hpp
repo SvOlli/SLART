@@ -25,6 +25,7 @@
 class QGridLayout;
 class QLabel;
 class QSpinBox;
+class QToolBar;
 
 /* forward declaration of local classes */
 class CDInfo;
@@ -58,10 +59,11 @@ public:
    virtual ~ParanoiaStatus();
 
    /*!
-    \brief detect if any errors happend during ripping
+    \brief set the toolbar this widget is running in for size adjustment
 
+    \param toolBar the "parent" toolbar
    */
-   bool hasErrors();
+   void setToolBar( QToolBar *toolBar );
 
 public slots:
    /*!
@@ -91,7 +93,7 @@ public slots:
     \param elements number of elements
     \param counts pointer to list of counts
    */
-   void update( int track, unsigned int elements, const unsigned long *counts );
+   void setTrackData( int track, unsigned int elements, const unsigned long *counts );
 
 signals:
 
@@ -106,6 +108,7 @@ private:
    QLabel            **mpHeaders; /*!< \brief \todo */
    QLabel            **mpTrackErrors; /*!< \brief \todo */
    QLabel            **mpTotalErrors; /*!< \brief \todo */
+   QToolBar          *mpToolBar;
 };
 
 /*! @} */

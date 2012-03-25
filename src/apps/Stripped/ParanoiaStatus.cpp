@@ -34,6 +34,7 @@ ParanoiaStatus::ParanoiaStatus( QWidget *parent )
 , mpHeaders( new QLabel*[NUMBER_OF_COLUMNS] )
 , mpTrackErrors( new QLabel*[NUMBER_OF_COLUMNS] )
 , mpTotalErrors( new QLabel*[NUMBER_OF_COLUMNS] )
+, mpToolBar( 0 )
 {
    mpTrackNr->setRange( 0, 99 );
    mpTrackNr->setValue( 1 );
@@ -70,6 +71,12 @@ ParanoiaStatus::~ParanoiaStatus()
 }
 
 
+void ParanoiaStatus::setToolBar( QToolBar *toolBar )
+{
+   mpToolBar = toolBar;
+}
+
+
 void ParanoiaStatus::changeOrientation( Qt::Orientation orientation )
 {
    mpLayout->addWidget( mpError, 0, 0 );
@@ -95,28 +102,11 @@ void ParanoiaStatus::changeOrientation( Qt::Orientation orientation )
          mpLayout->addWidget( mpTotalErrors[i], i + 1, 2 );
       }
    }
-}
-
-
-bool ParanoiaStatus::hasErrors()
-{
-   for( unsigned int i = 0; i < NUMBER_OF_TRACKS * NUMBER_OF_COLUMNS; i++ )
+   adjustSize();
+   if( mpToolBar )
    {
-      switch( i % NUMBER_OF_COLUMNS )
-      {
-      case 0:
-      case 1:
-      case 9:
-         break;
-      default:
-         if( mpData[i] )
-         {
-            return true;
-         }
-         break;
-      }
+      mpToolBar->adjustSize();
    }
-   return false;
 }
 
 
@@ -162,7 +152,7 @@ void ParanoiaStatus::showTrackStats( int track )
 }
 
 
-void ParanoiaStatus::update( int track, unsigned int elements, const unsigned long *counts )
+void ParanoiaStatus::setTrackData( int track, unsigned int elements, const unsigned long *counts )
 {
    if( elements > NUMBER_OF_COLUMNS )
    {
