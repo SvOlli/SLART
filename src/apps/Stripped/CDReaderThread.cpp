@@ -46,7 +46,7 @@ void CDReaderThread::callback( long /*inpos*/, ::paranoia_cb_mode_t function )
    int func = (int)function;
    if( func > 12 )
    {
-      printf( "function:%d\n", func );
+      ::fprintf( stderr, "function:%d\n", func );
       mCancel = true;
       return;
    }

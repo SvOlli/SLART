@@ -276,6 +276,7 @@ void StrippedMainWindow::eject()
 void StrippedMainWindow::stateNoDrive()
 {
    mpCDEdit->clear();
+   mpCDDBClient->setDisabled( true );
    mpCDEdit->setDisabled( true );
    mpActionSettings->setDisabled( false );
    mpActionCancel->setDisabled( true );
@@ -290,6 +291,7 @@ void StrippedMainWindow::stateNoDrive()
 void StrippedMainWindow::stateNoDisc()
 {
    mpCDEdit->clear();
+   mpCDDBClient->setDisabled( true );
    mpCDEdit->setDisabled( true );
    mpActionSettings->setDisabled( false );
    mpActionCancel->setDisabled( true );
@@ -301,6 +303,7 @@ void StrippedMainWindow::stateNoDisc()
 
 void StrippedMainWindow::stateDisc()
 {
+   mpCDDBClient->setDisabled( false );
    mpCDEdit->setDisabled( false );
    mpActionSettings->setDisabled( false );
    mpActionCancel->setDisabled( true );
@@ -312,6 +315,7 @@ void StrippedMainWindow::stateDisc()
 
 void StrippedMainWindow::stateScan()
 {
+   mpCDDBClient->setDisabled( true );
    mpCDEdit->setDisabled( false );
    mpActionSettings->setDisabled( true );
    mpActionCancel->setDisabled( false );
@@ -323,6 +327,7 @@ void StrippedMainWindow::stateScan()
 
 void StrippedMainWindow::stateNet()
 {
+   mpCDDBClient->setDisabled( true );
    mpCDEdit->setDisabled( false );
    mpActionSettings->setDisabled( true );
    mpActionCancel->setDisabled( false );
@@ -334,6 +339,8 @@ void StrippedMainWindow::stateNet()
 
 void StrippedMainWindow::stateRip()
 {
+   mpParanoiaStatus->clear();
+   mpCDDBClient->setDisabled( true );
    mpCDEdit->setDisabled( false );
    mpActionSettings->setDisabled( true );
    mpActionCancel->setDisabled( false );
