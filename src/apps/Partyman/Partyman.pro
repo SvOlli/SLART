@@ -20,7 +20,7 @@ RC_FILE = Resources/WinIcon.rc
 
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
-SOURCES += Application.cpp
+SOURCES += PartymanApplication.cpp
 
 HEADERS += CommandLineHandler.hpp
 SOURCES += CommandLineHandler.cpp
