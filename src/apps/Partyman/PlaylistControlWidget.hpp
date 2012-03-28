@@ -159,7 +159,6 @@ private:
                         bool favoriteOnly, bool leastPlayed, const QString &playFolder );
 
    Database                *mpDatabase;
-   ConfigDialog            *mpConfig;
    QTabWidget              *mpTabs;
    PlaylistContentWidget   *mpPlaylistContent;
    FileSysTreeView         *mpTreeView;

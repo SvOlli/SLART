@@ -32,7 +32,6 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
                                 QWidget *parent, Qt::WindowFlags f )
 : QWidget( parent, f )
 , mpDatabase( database )
-, mpConfig( config )
 , mpTabs( new QTabWidget( this ) )
 , mpPlaylistContent( new PlaylistContentWidget( database, true, this ) )
 , mpTreeView( new FileSysTreeView( this ) )
@@ -101,7 +100,7 @@ PlaylistControlWidget::PlaylistControlWidget( Database *database, ConfigDialog *
             this, SLOT(savePlaylist()) );
    connect( mpTabs, SIGNAL(currentChanged(int)),
             this, SLOT(handleTabChange(int)) );
-   connect( mpConfig, SIGNAL(configChanged()),
+   connect( config, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
    connect( mpTreeUpdate, SIGNAL(finished()),
             this, SLOT(finishBrowserUpdate()) );

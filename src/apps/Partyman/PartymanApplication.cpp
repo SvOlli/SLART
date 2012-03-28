@@ -22,7 +22,7 @@
 
 /* local headers */
 #include "CommandLineHandler.hpp"
-#include "PartymanMainWidget.hpp"
+#include "PartymanMainWindow.hpp"
 
 
 int main(int argc, char *argv[])
@@ -35,10 +35,9 @@ int main(int argc, char *argv[])
 
    enableCore();
 
-#ifdef Q_WS_X11
-   bool useGUI = getenv("DISPLAY") != 0;
-#else
    bool useGUI = true;
+#ifdef Q_WS_X11
+   useGUI = getenv("DISPLAY") != 0;
 #endif
    QApplication app( argc, argv, useGUI );
 
@@ -69,11 +68,9 @@ int main(int argc, char *argv[])
             }
          }
 
-         MainWindowCheckClose window;
-         PartymanMainWidget *mainWidget = new PartymanMainWidget( &window );
-         window.setMainWidget( mainWidget );
+         PartymanMainWindow window;
          window.show();
-         mainWidget->startUp();
+         window.startUp();
 
          retval = app.exec();
       }

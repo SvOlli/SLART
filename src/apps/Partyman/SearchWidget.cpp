@@ -19,15 +19,16 @@
 #include <MySettings.hpp>
 
 /* local headers */
+#include "PartymanMainWindow.hpp"
 #include "PlaylistContentWidget.hpp"
 #include "PlaylistControlWidget.hpp"
 #include "SearchLineEdit.hpp"
 
 
-SearchWidget::SearchWidget( Database *database, PlaylistControlWidget *parent )
+SearchWidget::SearchWidget( Database *database, QWidget *parent )
 : QWidget( parent )
 , mpDatabase( database )
-, mpPlaylist( parent )
+, mpParent( parent )
 , mpResults( new PlaylistContentWidget( database, false, this ) )
 , mpInput( new SearchLineEdit( this ) )
 , mpFound( new QLabel( this ) )
@@ -111,7 +112,19 @@ void SearchWidget::selectedEntries( const QModelIndex &/*index*/, int key )
          mpResults->removeSelectedItems( &entries );
          updateCounter();
          if( key == Qt::Key_Delete ) break;
-         mpPlaylist->addEntries( entries );
+
+         {
+             PlaylistControlWidget *pcw = qobject_cast<PlaylistControlWidget*>(mpParent);
+             if( pcw )
+             {
+                pcw->addEntries( entries );
+             }
+             PartymanMainWindow *pmw = qobject_cast<PartymanMainWindow*>(mpParent);
+             if( pmw )
+             {
+                //pmw->addEntries( entries );
+             }
+         }
          break;
       case Qt::Key_Escape:
          mpResults->clear();

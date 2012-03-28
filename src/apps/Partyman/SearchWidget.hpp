@@ -47,7 +47,7 @@ class SearchWidget : public QWidget
    Q_OBJECT
 
 public:
-   SearchWidget( Database *database, PlaylistControlWidget *parent );
+   SearchWidget( Database *database, QWidget *parent );
    virtual ~SearchWidget();
 
 public slots:
@@ -77,7 +77,7 @@ private:
    SearchWidget &operator=( const SearchWidget &that );
 
    Database              *mpDatabase;
-   PlaylistControlWidget *mpPlaylist;
+   QWidget               *mpParent;
    PlaylistContentWidget *mpResults;
    QLineEdit             *mpInput;
    QLabel                *mpFound;

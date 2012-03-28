@@ -23,14 +23,14 @@
 
 /* local headers */
 #include "ConfigDialog.hpp"
-#include "PlaylistControlWidget.hpp"
+#include "PartymanMainWindow.hpp"
 
 
 ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
-                              PlaylistControlWidget *playlist, QWidget *parent, Qt::WindowFlags flags )
-: QWidget( parent, flags )
+                              PartymanMainWindow *parent )
+: QWidget( parent )
 , mpConfig( config )
-, mpPlaylist( playlist )
+, mpPlaylist( parent )
 , mpSatellite( Satellite::get() )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
@@ -67,7 +67,7 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 
    QGridLayout *mainLayout    = new QGridLayout( this );
 
-   mainLayout->setContentsMargins( 0, 0, 0, 0 );
+   mainLayout->setContentsMargins( 3, 3 ,3 ,3 );
    mainLayout->setSpacing( 5 );
    mainLayout->addWidget( mpPlayer[0],      0, 0, 4, 1 );
    mainLayout->addWidget( mpPlayer[1],      0, 2, 4, 1 );

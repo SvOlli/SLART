@@ -37,7 +37,7 @@ class QAction;
 class ConfigDialog;
 class Database;
 class GenericSatMsgHandler;
-class PlaylistControlWidget;
+class PartymanMainWindow;
 class Satellite;
 class TrackInfo;
 
@@ -68,7 +68,7 @@ public:
    };
 
    ControlWidget( Database *database, ConfigDialog *config,
-                  PlaylistControlWidget *playlist, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+                  PartymanMainWindow *parent = 0 );
    virtual ~ControlWidget();
 
    /*!
@@ -213,7 +213,7 @@ private:
    ControlWidget &operator=( const ControlWidget &that );
 
    ConfigDialog            *mpConfig;
-   PlaylistControlWidget   *mpPlaylist;
+   PartymanMainWindow      *mpPlaylist;
    Satellite               *mpSatellite;
    GenericSatMsgHandler    *mpGenericSatMsgHandler;
    QPushButton             *mpSettingsButton;
