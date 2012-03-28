@@ -1059,6 +1059,9 @@ void Settings::setValue( PartymanStringList id, const QStringList &value )
    case PartymanPlaylist:
       settings->setValue( "Playlist", value );
       return;
+   case PartymanPlaylistAppend:
+      settings->setValue( "PlaylistAppend", value );
+      return;
    default:
       qFatal( "illegal PartymanStringList value" );
    }
@@ -1074,6 +1077,8 @@ QStringList Settings::value( PartymanStringList id )
       return settings->value( "PlayedArtists" ).toStringList();
    case PartymanPlaylist:
       return settings->value( "Playlist" ).toStringList();
+   case PartymanPlaylistAppend:
+      return settings->value( "PlaylistAppend" ).toStringList();
    default:
       qFatal( "illegal PartymanStringList value" );
       return QStringList();

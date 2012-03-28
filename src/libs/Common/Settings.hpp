@@ -368,7 +368,8 @@ public:
    enum PartymanStringList
    {
       PartymanPlayedArtists,
-      PartymanPlaylist
+      PartymanPlaylist,
+      PartymanPlaylistAppend
    };
    /*!
     \brief enum for value() and setValue()
