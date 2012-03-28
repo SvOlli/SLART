@@ -37,7 +37,7 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
 , mAllowAutostart( false )
 , mProhibitCloseWindow( false )
-, mForbidMove( 50 )
+, mForbidMove( 75 )
 , mpDatabase( new Database() )
 , mpConfig( new ConfigDialog( mpDatabase, this ) )
 , mpPlaylistContent( new PlaylistContentWidget( mpDatabase, true, this ) )
@@ -70,8 +70,10 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    QDockWidget *dockControl = new QDockWidget( tr("Player"), this );
    dockControl->setObjectName( "Player" );
    dockControl->setWidget( mpControl );
+#if 0
    dockControl->setFeatures( QDockWidget::DockWidgetMovable |
                              QDockWidget::DockWidgetFloatable );
+#endif
 
    /* settings up help text */
    QDockWidget *dockHelpText = new QDockWidget( tr("Help"), this );
@@ -148,6 +150,39 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(prohibitClose(bool)) );
    addDockWidget( Qt::RightDockWidgetArea, dockPLC );
 #endif
+
+   QShortcut *f1 = new QShortcut( QKeySequence(Qt::Key_F1), this );
+   QShortcut *f2 = new QShortcut( QKeySequence(Qt::Key_F2), this );
+   QShortcut *f3 = new QShortcut( QKeySequence(Qt::Key_F3), this );
+   QShortcut *f4 = new QShortcut( QKeySequence(Qt::Key_F4), this );
+
+   connect( f1, SIGNAL(activated()),
+            dockHelpText, SLOT(show()) );
+   connect( f1, SIGNAL(activated()),
+            dockHelpText, SLOT(raise()) );
+   connect( f1, SIGNAL(activated()),
+            mpHelpText, SLOT(setFocus()) );
+
+   connect( f2, SIGNAL(activated()),
+            dockTrackInfo, SLOT(show()) );
+   connect( f2, SIGNAL(activated()),
+            dockTrackInfo, SLOT(raise()) );
+   connect( f2, SIGNAL(activated()),
+            mpTrackInfo, SLOT(setFocus()) );
+
+   connect( f3, SIGNAL(activated()),
+            dockSearch, SLOT(show()) );
+   connect( f3, SIGNAL(activated()),
+            dockSearch, SLOT(raise()) );
+   connect( f3, SIGNAL(activated()),
+            mpSearch, SLOT(setFocus()) );
+
+   connect( f4, SIGNAL(activated()),
+            mpDockTreeView, SLOT(show()) );
+   connect( f4, SIGNAL(activated()),
+            mpDockTreeView, SLOT(raise()) );
+   connect( f4, SIGNAL(activated()),
+            mpTreeView, SLOT(setFocus()) );
 
    addDockWidget( Qt::TopDockWidgetArea, dockControl );
    addDockWidget( Qt::BottomDockWidgetArea, mpDockTreeView );
