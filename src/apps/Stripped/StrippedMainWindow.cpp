@@ -126,9 +126,8 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    {
       restoreDockWidget( dock );
    }
+   toolBarMain->toggleViewAction()->setDisabled( true );
    toolBarMain->show();
-   connect( toolBarMain, SIGNAL(visibilityChanged(bool)),
-            toolBarMain, SLOT(show()) );
 
    /* buttons */
    connect( mpActionSettings, SIGNAL(triggered()),

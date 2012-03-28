@@ -56,7 +56,6 @@ public:
    /*!
     \brief constructor
 
-    \param saveWindow
     \param parent
     \param flags
    */
