@@ -159,7 +159,7 @@ public slots:
     \brief handle unload request
 
    */
-   void unload();
+   void unload( bool drop = false );
    /*!
     \brief handle successful connection to DerMixD
 

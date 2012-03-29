@@ -107,8 +107,6 @@ public:
    */
    void saveTracks( bool unload );
 
-private:
-
 public slots:
    /*!
     \brief (re-)read configuration
@@ -207,6 +205,18 @@ signals:
 
    */
    void requestTab( int tabNr );
+
+protected:
+   /*!
+    \brief reimplemented for the drop of drag'n'drop of tracks
+
+   */
+   void dragEnterEvent( QDragEnterEvent *event );
+   /*!
+    \brief reimplemented for the drop of drag'n'drop of tracks
+
+   */
+   void dropEvent( QDropEvent *event );
 
 private:
    ControlWidget( const ControlWidget &that );

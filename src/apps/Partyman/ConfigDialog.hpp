@@ -148,41 +148,11 @@ private:
    QLineEdit            *mpPlayerPattern;
    QLineEdit            *mpListPattern;
    QLineEdit            *mpTrayIconPattern;
-   QCheckBox            *mpSplitterVertical;
    QPushButton          *mpUpdateBrowserButton;
    QPushButton          *mpStartKioskButton;
    GlobalConfigWidget   *mpGlobalSettings;
 };
 
 /*! @} */
-
-/* defaults */
-#define VALUE_AUTOCONNECT         value("AutoConnect", false).toBool()
-#define VALUE_COUNTSKIP           value("CountSkip", false).toBool()
-#define VALUE_CROSSFADETIME       value("CrossfadeTime", 10).toInt()
-#define VALUE_DERMIXDCMD          value("DerMixDcmd", "dermixd").toString()
-#define VALUE_DERMIXDHOST         value("DerMixDhost", "localhost").toString()
-#define VALUE_DERMIXDLOG          value("DerMixDlog", false).toBool()
-#define VALUE_DERMIXDPARAMS       value("DerMixDparams", "").toString()
-#define VALUE_DERMIXDPORT         value("DerMixDport", 8888).toInt()
-#define VALUE_DERMIXDRUN          value("DerMixDrun", true).toBool()
-#define VALUE_LOGCMD              value("LogCmd", "").toString()
-#define VALUE_LISTPATTERN         value("ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|").toString()
-#define VALUE_NAMEPATTERN         value("NamePattern", QApplication::applicationName() + ": " + "|$TITLE|").toString()
-#define VALUE_NORMALIZEMODE       value("NormalizeMode", 0).toInt()
-#define VALUE_NORMALIZEVALUE      value("NormalizeValue", 0.4).toDouble()
-#define VALUE_PLAYERPATTERN       value("PlayerPattern", "|$ARTIST| - |$TITLE|").toString()
-#define VALUE_PLAYFOLDER          value("PlayFolder").toString()
-#define VALUE_PLAYNOTAGAINCOUNT   value("PlayNotAgainCount", 10).toInt()
-#define VALUE_PLAYONLYFAVORITE    value("PlayOnlyFavorite", false).toBool()
-#define VALUE_PLAYONLYLEASTPLAYED value("PlayOnlyLeastPlayed", false).toBool()
-#define VALUE_RANDOMTRIES         value("RandomTries", 10).toInt()
-#define VALUE_SPLITTERVERTICAL    value("SplitterVertical", false).toBool()
-#define VALUE_STYLESHEET          value("StyleSheet", QString()).toString()
-#define VALUE_TRAYICON            value("TrayIcon", false).toBool()
-#define VALUE_TRAYICONBUBBLE      value("TrayIconBubble", true).toBool()
-#define VALUE_TRAYICONBUBBLEICON  value("TrayIconBubbleIcon", 0).toInt()
-#define VALUE_TRAYICONBUBBLETIME  value("TrayIconBubbleTime", 4.0).toDouble()
-#define VALUE_TRAYICONPATTERN     value("TrayIconPattern", "|$ARTIST|#n|$TITLE|#n|$ALBUM|").toString()
 
 #endif

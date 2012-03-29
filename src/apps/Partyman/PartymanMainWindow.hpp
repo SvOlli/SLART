@@ -69,17 +69,35 @@ public:
    virtual ~PartymanMainWindow();
 
    /*!
-    \brief prepare startup of application
+    \brief determine the filename of the next track
 
+    \param fileName pointer to write filename to
    */
-   void startUp();
 
    void getNextTrack( QString *fileName );
+   /*!
+    \brief set "favorite" and "unwanted" flags for current track
+
+    \param favorite
+    \param unwanted
+   */
+
    void setTrackInfoFavoriteUnwanted( bool favorite, bool unwanted );
+   /*!
+    \brief set the tracks for the two players
+
+    \param current
+    \param next
+   */
    void setCurrentNext( const QString &current = QString(),
                         const QString &next = QString() );
 
-protected:
+   /*!
+    \brief set the data for the track info widget
+
+    \param trackInfo
+   */
+   void setTrackInfo( const TrackInfo &trackInfo );
 
 public slots:
    /*!
@@ -89,26 +107,66 @@ public slots:
     \param title
    */
    void changeTitle( const QIcon &icon, const QString &title );
-   /*!
-    \brief don't autostart if database is empty
 
-    \param allow
-   */
-   void allowAutostart( bool allow );
    /*!
-    \brief prohibit closing of window (Partyman kiosk mode)
+    \brief prohibit closing of window (kiosk mode)
 
+    \param prohibit
    */
    void prohibitClose( bool prohibit );
 
+   /*!
+    \brief add entries to playlist
+
+    \param qmi
+   */
    void addEntries( const QModelIndex &qmi );
+
+   /*!
+    \brief remove track from playlist
+
+    \param qmi
+    \param key
+   */
    void deleteEntry( const QModelIndex &qmi, int key );
+
+   /*!
+    \brief add entries to playlist
+
+    \param entries
+    \param atStart insert them at start instead of at the end
+   */
    void addEntries( const QStringList &entries, bool atStart = false );
+
+   /*!
+    \brief read the configuration
+
+   */
    void readConfig();
-   void getTrack( const TrackInfo &trackInfo );
-   void startBrowserUpdate();
+
+   /*!
+    \brief update the browse tab by reading from database
+
+    \param initial initial run on startup?
+   */
+   void startBrowserUpdate( bool initial = false );
+
+   /*!
+    \brief handler for completion of startBrowserUpdate
+
+   */
    void finishBrowserUpdate();
+
+   /*!
+    \brief update the track info data structure
+
+   */
    void updateTrackInfo();
+
+   /*!
+    \brief save the current playlist to registry
+
+   */
    void savePlaylist();
 
 signals:
@@ -146,7 +204,6 @@ private:
    bool getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
                         bool favoriteOnly, bool leastPlayed, const QString &playFolder );
 
-   bool                    mAllowAutostart; /*!< \todo */
    bool                    mProhibitCloseWindow; /*!< \brief flag to store of close is prohibited */
    int                     mForbidMove;
    Database                *mpDatabase; /*!< \todo */

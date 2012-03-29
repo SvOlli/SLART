@@ -18,9 +18,9 @@
 #include <AboutWidget.hpp>
 #include <Database.hpp>
 #include <GlobalConfigWidget.hpp>
-#include <MySettings.hpp>
 #include <PasswordChecker.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 #include <Version.hpp>
 #include <WidgetShot.hpp>
 
@@ -59,7 +59,6 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 , mpPlayerPattern( new QLineEdit( this ) )
 , mpListPattern( new QLineEdit( this ) )
 , mpTrayIconPattern( new QLineEdit( this ) )
-, mpSplitterVertical( new QCheckBox( tr("Use A Vertical Splitter Line"), this ) )
 , mpUpdateBrowserButton( new QPushButton( tr("Update Browser Tab"), this ) )
 , mpStartKioskButton( new QPushButton( tr("Start Kiosk Mode"), this ) )
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
@@ -160,7 +159,6 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
    displayLayout->addWidget( mpPlayerPattern, 3, 1 );
    displayLayout->addWidget( new QLabel( tr("List:") ), 4, 0 );
    displayLayout->addWidget( mpListPattern, 4, 1 );
-   displayLayout->addWidget( mpSplitterVertical, 5, 0, 1, 2 );
    displayLayout->setRowStretch( 6, 1 );
    displayButtonLayout->addWidget( mpUpdateBrowserButton );
    displayButtonLayout->addWidget( mpStartKioskButton );
@@ -248,39 +246,36 @@ void ConfigDialog::exec()
 
 void ConfigDialog::readSettings()
 {
-   MySettings settings;
-
    mpPlayFolder->clear();
    mpPlayFolder->addItem( tr("| All |") );
    mpPlayFolder->addItems( mpDatabase->getFolders() );
 
-   mpDerMixDhost->setText( settings.VALUE_DERMIXDHOST );
-   mpDerMixDport->setValue( settings.VALUE_DERMIXDPORT );
-   mpDerMixDlog->setChecked( settings.VALUE_DERMIXDLOG );
-   mpDerMixDrun->setChecked( settings.VALUE_DERMIXDRUN );
-   mpDerMixDcmd->setText( settings.VALUE_DERMIXDCMD );
-   mpDerMixDparams->setText( settings.VALUE_DERMIXDPARAMS );
-   mpAutoConnect->setChecked( settings.VALUE_AUTOCONNECT );
-   mpCrossfadeTime->setValue( settings.VALUE_CROSSFADETIME );
-   mpNormalizeMode->setCurrentIndex( settings.VALUE_NORMALIZEMODE );
-   mpNormalizeValue->setValue( settings.VALUE_NORMALIZEVALUE );
-   mpLogCmd->setText( settings.VALUE_LOGCMD );
-   mpCountSkip->setChecked( settings.VALUE_COUNTSKIP );
-   mpTrayIcon->setChecked( settings.VALUE_TRAYICON );
-   mpTrayIconBubble->setChecked( settings.VALUE_TRAYICONBUBBLE );
-   mpTrayIconBubbleTime->setValue( settings.VALUE_TRAYICONBUBBLETIME );
-   mpPlayOnlyFavorite->setChecked( settings.VALUE_PLAYONLYFAVORITE );
-   mpPlayOnlyLeastPlayed->setChecked( settings.VALUE_PLAYONLYLEASTPLAYED );
-   mpPlayNotAgainCount->setValue(settings.VALUE_PLAYNOTAGAINCOUNT );
-   mpPlayerPattern->setText( settings.VALUE_PLAYERPATTERN );
-   mpListPattern->setText( settings.VALUE_LISTPATTERN );
-   mpNamePattern->setText( settings.VALUE_NAMEPATTERN );
-   mpTrayIconPattern->setText( settings.VALUE_TRAYICONPATTERN );
-   mpSplitterVertical->setChecked( settings.VALUE_SPLITTERVERTICAL );
+   mpDerMixDhost->setText( Settings::value( Settings::PartymanDerMixDhost ) );
+   mpDerMixDport->setValue( Settings::value( Settings::PartymanDerMixDport ) );
+   mpDerMixDlog->setChecked( Settings::value( Settings::PartymanDerMixDlog ) );
+   mpDerMixDrun->setChecked( Settings::value( Settings::PartymanDerMixDrun ) );
+   mpDerMixDcmd->setText( Settings::value( Settings::PartymanDerMixDcmd ) );
+   mpDerMixDparams->setText( Settings::value( Settings::PartymanDerMixDparams ) );
+   mpAutoConnect->setChecked( Settings::value( Settings::PartymanAutoConnect ) );
+   mpCrossfadeTime->setValue( Settings::value( Settings::PartymanCrossfadeTime ) );
+   mpNormalizeMode->setCurrentIndex( Settings::value( Settings::PartymanNormalizeMode ) );
+   mpNormalizeValue->setValue( Settings::value( Settings::PartymanNormalizeValue ) );
+   mpLogCmd->setText( Settings::value( Settings::PartymanLogCmd ) );
+   mpCountSkip->setChecked( Settings::value( Settings::PartymanCountSkip ) );
+   mpTrayIcon->setChecked( Settings::value( Settings::PartymanTrayIcon ) );
+   mpTrayIconBubble->setChecked( Settings::value( Settings::PartymanTrayIconBubble ) );
+   mpTrayIconBubbleTime->setValue( Settings::value( Settings::PartymanTrayIconBubbleTime ) );
+   mpPlayOnlyFavorite->setChecked( Settings::value( Settings::PartymanPlayOnlyFavorite ) );
+   mpPlayOnlyLeastPlayed->setChecked( Settings::value( Settings::PartymanPlayOnlyLeastPlayed ) );
+   mpPlayNotAgainCount->setValue(Settings::value( Settings::PartymanPlayNotAgainCount ) );
+   mpPlayerPattern->setText( Settings::value( Settings::PartymanPlayerPattern ) );
+   mpListPattern->setText( Settings::value( Settings::PartymanListPattern ) );
+   mpNamePattern->setText( Settings::value( Settings::PartymanNamePattern ) );
+   mpTrayIconPattern->setText( Settings::value( Settings::PartymanTrayIconPattern ) );
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    mpGlobalSettings->readSettings();
 
-   QString playFolder( settings.VALUE_PLAYFOLDER );
+   QString playFolder( Settings::value( Settings::PartymanPlayFolder ) );
    if( !playFolder.isEmpty() )
    {
       int i = mpPlayFolder->findText( playFolder );
@@ -297,41 +292,32 @@ void ConfigDialog::readSettings()
 
 void ConfigDialog::writeSettings()
 {
-   MySettings settings;
-
-   settings.setValue( "DerMixDhost", mpDerMixDhost->text() );
-   settings.setValue( "DerMixDport", mpDerMixDport->value() );
-   settings.setValue( "DerMixDlog", mpDerMixDlog->isChecked() );
-   settings.setValue( "DerMixDrun", mpDerMixDrun->isChecked() );
-   settings.setValue( "DerMixDcmd", mpDerMixDcmd->text() );
-   settings.setValue( "DerMixDparams", mpDerMixDparams->text() );
-   settings.setValue( "AutoConnect", mpAutoConnect->isChecked() );
-   settings.setValue( "CrossfadeTime", mpCrossfadeTime->value() );
-   settings.setValue( "NormalizeMode", mpNormalizeMode->currentIndex() );
-   settings.setValue( "NormalizeValue", mpNormalizeValue->value() );
-   settings.setValue( "LogCmd", mpLogCmd->text() );
-   settings.setValue( "CountSkip", mpCountSkip->isChecked() );
-   settings.setValue( "TrayIcon", mpTrayIcon->isChecked() );
-   settings.setValue( "TrayIconBubble", mpTrayIconBubble->isChecked() );
-   settings.setValue( "TrayIconBubbleTime", mpTrayIconBubbleTime->value() );
-   settings.setValue( "PlayOnlyFavorite", mpPlayOnlyFavorite->isChecked() );
-   settings.setValue( "PlayOnlyLeastPlayed", mpPlayOnlyLeastPlayed->isChecked() );
-   settings.setValue( "PlayNotAgainCount", mpPlayNotAgainCount->value() );
-   settings.setValue( "PlayerPattern", mpPlayerPattern->text() );
-   settings.setValue( "ListPattern", mpListPattern->text() );
-   settings.setValue( "NamePattern", mpNamePattern->text() );
-   settings.setValue( "TrayIconPattern", mpTrayIconPattern->text() );
-   settings.setValue( "SplitterVertical", mpSplitterVertical->isChecked() );
-   if( mpPlayFolder->currentIndex() )
-   {
-      settings.setValue( "PlayFolder", mpPlayFolder->currentText() );
-   }
-   else
-   {
-      settings.remove( "PlayFolder" );
-   }
+   Settings::setValue( Settings::PartymanDerMixDhost, mpDerMixDhost->text() );
+   Settings::setValue( Settings::PartymanDerMixDport, mpDerMixDport->value() );
+   Settings::setValue( Settings::PartymanDerMixDlog, mpDerMixDlog->isChecked() );
+   Settings::setValue( Settings::PartymanDerMixDrun, mpDerMixDrun->isChecked() );
+   Settings::setValue( Settings::PartymanDerMixDcmd, mpDerMixDcmd->text() );
+   Settings::setValue( Settings::PartymanDerMixDparams, mpDerMixDparams->text() );
+   Settings::setValue( Settings::PartymanAutoConnect, mpAutoConnect->isChecked() );
+   Settings::setValue( Settings::PartymanCrossfadeTime, mpCrossfadeTime->value() );
+   Settings::setValue( Settings::PartymanNormalizeMode, mpNormalizeMode->currentIndex() );
+   Settings::setValue( Settings::PartymanNormalizeValue, mpNormalizeValue->value() );
+   Settings::setValue( Settings::PartymanLogCmd, mpLogCmd->text() );
+   Settings::setValue( Settings::PartymanCountSkip, mpCountSkip->isChecked() );
+   Settings::setValue( Settings::PartymanTrayIcon, mpTrayIcon->isChecked() );
+   Settings::setValue( Settings::PartymanTrayIconBubble, mpTrayIconBubble->isChecked() );
+   Settings::setValue( Settings::PartymanTrayIconBubbleTime, mpTrayIconBubbleTime->value() );
+   Settings::setValue( Settings::PartymanPlayOnlyFavorite, mpPlayOnlyFavorite->isChecked() );
+   Settings::setValue( Settings::PartymanPlayOnlyLeastPlayed, mpPlayOnlyLeastPlayed->isChecked() );
+   Settings::setValue( Settings::PartymanPlayNotAgainCount, mpPlayNotAgainCount->value() );
+   Settings::setValue( Settings::PartymanPlayerPattern, mpPlayerPattern->text() );
+   Settings::setValue( Settings::PartymanListPattern, mpListPattern->text() );
+   Settings::setValue( Settings::PartymanNamePattern, mpNamePattern->text() );
+   Settings::setValue( Settings::PartymanTrayIconPattern, mpTrayIconPattern->text() );
+   Settings::setValue( Settings::PartymanPlayFolder, mpPlayFolder->currentIndex() ?
+                                                     mpPlayFolder->currentText() :
+                                                     QString() );
    mpGlobalSettings->writeSettings();
-   settings.sync();
    Satellite::get()->send( "p0c" );
 
    emit configChanged();

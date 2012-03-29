@@ -18,7 +18,7 @@
 
 /* local library headers */
 #include <Database.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -35,11 +35,15 @@ TrackInfoListModel::TrackInfoListModel( Database *database, QObject *parent )
 }
 
 
+TrackInfoListModel::~TrackInfoListModel()
+{
+}
+
+
 void TrackInfoListModel::readSettings()
 {
-   MySettings settings;
-   mDisplayPattern = settings.VALUE_LISTPATTERN;
-   mLocalMode      = settings.VALUE_DERMIXDRUN;
+   mDisplayPattern = Settings::value( Settings::PartymanListPattern );
+   mLocalMode      = Settings::value( Settings::PartymanDerMixDrun );
 }
 
 

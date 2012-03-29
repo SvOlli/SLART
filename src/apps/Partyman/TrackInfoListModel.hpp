@@ -44,6 +44,7 @@ class TrackInfoListModel : public QAbstractListModel
 
 public:
    TrackInfoListModel( Database *database, QObject *parent = 0 );
+   virtual ~TrackInfoListModel();
 
    /*!
     \brief get number of elements in list

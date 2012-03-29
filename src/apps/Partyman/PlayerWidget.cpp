@@ -18,7 +18,7 @@
 
 /* local library headers */
 #include <Database.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <ScrollLine.hpp>
 
 /* local headers */
@@ -90,7 +90,6 @@ PlayerWidget::PlayerWidget( int index, Database *database,
    connect( mpStatusDisplay, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(unload()) );
 
-   setAcceptDrops( true );
    mpFSM->changeState( PlayerFSM::disconnected );
 }
 
@@ -151,12 +150,11 @@ QString PlayerWidget::getCurrentTrack() const
 
 void PlayerWidget::readConfig()
 {
-   MySettings settings;
-   mConsole        = settings.VALUE_DERMIXDLOG;
-   mHeadStart      = settings.VALUE_CROSSFADETIME;
-   mNormalizeMode  = settings.VALUE_NORMALIZEMODE;
-   mNormalizeValue = settings.VALUE_NORMALIZEVALUE;
-   mDisplayPattern = settings.VALUE_PLAYERPATTERN;
+   mConsole        = Settings::value( Settings::PartymanDerMixDlog );
+   mHeadStart      = Settings::value( Settings::PartymanCrossfadeTime );
+   mNormalizeMode  = Settings::value( Settings::PartymanNormalizeMode );
+   mNormalizeValue = Settings::value( Settings::PartymanNormalizeValue );
+   mDisplayPattern = Settings::value( Settings::PartymanPlayerPattern );
 }
 
 
@@ -190,13 +188,16 @@ void PlayerWidget::playPosChange( int /*action*/ )
 }
 
 
-void PlayerWidget::unload()
+void PlayerWidget::unload( bool drop )
 {
    if( mpFSM->getState() == PlayerFSM::ready )
    {
       QString actual( mpScrollLine->toolTip() );
       mpFSM->changeState( PlayerFSM::searching );
-      mpControlWidget->addToPlaylist( QStringList( actual ) );
+      if( !drop )
+      {
+         mpControlWidget->addToPlaylist( QStringList( actual ) );
+      }
    }
 }
 
@@ -263,7 +264,7 @@ bool PlayerWidget::skip()
    {
       case PlayerFSM::playing:
       case PlayerFSM::paused:
-         if( MySettings().VALUE_COUNTSKIP )
+         if( Settings::value( Settings::PartymanCountSkip ) )
          {
             ++mTrackInfo.mTimesPlayed;
             mpDatabase->updateTrackInfo( &mTrackInfo );

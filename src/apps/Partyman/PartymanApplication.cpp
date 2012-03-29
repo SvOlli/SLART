@@ -14,8 +14,8 @@
 
 /* local library headers */
 #include <MainWindowCheckClose.hpp>
-#include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 #include <SorcererLoader.hpp>
 #include <Trace.hpp>
 #include <Translate.hpp>
@@ -59,8 +59,11 @@ int main(int argc, char *argv[])
          SorcererLoader::detect();
 
          Satellite::create();
+
          {
-            QFile qssFile( MySettings().styleSheetFile() );
+            QFile qssFile( Settings::value( Settings::CommonUseGlobalStyleSheetFile ) ?
+                              Settings::value( Settings::GlobalStyleSheetFile ) :
+                              Settings::value( Settings::CommonStyleSheetFile ) );
             if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
             {
                app.setStyleSheet( qssFile.readAll() );
@@ -70,7 +73,6 @@ int main(int argc, char *argv[])
 
          PartymanMainWindow window;
          window.show();
-         window.startUp();
 
          retval = app.exec();
       }

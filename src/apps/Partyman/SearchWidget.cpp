@@ -16,12 +16,11 @@
 
 /* local library headers */
 #include <Database.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "PartymanMainWindow.hpp"
 #include "PlaylistContentWidget.hpp"
-#include "PlaylistControlWidget.hpp"
 #include "SearchLineEdit.hpp"
 
 
@@ -33,7 +32,6 @@ SearchWidget::SearchWidget( Database *database, QWidget *parent )
 , mpInput( new SearchLineEdit( this ) )
 , mpFound( new QLabel( this ) )
 {
-   MySettings settings;
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    QHBoxLayout *lineLayout = new QHBoxLayout;
    mainLayout->setContentsMargins( 1, 1, 1, 1 );
@@ -57,8 +55,8 @@ SearchWidget::SearchWidget( Database *database, QWidget *parent )
    connect( mpResults, SIGNAL(dataRemoved()),
             this, SLOT(updateCounter()) );
 
-   mpInput->setText( settings.value( "Search", QString()).toString() );
-   settings.remove( "Search" );
+   mpInput->setText( Settings::value( Settings::PartymanSearch ) );
+   Settings::setValue( Settings::PartymanSearch, QString() );
    mpInput->selectAll();
    mpInput->setFocus();
 }
@@ -66,7 +64,7 @@ SearchWidget::SearchWidget( Database *database, QWidget *parent )
 
 SearchWidget::~SearchWidget()
 {
-   MySettings().setValue( "Search", mpInput->text() );
+   Settings::setValue( Settings::PartymanSearch, mpInput->text() );
 }
 
 
@@ -114,11 +112,6 @@ void SearchWidget::selectedEntries( const QModelIndex &/*index*/, int key )
          if( key == Qt::Key_Delete ) break;
 
          {
-             PlaylistControlWidget *pcw = qobject_cast<PlaylistControlWidget*>(mpParent);
-             if( pcw )
-             {
-                pcw->addEntries( entries );
-             }
              PartymanMainWindow *pmw = qobject_cast<PartymanMainWindow*>(mpParent);
              if( pmw )
              {

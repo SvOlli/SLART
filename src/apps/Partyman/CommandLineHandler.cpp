@@ -18,8 +18,8 @@
 
 /* local library headers */
 #include <GenericSatMsgHandler.hpp>
-#include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -68,10 +68,9 @@ void CommandLineHandler::timeout()
 {
    if( !mConnected )
    {
-      MySettings settings;
-      QStringList list( settings.value( "PlaylistAppend", QStringList() ).toStringList() );
+      QStringList list( Settings::value( Settings::PartymanPlaylistAppend ) );
       list << mList;
-      settings.setValue( "PlaylistAppend", list );
+      Settings::setValue( Settings::PartymanPlaylistAppend, list );
       emit done();
    }
 }

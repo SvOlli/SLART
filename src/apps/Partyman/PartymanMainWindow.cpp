@@ -18,6 +18,7 @@
 #include <Database.hpp>
 #include <MainWindowCheckClose.hpp>
 #include <PasswordChecker.hpp>
+#include <Satellite.hpp>
 #include <Settings.hpp>
 #include <WidgetShot.hpp>
 
@@ -28,16 +29,14 @@
 #include "FileSysTreeUpdate.hpp"
 #include "FileSysTreeView.hpp"
 #include "PlaylistContentWidget.hpp"
-#include "PlaylistControlWidget.hpp"
 #include "SearchWidget.hpp"
 #include "TrackInfoWidget.hpp"
 
 
 PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
-, mAllowAutostart( false )
 , mProhibitCloseWindow( false )
-, mForbidMove( 75 )
+, mForbidMove( 100 )
 , mpDatabase( new Database() )
 , mpConfig( new ConfigDialog( mpDatabase, this ) )
 , mpPlaylistContent( new PlaylistContentWidget( mpDatabase, true, this ) )
@@ -49,13 +48,17 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 , mpTreeModel( new FileSysTreeModel( this ) )
 , mpNextTreeModel( 0 )
 , mpTreeUpdate( new FileSysTreeUpdate() )
-, mpDockTreeView( new QDockWidget( this ) )
+, mpDockTreeView( 0 )
 , mCurrentFile()
 , mNextFile()
 {
+   qsrand( time((time_t*)0) );
+   setUnifiedTitleAndToolBarOnMac(true);
+   WidgetShot::addWidget( "MainWindow", this );
+   mpDatabase->registerUpdate( Satellite::get(), "p0u" );
+
    setAttribute( Qt::WA_AlwaysShowToolTips, true );
    setWindowIcon( QIcon( ":/PartymanSmile.png" ) );
-   //setDockOptions( (DockOptions)0x1f );
 
    /* setting up playlist */
    mpPlaylistContent->setAlternatingRowColors( true );
@@ -70,10 +73,8 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    QDockWidget *dockControl = new QDockWidget( tr("Player"), this );
    dockControl->setObjectName( "Player" );
    dockControl->setWidget( mpControl );
-#if 0
    dockControl->setFeatures( QDockWidget::DockWidgetMovable |
                              QDockWidget::DockWidgetFloatable );
-#endif
 
    /* settings up help text */
    QDockWidget *dockHelpText = new QDockWidget( tr("Help"), this );
@@ -89,7 +90,13 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    dockTrackInfo->setObjectName( "Info" );
    dockTrackInfo->setWidget( mpTrackInfo );
 
+   /* setting up search */
+   QDockWidget *dockSearch = new QDockWidget( tr("Search"), this );
+   dockSearch->setObjectName( "Search" );
+   dockSearch->setWidget( mpSearch );
+
    /* setting up file system tree view */
+   mpDockTreeView = new QDockWidget( this );
    mpDockTreeView->setObjectName( "Browse" );
    mpDockTreeView->setWidget( mpTreeView );
    mpTreeView->header()->hide();
@@ -97,12 +104,6 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    mpTreeView->setDragEnabled( true );
    mpTreeView->setSelectionMode( QAbstractItemView::ExtendedSelection );
 
-   /* setting up search */
-   QDockWidget *dockSearch = new QDockWidget( tr("Search"), this );
-   dockSearch->setObjectName( "Search" );
-   dockSearch->setWidget( mpSearch );
-
-#if 1
    connect( mpTreeView, SIGNAL(context(QModelIndex)),
             this, SLOT(addEntries(QModelIndex)) );
    connect( this, SIGNAL(expand(QModelIndex)),
@@ -129,32 +130,16 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
             mpControl, SLOT(handleKioskMode(bool)) );
    connect( PasswordChecker::get(), SIGNAL(enabled(bool)),
             this, SLOT(prohibitClose(bool)) );
-#else
-   connect( mpControl, SIGNAL(requestAddToPlaylist(QStringList,bool)),
-            mpPlaylist, SLOT(addEntries(QStringList,bool)) );
-   connect( mpControl, SIGNAL(requestChangeTitle(QIcon,QString)),
-            this, SLOT(changeTitle(QIcon,QString)) );
-   connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
-            mpControl, SLOT(allowConnect(bool)) );
-   connect( mpPlaylist, SIGNAL(playlistIsValid(bool)),
-            this, SLOT(allowAutostart(bool)) );
-   connect( mpControl, SIGNAL(trackUpdate()),
-            mpPlaylist, SLOT(updateTrackInfo()) );
-   connect( mpConfig, SIGNAL(updateBrowser()),
-            mpPlaylist, SLOT(startBrowserUpdate()) );
-   connect( PasswordChecker::get(), SIGNAL(enabled(bool)),
-            mpControl, SLOT(handleKioskMode(bool)) );
+#if 0
    connect( mpControl, SIGNAL(requestTab(int)),
             mpPlaylist, SLOT(handleTabChange(int)) );
-   connect( PasswordChecker::get(), SIGNAL(enabled(bool)),
-            this, SLOT(prohibitClose(bool)) );
-   addDockWidget( Qt::RightDockWidgetArea, dockPLC );
 #endif
 
    QShortcut *f1 = new QShortcut( QKeySequence(Qt::Key_F1), this );
    QShortcut *f2 = new QShortcut( QKeySequence(Qt::Key_F2), this );
    QShortcut *f3 = new QShortcut( QKeySequence(Qt::Key_F3), this );
    QShortcut *f4 = new QShortcut( QKeySequence(Qt::Key_F4), this );
+   QShortcut *f5 = new QShortcut( QKeySequence(Qt::Key_F5), this );
 
    connect( f1, SIGNAL(activated()),
             dockHelpText, SLOT(show()) );
@@ -184,28 +169,36 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    connect( f4, SIGNAL(activated()),
             mpTreeView, SLOT(setFocus()) );
 
+   connect( f5, SIGNAL(activated()),
+            dockControl, SLOT(show()) );
+   connect( f5, SIGNAL(activated()),
+            dockControl, SLOT(raise()) );
+   connect( f5, SIGNAL(activated()),
+            mpControl, SLOT(setFocus()) );
+
    addDockWidget( Qt::TopDockWidgetArea, dockControl );
    addDockWidget( Qt::BottomDockWidgetArea, mpDockTreeView );
    addDockWidget( Qt::BottomDockWidgetArea, dockSearch );
    addDockWidget( Qt::BottomDockWidgetArea, dockTrackInfo );
    addDockWidget( Qt::BottomDockWidgetArea, dockHelpText );
-#if 1
+
    tabifyDockWidget( mpDockTreeView, dockSearch );
    tabifyDockWidget( mpDockTreeView, dockTrackInfo );
    tabifyDockWidget( mpDockTreeView, dockHelpText );
-#endif
 
-   QSettings *settings = Settings::get();
-   restoreGeometry( settings->value("Geometry").toByteArray() );
-//   restoreState( settings->value("State").toByteArray() );
+   restoreGeometry( Settings::value( Settings::CommonGeometry ) );
+   restoreState( Settings::value( Settings::CommonState ) );
    QList<QDockWidget*> docks( findChildren<QDockWidget*>() );
    foreach( QDockWidget *dock, docks )
    {
       restoreDockWidget( dock );
    }
 
-   setUnifiedTitleAndToolBarOnMac(true);
-   WidgetShot::addWidget( "MainWindow", this );
+   readConfig();
+
+   QMetaObject::invokeMethod( this, "startBrowserUpdate",
+                              Qt::QueuedConnection,
+                              Q_ARG( bool, true ) );
 }
 
 
@@ -227,11 +220,11 @@ bool PartymanMainWindow::event( QEvent *event )
    {
       if( event->type() == QEvent::Move )
       {
-         restoreGeometry( Settings::get()->value("Geometry").toByteArray() );
+         restoreGeometry( Settings::value( Settings::CommonGeometry ) );
       }
       mForbidMove--;
    }
-   return QWidget::event( event );
+   return QMainWindow::event( event );
 }
 
 
@@ -254,33 +247,6 @@ void PartymanMainWindow::prohibitClose( bool prohibit )
 }
 
 
-void PartymanMainWindow::startUp()
-{
-   mpControl->readConfig();
-   startBrowserUpdate();
-   QCoreApplication::processEvents();
-   if( Settings::value( Settings::PartymanAutoConnect ) && mAllowAutostart )
-   {
-      mpControl->initConnect();
-   }
-   else
-   {
-      mpControl->initDisconnect();
-   }
-}
-
-
-void PartymanMainWindow::allowAutostart( bool allow )
-{
-   mAllowAutostart = allow;
-   if( !allow )
-   {
-      QMessageBox::warning( this, QApplication::applicationName() + ": " + tr("database empty"),
-                            tr("The database is empty. Please run Rubberbandman.") );
-   }
-}
-
-
 void PartymanMainWindow::closeEvent( QCloseEvent *event )
 {
    if( mProhibitCloseWindow )
@@ -291,9 +257,8 @@ void PartymanMainWindow::closeEvent( QCloseEvent *event )
          return;
       }
    }
-   QSettings *settings = Settings::get();
-   settings->setValue( "Geometry", saveGeometry() );
-   settings->setValue( "State", saveState() );
+   Settings::setValue( Settings::CommonGeometry, saveGeometry() );
+   Settings::setValue( Settings::CommonState, saveState() );
    event->accept();
 }
 
@@ -450,16 +415,17 @@ bool PartymanMainWindow::getRandomTrack( QString *fileName, QStringList *playedA
 void PartymanMainWindow::readConfig()
 {
    mpTreeView->setAnimated( Settings::value( Settings::GlobalAnimateViews ) );
+   mpControl->readConfig();
 }
 
 
-void PartymanMainWindow::getTrack( const TrackInfo &trackInfo )
+void PartymanMainWindow::setTrackInfo( const TrackInfo &trackInfo )
 {
    mpTrackInfo->getTrack( trackInfo );
 }
 
 
-void PartymanMainWindow::startBrowserUpdate()
+void PartymanMainWindow::startBrowserUpdate( bool initial )
 {
    if( mpNextTreeModel )
    {
@@ -476,7 +442,27 @@ void PartymanMainWindow::startBrowserUpdate()
       mpTreeUpdate->start();
       mpTreeUpdate->setPriority( QThread::LowestPriority );
    }
-   emit playlistIsValid( retval > 0 );
+
+   if( initial )
+   {
+      if( retval <= 0 )
+      {
+         QMessageBox::warning( this, QApplication::applicationName() + ": " + tr("database empty"),
+                               tr("The database is empty. Please run Rubberbandman.") );
+      }
+      else
+      {
+         emit playlistIsValid( true );
+         if( Settings::value( Settings::PartymanAutoConnect ) && (retval > 0) )
+         {
+            mpControl->initConnect();
+         }
+         else
+         {
+            mpControl->initDisconnect();
+         }
+      }
+   }
 }
 
 

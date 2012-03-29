@@ -17,8 +17,8 @@
 /* local library headers */
 #include <GenericSatMsgHandler.hpp>
 #include <GlobalConfigWidget.hpp>
-#include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 #include <WidgetShot.hpp>
 
 /* local headers */
@@ -61,24 +61,26 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
 , mDerMixDstarted( false )
 , mLastP0p()
 {
+   setAcceptDrops( true );
+   mpSettingsButton->setObjectName( QString("SettingsButton") );
    mpPlayer[0] = new PlayerWidget(0, database, this);
    mpPlayer[1] = new PlayerWidget(1, database, this);
    mTrayIconClickTimer.setSingleShot( true );
 
    QGridLayout *mainLayout    = new QGridLayout( this );
 
-   mainLayout->setContentsMargins( 3, 3 ,3 ,3 );
+   mainLayout->setContentsMargins( 3, 3, 3 ,3 );
    mainLayout->setSpacing( 5 );
-   mainLayout->addWidget( mpPlayer[0],      0, 0, 4, 1 );
-   mainLayout->addWidget( mpPlayer[1],      0, 2, 4, 1 );
-   mainLayout->addWidget( mpSettingsButton, 0, 1 );
-   mainLayout->addWidget( mpConnectButton,  2, 1 );
-   mainLayout->addWidget( mpSkipButton,     3, 1 );
+   mainLayout->addWidget( mpPlayer[0],      1, 0, 4, 1 );
+   mainLayout->addWidget( mpPlayer[1],      1, 2, 4, 1 );
+   mainLayout->addWidget( mpSettingsButton, 1, 1 );
+   mainLayout->addWidget( mpConnectButton,  3, 1 );
+   mainLayout->addWidget( mpSkipButton,     4, 1 );
 
    mainLayout->setColumnStretch( 0, 1 );
    mainLayout->setColumnStretch( 2, 1 );
-   mainLayout->setRowStretch( 1, 1 );
-   mainLayout->setRowStretch( 2, 1 );
+   mainLayout->setRowStretch( 0, 1 );
+   mainLayout->setRowStretch( 5, 1 );
 
    setLayout( mainLayout );
 
@@ -133,17 +135,6 @@ ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
             this, SLOT(handleDerMixDfinish(int,QProcess::ExitStatus)) );
    connect( &mDerMixDprocess, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(handleDerMixDerror(QProcess::ProcessError)) );
-
-#if 0
-   QShortcut *skip = new QShortcut( QKeySequence(Qt::Key_F5), this );
-
-   connect( skip, SIGNAL(activated()),
-            this, SLOT(handleSkipTrack()) );
-#endif
-
-   mpSettingsButton->setObjectName( QString("SettingsButton") );
-
-   setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
 }
 
 
@@ -211,11 +202,10 @@ void ControlWidget::saveTracks( bool unload )
 
 void ControlWidget::readConfig()
 {
-   MySettings settings;
    mpSatellite->restart();
    mpPlayer[0]->readConfig();
    mpPlayer[1]->readConfig();
-   if( settings.VALUE_DERMIXDRUN )
+   if( Settings::value( Settings::PartymanDerMixDrun ) )
    {
       mpConnectButton->setText("Start");
       mpDisconnectAction->setText("Stop");
@@ -225,8 +215,9 @@ void ControlWidget::readConfig()
       mpConnectButton->setText("Connect");
       mpDisconnectAction->setText("Disconnect");
    }
-   mpTrayIcon->setVisible( settings.VALUE_TRAYICON && QSystemTrayIcon::isSystemTrayAvailable() );
-   mpLoadAction->setEnabled( MySettings( "Global" ).VALUE_CLIPBOARDMODE > 0 );
+   mpTrayIcon->setVisible( Settings::value( Settings::PartymanTrayIcon ) &&
+                           QSystemTrayIcon::isSystemTrayAvailable() );
+   mpLoadAction->setEnabled( Settings::value( Settings::GlobalClipboardMode ) > 0 );
 }
 
 
@@ -238,23 +229,21 @@ void ControlWidget::addToPlaylist( const QStringList &entries )
 
 void ControlWidget::initConnect()
 {
-   MySettings settings;
-
    if( !mConnected )
    {
       QString hostname( "localhost" );
-      int port = settings.VALUE_DERMIXDPORT;
+      int port = Settings::value( Settings::PartymanDerMixDport );
 
-      if( settings.VALUE_DERMIXDRUN )
+      if( Settings::value( Settings::PartymanDerMixDrun ) )
       {
          QStringList args;
-         QString params( settings.VALUE_DERMIXDPARAMS );
+         QString params( Settings::value( Settings::PartymanDerMixDparams ) );
          args << "-c" << "-p" << QString::number( port );
          if( !params.isEmpty() )
          {
             args << params.split(' ');
          }
-         mDerMixDprocess.start( settings.VALUE_DERMIXDCMD, args );
+         mDerMixDprocess.start( Settings::value( Settings::PartymanDerMixDcmd ), args );
          /* block until dermixd is up an running */
          for( mWaitForDerMixD = true; mWaitForDerMixD; )
          {
@@ -269,7 +258,7 @@ void ControlWidget::initConnect()
       else
       {
          mDerMixDstarted = true;
-         hostname = settings.VALUE_DERMIXDHOST;
+         hostname = Settings::value( Settings::PartymanDerMixDhost );
       }
       mConnected = true;
       mpPlayer[0]->connectTo( hostname, port );
@@ -321,12 +310,12 @@ void ControlWidget::initDisconnect( ErrorCode errorCode )
       {
          QMessageBox::critical( this, QApplication::applicationName(), errorText );
       }
-      if( MySettings().VALUE_DERMIXDRUN )
+      if( Settings::value( Settings::PartymanDerMixDrun ) )
       {
          mDerMixDprocess.terminate();
       }
       emit signalConnected( false );
-      mpPlaylist->getTrack( TrackInfo() );
+      mpPlaylist->setTrackInfo( TrackInfo() );
       log( "p0s", "stop" );
    }
 }
@@ -523,8 +512,6 @@ void ControlWidget::handleSatellite( const QByteArray &msg )
 
 void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const QString &data )
 {
-   MySettings settings;
-
    QByteArray msg( udpEvent.toUtf8() );
    if( !data.isEmpty() )
    {
@@ -541,7 +528,7 @@ void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const
       mLastP0p.clear();
    }
 
-   QString command( settings.VALUE_LOGCMD );
+   QString command( Settings::value( Settings::PartymanLogCmd ) );
    if( !command.isEmpty() )
    {
       QStringList args;
@@ -593,11 +580,10 @@ void ControlWidget::changeOtherState( int player, PlayerFSM::tState state )
 
 void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
 {
-   MySettings settings;
    /* pass through to track info widget */
-   mpPlaylist->getTrack( trackInfo );
-   QString title( trackInfo.displayString( settings.VALUE_NAMEPATTERN ) );
-   QString bubble( trackInfo.displayString( settings.VALUE_TRAYICONPATTERN ) );
+   mpPlaylist->setTrackInfo( trackInfo );
+   QString title( trackInfo.displayString( Settings::value( Settings::PartymanNamePattern ) ) );
+   QString bubble( trackInfo.displayString( Settings::value( Settings::PartymanTrayIconPattern ) ) );
    if( trackInfo.mTitle.isEmpty() )
    {
       title  = QApplication::applicationName();
@@ -607,13 +593,13 @@ void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
    }
    emit requestChangeTitle( mPlayIcon, title );
    mpTrayIcon->setToolTip( bubble );
-   if( settings.VALUE_TRAYICON &&
-       settings.VALUE_TRAYICONBUBBLE &&
+   if( Settings::value( Settings::PartymanTrayIcon ) &&
+       Settings::value( Settings::PartymanTrayIconBubble ) &&
        QSystemTrayIcon::supportsMessages() )
    {
       mpTrayIcon->showMessage( tr("Now Playing:"), bubble,
-         (QSystemTrayIcon::MessageIcon)(settings.VALUE_TRAYICONBUBBLEICON),
-         (int)(settings.VALUE_TRAYICONBUBBLETIME * 1000) );
+         (QSystemTrayIcon::MessageIcon)(Settings::value( Settings::PartymanTrayIconBubbleIcon ) ),
+         (int)(Settings::value( Settings::PartymanTrayIconBubbleTime ) * 1000) );
    }
 }
 
@@ -664,4 +650,74 @@ void ControlWidget::handleKioskMode( bool enable )
 void ControlWidget::allowSkip()
 {
    mpSkipButton->setChecked( false );
+}
+
+
+void ControlWidget::dragEnterEvent( QDragEnterEvent *event )
+{
+   const QMimeData *mimeData = event->mimeData();
+   if( mimeData->hasUrls() )
+   {
+      PlayerFSM::eState state[2];
+      state[0] = mpPlayer[0]->getState();
+      state[1] = mpPlayer[1]->getState();
+      if( (state[0] == PlayerFSM::disconnected) || (state[0] == PlayerFSM::ready) ||
+          (state[1] == PlayerFSM::disconnected) || (state[1] == PlayerFSM::ready) )
+      {
+         event->acceptProposedAction();
+         return;
+      }
+   }
+   event->ignore();
+}
+
+
+void ControlWidget::dropEvent( QDropEvent *event )
+{
+   const QMimeData *mimeData = event->mimeData();
+   if( mimeData->hasUrls() )
+   {
+      int player = -1;
+      PlayerFSM::eState state[2];
+      state[0] = mpPlayer[0]->getState();
+      state[1] = mpPlayer[1]->getState();
+      QString fileName;
+      QStringList fileNames;
+      foreach( const QUrl &url, mimeData->urls() )
+      {
+         fileName = url.toLocalFile();
+         if( !fileName.isEmpty() )
+         {
+            fileNames.append( fileName );
+         }
+      }
+      if( (state[0] == PlayerFSM::ready) )
+      {
+         player = 0;
+      }
+      else if( (state[1] == PlayerFSM::ready) )
+      {
+         player = 1;
+      }
+      if( player >= 0 )
+      {
+         fileNames << mpPlayer[player]->getCurrentTrack();
+         addToPlaylist( fileNames );
+         mpPlayer[player]->unload( true );
+      }
+      else
+      {
+         addToPlaylist( fileNames );
+      }
+      if( (state[0] == PlayerFSM::disconnected) &&
+          (state[1] == PlayerFSM::disconnected) )
+      {
+         QMetaObject::invokeMethod( mpConnectButton, "animateClick",
+                                    Qt::QueuedConnection,
+                                    Q_ARG( int, 500 ) );
+      }
+      event->acceptProposedAction();
+      return;
+   }
+   event->ignore();
 }

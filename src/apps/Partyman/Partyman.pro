@@ -34,9 +34,6 @@ SOURCES += ConfigDialog.cpp
 HEADERS += PartymanMainWindow.hpp
 SOURCES += PartymanMainWindow.cpp
 
-HEADERS += PlaylistControlWidget.hpp
-SOURCES += PlaylistControlWidget.cpp
-
 HEADERS += PlaylistContentWidget.hpp
 SOURCES += PlaylistContentWidget.cpp
 
