@@ -118,9 +118,8 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    addToolBar( Qt::TopToolBarArea, toolBarCDDBClient );
    addToolBarBreak( Qt::TopToolBarArea );
 
-   QSettings *settings = Settings::get();
-   restoreGeometry( settings->value("Geometry").toByteArray() );
-   restoreState( settings->value("State").toByteArray() );
+   restoreGeometry( Settings::value( Settings::CommonGeometry ) );
+   restoreState( Settings::value( Settings::CommonState ) );
    QList<QDockWidget*> docks( findChildren<QDockWidget*>() );
    foreach( QDockWidget *dock, docks )
    {
@@ -234,11 +233,11 @@ bool StrippedMainWindow::event( QEvent *event )
    {
       if( event->type() == QEvent::Move )
       {
-         restoreGeometry( Settings::get()->value("Geometry").toByteArray() );
+         restoreGeometry( Settings::value( Settings::CommonGeometry ) );
       }
       mForbidMove--;
    }
-   return QWidget::event( event );
+   return QMainWindow::event( event );
 }
 
 
@@ -257,9 +256,8 @@ void StrippedMainWindow::changeTitle( const QIcon &icon, const QString &title )
 
 void StrippedMainWindow::closeEvent( QCloseEvent *event )
 {
-   QSettings *settings = Settings::get();
-   settings->setValue( "Geometry", saveGeometry() );
-   settings->setValue( "State", saveState() );
+   Settings::setValue( Settings::CommonGeometry, saveGeometry() );
+   Settings::setValue( Settings::CommonState, saveState() );
    event->accept();
 }
 
