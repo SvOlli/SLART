@@ -51,6 +51,16 @@ public:
 
     automatically generated
     */
+   enum CommonByteArray
+   {
+      CommonGeometry,
+      CommonState
+   };
+   /*!
+    \brief enum for value() and setValue()
+
+    automatically generated
+    */
    enum CommonPoint
    {
       CommonMainWindowPosition
@@ -352,6 +362,7 @@ public:
    {
       PartymanDerMixDcmd,
       PartymanDerMixDhost,
+      PartymanDerMixDparams,
       PartymanListPattern,
       PartymanLogCmd,
       PartymanNamePattern,
@@ -475,6 +486,24 @@ public:
       StrippedAutoFreeDB,
       StrippedCDTextLatin1
    };
+   /*!
+    \brief set a value in registry
+
+    automatically generated
+    \param id id of registry key
+    \param value to set
+    */
+   static void setValue( CommonByteArray id, const QByteArray &value );
+
+   /*!
+    \brief get a value in registry
+
+    automatically generated
+    \return value in registry
+    \param id id of registry key
+    */
+   static QByteArray value( CommonByteArray id );
+
    /*!
     \brief set a value in registry
 

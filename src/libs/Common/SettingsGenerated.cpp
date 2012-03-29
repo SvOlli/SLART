@@ -5,6 +5,39 @@
 #include <QSize>
 
 
+void Settings::setValue( CommonByteArray id, const QByteArray &value )
+{
+   QSettings *settings = cpSettings->get();
+   switch( id )
+   {
+   case CommonGeometry:
+      settings->setValue( "Geometry", value );
+      return;
+   case CommonState:
+      settings->setValue( "State", value );
+      return;
+   default:
+      qFatal( "illegal CommonByteArray value" );
+   }
+}
+
+
+QByteArray Settings::value( CommonByteArray id )
+{
+   QSettings *settings = cpSettings->get();
+   switch( id )
+   {
+   case CommonGeometry:
+      return settings->value( "Geometry" ).toByteArray();
+   case CommonState:
+      return settings->value( "State" ).toByteArray();
+   default:
+      qFatal( "illegal CommonByteArray value" );
+      return QByteArray();
+   }
+}
+
+
 void Settings::setValue( CommonPoint id, const QPoint &value )
 {
    QSettings *settings = cpSettings->get();
@@ -991,6 +1024,9 @@ void Settings::setValue( PartymanString id, const QString &value )
    case PartymanDerMixDhost:
       settings->setValue( "DerMixDhost", value );
       return;
+   case PartymanDerMixDparams:
+      settings->setValue( "DerMixDparams", value );
+      return;
    case PartymanListPattern:
       settings->setValue( "ListPattern", value );
       return;
@@ -1027,6 +1063,8 @@ QString Settings::value( PartymanString id )
       return settings->value( "DerMixDcmd", "dermixd" ).toString();
    case PartymanDerMixDhost:
       return settings->value( "DerMixDhost", "localhost" ).toString();
+   case PartymanDerMixDparams:
+      return settings->value( "DerMixDparams" ).toString();
    case PartymanListPattern:
       return settings->value( "ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|" ).toString();
    case PartymanLogCmd:
