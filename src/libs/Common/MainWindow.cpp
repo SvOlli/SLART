@@ -59,6 +59,7 @@ void MainWindow::enableScreenshot()
    WidgetShot::addWidget( "MainWidget", mpMainWidget );
 }
 
+
 /* Evil workaround: in the first fifty events revert all move requests */
 bool MainWindow::event( QEvent *event )
 {
@@ -70,7 +71,7 @@ bool MainWindow::event( QEvent *event )
       }
       mForbidMove--;
    }
-   return QWidget::event( event );
+   return QMainWindow::event( event );
 }
 
 
