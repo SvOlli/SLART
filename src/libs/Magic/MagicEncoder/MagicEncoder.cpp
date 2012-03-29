@@ -102,7 +102,7 @@ bool MagicEncoder::initialize( const QString &fileName, const char *extension )
    }
 
    mFileName = qfi.absoluteFilePath();
-   mFile.setFileName( mFileName );
+   mFile.setFileName( mFileName + ".tmp" );
    return mFile.open( QIODevice::WriteOnly );
 }
 
@@ -111,8 +111,14 @@ bool MagicEncoder::finalize( bool enqueue, bool cancel )
 {
    mFile.close();
 
-   if( !cancel )
+   if( cancel )
    {
+      mFile.remove();
+   }
+   else
+   {
+      QFile::remove( mFileName );
+      mFile.rename( mFileName );
       if( mpProxy )
       {
          QString msg( "%1\n%2" );
