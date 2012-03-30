@@ -1,5 +1,5 @@
 /*
- * src/apps/Partyman/ConfigDialog.cpp
+ * src/apps/Partyman/PartymanConfigDialog.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "ConfigDialog.hpp"
+#include "PartymanConfigDialog.hpp"
 
 /* system headers */
 
@@ -27,9 +27,9 @@
 /* local headers */
 
 
-static ConfigDialog *gpConfig = 0;
+static PartymanConfigDialog *gpConfig = 0;
 
-ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags flags )
+PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpDatabase( database )
 , mpDerMixDhostLabel( new QLabel( tr("Hostname:") ) )
@@ -224,16 +224,16 @@ ConfigDialog::ConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags
 
    readSettings();
 
-   WidgetShot::addWidget( "ConfigDialog", this );
+   WidgetShot::addWidget( "PartymanConfigDialog", this );
 }
 
 
-ConfigDialog::~ConfigDialog()
+PartymanConfigDialog::~PartymanConfigDialog()
 {
 }
 
 
-void ConfigDialog::exec()
+void PartymanConfigDialog::exec()
 {
    if( !(PasswordChecker::get()->unlock()) )
    {
@@ -244,7 +244,7 @@ void ConfigDialog::exec()
 }
 
 
-void ConfigDialog::readSettings()
+void PartymanConfigDialog::readSettings()
 {
    mpPlayFolder->clear();
    mpPlayFolder->addItem( tr("| All |") );
@@ -290,7 +290,7 @@ void ConfigDialog::readSettings()
 }
 
 
-void ConfigDialog::writeSettings()
+void PartymanConfigDialog::writeSettings()
 {
    Settings::setValue( Settings::PartymanDerMixDhost, mpDerMixDhost->text() );
    Settings::setValue( Settings::PartymanDerMixDport, mpDerMixDport->value() );
@@ -324,7 +324,7 @@ void ConfigDialog::writeSettings()
 }
 
 
-void ConfigDialog::handleDerMixDrun( bool checked )
+void PartymanConfigDialog::handleDerMixDrun( bool checked )
 {
    mpDerMixDcmdLabel->setDisabled( !checked );
    mpDerMixDcmd->setDisabled( !checked );
@@ -335,13 +335,13 @@ void ConfigDialog::handleDerMixDrun( bool checked )
 }
 
 
-void ConfigDialog::handleNormalizeMode( int mode )
+void PartymanConfigDialog::handleNormalizeMode( int mode )
 {
    mpNormalizeValue->setDisabled( mode != 2 );
 }
 
 
-void ConfigDialog::handleShowTrayIcon( bool checked )
+void PartymanConfigDialog::handleShowTrayIcon( bool checked )
 {
    if ( !QSystemTrayIcon::isSystemTrayAvailable() )
    {
@@ -354,7 +354,7 @@ void ConfigDialog::handleShowTrayIcon( bool checked )
 }
 
 
-void ConfigDialog::handleStartKiosk()
+void PartymanConfigDialog::handleStartKiosk()
 {
    if( PasswordChecker::get( this )->lock() )
    {

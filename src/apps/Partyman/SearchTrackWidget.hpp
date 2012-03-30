@@ -1,5 +1,5 @@
 /*
- * src/apps/Partyman/SearchWidget.hpp
+ * src/apps/Partyman/SearchTrackWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -40,15 +40,15 @@ class PlaylistControlWidget;
 /*!
  \brief \todo complete documentation
 
- \dotfile "graphs/apps/Partyman/SearchWidget_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Partyman/SearchTrackWidget_connect.dot" "Connect Graph"
 */
-class SearchWidget : public QWidget
+class SearchTrackWidget : public QWidget
 {
    Q_OBJECT
 
 public:
-   SearchWidget( Database *database, QWidget *parent );
-   virtual ~SearchWidget();
+   SearchTrackWidget( Database *database, QWidget *parent );
+   virtual ~SearchTrackWidget();
 
 public slots:
    /*!
@@ -73,8 +73,8 @@ public slots:
    void updateCounter();
 
 private:
-   SearchWidget( const SearchWidget &that );
-   SearchWidget &operator=( const SearchWidget &that );
+   SearchTrackWidget( const SearchTrackWidget &that );
+   SearchTrackWidget &operator=( const SearchTrackWidget &that );
 
    Database              *mpDatabase;
    QWidget               *mpParent;

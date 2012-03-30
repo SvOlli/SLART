@@ -22,7 +22,7 @@
 #include <ScrollLine.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
+#include "PartymanConfigDialog.hpp"
 #include "ControlWidget.hpp"
 #include "PlayerFSM.hpp"
 #include "TimeSlider.hpp"

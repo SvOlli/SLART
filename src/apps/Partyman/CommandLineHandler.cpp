@@ -22,7 +22,7 @@
 #include <Settings.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
+#include "PartymanConfigDialog.hpp"
 
 
 CommandLineHandler::CommandLineHandler( const QStringList &list, QObject *parent )

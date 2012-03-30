@@ -1,5 +1,5 @@
 /*
- * src/apps/Partyman/SearchWidget.cpp
+ * src/apps/Partyman/SearchTrackWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "SearchWidget.hpp"
+#include "SearchTrackWidget.hpp"
 
 /* system headers */
 
@@ -24,7 +24,7 @@
 #include "SearchLineEdit.hpp"
 
 
-SearchWidget::SearchWidget( Database *database, QWidget *parent )
+SearchTrackWidget::SearchTrackWidget( Database *database, QWidget *parent )
 : QWidget( parent )
 , mpDatabase( database )
 , mpParent( parent )
@@ -62,13 +62,13 @@ SearchWidget::SearchWidget( Database *database, QWidget *parent )
 }
 
 
-SearchWidget::~SearchWidget()
+SearchTrackWidget::~SearchTrackWidget()
 {
    Settings::setValue( Settings::PartymanSearch, mpInput->text() );
 }
 
 
-void SearchWidget::search()
+void SearchTrackWidget::search()
 {
    mpInput->selectAll();
    mpResults->clear();
@@ -88,7 +88,7 @@ void SearchWidget::search()
 }
 
 
-void SearchWidget::updateCounter()
+void SearchTrackWidget::updateCounter()
 {
    mpFound->setText( tr("%1 Left").arg(mpResults->count()) );
    if( !mpResults->count() )
@@ -98,7 +98,7 @@ void SearchWidget::updateCounter()
 }
 
 
-void SearchWidget::selectedEntries( const QModelIndex &/*index*/, int key )
+void SearchTrackWidget::selectedEntries( const QModelIndex &/*index*/, int key )
 {
    QStringList entries;
    switch( key )
@@ -131,7 +131,7 @@ void SearchWidget::selectedEntries( const QModelIndex &/*index*/, int key )
 }
 
 
-void SearchWidget::setFocus()
+void SearchTrackWidget::setFocus()
 {
    mpInput->setFocus();
    mpInput->selectAll();

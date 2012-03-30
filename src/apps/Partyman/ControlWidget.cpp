@@ -22,11 +22,11 @@
 #include <WidgetShot.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
+#include "PartymanConfigDialog.hpp"
 #include "PartymanMainWindow.hpp"
 
 
-ControlWidget::ControlWidget( Database *database, ConfigDialog *config,
+ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
                               PartymanMainWindow *parent )
 : QWidget( parent )
 , mpConfig( config )
@@ -497,7 +497,7 @@ void ControlWidget::handleSatellite( const QByteArray &msg )
       {
          if( src.size() > 1 )
          {
-            emit requestTab( src.at(1).toInt() );
+            emit requestTab( src.at(1) );
          }
       }
 

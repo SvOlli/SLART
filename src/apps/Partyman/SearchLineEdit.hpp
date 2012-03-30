@@ -1,5 +1,5 @@
 /*
- * src/apps/Partyman/SearchWidget.hpp
+ * src/apps/Partyman/SearchTrackWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -23,7 +23,7 @@
 /* forward declaration of Qt classes */
 
 /* forward declaration of local classes */
-#include "SearchWidget.hpp"
+#include "SearchTrackWidget.hpp"
 
 
 /*!
@@ -39,11 +39,11 @@
 class SearchLineEdit : public QLineEdit
 {
 public:
-   SearchLineEdit( SearchWidget *parent );
+   SearchLineEdit( SearchTrackWidget *parent );
 protected:
    virtual void keyPressEvent( QKeyEvent *event );
 private:
-   SearchWidget *mpSearchWidget;
+   SearchTrackWidget *mpSearchTrackWidget;
 };
 
 /*! @} */

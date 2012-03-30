@@ -1,5 +1,5 @@
 /*
- * src/apps/Partyman/ConfigDialog.hpp
+ * src/apps/Partyman/PartymanConfigDialog.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -43,9 +43,9 @@ class MyClipboard;
 /*!
  \brief \todo complete documentation
 
- \dotfile "graphs/apps/Rubberbandman/ConfigDialog_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Partyman/PartymanConfigDialog_connect.dot" "Connect Graph"
 */
-class ConfigDialog : public QDialog
+class PartymanConfigDialog : public QDialog
 {
    Q_OBJECT
 
@@ -57,13 +57,13 @@ public:
     \param parent parent widget
     \param flags window flags
    */
-   ConfigDialog( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   PartymanConfigDialog( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
    /*!
     \brief destructor
 
    */
-   virtual ~ConfigDialog();
+   virtual ~PartymanConfigDialog();
 
 public slots:
    /*!
@@ -115,8 +115,8 @@ signals:
    void updateBrowser();
 
 private:
-   ConfigDialog( const ConfigDialog &that );
-   ConfigDialog &operator=( const ConfigDialog &that );
+   PartymanConfigDialog( const PartymanConfigDialog &that );
+   PartymanConfigDialog &operator=( const PartymanConfigDialog &that );
 
 
    Database             *mpDatabase;

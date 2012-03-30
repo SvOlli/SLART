@@ -1,5 +1,5 @@
 /*
- * src/apps/Partyman/SearchWidget.hpp
+ * src/apps/Partyman/SearchTrackWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)

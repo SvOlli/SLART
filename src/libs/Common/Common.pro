@@ -47,6 +47,9 @@ SOURCES += GlobalConfigWidget.cpp
 HEADERS += ImageWidget.hpp
 SOURCES += ImageWidget.cpp
 
+HEADERS += LuaEditorDialog.hpp
+SOURCES += LuaEditorDialog.cpp
+
 HEADERS += MagicEncoderLoader.hpp
 SOURCES += MagicEncoderLoader.cpp
 

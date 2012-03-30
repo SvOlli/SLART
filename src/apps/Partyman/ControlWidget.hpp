@@ -34,7 +34,7 @@ class QMenu;
 class QAction;
 
 /* forward declaration of local classes */
-class ConfigDialog;
+class PartymanConfigDialog;
 class Database;
 class GenericSatMsgHandler;
 class PartymanMainWindow;
@@ -67,7 +67,7 @@ public:
       ErrorWrongVersion
    };
 
-   ControlWidget( Database *database, ConfigDialog *config,
+   ControlWidget( Database *database, PartymanConfigDialog *config,
                   PartymanMainWindow *parent = 0 );
    virtual ~ControlWidget();
 
@@ -204,7 +204,7 @@ signals:
     \brief request to change the tab
 
    */
-   void requestTab( int tabNr );
+   void requestTab( const QString &name );
 
 protected:
    /*!
@@ -222,7 +222,7 @@ private:
    ControlWidget( const ControlWidget &that );
    ControlWidget &operator=( const ControlWidget &that );
 
-   ConfigDialog            *mpConfig;
+   PartymanConfigDialog            *mpConfig;
    PartymanMainWindow      *mpPlaylist;
    Satellite               *mpSatellite;
    GenericSatMsgHandler    *mpGenericSatMsgHandler;

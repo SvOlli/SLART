@@ -28,8 +28,8 @@ SOURCES += CommandLineHandler.cpp
 HEADERS += ControlWidget.hpp
 SOURCES += ControlWidget.cpp
 
-HEADERS += ConfigDialog.hpp
-SOURCES += ConfigDialog.cpp
+HEADERS += PartymanConfigDialog.hpp
+SOURCES += PartymanConfigDialog.cpp
 
 HEADERS += PartymanMainWindow.hpp
 SOURCES += PartymanMainWindow.cpp
@@ -58,8 +58,8 @@ SOURCES += FileSysTreeView.cpp
 HEADERS += SearchLineEdit.hpp
 SOURCES += SearchLineEdit.cpp
 
-HEADERS += SearchWidget.hpp
-SOURCES += SearchWidget.cpp
+HEADERS += SearchTrackWidget.hpp
+SOURCES += SearchTrackWidget.cpp
 
 HEADERS += TrackInfoListModel.hpp
 SOURCES += TrackInfoListModel.cpp

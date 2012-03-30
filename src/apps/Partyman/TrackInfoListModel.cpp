@@ -21,7 +21,7 @@
 #include <Settings.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
+#include "PartymanConfigDialog.hpp"
 
 
 TrackInfoListModel::TrackInfoListModel( Database *database, QObject *parent )

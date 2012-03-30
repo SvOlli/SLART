@@ -20,9 +20,9 @@
 /* local headers */
 
 
-SearchLineEdit::SearchLineEdit( SearchWidget *parent )
+SearchLineEdit::SearchLineEdit( SearchTrackWidget *parent )
 : QLineEdit( parent )
-, mpSearchWidget( parent )
+, mpSearchTrackWidget( parent )
 {
 }
 
@@ -37,7 +37,7 @@ void SearchLineEdit::keyPressEvent( QKeyEvent *event )
       }
       else
       {
-         mpSearchWidget->selectedEntries( QModelIndex(), Qt::Key_Escape );
+         mpSearchTrackWidget->selectedEntries( QModelIndex(), Qt::Key_Escape );
       }
    }
    QLineEdit::keyPressEvent( event );

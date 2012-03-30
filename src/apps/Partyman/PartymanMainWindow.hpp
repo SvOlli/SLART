@@ -27,7 +27,7 @@ class QPushButton;
 class QTextBrowser;
 
 /* forward declaration of local classes */
-class ConfigDialog;
+class PartymanConfigDialog;
 class ControlWidget;
 class Database;
 class FileSysTreeModel;
@@ -35,7 +35,7 @@ class FileSysTreeUpdate;
 class FileSysTreeView;
 class PlaylistControlWidget;
 class PlaylistContentWidget;
-class SearchWidget;
+class SearchTrackWidget;
 class TrackInfo;
 class TrackInfoWidget;
 
@@ -169,6 +169,13 @@ public slots:
    */
    void savePlaylist();
 
+   /*!
+    \brief raise a tab by name
+
+    \param name
+   */
+   void showTab( const QString &name );
+
 signals:
    void expand( const QModelIndex &qmi );
    void playlistIsValid( bool isValid );
@@ -207,12 +214,12 @@ private:
    bool                    mProhibitCloseWindow; /*!< \brief flag to store of close is prohibited */
    int                     mForbidMove;
    Database                *mpDatabase; /*!< \todo */
-   ConfigDialog            *mpConfig; /*!< \todo */
+   PartymanConfigDialog            *mpConfig; /*!< \todo */
    PlaylistContentWidget   *mpPlaylistContent; /*!< \todo */
    ControlWidget           *mpControl; /*!< \todo */
    QTextBrowser            *mpHelpText; /*!< \brief \todo TODO */
    TrackInfoWidget         *mpTrackInfo; /*!< \brief \todo TODO */
-   SearchWidget            *mpSearch; /*!< \brief \todo TODO */
+   SearchTrackWidget            *mpSearch; /*!< \brief \todo TODO */
    FileSysTreeView         *mpTreeView; /*!< \brief \todo TODO */
    FileSysTreeModel        *mpTreeModel; /*!< \brief \todo TODO */
    FileSysTreeModel        *mpNextTreeModel; /*!< \brief \todo TODO */

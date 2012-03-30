@@ -23,13 +23,13 @@
 #include <WidgetShot.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
+#include "PartymanConfigDialog.hpp"
 #include "ControlWidget.hpp"
 #include "FileSysTreeModel.hpp"
 #include "FileSysTreeUpdate.hpp"
 #include "FileSysTreeView.hpp"
 #include "PlaylistContentWidget.hpp"
-#include "SearchWidget.hpp"
+#include "SearchTrackWidget.hpp"
 #include "TrackInfoWidget.hpp"
 
 
@@ -38,12 +38,12 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 , mProhibitCloseWindow( false )
 , mForbidMove( 100 )
 , mpDatabase( new Database() )
-, mpConfig( new ConfigDialog( mpDatabase, this ) )
+, mpConfig( new PartymanConfigDialog( mpDatabase, this ) )
 , mpPlaylistContent( new PlaylistContentWidget( mpDatabase, true, this ) )
 , mpControl( new ControlWidget( mpDatabase, mpConfig, this ) )
 , mpHelpText( new QTextBrowser( this ) )
 , mpTrackInfo( new TrackInfoWidget( mpDatabase, true, this ) )
-, mpSearch( new SearchWidget( mpDatabase, this ) )
+, mpSearch( new SearchTrackWidget( mpDatabase, this ) )
 , mpTreeView( new FileSysTreeView( this ) )
 , mpTreeModel( new FileSysTreeModel( this ) )
 , mpNextTreeModel( 0 )
@@ -54,7 +54,7 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 {
    qsrand( time((time_t*)0) );
    setUnifiedTitleAndToolBarOnMac(true);
-   WidgetShot::addWidget( "MainWindow", this );
+   WidgetShot::addWidget( "Main", this );
    mpDatabase->registerUpdate( Satellite::get(), "p0u" );
 
    setAttribute( Qt::WA_AlwaysShowToolTips, true );
@@ -68,6 +68,7 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    mpPlaylistContent->addItems( Settings::value( Settings::PartymanPlaylistAppend ) );
    savePlaylist();
    setCentralWidget( mpPlaylistContent );
+   WidgetShot::addWidget( "Playlist", mpPlaylistContent );
 
    /* setting up control widget */
    QDockWidget *dockControl = new QDockWidget( tr("Player"), this );
@@ -75,6 +76,7 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    dockControl->setWidget( mpControl );
    dockControl->setFeatures( QDockWidget::DockWidgetMovable |
                              QDockWidget::DockWidgetFloatable );
+   WidgetShot::addWidget( "Player", dockControl );
 
    /* settings up help text */
    QDockWidget *dockHelpText = new QDockWidget( tr("Help"), this );
@@ -84,16 +86,19 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    mpHelpText->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
    mpHelpText->setOpenExternalLinks( true );
    mpHelpText->setSource( QUrl("qrc:/Usage.html") );
+   WidgetShot::addWidget( "Help", dockHelpText );
 
    /* settings up info panel */
    QDockWidget *dockTrackInfo = new QDockWidget( tr("Info"), this );
    dockTrackInfo->setObjectName( "Info" );
    dockTrackInfo->setWidget( mpTrackInfo );
+   WidgetShot::addWidget( "Info", dockTrackInfo );
 
    /* setting up search */
    QDockWidget *dockSearch = new QDockWidget( tr("Search"), this );
    dockSearch->setObjectName( "Search" );
    dockSearch->setWidget( mpSearch );
+   WidgetShot::addWidget( "Search", dockSearch );
 
    /* setting up file system tree view */
    mpDockTreeView = new QDockWidget( this );
@@ -103,6 +108,7 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    mpTreeView->setDragDropMode( QAbstractItemView::DragOnly );
    mpTreeView->setDragEnabled( true );
    mpTreeView->setSelectionMode( QAbstractItemView::ExtendedSelection );
+   WidgetShot::addWidget( "Browse", mpDockTreeView );
 
    connect( mpTreeView, SIGNAL(context(QModelIndex)),
             this, SLOT(addEntries(QModelIndex)) );
@@ -130,10 +136,8 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
             mpControl, SLOT(handleKioskMode(bool)) );
    connect( PasswordChecker::get(), SIGNAL(enabled(bool)),
             this, SLOT(prohibitClose(bool)) );
-#if 0
-   connect( mpControl, SIGNAL(requestTab(int)),
-            mpPlaylist, SLOT(handleTabChange(int)) );
-#endif
+   connect( mpControl, SIGNAL(requestTab(QString)),
+            this, SLOT(showTab(QString)) );
 
    QShortcut *f1 = new QShortcut( QKeySequence(Qt::Key_F1), this );
    QShortcut *f2 = new QShortcut( QKeySequence(Qt::Key_F2), this );
@@ -225,6 +229,17 @@ bool PartymanMainWindow::event( QEvent *event )
       mForbidMove--;
    }
    return QMainWindow::event( event );
+}
+
+
+void PartymanMainWindow::showTab( const QString &name )
+{
+   QList<QDockWidget*> list = findChildren<QDockWidget*>( name );
+   if( list.size() == 1 )
+   {
+      list.at(0)->show();
+      list.at(0)->raise();
+   }
 }
 
 
