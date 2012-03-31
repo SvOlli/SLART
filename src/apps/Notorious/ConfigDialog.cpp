@@ -99,7 +99,7 @@ ConfigDialog::ConfigDialog( QWidget *parent )
    readSettings();
    checkValidFile( QString() );
 
-   WidgetShot::addWidget( "ConfigDialog", this );
+   WidgetShot::addWidget( "Config", this );
 }
 
 

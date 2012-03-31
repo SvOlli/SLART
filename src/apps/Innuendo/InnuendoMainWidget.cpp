@@ -106,7 +106,7 @@ InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpSettingsButton->setObjectName( QString("SettingsButton") );
    setAcceptDrops( true );
    QTimer::singleShot(333, this, SLOT(autostart()));
-   WidgetShot::addWidget( "MainWidget", this );
+   WidgetShot::addWidget( "Main", this );
 }
 
 

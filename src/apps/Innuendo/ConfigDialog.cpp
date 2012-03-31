@@ -106,7 +106,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
             mpSatelliteConfigWidget, SLOT(setInnuendoClicked(bool)) );
    readSettings();
 
-   WidgetShot::addWidget( "ConfigDialog", this );
+   WidgetShot::addWidget( "Config", this );
 }
 
 

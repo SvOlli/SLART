@@ -92,7 +92,7 @@ FunkytownMainWidget::FunkytownMainWidget( QWidget *parent )
 
    setAcceptDrops( true );
 
-   WidgetShot::addWidget( "MainWidget", this );
+   WidgetShot::addWidget( "Main", this );
 }
 
 

@@ -128,7 +128,7 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
 
    mpListButtons->setDisabled( true );
 
-   WidgetShot::addWidget( "MainWidget", this );
+   WidgetShot::addWidget( "Main", this );
 
    mpSatellite->send( "P0R" );
 }

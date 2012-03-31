@@ -81,7 +81,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 
    readSettings();
 
-   WidgetShot::addWidget( "ConfigDialog", this );
+   WidgetShot::addWidget( "Config", this );
 }
 
 

@@ -177,7 +177,7 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
       connect( mpCDReader, SIGNAL(foundDevices(QStringList)),
                this, SLOT(handleDevices(QStringList)) );
    }
-   WidgetShot::addWidget( "ConfigDialog", this );
+   WidgetShot::addWidget( "Config", this );
 }
 
 
