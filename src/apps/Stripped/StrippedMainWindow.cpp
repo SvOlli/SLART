@@ -95,9 +95,10 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
 
    QToolBar *toolBarEncoders = new QToolBar( tr("Encoders"), this );
    toolBarEncoders->setObjectName( "Encoders" );
+   toolBarEncoders->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
    foreach( QAction *toggleEnableAction, mpConfigDialog->encoderToggleEnableActions() )
    {
-      addToolAction( toolBarEncoders, toggleEnableAction );
+      addToolAction( toolBarEncoders, toggleEnableAction, true );
    }
 
    QToolBar *toolBarCDDBClient = new QToolBar( tr("CDDBClient"), this );
@@ -217,12 +218,33 @@ StrippedMainWindow::~StrippedMainWindow()
 }
 
 
-void StrippedMainWindow::addToolAction( QToolBar *bar, QAction *action )
+void StrippedMainWindow::addToolAction( QToolBar *bar, QAction *action, bool checkbox )
 {
    bar->addAction( action );
    QToolButton *b = qobject_cast<QToolButton*>( bar->widgetForAction( action ) );
    b->setAutoRaise( false );
+   b->setCheckable( true );
+   if( checkbox )
+   {
+      b->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
+      connect( b, SIGNAL(triggered(QAction*)),
+               this, SLOT(changeEncoderIcon(QAction*)) );
+      changeEncoderIcon( action );
+   }
    bar->addSeparator();
+}
+
+
+void StrippedMainWindow::changeEncoderIcon( QAction *action )
+{
+   if( action->isChecked() )
+   {
+      action->setIcon( QIcon(":/trolltech/styles/commonstyle/images/standardbutton-apply-16.png") );
+   }
+   else
+   {
+      action->setIcon( QIcon(":/trolltech/styles/commonstyle/images/standardbutton-cancel-16.png") );
+   }
 }
 
 

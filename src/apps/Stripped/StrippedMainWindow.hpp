@@ -69,6 +69,13 @@ public:
 
 public slots:
    /*!
+    \brief \todo
+
+    \param enabled
+   */
+   void changeEncoderIcon( QAction *action );
+
+   /*!
     \brief handle eject button
 
    */
@@ -142,7 +149,7 @@ private:
     \param bar
     \param action
    */
-   void addToolAction( QToolBar *bar, QAction *action );
+   void addToolAction( QToolBar *bar, QAction *action, bool checkbox = false);
 
    int         mForbidMove;
 
