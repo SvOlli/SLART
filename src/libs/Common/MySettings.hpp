@@ -50,20 +50,6 @@ public:
    virtual ~MySettings();
 
    /*!
-    \brief save main window settings
-
-    \param mainWindow
-   */
-   void saveMainWindow( QMainWindow *mainWindow );
-
-   /*!
-    \brief restore main window settings
-
-    \param mainWindow
-   */
-   void setMainWindow( QMainWindow *mainWindow );
-
-   /*!
     \brief get the filename of the style sheet to load
 
    */

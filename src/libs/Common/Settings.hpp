@@ -61,24 +61,6 @@ public:
 
     automatically generated
     */
-   enum CommonPoint
-   {
-      CommonMainWindowPosition
-   };
-   /*!
-    \brief enum for value() and setValue()
-
-    automatically generated
-    */
-   enum CommonSize
-   {
-      CommonMainWindowSize
-   };
-   /*!
-    \brief enum for value() and setValue()
-
-    automatically generated
-    */
    enum CommonString
    {
       CommonDirectory,
@@ -503,42 +485,6 @@ public:
     \param id id of registry key
     */
    static QByteArray value( CommonByteArray id );
-
-   /*!
-    \brief set a value in registry
-
-    automatically generated
-    \param id id of registry key
-    \param value to set
-    */
-   static void setValue( CommonPoint id, const QPoint &value );
-
-   /*!
-    \brief get a value in registry
-
-    automatically generated
-    \return value in registry
-    \param id id of registry key
-    */
-   static QPoint value( CommonPoint id );
-
-   /*!
-    \brief set a value in registry
-
-    automatically generated
-    \param id id of registry key
-    \param value to set
-    */
-   static void setValue( CommonSize id, const QSize &value );
-
-   /*!
-    \brief get a value in registry
-
-    automatically generated
-    \return value in registry
-    \param id id of registry key
-    */
-   static QSize value( CommonSize id );
 
    /*!
     \brief set a value in registry

@@ -7,34 +7,24 @@
  */
 
 #include "MainWindow.hpp"
-#include "MySettings.hpp"
 #include "GlobalConfigWidget.hpp"
 #include "PasswordChecker.hpp"
+#include "Settings.hpp"
 
 #include <QtGui>
 
 #include "Trace.hpp"
-#include "WidgetShot.hpp"
 
 
 MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
 , mProhibitCloseWindow( false )
 , mSaveWindow( saveWindow )
-, mForbidMove( 50 )
+, mForbidMove( 75 )
 , mpMainWidget( 0 )
 {
    setWindowTitle( QApplication::applicationName() );
-   QApplication::setDoubleClickInterval( MySettings( "Global" ).VALUE_DOUBLECLICKINTERVAL );
-
-/*
-   // \todo: move to MainWidget
-   connect( mpMainWidget, SIGNAL(requestChangeTitle(QIcon,QString)),
-            this, SLOT(changeTitle(QIcon,QString)) );
-   connect( mpMainWidget, SIGNAL(kioskMode(bool)),
-            this, SLOT(prohibitClose(bool)) );
- */
-
+   QApplication::setDoubleClickInterval( Settings::value( Settings::GlobalDoubleClickInterval ) );
 }
 
 
@@ -47,16 +37,13 @@ void MainWindow::setMainWidget( QWidget *mainWidget )
 {
    mpMainWidget = mainWidget;
    setCentralWidget( mpMainWidget );
-   if( mSaveWindow )
+   restoreGeometry( Settings::value( Settings::CommonGeometry ) );
+   restoreState( Settings::value( Settings::CommonState ) );
+   QList<QDockWidget*> docks( findChildren<QDockWidget*>() );
+   foreach( QDockWidget *dock, docks )
    {
-      MySettings().setMainWindow( this );
+      restoreDockWidget( dock );
    }
-}
-
-
-void MainWindow::enableScreenshot()
-{
-   WidgetShot::addWidget( "MainWidget", mpMainWidget );
 }
 
 
@@ -67,7 +54,7 @@ bool MainWindow::event( QEvent *event )
    {
       if( (event->type() == QEvent::Move ) && mSaveWindow )
       {
-         MySettings().setMainWindow( this );
+         restoreGeometry( Settings::value( Settings::CommonGeometry ) );
       }
       mForbidMove--;
    }
@@ -92,8 +79,8 @@ void MainWindow::closeEvent( QCloseEvent *event )
 {
    if( mSaveWindow )
    {
-      MySettings().saveMainWindow( this );
+      Settings::setValue( Settings::CommonGeometry, saveGeometry() );
+      Settings::setValue( Settings::CommonState, saveState() );
    }
-
    event->accept();
 }

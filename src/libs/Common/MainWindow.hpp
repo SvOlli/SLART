@@ -65,12 +65,6 @@ public:
    */
    void setMainWidget( QWidget *mainWidget );
 
-   /*!
-    \brief add the MainWidget to the WidgetShot class
-
-   */
-   void enableScreenshot();
-
 public slots:
    /*!
     \brief handle request for new icon and title

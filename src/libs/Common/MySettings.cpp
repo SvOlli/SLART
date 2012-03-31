@@ -31,31 +31,6 @@ MySettings::~MySettings()
 }
 
 
-void MySettings::setMainWindow( QMainWindow *mainWindow )
-{
-   QPoint defaultPos( -1, -1 );
-   QSize  defaultSize( -1, -1 );
-   QPoint pos  = value( "MainWindowPosition", defaultPos ).toPoint();
-   QSize  size = value( "MainWindowSize",    defaultSize ).toSize();
-
-   if( size != defaultSize )
-   {
-      mainWindow->resize( size );
-   }
-   if( pos != defaultPos )
-   {
-      mainWindow->move( pos );
-   }
-}
-
-
-void MySettings::saveMainWindow( QMainWindow *mainWindow )
-{
-   setValue( "MainWindowPosition", mainWindow->pos() );
-   setValue( "MainWindowSize",    mainWindow->size() );
-}
-
-
 QString MySettings::styleSheetFile()
 {
    if( value( "UseGlobalStyleSheetFile", true ).toBool() )

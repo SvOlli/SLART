@@ -38,62 +38,6 @@ QByteArray Settings::value( CommonByteArray id )
 }
 
 
-void Settings::setValue( CommonPoint id, const QPoint &value )
-{
-   QSettings *settings = cpSettings->get();
-   switch( id )
-   {
-   case CommonMainWindowPosition:
-      settings->setValue( "MainWindowPosition", value );
-      return;
-   default:
-      qFatal( "illegal CommonPoint value" );
-   }
-}
-
-
-QPoint Settings::value( CommonPoint id )
-{
-   QSettings *settings = cpSettings->get();
-   switch( id )
-   {
-   case CommonMainWindowPosition:
-      return settings->value( "MainWindowPosition" ).toPoint();
-   default:
-      qFatal( "illegal CommonPoint value" );
-      return QPoint();
-   }
-}
-
-
-void Settings::setValue( CommonSize id, const QSize &value )
-{
-   QSettings *settings = cpSettings->get();
-   switch( id )
-   {
-   case CommonMainWindowSize:
-      settings->setValue( "MainWindowSize", value );
-      return;
-   default:
-      qFatal( "illegal CommonSize value" );
-   }
-}
-
-
-QSize Settings::value( CommonSize id )
-{
-   QSettings *settings = cpSettings->get();
-   switch( id )
-   {
-   case CommonMainWindowSize:
-      return settings->value( "MainWindowSize" ).toSize();
-   default:
-      qFatal( "illegal CommonSize value" );
-      return QSize();
-   }
-}
-
-
 void Settings::setValue( CommonString id, const QString &value )
 {
    QSettings *settings = cpSettings->get();
@@ -1494,6 +1438,8 @@ bool Settings::value( StrippedBool id )
 void Settings::cleanup()
 {
    remove( "Listener" );
+   remove( "MainWindowPosition" );
+   remove( "MainWindowSize" );
    remove( "SLARTCommunication" );
    remove( "StyleSheet" );
    remove( "UDPListenerPort" );
