@@ -41,7 +41,7 @@ class QString;
 /*!
  \brief \todo complete documentation
 
- \dotfile "graphs/apps/Karmadrome/SearchWidget_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Notorious/SearchWidget_connect.dot" "Connect Graph"
 */
 class SearchWidget : public QWidget
 {

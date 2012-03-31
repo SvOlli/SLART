@@ -19,10 +19,11 @@
 /* local headers */
 
 
-Foundlist::Foundlist( QWidget *parent )
+Foundlist::Foundlist( QThread::Priority priority, QWidget *parent )
 : QTableWidget( parent )
 , mQuery( this )
 {
+   mQuery.setPriority( priority );
    setSelectionBehavior( QAbstractItemView::SelectRows );
    connect( &mQuery, SIGNAL(newData(int)),
             this, SLOT(handleNewData(int)) );

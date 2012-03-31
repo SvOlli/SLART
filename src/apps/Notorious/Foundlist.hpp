@@ -35,14 +35,14 @@
 /*!
  \brief \todo complete documentation
 
- \dotfile "graphs/apps/Karmadrome/Foundlist_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Notorious/Foundlist_connect.dot" "Connect Graph"
 */
 class Foundlist : public QTableWidget
 {
    Q_OBJECT
 
 public:
-   Foundlist( QWidget *parent = 0 );
+   Foundlist( QThread::Priority priority = QThread::NormalPriority, QWidget *parent = 0 );
    virtual ~Foundlist();
 
 public slots:

@@ -28,8 +28,8 @@ NotoriousMainWidget::NotoriousMainWidget( QWidget *parent, Qt::WindowFlags flags
 : QWidget( parent, flags )
 , mpFreeDB( new FreeDB( this ) )
 , mpSearch( new SearchWidget( this ) )
-, mpFound( new Foundlist( this ) )
-, mpCDInfo( new Foundlist( this ) )
+, mpFound( new Foundlist( QThread::NormalPriority, this ) )
+, mpCDInfo( new Foundlist( QThread::HighestPriority, this ) )
 , mpConfig( new ConfigDialog( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings / Import / Log"), this ) )
 {
@@ -64,7 +64,7 @@ NotoriousMainWidget::NotoriousMainWidget( QWidget *parent, Qt::WindowFlags flags
 
    mpSettingsButton->setObjectName( QString("SettingsButton") );
 
-   WidgetShot::addWidget( "MainWidget", this );
+   WidgetShot::addWidget( "Main", this );
 }
 
 
