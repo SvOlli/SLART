@@ -237,13 +237,14 @@ void StrippedMainWindow::addToolAction( QToolBar *bar, QAction *action, bool che
 
 void StrippedMainWindow::changeEncoderIcon( QAction *action )
 {
+   QCommonStyle style;
    if( action->isChecked() )
    {
-      action->setIcon( QIcon(":/trolltech/styles/commonstyle/images/standardbutton-apply-16.png") );
+      action->setIcon( style.standardIcon( QStyle::SP_DialogApplyButton ) );
    }
    else
    {
-      action->setIcon( QIcon(":/trolltech/styles/commonstyle/images/standardbutton-cancel-16.png") );
+      action->setIcon( style.standardIcon( QStyle::SP_DialogCancelButton ) );
    }
 }
 
