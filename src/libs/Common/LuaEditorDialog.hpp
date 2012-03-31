@@ -69,13 +69,19 @@ public slots:
    */
    void setTexts();
 
+   void updateSelectBox();
+
+   void loadScript();
+
+   void saveScript();
+
 private:
    Q_DISABLE_COPY( LuaEditorDialog )
 
    QLabel               *mpSelectText;
    QComboBox            *mpSelectBox;
+   QPushButton          *mpLoadButton;
    QPushButton          *mpSaveButton;
-   QPushButton          *mpSaveAsButton;
    CodeEditor           *mpEditor;
 
    QString              mScriptType;

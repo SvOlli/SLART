@@ -106,6 +106,48 @@ public:
    */
    QMutex *mutex( bool locked = false );
 
+   /*!
+    \brief get the names of all scripts of a type
+
+    \param type script type
+    \return QStringList
+   */
+   static QStringList scriptNames( const QString &type );
+
+   /*!
+    \brief set a script
+
+    \param type script type
+    \param name script name
+    \param script script lua code
+   */
+   static void setScript( const QString &type, const QString &name, const QString &script );
+
+   /*!
+    \brief get a script
+
+    \param type script type
+    \param name script name
+    \return QString script lua code
+   */
+   static QString script( const QString &type, const QString &name );
+
+   /*!
+    \brief convert a table for lua to a string list in format of "key=value"
+
+    \param table data to convert
+    \return QStringList converted data
+   */
+   static QStringList tableToStringList( const MyLuaTable &table );
+
+   /*!
+    \brief convert a string list in format of "key=value" to a table for lua
+
+    \param list data to convert
+    \return MyLuaTable converted data
+   */
+   static MyLuaTable tableFromStringList( const QStringList &list );
+
 public slots:
    /*!
     \brief slot for running code fragment

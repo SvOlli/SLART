@@ -21,6 +21,7 @@ extern "C" {
 #include <QStringList>
 
 /* local library headers */
+#include <Settings.hpp>
 
 /* local headers */
 
@@ -269,4 +270,67 @@ int MyLua::getStack( QStringList *stack )
       }
    }
    return top;
+}
+
+
+QStringList MyLua::scriptNames( const QString &type )
+{
+   QSettings *settings = Settings::get("Lua");
+   QString start( type );
+   start.append("/");
+   QStringList namesList;
+   foreach( const QString &name, settings->allKeys() )
+   {
+      if( name.startsWith( start ) )
+      {
+         namesList << name.mid( start.size() ) ;
+      }
+   }
+   return namesList;
+}
+
+
+void MyLua::setScript( const QString &type, const QString &name, const QString &script )
+{
+   QSettings *settings = Settings::get("Lua");
+   QString key( QString("%1/%2").arg( type, name ) );
+   if( script.isEmpty() )
+   {
+      settings->remove( key );
+   }
+   else
+   {
+      settings->setValue( key, script );
+   }
+}
+
+
+QString MyLua::script( const QString &type, const QString &name )
+{
+   QSettings *settings = Settings::get("Lua");
+   QString key( QString("%1/%2").arg( type, name ) );
+   return settings->value( key ).toString();
+}
+
+
+QStringList MyLua::tableToStringList( const MyLuaTable &table )
+{
+   QStringList list;
+   foreach( const QString &key, table.keys() )
+   {
+      list << QString("%1=%2").arg( key, table.value( key ) );
+   }
+   return list;
+}
+
+
+MyLuaTable MyLua::tableFromStringList( const QStringList &list )
+{
+   MyLuaTable table;
+   foreach( const QString &entry, list )
+   {
+      int pos = entry.indexOf('=');
+      table.insert( entry.left( pos ), entry.mid( pos + 1 ) );
+   }
+   return table;
 }
