@@ -712,9 +712,8 @@ void ControlWidget::dropEvent( QDropEvent *event )
       if( (state[0] == PlayerFSM::disconnected) &&
           (state[1] == PlayerFSM::disconnected) )
       {
-         QMetaObject::invokeMethod( mpConnectButton, "animateClick",
-                                    Qt::QueuedConnection,
-                                    Q_ARG( int, 500 ) );
+         QMetaObject::invokeMethod( mpConnectButton, "click",
+                                    Qt::QueuedConnection );
       }
       event->acceptProposedAction();
       return;

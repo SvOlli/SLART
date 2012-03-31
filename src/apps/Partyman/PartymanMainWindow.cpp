@@ -71,44 +71,34 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    WidgetShot::addWidget( "Playlist", mpPlaylistContent );
 
    /* setting up control widget */
-   QDockWidget *dockControl = new QDockWidget( tr("Player"), this );
-   dockControl->setObjectName( "Player" );
-   dockControl->setWidget( mpControl );
+   QDockWidget *dockControl = setupDock( mpControl, "Player", tr("Player"),
+                                         QKeySequence(Qt::Key_F5) );
    dockControl->setFeatures( QDockWidget::DockWidgetMovable |
                              QDockWidget::DockWidgetFloatable );
-   WidgetShot::addWidget( "Player", dockControl );
 
    /* settings up help text */
-   QDockWidget *dockHelpText = new QDockWidget( tr("Help"), this );
-   dockHelpText->setObjectName( "Help" );
-   dockHelpText->setWidget( mpHelpText );
+   QDockWidget *dockHelpText = setupDock( mpHelpText, "Help", tr("Help"),
+                                          QKeySequence(Qt::Key_F1) );
    mpHelpText->setReadOnly( true );
    mpHelpText->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
    mpHelpText->setOpenExternalLinks( true );
    mpHelpText->setSource( QUrl("qrc:/Usage.html") );
-   WidgetShot::addWidget( "Help", dockHelpText );
 
    /* settings up info panel */
-   QDockWidget *dockTrackInfo = new QDockWidget( tr("Info"), this );
-   dockTrackInfo->setObjectName( "Info" );
-   dockTrackInfo->setWidget( mpTrackInfo );
-   WidgetShot::addWidget( "Info", dockTrackInfo );
+   QDockWidget *dockTrackInfo = setupDock( mpTrackInfo, "Info", tr("Info"),
+                                           QKeySequence(Qt::Key_F2) );
 
    /* setting up search */
-   QDockWidget *dockSearch = new QDockWidget( tr("Search"), this );
-   dockSearch->setObjectName( "Search" );
-   dockSearch->setWidget( mpSearch );
-   WidgetShot::addWidget( "Search", dockSearch );
+   QDockWidget *dockSearch = setupDock( mpSearch, "Search", tr("Search"),
+                                        QKeySequence(Qt::Key_F3) );
 
    /* setting up file system tree view */
-   mpDockTreeView = new QDockWidget( this );
-   mpDockTreeView->setObjectName( "Browse" );
-   mpDockTreeView->setWidget( mpTreeView );
+   mpDockTreeView = setupDock( mpTreeView, "Browse", QString(),
+                               QKeySequence(Qt::Key_F4) );
    mpTreeView->header()->hide();
    mpTreeView->setDragDropMode( QAbstractItemView::DragOnly );
    mpTreeView->setDragEnabled( true );
    mpTreeView->setSelectionMode( QAbstractItemView::ExtendedSelection );
-   WidgetShot::addWidget( "Browse", mpDockTreeView );
 
    connect( mpTreeView, SIGNAL(context(QModelIndex)),
             this, SLOT(addEntries(QModelIndex)) );
@@ -138,47 +128,6 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(prohibitClose(bool)) );
    connect( mpControl, SIGNAL(requestTab(QString)),
             this, SLOT(showTab(QString)) );
-
-   QShortcut *f1 = new QShortcut( QKeySequence(Qt::Key_F1), this );
-   QShortcut *f2 = new QShortcut( QKeySequence(Qt::Key_F2), this );
-   QShortcut *f3 = new QShortcut( QKeySequence(Qt::Key_F3), this );
-   QShortcut *f4 = new QShortcut( QKeySequence(Qt::Key_F4), this );
-   QShortcut *f5 = new QShortcut( QKeySequence(Qt::Key_F5), this );
-
-   connect( f1, SIGNAL(activated()),
-            dockHelpText, SLOT(show()) );
-   connect( f1, SIGNAL(activated()),
-            dockHelpText, SLOT(raise()) );
-   connect( f1, SIGNAL(activated()),
-            mpHelpText, SLOT(setFocus()) );
-
-   connect( f2, SIGNAL(activated()),
-            dockTrackInfo, SLOT(show()) );
-   connect( f2, SIGNAL(activated()),
-            dockTrackInfo, SLOT(raise()) );
-   connect( f2, SIGNAL(activated()),
-            mpTrackInfo, SLOT(setFocus()) );
-
-   connect( f3, SIGNAL(activated()),
-            dockSearch, SLOT(show()) );
-   connect( f3, SIGNAL(activated()),
-            dockSearch, SLOT(raise()) );
-   connect( f3, SIGNAL(activated()),
-            mpSearch, SLOT(setFocus()) );
-
-   connect( f4, SIGNAL(activated()),
-            mpDockTreeView, SLOT(show()) );
-   connect( f4, SIGNAL(activated()),
-            mpDockTreeView, SLOT(raise()) );
-   connect( f4, SIGNAL(activated()),
-            mpTreeView, SLOT(setFocus()) );
-
-   connect( f5, SIGNAL(activated()),
-            dockControl, SLOT(show()) );
-   connect( f5, SIGNAL(activated()),
-            dockControl, SLOT(raise()) );
-   connect( f5, SIGNAL(activated()),
-            mpControl, SLOT(setFocus()) );
 
    addDockWidget( Qt::TopDockWidgetArea, dockControl );
    addDockWidget( Qt::BottomDockWidgetArea, mpDockTreeView );
@@ -229,6 +178,43 @@ bool PartymanMainWindow::event( QEvent *event )
       mForbidMove--;
    }
    return QMainWindow::event( event );
+}
+
+
+QDockWidget *PartymanMainWindow::setupDock( QWidget *widget,
+                                            const QString &name,
+                                            const QString &label,
+                                            const QKeySequence &shortCutKey )
+{
+   QDockWidget *dockWidget = new QDockWidget( label, this );
+   dockWidget->setObjectName( name );
+   dockWidget->setWidget( widget );
+   QShortcut *shortCut = new QShortcut( shortCutKey, this );
+
+   connect( shortCut, SIGNAL(activated()),
+            dockWidget, SLOT(show()) );
+   connect( shortCut, SIGNAL(activated()),
+            dockWidget, SLOT(raise()) );
+   connect( dockWidget, SIGNAL(visibilityChanged(bool)),
+            this, SLOT(setDockFocus(bool)) );
+
+   WidgetShot::addWidget( name, dockWidget );
+
+   return dockWidget;
+}
+
+
+void PartymanMainWindow::setDockFocus( bool doit )
+{
+   if( doit )
+   {
+      QDockWidget *dw = qobject_cast<QDockWidget*>( sender() );
+      if( dw )
+      {
+         QWidget *w = dw->widget();
+         QMetaObject::invokeMethod( w, "setFocus", Qt::QueuedConnection );
+      }
+   }
 }
 
 

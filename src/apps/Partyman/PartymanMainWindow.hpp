@@ -176,8 +176,26 @@ public slots:
    */
    void showTab( const QString &name );
 
+   /*!
+    \brief \todo
+
+    \param bool
+   */
+   void setDockFocus( bool );
+
 signals:
+   /*!
+    \brief \todo
+
+    \param qmi
+   */
    void expand( const QModelIndex &qmi );
+
+   /*!
+    \brief \todo
+
+    \param isValid
+   */
    void playlistIsValid( bool isValid );
 
 protected:
@@ -210,6 +228,18 @@ private:
    */
    bool getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
                         bool favoriteOnly, bool leastPlayed, const QString &playFolder );
+
+   /*!
+    \brief \todo
+
+    \param widget
+    \param name
+    \param label
+    \param shortCut
+    \return QDockWidget
+   */
+   QDockWidget *setupDock( QWidget *widget, const QString &name,
+                           const QString &label, const QKeySequence &shortCutKey );
 
    bool                    mProhibitCloseWindow; /*!< \brief flag to store of close is prohibited */
    int                     mForbidMove;
