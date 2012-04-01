@@ -195,6 +195,8 @@ QDockWidget *PartymanMainWindow::setupDock( QWidget *widget,
             dockWidget, SLOT(show()) );
    connect( shortCut, SIGNAL(activated()),
             dockWidget, SLOT(raise()) );
+   connect( shortCut, SIGNAL(activated()),
+            widget, SLOT(setFocus()) );
    connect( dockWidget, SIGNAL(visibilityChanged(bool)),
             this, SLOT(setDockFocus(bool)) );
 
