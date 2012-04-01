@@ -15,15 +15,12 @@
 /* Qt headers */
 #include <QApplication>
 #include <QDir>
-#include <QFileInfo>
 #include <QMessageBox>
 #include <QtSql>
 
 /* local library headers */
 
 /* local headers */
-#include "DatabaseThread.hpp"
-#include "MySettings.hpp"
 #include "Satellite.hpp"
 
 #include "Trace.hpp"
@@ -55,12 +52,6 @@ void DatabaseInterface::destroy()
       delete cpInterface;
       cpInterface = 0;
    }
-}
-
-
-bool DatabaseInterface::exists()
-{
-   return QFileInfo( DatabaseThread::getDatabaseFileName() ).isFile();
 }
 
 

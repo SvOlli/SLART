@@ -14,11 +14,13 @@
 /* system headers */
 
 /* Qt headers */
+#include <QFileInfo>
 #include <QStringList>
 
 /* local library headers */
 
 /* local headers */
+#include "DatabaseThread.hpp"
 #include "TrackInfo.hpp"
 
 /* forward declaration of Qt classes */
@@ -26,7 +28,6 @@ class QSqlDatabase;
 class QSqlQuery;
 
 /* forward declaration of local classes */
-class DatabaseThread;
 class Satellite;
 
 
@@ -46,6 +47,7 @@ public:
    /*!
     \brief 
 
+    \return DatabaseInterface *
    */
    static DatabaseInterface *create();
    /*!
@@ -56,30 +58,41 @@ public:
    /*!
     \brief 
 
+    \return DatabaseInterface *
    */
    static DatabaseInterface *get();
 
    /*!
     \brief test for the existance of the Database file
 
+    \return bool
    */
-   static bool exists();
+   static inline bool exists()
+   {
+      return QFileInfo( DatabaseThread::getDatabaseFileName() ).isFile();
+   }
 
    /*!
     \brief 
 
+    \param object
+    \param slot
    */
    void connectActivityIndicator( QObject *object, const char *slot );
 
    /*!
     \brief 
 
+    \param object
+    \param slot
    */
    void disconnectActivityIndicator( QObject *object, const char *slot );
 
    /*!
     \brief 
 
+    \param satellite
+    \param message
    */
    void registerUpdate( Satellite *satellite, const QByteArray &message );
 
@@ -120,12 +133,14 @@ public:
    /*!
     \brief delete track information from database
 
+    \param trackInfo
    */
    void deleteTrackInfo( const TrackInfo &trackInfo );
 
    /*!
     \brief delete track information from database by file name
 
+    \param fileName
    */
    void deleteTrackInfo( const QString &fileName );
 
@@ -154,6 +169,11 @@ public:
    /*!
     \brief get a random track
 
+    \param target
+    \param method
+    \param favorite
+    \param leastplayed
+    \param folder
    */
    void getRandomTrack( QObject *target, const QString &method,
                         bool favorite, bool leastplayed,
@@ -183,18 +203,22 @@ public:
    /*!
     \brief add a folder
 
+    \param folder
    */
    void insertFolder( const QString &folder );
 
    /*!
     \brief remove a folder
 
+    \param folder
    */
    void deleteFolder( const QString &folder );
 
    /*!
     \brief rename
 
+    \param oldName
+    \param newName
    */
    void rename( const QString &oldName, const QString &newName );
 
@@ -218,6 +242,8 @@ public:
    /*!
     \brief for synchronization purposes
 
+    \param target
+    \param method
    */
    void call( QObject *target, const QString &method );
 

@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QDir>
 #include <QStringList>
 
 /* local library headers */
@@ -65,7 +66,16 @@ public:
     \brief generate the filename for DatabaseThread
 
    */
-   static QString getDatabaseFileName();
+   static inline QString getDatabaseFileName()
+   {
+#ifdef Q_OS_WIN32
+      QString slartdb( "%1/slart.db" );
+#else
+      QString slartdb( "%1/.slartdb" );
+#endif
+      return slartdb.arg( QDir::homePath() );
+   }
+
 
 private slots:
 
@@ -190,6 +200,11 @@ private slots:
 
    */
    void commit( bool intermediate = false );
+
+   void handleAboutToBlock();
+
+   void handleAwake();
+
 
 signals:
    /*!
