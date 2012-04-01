@@ -1,5 +1,5 @@
 /*
- * src/libs/Sorcerer/SorcererWidget.cpp
+ * src/apps/Sorcerer/SorcererWidget.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "SorcererWidget.hpp"
+#include "SorcererMainWidget.hpp"
 
 /* system headers */
 
@@ -25,7 +25,7 @@
 /* local headers */
 
 
-SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
+SorcererMainWidget::SorcererMainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpDatabase( DatabaseInterface::get() )
 , mpTabs( new QTabWidget( this ) )
@@ -54,10 +54,20 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
                                        "This little wizard will help you on this task. There's no need to worry,<br>"
                                        "anything you configure here can be configured in the appropriate<br>"
                                        "SLART application as well.").arg( QApplication::applicationName() ), this );
-   QLabel *welldone   = new QLabel( tr("Well, that's all. Wasn't so hard, was it?<br><br>"
-                                       "Now, press 'Done' to %1 %2.").arg(
-                                             QApplication::applicationName() == "Sorcerer" ? mQuit : mStart,
-                                             QApplication::applicationName() ), this );
+   QLabel *welldone = 0;
+   if( QApplication::arguments().size() > 1 )
+   {
+      parent->setWindowTitle( tr("%1 (running for %2)").arg(
+                                 QApplication::applicationName(),
+                                 QApplication::arguments().at(1) ) );
+      welldone = new QLabel( tr("Well, that's all. Wasn't so hard, was it?<br><br>"
+                                "Now, press 'Done' to start %1.").arg(
+                                QApplication::arguments().at(1) ) );
+   }
+   else
+   {
+      welldone = new QLabel( tr("Now, press 'Done' to quit Sorcerer.") );
+   }
    welcome->setAlignment( Qt::AlignCenter );
    welldone->setAlignment( Qt::AlignCenter );
    mpHint->setAlignment( Qt::AlignCenter );
@@ -94,18 +104,18 @@ SorcererWidget::SorcererWidget( QWidget *parent , Qt::WindowFlags flags )
 }
 
 
-SorcererWidget::~SorcererWidget()
+SorcererMainWidget::~SorcererMainWidget()
 {
 }
 
 
-int SorcererWidget::errors()
+int SorcererMainWidget::errors()
 {
    return (mDatabaseOk ? 0 : 0x2) | (mCommunicationOk ? 0 : 0x4) | (mProxyOk ? 0 : 0x8);
 }
 
 
-void SorcererWidget::handleTabChange( int newTab )
+void SorcererMainWidget::handleTabChange( int newTab )
 {
    switch( mLastTab )
    {
@@ -148,9 +158,14 @@ void SorcererWidget::handleTabChange( int newTab )
          mpNext->setDisabled( false );
          break;
       case 4:
-         mpHint->setText( tr("\n\nPress 'Done' now to %1 %2.")
-                          .arg( QApplication::applicationName() == "Sorcerer" ? mQuit : mStart,
-                                QApplication::applicationName() ) );
+         if( QApplication::arguments().size() > 1 )
+         {
+            mpHint->setText( tr("\n\nNow, press 'Done' to start %1.").arg( QApplication::arguments().at(1) ) );
+         }
+         else
+         {
+            mpHint->setText( tr("\n\nNow, press 'Done' to quit.") );
+         }
          mpNext->setDisabled( !mDatabaseOk || !mCommunicationOk || !mProxyOk );
          break;
    }
@@ -168,7 +183,7 @@ void SorcererWidget::handleTabChange( int newTab )
 }
 
 
-void SorcererWidget::handleNextButton()
+void SorcererMainWidget::handleNextButton()
 {
    if( mLastTab < (mpTabs->count() - 1) )
    {
@@ -182,7 +197,7 @@ void SorcererWidget::handleNextButton()
 }
 
 
-void SorcererWidget::unlockDatabase()
+void SorcererMainWidget::unlockDatabase()
 {
    if( DatabaseInterface::exists() )
    {
@@ -190,7 +205,7 @@ void SorcererWidget::unlockDatabase()
    }
 }
 
-void SorcererWidget::countTracks( const TrackInfoList &list )
+void SorcererMainWidget::countTracks( const TrackInfoList &list )
 {
    mDatabaseOk = list.count() > 2;
 
@@ -201,7 +216,7 @@ void SorcererWidget::countTracks( const TrackInfoList &list )
 }
 
 
-void SorcererWidget::unlockCommunication()
+void SorcererMainWidget::unlockCommunication()
 {
    mCommunicationOk = true;
    mpNext->setDisabled( false );

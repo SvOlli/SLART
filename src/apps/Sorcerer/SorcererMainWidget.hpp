@@ -1,13 +1,13 @@
 /*
- * src/libs/Sorcerer/SorcererWidget.hpp
+ * src/apps/Sorcerer/SorcererWidget.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
-#ifndef SORCERERWIDGET_HPP
-#define SORCERERWIDGET_HPP SORCERERWIDGET_HPP
+#ifndef SORCERERMAINWIDGET_HPP
+#define SORCERERMAINWIDGET_HPP SORCERERMAINWIDGET_HPP
 
 /* base class */
 #include <QWidget>
@@ -46,7 +46,7 @@ class SatelliteConfigWidget;
 
  \dotfile "graphs/libs/Sorcerer/SorcererWidget_connect.dot" "Connect Graph"
 */
-class SorcererWidget : public QWidget
+class SorcererMainWidget : public QWidget
 {
    Q_OBJECT
 
@@ -57,12 +57,12 @@ public:
     \param parent parent widget
     \param flags window flags
    */
-   SorcererWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   SorcererMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    /*!
     \brief
 
    */
-   virtual ~SorcererWidget();
+   virtual ~SorcererMainWidget();
    /*!
     \brief bitmask of errors occured
 
@@ -112,7 +112,7 @@ signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
-   Q_DISABLE_COPY( SorcererWidget )
+   Q_DISABLE_COPY( SorcererMainWidget )
 
    DatabaseInterface       *mpDatabase; /*!< \todo */
    QTabWidget              *mpTabs; /*!< \todo */

@@ -35,7 +35,6 @@ class QTabWidget;
 
 /* forward declaration of local classes */
 class CDReader;
-class ConfigNotifyWidget;
 class Encoder;
 class GlobalConfigWidget;
 class ProxyWidget;

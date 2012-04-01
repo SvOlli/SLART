@@ -57,7 +57,7 @@ public:
 
     \param force force start of setup wizard, even system is already set up
    */
-   static void detect( bool force = false );
+   static void detect();
 
 private:
    /*!
