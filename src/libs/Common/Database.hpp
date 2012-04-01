@@ -27,7 +27,6 @@ class QSqlDatabase;
 class QSqlQuery;
 
 /* forward declaration of local classes */
-class GlobalConfigWidget;
 class Satellite;
 
 

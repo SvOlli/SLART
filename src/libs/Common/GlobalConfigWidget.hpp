@@ -9,14 +9,26 @@
 #ifndef GLOBALCONFIGWIDGET_HPP
 #define GLOBALCONFIGWIDGET_HPP GLOBALCONFIGWIDGET_HPP
 
+/* base class */
 #include <QGroupBox>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QCheckBox;
 class QComboBox;
 class QLabel;
 class QLineEdit;
 class QPushButton;
 class QSpinBox;
+
+/* forward declaration of local classes */
 
 
 /*!
@@ -35,7 +47,17 @@ class GlobalConfigWidget : public QWidget
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    GlobalConfigWidget( QWidget *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~GlobalConfigWidget();
 
    /*!
@@ -51,36 +73,45 @@ public:
    /*!
     \brief write to the clipboard (copy and/or selection buffer) according to settings
 
+    \param text
    */
    static void setClipboard( const QString &text );
    /*!
     \brief read from clipboard (copy or selection buffer) according to settings
 
+    \return QString
    */
    static QString getClipboard();
    /*!
     \brief remove/replace chars illegal for a fileName
 
+    \param fileName
+    \param withDir
+    \return QString
    */
    static QString correctFileName( QString fileName, bool withDir );
    /*!
     \brief show clipboard options on panel
 
+    \param allow
    */
    void showClipboard( bool allow = true );
    /*!
     \brief show animation option on panel
 
+    \param allow
    */
    void showAnimate( bool allow = true );
    /*!
     \brief show normalize options on panel
 
+    \param allow
    */
    void showNormalize( bool allow = true );
    /*!
     \brief show doubleclick interal options on panel
 
+    \param allow
    */
    void showDoubleClickInterval( bool allow = true );
 
@@ -98,6 +129,7 @@ public slots:
    /*!
     \brief set the "use satellite" checkbox
 
+    \param isSet
    */
    void setSatelliteClicked( bool isSet );
 
@@ -105,6 +137,7 @@ signals:
    /*!
     \brief signalize that the "use satellite" checkbox has been clicked
 
+    \param isSet
    */
    void useSatelliteClicked( bool isSet );
 

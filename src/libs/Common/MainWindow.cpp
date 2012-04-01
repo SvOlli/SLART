@@ -7,7 +7,6 @@
  */
 
 #include "MainWindow.hpp"
-#include "GlobalConfigWidget.hpp"
 #include "PasswordChecker.hpp"
 #include "Settings.hpp"
 

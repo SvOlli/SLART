@@ -29,7 +29,6 @@ class QLineEdit;
 class QSpinBox;
 
 /* forward declaration of local classes */
-class ConfigNotifyWidget;
 class GlobalConfigWidget;
 class ProxyWidget;
 

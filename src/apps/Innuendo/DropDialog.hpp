@@ -32,8 +32,6 @@ class QSpinBox;
 class QTextBrowser;
 
 /* forward declaration of local classes */
-class ConfigNotifyWidget;
-class GlobalConfigWidget;
 class ProxyWidget;
 
 

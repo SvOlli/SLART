@@ -16,7 +16,6 @@
 
 /* local library headers */
 #include <AboutWidget.hpp>
-#include <GlobalConfigWidget.hpp>
 #include <MySettings.hpp>
 #include <ProxyWidget.hpp>
 
