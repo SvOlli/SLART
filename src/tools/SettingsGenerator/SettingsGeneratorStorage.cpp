@@ -303,11 +303,11 @@ QStringList SettingsGeneratorStorage::cleanup() const
    {
       if( mTopPart.startsWith("@") )
       {
-         retval << "\tremove( \"" + prefix + name + "\" );";
+         retval << "\tretval |= remove( \"" + prefix + name + "\" );";
       }
       else
       {
-         retval << "\tremove( \"" + prefix + name + "\", \"" + mTopPart + "\" );";
+         retval << "\tretval |= remove( \"" + prefix + name + "\", \"" + mTopPart + "\" );";
       }
    }
 

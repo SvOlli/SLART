@@ -1192,8 +1192,9 @@ public:
     \brief cleanup unused registry entries
 
     automatically generated
+    \return true if something has been removed
     */
-   void cleanup();
+   static bool cleanup();
 
    /* generated code end */
 
@@ -1213,6 +1214,13 @@ public:
    */
    static QSettings *get( const QString &applicationName = QCoreApplication::applicationName() );
 
+   /*!
+    \brief test if there are already settings
+
+    \return bool
+   */
+   static bool exist();
+
 private:
    /*!
     \brief \todo
@@ -1220,7 +1228,7 @@ private:
     \param key
     \param applicationName
    */
-   static void remove( const QString &key,
+   static bool remove( const QString &key,
                        const QString &applicationName = QString() );
 
    /*!

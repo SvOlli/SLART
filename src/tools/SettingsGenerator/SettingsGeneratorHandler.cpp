@@ -99,8 +99,10 @@ QString SettingsGeneratorHandler::declarations( int start ) const
    retval << "/*!"
           << " \\brief cleanup unused registry entries\n"
           << " automatically generated"
+          << ""
+          << " \return true if something has been removed"
           << " */"
-          << "void cleanup();\n";
+          << "bool cleanup();\n";
 
    retval.replaceInStrings( QRegExp("^"), QString( start * mSpaces, QChar(' ') ) );
    retval.replaceInStrings( "\t", QString( mSpaces, QChar(' ') ) );
@@ -115,13 +117,15 @@ QString SettingsGeneratorHandler::definitions() const
    {
       retval << storage.definition();
    }
-   retval << "void Settings::cleanup()"
-          << "{";
+   retval << "bool Settings::cleanup()"
+          << "{"
+          << "   bool retval = false;";
    foreach( const SettingsGeneratorStorage &storage, mStorageList )
    {
       retval << storage.cleanup();
    }
-   retval << "}\n";
+   retval << "   return retval;"
+          << "}\n";
    retval.replaceInStrings( "\t", QString( mSpaces, QChar(' ') ) );
    return retval.join( "\n" );
 }

@@ -70,8 +70,9 @@ void Settings::settingsDestroyed( QObject *object )
 }
 
 
-void Settings::remove( const QString &key, const QString &applicationName )
+bool Settings::remove( const QString &key, const QString &applicationName )
 {
+   bool removed = false;
    QStringList allApplications;
    allApplications << "Funkytown"
                    << "Innuendo"
@@ -85,11 +86,29 @@ void Settings::remove( const QString &key, const QString &applicationName )
    {
       foreach( const QString &application, allApplications )
       {
-         cpSettings->get( application )->remove( key );
+         QSettings *settings = cpSettings->get( application );
+         if( settings->contains( key ) )
+         {
+            removed = true;
+            settings->remove( key );
+         }
       }
    }
    else
    {
-      cpSettings->get( applicationName )->remove( key );
+      QSettings *settings = cpSettings->get( applicationName );
+      if( settings->contains( key ) )
+      {
+         removed = true;
+         settings->remove( key );
+      }
    }
+
+   return removed;
+}
+
+
+bool Settings::exist()
+{
+   return cpSettings->get()->contains( "UseSatellite" );
 }

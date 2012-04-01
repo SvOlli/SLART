@@ -576,7 +576,7 @@ QString Settings::value( GlobalString id )
    case GlobalStyleSheetFile:
       return settings->value( "StyleSheetFile" ).toString();
    case GlobalVersion:
-      return settings->value( "Version" ).toString();
+      return settings->value( "Version", "0" ).toString();
    default:
       qFatal( "illegal GlobalString value" );
       return QString();
@@ -619,7 +619,7 @@ bool Settings::value( GlobalBool id )
    case GlobalNormalizeSpaces:
       return settings->value( "NormalizeSpaces", false ).toBool();
    case GlobalShowCleanupDialog:
-      return settings->value( "ShowCleanupDialog" ).toBool();
+      return settings->value( "ShowCleanupDialog", true ).toBool();
    default:
       qFatal( "illegal GlobalBool value" );
       return bool();
@@ -1435,21 +1435,23 @@ bool Settings::value( StrippedBool id )
 }
 
 
-void Settings::cleanup()
+bool Settings::cleanup()
 {
-   remove( "Listener" );
-   remove( "MainWindowPosition" );
-   remove( "MainWindowSize" );
-   remove( "SLARTCommunication" );
-   remove( "StyleSheet" );
-   remove( "UDPListenerPort" );
-   remove( "flv2mpeg4", "Funkytown" );
-   remove( "UseGlobalStyleSheetFile", "Global" );
-   remove( "Next", "Innuendo" );
-   remove( "Play", "Innuendo" );
-   remove( "Stop", "Innuendo" );
-   remove( "ButtonRows", "Karmadrome" );
-   remove( "DatabaseFilename", "Partyman" );
-   remove( "ShowStats", "Stripped" );
-   remove( "StyleSheet", "Stripped" );
+   bool retval = false;
+   retval |= remove( "Listener" );
+   retval |= remove( "MainWindowPosition" );
+   retval |= remove( "MainWindowSize" );
+   retval |= remove( "SLARTCommunication" );
+   retval |= remove( "StyleSheet" );
+   retval |= remove( "UDPListenerPort" );
+   retval |= remove( "flv2mpeg4", "Funkytown" );
+   retval |= remove( "UseGlobalStyleSheetFile", "Global" );
+   retval |= remove( "Next", "Innuendo" );
+   retval |= remove( "Play", "Innuendo" );
+   retval |= remove( "Stop", "Innuendo" );
+   retval |= remove( "ButtonRows", "Karmadrome" );
+   retval |= remove( "DatabaseFilename", "Partyman" );
+   retval |= remove( "ShowStats", "Stripped" );
+   retval |= remove( "StyleSheet", "Stripped" );
+   return retval;
 }
