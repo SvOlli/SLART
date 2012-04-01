@@ -227,8 +227,8 @@ void StrippedMainWindow::addToolAction( QToolBar *bar, QAction *action, bool che
    if( checkbox )
    {
       b->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
-      connect( b, SIGNAL(triggered(QAction*)),
-               this, SLOT(changeEncoderIcon(QAction*)) );
+      connect( action, SIGNAL(toggled(bool)),
+               this, SLOT(changeEncoderIcon()) );
       changeEncoderIcon( action );
    }
    bar->addSeparator();
@@ -237,6 +237,14 @@ void StrippedMainWindow::addToolAction( QToolBar *bar, QAction *action, bool che
 
 void StrippedMainWindow::changeEncoderIcon( QAction *action )
 {
+   if( !action )
+   {
+      action = qobject_cast<QAction*>(sender());
+      if( !action )
+      {
+         return;
+      }
+   }
    QCommonStyle style;
    if( action->isChecked() )
    {

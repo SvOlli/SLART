@@ -73,7 +73,7 @@ public slots:
 
     \param enabled
    */
-   void changeEncoderIcon( QAction *action );
+   void changeEncoderIcon( QAction *action = 0 );
 
    /*!
     \brief handle eject button
