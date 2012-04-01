@@ -6,10 +6,6 @@
    <file>Pattern.html</file>
    <file>PartymanSmile.png</file>
    <file>PartymanWriting.png</file>
-   <file>Play.png</file>
-   <file>Pause.png</file>
-   <file>Skip.png</file>
-   <file>Stop.png</file>
    <file>Load.png</file>
 </qresource>
 </RCC>
