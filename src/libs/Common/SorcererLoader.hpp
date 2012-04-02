@@ -53,59 +53,11 @@ class SorcererLoader
 public:
 
    /*!
-    \brief detect if Sorcerer needs to be loaded and run
+    \brief detect if Sorcerer needs to be loaded and run it, when necessary
 
-    \param force force start of setup wizard, even system is already set up
    */
    static void detect();
 
-private:
-   /*!
-    \brief constructor
-
-   */
-   SorcererLoader();
-
-   /*!
-    \brief destructor
-
-   */
-   virtual ~SorcererLoader();
-
-   /*!
-    \brief private copy constructor to deactive default
-
-    \param that the other instance
-   */
-   SorcererLoader( const SorcererLoader &that );
-
-   /*!
-    \brief private assignment operator to deactive default
-
-    \param that the other instance
-   */
-   SorcererLoader &operator=( const SorcererLoader &that );
-
-   /*!
-    \brief search for Sorcerer and try loading it
-
-   */
-   static SorcererInterface *tryLoading();
-
-   /*!
-    \brief try to load Sorcerer from the specified dir
-
-    \param dir
-   */
-   static SorcererInterface *tryLoading( const QDir &dir );
-
-   /*!
-    \brief remove Sorcerer from memory
-
-   */
-   static void unload();
-
-   static QPluginLoader *cpPluginLoader; /*!< \brief used for loading Sorcerer */
 };
 
 /*! @} */
