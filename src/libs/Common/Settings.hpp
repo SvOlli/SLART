@@ -123,7 +123,15 @@ public:
    {
       Magicmp3DirectoryOverride,
       Magicmp3UseEncoder,
-      Magicmp3UseLatin1,
+      Magicmp3UseLatin1
+   };
+   /*!
+    \brief enum for value() and setValue()
+
+    automatically generated
+    */
+   enum Magicmp3Double
+   {
       Magicmp3VBRQuality
    };
    /*!
@@ -611,6 +619,24 @@ public:
     \param id id of registry key
     */
    static bool value( Magicmp3Bool id );
+
+   /*!
+    \brief set a value in registry
+
+    automatically generated
+    \param id id of registry key
+    \param value to set
+    */
+   static void setValue( Magicmp3Double id, double value );
+
+   /*!
+    \brief get a value in registry
+
+    automatically generated
+    \return value in registry
+    \param id id of registry key
+    */
+   static double value( Magicmp3Double id );
 
    /*!
     \brief set a value in registry

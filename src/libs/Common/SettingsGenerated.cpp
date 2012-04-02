@@ -240,9 +240,6 @@ void Settings::setValue( Magicmp3Bool id, bool value )
    case Magicmp3UseLatin1:
       settings->setValue( "mp3/UseLatin1", value );
       return;
-   case Magicmp3VBRQuality:
-      settings->setValue( "mp3/VBRQuality", value );
-      return;
    default:
       qFatal( "illegal Magicmp3Bool value" );
    }
@@ -260,11 +257,37 @@ bool Settings::value( Magicmp3Bool id )
       return settings->value( "mp3/UseEncoder", false ).toBool();
    case Magicmp3UseLatin1:
       return settings->value( "mp3/UseLatin1", false ).toBool();
-   case Magicmp3VBRQuality:
-      return settings->value( "mp3/VBRQuality", 4.0 ).toBool();
    default:
       qFatal( "illegal Magicmp3Bool value" );
       return bool();
+   }
+}
+
+
+void Settings::setValue( Magicmp3Double id, double value )
+{
+   QSettings *settings = cpSettings->get();
+   switch( id )
+   {
+   case Magicmp3VBRQuality:
+      settings->setValue( "mp3/VBRQuality", value );
+      return;
+   default:
+      qFatal( "illegal Magicmp3Double value" );
+   }
+}
+
+
+double Settings::value( Magicmp3Double id )
+{
+   QSettings *settings = cpSettings->get();
+   switch( id )
+   {
+   case Magicmp3VBRQuality:
+      return settings->value( "mp3/VBRQuality", 4.0 ).toDouble();
+   default:
+      qFatal( "illegal Magicmp3Double value" );
+      return double();
    }
 }
 
