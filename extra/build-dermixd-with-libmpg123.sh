@@ -99,6 +99,8 @@ sed -i Makefile \
     -e "s@^ADDFLAGS=.*\$@ADDFLAGS=-D_FILE_OFFSET_BITS=64 -I${mpg123_dir}/src/libmpg123@" \
     -e "s@^EXTRA_LIBS=.*\$@EXTRA_LIBS=-L${mpg123_dir}/src/libmpg123/.libs@" \
     -e 's@ \$(LDFLAGS) \(.*\)@ \1 $(LDFLAGS)@'
+grep "^extern" tstring.cxx || sed -i tstring.cxx -e '10i\
+extern "C" { extern int vsnprintf(char *str, size_t size, const char *format, va_list ap); };'
 
 make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes clean gnu-alsa ||
 make ${MAKEFLAGS} SNDFILE=yes VORBISFILE=yes LIBMPG123=yes gnu-alsa

@@ -14,7 +14,7 @@ DEBIAN="${RELEASE}/DEBIAN"
 EXTRA="${TOPSRC}/extra"
 
 VERSION="$(grep SLART_VERSION ../../src/libs/Common/Version.hpp | cut -f2 -d\")"
-REVISION="$(git log --pretty=oneline|wc -l)"
+REVISION="$(git rev-list HEAD|wc -l).$(git show --abbrev-commit HEAD|grep '^commit'|sed -e 's/commit //')"
 
 echo "Building SLART ${VERSION}-${REVISION}"
 
@@ -56,7 +56,7 @@ echo "Building SLART ${VERSION}-${REVISION}"
   if [ "${DIRNAME}" != "${DISTDIR}" ]; then
     ln -sf ${DIRNAME} ${DISTDIR}
   fi
-  tar jcvf ${DISTDIR}.tar.bz2 $(ls -1d ${DISTDIR}/*|grep -v 'build$')
+  git archive --format=tar --prefix=${DISTDIR} HEAD | bzip2 > ../${DISTDIR}.tar.bz2
 ) || exit 13
 
 mkdir -p "${DEBIAN}/root/usr/share/menu"
@@ -91,7 +91,7 @@ done > "${DEBIAN}/root/usr/share/menu/slart"
       fi
     done
     if [ -n "${allts}" ]; then
-      lrelease "${allts}" -qm "${qm}"
+      lrelease ${allts} -qm "${qm}"
     fi
   done
 ) || exit 14
