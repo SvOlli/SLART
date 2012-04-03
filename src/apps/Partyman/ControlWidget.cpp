@@ -88,15 +88,14 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
    mpStartButton->setPopupMode( QToolButton::InstantPopup );
    mpStartButton->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
    mpStartButton->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
-   mpStartButton->setCheckable( true );
-   mpStartButton->setDisabled( true );
+   mpPlayAction->setCheckable( true );
+   mpPlayAction->setDisabled( true );
 
    mpSkipButton->setDefaultAction( mpSkipAction );
    mpSkipButton->setPopupMode( QToolButton::InstantPopup );
    mpSkipButton->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
    mpSkipButton->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
-   mpSkipButton->setCheckable( true );
-   mpSkipButton->setDisabled( true );
+   mpSkipAction->setCheckable( true );
    mpSkipAction->setDisabled( true );
 
    mpTrayIcon->setIcon( QIcon(":/PartymanSmile.png") );
@@ -116,8 +115,6 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
             this, SLOT(initDisconnect()) );
    connect( mpLoadAction, SIGNAL(triggered()),
             this, SLOT(handleLoad()) );
-   connect( mpSkipButton, SIGNAL(clicked()),
-            this, SLOT(handleSkipTrack()) );
    connect( mpSkipAction, SIGNAL(triggered()),
             this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()),
@@ -277,8 +274,7 @@ void ControlWidget::initConnect()
       mpPlayer[1]->connectTo( hostname, port );
       mpStartButton->setMenu( mpStartButtonMenu );
       mpTrayIcon->setContextMenu( mpTrayIconPlayMenu );
-      mpStartButton->setChecked( true );
-      mpSkipButton->setDisabled( mKioskMode );
+      mpPlayAction->setChecked( true );
       mpSkipAction->setDisabled( mKioskMode );
       emit signalConnected( true );
    }
@@ -299,7 +295,7 @@ void ControlWidget::initDisconnect( ErrorCode errorCode )
       saveTracks( true );
       mpPlayer[0]->disconnect();
       mpPlayer[1]->disconnect();
-      mpSkipButton->setDisabled( true );
+      //mpSkipButton->setDisabled( true );
       mpSkipAction->setDisabled( true );
       mpStartButton->setMenu( 0 );
       mpStartButton->setChecked( false );
@@ -383,7 +379,7 @@ void ControlWidget::handleLoad()
 
 void ControlWidget::handleSkipTrack()
 {
-   if( mpSkipButton->isEnabled() )
+   if( mpSkipAction->isEnabled() )
    {
       bool checkstate = true;
 
@@ -403,7 +399,7 @@ void ControlWidget::handleSkipTrack()
          checkstate = false;
       }
 
-      mpSkipButton->setChecked( checkstate );
+      mpSkipAction->setChecked( checkstate );
    }
 }
 
@@ -422,7 +418,7 @@ void ControlWidget::getNextTrack( QString *fileName )
 
 void ControlWidget::allowConnect( bool allowed )
 {
-   mpStartButton->setDisabled( !allowed );
+   mpPlayAction->setDisabled( !allowed );
 }
 
 
@@ -651,21 +647,23 @@ void ControlWidget::handleKioskMode( bool enable )
    mpSkipAction->setDisabled( mKioskMode );
    mpPauseAction->setDisabled( mKioskMode & !mPaused );
    mpStopAction->setDisabled( mKioskMode );
-   mpSkipButton->setDisabled( mKioskMode | !mConnected );
+   mpSkipAction->setDisabled( mKioskMode | !mConnected );
    if( mKioskMode )
    {
-      mpSkipButton->setText( tr("Kiosk Mode") );
+      mpSkipAction->setIcon( QIcon() );
+      mpSkipAction->setText( tr("Kiosk Mode") );
    }
    else
    {
-      mpSkipButton->setText( tr("Next") );
+      mpSkipAction->setIcon( mSkipIcon );
+      mpSkipAction->setText( tr("Next") );
    }
 }
 
 
 void ControlWidget::allowSkip()
 {
-   mpSkipButton->setChecked( false );
+   mpSkipAction->setChecked( false );
 }
 
 
