@@ -33,28 +33,28 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
 , mpPlaylist( parent )
 , mpSatellite( Satellite::get() )
 , mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
-, mpSettingsButton( new QPushButton( tr("Settings"), this ) )
-, mpConnectButton( new QPushButton( tr("Connect"), this ) )
-, mpSkipButton( new QPushButton( tr("Next"), this ) )
-, mConnected( false )
-, mPaused( false )
 , mPartymanIcon( QIcon(":/PartymanSmile.png") )
 , mStopIcon( QCommonStyle().standardIcon(QStyle::SP_MediaStop) /*QIcon(":/Stop.png")*/ )
-, mPlayIcon( QCommonStyle().standardIcon(QStyle::SP_MediaPlay)   /*QIcon(":/Play.png")*/ )
+, mPlayIcon( QCommonStyle().standardIcon(QStyle::SP_MediaPlay) /*QIcon(":/Play.png")*/ )
 , mPauseIcon( QCommonStyle().standardIcon(QStyle::SP_MediaPause) /*QIcon(":/Pause.png")*/ )
 , mSkipIcon( QCommonStyle().standardIcon(QStyle::SP_MediaSkipForward) /*QIcon(":/Skip.png")*/ )
 , mLoadIcon( QIcon(":/Load.png") )
 , mpTrayIcon( new QSystemTrayIcon( this ) )
 , mpTrayIconStopMenu( new QMenu( this ) )
 , mpTrayIconPlayMenu( new QMenu( this ) )
-, mpDisconnectMenu( new QMenu( mpConnectButton ) )
+, mpStartButtonMenu( new QMenu( mpStartButton ) )
 , mpPlayAction( mpTrayIconStopMenu->addAction( mPlayIcon, tr("Start" ) ) )
 , mpSkipAction( mpTrayIconPlayMenu->addAction( mSkipIcon, tr("Next" ) ) )
-, mpPauseAction( mpDisconnectMenu->addAction( tr("Pause" ) ) )
-, mpDisconnectAction( mpDisconnectMenu->addAction( mStopIcon, tr("Disconnect" ) ) )
-, mpLoadAction( mpDisconnectMenu->addAction( mLoadIcon, tr("Load" ) ) )
+, mpPauseAction( mpStartButtonMenu->addAction( mPauseIcon, tr("Pause" ) ) )
+, mpStopAction( mpStartButtonMenu->addAction( mStopIcon, tr("Disconnect" ) ) )
+, mpLoadAction( mpStartButtonMenu->addAction( mLoadIcon, tr("Load" ) ) )
+, mpSettingsButton( new QPushButton( tr("Settings"), this ) )
+, mpStartButton( new QToolButton( /*tr("Connect"),*/ this ) )
+, mpSkipButton( new QToolButton( /*mSkipIcon, tr("Next"),*/ this ) )
+, mpTrayIconClickTimer( new QTimer( this ) )
+, mConnected( false )
+, mPaused( false )
 , mKioskMode( false )
-, mTrayIconClickTimer( this )
 , mDerMixDprocess()
 , mLoggerProcess()
 , mWaitForDerMixD( false )
@@ -65,7 +65,7 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
    mpSettingsButton->setObjectName( QString("SettingsButton") );
    mpPlayer[0] = new PlayerWidget(0, database, this);
    mpPlayer[1] = new PlayerWidget(1, database, this);
-   mTrayIconClickTimer.setSingleShot( true );
+   mpTrayIconClickTimer->setSingleShot( true );
 
    QGridLayout *mainLayout    = new QGridLayout( this );
 
@@ -74,7 +74,7 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
    mainLayout->addWidget( mpPlayer[0],      1, 0, 4, 1 );
    mainLayout->addWidget( mpPlayer[1],      1, 2, 4, 1 );
    mainLayout->addWidget( mpSettingsButton, 1, 1 );
-   mainLayout->addWidget( mpConnectButton,  3, 1 );
+   mainLayout->addWidget( mpStartButton,  3, 1 );
    mainLayout->addWidget( mpSkipButton,     4, 1 );
 
    mainLayout->setColumnStretch( 0, 1 );
@@ -84,9 +84,17 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
 
    setLayout( mainLayout );
 
-   mpConnectButton->setCheckable( true );
-   mpConnectButton->setDisabled( true );
+   mpStartButton->setDefaultAction( mpPlayAction );
+   mpStartButton->setPopupMode( QToolButton::InstantPopup );
+   mpStartButton->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
+   mpStartButton->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
+   mpStartButton->setCheckable( true );
+   mpStartButton->setDisabled( true );
 
+   mpSkipButton->setDefaultAction( mpSkipAction );
+   mpSkipButton->setPopupMode( QToolButton::InstantPopup );
+   mpSkipButton->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
+   mpSkipButton->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
    mpSkipButton->setCheckable( true );
    mpSkipButton->setDisabled( true );
    mpSkipAction->setDisabled( true );
@@ -94,17 +102,17 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
    mpTrayIcon->setIcon( QIcon(":/PartymanSmile.png") );
    mpTrayIcon->setContextMenu( mpTrayIconStopMenu );
    mpTrayIconPlayMenu->addAction( mpPauseAction );
-   mpTrayIconPlayMenu->addAction( mpDisconnectAction );
+   mpTrayIconPlayMenu->addAction( mpStopAction );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfig, SLOT(exec()) );
-   connect( mpConnectButton, SIGNAL(clicked()),
+   connect( mpStartButton, SIGNAL(clicked()),
             this, SLOT(initConnect()) );
    connect( mpPlayAction, SIGNAL(triggered()),
             this, SLOT(initConnect()) );
    connect( mpPauseAction, SIGNAL(triggered()),
             this, SLOT(handlePause()) );
-   connect( mpDisconnectAction, SIGNAL(triggered()),
+   connect( mpStopAction, SIGNAL(triggered()),
             this, SLOT(initDisconnect()) );
    connect( mpLoadAction, SIGNAL(triggered()),
             this, SLOT(handleLoad()) );
@@ -126,7 +134,7 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
             this, SLOT(handleTrackPlaying(TrackInfo)) );
    connect( mpTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(handleTrayIcon(QSystemTrayIcon::ActivationReason)) );
-   connect( &mTrayIconClickTimer, SIGNAL(timeout()),
+   connect( mpTrayIconClickTimer, SIGNAL(timeout()),
             this, SLOT(handlePause()) );
 
    connect( &mDerMixDprocess, SIGNAL(readyReadStandardError()),
@@ -207,13 +215,17 @@ void ControlWidget::readConfig()
    mpPlayer[1]->readConfig();
    if( Settings::value( Settings::PartymanDerMixDrun ) )
    {
-      mpConnectButton->setText("Start");
-      mpDisconnectAction->setText("Stop");
+      mpPlayAction->setIcon( mPlayIcon );
+      mpPlayAction->setText( tr("Start") );
+      mpStopAction->setIcon( mStopIcon );
+      mpStopAction->setText( tr("Stop") );
    }
    else
    {
-      mpConnectButton->setText("Connect");
-      mpDisconnectAction->setText("Disconnect");
+      mpPlayAction->setIcon( QIcon() );
+      mpPlayAction->setText( tr("Connect") );
+      mpStopAction->setIcon( QIcon() );
+      mpStopAction->setText( tr("Disconnect") );
    }
    mpTrayIcon->setVisible( Settings::value( Settings::PartymanTrayIcon ) &&
                            QSystemTrayIcon::isSystemTrayAvailable() );
@@ -263,9 +275,9 @@ void ControlWidget::initConnect()
       mConnected = true;
       mpPlayer[0]->connectTo( hostname, port );
       mpPlayer[1]->connectTo( hostname, port );
-      mpConnectButton->setMenu( mpDisconnectMenu );
+      mpStartButton->setMenu( mpStartButtonMenu );
       mpTrayIcon->setContextMenu( mpTrayIconPlayMenu );
-      mpConnectButton->setChecked( true );
+      mpStartButton->setChecked( true );
       mpSkipButton->setDisabled( mKioskMode );
       mpSkipAction->setDisabled( mKioskMode );
       emit signalConnected( true );
@@ -289,8 +301,8 @@ void ControlWidget::initDisconnect( ErrorCode errorCode )
       mpPlayer[1]->disconnect();
       mpSkipButton->setDisabled( true );
       mpSkipAction->setDisabled( true );
-      mpConnectButton->setMenu( 0 );
-      mpConnectButton->setChecked( false );
+      mpStartButton->setMenu( 0 );
+      mpStartButton->setChecked( false );
       switch( errorCode )
       {
          case ErrorNoConnection:
@@ -335,6 +347,8 @@ void ControlWidget::handlePause( bool reset )
    }
    if( mPaused || reset )
    {
+      mpPlayAction->setIcon( mPlayIcon );
+      mpPlayAction->setText( tr("Start") );
       mpPauseAction->setIcon( mPauseIcon );
       mpPauseAction->setText( tr("Pause") );
       if( mKioskMode )
@@ -347,6 +361,8 @@ void ControlWidget::handlePause( bool reset )
    {
       emit requestChangeTitle( mPauseIcon, QApplication::applicationName() +
                                ": " + tr("(paused)") );
+      mpPlayAction->setIcon( mPauseIcon );
+      mpPlayAction->setText( tr("Pause") );
       mpPauseAction->setIcon( mPlayIcon );
       mpPauseAction->setText( tr("Resume") );
       if( mKioskMode )
@@ -355,7 +371,7 @@ void ControlWidget::handlePause( bool reset )
       }
       mPaused = true;
    }
-   mpConnectButton->setMenu( mpDisconnectMenu );
+   mpStartButton->setMenu( mpStartButtonMenu );
 }
 
 
@@ -406,7 +422,7 @@ void ControlWidget::getNextTrack( QString *fileName )
 
 void ControlWidget::allowConnect( bool allowed )
 {
-   mpConnectButton->setDisabled( !allowed );
+   mpStartButton->setDisabled( !allowed );
 }
 
 
@@ -611,7 +627,7 @@ void ControlWidget::handleTrayIcon( QSystemTrayIcon::ActivationReason reason )
       {
          if( !mKioskMode | mPaused )
          {
-            mTrayIconClickTimer.start( QApplication::doubleClickInterval() );
+            mpTrayIconClickTimer->start( QApplication::doubleClickInterval() );
          }
       }
       else
@@ -621,7 +637,7 @@ void ControlWidget::handleTrayIcon( QSystemTrayIcon::ActivationReason reason )
    }
    if( reason == QSystemTrayIcon::DoubleClick )
    {
-      mTrayIconClickTimer.stop();
+      mpTrayIconClickTimer->stop();
       handleSkipTrack();
    }
 }
@@ -634,7 +650,7 @@ void ControlWidget::handleKioskMode( bool enable )
    mpPlayer[1]->handleKioskMode( mKioskMode );
    mpSkipAction->setDisabled( mKioskMode );
    mpPauseAction->setDisabled( mKioskMode & !mPaused );
-   mpDisconnectAction->setDisabled( mKioskMode );
+   mpStopAction->setDisabled( mKioskMode );
    mpSkipButton->setDisabled( mKioskMode | !mConnected );
    if( mKioskMode )
    {
@@ -712,7 +728,7 @@ void ControlWidget::dropEvent( QDropEvent *event )
       if( (state[0] == PlayerFSM::disconnected) &&
           (state[1] == PlayerFSM::disconnected) )
       {
-         QMetaObject::invokeMethod( mpConnectButton, "click",
+         QMetaObject::invokeMethod( mpStartButton, "click",
                                     Qt::QueuedConnection );
       }
       event->acceptProposedAction();

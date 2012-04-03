@@ -29,9 +29,10 @@
 #include "PlayerWidget.hpp"
 
 /* forward declaration of Qt classes */
-class QPushButton;
-class QMenu;
 class QAction;
+class QMenu;
+class QPushButton;
+class QToolButton;
 
 /* forward declaration of local classes */
 class PartymanConfigDialog;
@@ -222,16 +223,11 @@ private:
    ControlWidget( const ControlWidget &that );
    ControlWidget &operator=( const ControlWidget &that );
 
-   PartymanConfigDialog            *mpConfig;
+   PartymanConfigDialog    *mpConfig;
    PartymanMainWindow      *mpPlaylist;
    Satellite               *mpSatellite;
    GenericSatMsgHandler    *mpGenericSatMsgHandler;
-   QPushButton             *mpSettingsButton;
-   QPushButton             *mpConnectButton;
-   QPushButton             *mpSkipButton;
    PlayerWidget            *mpPlayer[2];
-   bool                    mConnected;
-   bool                    mPaused;
    QIcon                   mPartymanIcon;
    QIcon                   mStopIcon;
    QIcon                   mPlayIcon;
@@ -241,14 +237,19 @@ private:
    QSystemTrayIcon         *mpTrayIcon;
    QMenu                   *mpTrayIconStopMenu;
    QMenu                   *mpTrayIconPlayMenu;
-   QMenu                   *mpDisconnectMenu;
+   QMenu                   *mpStartButtonMenu;
    QAction                 *mpPlayAction;
    QAction                 *mpSkipAction;
    QAction                 *mpPauseAction;
-   QAction                 *mpDisconnectAction;
+   QAction                 *mpStopAction;
    QAction                 *mpLoadAction;
+   QPushButton             *mpSettingsButton;
+   QToolButton             *mpStartButton;
+   QToolButton             *mpSkipButton;
+   QTimer                  *mpTrayIconClickTimer;
+   bool                    mConnected;
+   bool                    mPaused;
    bool                    mKioskMode;
-   QTimer                  mTrayIconClickTimer;
    QProcess                mDerMixDprocess;
    QProcess                mLoggerProcess;
    bool                    mWaitForDerMixD;

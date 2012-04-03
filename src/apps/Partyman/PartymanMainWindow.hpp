@@ -244,12 +244,12 @@ private:
    bool                    mProhibitCloseWindow; /*!< \brief flag to store of close is prohibited */
    int                     mForbidMove;
    Database                *mpDatabase; /*!< \todo */
-   PartymanConfigDialog            *mpConfig; /*!< \todo */
+   PartymanConfigDialog    *mpConfig; /*!< \todo */
    PlaylistContentWidget   *mpPlaylistContent; /*!< \todo */
    ControlWidget           *mpControl; /*!< \todo */
    QTextBrowser            *mpHelpText; /*!< \brief \todo TODO */
    TrackInfoWidget         *mpTrackInfo; /*!< \brief \todo TODO */
-   SearchTrackWidget            *mpSearch; /*!< \brief \todo TODO */
+   SearchTrackWidget       *mpSearch; /*!< \brief \todo TODO */
    FileSysTreeView         *mpTreeView; /*!< \brief \todo TODO */
    FileSysTreeModel        *mpTreeModel; /*!< \brief \todo TODO */
    FileSysTreeModel        *mpNextTreeModel; /*!< \brief \todo TODO */
