@@ -47,16 +47,8 @@ echo "Building SLART ${VERSION}-${REVISION}"
 # create source tarball
 (
   cd "${TOPSRC}"
-  DIRNAME="${PWD##*/}"
   DISTDIR="slart-${VERSION}-${REVISION}"
-  cd ..
-  if [ -L ${DISTDIR} ]; then
-    rm ${DISTDIR}
-  fi
-  if [ "${DIRNAME}" != "${DISTDIR}" ]; then
-    ln -sf ${DIRNAME} ${DISTDIR}
-  fi
-  git archive --format=tar --prefix=${DISTDIR} HEAD | bzip2 > ../${DISTDIR}.tar.bz2
+  git archive --format=tar --prefix=${DISTDIR}/ HEAD | bzip2 > ../${DISTDIR}.tar.bz2
 ) || exit 13
 
 mkdir -p "${DEBIAN}/root/usr/share/menu"
