@@ -30,7 +30,7 @@ echo "Building SLART ${VERSION}-${REVISION}"
 (
   cd "${TOPSRC}"
   if [ -f build/release/bin/dermixd-oss -a -f build/release/bin/dermixd-alsa ]; then
-    ls -l build/release/bin/dermixd-oss build/release/bin/dermixd-alsa
+    echo "dermixd already installed"
   else
     dermixd="$(ls -dt ../dermixd*|grep -v '\.tar'|head -1)"
     mpg123="$(ls -dt ../mpg123*|grep -v '\.tar'|head -1)"
@@ -38,9 +38,15 @@ echo "Building SLART ${VERSION}-${REVISION}"
       echo "can't build mpg123 or dermixd"
       exit 1
     else
-      extra/build-dermixd-with-libmpg123.sh ${dermixd} ${mpg123}
+      if [ -f "${dermixd}/dermixd-oss" -a -f "${dermixd}/dermixd-alsa" ]; then
+        echo "dermixd already compiled"
+        cp "${dermixd}/dermixd-oss" "${dermixd}/dermixd-alsa" build/release/bin
+      else
+        extra/build-dermixd-with-libmpg123.sh ${dermixd} ${mpg123}
+      fi
     fi
   fi
+  ls -l build/release/bin/dermixd-oss build/release/bin/dermixd-alsa
   ln -sf dermixd-alsa build/release/bin/dermixd
 ) || exit 12
 
