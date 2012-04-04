@@ -234,6 +234,9 @@ private:
    QIcon                   mPauseIcon;
    QIcon                   mSkipIcon;
    QIcon                   mLoadIcon;
+   QPushButton             *mpSettingsButton;
+   QToolButton             *mpStartButton;
+   QToolButton             *mpSkipButton;
    QSystemTrayIcon         *mpTrayIcon;
    QMenu                   *mpTrayIconStopMenu;
    QMenu                   *mpTrayIconPlayMenu;
@@ -243,9 +246,6 @@ private:
    QAction                 *mpPauseAction;
    QAction                 *mpStopAction;
    QAction                 *mpLoadAction;
-   QPushButton             *mpSettingsButton;
-   QToolButton             *mpStartButton;
-   QToolButton             *mpSkipButton;
    QTimer                  *mpTrayIconClickTimer;
    bool                    mConnected;
    bool                    mPaused;
