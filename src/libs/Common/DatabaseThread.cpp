@@ -50,12 +50,6 @@ DatabaseThread::DatabaseThread( const QString &fileName )
    mpCommitTimer->setInterval( 250 );
    connect( mpCommitTimer, SIGNAL(timeout()),
             this, SLOT(commit()) );
-   QAbstractEventDispatcher *dispatcher = QAbstractEventDispatcher::instance();
-   Q_ASSERT(dispatcher != 0);
-   connect( dispatcher, SIGNAL(aboutToBlock()),
-            this, SLOT(handleAboutToBlock()) );
-   connect( dispatcher, SIGNAL(awake()),
-            this, SLOT(handleAwake()) );
 
    qRegisterMetaType<TrackInfo>( "TrackInfo" );
    qRegisterMetaType<TrackInfoList>( "TrackInfoList" );
@@ -213,18 +207,6 @@ void DatabaseThread::run()
 }
 
 
-void DatabaseThread::handleAboutToBlock()
-{
-   emit working( true );
-}
-
-
-void DatabaseThread::handleAwake()
-{
-   emit working( false );
-}
-
-
 void DatabaseThread::registerUpdate( Satellite *satellite, const QByteArray &message )
 {
    mpSatellite    = satellite;
@@ -247,6 +229,7 @@ void DatabaseThread::prepare()
    if( !mUpdateCount )
    {
       mpSqlDB->transaction();
+      emit working( true );
    }
    mpCommitTimer->start();
 }
@@ -256,6 +239,7 @@ void DatabaseThread::commit( bool intermediate )
 {
    mpSqlDB->commit();
    mUpdateCount = 0;
+   emit working( false );
    if( !intermediate && !mUpdateMessage.isEmpty() && mpSatellite && !mNotifyDisabled )
    {
       mpSatellite->send( mUpdateMessage );
@@ -293,6 +277,7 @@ void DatabaseThread::getTrackInfo( QObject *target, const QString &method,
       mpQuery->bindValue( ":directory", fileName.left(fileNameStart) );
       mpQuery->bindValue( ":fileName", fileName.mid(fileNameStart+1) );
    }
+   emit working( true );
    if( !mpQuery->exec() )
    {
       logError();
@@ -334,6 +319,7 @@ void DatabaseThread::getTrackInfo( QObject *target, const QString &method,
 
       mpQuery->clear();
    }
+   emit working( false );
 
    if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
                                    Q_ARG( TrackInfo, trackInfo ) ) )
@@ -364,6 +350,7 @@ void DatabaseThread::getTrackInfoList( QObject *target, const QString &method,
                      " FROM slart_tracks WHERE Directory LIKE :directory OR FileName LIKE :fileName;" );
    mpQuery->bindValue( ":directory", sqlSearch );
    mpQuery->bindValue( ":fileName", sqlSearch );
+   emit working( true );
    if( !mpQuery->exec() )
    {
       logError();
@@ -397,6 +384,7 @@ void DatabaseThread::getTrackInfoList( QObject *target, const QString &method,
                                   mpQuery->value(14).toUInt() );
    }
    mpQuery->clear();
+   emit working( false );
 
    if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
                                    Q_ARG( TrackInfoList, trackInfoList ) ) )
@@ -424,6 +412,7 @@ void DatabaseThread::getPathNameList( QObject *target, const QString &method,
                      " FROM slart_tracks WHERE Directory LIKE :directory OR FileName LIKE :fileName;" );
    mpQuery->bindValue( ":directory", sqlSearch );
    mpQuery->bindValue( ":fileName", sqlSearch );
+   emit working( true );
    if( !mpQuery->exec() )
    {
       logError();
@@ -444,6 +433,7 @@ void DatabaseThread::getPathNameList( QObject *target, const QString &method,
               + "/" + mpQuery->value( 1).toString();
    }
    mpQuery->clear();
+   emit working( false );
 
    if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
                                    Q_ARG( QStringList, pathNameList ) ) )
@@ -484,6 +474,7 @@ void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
    sql.append( ";" );
 
    mpQuery->prepare( sql );
+   emit working( true );
    if( !mpQuery->exec() )
    {
       logError();
@@ -511,11 +502,13 @@ void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
       mpQuery->seek( row );
       int id = mpQuery->value(0).toUInt();
       mpQuery->clear();
+      emit working( false );
       getTrackInfo( target, method, id, QString() );
    }
    else
    {
       mpQuery->clear();
+      emit working( false );
       if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
                                       Q_ARG( TrackInfo, TrackInfo() ) ) )
       {
@@ -530,6 +523,7 @@ void DatabaseThread::getFolders( QObject *target, const QString &method )
    QStringList folders;
 
    mpQuery->prepare( "SELECT Name FROM slart_folders ORDER BY Name;" );
+   emit working( true );
    if( !mpQuery->exec() )
    {
       logError();
@@ -546,6 +540,7 @@ void DatabaseThread::getFolders( QObject *target, const QString &method )
       folders << mpQuery->value(0).toString();
    }
    mpQuery->clear();
+   emit working( false );
 
    if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
                                    Q_ARG( const QStringList &, folders ) ) )
@@ -583,6 +578,7 @@ void DatabaseThread::getFolder( QObject *target, const QString &method,
       sql.append( " ORDER BY Directory, FileName;" );
 
       mpQuery->prepare( sql );
+      emit working( true );
       if( !mpQuery->exec() )
       {
          logError();
@@ -601,6 +597,7 @@ void DatabaseThread::getFolder( QObject *target, const QString &method,
          folders << mpQuery->value(0).toString() + '/' + mpQuery->value(1).toString();
       }
       mpQuery->clear();
+      emit working( false );
    }
 
    if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
@@ -978,6 +975,7 @@ void DatabaseThread::getAllColumnData( QObject *target, const QString &method,
 
    mpQuery->prepare( QString("SELECT DISTINCT %1 FROM slart_tracks ORDER BY %2;" )
                      .arg( columnName, columnName ) );
+   emit working( true );
    if( !mpQuery->exec() )
    {
       logError();
@@ -996,6 +994,7 @@ void DatabaseThread::getAllColumnData( QObject *target, const QString &method,
       list << mpQuery->value(0).toString();
    }
    mpQuery->clear();
+   emit working( false );
 
    if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
                                    Q_ARG( const QStringList &, list ) ) )

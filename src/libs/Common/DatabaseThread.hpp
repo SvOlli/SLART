@@ -201,11 +201,6 @@ private slots:
    */
    void commit( bool intermediate = false );
 
-   void handleAboutToBlock();
-
-   void handleAwake();
-
-
 signals:
    /*!
     \brief 
