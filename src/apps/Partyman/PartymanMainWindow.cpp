@@ -59,6 +59,7 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 
    setAttribute( Qt::WA_AlwaysShowToolTips, true );
    setWindowIcon( QIcon( ":/PartymanSmile.png" ) );
+   setDockNestingEnabled( true );
 
    /* setting up playlist */
    mpPlaylistContent->setAlternatingRowColors( true );
