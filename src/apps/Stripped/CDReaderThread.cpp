@@ -352,14 +352,14 @@ void CDReaderThread::runReadAudioData()
    emit stateRip();
 
 //   qDebug() << "cdio_set_speed(): " << ::cdio_set_speed( mpCdIo, 1 );
-   mpParanoia = ::cdio_paranoia_init( mpDrive );
-   ::cdio_paranoia_modeset( mpParanoia, PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP );
-
    emit setTrackDisabled( -1, true );
    mDiscHasErrors = false;
    totalTime.start();
    for( track = 0; track < 100; track++ )
    {
+      mpParanoia = ::cdio_paranoia_init( mpDrive );
+      ::cdio_paranoia_modeset( mpParanoia, PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP );
+
       mpCDEdit->trackInfo( track, &dorip, &doenqueue, &artist, &title,
                            &albumartist, &albumtitle, &genre, &year );
       emit setTrackDisabled( track, true );
@@ -475,16 +475,16 @@ printf("\n");
             encoder->finalize( doenqueue, mCancel );
          }
       }
+      if( buffer )
+      {
+         ::cdio_paranoia_free( mpParanoia );
+      }
       if( mCancel )
       {
          break;
       }
    }
 
-   if( buffer )
-   {
-      ::cdio_paranoia_free( mpParanoia );
-   }
    emit message( tr("Audio extraction completed.") );
    emit progress( 0, totalSectorsRead * 1000 / totalTime.elapsed() );
    for( track = 0; track < 100; track++ )
