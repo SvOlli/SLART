@@ -38,6 +38,9 @@ SOURCES += DirWalker.cpp
 HEADERS += DirWalkerCallbackProxy.hpp
 SOURCES += DirWalkerCallbackProxy.cpp
 
+HEADERS += DnDFileInfo.hpp
+SOURCES += DnDFileInfo.cpp
+
 HEADERS += GenericSatMsgHandler.hpp
 SOURCES += GenericSatMsgHandler.cpp
 
