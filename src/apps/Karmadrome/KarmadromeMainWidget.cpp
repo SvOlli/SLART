@@ -436,7 +436,6 @@ void KarmadromeMainWidget::handleRemove( QAction *action )
 void KarmadromeMainWidget::handleReadButton()
 {
    mpFileName->setText( GlobalConfigWidget::getClipboard() );
-   mpFileName->setDragFileName( mpFileName->text() );
    mpDatabase->getTrackInfo( this, "updateTrackInfo", mpFileName->text() );
 }
 
@@ -473,6 +472,7 @@ void KarmadromeMainWidget::updateTrackInfo( const TrackInfo &trackInfo )
    mpListButtons->setDisabled( !mTrackInfo.isInDatabase() );
    mpTrackInfo->getTrack( mTrackInfo );
    mpListButtons->lockButtons( mTrackInfo.getFolders() );
+   mpFileName->setDragInfo( trackInfo );
 }
 
 
