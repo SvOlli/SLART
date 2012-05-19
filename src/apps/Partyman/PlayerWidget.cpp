@@ -120,12 +120,14 @@ void PlayerWidget::getNextTrack( bool armed )
    if( fileName.isEmpty() )
    {
       mpScrollLine->setText( tr("no file loaded") );
+      mpScrollLine->setDragFileName( fileName );
    }
    else
    {
       if( inDatabase && !mTrackInfo.mArtist.isEmpty() && !mTrackInfo.mTitle.isEmpty() )
       {
          mpScrollLine->setText( mTrackInfo.displayString( mDisplayPattern ) );
+         mpScrollLine->setDragInfo( mTrackInfo );
       }
       else
       {
@@ -134,10 +136,10 @@ void PlayerWidget::getNextTrack( bool armed )
          mpScrollLine->setText( fileName.mid( lastSlash+1, lastDot-lastSlash-1 ) );
          mTrackInfo.mDirectory = fileName.left( lastSlash+1 );
          mTrackInfo.mFileName  = fileName.mid( lastSlash+1 );
+         mpScrollLine->setDragFileName( fileName );
       }
    }
    mpScrollLine->setToolTip( fileName );
-   mpScrollLine->setDragFileName( fileName );
    sendCommand( "preread", fileName );
 }
 
