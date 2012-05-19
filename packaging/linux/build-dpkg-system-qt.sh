@@ -49,7 +49,7 @@ echo "Building SLART ${VERSION}-${REVISION}"
   ls -l build/release/bin/dermixd-oss build/release/bin/dermixd-alsa
   ln -sf dermixd-alsa build/release/bin/dermixd
   cp -a build/release/bin/dermixd* build/release/DEBIAN/root/usr/bin
-  sstrip build/release/DEBIAN/root/usr/bin/*
+  find build/release/DEBIAN/root/usr/bin -type f | xargs sstrip || true
 ) || exit 12
 
 # create source tarball
