@@ -20,13 +20,14 @@
 /* local library headers */
 
 /* local headers */
+#include "DnDFileInfo.hpp"
 
 /* forward declaration of Qt classes */
 class QMouseEvent;
 class QTimer;
 
 /* forward declaration of local classes */
-
+class TrackInfo;
 
 /*!
   \addtogroup Common
@@ -44,7 +45,17 @@ class ScrollLine : public QLineEdit
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+    \param autoScroll
+   */
    ScrollLine( QWidget *parent, bool autoScroll = true );
+   /*!
+    \brief destructor
+
+   */
    virtual ~ScrollLine();
 
    /*!
@@ -54,6 +65,11 @@ public:
    void setDragFileName( const QString &fileName = QString() );
 
 public slots:
+   /*!
+    \brief set the data from track info
+
+   */
+   void setDragInfo( const TrackInfo &trackInfo );
    /*!
     \brief callback for timer to scroll
 
@@ -94,7 +110,7 @@ private:
    bool                 mClicked;
    int                  mDirection;
    int                  mPosition;
-   QString              mDragFileName;
+   DnDFileInfo          *mpDragInfo;
 };
 
 /*! @} */

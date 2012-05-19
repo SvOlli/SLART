@@ -19,6 +19,7 @@
 /* local headers */
 #include "GlobalConfigWidget.hpp"
 #include "MyMouseEvent.hpp"
+#include "TrackInfo.hpp"
 
 #include "Trace.hpp"
 
@@ -30,7 +31,7 @@ ScrollLine::ScrollLine( QWidget *parent, bool autoScroll )
 , mClicked( false )
 , mDirection( 1 )
 , mPosition( 0 )
-, mDragFileName()
+, mpDragInfo( new DnDFileInfo( this ) )
 {
    setReadOnly( true );
    setContextMenuPolicy( Qt::NoContextMenu );
@@ -57,7 +58,13 @@ ScrollLine::~ScrollLine()
 
 void ScrollLine::setDragFileName( const QString &fileName )
 {
-   mDragFileName = fileName;
+   mpDragInfo->setFilePath( fileName );
+}
+
+
+void ScrollLine::setDragInfo( const TrackInfo &trackInfo )
+{
+   mpDragInfo->setTrackInfo( trackInfo );
 }
 
 
@@ -111,7 +118,7 @@ void ScrollLine::mouseDoubleClickEvent( QMouseEvent *event )
 void ScrollLine::mousePressEvent( QMouseEvent *event )
 {
    mClicked = true;
-   QString dragFileName( mDragFileName );
+   QString dragFileName( mpDragInfo->filePath() );
    if( dragFileName.isEmpty() )
    {
       setCursorPosition( cursorPositionAt( event->pos() ) );
@@ -119,17 +126,7 @@ void ScrollLine::mousePressEvent( QMouseEvent *event )
    }
    else
    {
-      QMimeData *mimeData = new QMimeData;
-      mimeData->setText( dragFileName );
-      QList<QUrl> urls;
-      urls << QUrl::fromLocalFile( dragFileName );
-      mimeData->setUrls( urls );
-
-      QDrag *drag = new QDrag( this );
-      drag->setMimeData( mimeData );
-      drag->setPixmap( QPixmap::grabWidget( this ) );
-      drag->setHotSpot( QPoint( 2, 2 ) );
-
+      QDrag *drag = mpDragInfo->createDrag();
       drag->exec( Qt::CopyAction, Qt::CopyAction );
       mClicked = false;
    }
