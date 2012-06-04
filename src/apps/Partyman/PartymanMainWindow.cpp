@@ -68,14 +68,12 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    mpPlaylistContent->addItems( Settings::value( Settings::PartymanPlaylist ) );
    mpPlaylistContent->addItems( Settings::value( Settings::PartymanPlaylistAppend ) );
    savePlaylist();
-   setCentralWidget( mpPlaylistContent );
-   WidgetShot::addWidget( "Playlist", mpPlaylistContent );
+   setCentralWidget( mpControl );
+   WidgetShot::addWidget( "Player", mpControl );
 
-   /* setting up control widget */
-   QDockWidget *dockControl = setupDock( mpControl, "Player", tr("Player"),
-                                         QKeySequence(Qt::Key_F5) );
-   dockControl->setFeatures( QDockWidget::DockWidgetMovable |
-                             QDockWidget::DockWidgetFloatable );
+   /* setting up playlist widget */
+   QDockWidget *dockPlaylist = setupDock( mpPlaylistContent, "Playlist", tr("Playlist"),
+                                          QKeySequence(Qt::Key_F5) );
 
    /* settings up help text */
    QDockWidget *dockHelpText = setupDock( mpHelpText, "Help", tr("Help"),
@@ -130,8 +128,8 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    connect( mpControl, SIGNAL(requestTab(QString)),
             this, SLOT(showTab(QString)) );
 
-   addDockWidget( Qt::TopDockWidgetArea, dockControl );
-   addDockWidget( Qt::BottomDockWidgetArea, mpDockTreeView );
+   addDockWidget( Qt::BottomDockWidgetArea, dockPlaylist );
+   addDockWidget( Qt::BottomDockWidgetArea, mpDockTreeView, Qt::Vertical );
    addDockWidget( Qt::BottomDockWidgetArea, dockSearch );
    addDockWidget( Qt::BottomDockWidgetArea, dockTrackInfo );
    addDockWidget( Qt::BottomDockWidgetArea, dockHelpText );

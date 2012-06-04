@@ -62,9 +62,10 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
 , mLastP0p()
 {
    setAcceptDrops( true );
+   setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
    mpSettingsButton->setObjectName( QString("SettingsButton") );
-   mpPlayer[0] = new PlayerWidget(0, database, this);
-   mpPlayer[1] = new PlayerWidget(1, database, this);
+   mpPlayer[0] = new PlayerWidget( 0, database, this );
+   mpPlayer[1] = new PlayerWidget( 1, database, this );
    mpTrayIconClickTimer->setSingleShot( true );
 
    QGridLayout *mainLayout    = new QGridLayout( this );
