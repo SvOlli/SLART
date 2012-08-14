@@ -398,7 +398,7 @@ bool PartymanMainWindow::getRandomTrack( QString *fileName, QStringList *playedA
 
    for( int i = 0; i < randomTries; i++ )
    {
-      if( mpDatabase->getRandomTrack( &trackInfo, favoriteOnly, leastPlayed, playFolder ) )
+      if( mpDatabase->getRandomTrack( &trackInfo, favoriteOnly, leastPlayed, *playedArtists, playFolder ) )
       {
          *fileName = trackInfo.filePath();
 
