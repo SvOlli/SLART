@@ -127,6 +127,8 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(prohibitClose(bool)) );
    connect( mpControl, SIGNAL(requestTab(QString)),
             this, SLOT(showTab(QString)) );
+   connect( mpSearch, SIGNAL(requestAdd(QStringList)),
+            mpPlaylistContent, SLOT(addItems(QStringList)) );
 
    addDockWidget( Qt::BottomDockWidgetArea, dockPlaylist );
    addDockWidget( Qt::BottomDockWidgetArea, mpDockTreeView, Qt::Vertical );

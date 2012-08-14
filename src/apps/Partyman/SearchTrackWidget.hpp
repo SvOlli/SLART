@@ -72,6 +72,14 @@ public slots:
    */
    void updateCounter();
 
+signals:
+   /*!
+    \brief request add for tracks
+
+    \param entries tracks to add
+   */
+   void requestAdd( const QStringList &entries );
+
 private:
    SearchTrackWidget( const SearchTrackWidget &that );
    SearchTrackWidget &operator=( const SearchTrackWidget &that );

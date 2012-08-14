@@ -104,19 +104,14 @@ void SearchTrackWidget::selectedEntries( const QModelIndex &/*index*/, int key )
    switch( key )
    {
       case 0: /* right mouse button */
-      case Qt::Key_Delete:
       case Qt::Key_Return:
       case Qt::Key_Enter:
+      case Qt::Key_Delete:
          mpResults->removeSelectedItems( &entries );
          updateCounter();
-         if( key == Qt::Key_Delete ) break;
-
+         if( key != Qt::Key_Delete )
          {
-             PartymanMainWindow *pmw = qobject_cast<PartymanMainWindow*>(mpParent);
-             if( pmw )
-             {
-                //pmw->addEntries( entries );
-             }
+            emit requestAdd( entries );
          }
          break;
       case Qt::Key_Escape:
