@@ -268,7 +268,7 @@ bool PlayerWidget::skip()
       case PlayerFSM::paused:
          if( Settings::value( Settings::PartymanCountSkip ) )
          {
-            ++mTrackInfo.mTimesPlayed;
+            ++(mTrackInfo.mTimesPlayed);
             mpDatabase->updateTrackInfo( &mTrackInfo );
          }
          setState( PlayerFSM::searching );
