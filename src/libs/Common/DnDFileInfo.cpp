@@ -119,8 +119,11 @@ QDrag *DnDFileInfo::createDrag()
    w.setWordWrap( false );
    QStringList textBlock;
    textBlock << mFileInfo.absolutePath()
-             << mFileInfo.fileName()
-             << mArtist << mTitle ;
+             << mFileInfo.fileName();
+   if( !mArtist.isEmpty() || !mTitle.isEmpty() )
+   {
+      textBlock << mArtist << mTitle ;
+   }
    w.setText( textBlock.join("\n") );
    QFontMetrics fm(w.font());
    QSize extra(1, 0);
