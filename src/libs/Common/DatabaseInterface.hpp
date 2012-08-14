@@ -164,7 +164,7 @@ public:
     \param search
    */
    void getPathNameList( QObject *target, const QString &method,
-                        const QString &search = QString() );
+                         const QString &search = QString() );
 
    /*!
     \brief get a random track
@@ -173,10 +173,12 @@ public:
     \param method
     \param favorite
     \param leastplayed
+    \param unwantedArtists
     \param folder
    */
    void getRandomTrack( QObject *target, const QString &method,
                         bool favorite, bool leastplayed,
+                        const QStringList &excludeArtists,
                         const QString &folder = QString() );
 
    /*!

@@ -147,6 +147,7 @@ void DatabaseInterface::getPathNameList( QObject *target, const QString &method,
 
 void DatabaseInterface::getRandomTrack( QObject *target, const QString &method,
                                         bool favorite, bool leastplayed,
+                                        const QStringList &excludeArtists,
                                         const QString &folder )
 {
    QMetaObject::invokeMethod( mpDatabase, "getRandomTrack",
@@ -155,6 +156,7 @@ void DatabaseInterface::getRandomTrack( QObject *target, const QString &method,
                               Q_ARG( const QString&, method ),
                               Q_ARG( bool, favorite ),
                               Q_ARG( bool, leastplayed ),
+                              Q_ARG( const QStringList&, excludeArtists ),
                               Q_ARG( const QString&, folder ) );
 }
 

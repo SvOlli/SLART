@@ -442,12 +442,11 @@ void DatabaseThread::getPathNameList( QObject *target, const QString &method,
    }
 }
 
-
 void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
                                      bool favorite, bool leastplayed,
-                                     const QString &folder )
+                                     const QStringList &excludeArtists, const QString &folder)
 {
-   QString sql( "SELECT id FROM slart_tracks WHERE Flags & " );
+   QString sql( "SELECT id, artist FROM slart_tracks WHERE Flags & " );
 
    if( favorite )
    {
@@ -455,8 +454,7 @@ void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
    }
    else
    {
-      sql.append( QString::number( (unsigned int)TrackInfo::Unwanted ) );
-      sql.append( " = 0" );
+      sql.append( QString("%1 = 0").arg( (unsigned int)TrackInfo::Unwanted ) );
    }
 
    if( leastplayed )
@@ -486,6 +484,7 @@ void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
                                     Q_ARG( const QString&, method ),
                                     Q_ARG( bool, favorite ),
                                     Q_ARG( bool, leastplayed ),
+                                    Q_ARG( const QStringList&, excludeArtists ),
                                     Q_ARG( const QString&, folder ) );
          return;
       }
@@ -498,9 +497,28 @@ void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
 
    if( rows )
    {
+      int id = -1;
+      QString artist;
       int row = qrand() % rows;
-      mpQuery->seek( row );
-      int id = mpQuery->value(0).toUInt();
+      for( int i = row + 1; i != row; i++ )
+      {
+         if( i >= rows )
+         {
+            i = 0;
+         }
+         mpQuery->seek( i );
+         id = mpQuery->value(0).toUInt();
+         artist = mpQuery->value(1).toString();
+         if( !excludeArtists.contains( artist ) )
+         {
+            break;
+         }
+      }
+      if( id < 0 )
+      {
+         mpQuery->seek( row );
+         id = mpQuery->value(0).toUInt();
+      }
       mpQuery->clear();
       emit working( false );
       getTrackInfo( target, method, id, QString() );

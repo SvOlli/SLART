@@ -110,7 +110,9 @@ public:
 
    */
    bool getRandomTrack( TrackInfo *trackInfo, bool favorite,
-                        bool leastplayed, const QString &folder = QString() );
+                        bool leastplayed,
+                        const QStringList &excludeArtists,
+                        const QString &folder = QString() );
 
    /*!
     \brief get a list of all available folders

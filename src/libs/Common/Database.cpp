@@ -632,9 +632,10 @@ void Database::deleteFolder( const QString &folder )
 
 
 bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite,
-                               bool leastplayed, const QString &folder )
+                               bool leastplayed, const QStringList &excludeArtists,
+                               const QString &folder )
 {
-   QString sql( "SELECT id FROM slart_tracks WHERE Flags & " );
+   QString sql( "SELECT id, artist FROM slart_tracks WHERE Flags & " );
 
    if( favorite )
    {
@@ -673,10 +674,28 @@ bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite,
 
    if( rows )
    {
+      int id = -1;
+      QString artist;
       int row = qrand() % rows;
-
-      mpQuery->seek( row );
-
+      for( int i = row + 1; i != row; i++ )
+      {
+         if( i >= rows )
+         {
+            i = 0;
+         }
+         mpQuery->seek( i );
+         id = mpQuery->value(0).toUInt();
+         artist = mpQuery->value(1).toString();
+         if( !excludeArtists.contains( artist ) )
+         {
+            break;
+         }
+      }
+      if( id < 0 )
+      {
+         mpQuery->seek( row );
+         id = mpQuery->value(0).toUInt();
+      }
       trackInfo->mID = mpQuery->value(0).toUInt();
       mpQuery->clear();
       getTrackInfo( trackInfo );
