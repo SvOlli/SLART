@@ -511,13 +511,8 @@ void CDReaderThread::runEject()
 {
    driver_return_code_t retval;
    mpCdIo = ::cdio_open( mDevice.toLocal8Bit().constData(), DRIVER_UNKNOWN );
-   /* first try mmc command */
-   retval = ::mmc_eject_media( mpCdIo );
-   if( retval < 0 )
-   {
-      /* if it didn't work, try generic command */
-      retval = ::cdio_eject_media( &mpCdIo );
-   }
+   /* first try generic command */
+   retval = ::cdio_eject_media( &mpCdIo );
 #ifndef Q_OS_WIN32
    if( retval < 0 )
    {
