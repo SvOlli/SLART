@@ -126,5 +126,5 @@ void SatelliteWidget::handleShowInFilesystem()
 
 void SatelliteWidget::handleGetRandom()
 {
-   mpDatabase->getRandomTrack( mpInfoEdit, "loadTrackInfo", false, false );
+   mpDatabase->getRandomTrack( mpInfoEdit, "loadTrackInfo", false, false, QStringList() );
 }
