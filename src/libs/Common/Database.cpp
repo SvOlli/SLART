@@ -677,7 +677,7 @@ bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite,
       int id = -1;
       QString artist;
       int row = qrand() % rows;
-      for( int i = row + 1; i != row; i++ )
+      for( int i = row + 1; i != (row + 1); i++ )
       {
          if( i >= rows )
          {
