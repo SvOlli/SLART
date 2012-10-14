@@ -15,6 +15,7 @@
 #include <QSlider>
 
 /* local library headers */
+#include <Database.hpp>
 
 /* local headers */
 #include "PlayerWidget.hpp"
@@ -31,6 +32,8 @@ bool PlayerFSMReady::enter()
 {
    if( mpPlayerWidget->mTotalTime < mpPlayerWidget->mHeadStart * 2 + 1 )
    {
+      ++(mpPlayerWidget->mTrackInfo.mTimesPlayed);
+      mpPlayerWidget->mpDatabase->updateTrackInfo( &(mpPlayerWidget->mTrackInfo) );
       mpPlayerWidget->mpFSM->changeState( PlayerFSM::searching );
    }
    else
