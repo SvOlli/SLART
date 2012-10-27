@@ -12,7 +12,7 @@
 /* system headers */
 
 /* Qt headers */
-//#include <QApplication>
+#include <QApplication>
 
 /* local library headers */
 
@@ -111,4 +111,22 @@ bool Settings::remove( const QString &key, const QString &applicationName )
 bool Settings::exist()
 {
    return cpSettings->get()->contains( "UseSatellite" );
+}
+
+
+void Settings::setApplicationStyleSheet( QApplication *app )
+{
+   if( !app )
+   {
+      return;
+   }
+
+   QFile qssFile( Settings::value( Settings::CommonUseGlobalStyleSheetFile ) ?
+                     Settings::value( Settings::GlobalStyleSheetFile ) :
+                     Settings::value( Settings::CommonStyleSheetFile ) );
+   if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
+   {
+      app->setStyleSheet( qssFile.readAll() );
+      qssFile.close();
+   }
 }

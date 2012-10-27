@@ -26,6 +26,7 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QApplication;
 
 /* forward declaration of local classes */
 
@@ -1246,6 +1247,13 @@ public:
     \return bool
    */
    static bool exist();
+
+   /*!
+    \brief load the Qt Style Sheet according to settings and apply to application
+
+    \param app
+   */
+   static void setApplicationStyleSheet( QApplication *app );
 
 private:
    /*!
