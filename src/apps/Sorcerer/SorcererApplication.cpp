@@ -37,20 +37,9 @@ int main(int argc, char *argv[])
 
    Translate translate;
    translate.install( &app );
-
+   Settings::setApplicationStyleSheet( &app );
    Satellite::create();
    DatabaseInterface::create();
-
-   {
-      QFile qssFile( Settings::value( Settings::CommonUseGlobalStyleSheetFile ) ?
-                        Settings::value( Settings::GlobalStyleSheetFile ) :
-                        Settings::value( Settings::CommonStyleSheetFile ) );
-      if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
-      {
-         app.setStyleSheet( qssFile.readAll() );
-         qssFile.close();
-      }
-   }
 
    MainWindow window;
    SorcererMainWidget *mainWidget = new SorcererMainWidget( &window );
