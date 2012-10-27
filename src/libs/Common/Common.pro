@@ -17,6 +17,8 @@ TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 HEADERS += AboutWidget.hpp
 SOURCES += AboutWidget.cpp
 
+HEADERS += Binary.hpp
+
 HEADERS += CodeEditor.hpp
 SOURCES += CodeEditor.cpp
 
