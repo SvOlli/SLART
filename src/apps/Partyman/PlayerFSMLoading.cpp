@@ -113,6 +113,8 @@ enum PlayerFSM::eState PlayerFSMLoading::handleDerMixD( const QString &msg )
       }
       else if( msg.startsWith( "[scan] error:" ) )
       {
+         ++(mpPlayerWidget->mTrackInfo.mTimesPlayed);
+         mpPlayerWidget->mpDatabase->updateTrackInfo( &(mpPlayerWidget->mTrackInfo) );
          mpPlayerWidget->mpFSM->changeState( PlayerFSM::searching );
       }
    }
