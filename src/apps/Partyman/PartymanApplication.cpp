@@ -24,7 +24,19 @@
 #include "CommandLineHandler.hpp"
 #include "PartymanMainWindow.hpp"
 
+/*!
+ \addtogroup Partyman
 
+ @{
+ \brief
+
+ \param argc
+ \param argv
+
+ \dotfile "graphs/apps/Partyman/PartymanApplication_connect.dot" "Connect Graph"
+
+ @}
+ */
 int main(int argc, char *argv[])
 {
    int retval = 0;
@@ -56,20 +68,9 @@ int main(int argc, char *argv[])
    {
       if( useGUI )
       {
+         Settings::setApplicationStyleSheet( &app );
          SorcererLoader::detect();
-
          Satellite::create();
-
-         {
-            QFile qssFile( Settings::value( Settings::CommonUseGlobalStyleSheetFile ) ?
-                              Settings::value( Settings::GlobalStyleSheetFile ) :
-                              Settings::value( Settings::CommonStyleSheetFile ) );
-            if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
-            {
-               app.setStyleSheet( qssFile.readAll() );
-               qssFile.close();
-            }
-         }
 
          PartymanMainWindow window;
          window.show();
