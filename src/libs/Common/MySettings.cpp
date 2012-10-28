@@ -8,8 +8,6 @@
 
 #include "MySettings.hpp"
 #include <QApplication>
-#include <QUdpSocket>
-#include <QMainWindow>
 
 #include "Trace.hpp"
 

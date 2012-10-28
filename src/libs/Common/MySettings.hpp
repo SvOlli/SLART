@@ -9,9 +9,22 @@
 #ifndef MYSETTINGS_HPP
 #define MYSETTINGS_HPP MYSETTINGS_HPP
 
+/* base class */
 #include <QSettings>
 
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+
+/* forward declaration of Qt classes */
 class QMainWindow;
+
+/* forward declaration of local classes */
+
 
 /*!
  \addtogroup Common
@@ -22,6 +35,7 @@ class QMainWindow;
 /*!
  \brief adopted version of QSettings
 
+ \todo this class is depricated, adopt all code to "Settings" and remove it
 */
 class MySettings : public QSettings
 {
