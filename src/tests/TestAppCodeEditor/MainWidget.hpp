@@ -2,7 +2,7 @@
  * src/tests/TestAppWebServer/MainWidget.hpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU Public License (GPL)
+ * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
@@ -26,6 +26,7 @@ class QPushButton;
 
 /* forward declaration of local classes */
 class CodeEditor;
+class LuaEditorDialog;
 class MyLua;
 
 
@@ -38,12 +39,7 @@ public:
    virtual ~MainWidget();
 
 public slots:
-   void log( const QString &msg );
-   void handleLoad();
-   void handleSave();
-   void handleRun();
-   void handleError( const QString &msg );
-   void handleSuccess();
+   void log( const QString &msg, bool error = false );
 
 signals:
    void runCode( const QString &code );
@@ -52,10 +48,8 @@ private:
    Q_DISABLE_COPY( MainWidget )
 
    MyLua                *mpLua;
-   CodeEditor           *mpCodeEditor;
-   QPushButton          *mpLoadButton;
-   QPushButton          *mpSaveButton;
-   QPushButton          *mpRunButton;
+   LuaEditorDialog      *mpEditorDialog;
+   QPushButton          *mpOpenEditorButton;
    QListWidget          *mpMessageBuffer;
    bool                 mMessageBufferAlternateColor;
 };
