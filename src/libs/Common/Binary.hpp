@@ -7,7 +7,7 @@
  */
 
 #ifndef BINARY_HPP
-#define BINARY_HPP
+#define BINARY_HPP BINARY_HPP
 
 #if __cplusplus < 201100L
 #error __FILE__ needs C++11
@@ -20,9 +20,17 @@
 */
 
 /*!
- \brief \todo complete documentation
+ \name Binary.hpp
+ \brief C++11 only: literals for binary notation. Implemented in templates only.
 
+ No more 0x01, 0x02, 0x04, ... when you now can do 1_b32u, 10_b32u, 100_b32u, ...
+
+ Example:
+ \code
+ uint32_t active_bits = 101010_b32u; // looks better than (1<<1)|(1<<3)|(1<<5) or 0x2a
+ \endcode
 */
+
 
 /*!
  \brief C++11 only template for the recursion end of binary literals
@@ -47,7 +55,7 @@ constexpr T binary_helper()
 }
 
 /*!
- \brief C++11 only template to convert binaries in form of 1010_b64u to
+ \brief C++11 only template to convert binaries in form of 101010_b64u to
  an unsigned long long
 
 */
@@ -58,7 +66,7 @@ constexpr unsigned long long operator"" _b64u()
 }
 
 /*!
- \brief C++11 only template to convert binaries in form of 1010_b64 to
+ \brief C++11 only template to convert binaries in form of 101010_b64 to
  a signed long long
 
 */
@@ -69,7 +77,7 @@ constexpr long long operator"" _b64()
 }
 
 /*!
- \brief C++11 only template to convert binaries in form of 1010_b32u to
+ \brief C++11 only template to convert binaries in form of 101010_b32u to
  an unsigned long
 
 */
@@ -80,7 +88,7 @@ constexpr unsigned long operator"" _b32u()
 }
 
 /*!
- \brief C++11 only template to convert binaries in form of 1010_b32 to
+ \brief C++11 only template to convert binaries in form of 101010_b32 to
  a signed long
 
 */
@@ -91,7 +99,7 @@ constexpr long operator"" _b32()
 }
 
 /*!
- \brief C++11 only template to convert binaries in form of 1010_b16u to
+ \brief C++11 only template to convert binaries in form of 101010_b16u to
  an unsigned short
 
 */
@@ -102,7 +110,7 @@ constexpr unsigned short operator"" _b16u()
 }
 
 /*!
- \brief C++11 only template to convert binaries in form of 1010_b16 to
+ \brief C++11 only template to convert binaries in form of 101010_b16 to
  a signed short
 
 */
@@ -113,7 +121,7 @@ constexpr short operator"" _b16()
 }
 
 /*!
- \brief C++11 only template to convert binaries in form of 1010_b8u to
+ \brief C++11 only template to convert binaries in form of 101010_b8u to
  an unsigned char
 
 */
@@ -124,7 +132,7 @@ constexpr unsigned char operator"" _b8u()
 }
 
 /*!
- \brief C++11 only template to convert binaries in form of 1010_b8 to
+ \brief C++11 only template to convert binaries in form of 101010_b8 to
  a signed char
 
 */
