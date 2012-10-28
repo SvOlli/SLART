@@ -18,7 +18,6 @@
 #include <QStringList>
 
 /* local library headers */
-#include <TagList.hpp>
 #include <TrackInfo.hpp>
 
 /* local headers */

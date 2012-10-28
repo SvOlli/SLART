@@ -17,7 +17,7 @@
 /* Qt headers */
 
 /* local library headers */
-#include <TagList.hpp>
+#include <TagMap.hpp>
 
 /* local headers */
 
@@ -106,18 +106,18 @@ signals:
 private:
    Q_DISABLE_COPY( ConfigDialog )
 
-   GlobalConfigWidget   *mpGlobalConfigWidget;
-   QCheckBox            *mpAutoRescan;
-   QLabel               *mpWithTrackNrLabel;
-   QLineEdit            *mpWithTrackNr;
-   QLabel               *mpWithTrackNrExample;
-   QLabel               *mpWithoutTrackNrLabel;
-   QLineEdit            *mpWithoutTrackNr;
-   QLabel               *mpWithoutTrackNrExample;
-   QLabel               *mpPlayingPatternLabel;
-   QLineEdit            *mpPlayingPattern;
-   QLabel               *mpPlayingPatternExample;
-   TagList              mTagList;
+   GlobalConfigWidget   *mpGlobalConfigWidget; /*!< \brief \todo TODO */
+   QCheckBox            *mpAutoRescan; /*!< \brief \todo TODO */
+   QLabel               *mpWithTrackNrLabel; /*!< \brief \todo TODO */
+   QLineEdit            *mpWithTrackNr; /*!< \brief \todo TODO */
+   QLabel               *mpWithTrackNrExample; /*!< \brief \todo TODO */
+   QLabel               *mpWithoutTrackNrLabel; /*!< \brief \todo TODO */
+   QLineEdit            *mpWithoutTrackNr; /*!< \brief \todo TODO */
+   QLabel               *mpWithoutTrackNrExample; /*!< \brief \todo TODO */
+   QLabel               *mpPlayingPatternLabel; /*!< \brief \todo TODO */
+   QLineEdit            *mpPlayingPattern; /*!< \brief \todo TODO */
+   QLabel               *mpPlayingPatternExample; /*!< \brief \todo TODO */
+   TagMap               mTagMap; /*!< \brief holds dummy data for output example generation */
 };
 
 /*! @} */

@@ -36,7 +36,7 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 , mpPlayingPatternLabel( new QLabel( tr("Pattern For\nNow Playing"), this ) )
 , mpPlayingPattern( new QLineEdit( this ) )
 , mpPlayingPatternExample( new QLabel( this ) )
-, mTagList()
+, mTagMap()
 {
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
@@ -45,15 +45,15 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
    mpWithoutTrackNrLabel->setAlignment( Qt::AlignTop );
    mpPlayingPatternLabel->setAlignment( Qt::AlignTop );
 
-   mTagList.set("TRACKNUMBER","1");
-   mTagList.set("ALBUMARTIST","AlbumArtist");
-   mTagList.set("ALBUM","Album");
-   mTagList.set("ARTIST","Artist");
-   mTagList.set("TITLE","Title");
-   mTagList.set("GENRE","Genre");
-   mTagList.set("DATE","1986");
-   mTagList.set("DIRECTORY","/path/to");
-   mTagList.set("FILENAME","filename.ext");
+   mTagMap.insert("TRACKNUMBER","1");
+   mTagMap.insert("ALBUMARTIST","AlbumArtist");
+   mTagMap.insert("ALBUM","Album");
+   mTagMap.insert("ARTIST","Artist");
+   mTagMap.insert("TITLE","Title");
+   mTagMap.insert("GENRE","Genre");
+   mTagMap.insert("DATE","1986");
+   mTagMap.insert("DIRECTORY","/path/to");
+   mTagMap.insert("FILENAME","filename.ext");
 
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showClipboard();
@@ -157,18 +157,18 @@ void ConfigDialog::writeSettings()
 
 void ConfigDialog::updateWithTrackNr( const QString &text )
 {
-   mpWithTrackNrExample->setText( mTagList.fileName(text+".ext", true) );
+   mpWithTrackNrExample->setText( mTagMap.fileName(text+".ext", true) );
 }
 
 
 void ConfigDialog::updateWithoutTrackNr( const QString &text )
 {
-   mpWithoutTrackNrExample->setText( mTagList.fileName(text+".ext", true) );
+   mpWithoutTrackNrExample->setText( mTagMap.fileName(text+".ext", true) );
 }
 
 
 void ConfigDialog::updatePlayingPattern( const QString &text )
 {
-   mpPlayingPatternExample->setText( mTagList.fileName(text, false) );
+   mpPlayingPatternExample->setText( mTagMap.fileName(text, false) );
 }
 

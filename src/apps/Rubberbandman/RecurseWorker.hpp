@@ -18,7 +18,7 @@
 #include <QString>
 
 /* local library headers */
-#include <TagList.hpp>
+#include <TagMap.hpp>
 #include <TrackInfo.hpp>
 #include <DirWalker.hpp>
 
@@ -114,24 +114,24 @@ private:
    enum { ModeNothing,
           ModeSetTags,
           ModeNormArtist,
-          ModeNormTitle } mMode;
+          ModeNormTitle } mMode;  /*!< \brief mode of operation */
 
-   bool                 mCancel;
-   bool                 mSetArtist;
-   bool                 mSetTitle;
-   bool                 mSetAlbum;
-   bool                 mSetYear;
-   bool                 mSetGenre;
-   bool                 mSetFlags;
-   bool                 mUnsetFlags;
-   bool                 mSetGroups;
-   bool                 mUnsetGroups;
-   QString              mDir;
-   QString              mPatternWithTrackNr;
-   QString              mPatternWithoutTrackNr;
-   TrackInfo            mTrackInfo;
-   TagList              mTagList;
-   DatabaseInterface    *mpDatabase;
+   bool                 mCancel; /*!< \brief cancelation indicator */
+   bool                 mSetArtist; /*!< \brief set the artist */
+   bool                 mSetTitle; /*!< \brief set the track title */
+   bool                 mSetAlbum; /*!< \brief set the album title */
+   bool                 mSetYear; /*!< \brief set the year */
+   bool                 mSetGenre; /*!< \brief set the genre */
+   bool                 mSetFlags; /*!< \brief set flags */
+   bool                 mUnsetFlags; /*!< \brief unset flags */
+   bool                 mSetGroups; /*!< \brief add to groups */
+   bool                 mUnsetGroups; /*!< \brief remove from groups */
+   QString              mDir; /*!< \brief \todo */
+   QString              mPatternWithTrackNr; /*!< \brief \todo */
+   QString              mPatternWithoutTrackNr; /*!< \brief \todo */
+   TrackInfo            mTrackInfo; /*!< \brief \todo */
+   TagMap               mTagMap; /*!< \brief \todo */
+   DatabaseInterface    *mpDatabase; /*!< \brief \todo */
 };
 
 /*! @} */

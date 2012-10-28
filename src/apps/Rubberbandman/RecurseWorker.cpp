@@ -21,8 +21,7 @@
 /* local library headers */
 #include <DatabaseInterface.hpp>
 #include <DirWalkerCallbackProxy.hpp>
-#include <MySettings.hpp>
-#include <TagList.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -132,11 +131,17 @@ void RecurseWorker::startNormTitle( const QString &dir )
 
 void RecurseWorker::run()
 {
+#if 1
    {
       MySettings settings;
       mPatternWithoutTrackNr = settings.VALUE_WITHOUTTRACKNR;
       mPatternWithTrackNr    = settings.VALUE_WITHTRACKNR;
    }
+#else
+   // already migrated from MySettings to Settings for later use
+   mPatternWithoutTrackNr = Settings::value( Settings::RubberbandmanWithoutTrackNr );
+   mPatternWithTrackNr    = Settings::value( Settings::RubberbandmanWithTrackNr );
+#endif
    workDir( mDir );
    mpDatabase->call( this, "done" );
    exec();
@@ -184,7 +189,7 @@ void RecurseWorker::updateTrackInfo( const TrackInfo &trackInfo )
    TrackInfo oldTags;
    QString oldpath( trackInfo.mDirectory + "/" + trackInfo.mFileName );
 
-   mTagList.clear();
+   mTagMap.clear();
    {
       TagLib::FileRef f( oldpath.toLocal8Bit().data() );
       if( f.file() )
@@ -268,34 +273,27 @@ void RecurseWorker::updateTrackInfo( const TrackInfo &trackInfo )
       }
       break;
    case ModeNormArtist:
-      ti.mArtist = TagList::normalizeString( oldTags.mArtist );
+      ti.mArtist = TagMap::normalizeString( oldTags.mArtist );
       tagsChanged = (ti.mArtist != oldTags.mArtist);
       break;
    case ModeNormTitle:
-      ti.mTitle = TagList::normalizeString( oldTags.mTitle );
+      ti.mTitle = TagMap::normalizeString( oldTags.mTitle );
       tagsChanged = (ti.mTitle != oldTags.mTitle);
       break;
    default:
       break;
    }
 
-   mTagList.set( "ARTIST", ti.mArtist );
-   mTagList.set( "TITLE", ti.mTitle );
-   mTagList.set( "ALBUM", ti.mAlbum );
-   mTagList.set( "TRACKNUMBER", (ti.mTrackNr < 0) ? QString() : QString::number(ti.mTrackNr) );
-   mTagList.set( "DATE", (ti.mYear < 0) ? QString() : QString::number(ti.mYear) );
-   mTagList.set( "GENRE", ti.mGenre );
+   mTagMap.insert( "ARTIST", ti.mArtist );
+   mTagMap.insert( "TITLE", ti.mTitle );
+   mTagMap.insert( "ALBUM", ti.mAlbum );
+   mTagMap.insert( "TRACKNUMBER", (ti.mTrackNr < 0) ? QString() : QString::number(ti.mTrackNr) );
+   mTagMap.insert( "DATE", (ti.mYear < 0) ? QString() : QString::number(ti.mYear) );
+   mTagMap.insert( "GENRE", ti.mGenre );
 
-   QString newname;
-   if( ti.mTrackNr < 0 )
-   {
-      newname = mTagList.fileName( mPatternWithoutTrackNr );
-   }
-   else
-   {
-      newname = mTagList.fileName( mPatternWithTrackNr );
-   }
-
+   QString newname( mTagMap.fileName( ( ti.mTrackNr < 0 ) ?
+                                         mPatternWithoutTrackNr :
+                                         mPatternWithTrackNr ) );
    QFileInfo qfi( oldpath );
    QString newpath( qfi.absolutePath() + "/" + newname + "." + qfi.suffix().toLower() );
    QString tmppath( qfi.absolutePath() + "/" + newname + ".rbm." + qfi.suffix().toLower() );

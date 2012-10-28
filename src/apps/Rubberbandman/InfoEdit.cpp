@@ -21,6 +21,7 @@
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 #include <ScrollLine.hpp>
+#include <TagMap.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -229,7 +230,7 @@ void InfoEdit::handleNormalizeTitle()
 
 void InfoEdit::normalize( QLineEdit *lineEdit )
 {
-   lineEdit->setText( TagList::normalizeString( lineEdit->text() ) );
+   lineEdit->setText( TagMap::normalizeString( lineEdit->text() ) );
 }
 
 
@@ -288,7 +289,7 @@ void InfoEdit::loadTrackInfo( const TrackInfo &trackInfo )
       mIsFile  = true;
       updateDatabaseInfo( false );
 
-      TagList tagList;
+      TagMap tagMap;
       mpShowPathName->setText( fileInfo.absolutePath() );
       mpShowFileName->setText( fileInfo.fileName() );
       mpShowSize->setText( QString::number( fileInfo.size() ) );
@@ -324,14 +325,14 @@ void InfoEdit::loadTrackInfo( const TrackInfo &trackInfo )
       }
       mpEditGenre->setText( trackInfo.mGenre );
 
-      tagList.set( "ARTIST", trackInfo.mArtist );
-      tagList.set( "TITLE", trackInfo.mTitle );
-      tagList.set( "ALBUM", trackInfo.mAlbum );
-      tagList.set( "TRACKNUMBER", (trackInfo.mTrackNr < 0) ? QString() : QString::number(trackInfo.mTrackNr) );
-      tagList.set( "DATE", (trackInfo.mYear < 0) ? QString() : QString::number(trackInfo.mYear) );
-      tagList.set( "GENRE", trackInfo.mGenre );
-      tagList.set( "DIRECTORY", trackInfo.mDirectory );
-      tagList.set( "FILENAME", trackInfo.mFileName );
+      tagMap.insert( "ARTIST", trackInfo.mArtist );
+      tagMap.insert( "TITLE", trackInfo.mTitle );
+      tagMap.insert( "ALBUM", trackInfo.mAlbum );
+      tagMap.insert( "TRACKNUMBER", (trackInfo.mTrackNr < 0) ? QString() : QString::number(trackInfo.mTrackNr) );
+      tagMap.insert( "DATE", (trackInfo.mYear < 0) ? QString() : QString::number(trackInfo.mYear) );
+      tagMap.insert( "GENRE", trackInfo.mGenre );
+      tagMap.insert( "DIRECTORY", trackInfo.mDirectory );
+      tagMap.insert( "FILENAME", trackInfo.mFileName );
    }
    else
    {
@@ -499,16 +500,16 @@ void InfoEdit::saveFile()
 
 QString InfoEdit::tagsFileName( const QString &pattern, bool filterPath )
 {
-   TagList tagList;
-   tagList.set( "ARTIST", mTrackInfo.mArtist );
-   tagList.set( "TITLE", mTrackInfo.mTitle );
-   tagList.set( "ALBUM", mTrackInfo.mAlbum );
-   tagList.set( "TRACKNUMBER", (mTrackInfo.mTrackNr < 0) ? QString() : QString::number(mTrackInfo.mTrackNr) );
-   tagList.set( "DATE", (mTrackInfo.mYear < 0) ? QString() : QString::number(mTrackInfo.mYear) );
-   tagList.set( "GENRE", mTrackInfo.mGenre );
-   tagList.set( "DIRECTORY", mTrackInfo.mDirectory );
-   tagList.set( "FILENAME", mTrackInfo.mFileName );
-   return tagList.fileName( pattern, filterPath );
+   TagMap tagMap;
+   tagMap.insert( "ARTIST", mTrackInfo.mArtist );
+   tagMap.insert( "TITLE", mTrackInfo.mTitle );
+   tagMap.insert( "ALBUM", mTrackInfo.mAlbum );
+   tagMap.insert( "TRACKNUMBER", (mTrackInfo.mTrackNr < 0) ? QString() : QString::number(mTrackInfo.mTrackNr) );
+   tagMap.insert( "DATE", (mTrackInfo.mYear < 0) ? QString() : QString::number(mTrackInfo.mYear) );
+   tagMap.insert( "GENRE", mTrackInfo.mGenre );
+   tagMap.insert( "DIRECTORY", mTrackInfo.mDirectory );
+   tagMap.insert( "FILENAME", mTrackInfo.mFileName );
+   return tagMap.fileName( pattern, filterPath );
 }
 
 

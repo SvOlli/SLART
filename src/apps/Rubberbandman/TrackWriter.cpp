@@ -19,7 +19,7 @@
 /* local library headers */
 #include <DatabaseInterface.hpp>
 #include <MySettings.hpp>
-#include <TagList.hpp>
+#include <TagMap.hpp>
 #include <TrackInfo.hpp>
 
 /* local headers */
@@ -83,22 +83,22 @@ void TrackWriter::write( const TrackInfo &trackInfo )
          f.save();
       }
    }
-   TagList tagList;
-   tagList.set( "ARTIST", trackInfo.mArtist );
-   tagList.set( "TITLE", trackInfo.mTitle );
-   tagList.set( "ALBUM", trackInfo.mAlbum );
-   tagList.set( "TRACKNUMBER", (trackInfo.mTrackNr < 0) ? QString() : QString::number(trackInfo.mTrackNr) );
-   tagList.set( "DATE", (trackInfo.mYear < 0) ? QString() : QString::number(trackInfo.mYear) );
-   tagList.set( "GENRE", trackInfo.mGenre );
+   TagMap tagMap;
+   tagMap.insert( "ARTIST", trackInfo.mArtist );
+   tagMap.insert( "TITLE", trackInfo.mTitle );
+   tagMap.insert( "ALBUM", trackInfo.mAlbum );
+   tagMap.insert( "TRACKNUMBER", (trackInfo.mTrackNr < 0) ? QString() : QString::number(trackInfo.mTrackNr) );
+   tagMap.insert( "DATE", (trackInfo.mYear < 0) ? QString() : QString::number(trackInfo.mYear) );
+   tagMap.insert( "GENRE", trackInfo.mGenre );
 
    QString newName;
    if( trackInfo.mTrackNr < 0 )
    {
-      newName = tagList.fileName( MySettings().VALUE_WITHOUTTRACKNR );
+      newName = tagMap.fileName( MySettings().VALUE_WITHOUTTRACKNR );
    }
    else
    {
-      newName = tagList.fileName( MySettings().VALUE_WITHTRACKNR );
+      newName = tagMap.fileName( MySettings().VALUE_WITHTRACKNR );
    }
    newName.append( trackInfo.mFileName.mid( trackInfo.mFileName.lastIndexOf('.') ) );
    TrackInfo ti( trackInfo );
