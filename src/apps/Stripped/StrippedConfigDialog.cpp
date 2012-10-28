@@ -49,7 +49,7 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
 , mpPattern( new QLineEdit( this ) )
 , mpPatternExample( new QLabel( tr(""), this ) )
 , mpEncoderTabs( new QTabWidget( this ) )
-, mTagList()
+, mTagMap()
 , mEncoders()
 {
    int i = 0;
@@ -75,13 +75,13 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
       exit( 1 );
    }
 
-   mTagList.set("TRACKNUMBER","1");
-   mTagList.set("ALBUMARTIST","Album_Artist");
-   mTagList.set("ALBUM","Album");
-   mTagList.set("ARTIST","Artist");
-   mTagList.set("TITLE","Title");
-   mTagList.set("GENRE","Genre");
-   mTagList.set("Year","1986");
+   mTagMap.insert("TRACKNUMBER","1");
+   mTagMap.insert("ALBUMARTIST","Album_Artist");
+   mTagMap.insert("ALBUM","Album");
+   mTagMap.insert("ARTIST","Artist");
+   mTagMap.insert("TITLE","Title");
+   mTagMap.insert("GENRE","Genre");
+   mTagMap.insert("Year","1986");
 
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showNormalize();
@@ -332,7 +332,7 @@ TRACEMSG << device;
 
 void StrippedConfigDialog::updatePattern( const QString &text )
 {
-   mpPatternExample->setText( mTagList.fileName(text)+".ext" );
+   mpPatternExample->setText( mTagMap.fileName(text)+".ext" );
 }
 
 

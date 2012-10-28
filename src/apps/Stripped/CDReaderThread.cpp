@@ -374,25 +374,25 @@ void CDReaderThread::runReadAudioData()
       }
       mTrackHasErrors = false;
 
-      TagList tagList;
-      tagList.set( "ALBUMARTIST", albumartist );
-      tagList.set( "ALBUM",       albumtitle  );
-      tagList.set( "ARTIST",      artist      );
-      tagList.set( "TITLE",       title       );
-      tagList.set( "TRACKNUMBER", QString::number(track) );
-      tagList.set( "GENRE",       genre );
+      TagMap tagMap;
+      tagMap.insert( "ALBUMARTIST", albumartist );
+      tagMap.insert( "ALBUM",       albumtitle  );
+      tagMap.insert( "ARTIST",      artist      );
+      tagMap.insert( "TITLE",       title       );
+      tagMap.insert( "TRACKNUMBER", QString::number(track) );
+      tagMap.insert( "GENRE",       genre );
       if( year > 0 )
       {
-         tagList.set( "DATE",        QString::number(year) );
+         tagMap.insert( "DATE",        QString::number(year) );
       }
 
       int firstSector = mpCDInfo->firstSector( track );
       int lastSector  = mpCDInfo->lastSector( track );
-      QString fileName( tagList.fileName( createPattern ) );
+      QString fileName( tagMap.fileName( createPattern ) );
 
       emit message( fileName.mid( fileName.lastIndexOf('/')+1 ) );
       /* remove ALBUMARTIST that was only used for filename creation */
-      tagList.set( "ALBUMARTIST" );
+      tagMap.remove( "ALBUMARTIST" );
       bool setEnqueue = true;
       foreach( MagicEncoderProxy *encoder, mEncoders )
       {
@@ -400,7 +400,7 @@ void CDReaderThread::runReadAudioData()
          {
             QThread *thread = encoder->workerThread();
             thread->start();
-            encoder->setTags( tagList );
+            encoder->setTags( tagMap );
             encoder->initialize( fileName );
             connect( this, SIGNAL(encodeThis(QByteArray)),
                      thread, SLOT(encodeCDAudio(QByteArray)) );

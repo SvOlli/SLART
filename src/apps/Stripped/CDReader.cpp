@@ -17,7 +17,6 @@
 /* local library headers */
 #include <MagicEncoderInterface.hpp>
 #include <Settings.hpp>
-#include <TagList.hpp>
 
 /* local headers */
 #include "CDInfo.hpp"

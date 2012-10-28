@@ -19,7 +19,7 @@
 
 /* local library headers */
 #include <MagicEncoderLoader.hpp>
-#include <TagList.hpp>
+#include <TagMap.hpp>
 
 /* local headers */
 
@@ -139,24 +139,24 @@ signals:
 private:
    Q_DISABLE_COPY( StrippedConfigDialog )
 
-   CDReader             *mpCDReader; /*!< \todo */
-   GlobalConfigWidget   *mpGlobalConfigWidget; /*!< \todo */
-   ProxyWidget          *mpProxyWidget; /*!< \todo */
-   QLabel               *mpDevicesLabel; /*!< \todo */
-   QComboBox            *mpDevicesBox; /*!< \todo */
-   QCheckBox            *mpAutoFreeDB; /*!< \todo */
-   QCheckBox            *mpAutoEject; /*!< \todo */
-   QCheckBox            *mpAutoEnqueue; /*!< \todo */
-   QCheckBox            *mpCDTextLatin1; /*!< \todo */
-   QLabel               *mpDirButtonLabel; /*!< \todo */
-   QLineEdit            *mpDirEdit; /*!< \todo */
-   QPushButton          *mpDirButton; /*!< \todo */
-   QLabel               *mpPatternLabel; /*!< \todo */
-   QLineEdit            *mpPattern; /*!< \todo */
-   QLabel               *mpPatternExample; /*!< \todo */
-   QTabWidget           *mpEncoderTabs; /*!< \todo */
-   TagList              mTagList; /*!< \todo */
-   MagicEncoderList     mEncoders; /*!< \todo */
+   CDReader             *mpCDReader; /*!< \brief \todo */
+   GlobalConfigWidget   *mpGlobalConfigWidget; /*!< \brief \todo */
+   ProxyWidget          *mpProxyWidget; /*!< \brief \todo */
+   QLabel               *mpDevicesLabel; /*!< \brief \todo */
+   QComboBox            *mpDevicesBox; /*!< \brief \todo */
+   QCheckBox            *mpAutoFreeDB; /*!< \brief \todo */
+   QCheckBox            *mpAutoEject; /*!< \brief \todo */
+   QCheckBox            *mpAutoEnqueue; /*!< \brief \todo */
+   QCheckBox            *mpCDTextLatin1; /*!< \brief \todo */
+   QLabel               *mpDirButtonLabel; /*!< \brief \todo */
+   QLineEdit            *mpDirEdit; /*!< \brief \todo */
+   QPushButton          *mpDirButton; /*!< \brief \todo */
+   QLabel               *mpPatternLabel; /*!< \brief \todo */
+   QLineEdit            *mpPattern; /*!< \brief \todo */
+   QLabel               *mpPatternExample; /*!< \brief \todo */
+   QTabWidget           *mpEncoderTabs; /*!< \brief \todo */
+   TagMap               mTagMap; /*!< \brief contains dummy parameter as an example */
+   MagicEncoderList     mEncoders; /*!< \brief \todo */
 };
 
 /* defaults */

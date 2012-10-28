@@ -15,7 +15,7 @@
 #include <QtGui>
 
 /* local library headers */
-#include <TagList.hpp>
+#include <TagMap.hpp>
 
 /* local headers */
 #include "CDDBClient.hpp"
@@ -234,7 +234,7 @@ void CDEdit::normalizeArtist()
    if( mpDiscArtist->isEnabled() )
    {
       QString artist( mpDiscArtist->text() );
-      artist = TagList::normalizeString( artist );
+      artist = TagMap::normalizeString( artist );
       mpDiscArtist->setText( artist );
       mpDiscArtist->setCursorPosition( 0 );
    }
@@ -242,7 +242,7 @@ void CDEdit::normalizeArtist()
    {
       if( mpTrackArtist[i]->isEnabled() )
       {
-         mpTrackArtist[i]->setText( TagList::normalizeString( mpTrackArtist[i]->text() ) );
+         mpTrackArtist[i]->setText( TagMap::normalizeString( mpTrackArtist[i]->text() ) );
          mpTrackArtist[i]->setCursorPosition( 0 );
       }
    }
@@ -256,7 +256,7 @@ void CDEdit::normalizeTitle()
       QString title( mpDiscTitle->text() );
       /* protect the term "CD" from turning into "Cd" */
       title.replace( "CD", "\x01\x01" );
-      title = TagList::normalizeString( title );
+      title = TagMap::normalizeString( title );
       title.replace( "\x01\x01", "CD" );
       mpDiscTitle->setText( title );
       mpDiscTitle->setCursorPosition( 0 );
@@ -265,7 +265,7 @@ void CDEdit::normalizeTitle()
    {
       if( mpTrackTitle[i]->isEnabled() )
       {
-         mpTrackTitle[i]->setText( TagList::normalizeString( mpTrackTitle[i]->text() ) );
+         mpTrackTitle[i]->setText( TagMap::normalizeString( mpTrackTitle[i]->text() ) );
          mpTrackTitle[i]->setCursorPosition( 0 );
       }
    }
