@@ -120,8 +120,8 @@ SOURCES += SyntaxHighlightingRule.cpp
 HEADERS += SyntaxHighlightingRuleComment.hpp
 SOURCES += SyntaxHighlightingRuleComment.cpp
 
-HEADERS += TagList.hpp
-SOURCES += TagList.cpp
+HEADERS += TagMap.hpp
+SOURCES += TagMap.cpp
 
 HEADERS += Trace.hpp
 SOURCES += Trace.cpp
