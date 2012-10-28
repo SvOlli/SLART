@@ -167,7 +167,8 @@ void MyLua::run()
 }
 
 
-void MyLua::runCode( const QString &data )
+void MyLua::runCode( const QString &data, QObject *target,
+                     const QString &successMethod, const QString &failMethod )
 {
    QMutexLocker locker(&mDataMutex);
    int errorcode = luaL_loadstring( mpL, data.toUtf8().constData() );
@@ -175,15 +176,23 @@ void MyLua::runCode( const QString &data )
    {
       errorcode = lua_pcall( mpL, 0, 0, 0 );
    }
-   //locker.unlock();
    if( errorcode )
    {
-      emit error( QString( lua_tostring( mpL, -1 ) ) );
+      const QString errmsg( lua_tostring( mpL, -1 ) );
+      if( !QMetaObject::invokeMethod( target, failMethod.toAscii().constData(), Qt::QueuedConnection,
+                                      Q_ARG( QString, errmsg ) ) )
+      {
+         qFatal( "%s:%d call failed in %s", __FILE__, __LINE__, Q_FUNC_INFO );
+      }
       lua_pop( mpL, 1 );
    }
    else
    {
-      emit success();
+
+      if( !QMetaObject::invokeMethod( target, successMethod.toAscii().constData(), Qt::QueuedConnection ) )
+      {
+         qFatal( "%s:%d call failed in %s", __FILE__, __LINE__, Q_FUNC_INFO );
+      }
    }
 }
 

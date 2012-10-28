@@ -24,6 +24,7 @@
 /* forward declaration of Qt classes */
 class QComboBox;
 class QLabel;
+class QListWidget;
 class QPushButton;
 
 /* forward declaration of local classes */
@@ -75,6 +76,18 @@ public slots:
 
    void saveScript();
 
+   void runEditor();
+
+   void runSucceeded();
+
+   void runFailed( const QString &msg );
+
+   void log( const QString &msg, bool error = false );
+
+signals:
+   void runCode( const QString &code, QObject *target,
+                 const QString &runSucceeded, const QString &runFailed );
+
 private:
    Q_DISABLE_COPY( LuaEditorDialog )
 
@@ -82,7 +95,12 @@ private:
    QComboBox            *mpSelectBox;
    QPushButton          *mpLoadButton;
    QPushButton          *mpSaveButton;
+   QPushButton          *mpRunButton;
+   QPushButton          *mpShowOutputButton;
    CodeEditor           *mpEditor;
+   MyLua                *mpLua;
+   QListWidget          *mpMessageBuffer;
+   bool                 mMessageBufferAlternateColor;
 
    QString              mScriptType;
 };

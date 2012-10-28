@@ -39,6 +39,46 @@ typedef QMap<QString,QString> MyLuaTable;
 /*!
  \brief simple wrapper for running lua scripts
 
+ typical usage:
+ \code
+   class LuaDemo: public QObject
+   {
+   public:
+      LuaDemo( QObject *parent = 0 )
+      : QObject( parent )
+      , mpLua( new MyLua( this ) )
+      {
+      }
+
+      void runLua()
+      {
+         mpLua->mutex( true );
+         // prepare data, etc.
+         emit runCode( mpEditor->toPlainText(), this, "runSucceeded", "runFailed" );
+      }
+
+   public slots:
+      void runSucceeded()
+      {
+         // handle data
+         disconnect( mpLua, SIGNAL(print(QString)),
+                     this, SLOT(log(QString)) );
+         mpLua->mutex()->unlock();
+      }
+
+      void runFailed( const QString &msg )
+      {
+         // handle error
+         disconnect( mpLua, SIGNAL(print(QString)),
+                     this, SLOT(log(QString)) );
+         mpLua->mutex()->unlock();
+      }
+
+   private:
+      MyLua    *mpLua;
+   }
+ \endcode
+
 */
 class MyLua : public QThread
 {
@@ -153,8 +193,12 @@ public slots:
     \brief slot for running code fragment
 
     \param data code to run
+    \param target object to call after execution
+    \param successCallback method to call on success
+    \param failCallback method to call on failure
    */
-   void runCode( const QString &data );
+   void runCode( const QString &data, QObject *target,
+                 const QString &successCallback, const QString &failCallback );
 
 signals:
    /*!
