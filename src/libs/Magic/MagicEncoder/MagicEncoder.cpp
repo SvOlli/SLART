@@ -37,7 +37,7 @@ MagicEncoder::MagicEncoder( const QString &encoderName )
 , mDirectory()
 , mName( encoderName )
 , mFile()
-, mTagList()
+, mTagMap()
 {
    QThread::moveToThread( this );
 }
@@ -153,9 +153,9 @@ TRACEMSG << mName << hex << QThread::currentThreadId();
 }
 
 
-void MagicEncoder::setTags( const TagList &tagList )
+void MagicEncoder::setTags( const TagMap &tagList )
 {
-   mTagList = tagList;
+   mTagMap = tagList;
 }
 
 

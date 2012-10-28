@@ -108,13 +108,13 @@ void MagicEncoderProxy::emitEncodingFail()
 }
 
 
-void MagicEncoderProxy::setTags( const TagList &tagList )
+void MagicEncoderProxy::setTags( const TagMap &tagMap )
 {
    if( !mpPlugin )
    {
       return;
    }
-   mpPlugin->setTags( tagList );
+   mpPlugin->setTags( tagMap );
 }
 
 

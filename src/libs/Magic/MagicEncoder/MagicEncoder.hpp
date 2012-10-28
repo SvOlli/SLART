@@ -19,7 +19,7 @@
 #include <QFile>
 
 /* local library headers */
-#include <TagList.hpp>
+#include <TagMap.hpp>
 
 /* local headers */
 
@@ -106,13 +106,6 @@ public:
    QString name();
 
    /*!
-    \brief set the tags of the encoded file, always called before(!) initialize
-
-    \param tagList
-   */
-   void setTags( const TagList &tagList );
-
-   /*!
     \brief should the encoder be used?
 
    */
@@ -148,6 +141,12 @@ public:
    virtual bool finalize( bool enqueue, bool cancel ) = 0;
 
 public slots:
+   /*!
+    \brief set the tags of the encoded file, always called before(!) initialize
+
+    \param tagList
+   */
+   void setTags( const TagMap &tagList );
 
    /*!
     \brief encode raw cd audio data
@@ -190,21 +189,21 @@ protected:
    bool writeChunk( const char* buffer, qint64 size );
 
    /* settings */
-   MagicEncoderProxy *mpProxy; /*!< \todo */
-   QAction           *mpToggleEnableAction; /*!< \todo */
-   bool              mEnqueue; /*!< \todo */
-   bool              mDirOverride; /*!< \todo */
-   QString           mDirectory; /*!< \todo */
-   QString           mPluginFileName; /*!< \todo */
-   QString           mMsgHeader; /*!< \todo */
-   const QString     mName; /*!< \todo */
-   QFile             mFile; /*!< \todo */
-   TagList           mTagList; /*!< \todo */
+   MagicEncoderProxy *mpProxy; /*!< \brief \todo */
+   QAction           *mpToggleEnableAction; /*!< \brief \todo */
+   bool              mEnqueue; /*!< \brief \todo */
+   bool              mDirOverride; /*!< \brief \todo */
+   QString           mDirectory; /*!< \brief \todo */
+   QString           mPluginFileName; /*!< \brief \todo */
+   QString           mMsgHeader; /*!< \brief \todo */
+   const QString     mName; /*!< \brief \todo */
+   QFile             mFile; /*!< \brief \todo */
+   TagMap            mTagMap; /*!< \brief tags to insert in encoded file */
 
 private:
    Q_DISABLE_COPY( MagicEncoder )
 
-   QString           mFileName; /*!< \todo */
+   QString           mFileName; /*!< \brief \todo */
 };
 
 /*! @} */

@@ -18,7 +18,7 @@
 #include <QFile>
 
 /* local library headers */
-#include <TagList.hpp>
+#include <TagMap.hpp>
 
 /* local headers */
 

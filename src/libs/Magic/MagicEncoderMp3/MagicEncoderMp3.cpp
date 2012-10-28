@@ -21,7 +21,7 @@ extern "C" {
 /* local library headers */
 #include <ScrollLine.hpp>
 #include <Settings.hpp>
-#include <TagList.hpp>
+#include <TagMap.hpp>
 
 /* local headers */
 
@@ -51,15 +51,15 @@ MagicEncoderMp3::~MagicEncoderMp3()
 }
 
 
-QByteArray MagicEncoderMp3::tagTo8Bit( int i )
+QByteArray MagicEncoderMp3::tagTo8Bit( const QByteArray &key )
 {
    if( mUseLatin1 )
    {
-      return mTagList.valueAt(i).toLatin1();
+      return mTagMap.value(key).toLatin1();
    }
    else
    {
-      return mTagList.valueAt(i).toUtf8();
+      return mTagMap.value(key).toUtf8();
    }
 }
 
@@ -84,37 +84,37 @@ bool MagicEncoderMp3::initialize( const QString &fileName )
    ::lame_init_params( mLame );
 
    id3tag_init( mLame );
-   for( int i = 0; i < mTagList.count(); i++ )
+   foreach( const QByteArray &key, mTagMap.keys() )
    {
-      if( !mTagList.valueAt(i).isEmpty() )
+      if( !key.isEmpty() )
       {
-         if( mTagList.tagAt(i) == "ALBUM" )
+         if( key == "ALBUM" )
          {
-            ::id3tag_set_album( mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_album( mLame, tagTo8Bit( key ).constData() );
          }
-         else if( mTagList.tagAt(i) == "ARTIST" )
+         else if( key == "ARTIST" )
          {
-            ::id3tag_set_artist( mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_artist( mLame, tagTo8Bit( key ).constData() );
          }
-         else if( mTagList.tagAt(i) == "TITLE" )
+         else if( key == "TITLE" )
          {
-            ::id3tag_set_title( mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_title( mLame, tagTo8Bit( key ).constData() );
          }
-         else if( mTagList.tagAt(i) == "TRACKNUMBER" )
+         else if( key == "TRACKNUMBER" )
          {
-            ::id3tag_set_track( mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_track( mLame, tagTo8Bit( key ).constData() );
          }
-         else if( mTagList.tagAt(i) == "GENRE" )
+         else if( key == "GENRE" )
          {
-            ::id3tag_set_genre( mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_genre( mLame, tagTo8Bit( key ).constData() );
          }
-         else if( mTagList.tagAt(i) == "DATE" )
+         else if( key == "DATE" )
          {
-            ::id3tag_set_year( mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_year( mLame, tagTo8Bit( key ).constData() );
          }
-         else if( mTagList.tagAt(i) == "COMMENT" )
+         else if( key == "COMMENT" )
          {
-            ::id3tag_set_comment( mLame, tagTo8Bit(i).constData() );
+            ::id3tag_set_comment( mLame, tagTo8Bit( key ).constData() );
          }
       }
    }

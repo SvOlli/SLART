@@ -18,7 +18,7 @@
 /* local library headers */
 #include <ScrollLine.hpp>
 #include <Settings.hpp>
-#include <TagList.hpp>
+#include <TagMap.hpp>
 
 /* local headers */
 #include "MagicEncoderFlacConfig.hpp"
@@ -95,16 +95,16 @@ bool MagicEncoderFlac::initialize( const QString &fileName )
    ok &= mpEncoder->set_bits_per_sample(16);
    ok &= mpEncoder->set_sample_rate(44100);
 
-   metadata[0] = FLAC__metadata_object_new(FLAC__METADATA_TYPE_VORBIS_COMMENT);
-   for( int i = 0; i < mTagList.count(); i++ )
+   metadata[0] = ::FLAC__metadata_object_new(FLAC__METADATA_TYPE_VORBIS_COMMENT);
+   foreach( const QByteArray &key, mTagMap.keys() )
    {
-      if( !mTagList.valueAt(i).isEmpty() )
+      if( !key.isEmpty() )
       {
-         ok &= FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair(
+         ok &= ::FLAC__metadata_object_vorbiscomment_entry_from_name_value_pair(
                &entry,
-               mTagList.tagAt(i).toUtf8().constData(),
-               mTagList.valueAt(i).toUtf8().constData() );
-         ok &= FLAC__metadata_object_vorbiscomment_append_comment(
+               key.data(),
+               mTagMap.value(key).toUtf8().data() );
+         ok &= ::FLAC__metadata_object_vorbiscomment_append_comment(
                metadata[0], entry, /*copy=*/false);
                /* copy=false: let metadata object take control of entry's allocated string */
       }

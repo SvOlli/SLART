@@ -17,7 +17,7 @@
 /* local library headers */
 #include <ScrollLine.hpp>
 #include <Settings.hpp>
-#include <TagList.hpp>
+#include <TagMap.hpp>
 
 /* local headers */
 

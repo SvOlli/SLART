@@ -17,7 +17,7 @@
 /* local library headers */
 #include <ScrollLine.hpp>
 #include <Settings.hpp>
-#include <TagList.hpp>
+#include <TagMap.hpp>
 
 /* local headers */
 
@@ -52,13 +52,13 @@ bool MagicEncoderOgg::initialize( const QString &fileName )
    ::vorbis_info_init( &mVorbisInfo );
    ::vorbis_comment_init( &mVorbisComment );
 
-   for( int i = 0; i < mTagList.count(); i++ )
+   foreach( const QByteArray &key, mTagMap.keys() )
    {
-      if( !mTagList.valueAt(i).isEmpty() )
+      if( !key.isEmpty() )
       {
          ::vorbis_comment_add_tag( &mVorbisComment,
-                                    mTagList.tagAt(i).toUtf8().data(),
-                                    mTagList.valueAt(i).toUtf8().data() );
+                                    key.data(),
+                                    mTagMap.value(key).toUtf8().data() );
       }
    }
    return true;

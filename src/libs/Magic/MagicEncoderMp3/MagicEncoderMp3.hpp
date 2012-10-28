@@ -107,11 +107,11 @@ private:
    bool encodeCDAudio( const char *data, int size );
 
    /*!
-    \brief convert tag #i to latin1 or utf8
+    \brief convert tag to latin1 or utf8
 
-    \param i
+    \param key key of tag to convert
    */
-   QByteArray tagTo8Bit( int i );
+   QByteArray tagTo8Bit( const QByteArray &key );
 
    bool                          mUseAbr; /*!< \brief use average bit rate */
    bool                          mUseLatin1; /*!< \brief use latin1 */
