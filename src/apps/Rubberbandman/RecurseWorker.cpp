@@ -21,7 +21,7 @@
 /* local library headers */
 #include <DatabaseInterface.hpp>
 #include <DirWalkerCallbackProxy.hpp>
-#include <Settings.hpp>
+#include <MySettings.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
