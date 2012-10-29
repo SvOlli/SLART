@@ -54,6 +54,10 @@ typedef QMap<QString,QString> MyLuaTable;
       {
          mpLua->mutex( true );
          // prepare data, etc.
+   #if LOG_PRINT
+         connect( mpLua, SIGNAL(print(QString)),
+                  this, SLOT(log(QString)) );
+   #endif
          emit runCode( mpEditor->toPlainText(), this, "runSucceeded", "runFailed" );
       }
 
@@ -61,18 +65,29 @@ typedef QMap<QString,QString> MyLuaTable;
       void runSucceeded()
       {
          // handle data
+   #if LOG_PRINT
          disconnect( mpLua, SIGNAL(print(QString)),
                      this, SLOT(log(QString)) );
+   #endif
          mpLua->mutex()->unlock();
       }
 
       void runFailed( const QString &msg )
       {
          // handle error
+   #if LOG_PRINT
          disconnect( mpLua, SIGNAL(print(QString)),
                      this, SLOT(log(QString)) );
+   #endif
          mpLua->mutex()->unlock();
       }
+
+   #if LOG_PRINT
+      void log( const QString &msg )
+      {
+         // output msg
+      }
+   #endif
 
    private:
       MyLua    *mpLua;
