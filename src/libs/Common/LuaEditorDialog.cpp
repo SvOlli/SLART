@@ -19,6 +19,8 @@
 #include <QLabel>
 #include <QListWidget>
 #include <QPushButton>
+#include <QSplitter>
+#include <QTimer>
 
 /* local library headers */
 #include <CodeEditor.hpp>
@@ -43,6 +45,7 @@ LuaEditorDialog::LuaEditorDialog( const QString &scriptType, QWidget *parent, Qt
 , mpMessageBuffer( new QListWidget( this ) )
 , mMessageBufferAlternateColor( false )
 , mScriptType( scriptType )
+, mLastPos()
 {
    mpShowOutputButton->setCheckable( true );
    mpMessageBuffer->hide();
@@ -55,6 +58,11 @@ LuaEditorDialog::LuaEditorDialog( const QString &scriptType, QWidget *parent, Qt
    mpLoadButton->setShortcut( QKeySequence("Ctrl+L") );
    mpSaveButton->setShortcut( QKeySequence("Ctrl+S") );
    mpRunButton->setShortcut( QKeySequence("F5") );
+   mpShowOutputButton->setShortcut( QKeySequence("F6") );
+
+   QSplitter *splitter = new QSplitter( Qt::Vertical, this );
+   splitter->addWidget( mpEditor );
+   splitter->addWidget( mpMessageBuffer );
 
    QGridLayout *layout( new QGridLayout( this ) );
    layout->addWidget( mpSelectText,       0, 0 );
@@ -63,8 +71,7 @@ LuaEditorDialog::LuaEditorDialog( const QString &scriptType, QWidget *parent, Qt
    layout->addWidget( mpSaveButton,       0, 3 );
    layout->addWidget( mpRunButton,        0, 4 );
    layout->addWidget( mpShowOutputButton, 0, 5 );
-   layout->addWidget( mpEditor,           1, 0, 1, 6 );
-   layout->addWidget( mpMessageBuffer,    2, 0, 1, 6 );
+   layout->addWidget( splitter,           1, 0, 1, 6 );
 
    connect( mpSelectBox, SIGNAL(activated(QString)),
             mpSelectBox, SLOT(setEditText(QString)) );
@@ -87,6 +94,23 @@ LuaEditorDialog::LuaEditorDialog( const QString &scriptType, QWidget *parent, Qt
 
 LuaEditorDialog::~LuaEditorDialog()
 {
+}
+
+
+QPushButton *LuaEditorDialog::newEditorButton( const QString &scriptType, QWidget *parent )
+{
+   QPushButton *button = new QPushButton( tr("Open Lua Editor"), parent );
+
+   LuaEditorDialog *editor = new LuaEditorDialog( scriptType, button );
+
+   button->setCheckable( true );
+
+   connect( button, SIGNAL(clicked(bool)),
+            editor, SLOT(setVisible(bool)) );
+   connect( editor, SIGNAL(visible(bool)),
+            button, SLOT(setChecked(bool)) );
+
+   return button;
 }
 
 
@@ -114,6 +138,11 @@ void LuaEditorDialog::log( const QString &msg, bool error )
    }
 
    mpMessageBuffer->scrollToBottom();
+}
+
+void LuaEditorDialog::repos()
+{
+   move( mLastPos );
 }
 
 
@@ -155,6 +184,7 @@ void LuaEditorDialog::updateSelectBox()
    }
 }
 
+
 void LuaEditorDialog::runEditor()
 {
    TagMap tagMap;
@@ -176,8 +206,11 @@ void LuaEditorDialog::runEditor()
    connect( mpLua, SIGNAL(print(QString)),
             this, SLOT(log(QString)) );
    mpLua->setTable( "tags", tagMap.toLuaTable() );
+   mpShowOutputButton->setChecked( true );
+   mpMessageBuffer->show();
    emit runCode( mpEditor->toPlainText(), this, "runSucceeded", "runFailed" );
 }
+
 
 void LuaEditorDialog::runSucceeded()
 {
@@ -201,4 +234,24 @@ void LuaEditorDialog::runFailed( const QString &msg )
    disconnect( mpLua, SIGNAL(print(QString)),
                this, SLOT(log(QString)) );
    mpLua->mutex()->unlock();
+}
+
+
+void LuaEditorDialog::showEvent( QShowEvent *e )
+{
+   QDialog::showEvent( e );
+   if( !mLastPos.isNull() )
+   {
+      move( mLastPos );
+      /* workaround for at least compiz */
+      QTimer::singleShot( 50, this, SLOT(repos()) );
+   }
+   emit visible( true );
+}
+
+void LuaEditorDialog::hideEvent( QHideEvent *e )
+{
+   QDialog::hideEvent( e );
+   mLastPos = pos();
+   emit visible( false );
 }

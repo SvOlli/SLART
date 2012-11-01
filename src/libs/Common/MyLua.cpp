@@ -39,8 +39,8 @@ int MyLua::luaCmdPrint( lua_State *L )
       return 0;
    }
 
-   int i = 0;
-   for (i = 1; i <= lua_gettop(L); i++)
+   const int stacksize( lua_gettop(L) );
+   for( int i = 1; i <= stacksize; i++ )
    {
       switch( lua_type( L, i ) )
       {
