@@ -28,20 +28,14 @@
 MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpLua( SingleInstance::get<MyLua>( "MyLua", false ) )
-, mpEditorDialog( new LuaEditorDialog( tr("Test"), this ) )
-, mpOpenEditorButton( new QPushButton( tr("Open Editor"), this ) )
+, mpOpenEditorButton( LuaEditorDialog::newEditorButton( "Test", this ) )
 //, mpMessageBuffer( new QListWidget( this ) )
 , mMessageBufferAlternateColor( false )
 {
-   mpOpenEditorButton->setCheckable( true );
-   //mpEditorDialog->show();
-
    QGridLayout *mainLayout   = new QGridLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    mainLayout->addWidget( mpOpenEditorButton, 0, 0 );
 
-   connect( mpOpenEditorButton, SIGNAL(clicked(bool)),
-            mpEditorDialog, SLOT(setVisible(bool)) );
    mpLua->start();
 }
 

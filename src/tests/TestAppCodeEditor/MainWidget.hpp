@@ -48,7 +48,6 @@ private:
    Q_DISABLE_COPY( MainWidget )
 
    MyLua                *mpLua;
-   LuaEditorDialog      *mpEditorDialog;
    QPushButton          *mpOpenEditorButton;
    QListWidget          *mpMessageBuffer;
    bool                 mMessageBufferAlternateColor;
