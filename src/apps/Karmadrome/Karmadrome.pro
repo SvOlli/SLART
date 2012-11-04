@@ -20,13 +20,10 @@ RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
 
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
-SOURCES += Application.cpp
+SOURCES += KarmadromeApplication.cpp
 
 HEADERS += ButtonsWidget.hpp
 SOURCES += ButtonsWidget.cpp
-
-HEADERS += ConfigDialog.hpp
-SOURCES += ConfigDialog.cpp
 
 HEADERS += ExportFolder.hpp
 SOURCES += ExportFolder.cpp
@@ -37,6 +34,8 @@ SOURCES += ExportFolderList.cpp
 HEADERS += ImportFolder.hpp
 SOURCES += ImportFolder.cpp
 
+HEADERS += KarmadromeConfigDialog.hpp
+SOURCES += KarmadromeConfigDialog.cpp
+
 HEADERS += KarmadromeMainWidget.hpp
 SOURCES += KarmadromeMainWidget.cpp
-

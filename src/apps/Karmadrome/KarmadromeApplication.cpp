@@ -15,8 +15,8 @@
 /* local library headers */
 #include <DatabaseInterface.hpp>
 #include <MainWindow.hpp>
-#include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 #include <SorcererLoader.hpp>
 #include <Trace.hpp>
 #include <Translate.hpp>
@@ -31,12 +31,12 @@
  \addtogroup Karmadrome
 
  @{
- \brief
+ \brief main routine
 
- \param argc
- \param argv
+ \param argc number of arguments
+ \param argv arguments list
 
- \dotfile "graphs/apps/Karmadrome/Application_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Karmadrome/KarmadromeApplication_connect.dot" "Connect Graph"
 
  @}
  */
@@ -210,17 +210,9 @@ int main(int argc, char *argv[])
    {
       if( useGUI )
       {
+         Settings::setApplicationStyleSheet( &app );
          SorcererLoader::detect();
-
          Satellite::create();
-         {
-            QFile qssFile( MySettings().styleSheetFile() );
-            if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
-            {
-               app.setStyleSheet( qssFile.readAll() );
-               qssFile.close();
-            }
-         }
 
          MainWindow window;
          KarmadromeMainWidget *mainWidget = new KarmadromeMainWidget( &window );

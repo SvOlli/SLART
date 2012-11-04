@@ -17,8 +17,8 @@
 /* local library headers */
 
 /* local headers */
-#include "ConfigDialog.hpp"
-#include "MySettings.hpp"
+#include "KarmadromeConfigDialog.hpp"
+#include "Settings.hpp"
 
 
 ButtonsWidget::ButtonsWidget( QWidget *parent )
@@ -54,8 +54,7 @@ ButtonsWidget::ButtonsWidget( const QString &title, QWidget *parent )
 void ButtonsWidget::updateButtons( const QStringList &fileNames )
 {
    int i = 0;
-   MySettings settings;
-   int rows = settings.VALUE_NUMBEROFCOLUMNS;
+   int rows = Settings::value( Settings::KarmadromeNumberOfColumns );
 
    for( i = 0; i < mButtonList.count(); i++ )
    {
@@ -70,7 +69,7 @@ void ButtonsWidget::updateButtons( const QStringList &fileNames )
       int lastSlash = fileNames.at(i).lastIndexOf( '/' );
       int lastDot   = fileNames.at(i).lastIndexOf( '.' );
       QString label( fileNames.at(i).mid( lastSlash+1, lastDot-lastSlash-1 ) );
-      if( settings.VALUE_USECHECKBOXES )
+      if( Settings::value( Settings::KarmadromeUseCheckBoxes ) )
       {
          button = new QCheckBox( label, this );
       }

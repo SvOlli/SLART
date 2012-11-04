@@ -26,9 +26,9 @@
 
 /* local headers */
 #include "ButtonsWidget.hpp"
-#include "ConfigDialog.hpp"
 #include "ExportFolder.hpp"
 #include "ExportFolderList.hpp"
+#include "KarmadromeConfigDialog.hpp"
 #include "ImportFolder.hpp"
 
 
@@ -53,7 +53,7 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
 , mpAddButton( new QPushButton( tr("Add"), this ) )
 , mpRemoveButton( new QPushButton( tr("Remove"), this ) )
 , mpRemoveMenu( new QMenu( this ) )
-, mpConfigDialog( new ConfigDialog( this ) )
+, mpConfigDialog( new KarmadromeConfigDialog( this ) )
 , mpTimer( new QTimer( this ) )
 , mpCurrentAction( 0 )
 , mFolders()

@@ -32,7 +32,7 @@ class QTimer;
 
 /* forward declaration of local classes */
 class ButtonsWidget;
-class ConfigDialog;
+class KarmadromeConfigDialog;
 class DatabaseInterface;
 class GenericSatMsgHandler;
 class Satellite;
@@ -200,7 +200,7 @@ private:
    QPushButton          *mpAddButton; /*!< \todo */
    QPushButton          *mpRemoveButton; /*!< \todo */
    QMenu                *mpRemoveMenu; /*!< \todo */
-   ConfigDialog         *mpConfigDialog; /*!< \todo */
+   KarmadromeConfigDialog         *mpConfigDialog; /*!< \todo */
    QTimer               *mpTimer; /*!< \todo */
    QAction              *mpCurrentAction; /*!< \todo */
 

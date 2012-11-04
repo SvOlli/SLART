@@ -1,13 +1,13 @@
 /*
- * src/apps/Karmadrome/ConfigDialog.hpp
+ * src/apps/Karmadrome/KarmadromeConfigDialog.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef CONFIGDIALOG_HPP
-#define CONFIGDIALOG_HPP CONFIGDIALOG_HPP
+#ifndef KARMADROMECONFIGDIALOG_HPP
+#define KARMADROMECONFIGDIALOG_HPP KARMADROMECONFIGDIALOG_HPP
 
 /* base class */
 #include <QDialog>
@@ -42,14 +42,25 @@ class ProxyWidget;
 /*!
  \brief \todo complete documentation
 
- \dotfile "graphs/apps/Karmadrome/ConfigDialog_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Karmadrome/KarmadromeConfigDialog_connect.dot" "Connect Graph"
 */
-class ConfigDialog : public QDialog
+class KarmadromeConfigDialog : public QDialog
 {
    Q_OBJECT
 
 public:
-   ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   /*!
+    \brief constructor
+
+    \param parent
+    \param flags
+   */
+   KarmadromeConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   /*!
+    \brief destructor
+
+   */
+   virtual ~KarmadromeConfigDialog();
 
 public slots:
    /*!
@@ -76,8 +87,8 @@ signals:
    void configChanged();
 
 private:
-   ConfigDialog( const ConfigDialog &that );
-   ConfigDialog &operator=( const ConfigDialog &that );
+   KarmadromeConfigDialog( const KarmadromeConfigDialog &that );
+   KarmadromeConfigDialog &operator=( const KarmadromeConfigDialog &that );
 
    GlobalConfigWidget   *mpGlobalConfigWidget;
    QLabel               *mpNumColumnsLabel;

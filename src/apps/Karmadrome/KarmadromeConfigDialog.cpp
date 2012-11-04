@@ -1,5 +1,5 @@
 /*
- * src/apps/Karmadrome/ConfigDialog.cpp
+ * src/apps/Karmadrome/KarmadromeConfigDialog.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "ConfigDialog.hpp"
+#include "KarmadromeConfigDialog.hpp"
 
 /* system headers */
 
@@ -17,13 +17,13 @@
 /* local library headers */
 #include <AboutWidget.hpp>
 #include <GlobalConfigWidget.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <WidgetShot.hpp>
 
 /* local headers */
 
 
-ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
+KarmadromeConfigDialog::KarmadromeConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpNumColumnsLabel( new QLabel( tr("Number Of Columns"), this ) )
@@ -85,21 +85,25 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 }
 
 
-void ConfigDialog::exec()
+KarmadromeConfigDialog::~KarmadromeConfigDialog()
+{
+}
+
+
+void KarmadromeConfigDialog::exec()
 {
    readSettings();
    QDialog::exec();
 }
 
 
-void ConfigDialog::readSettings()
+void KarmadromeConfigDialog::readSettings()
 {
-   MySettings settings;
-   mpNumColumns->setValue( settings.VALUE_NUMBEROFCOLUMNS );
-   mpClearBeforeImport->setChecked( settings.VALUE_CLEARBEFOREIMPORT );
-   mpExportAsRelative->setChecked( settings.VALUE_EXPORTASRELATIVE );
-   mpRandomizeExport->setChecked( settings.VALUE_RANDOMIZEEXPORT );
-   mpUseCheckBoxes->setChecked( settings.VALUE_USECHECKBOXES );
+   mpNumColumns->setValue( Settings::value( Settings::KarmadromeNumberOfColumns ) );
+   mpClearBeforeImport->setChecked( Settings::value( Settings::KarmadromeClearBeforeImport ) );
+   mpExportAsRelative->setChecked( Settings::value( Settings::KarmadromeExportAsRelative ) );
+   mpRandomizeExport->setChecked( Settings::value( Settings::KarmadromeRandomizeExport ) );
+   mpUseCheckBoxes->setChecked( Settings::value( Settings::KarmadromeUseCheckBoxes ) );
 
    mpGlobalConfigWidget->readSettings();
 
@@ -107,14 +111,13 @@ void ConfigDialog::readSettings()
 }
 
 
-void ConfigDialog::writeSettings()
+void KarmadromeConfigDialog::writeSettings()
 {
-   MySettings settings;
-   settings.setValue( "NumberOfColumns",   mpNumColumns->value() );
-   settings.setValue( "ClearBeforeImport", mpClearBeforeImport->isChecked() );
-   settings.setValue( "ExportAsRelative",  mpExportAsRelative->isChecked() );
-   settings.setValue( "RandomizeExport",   mpRandomizeExport->isChecked() );
-   settings.setValue( "UseCheckBoxes",     mpUseCheckBoxes->isChecked() );
+   Settings::setValue( Settings::KarmadromeNumberOfColumns, mpNumColumns->value() );
+   Settings::setValue( Settings::KarmadromeClearBeforeImport, mpClearBeforeImport->isChecked() );
+   Settings::setValue( Settings::KarmadromeExportAsRelative, mpExportAsRelative->isChecked() );
+   Settings::setValue( Settings::KarmadromeRandomizeExport, mpRandomizeExport->isChecked() );
+   Settings::setValue( Settings::KarmadromeUseCheckBoxes, mpUseCheckBoxes->isChecked() );
 
    mpGlobalConfigWidget->writeSettings();
 
