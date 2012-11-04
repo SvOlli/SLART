@@ -100,84 +100,98 @@ void DatabaseInterface::disableNotify()
 
 
 void DatabaseInterface::getTrackInfo( QObject *target, const QString &method,
-                                      int id )
+                                      int id,
+                                      const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getTrackInfo",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( const QString&, method ),
+                              Q_ARG( QString, method ),
                               Q_ARG( int, id ),
-                              Q_ARG( const QString&, QString() ) );
+                              Q_ARG( QString, QString() ),
+                              Q_ARG( QVariant, payload ) );
 }
 
 
 void DatabaseInterface::getTrackInfo( QObject *target, const QString &method,
-                                      const QString &fileName )
+                                      const QString &fileName,
+                                      const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getTrackInfo",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( const QString&, method ),
+                              Q_ARG( QString, method ),
                               Q_ARG( int, 0 ),
-                              Q_ARG( const QString&, fileName ) );
+                              Q_ARG( QString, fileName ),
+                              Q_ARG( QVariant, payload ) );
 }
 
 
 void DatabaseInterface::getTrackInfoList( QObject *target, const QString &method,
-                                          const QString &search)
+                                          const QString &search,
+                                          const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getTrackInfoList",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( const QString&, method ),
-                              Q_ARG( const QString&, search ) );
+                              Q_ARG( QString, method ),
+                              Q_ARG( QString, search ),
+                              Q_ARG( QVariant, payload ) );
 }
 
 
 void DatabaseInterface::getPathNameList( QObject *target, const QString &method,
-                                         const QString &search )
+                                         const QString &search,
+                                         const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getPathNameList",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( const QString&, method ),
-                              Q_ARG( const QString&, search ) );
+                              Q_ARG( QString, method ),
+                              Q_ARG( QString, search ),
+                              Q_ARG( QVariant, payload ) );
 }
 
 
 void DatabaseInterface::getRandomTrack( QObject *target, const QString &method,
                                         bool favorite, bool leastplayed,
                                         const QStringList &excludeArtists,
-                                        const QString &folder )
+                                        const QString &folder,
+                                        const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getRandomTrack",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( const QString&, method ),
+                              Q_ARG( QString, method ),
                               Q_ARG( bool, favorite ),
                               Q_ARG( bool, leastplayed ),
-                              Q_ARG( const QStringList&, excludeArtists ),
-                              Q_ARG( const QString&, folder ) );
+                              Q_ARG( QStringList, excludeArtists ),
+                              Q_ARG( QString, folder ),
+                              Q_ARG( QVariant, payload ) );
 }
 
 
-void DatabaseInterface::getFolders( QObject *target, const QString &method )
+void DatabaseInterface::getFolders( QObject *target, const QString &method,
+                                    const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getFolders",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( const QString&, method ) );
+                              Q_ARG( QString, method ),
+                              Q_ARG( QVariant, payload ) );
 }
 
 
 void DatabaseInterface::getFolder( QObject *target, const QString &method,
-                                   const QString &folder )
+                                   const QString &folder,
+                                   const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getFolder",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( const QString&, method ),
-                              Q_ARG( const QString&, folder ) );
+                              Q_ARG( QString, method ),
+                              Q_ARG( QString, folder ),
+                              Q_ARG( QVariant, payload ) );
 }
 
 
@@ -185,7 +199,7 @@ void DatabaseInterface::updateTrackInfo( const TrackInfo &trackInfo, bool allowi
 {
    QMetaObject::invokeMethod( mpDatabase, "updateTrackInfo",
                               Qt::QueuedConnection,
-                              Q_ARG( const TrackInfo&, trackInfo ),
+                              Q_ARG( TrackInfo, trackInfo ),
                               Q_ARG( bool, allowinsert ) );
 }
 
@@ -194,7 +208,7 @@ void DatabaseInterface::deleteTrackInfo( const TrackInfo &trackInfo )
 {
    QMetaObject::invokeMethod( mpDatabase, "deleteTrackInfo",
                               Qt::QueuedConnection,
-                              Q_ARG( const TrackInfo&, trackInfo ) );
+                              Q_ARG( TrackInfo, trackInfo ) );
 }
 
 
@@ -203,9 +217,9 @@ void DatabaseInterface::deleteTrackInfo( const QString &fileName )
    QMetaObject::invokeMethod( mpDatabase, "getTrackInfo",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, mpDatabase ),
-                              Q_ARG( const QString&, "deleteTrackInfo" ),
+                              Q_ARG( QString, "deleteTrackInfo" ),
                               Q_ARG( int, 0 ),
-                              Q_ARG( const QString&, fileName ) );
+                              Q_ARG( QString, fileName ) );
 }
 
 
@@ -213,7 +227,7 @@ void DatabaseInterface::insertFolder( const QString &folder )
 {
    QMetaObject::invokeMethod( mpDatabase, "insertFolder",
                               Qt::QueuedConnection,
-                              Q_ARG( const QString&, folder ) );
+                              Q_ARG( QString, folder ) );
 }
 
 
@@ -221,7 +235,7 @@ void DatabaseInterface::deleteFolder( const QString &folder )
 {
    QMetaObject::invokeMethod( mpDatabase, "deleteFolder",
                               Qt::QueuedConnection,
-                              Q_ARG( const QString&, folder ) );
+                              Q_ARG( QString, folder ) );
 }
 
 
@@ -229,12 +243,13 @@ void DatabaseInterface::rename( const QString &oldName, const QString &newName )
 {
    QMetaObject::invokeMethod( mpDatabase, "rename",
                               Qt::QueuedConnection,
-                              Q_ARG( const QString&, oldName ),
-                              Q_ARG( const QString&, newName ) );
+                              Q_ARG( QString, oldName ),
+                              Q_ARG( QString, newName ) );
 }
 
 void DatabaseInterface::getAllColumnData( QObject *target, const QString &method,
-                                          Column column )
+                                          Column column,
+                                          const QVariant &payload )
 {
    QString columnName;
    switch( column )
@@ -258,15 +273,18 @@ void DatabaseInterface::getAllColumnData( QObject *target, const QString &method
    QMetaObject::invokeMethod( mpDatabase, "getAllColumnData",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( const QString&, method ),
-                              Q_ARG( const QString&, columnName ) );
+                              Q_ARG( QString, method ),
+                              Q_ARG( QString, columnName ),
+                              Q_ARG( QVariant, payload ) );
 }
 
 
-void DatabaseInterface::call( QObject *target, const QString &method )
+void DatabaseInterface::call( QObject *target, const QString &method,
+                              const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "call",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( const QString&, method ) );
+                              Q_ARG( QString, method ),
+                              Q_ARG( QVariant, payload ) );
 }

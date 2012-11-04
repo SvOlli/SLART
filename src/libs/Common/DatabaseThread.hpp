@@ -17,6 +17,7 @@
 /* Qt headers */
 #include <QDir>
 #include <QStringList>
+#include <QVariant>
 
 /* local library headers */
 
@@ -89,13 +90,15 @@ private slots:
     \brief get track information from database by id or filename
       return call parameters: bool found, TrackInfo
 
-    \param target
-    \param method
+    \param target QObject to call on completion
+    \param method with signature void method(bool,const TrackInfo &[,const QVariant &])
     \param id
     \param fileName
+    \param payload optional data to pass through to method
    */
    void getTrackInfo( QObject *target, const QString &method,
-                      int id, const QString &fileName );
+                      int id, const QString &fileName,
+                      const QVariant &payload = QVariant() );
 
    /*!
     \brief update track information to database
@@ -113,59 +116,69 @@ private slots:
     \brief get a list of track information matching to the search string
       return call parameters: TrackInfoList
 
-    \param target
-    \param method
+    \param target QObject to call on completion
+    \param method with signature void method(const TrackInfoList &[,const QVariant &])
     \param search
+    \param payload optional data to pass through to method
    */
    void getTrackInfoList( QObject *target, const QString &method,
-                          const QString &search = QString() );
+                          const QString &search = QString(),
+                          const QVariant &payload = QVariant() );
 
    /*!
     \brief get a list of file names matching to the search string
       return call parameters: QStringList
 
-    \param target
-    \param method
+    \param target QObject to call on completion
+    \param method with signature void method(const QStringList &[,const QVariant &])
     \param search
+    \param payload optional data to pass through to method
    */
    void getPathNameList( QObject *target, const QString &method,
-                         const QString &search = QString() );
+                         const QString &search = QString(),
+                         const QVariant &payload = QVariant() );
 
    /*!
     \brief get a random track
 
-    \param target
-    \param method
+    \param target QObject to call on completion
+    \param method with signature void method(const TrackInfo &[,const QVariant &])
     \param favorite
     \param leastplayed
     \param unwantedArtists
     \param folder
+    \param payload optional data to pass through to method
    */
    void getRandomTrack( QObject *target, const QString &method,
                         bool favorite, bool leastplayed,
                         const QStringList &excludeArtists = QStringList(),
-                        const QString &folder = QString() );
+                        const QString &folder = QString(),
+                        const QVariant &payload = QVariant() );
 
    /*!
     \brief get a list of all available folders
       return call parameters: QStringList
 
-    \param target
-    \param method
+    \param target QObject to call on completion
+    \param method with signature void method(const QStringList &[,const QVariant &])
+    \param payload optional data to pass through to method
    */
-   void getFolders( QObject *target, const QString &method );
+   void getFolders( QObject *target, const QString &method,
+                    const QVariant &payload = QVariant() );
 
    /*!
     \brief get all entries of a list
       QChar(1) = Favorite, QChar(2) = No Auto
       return call parameters: QStringList
 
-    \param target
-    \param method
+    \param target QObject to call on completion
+    \param method with signature void method(const QStringList &[,const QVariant &])
     \param folder
+    \param payload optional data to pass through to method
    */
    void getFolder( QObject *target, const QString &method,
-                   const QString &folder );
+                   const QString &folder,
+                   const QVariant &payload = QVariant() );
 
    /*!
     \brief add a folder
@@ -189,28 +202,34 @@ private slots:
     \brief get all unique entries of a column
       return call parameters: QStringList
 
-    \param target
-    \param method
+    \param target QObject to call on completion
+    \param method with signature void method(const QStringList &[,const QVariant &])
     \param columnName
+    \param payload optional data to pass through to method
    */
    void getAllColumnData( QObject *target, const QString &method,
-                          const QString &columnName );
+                          const QString &columnName,
+                          const QVariant &payload = QVariant() );
 
    /*!
     \brief for synchronization purposes
 
+    \param target QObject to call
+    \param method with signature void method([const QVariant &])
+    \param payload optional data to pass through to method
    */
-   void call( QObject *target, const QString &method );
+   void call( QObject *target, const QString &method,
+              const QVariant &payload = QVariant() );
 
    /*!
-    \brief 
+    \brief \todo
 
    */
    void commit( bool intermediate = false );
 
 signals:
    /*!
-    \brief 
+    \brief \todo
 
    */
    void working( bool on );
@@ -219,7 +238,7 @@ private:
    Q_DISABLE_COPY( DatabaseThread )
 
    /*!
-    \brief 
+    \brief \todo
 
    */
    void prepare();
@@ -227,6 +246,7 @@ private:
    /*!
     \brief send out an error description to Innuendo
 
+    \param note \todo
    */
    void logError( const QString &note = QString() );
 
