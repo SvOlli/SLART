@@ -83,8 +83,8 @@ LuaEditorDialog::LuaEditorDialog( const QString &scriptType, QWidget *parent, Qt
             this, SLOT(runEditor()) );
    connect( mpShowOutputButton, SIGNAL(clicked(bool)),
             mpMessageBuffer, SLOT(setVisible(bool)) );
-   connect( this, SIGNAL(runCode(QString,QObject*,QString,QString)),
-            mpLua, SLOT(runCode(QString,QObject*,QString,QString)) );
+   connect( this, SIGNAL(runCode(QObject*,QString,QString,QString)),
+            mpLua, SLOT(runCode(QObject*,QString,QString,QString)) );
 
    mpLua->start();
 
@@ -208,7 +208,8 @@ void LuaEditorDialog::runEditor()
    mpLua->setTable( "tags", tagMap.toLuaTable() );
    mpShowOutputButton->setChecked( true );
    mpMessageBuffer->show();
-   emit runCode( mpEditor->toPlainText(), this, "runSucceeded", "runFailed" );
+
+   emit runCode( this, "runSucceeded", "runFailed", mpEditor->toPlainText() );
 }
 
 

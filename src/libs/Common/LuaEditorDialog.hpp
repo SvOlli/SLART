@@ -136,13 +136,13 @@ signals:
    /*!
     \brief send code to Lua for execution
 
-    \param code code to execute
     \param target target which should get called on completion
     \param runSucceeded method to call on success parameters: ()
     \param runFailed method to call on success parameters: (const QString &errmsg)
+    \param code code to execute
    */
-   void runCode( const QString &code, QObject *target,
-                 const QString &runSucceeded, const QString &runFailed );
+   void runCode( QObject *target, const QString &runSucceeded, const QString &runFailed,
+                 const QString &code );
 
    /*!
     \brief used to signalize if the editor widget is visible

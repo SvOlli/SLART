@@ -207,13 +207,13 @@ public slots:
    /*!
     \brief slot for running code fragment
 
-    \param data code to run
     \param target object to call after execution
     \param successCallback method to call on success
     \param failCallback method to call on failure
+    \param data code to run
    */
-   void runCode( const QString &data, QObject *target,
-                 const QString &successCallback, const QString &failCallback );
+   void runCode( QObject *target, const QString &successCallback, const QString &failCallback,
+                 const QString &data, const QVariant &payload );
 
 signals:
    /*!

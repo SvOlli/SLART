@@ -167,8 +167,8 @@ void MyLua::run()
 }
 
 
-void MyLua::runCode( const QString &data, QObject *target,
-                     const QString &successMethod, const QString &failMethod )
+void MyLua::runCode( QObject *target, const QString &successMethod, const QString &failMethod,
+                     const QString &data )
 {
    QMutexLocker locker(&mDataMutex);
    int errorcode = luaL_loadstring( mpL, data.toUtf8().constData() );
