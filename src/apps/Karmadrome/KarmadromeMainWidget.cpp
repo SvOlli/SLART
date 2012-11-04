@@ -55,7 +55,7 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
 , mpRemoveMenu( new QMenu( this ) )
 , mpConfigDialog( new KarmadromeConfigDialog( this ) )
 , mpTimer( new QTimer( this ) )
-, mpCurrentAction( 0 )
+, mFolderNameToRemove()
 , mFolders()
 , mTrackInfo()
 {
@@ -422,8 +422,6 @@ void KarmadromeMainWidget::handleRemove( QAction *action )
                                                  tr("Are you sure you want to delete the folder\n") +
                                                  action->text(), QMessageBox::Ok | QMessageBox::Cancel ) )
    {
-      mpCurrentAction = action;
-
       mpDatabase->getFolder( this, "removeFolder", action->text() );
    }
    else
@@ -476,23 +474,32 @@ void KarmadromeMainWidget::updateTrackInfo( const TrackInfo &trackInfo )
 }
 
 
-void KarmadromeMainWidget::removeFolder( const QStringList &entries )
+void KarmadromeMainWidget::removeFolder( const QStringList &entries, const QVariant &payload )
 {
+   QString folder( payload.toString() );
+   if( folder.isEmpty() )
+   {
+      return;
+   }
    foreach( const QString &entry, entries )
    {
-      mpDatabase->getTrackInfo( this, "removeFolderFromTrack", entry );
+      mpDatabase->getTrackInfo( this, "removeFolderFromTrack", entry, payload );
    }
-   mpDatabase->deleteFolder( mpCurrentAction->text() );
-   //mpCurrentAction = 0;
+   mpDatabase->deleteFolder( folder );
    mpDatabase->getFolders( this, "updateFolderNames" );
    setButtonsEnabled();
 }
 
 
-void KarmadromeMainWidget::removeFolderFromTrack( const TrackInfo &ti )
+void KarmadromeMainWidget::removeFolderFromTrack( const TrackInfo &ti, const QVariant &payload )
 {
+   QString folder( payload.toString() );
+   if( folder.isEmpty() )
+   {
+      return;
+   }
    TrackInfo trackInfo( ti );
-   trackInfo.setFolder( mpCurrentAction->text(), false );
+   trackInfo.setFolder( folder, false );
    mpDatabase->updateTrackInfo( trackInfo );
 }
 

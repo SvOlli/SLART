@@ -158,15 +158,17 @@ public slots:
     \brief \todo complete documentation
 
     \param entries
+    \param payload folder parameter sent back from database
    */
-   void removeFolder( const QStringList &entries );
+   void removeFolder( const QStringList &entries, const QVariant &payload );
 
    /*!
     \brief \todo complete documentation
 
     \param trackInfo
+    \param payload folder parameter sent back from database
    */
-   void removeFolderFromTrack( const TrackInfo &trackInfo );
+   void removeFolderFromTrack( const TrackInfo &trackInfo, const QVariant &payload );
 
 signals:
    /*!
@@ -180,32 +182,32 @@ signals:
 private:
    Q_DISABLE_COPY( KarmadromeMainWidget )
 
-   DatabaseInterface    *mpDatabase; /*!< \todo */
-   Satellite            *mpSatellite; /*!< \todo */
-   GenericSatMsgHandler *mpGenericSatMsgHandler; /*!< \todo */
-   ScrollLine           *mpFileName; /*!< \todo */
-   TrackInfoWidget      *mpTrackInfo; /*!< \todo */
-   QPushButton          *mpReadButton; /*!< \todo */
-   QPushButton          *mpExportButton; /*!< \todo */
-   QMenu                *mpExportMenu; /*!< \todo */
-   QAction              *mpExportFavorite; /*!< \todo */
-   QAction              *mpExportUnwanted; /*!< \todo */
-   QPushButton          *mpImportButton; /*!< \todo */
-   QMenu                *mpImportMenu; /*!< \todo */
-   QAction              *mpImportFavorite; /*!< \todo */
-   QAction              *mpImportUnwanted; /*!< \todo */
-   ButtonsWidget        *mpListButtons; /*!< \todo */
+   DatabaseInterface       *mpDatabase; /*!< \brief handle for running database jobs */
+   Satellite               *mpSatellite; /*!< \brief handle for interprocess communication */
+   GenericSatMsgHandler    *mpGenericSatMsgHandler; /*!< \brief handling generic interprocess communication messages */
+   ScrollLine              *mpFileName; /*!< \brief widget for displaying filename */
+   TrackInfoWidget         *mpTrackInfo; /*!< \brief widget for displaying track information */
+   QPushButton             *mpReadButton; /*!< \brief read button */
+   QPushButton             *mpExportButton; /*!< \brief export button */
+   QMenu                   *mpExportMenu; /*!< \brief drop down menu for export button */
+   QAction                 *mpExportFavorite; /*!< \brief action for handling favorite tracks in export menu */
+   QAction                 *mpExportUnwanted; /*!< \brief action for handling favorite tracks in export menu */
+   QPushButton             *mpImportButton; /*!< \brief import button */
+   QMenu                   *mpImportMenu; /*!< \brief drop down menu for import button */
+   QAction                 *mpImportFavorite; /*!< \brief action for handling favorite tracks in import menu */
+   QAction                 *mpImportUnwanted; /*!< \brief action for handling favorite tracks in import menu */
+   ButtonsWidget           *mpListButtons; /*!< \brief widget for displaying folder buttons */
 
-   QPushButton          *mpSettingsButton; /*!< \todo */
-   QPushButton          *mpAddButton; /*!< \todo */
-   QPushButton          *mpRemoveButton; /*!< \todo */
-   QMenu                *mpRemoveMenu; /*!< \todo */
-   KarmadromeConfigDialog         *mpConfigDialog; /*!< \todo */
-   QTimer               *mpTimer; /*!< \todo */
-   QAction              *mpCurrentAction; /*!< \todo */
+   QPushButton             *mpSettingsButton; /*!< \brief settings button */
+   QPushButton             *mpAddButton; /*!< \brief add folder button */
+   QPushButton             *mpRemoveButton; /*!< \brief remove folder button */
+   QMenu                   *mpRemoveMenu; /*!< \brief drop down list for folder button */
+   KarmadromeConfigDialog  *mpConfigDialog; /*!< \brief configuration dialog */
+   QTimer                  *mpTimer; /*!< \brief timer for sending updates */
 
-   QStringList          mFolders; /*!< \todo */
-   TrackInfo            mTrackInfo; /*!< \todo */
+   QString                 mFolderNameToRemove; /*!< \brief  */
+   QStringList             mFolders; /*!< \brief  */
+   TrackInfo               mTrackInfo; /*!< \brief  */
 };
 
 /*! @} */
