@@ -52,13 +52,14 @@ typedef QMap<QString,QString> MyLuaTable;
 
       void runLua()
       {
+         QString script;
          mpLua->mutex( true );
-         // prepare data, etc.
+         // prepare script, data, etc.
    #if LOG_PRINT
          connect( mpLua, SIGNAL(print(QString)),
                   this, SLOT(log(QString)) );
    #endif
-         emit runCode( mpEditor->toPlainText(), this, "runSucceeded", "runFailed" );
+         emit runCode( this, "runSucceeded", "runFailed", script );
       }
 
    public slots:
@@ -213,7 +214,7 @@ public slots:
     \param data code to run
    */
    void runCode( QObject *target, const QString &successCallback, const QString &failCallback,
-                 const QString &data, const QVariant &payload );
+                 const QString &data );
 
 signals:
    /*!
