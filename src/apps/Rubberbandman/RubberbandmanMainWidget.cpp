@@ -15,7 +15,7 @@
 #include <QtGui>
 
 /* local library headers */
-#include <Database.hpp>
+#include <DatabaseInterface.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 #include <WidgetShot.hpp>
@@ -34,6 +34,7 @@ RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFla
 , mpDatabaseWidget( new DatabaseWidget( this ) )
 , mpTabs( new QTabWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
+, mpDatabaseActivity( new QLabel( this ) )
 , mpConfigDialog( new ConfigDialog( this ) )
 {
    MySettings settings;
@@ -47,7 +48,10 @@ RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFla
    mpTabs->setCurrentIndex( settings.VALUE_CURRENTTAB );
 
    mainLayout->addWidget( mpTabs );
-   mainLayout->addWidget( mpSettingsButton );
+   QHBoxLayout *bottomLayout( new QHBoxLayout() );
+   bottomLayout->addWidget( mpSettingsButton, 1 );
+   bottomLayout->addWidget( mpDatabaseActivity, 0 );
+   mainLayout->addLayout( bottomLayout );
 
    connect( mpSatelliteWidget, SIGNAL(showInFilesystem(QString)),
             mpBrowseWidget, SLOT(scrollTo(QString)) );
@@ -59,6 +63,7 @@ RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFla
             mpConfigDialog, SLOT(exec()) );
    connect( mpSatelliteWidget, SIGNAL(partymanConfigUpdate()),
             mpDatabaseWidget, SLOT(readPartymanConfig()) );
+   DatabaseInterface::get()->connectActivityIndicator( this, SLOT(databaseActive(bool)) );
 
    setLayout( mainLayout );
 
@@ -84,4 +89,12 @@ void RubberbandmanMainWidget::goToFilesystem()
 void RubberbandmanMainWidget::handleTabChange( int tabNr )
 {
    MySettings().setValue( "CurrentTab", tabNr );
+}
+
+
+void RubberbandmanMainWidget::databaseActive( bool on )
+{
+   QPixmap p( 16, 16 );
+   p.fill( on ? Qt::red : Qt::green );
+   mpDatabaseActivity->setPixmap( p );
 }

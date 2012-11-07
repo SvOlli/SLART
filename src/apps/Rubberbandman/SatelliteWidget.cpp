@@ -104,6 +104,10 @@ void SatelliteWidget::handleSatellite( const QByteArray &msg )
       {
          emit partymanConfigUpdate();
       }
+      if( message.at(0) == "R0T" )
+      {
+         mpDatabase->generateTestLoad( this, "handleGetRandom" );
+      }
    }
 }
 

@@ -21,8 +21,9 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
-class QTabWidget;
+class QLabel;
 class QPushButton;
+class QTabWidget;
 
 /* forward declaration of local classes */
 class BrowseWidget;
@@ -61,19 +62,24 @@ public:
    virtual ~RubberbandmanMainWidget();
 
 public slots:
-   /* switch to filesystem tab */
    /*!
-    \brief
+    \brief switch to filesystem tab
 
    */
    void goToFilesystem();
-   /* save current tab for restart */
    /*!
-    \brief
+    \brief save current tab for restart
 
     \param tabNr
    */
    void handleTabChange( int tabNr );
+
+   /*!
+    \brief show database activity
+
+    \param on
+   */
+   void databaseActive( bool on );
 
 signals:
    /*!
@@ -92,6 +98,7 @@ private:
    DatabaseWidget    *mpDatabaseWidget; /*!< \todo */
    QTabWidget        *mpTabs; /*!< \todo */
    QPushButton       *mpSettingsButton; /*!< \todo */
+   QLabel            *mpDatabaseActivity; /*!< \brief small widget indicating database activity */
    ConfigDialog      *mpConfigDialog; /*!< \todo */
 };
 
