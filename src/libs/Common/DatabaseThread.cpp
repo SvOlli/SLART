@@ -1125,6 +1125,42 @@ void DatabaseThread::getAllColumnData( QObject *target, const QString &method,
 }
 
 
+void DatabaseThread::generateTestLoad( QObject *target, const QString &method,
+                                       const QVariant &payload )
+{
+   emit working( true );
+   mpQuery->exec( "CREATE TABLE slart_test_table (key VARCHAR PRIMARY KEY,"
+                  "value VARCHAR);" );
+   for( int i = 0; i < 1000000; ++i )
+   {
+
+      mpQuery->prepare( "INSERT OR REPLACE INTO slart_test_table(:key,:value);" );
+      mpQuery->bindValue( ":key",    QUuid::createUuid().toString() );
+      mpQuery->bindValue( ":value",  QUuid::createUuid().toString() );
+      mpQuery->exec();
+   }
+   mpQuery->exec( "DROP TABLE slart_test_table;" );
+   mpQuery->exec( "VACUUM;" );
+   mpQuery->clear();
+   emit working( true );
+
+   if( payload.isValid() )
+   {
+      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
+                                      Q_ARG( QVariant, payload ) ) )
+      {
+         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
+      }
+   }
+   else
+   {
+      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection ) )
+      {
+         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
+      }
+   }
+}
+
 void DatabaseThread::call( QObject *target, const QString &method, const QVariant &payload )
 {
    if( payload.isValid() )

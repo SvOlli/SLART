@@ -88,7 +88,6 @@ private slots:
 
    /*!
     \brief get track information from database by id or filename
-      return call parameters: bool found, TrackInfo
 
     \param target QObject to call on completion
     \param method with signature void method(bool,const TrackInfo &[,const QVariant &])
@@ -114,7 +113,6 @@ private slots:
 
    /*!
     \brief get a list of track information matching to the search string
-      return call parameters: TrackInfoList
 
     \param target QObject to call on completion
     \param method with signature void method(const TrackInfoList &[,const QVariant &])
@@ -127,7 +125,6 @@ private slots:
 
    /*!
     \brief get a list of file names matching to the search string
-      return call parameters: QStringList
 
     \param target QObject to call on completion
     \param method with signature void method(const QStringList &[,const QVariant &])
@@ -157,7 +154,6 @@ private slots:
 
    /*!
     \brief get a list of all available folders
-      return call parameters: QStringList
 
     \param target QObject to call on completion
     \param method with signature void method(const QStringList &[,const QVariant &])
@@ -169,7 +165,6 @@ private slots:
    /*!
     \brief get all entries of a list
       QChar(1) = Favorite, QChar(2) = No Auto
-      return call parameters: QStringList
 
     \param target QObject to call on completion
     \param method with signature void method(const QStringList &[,const QVariant &])
@@ -200,7 +195,6 @@ private slots:
 
    /*!
     \brief get all unique entries of a column
-      return call parameters: QStringList
 
     \param target QObject to call on completion
     \param method with signature void method(const QStringList &[,const QVariant &])
@@ -209,6 +203,17 @@ private slots:
    */
    void getAllColumnData( QObject *target, const QString &method,
                           const QString &columnName,
+                          const QVariant &payload = QVariant() );
+
+   /*!
+    \brief generate heavy load on database by creating a table, filling it with a
+      lot of random data, dropping it and calling "VACUUM";
+
+    \param target QObject to call on completion
+    \param method with signature void method([const QVariant &])
+    \param payload optional data to pass through to method
+   */
+   void generateTestLoad( QObject *target, const QString &method,
                           const QVariant &payload = QVariant() );
 
    /*!
