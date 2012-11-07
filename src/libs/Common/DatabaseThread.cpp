@@ -1131,10 +1131,9 @@ void DatabaseThread::generateTestLoad( QObject *target, const QString &method,
    emit working( true );
    mpQuery->exec( "CREATE TABLE slart_test_table (key VARCHAR PRIMARY KEY,"
                   "value VARCHAR);" );
-   for( int i = 0; i < 1000000; ++i )
+   for( int i = 0; i < 1000; ++i )
    {
-
-      mpQuery->prepare( "INSERT OR REPLACE INTO slart_test_table(:key,:value);" );
+      mpQuery->prepare( "INSERT OR REPLACE INTO slart_test_table VALUES(:key,:value);" );
       mpQuery->bindValue( ":key",    QUuid::createUuid().toString() );
       mpQuery->bindValue( ":value",  QUuid::createUuid().toString() );
       mpQuery->exec();
