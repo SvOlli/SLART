@@ -55,6 +55,7 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
 , mpActionNormTitle( new QAction( tr("Norm. Title"), this) )
 , mpActionCopyYear( new QAction( tr("Copy Year"), this) )
 {
+   setWindowIcon( QIcon( ":/SLART.png" ) );
    setWindowTitle( QApplication::applicationName() );
    QApplication::setDoubleClickInterval( Settings::value( Settings::GlobalDoubleClickInterval ) );
    setCentralWidget( mpCDEdit );
