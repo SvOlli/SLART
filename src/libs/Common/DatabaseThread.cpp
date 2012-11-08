@@ -1126,21 +1126,50 @@ void DatabaseThread::getAllColumnData( QObject *target, const QString &method,
 
 
 void DatabaseThread::generateTestLoad( QObject *target, const QString &method,
-                                       const QVariant &payload )
+                                       const QString &command, const QVariant &payload )
 {
    emit working( true );
-   mpQuery->exec( "CREATE TABLE slart_test_table (key VARCHAR PRIMARY KEY,"
-                  "value VARCHAR);" );
-   for( int i = 0; i < 1000; ++i )
+
+   if( command.toLower().contains( "ct" ) )
    {
-      mpQuery->prepare( "INSERT OR REPLACE INTO slart_test_table VALUES(:key,:value);" );
-      mpQuery->bindValue( ":key",    QUuid::createUuid().toString() );
-      mpQuery->bindValue( ":value",  QUuid::createUuid().toString() );
-      mpQuery->exec();
+      mpQuery->exec( "CREATE TABLE slart_test_table (key VARCHAR PRIMARY KEY,"
+                     "value VARCHAR);" );
    }
-   mpQuery->exec( "DROP TABLE slart_test_table;" );
-   mpQuery->exec( "VACUUM;" );
-   mpQuery->clear();
+
+   if( command.toLower().contains( "cd" ) )
+   {
+      mpQuery->exec( "BEGIN TRANSACTION;" );
+      for( int i = 0; i < 100000; ++i )
+      {
+         mpQuery->prepare( "INSERT OR REPLACE INTO slart_test_table VALUES(:key,:value);" );
+         mpQuery->bindValue( ":key",    QUuid::createUuid().toString() );
+         mpQuery->bindValue( ":value",  QUuid::createUuid().toString() );
+         mpQuery->exec();
+      }
+      mpQuery->exec( "COMMIT;" );
+   }
+
+   if( command.toLower().contains( "sk" ) )
+   {
+      mpQuery->exec( "SELECT * FROM slart_test_table ORDER BY key;" );
+   }
+
+   if( command.toLower().contains( "sv" ) )
+   {
+      mpQuery->exec( "SELECT * FROM slart_test_table ORDER BY value;" );
+   }
+
+   if( command.toLower().contains( "dt" ) )
+   {
+      mpQuery->exec( "DROP TABLE slart_test_table;" );
+   }
+
+   if( command.toLower().contains( "vc" ) )
+   {
+      mpQuery->exec( "VACUUM;" );
+      mpQuery->clear();
+   }
+
    emit working( true );
 
    if( payload.isValid() )
@@ -1159,6 +1188,7 @@ void DatabaseThread::generateTestLoad( QObject *target, const QString &method,
       }
    }
 }
+
 
 void DatabaseThread::call( QObject *target, const QString &method, const QVariant &payload )
 {

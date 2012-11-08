@@ -211,10 +211,11 @@ private slots:
 
     \param target QObject to call on completion
     \param method with signature void method([const QVariant &])
+    \param command test action to perform
     \param payload optional data to pass through to method
    */
    void generateTestLoad( QObject *target, const QString &method,
-                          const QVariant &payload = QVariant() );
+                          const QString &command, const QVariant &payload = QVariant() );
 
    /*!
     \brief for synchronization purposes

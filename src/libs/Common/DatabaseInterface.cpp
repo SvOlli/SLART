@@ -280,12 +280,13 @@ void DatabaseInterface::getAllColumnData( QObject *target, const QString &method
 
 
 void DatabaseInterface::generateTestLoad( QObject *target, const QString &method,
-                                          const QVariant &payload )
+                                          const QString &command, const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "generateTestLoad",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
                               Q_ARG( QString, method ),
+                              Q_ARG( QString, command ),
                               Q_ARG( QVariant, payload ) );
 }
 
