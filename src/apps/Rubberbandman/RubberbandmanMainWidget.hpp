@@ -49,14 +49,14 @@ class RubberbandmanMainWidget : public QWidget
 
 public:
    /*!
-    \brief
+    \brief constructor
 
-    \param parent
-    \param flags
+    \param parent \todo REPLACE STANDARD
+    \param flags \todo REPLACE STANDARD
    */
    RubberbandmanMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
    /*!
-    \brief
+    \brief destructor
 
    */
    virtual ~RubberbandmanMainWidget();
@@ -93,13 +93,13 @@ signals:
 private:
    Q_DISABLE_COPY( RubberbandmanMainWidget )
 
-   BrowseWidget      *mpBrowseWidget; /*!< \todo */
-   SatelliteWidget   *mpSatelliteWidget; /*!< \todo */
-   DatabaseWidget    *mpDatabaseWidget; /*!< \todo */
-   QTabWidget        *mpTabs; /*!< \todo */
-   QPushButton       *mpSettingsButton; /*!< \todo */
+   BrowseWidget      *mpBrowseWidget; /*!< \brief \todo */
+   SatelliteWidget   *mpSatelliteWidget; /*!< \brief \todo */
+   DatabaseWidget    *mpDatabaseWidget; /*!< \brief \todo */
+   QTabWidget        *mpTabs; /*!< \brief \todo */
+   QPushButton       *mpSettingsButton; /*!< \brief \todo */
    QLabel            *mpDatabaseActivity; /*!< \brief small widget indicating database activity */
-   ConfigDialog      *mpConfigDialog; /*!< \todo */
+   ConfigDialog      *mpConfigDialog; /*!< \brief \todo */
 };
 
 /*! @} */

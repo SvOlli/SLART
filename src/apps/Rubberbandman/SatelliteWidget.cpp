@@ -106,7 +106,15 @@ void SatelliteWidget::handleSatellite( const QByteArray &msg )
       }
       if( message.at(0) == "R0T" )
       {
-         mpDatabase->generateTestLoad( this, "handleGetRandom" );
+         if( message.size() > 1 )
+         {
+            message.takeFirst();
+            mpDatabase->generateTestLoad( this, "handleGetRandom", message.join(" ") );
+         }
+         else
+         {
+            mpDatabase->generateTestLoad( this, "handleGetRandom", "cr cd dk sv dt vc" );
+         }
       }
    }
 }
