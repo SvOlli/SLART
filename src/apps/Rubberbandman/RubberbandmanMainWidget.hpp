@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QPixmap>
 
 /* local library headers */
 
@@ -100,6 +101,8 @@ private:
    QPushButton       *mpSettingsButton; /*!< \brief \todo */
    QLabel            *mpDatabaseActivity; /*!< \brief small widget indicating database activity */
    ConfigDialog      *mpConfigDialog; /*!< \brief \todo */
+   QPixmap           mActiveLED;
+   QPixmap           mIdleLED;
 };
 
 /*! @} */

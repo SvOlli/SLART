@@ -16,6 +16,7 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
+#include <LEDIcon.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
 #include <WidgetShot.hpp>
@@ -36,6 +37,8 @@ RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFla
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpDatabaseActivity( new QLabel( this ) )
 , mpConfigDialog( new ConfigDialog( this ) )
+, mActiveLED( LEDIcon::pixmap( QColor("#ff0000"), 25 ) )
+, mIdleLED( LEDIcon::pixmap( QColor("#5f0000"), 25 ) )
 {
    MySettings settings;
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
@@ -94,7 +97,5 @@ void RubberbandmanMainWidget::handleTabChange( int tabNr )
 
 void RubberbandmanMainWidget::databaseActive( bool on )
 {
-   QPixmap p( 16, 16 );
-   p.fill( on ? Qt::red : Qt::green );
-   mpDatabaseActivity->setPixmap( p );
+   mpDatabaseActivity->setPixmap( on ? mActiveLED : mIdleLED );
 }

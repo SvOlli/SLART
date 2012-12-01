@@ -55,6 +55,9 @@ SOURCES += ImageWidget.cpp
 HEADERS += LuaEditorDialog.hpp
 SOURCES += LuaEditorDialog.cpp
 
+HEADERS += LEDIcon.hpp
+SOURCES += LEDIcon.cpp
+
 HEADERS += MagicEncoderLoader.hpp
 SOURCES += MagicEncoderLoader.cpp
 
