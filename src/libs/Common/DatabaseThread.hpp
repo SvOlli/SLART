@@ -58,10 +58,12 @@ public:
    void run();
 
    /*!
-    \brief 
+    \brief register Satellite for automatic notifications on database commits
 
+    \param satellite object to send to (should be of class Satellite, 0 = disable)
+    \param message message to send upon commit
    */
-   void registerUpdate( Satellite *satellite, const QByteArray &message );
+   void registerUpdate( QObject *satellite, const QByteArray &message );
 
    /*!
     \brief generate the filename for DatabaseThread
@@ -237,6 +239,12 @@ signals:
    */
    void working( bool on );
 
+   /*!
+    \brief \todo
+
+   */
+   void sendUpdate( const QByteArray &message );
+
 private:
    Q_DISABLE_COPY( DatabaseThread )
 
@@ -256,7 +264,7 @@ private:
    QSqlDatabase            *mpSqlDB;
    QSqlQuery               *mpQuery;
    QTimer                  *mpCommitTimer;
-   Satellite               *mpSatellite;
+   QObject                 *mpSatellite;
    unsigned int            mDatabaseVersion;
    const unsigned int      mCodeVersion;
    int                     mUpdateCount;

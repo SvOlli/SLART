@@ -211,10 +211,20 @@ void DatabaseThread::run()
 }
 
 
-void DatabaseThread::registerUpdate( Satellite *satellite, const QByteArray &message )
+void DatabaseThread::registerUpdate( QObject *satellite, const QByteArray &message )
 {
+   if( mpSatellite )
+   {
+      disconnect( this, SIGNAL(sendUpdate(QByteArray)),
+                  mpSatellite, SLOT(send(QByteArray)) );
+   }
    mpSatellite    = satellite;
    mUpdateMessage = message;
+   if( mpSatellite )
+   {
+      connect( this, SIGNAL(sendUpdate(QByteArray)),
+               mpSatellite, SLOT(send(QByteArray)) );
+   }
 }
 
 
@@ -246,7 +256,7 @@ void DatabaseThread::commit( bool intermediate )
    emit working( false );
    if( !intermediate && !mUpdateMessage.isEmpty() && mpSatellite && !mNotifyDisabled )
    {
-      mpSatellite->send( mUpdateMessage );
+      emit sendUpdate( mUpdateMessage );
    }
    if( !intermediate && mNotifyDisabled )
    {

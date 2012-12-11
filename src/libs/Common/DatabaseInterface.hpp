@@ -89,12 +89,12 @@ public:
    void disconnectActivityIndicator( QObject *object, const char *slot );
 
    /*!
-    \brief 
+    \brief register Satellite for automatic notifications on database commits
 
-    \param satellite
-    \param message
+    \param satellite object to send to (should be of class Satellite, 0 = disable)
+    \param message message to send upon commit
    */
-   void registerUpdate( Satellite *satellite, const QByteArray &message );
+   void registerUpdate( QObject *satellite, const QByteArray &message );
 
    /*!
     \brief disable the next satellite notify

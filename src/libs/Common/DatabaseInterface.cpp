@@ -86,7 +86,7 @@ void DatabaseInterface::disconnectActivityIndicator( QObject *object, const char
 }
 
 
-void DatabaseInterface::registerUpdate( Satellite *satellite, const QByteArray &message )
+void DatabaseInterface::registerUpdate( QObject *satellite, const QByteArray &message )
 {
    mpDatabase->registerUpdate( satellite, message );
 }
