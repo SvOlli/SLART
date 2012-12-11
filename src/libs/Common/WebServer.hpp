@@ -63,8 +63,17 @@ public:
 
     \param port
     \param webPath
+    \return bool success
    */
    bool start( quint16 port = 0, const QString &webPath = QString() );
+
+   /*!
+    \brief \todo
+
+    \param port
+    \return bool success
+   */
+   bool startSCGI( quint16 port = 0 );
 
    /*!
     \brief \todo complete documentation
@@ -74,10 +83,16 @@ public:
 
 public slots:
    /*!
-    \brief
+    \brief \todo complete documentation
 
    */
-   void handleNewConnection();
+   void wwwConnection();
+
+   /*!
+    \brief \todo complete documentation
+
+   */
+   void scgiConnection();
 
    /*!
     \brief \todo complete documentation
@@ -103,9 +118,19 @@ signals:
 private:
    Q_DISABLE_COPY( WebServer )
 
+   /*!
+    \brief \todo
+
+    \param port
+    \return bool
+   */
+   bool startServer( quint16 port );
+
    QObject      *mpParent;
    QTcpServer   *mpTcpServer;
    QTcpSocket   *mpTcpSocket;
+   bool         mSCGI;
+   quint16      mPort;
    QDir         mWebDir;
 };
 

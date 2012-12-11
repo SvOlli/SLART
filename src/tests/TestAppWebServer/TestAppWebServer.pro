@@ -21,8 +21,17 @@ QT += sql network
 # Input
 RESOURCES = Resources/TestAppWebServer.qrc
 
+HEADERS += ../../libs/Common/ScgiRequest.hpp
+SOURCES += ../../libs/Common/ScgiRequest.cpp
+
+HEADERS += ../../libs/Common/WebServer.hpp
+SOURCES += ../../libs/Common/WebServer.cpp
+
 SOURCES += Application.cpp
 
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
+
+HEADERS += WebServerSanityTests.hpp
+SOURCES += WebServerSanityTests.cpp
 

@@ -6,12 +6,22 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "WebServer.hpp"
 
+/* system headers */
+
+/* Qt headers */
 #include <QHttpRequestHeader>
 #include <QHttpResponseHeader>
 #include <QTcpServer>
 #include <QTcpSocket>
+
+/* local library headers */
+#include <ScgiRequest.hpp>
+
+/* local headers */
+
 
 #if 0
 #include "Trace.hpp"
@@ -23,6 +33,8 @@ WebServer::WebServer( QObject *parent )
 , mpParent( parent )
 , mpTcpServer( 0 )
 , mpTcpSocket( 0 )
+, mSCGI( false )
+, mPort( 0 )
 , mWebDir()
 {
 }
@@ -40,9 +52,15 @@ bool WebServer::start( quint16 port, const QString &webPath )
 TRACESTART(WebServer::start)
 #endif
    bool success;
+   if( mpTcpServer )
+   {
+      stop();
+   }
+   mSCGI = false;
    mWebDir.setPath( webPath );
    mpTcpServer = new QTcpServer( this );
    success = mpTcpServer->listen( QHostAddress::Any, port );
+   mPort = mpTcpServer->serverPort();
    if( !success )
    {
 #if 0
@@ -50,7 +68,32 @@ TRACEMSG << mpTcpServer->serverError() << mpTcpServer->errorString();
 #endif
    }
    connect( mpTcpServer, SIGNAL(newConnection()),
-            this, SLOT(handleNewConnection()) );
+            this, SLOT(wwwConnection()) );
+   return success;
+}
+
+bool WebServer::startSCGI( quint16 port )
+{
+#if 0
+TRACESTART(WebServer::start)
+#endif
+   bool success;
+   if( mpTcpServer )
+   {
+      stop();
+   }
+   mSCGI = true;
+   mpTcpServer = new QTcpServer( this );
+   success = mpTcpServer->listen( QHostAddress::Any, port );
+   mPort = mpTcpServer->serverPort();
+   if( !success )
+   {
+#if 0
+TRACEMSG << mpTcpServer->serverError() << mpTcpServer->errorString();
+#endif
+   }
+   connect( mpTcpServer, SIGNAL(newConnection()),
+            this, SLOT(scgiConnection()) );
    return success;
 }
 
@@ -59,8 +102,6 @@ void WebServer::stop()
 {
    if( mpTcpServer )
    {
-      disconnect( mpTcpServer, SIGNAL(newConnection()),
-                  this, SLOT(handleNewConnection()) );
       delete mpTcpServer;
       mpTcpServer = 0;
    }
@@ -73,7 +114,7 @@ void WebServer::stop()
 }
 
 
-void WebServer::handleNewConnection()
+void WebServer::wwwConnection()
 {
    QString    line;
    QString    key;
@@ -171,6 +212,51 @@ void WebServer::handleNewConnection()
 
       emit request( socket, header );
    }
+}
+
+
+void WebServer::scgiConnection()
+{
+   if( !mpTcpServer )
+   {
+      return;
+   }
+   QTcpSocket *socket = mpTcpServer->nextPendingConnection();
+   if( !socket )
+   {
+      return;
+   }
+   connect( socket, SIGNAL(disconnected()),
+            socket, SLOT(deleteLater()) );
+   socket->waitForReadyRead();
+
+   QByteArray data( socket->readAll() );
+   ScgiRequest scgiRequest( data );
+
+   const QByteArray &method( scgiRequest.value("REQUEST_METHOD") );
+   const QByteArray &uri( scgiRequest.value("REQUEST_URI") );
+   const int content_length( scgiRequest.value("CONTENT_LENGTH","0").toInt() );
+
+   QHttpRequestHeader header( QString::fromUtf8( method.constData(), method.size() ),
+                              QString::fromUtf8( uri.constData(), uri.size() ) );
+
+   if( content_length > 0 )
+   {
+      int colpos;
+      QString key;
+      QString value;
+      QStringList form( QString::fromUtf8( scgiRequest.content().data(), content_length ).split('&') );
+      foreach( const QString &entry, form )
+      {
+         colpos = entry.indexOf( "=" );
+         key = entry.left( colpos );
+         value = entry.mid( colpos + 1 );
+         key.prepend( "POST: " );
+         header.addValue( key, value );
+      }
+   }
+
+   emit request( socket, header );
 }
 
 
