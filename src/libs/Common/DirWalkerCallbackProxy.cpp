@@ -41,28 +41,28 @@ void DirWalkerCallbackProxy::handleStart()
 void DirWalkerCallbackProxy::handleFile( const QFileInfo &fileInfo )
 {
    QMetaObject::invokeMethod( mpTarget, "handleFile", mConnectionType,
-                              Q_ARG( const QFileInfo&, fileInfo ) );
+                              Q_ARG( QFileInfo, fileInfo ) );
 }
 
 
 void DirWalkerCallbackProxy::handleDirEntry( const QFileInfo &fileInfo )
 {
    QMetaObject::invokeMethod( mpTarget, "handleDirEntry", mConnectionType,
-                              Q_ARG( const QFileInfo&, fileInfo ) );
+                              Q_ARG( QFileInfo, fileInfo ) );
 }
 
 
 void DirWalkerCallbackProxy::handleDirLeave( const QFileInfo &fileInfo )
 {
    QMetaObject::invokeMethod( mpTarget, "handleDirLeave", mConnectionType,
-                              Q_ARG( const QFileInfo&, fileInfo ) );
+                              Q_ARG( QFileInfo, fileInfo ) );
 }
 
 
 void DirWalkerCallbackProxy::handleOther( const QFileInfo &fileInfo )
 {
    QMetaObject::invokeMethod( mpTarget, "handleOther", mConnectionType,
-                              Q_ARG( const QFileInfo&, fileInfo ) );
+                              Q_ARG( QFileInfo, fileInfo ) );
 }
 
 

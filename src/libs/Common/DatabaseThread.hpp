@@ -77,14 +77,11 @@ public:
       return slartdb.arg( QDir::homePath() );
    }
 
-
-private slots:
-
    /*!
     \brief disable the next satellite notify
 
    */
-   void disableNotify();
+   Q_INVOKABLE void disableNotify();
 
    /*!
     \brief get track information from database by id or filename
@@ -95,7 +92,7 @@ private slots:
     \param fileName
     \param payload optional data to pass through to method
    */
-   void getTrackInfo( QObject *target, const QString &method,
+   Q_INVOKABLE void getTrackInfo( QObject *target, const QString &method,
                       int id, const QString &fileName,
                       const QVariant &payload = QVariant() );
 
@@ -103,13 +100,13 @@ private slots:
     \brief update track information to database
 
    */
-   void updateTrackInfo( const TrackInfo &trackInfo, bool allowinsert = false );
+   Q_INVOKABLE void updateTrackInfo( const TrackInfo &trackInfo, bool allowinsert = false );
 
    /*!
     \brief delete track information from database
 
    */
-   void deleteTrackInfo( const TrackInfo &trackInfo );
+   Q_INVOKABLE void deleteTrackInfo( const TrackInfo &trackInfo );
 
    /*!
     \brief get a list of track information matching to the search string
@@ -119,7 +116,7 @@ private slots:
     \param search
     \param payload optional data to pass through to method
    */
-   void getTrackInfoList( QObject *target, const QString &method,
+   Q_INVOKABLE void getTrackInfoList( QObject *target, const QString &method,
                           const QString &search = QString(),
                           const QVariant &payload = QVariant() );
 
@@ -131,7 +128,7 @@ private slots:
     \param search
     \param payload optional data to pass through to method
    */
-   void getPathNameList( QObject *target, const QString &method,
+   Q_INVOKABLE void getPathNameList( QObject *target, const QString &method,
                          const QString &search = QString(),
                          const QVariant &payload = QVariant() );
 
@@ -146,7 +143,7 @@ private slots:
     \param folder
     \param payload optional data to pass through to method
    */
-   void getRandomTrack( QObject *target, const QString &method,
+   Q_INVOKABLE void getRandomTrack( QObject *target, const QString &method,
                         bool favorite, bool leastplayed,
                         const QStringList &excludeArtists = QStringList(),
                         const QString &folder = QString(),
@@ -159,7 +156,7 @@ private slots:
     \param method with signature void method(const QStringList &[,const QVariant &])
     \param payload optional data to pass through to method
    */
-   void getFolders( QObject *target, const QString &method,
+   Q_INVOKABLE void getFolders( QObject *target, const QString &method,
                     const QVariant &payload = QVariant() );
 
    /*!
@@ -171,7 +168,7 @@ private slots:
     \param folder
     \param payload optional data to pass through to method
    */
-   void getFolder( QObject *target, const QString &method,
+   Q_INVOKABLE void getFolder( QObject *target, const QString &method,
                    const QString &folder,
                    const QVariant &payload = QVariant() );
 
@@ -179,19 +176,19 @@ private slots:
     \brief add a folder
 
    */
-   void insertFolder( const QString &folder );
+   Q_INVOKABLE void insertFolder( const QString &folder );
 
    /*!
     \brief remove a folder
 
    */
-   void deleteFolder( const QString &folder );
+   Q_INVOKABLE void deleteFolder( const QString &folder );
 
    /*!
     \brief rename
 
    */
-   void rename( const QString &oldName, const QString &newName );
+   Q_INVOKABLE void rename( const QString &oldName, const QString &newName );
 
    /*!
     \brief get all unique entries of a column
@@ -201,7 +198,7 @@ private slots:
     \param columnName
     \param payload optional data to pass through to method
    */
-   void getAllColumnData( QObject *target, const QString &method,
+   Q_INVOKABLE void getAllColumnData( QObject *target, const QString &method,
                           const QString &columnName,
                           const QVariant &payload = QVariant() );
 
@@ -214,7 +211,7 @@ private slots:
     \param command test action to perform
     \param payload optional data to pass through to method
    */
-   void generateTestLoad( QObject *target, const QString &method,
+   Q_INVOKABLE void generateTestLoad( QObject *target, const QString &method,
                           const QString &command, const QVariant &payload = QVariant() );
 
    /*!
@@ -224,14 +221,14 @@ private slots:
     \param method with signature void method([const QVariant &])
     \param payload optional data to pass through to method
    */
-   void call( QObject *target, const QString &method,
+   Q_INVOKABLE void call( QObject *target, const QString &method,
               const QVariant &payload = QVariant() );
 
    /*!
     \brief \todo
 
    */
-   void commit( bool intermediate = false );
+   Q_INVOKABLE void commit( bool intermediate = false );
 
 signals:
    /*!

@@ -20,7 +20,7 @@
 #include <QtSql>
 
 /* local library headers */
-#include <DatabaseInterface.hpp>
+#include "DatabaseInterface.hpp"
 
 /* local headers */
 #include "MySettings.hpp"

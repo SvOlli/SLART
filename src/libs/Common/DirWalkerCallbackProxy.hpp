@@ -10,7 +10,7 @@
 #define DIRWALKERCALLBACKPROXY_HPP DIRWALKERCALLBACKPROXY_HPP
 
 /* base class */
-#include <DirWalker.hpp>
+#include "DirWalker.hpp"
 
 /* system headers */
 

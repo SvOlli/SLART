@@ -9,10 +9,12 @@
 #ifndef TAGMAP_HPP
 #define TAGMAP_HPP TAGMAP_HPP
 
+/* base class */
+#include <QMap>
+
 /* system headers */
 
 /* Qt headers */
-#include <QMap>
 #include <QStringList>
 
 /* local library headers */
@@ -34,6 +36,8 @@
 /*!
  \brief \todo complete documentation
 
+ constructors and destructors are not explicitly created on purpose in favour
+ of reusing the ones from the base class
 */
 class TagMap: public QMap<QByteArray,QString>
 {

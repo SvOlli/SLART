@@ -1170,7 +1170,7 @@ void DatabaseThread::generateTestLoad( QObject *target, const QString &method,
       mpQuery->clear();
    }
 
-   emit working( true );
+   emit working( false );
 
    if( payload.isValid() )
    {
