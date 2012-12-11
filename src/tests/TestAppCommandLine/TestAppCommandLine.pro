@@ -10,8 +10,6 @@ QT -= gui
 
 include( ../../buildconfig.pri )
 
-INCLUDEPATH += $${TOPSRC}/libs/Satellite
-LIBS += -lSatellite
 INCLUDEPATH += $${TOPSRC}/libs/CommandLine
 LIBS += -lCommandLine
 

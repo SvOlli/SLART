@@ -17,7 +17,7 @@
 
 /* local headers */
 #include "MainWidget.hpp"
-
+#include "WebServerSanityTests.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
    app.setOrganizationName("SLART");
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("TestAppWebServer");
+
+   WebServerSanityTests::scgiRequest();
 
    Satellite::create();
 

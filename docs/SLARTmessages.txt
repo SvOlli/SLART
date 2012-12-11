@@ -33,6 +33,8 @@ Partyman
   - p0c: updated Configuration
 
 Rubberbandman
+- commands
+  - R0T: run database load test
 - status messages
   - r0u: Updated database
 

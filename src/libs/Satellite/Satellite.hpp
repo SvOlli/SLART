@@ -200,21 +200,21 @@ private:
    /*!
     \brief hook for configuration
 
-    implemented in SatelliteConfig.cpp
+    implemented in SatelliteConfig.cpp, which is linked in libCommon.a
    */
    static bool enabled();
 
    /*!
     \brief hook for configuration
 
-    implemented in SatelliteConfig.cpp
+    implemented in SatelliteConfig.cpp, which is linked in libCommon.a
    */
    static quint16 port();
 
    /*!
     \brief hook for configuration
 
-    implemented in SatelliteConfig.cpp
+    implemented in SatelliteConfig.cpp, which is linked in libCommon.a
    */
    static QHostAddress host();
 
