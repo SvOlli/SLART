@@ -9,8 +9,9 @@ TEMPLATE = subdirs
 SUBDIRS += CommandLine
 SUBDIRS += Common
 SUBDIRS += Magic
+SUBDIRS += Satellite
 SUBDIRS += TagLib
 
 Magic.depends = Common TagLib
-Sorcerer.depends = Common TagLib
+Sorcerer.depends = Common TagLib Satellite
 

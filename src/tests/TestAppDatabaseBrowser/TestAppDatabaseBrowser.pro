@@ -3,16 +3,17 @@
 # hand hacked by SvOlli
 # released as public domain
 # #####################################################################
+
 TARGET = TestAppDatabaseBrowser
 TEMPLATE = app
-QT += sql \
-    network
-include( ../../buildconfig.pri )
-INCLUDEPATH += $${TOPSRC}/libs/Common
-LIBS += -lCommon
-contains( TARGETARCH, debug ) {
 QT += sql network
-}
+
+include( ../../buildconfig.pri )
+
+INCLUDEPATH += $${TOPSRC}/libs/Satellite
+LIBS += -lSatellite
+INCLUDEPATH += $${TOPSRC}/libs/Common
+LIBS += -lCommon -lSatellite
 
 # Input
 # RESOURCES = Resources/TestAppDatabaseBrowser.qrc

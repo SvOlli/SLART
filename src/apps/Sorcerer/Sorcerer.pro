@@ -10,6 +10,8 @@ QT += sql network
 
 include( ../../buildconfig.pri )
 
+INCLUDEPATH += $${TOPSRC}/libs/Satellite
+LIBS += -lSatellite
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib
 LIBS += -lCommon -lTag
 contains( TARGETARCH, debug ) {

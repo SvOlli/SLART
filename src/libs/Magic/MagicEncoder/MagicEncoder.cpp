@@ -17,8 +17,8 @@
 #include <QFileDialog>
 
 /* local library headers */
-#include "../../libs/Common/MagicEncoderProxy.hpp"
-#include <Satellite.hpp>
+#include <MagicEncoderProxy.hpp>
+#include "../../libs/Satellite/Satellite.hpp"
 #include <Settings.hpp>
 #include <ScrollLine.hpp>
 

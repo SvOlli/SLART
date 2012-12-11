@@ -12,8 +12,8 @@ QT += network
 include ( ../../buildconfig.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Common
+INCLUDEPATH += $${TOPSRC}/libs/Satellite
 LIBS += -llirc_client
 
 # Input
 SOURCES += Application.cpp
-

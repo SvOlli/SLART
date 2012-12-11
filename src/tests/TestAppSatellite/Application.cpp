@@ -10,6 +10,7 @@
 
 /* Qt headers */
 #include <QtGui>
+#include <QtNetwork>
 
 /* local library headers */
 #include <Satellite.hpp>
@@ -39,4 +40,24 @@ int main(int argc, char *argv[])
    Satellite::destroy();
 
    return retval;
+}
+
+
+bool Satellite::enabled()
+{
+   return true;
+}
+
+
+quint16 Satellite::port()
+{
+   QSettings settings( "SLART", "Global" );
+   return settings.value( "UseSatellite", false ).toBool();
+}
+
+
+QHostAddress Satellite::host()
+{
+   QSettings settings( "SLART", "Global" );
+   return QHostAddress( settings.value( "SatelliteHost", "127.0.0.1" ).toString() );
 }

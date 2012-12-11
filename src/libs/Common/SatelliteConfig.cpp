@@ -12,6 +12,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QHostAddress>
 
 /* local library headers */
 

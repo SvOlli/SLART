@@ -11,6 +11,8 @@ QT += sql network lua
 
 include( ../../buildconfig.pri )
 
+INCLUDEPATH += $${TOPSRC}/libs/Satellite
+
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}.ts
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
@@ -85,15 +87,11 @@ SOURCES += ProxyWidget.cpp
 HEADERS += PasswordChecker.hpp
 SOURCES += PasswordChecker.cpp
 
-HEADERS += Satellite.hpp
-SOURCES += Satellite.cpp
+HEADERS += ScgiRequest.hpp
+SOURCES += ScgiRequest.cpp
+
+# only dependency of Satellite to Common
 SOURCES += SatelliteConfig.cpp
-
-HEADERS += SatelliteServer.hpp
-SOURCES += SatelliteServer.cpp
-
-HEADERS += SatelliteServerRunner.hpp
-SOURCES += SatelliteServerRunner.cpp
 
 HEADERS += ScrollLine.hpp
 SOURCES += ScrollLine.cpp

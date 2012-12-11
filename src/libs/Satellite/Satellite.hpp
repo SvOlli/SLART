@@ -17,20 +17,21 @@
 /* system headers */
 
 /* Qt headers */
-#include <QHostAddress>
 #include <QPointer>
 #include <QString>
-#include <QTcpSocket>
 #include <QtEndian>
+#include <QtNetwork/QAbstractSocket>
 
 /* local library headers */
 
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QHostAddress;
 class QListWidget;
 class QLineEdit;
 class QSignalMapper;
+class QTcpSocket;
 
 /* forward declaration of local classes */
 class SatelliteServer;

@@ -15,12 +15,12 @@
 /* Qt headers */
 #include <QtGui>
 #include <QDir>
+#include <QTcpSocket>
 
 /* local library headers */
 
 /* local headers */
 #include "SatelliteServerRunner.hpp"
-#include "MySettings.hpp"
 
 /* class variable instantiation */
 Satellite *Satellite::cpSatellite = 0;
@@ -151,9 +151,9 @@ void Satellite::connectSuccess()
 #endif
 
 
-void Satellite::connectFail( QTcpSocket::SocketError socketError )
+void Satellite::connectFail( QAbstractSocket::SocketError socketError )
 {
-   if( socketError != QTcpSocket::QAbstractSocket::RemoteHostClosedError )
+   if( socketError != QAbstractSocket::RemoteHostClosedError )
    {
 #if SATELLITE_DEBUG
       emit debug( QString("c:connect error %1").arg( socketError ).toAscii() );
