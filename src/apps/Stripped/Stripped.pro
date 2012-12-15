@@ -11,10 +11,10 @@ CONFIG += link_pkgconfig
 
 include( ../../buildconfig.pri )
 
-INCLUDEPATH += $${TOPSRC}/libs/Satellite
-LIBS += -lSatellite
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/Magic
 LIBS += -lCommon
+INCLUDEPATH += $${TOPSRC}/libs/Satellite
+LIBS += -lSatellite
 contains( TARGETARCH, debug ) {
 QT += sql
 }

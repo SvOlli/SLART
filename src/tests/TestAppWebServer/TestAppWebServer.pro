@@ -10,10 +10,10 @@ QT += sql network
 
 include( ../../buildconfig.pri )
 
-INCLUDEPATH += $${TOPSRC}/libs/Satellite
-LIBS += -lSatellite
 INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
+INCLUDEPATH += $${TOPSRC}/libs/Satellite
+LIBS += -lSatellite
 contains( TARGETARCH, debug ) {
 QT += sql network
 }

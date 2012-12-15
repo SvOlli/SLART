@@ -32,7 +32,7 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
 , mpConfig( config )
 , mpPlaylist( parent )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
+, mpGenericSatMsgHandler( 0 )
 , mPartymanIcon( QIcon(":/PartymanSmile.png") )
 , mStopIcon( QCommonStyle().standardIcon(QStyle::SP_MediaStop) /*QIcon(":/Stop.png")*/ )
 , mPlayIcon( QCommonStyle().standardIcon(QStyle::SP_MediaPlay) /*QIcon(":/Play.png")*/ )
@@ -120,8 +120,6 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
             this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
-   connect( mpSatellite, SIGNAL(received(QByteArray)),
-            this, SLOT(handleSatellite(QByteArray)) );
    connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
             mpConfig, SLOT(readSettings()) );
    connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
@@ -141,6 +139,13 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
             this, SLOT(handleDerMixDfinish(int,QProcess::ExitStatus)) );
    connect( &mDerMixDprocess, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(handleDerMixDerror(QProcess::ProcessError)) );
+
+   if( mpSatellite )
+   {
+      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog );
+      connect( mpSatellite, SIGNAL(received(QByteArray)),
+               this, SLOT(handleSatellite(QByteArray)) );
+   }
 }
 
 
@@ -208,7 +213,6 @@ void ControlWidget::saveTracks( bool unload )
 
 void ControlWidget::readConfig()
 {
-   mpSatellite->restart();
    mpPlayer[0]->readConfig();
    mpPlayer[1]->readConfig();
    if( Settings::value( Settings::PartymanDerMixDrun ) )
@@ -293,6 +297,7 @@ void ControlWidget::initDisconnect( ErrorCode errorCode )
    {
       mConnected = false;
       QString errorText;
+      handlePause( true );
       saveTracks( true );
       mpPlayer[0]->disconnect();
       mpPlayer[1]->disconnect();
@@ -479,7 +484,7 @@ void ControlWidget::handleSatellite( const QByteArray &msg )
 
       if( src.at(0) == "P0R" )
       {
-         if( !mLastP0p.isEmpty() )
+         if( mpSatellite && !mLastP0p.isEmpty() )
          {
             mpSatellite->send( mLastP0p );
          }
@@ -531,7 +536,10 @@ void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const
       msg.append( '\n' );
       msg.append( data.toUtf8() );
    }
-   mpSatellite->send( msg );
+   if( mpSatellite )
+   {
+      mpSatellite->send( msg );
+   }
    if( udpEvent == "p0p" )
    {
       mLastP0p = msg;

@@ -19,6 +19,7 @@
 
 /* local library headers */
 #include <Database.hpp>
+#include <GenericSatMsgHandler.hpp>
 #include <Satellite.hpp>
 #include <WebServer.hpp>
 #include <MySettings.hpp>
@@ -38,8 +39,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 {
    QBoxLayout *mainLayout   = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   mpSatellite->setTestApp( true );
-   mpSatellite->restart();
 
    mainLayout->addWidget( mpMessageBuffer );
    setLayout( mainLayout );
@@ -58,8 +57,11 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
    mTrackInfo.mTitle = "-";
    mTrackInfo.mAlbum = "-";
 
-   mpSatellite->waitForConnected();
-   mpSatellite->send( "P0R" );
+   if( mpSatellite )
+   {
+      GenericSatMsgHandler *genericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithoutPing );
+      genericSatMsgHandler->setConnectMsg( "P0R" );
+   }
 }
 
 

@@ -28,7 +28,7 @@
 CommandLineHandler::CommandLineHandler( const QStringList &list, QObject *parent )
 : QObject( parent )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPing ) )
+, mpGenericSatMsgHandler( 0 )
 , mConnected( false )
 , mList()
 {
@@ -38,12 +38,15 @@ CommandLineHandler::CommandLineHandler( const QStringList &list, QObject *parent
       fileInfo.setFile( file );
       mList << fileInfo.absoluteFilePath();
    }
-   connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
-            this, SLOT(gotPing()) );
+   if( mpSatellite )
+   {
+      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPing );
+      connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
+               this, SLOT(gotPing()) );
+   }
    connect( this, SIGNAL(done()),
             qApp, SLOT(quit()) );
    QTimer::singleShot( 1000, this, SLOT(timeout()) );
-   mpSatellite->restart();
 }
 
 

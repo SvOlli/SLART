@@ -16,7 +16,7 @@ include( $${TOPSRC}/buildconfig.pri )
 TRANSLATIONS += ../../../translations/MagicEncoderFlac_de.ts
 
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib $${TOPSRC}/libs/Magic/MagicEncoder
-LIBS += -lMagicEncoder -lCommon -lTag
+LIBS += -lMagicEncoder -lCommon -lSatellite
 contains( TARGETARCH, debug ) {
 QT += sql network
 }

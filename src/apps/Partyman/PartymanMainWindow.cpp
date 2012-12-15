@@ -55,7 +55,10 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    qsrand( time((time_t*)0) );
    setUnifiedTitleAndToolBarOnMac(true);
    WidgetShot::addWidget( "Main", this );
-   mpDatabase->registerUpdate( Satellite::get(), "p0u" );
+   if( Satellite::get() )
+   {
+      mpDatabase->registerUpdate( Satellite::get(), "p0u" );
+   }
 
    setAttribute( Qt::WA_AlwaysShowToolTips, true );
    setWindowIcon( QIcon( ":/PartymanSmile.png" ) );

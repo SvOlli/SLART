@@ -21,7 +21,6 @@
 /* local library headers */
 
 /* local headers */
-#include "Satellite.hpp"
 
 #ifndef SQLITE_BUSY
 #define SQLITE_BUSY    5
@@ -47,6 +46,7 @@ DatabaseThread::DatabaseThread( const QString &fileName )
 , mUpdateMessage()
 , mNotifyDisabled( false )
 {
+   setObjectName( "DatabaseThread" );
    qsrand( time((time_t*)0) );
    mpSqlDB = new QSqlDatabase( QSqlDatabase::addDatabase( "QSQLITE" ) );
    mpCommitTimer = new QTimer( this );
@@ -761,7 +761,7 @@ void DatabaseThread::logError( const QString &note )
       msg.append( query );
    }
 
-   Satellite::send1( msg.toUtf8() );
+   emit sendUpdate( msg.toUtf8() );
 }
 
 

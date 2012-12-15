@@ -50,8 +50,19 @@ class SatelliteServer : public QObject
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    SatelliteServer( QObject *parent = 0 );
+
+   /*!
+    \brief destructor
+
+   */
    virtual ~SatelliteServer();
+
    /*!
     \brief start the server
 

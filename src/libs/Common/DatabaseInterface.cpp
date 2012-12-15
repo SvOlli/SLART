@@ -21,7 +21,6 @@
 /* local library headers */
 
 /* local headers */
-#include "Satellite.hpp"
 
 #include "Trace.hpp"
 

@@ -39,7 +39,7 @@ public:
 
 public slots:
    void handleInput();
-   void addDebug( const QString &message );
+   void addDebug( const QByteArray &message );
    void addMessage( const QByteArray &message, QListWidget *list = 0 );
 
 signals:

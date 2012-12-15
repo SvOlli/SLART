@@ -72,8 +72,6 @@ RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFla
 
    mpSettingsButton->setObjectName( QString("SettingsButton") );
 
-   Satellite::get()->send( "P0R" );
-
    WidgetShot::addWidget( "MainWidget", this );
 }
 

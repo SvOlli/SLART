@@ -24,7 +24,7 @@
 MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get() )
-#if SLARTCOM_DEBUG
+#if SATELLITE_DEBUG
 , mpDebugBuffer( new QListWidget( this ) )
 #else
 , mpDebugBuffer( 0 )
@@ -35,9 +35,9 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
    QVBoxLayout *mainLayout   = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
 
-#if SLARTCOM_DEBUG
-   connect( mpSatellite, SIGNAL(debug(QString)),
-            this, SLOT(addDebug(QString)) );
+#if SATELLITE_DEBUG
+   connect( mpSatellite, SIGNAL(debug(QByteArray)),
+            this, SLOT(addDebug(QByteArray)) );
    mainLayout->addWidget( mpDebugBuffer );
    mainLayout->setStretchFactor( mpDebugBuffer, 4 );
 #endif
@@ -55,9 +55,6 @@ MainWidget::MainWidget( QWidget *parent, Qt::WindowFlags flags )
             mpSatellite, SLOT(send(QByteArray)) );
 
    setLayout( mainLayout );
-
-   mpSatellite->setTestApp( true );
-   mpSatellite->restart();
 }
 
 
@@ -68,10 +65,10 @@ void MainWidget::handleInput()
 }
 
 
-void MainWidget::addDebug( const QString &message )
+void MainWidget::addDebug( const QByteArray &message )
 {
-#if SLARTCOM_DEBUG
-   addMessage( message.toUtf8(), mpDebugBuffer );
+#if SATELLITE_DEBUG
+   addMessage( message, mpDebugBuffer );
 #else
    Q_UNUSED( message );
 #endif

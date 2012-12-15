@@ -24,7 +24,6 @@
 
 /* local headers */
 #include "MySettings.hpp"
-#include "Satellite.hpp"
 
 #ifndef SQLITE_BUSY
 #define SQLITE_BUSY    5
@@ -223,13 +222,14 @@ bool Database::endTransaction( bool commit )
    bool retval = commit ? mpSqlDB->commit() : mpSqlDB->rollback();
    if( commit && !mUpdateMessage.isEmpty() && mpSatellite )
    {
-      mpSatellite->send( mUpdateMessage );
+      QMetaObject::invokeMethod( mpSatellite, "send",
+                                 Q_ARG( QByteArray, mUpdateMessage ) );
    }
    return retval;
 }
 
 
-void Database::registerUpdate( Satellite *satellite, const QByteArray &message )
+void Database::registerUpdate( QObject *satellite, const QByteArray &message )
 {
    mpSatellite    = satellite;
    mUpdateMessage = message;
@@ -488,7 +488,8 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo, bool allowinsert )
    mpQuery->clear();
    if( !mUpdateMessage.isEmpty() && mpSatellite && !mNotifyDisabled )
    {
-      mpSatellite->send( mUpdateMessage );
+      QMetaObject::invokeMethod( mpSatellite, "send",
+                                 Q_ARG( QByteArray, mUpdateMessage ) );
    }
    mNotifyDisabled = false;
 }
@@ -746,7 +747,11 @@ void Database::logError( const QString &note )
       msg.append( query );
    }
 
-   Satellite::send1( msg.toUtf8() );
+   if( mpSatellite )
+   {
+      QMetaObject::invokeMethod( mpSatellite, "send",
+                                 Q_ARG( QByteArray, msg.toUtf8() ) );
+   }
 }
 
 

@@ -362,8 +362,11 @@ void TheMagic::processGenericFile()
          settings.setValue( "Files", count );
       }
 
-      mpSatellite->send( QByteArray("f0v\n") +
-                         QDir::current().absoluteFilePath( mFileName ).toUtf8() );
+      if( mpSatellite )
+      {
+         mpSatellite->send( QByteArray("f0v\n") +
+                            QDir::current().absoluteFilePath( mFileName ).toUtf8() );
+      }
    }
 }
 
@@ -653,12 +656,15 @@ void TheMagic::parseMySpaceMP3()
          settings.setValue( "Files", count );
       }
 
-      mpSatellite->send( QByteArray("f0d\n") +
-                         QDir::current().absoluteFilePath( mFileName ).toUtf8() );
-      if( mSelected )
+      if( mpSatellite )
       {
-         mpSatellite->send( QByteArray("P0Q\n") +
+         mpSatellite->send( QByteArray("f0d\n") +
                             QDir::current().absoluteFilePath( mFileName ).toUtf8() );
+         if( mSelected )
+         {
+            mpSatellite->send( QByteArray("P0Q\n") +
+                               QDir::current().absoluteFilePath( mFileName ).toUtf8() );
+         }
       }
    }
    else

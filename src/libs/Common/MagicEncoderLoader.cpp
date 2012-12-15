@@ -94,8 +94,8 @@ MagicEncoderList MagicEncoderLoader::tryLoading( const QString &msgHeader,
       }
       else
       {
-         Satellite::send1( "I0L\n" + QObject::tr("error loading %1:\n%2")
-                           .arg( encoderName, encoder->pluginLoadErrorString() ).toUtf8() );
+         satellite->send( "I0L\n" + QObject::tr("error loading %1:\n%2")
+                          .arg( encoderName, encoder->pluginLoadErrorString() ).toUtf8() );
          delete encoder;
       }
    }

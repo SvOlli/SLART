@@ -45,6 +45,8 @@ class TrackInfo;
  /*\dotfile "graphs/libs/Common/DnDFileInfo_connect.dot" "Connect Graph"*/
 class DnDFileInfo : public QObject
 {
+   Q_OBJECT
+
 public:
 
    /*!

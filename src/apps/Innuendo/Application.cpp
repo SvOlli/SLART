@@ -12,6 +12,7 @@
 #include <QtGui>
 
 /* local library headers */
+#include <GenericSatMsgHandler.hpp>
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
@@ -42,7 +43,7 @@ int main(int argc, char *argv[])
 
       SorcererLoader::detect();
 
-      Satellite::create();
+      Satellite *s = GenericSatMsgHandler::createSatellite();
       {
          QFile qssFile( MySettings().styleSheetFile() );
          if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
@@ -57,6 +58,7 @@ int main(int argc, char *argv[])
       window.setMainWidget( mainWidget );
       window.show();
 
+      if( s ) s->start();
       retval = app.exec();
 
       Satellite::destroy();
@@ -70,7 +72,7 @@ int main(int argc, char *argv[])
       {
          message.append( argv[i] );
       }
-      Satellite::send1( message.join("\n").toUtf8() );
+      GenericSatMsgHandler::send( message.join("\n").toUtf8() );
    }
 
    return retval;

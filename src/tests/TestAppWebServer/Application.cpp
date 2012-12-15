@@ -12,6 +12,7 @@
 #include <QtGui>
 
 /* local library headers */
+#include <GenericSatMsgHandler.hpp>
 #include <MainWindow.hpp>
 #include <Satellite.hpp>
 
@@ -30,13 +31,14 @@ int main(int argc, char *argv[])
 
    WebServerSanityTests::scgiRequest();
 
-   Satellite::create();
+   Satellite *s = GenericSatMsgHandler::createSatellite();
 
    MainWindow window;
    MainWidget *mainWidget = new MainWidget( &window );
    window.setMainWidget( mainWidget );
    window.show();
 
+   if( s ) s->start();
    retval = app.exec();
 
    Satellite::destroy();

@@ -36,7 +36,7 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
 : QWidget( parent, flags )
 , mpDatabase( DatabaseInterface::get() )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
+, mpGenericSatMsgHandler( 0 )
 , mpFileName( new ScrollLine( this ) )
 , mpTrackInfo( new TrackInfoWidget( false, this ) )
 , mpReadButton( new QPushButton( this ) )
@@ -59,7 +59,6 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
 , mFolders()
 , mTrackInfo()
 {
-   mpDatabase->registerUpdate( mpSatellite, "k0u" );
    QGridLayout *mainLayout   = new QGridLayout( this );
 
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
@@ -93,8 +92,6 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
    mpDatabase->getFolders( this, "updateFolderNames" );
 
    mpDatabase->connectActivityIndicator( mpFileName, SLOT(setDisabled(bool)) );
-   connect( mpSatellite, SIGNAL(received(QByteArray)),
-            this, SLOT(handleSatellite(QByteArray)) );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfigDialog, SLOT(exec()) );
@@ -102,8 +99,6 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
             this, SLOT(labelReadButton()) );
    connect( mpConfigDialog, SIGNAL(configChanged()),
             this, SLOT(updateLists()) );
-   connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
-            mpConfigDialog, SLOT(readSettings()) );
    connect( mpTimer, SIGNAL(timeout()),
             this, SLOT(sendK0u()) );
 
@@ -130,7 +125,16 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
 
    WidgetShot::addWidget( "Main", this );
 
-   mpSatellite->send( "P0R" );
+   if( mpSatellite )
+   {
+      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog );
+      mpGenericSatMsgHandler->setConnectMsg( "P0R" );
+      connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
+               mpConfigDialog, SLOT(readSettings()) );
+      connect( mpSatellite, SIGNAL(received(QByteArray)),
+               this, SLOT(handleSatellite(QByteArray)) );
+      mpDatabase->registerUpdate( mpSatellite, "k0u" );
+   }
 }
 
 
@@ -460,7 +464,6 @@ void KarmadromeMainWidget::labelReadButton()
          mpReadButton->setHidden( true );
          break;
    }
-   mpSatellite->restart();
 }
 
 

@@ -31,7 +31,7 @@
 InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
+, mpGenericSatMsgHandler( 0 )
 , mpMessageBuffer( new LogListWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpPingButton( new QPushButton( tr("Ping"), this ) )
@@ -87,16 +87,6 @@ InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(handlePingButton()) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
-   connect( mpSatellite, SIGNAL(received(QByteArray)),
-            this, SLOT(handleSatellite(QByteArray)) );
-   connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
-            mpConfig, SLOT(readSettings()) );
-   connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
-            this, SLOT(noAutostart()) );
-#if SATELLITE_DEBUG
-   connect( mpSatellite, SIGNAL(debug(QByteArray)),
-            this, SLOT(handleSatellite(QByteArray)) );
-#endif
    connect( mpMessageBuffer, SIGNAL(itemClicked(QListWidgetItem*)),
             this, SLOT(listWidgetItemToClipboard(QListWidgetItem*)) );
 
@@ -105,6 +95,27 @@ InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
    setLayout( mainLayout );
    mpSettingsButton->setObjectName( QString("SettingsButton") );
    setAcceptDrops( true );
+
+   if( mpSatellite )
+   {
+      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog );
+      connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
+               mpConfig, SLOT(readSettings()) );
+      connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
+               this, SLOT(noAutostart()) );
+      connect( mpSatellite, SIGNAL(received(QByteArray)),
+               this, SLOT(handleSatellite(QByteArray)) );
+#if SATELLITE_DEBUG
+      connect( mpSatellite, SIGNAL(debug(QByteArray)),
+               this, SLOT(handleSatellite(QByteArray)) );
+#endif
+      mpPingButton->setEnabled( true );
+   }
+   else
+   {
+      mpPingButton->setEnabled( false );
+   }
+
    QTimer::singleShot(333, this, SLOT(autostart()));
    WidgetShot::addWidget( "Main", this );
 }
@@ -169,13 +180,17 @@ void InnuendoMainWidget::noAutostart()
 
 void InnuendoMainWidget::readConfig()
 {
-   mpSatellite->restart();
+   //! \todo replace or remove
+   //mpSatellite->restart();
 }
 
 
 void InnuendoMainWidget::handlePingButton()
 {
-   mpSatellite->send( "PNG" );
+   if( mpSatellite )
+   {
+      mpSatellite->send( "PNG" );
+   }
 }
 
 

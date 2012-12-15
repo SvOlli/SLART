@@ -20,7 +20,7 @@
 /* local library headers */
 
 /* local headers */
-#include "SatelliteServerRunner.hpp"
+#include "SatelliteServer.hpp"
 
 /* class variable instantiation */
 Satellite *Satellite::cpSatellite = 0;
@@ -138,7 +138,7 @@ void Satellite::restart()
    {
       if( mpServer )
       {
-         delete mpServer;
+         mpServer->deleteLater();
       }
 
       mpServerConnection->connectToHost( mHost, mPort );

@@ -164,10 +164,6 @@ void MagicEncoderProxy::satelliteSend( const QByteArray &data )
    {
       mpSatellite->send( data );
    }
-   else
-   {
-      Satellite::send1( data );
-   }
 }
 
 

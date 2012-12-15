@@ -27,7 +27,6 @@ class QSqlDatabase;
 class QSqlQuery;
 
 /* forward declaration of local classes */
-class Satellite;
 
 
 /*!
@@ -66,7 +65,7 @@ public:
     \brief 
 
    */
-   void registerUpdate( Satellite *satellite, const QByteArray &message );
+   void registerUpdate( QObject *satellite, const QByteArray &message );
    /*!
     \brief disable the next satellite notify
 
@@ -162,7 +161,7 @@ private:
 
    QSqlDatabase       *mpSqlDB;
    QSqlQuery          *mpQuery;
-   Satellite          *mpSatellite;
+   QObject            *mpSatellite;
    unsigned int       mDatabaseVersion;
    const unsigned int mCodeVersion;
    QByteArray         mUpdateMessage;

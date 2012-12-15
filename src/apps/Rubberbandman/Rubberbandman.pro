@@ -10,10 +10,10 @@ QT += sql network
 
 include( ../../buildconfig.pri )
 
-INCLUDEPATH += $${TOPSRC}/libs/Satellite
-LIBS += -lSatellite
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib
 LIBS += -lCommon -lTag
+INCLUDEPATH += $${TOPSRC}/libs/Satellite
+LIBS += -lSatellite
 QMAKE_CXXFLAGS_DEBUG += -DCOREDUMP_SIZE_MB=100
 
 # Input

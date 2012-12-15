@@ -204,7 +204,10 @@ void FileSysBrowser::menuSendToPartyman()
    {
       QString msg( mFileInfo.filePath() );
       msg.prepend( "P0Q\n" );
-      Satellite::get()->send( msg.toUtf8() );
+      if( Satellite::get() )
+      {
+         Satellite::get()->send( msg.toUtf8() );
+      }
    }
 }
 

@@ -7,6 +7,7 @@
 TARGET = TestAppSatellite
 TEMPLATE = app
 QT += network
+DEFINES += SATELLITE_DEBUG=1 SATELLITESERVER_DEBUG=1
 
 include( ../../buildconfig.pri )
 
@@ -27,3 +28,8 @@ SOURCES += MainWindow.cpp
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
 
+HEADERS += ../../libs/Satellite/Satellite.hpp
+SOURCES += ../../libs/Satellite/Satellite.cpp
+
+HEADERS += ../../libs/Satellite/SatelliteServer.hpp
+SOURCES += ../../libs/Satellite/SatelliteServer.cpp

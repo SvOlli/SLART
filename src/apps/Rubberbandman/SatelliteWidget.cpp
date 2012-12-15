@@ -35,12 +35,11 @@ SatelliteWidget::SatelliteWidget( QWidget *parent )
 , mpDatabase( DatabaseInterface::get() )
 , mpInfoEdit( new InfoEdit( this ) )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog ) )
+, mpGenericSatMsgHandler( 0 )
 , mpNowPlaying( new QPushButton( tr("NP: To Clipboard"), this ) )
 , mpShowInFilesystem( new QPushButton( tr("Show In Filesystem"), this ) )
 , mpGetRandom( new QPushButton( tr("Get Random Track"), this ) )
 {
-   mpDatabase->registerUpdate( mpSatellite, "r0u" );
    QBoxLayout *mainLayout;
    QBoxLayout *buttonLayout;
 
@@ -64,8 +63,6 @@ SatelliteWidget::SatelliteWidget( QWidget *parent )
    mainLayout->addWidget( mpInfoEdit );
    setLayout(mainLayout);
 
-   connect( mpSatellite, SIGNAL(received(QByteArray)),
-            this, SLOT(handleSatellite(QByteArray)) );
    connect( mpNowPlaying, SIGNAL(clicked()),
             this, SLOT(handleNowPlaying()) );
    connect( mpShowInFilesystem, SIGNAL(clicked()),
@@ -73,7 +70,14 @@ SatelliteWidget::SatelliteWidget( QWidget *parent )
    connect( mpGetRandom, SIGNAL(clicked()),
             this, SLOT(handleGetRandom()) );
 
-   mpSatellite->restart();
+   if( mpSatellite )
+   {
+      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog );
+      mpGenericSatMsgHandler->setConnectMsg( "P0R" );
+      connect( mpSatellite, SIGNAL(received(QByteArray)),
+               this, SLOT(handleSatellite(QByteArray)) );
+      mpDatabase->registerUpdate( mpSatellite, "r0u" );
+   }
 }
 
 
@@ -88,10 +92,6 @@ void SatelliteWidget::handleSatellite( const QByteArray &msg )
 
    if( message.size() > 0 )
    {
-      if( (message.at(0) == "CFG") )
-      {
-         mpSatellite->restart();
-      }
       if( (message.at(0) == "p0p") && (message.size() > 1) )
       {
          mpInfoEdit->load( message.at(1) );

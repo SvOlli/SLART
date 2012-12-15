@@ -13,6 +13,7 @@
 #include <QtGui>
 
 /* local library headers */
+#include <GenericSatMsgHandler.hpp>
 #include <MainWindowCheckClose.hpp>
 #include <Satellite.hpp>
 #include <Settings.hpp>
@@ -57,11 +58,12 @@ int main(int argc, char *argv[])
    translate.install( &app );
 
    QStringList args( QApplication::arguments() );
+   Satellite *s = GenericSatMsgHandler::createSatellite();
    if( args.size() > 1 )
    {
-      Satellite::create();
       args.takeFirst(); // first argument is program name
       CommandLineHandler commandLineHandler( args );
+      if( s ) s->start();
       retval = app.exec();
    }
    else
@@ -70,11 +72,11 @@ int main(int argc, char *argv[])
       {
          Settings::setApplicationStyleSheet( &app );
          SorcererLoader::detect();
-         Satellite::create();
 
          PartymanMainWindow window;
          window.show();
 
+         if( s ) s->start();
          retval = app.exec();
       }
    }

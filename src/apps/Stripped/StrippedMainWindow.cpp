@@ -35,7 +35,7 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
 , mForbidMove( 50 )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithoutPing ) )
+, mpGenericSatMsgHandler( 0 )
 , mpCDInfo( new CDInfo() )
 , mpCDDBClient( new CDDBClient( mpCDInfo, this ) )
 , mpCDEdit( new CDEdit( mpCDInfo, mpCDDBClient, this ) )
@@ -133,8 +133,6 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    /* buttons */
    connect( mpActionSettings, SIGNAL(triggered()),
             mpConfigDialog, SLOT(exec()) );
-   connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
-            mpConfigDialog, SLOT(readSettings()) );
 
    connect( mpActionCancel, SIGNAL(triggered()),
             mpCDReader, SLOT(cancel()) );
@@ -209,7 +207,13 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
    connect( mpCDReader, SIGNAL(errors(int,uint,const ulong*)),
             mpParanoiaStatus, SLOT(setTrackData(int,uint,const ulong*)) );
 
-   mpSatellite->restart();
+   if( mpSatellite )
+   {
+      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithoutPing );
+      connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
+               mpConfigDialog, SLOT(readSettings()) );
+   }
+
    WidgetShot::addWidget( "MainWindow", this );
 }
 

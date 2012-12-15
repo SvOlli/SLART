@@ -30,34 +30,15 @@ int main(int argc, char *argv[])
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("TestAppSatellite");
 
-   Satellite::create();
+   Satellite *s = Satellite::create( QHostAddress::LocalHost, 24224 );
 
    MainWindow window;
    window.show();
 
+   if( s ) s->start();
    retval = app.exec();
 
    Satellite::destroy();
 
    return retval;
-}
-
-
-bool Satellite::enabled()
-{
-   return true;
-}
-
-
-quint16 Satellite::port()
-{
-   QSettings settings( "SLART", "Global" );
-   return settings.value( "UseSatellite", false ).toBool();
-}
-
-
-QHostAddress Satellite::host()
-{
-   QSettings settings( "SLART", "Global" );
-   return QHostAddress( settings.value( "SatelliteHost", "127.0.0.1" ).toString() );
 }

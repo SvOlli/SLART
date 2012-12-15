@@ -318,7 +318,11 @@ void PartymanConfigDialog::writeSettings()
                                                      mpPlayFolder->currentText() :
                                                      QString() );
    mpGlobalSettings->writeSettings();
-   Satellite::get()->send( "p0c" );
+   if( Satellite::get() )
+   {
+      //! \todo check if useful
+      Satellite::get()->send( "p0c" );
+   }
 
    emit configChanged();
 }

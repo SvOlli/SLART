@@ -14,6 +14,7 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
+#include <GenericSatMsgHandler.hpp>
 #include <MainWindow.hpp>
 #include <Satellite.hpp>
 #include <Settings.hpp>
@@ -212,13 +213,14 @@ int main(int argc, char *argv[])
       {
          Settings::setApplicationStyleSheet( &app );
          SorcererLoader::detect();
-         Satellite::create();
+         Satellite *s = GenericSatMsgHandler::createSatellite();
 
          MainWindow window;
          KarmadromeMainWidget *mainWidget = new KarmadromeMainWidget( &window );
          window.setMainWidget( mainWidget );
          window.show();
 
+         if( s ) s->start();
          retval = app.exec();
 
          Satellite::destroy();
