@@ -26,11 +26,15 @@
 Satellite *Satellite::cpSatellite = 0;
 
 
-Satellite *Satellite::create()
+Satellite *Satellite::create(const QHostAddress &host, quint16 port)
 {
    if( !cpSatellite )
    {
-      cpSatellite = new Satellite();
+      cpSatellite = new Satellite( host, port );
+      // make sure that thread gets started once the main exec()-loop is entered
+      // but how? this doesn't work:
+      //QTimer::singleShot( 0, cpSatellite, SLOT(start()) );
+      //QMetaObject::invokeMethod( cpSatellite, "start", Qt::QueuedConnection );
    }
    return cpSatellite;
 }
@@ -46,18 +50,45 @@ void Satellite::destroy()
 {
    if( cpSatellite )
    {
+      cpSatellite->quit();
+      cpSatellite->wait();
       delete cpSatellite;
       cpSatellite = 0;
    }
 }
 
 
-Satellite::Satellite( QObject *parent )
-: QObject( parent )
-, mIsTestApp( false )
-, mpServerConnection( new QTcpSocket( this ) )
+Satellite::Satellite( const QHostAddress &host, quint16 port )
+: QThread( 0 )
+, mpServerConnection( 0 )
 , mpServer( 0 )
+, mHost( host )
+, mPort( port )
 {
+   setObjectName( "SatelliteThread" );
+   moveToThread( this );
+}
+
+
+Satellite::~Satellite()
+{
+}
+
+
+void Satellite::setHostPort( const QHostAddress &host, quint16 port )
+{
+   mHost = host;
+   mPort = port;
+   if( mpServerConnection->state() != QAbstractSocket::UnconnectedState )
+   {
+      restart();
+   }
+}
+
+
+void Satellite::run()
+{
+   mpServerConnection = new QTcpSocket( this );
    connect( mpServerConnection, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(connectFail(QAbstractSocket::SocketError)) );
    connect( mpServerConnection, SIGNAL(disconnected()),
@@ -68,21 +99,17 @@ Satellite::Satellite( QObject *parent )
    connect( mpServerConnection, SIGNAL(connected()),
             this, SLOT(connectSuccess()) );
 #endif
-}
-
-
-Satellite::~Satellite()
-{
+   connect( mpServerConnection, SIGNAL(connected()),
+            this, SIGNAL(connected()) );
+#if SATELLITE_DEBUG
+   emit debug( "c:entering event handler" );
+#endif
+   restart();
+   exec();
    if( mpServerConnection->state() != QTcpSocket::UnconnectedState )
    {
       mpServerConnection->waitForBytesWritten( 1000 );
    }
-}
-
-
-void Satellite::setTestApp( bool isTestApp )
-{
-   mIsTestApp = isTestApp;
 }
 
 
@@ -97,15 +124,11 @@ void Satellite::restart()
 #if SATELLITE_DEBUG
    emit debug( "c:connecting to server" );
 #endif
-   if( !mIsTestApp && !Satellite::enabled() )
-   {
-      return;
-   }
 
    if( mpServerConnection->state() != QAbstractSocket::UnconnectedState )
    {
-      if( (mpServerConnection->peerPort()    != port()) ||
-          (mpServerConnection->peerAddress() != host()) )
+      if( (mpServerConnection->peerPort()    != mPort) ||
+          (mpServerConnection->peerAddress() != mHost) )
       {
          mpServerConnection->disconnectFromHost();
       }
@@ -113,16 +136,13 @@ void Satellite::restart()
 
    if( mpServerConnection->state() == QAbstractSocket::UnconnectedState )
    {
-      mpServerConnection->connectToHost( host(), port() );
-      connect( mpServerConnection, SIGNAL(connected()),
-               this, SIGNAL(connected()) );
+      if( mpServer )
+      {
+         delete mpServer;
+      }
+
+      mpServerConnection->connectToHost( mHost, mPort );
    }
-}
-
-
-bool Satellite::waitForConnected( int msecs )
-{
-   return mpServerConnection->waitForConnected( msecs );
 }
 
 
@@ -169,21 +189,20 @@ void Satellite::connectFail( QAbstractSocket::SocketError socketError )
 
 void Satellite::runServer()
 {
-#if SATELLITE_DEBUG
-   emit debug( "c:starting server" );
-#endif
    if( mpServer == 0 )
    {
-      mpServer = new SatelliteServerRunner( host(), port() );
-      mpServer->start();
 #if SATELLITE_DEBUG
-      connect( mpServer, SIGNAL(finished()),
-               this, SLOT(serverShutdown()) );
+      emit debug( "c:starting server" );
+#endif
+      SatelliteServer *mpServer = new SatelliteServer( this );
 #if SATELLITESERVER_DEBUG
       connect( mpServer, SIGNAL(debug(QByteArray)),
                this,     SIGNAL(debug(QByteArray)) );
 #endif
-#endif
+      if( !mpServer->listen( mHost, mPort ) )
+      {
+         mpServer->deleteLater();
+      }
    }
 }
 
@@ -241,35 +260,6 @@ void Satellite::incomingData()
       {
          /* checksum mismatch, an error occurred, flush all buffers */
          mpServerConnection->readAll();
-      }
-   }
-}
-
-
-void Satellite::send1( const QByteArray &message )
-{
-   if( cpSatellite )
-   {
-      cpSatellite->send( message );
-   }
-   else
-   {
-      QTcpSocket socket;
-
-      socket.connectToHost( Satellite::host(), Satellite::port(), QIODevice::WriteOnly );
-      if( socket.waitForConnected( 1000 ) )
-      {
-         SATELLITE_PKGINFO_HEADER_TYPE   header( SATELLITE_PKGINFO_MAGIC_VALUE );
-         header <<= 32;
-         header |= message.size();
-         header = qToBigEndian( header );
-         SATELLITE_PKGINFO_CHECKSUM_TYPE checksum( qChecksum( message.constData(), message.size() ) );
-         checksum = qToBigEndian( checksum );
-         socket.write( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
-         socket.write( message );
-         socket.write( (char*)(&checksum), SATELLITE_PKGINFO_CHECKSUM_SIZE );
-         socket.flush();
-         socket.disconnectFromHost();
       }
    }
 }

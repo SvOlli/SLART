@@ -63,6 +63,27 @@ public:
    */
    virtual ~GenericSatMsgHandler();
 
+   /*!
+    \brief set message to send upon connection
+
+    \param msg
+   */
+   void setConnectMsg( const QByteArray &msg = QByteArray() );
+
+   /*!
+    \brief create a Satellite instance according to Settings
+
+    \return Satellite created Satellite instance
+   */
+   static Satellite *createSatellite();
+
+   /*!
+    \brief send a message via Satellite according to settings
+
+    \param message message to send
+   */
+   static void send( const QByteArray &message );
+
 public slots:
    /*!
     \brief handle the message
@@ -94,6 +115,12 @@ private slots:
    */
    void sendPing();
 
+   /*!
+    \brief handle connection (send out message stored via setConnectMsg())
+
+   */
+   void connected();
+
 private:
    Q_DISABLE_COPY( GenericSatMsgHandler )
 
@@ -101,6 +128,7 @@ private:
       show the error message and quit the program */
    void anotherInstanceMessage();
 
+   QByteArray  mConnectMsg;
    Satellite   *mpSatellite;
    bool        mWithQuitDialog;
 };

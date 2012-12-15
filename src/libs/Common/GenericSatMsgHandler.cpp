@@ -25,11 +25,14 @@
 
 /* local headers */
 #include "Satellite.hpp"
+#include "SatelliteSingleSend.hpp"
+#include "Settings.hpp"
 #include "WidgetShot.hpp"
 
 
 GenericSatMsgHandler::GenericSatMsgHandler( Satellite *satellite, StartupMode mode )
 : QObject( satellite )
+, mConnectMsg()
 , mpSatellite( satellite )
 , mWithQuitDialog( mode == WithPingAndDialog )
 {
@@ -37,6 +40,8 @@ GenericSatMsgHandler::GenericSatMsgHandler( Satellite *satellite, StartupMode mo
             this, SLOT(handle(QByteArray)) );
    connect( this, SIGNAL(reply(QByteArray)),
             mpSatellite, SLOT(send(QByteArray)) );
+   connect( mpSatellite, SIGNAL(connected()),
+            this, SLOT(connected()) );
    if( mode != WithoutPing )
    {
       connect( mpSatellite, SIGNAL(connected()),
@@ -50,11 +55,44 @@ GenericSatMsgHandler::~GenericSatMsgHandler()
 }
 
 
+void GenericSatMsgHandler::setConnectMsg( const QByteArray &msg )
+{
+   mConnectMsg = msg;
+}
+
+
+Satellite *GenericSatMsgHandler::createSatellite()
+{
+   if( Settings::value( Settings::CommonUseSatellite ) )
+   {
+      return Satellite::create( QHostAddress( Settings::value( Settings::GlobalSatelliteHost ) ),
+                                Settings::value( Settings::GlobalSatellitePort ) );
+   }
+   return 0;
+}
+
+
+void GenericSatMsgHandler::send(const QByteArray &message)
+{
+   SatelliteSingleSend::send( QHostAddress( Settings::value( Settings::GlobalSatelliteHost ) ),
+                              Settings::value( Settings::GlobalSatellitePort ), message );
+}
+
+
 void GenericSatMsgHandler::sendPing()
 {
    disconnect( mpSatellite, SIGNAL(connected()),
                this, SLOT(sendPing()) );
    emit reply( QByteArray("PNG\n") + QApplication::applicationName().toUtf8() );
+}
+
+
+void GenericSatMsgHandler::connected()
+{
+   if( !mConnectMsg.isNull() )
+   {
+      mpSatellite->send( mConnectMsg );
+   }
 }
 
 
@@ -66,7 +104,6 @@ void GenericSatMsgHandler::handle( const QByteArray &msg )
    {
       if( src.at(0) == "CFG" )
       {
-         mpSatellite->restart();
          emit updateConfig();
          return;
       }

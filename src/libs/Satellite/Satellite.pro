@@ -11,14 +11,11 @@ QT += network
 
 include( ../../buildconfig.pri )
 
-#TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}.ts
-#TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
-
 HEADERS += Satellite.hpp
 SOURCES += Satellite.cpp
 
 HEADERS += SatelliteServer.hpp
 SOURCES += SatelliteServer.cpp
 
-HEADERS += SatelliteServerRunner.hpp
-SOURCES += SatelliteServerRunner.cpp
+HEADERS += SatelliteSingleSend.hpp
+SOURCES += SatelliteSingleSend.cpp

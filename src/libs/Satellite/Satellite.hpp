@@ -9,16 +9,19 @@
 #ifndef SATELLITE_HPP
 #define SATELLITE_HPP SATELLITE_HPP
 
+#ifndef SATELLITE_DEBUG
 #define SATELLITE_DEBUG 0
+#endif
 
 /* base class */
-#include <QObject>
+#include <QThread>
 
 /* system headers */
 
 /* Qt headers */
+#include <QHostAddress>
 #include <QPointer>
-#include <QString>
+#include <QStringList>
 #include <QtEndian>
 #include <QtNetwork/QAbstractSocket>
 
@@ -27,15 +30,11 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
-class QHostAddress;
-class QListWidget;
-class QLineEdit;
 class QSignalMapper;
 class QTcpSocket;
 
 /* forward declaration of local classes */
 class SatelliteServer;
-class SatelliteServerRunner;
 
 
 /*!
@@ -48,9 +47,9 @@ class SatelliteServerRunner;
 /*!
  \brief central interface for Satellite interprocess communication
 
- \dotfile "graphs/libs/Common/Satellite_connect.dot" "Connect Graph"
+ \dotfile "graphs/libs/Satellite/Satellite_connect.dot" "Connect Graph"
 */
-class Satellite : public QObject
+class Satellite : public QThread
 {
    Q_OBJECT
 
@@ -59,7 +58,7 @@ public:
     \brief create the central Satellite instance available via get()
 
    */
-   static Satellite* create();
+   static Satellite* create( const QHostAddress &host, quint16 port );
 
    /*!
     \brief destroy the central Satellite
@@ -72,6 +71,14 @@ public:
 
    */
    static Satellite* get();
+
+   /*!
+    \brief set the host and port parameters for the network connection
+
+    \param host server host
+    \param port server port
+   */
+   void setHostPort( const QHostAddress &host, quint16 port );
 
    /*!
     \brief test applications can access Satellite without enableing in settings
@@ -87,14 +94,9 @@ public:
    bool isRunningServer();
 
    /*!
-    \brief wait for a connection, so application can write to satellite right away
-
-    \param msecs maximum time to wait
-      */
-   bool waitForConnected( int msecs = 30000 );
-
-   /*!
     \brief send message without running a server
+
+    (implemented in SatelliteSingleSend.cpp for linker optimizations)
 
     \param message
    */
@@ -108,12 +110,6 @@ public:
    static QStringList split( const QByteArray &message );
 
 public slots:
-   /*!
-    \brief start the client and connect to server
-
-   */
-   void restart();
-
    /*!
     \brief send the message to all other clients
 
@@ -189,7 +185,7 @@ private:
 
     \param parent parent object
    */
-   Satellite( QObject *parent = 0 );
+   Satellite( const QHostAddress &host, quint16 port );
 
    /*!
     \brief destructor
@@ -198,9 +194,24 @@ private:
    virtual ~Satellite();
 
    /*!
+    \brief start the client and connect to server
+
+   */
+   void restart();
+
+   /*!
+    \brief main loop
+
+   */
+   void run();
+
+#if 0
+   /*!
     \brief hook for configuration
 
     implemented in SatelliteConfig.cpp, which is linked in libCommon.a
+    reimplement as followed in test applications:
+    \code bool Satellite::enabled() { return true; } \endcode
    */
    static bool enabled();
 
@@ -217,14 +228,16 @@ private:
     implemented in SatelliteConfig.cpp, which is linked in libCommon.a
    */
    static QHostAddress host();
+#endif
 
    Q_DISABLE_COPY( Satellite )
 
-   bool                             mIsTestApp; /*!< \brief a test app always uses Satellite */
-   QTcpSocket                       *mpServerConnection; /*!< \brief tcp socket to server */
-   QPointer<SatelliteServerRunner>  mpServer; /*!< \brief hold server thread, if needed */
+   QTcpSocket                 *mpServerConnection; /*!< \brief tcp socket to server */
+   QPointer<SatelliteServer>  mpServer; /*!< \brief hold server thread, if needed */
+   QHostAddress               mHost; /*!< \brief server host */
+   quint16                    mPort; /*!< \brief server port */
 
-   static Satellite                 *cpSatellite; /*!< \brief pointer of global Satellite */
+   static Satellite           *cpSatellite; /*!< \brief pointer of global Satellite */
 };
 
 #ifdef SATELLITE_PKG_HEADER

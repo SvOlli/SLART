@@ -49,7 +49,7 @@ bool SatelliteServer::listen( const QHostAddress &host, quint16 port )
 {
 #if SATELLITESERVER_DEBUG
    emit debug( "s:trying to run server on " +
-               mHost.toString().toAscii() + ":" + QByteArray::number(Satellite::port()) );
+               host.toString().toAscii() + ":" + QByteArray::number(port) );
    bool success = mpTcpServer->listen( host, port );
 
    if( success )

@@ -9,7 +9,9 @@
 #ifndef SATELLITESERVER_HPP
 #define SATELLITESERVER_HPP SATELLITESERVER_HPP
 
+#ifndef SATELLITESERVER_DEBUG
 #define SATELLITESERVER_DEBUG 0
+#endif
 
 /* base class */
 #include <QObject>
@@ -41,7 +43,7 @@ class QTcpSocket;
 /*!
  \brief the server handling the Satellite comminication
 
- \dotfile "graphs/libs/Common/SatelliteServer_connect.dot" "Connect Graph"
+ \dotfile "graphs/libs/Satellite/SatelliteServer_connect.dot" "Connect Graph"
 */
 class SatelliteServer : public QObject
 {

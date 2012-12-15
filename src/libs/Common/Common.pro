@@ -90,9 +90,6 @@ SOURCES += PasswordChecker.cpp
 HEADERS += ScgiRequest.hpp
 SOURCES += ScgiRequest.cpp
 
-# only dependency of Satellite to Common
-SOURCES += SatelliteConfig.cpp
-
 HEADERS += ScrollLine.hpp
 SOURCES += ScrollLine.cpp
 
