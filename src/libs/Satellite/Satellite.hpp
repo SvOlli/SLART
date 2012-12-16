@@ -19,11 +19,11 @@
 /* system headers */
 
 /* Qt headers */
-#include <QHostAddress>
 #include <QPointer>
 #include <QStringList>
 #include <QtEndian>
 #include <QtNetwork/QAbstractSocket>
+#include <QtNetwork/QHostAddress>
 
 /* local library headers */
 

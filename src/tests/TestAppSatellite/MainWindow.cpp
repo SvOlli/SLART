@@ -12,7 +12,7 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QCoreApplication>
 
 /* local library headers */
 
@@ -25,5 +25,5 @@ MainWindow::MainWindow( QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
 {
    setCentralWidget( new MainWidget( this ) );
-   setWindowTitle( QApplication::applicationName() );
+   setWindowTitle( QCoreApplication::applicationName() );
 }

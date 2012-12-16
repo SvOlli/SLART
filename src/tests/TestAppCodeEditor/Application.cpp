@@ -13,7 +13,6 @@
 
 /* local library headers */
 #include <MainWindow.hpp>
-#include <Satellite.hpp>
 
 /* local headers */
 #include "MainWidget.hpp"

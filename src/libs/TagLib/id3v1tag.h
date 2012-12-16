@@ -60,7 +60,7 @@ namespace TagLib {
     class TAGLIB_EXPORT StringHandler
     {
     public:
-      // BIC: Add virtual destructor.
+      virtual ~StringHandler() {}
 
       /*!
        * Decode a string from \a data.  The default implementation assumes that
