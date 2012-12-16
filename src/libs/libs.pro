@@ -13,5 +13,5 @@ SUBDIRS += Satellite
 SUBDIRS += TagLib
 
 Magic.depends = Common TagLib
-Sorcerer.depends = Common TagLib Satellite
+Common.depends = Satellite
 
