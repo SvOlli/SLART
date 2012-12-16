@@ -88,43 +88,43 @@
 <context>
     <name>DropDialog</name>
     <message>
-        <location filename="../apps/Innuendo/DropDialog.cpp" line="29"/>
+        <location filename="../apps/Innuendo/DropDialog.cpp" line="28"/>
         <source>Get Clipboard</source>
         <translation>Von der Zwischenablage</translation>
     </message>
     <message>
-        <location filename="../apps/Innuendo/DropDialog.cpp" line="30"/>
+        <location filename="../apps/Innuendo/DropDialog.cpp" line="29"/>
         <source>Color</source>
         <translation>Farbe</translation>
     </message>
     <message>
-        <location filename="../apps/Innuendo/DropDialog.cpp" line="32"/>
+        <location filename="../apps/Innuendo/DropDialog.cpp" line="31"/>
         <source>Text</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Innuendo/DropDialog.cpp" line="31"/>
+        <location filename="../apps/Innuendo/DropDialog.cpp" line="30"/>
         <source>HTML</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Innuendo/DropDialog.cpp" line="33"/>
+        <location filename="../apps/Innuendo/DropDialog.cpp" line="32"/>
         <source>URLs</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Innuendo/DropDialog.cpp" line="38"/>
+        <location filename="../apps/Innuendo/DropDialog.cpp" line="37"/>
         <source>Drop Info</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Innuendo/DropDialog.cpp" line="39"/>
+        <location filename="../apps/Innuendo/DropDialog.cpp" line="38"/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Innuendo/DropDialog.cpp" line="53"/>
-        <location filename="../apps/Innuendo/DropDialog.cpp" line="110"/>
+        <location filename="../apps/Innuendo/DropDialog.cpp" line="52"/>
+        <location filename="../apps/Innuendo/DropDialog.cpp" line="109"/>
         <source>URLs List</source>
         <translation>URL Liste</translation>
     </message>
@@ -148,16 +148,27 @@
     </message>
 </context>
 <context>
-    <name>MainWidget</name>
+    <name>InnuendoMainWidget</name>
     <message>
-        <location filename="../apps/Innuendo/MainWidget.cpp" line="36"/>
+        <location filename="../apps/Innuendo/InnuendoMainWidget.cpp" line="36"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../apps/Innuendo/MainWidget.cpp" line="37"/>
+        <location filename="../apps/Innuendo/InnuendoMainWidget.cpp" line="37"/>
         <source>Ping</source>
         <translation>Ping</translation>
+    </message>
+</context>
+<context>
+    <name>MainWidget</name>
+    <message>
+        <source>Settings</source>
+        <translation type="obsolete">Einstellungen</translation>
+    </message>
+    <message>
+        <source>Ping</source>
+        <translation type="obsolete">Ping</translation>
     </message>
 </context>
 <context>

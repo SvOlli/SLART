@@ -38,6 +38,8 @@ int main(int argc, char *argv[])
 
    Translate translate;
    translate.install( &app );
+   translate.load( &app, "Innuendo" );
+   translate.load( &app, "Rubberbandman" );
    Settings::setApplicationStyleSheet( &app );
    Satellite *s = GenericSatMsgHandler::createSatellite();
    DatabaseInterface::create();

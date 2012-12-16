@@ -16,6 +16,7 @@
 #include <QDir>
 #include <QLibraryInfo>
 #include <QLocale>
+#include <QTranslator>
 
 /* local library headers */
 
@@ -25,18 +26,17 @@
 
 
 Translate::Translate()
-: mpQtTranslator( new QTranslator() )
-, mpLibTranslator( new QTranslator() )
-, mpAppTranslator( new QTranslator() )
+: mTranslators()
 {
 }
 
 
 Translate::~Translate()
 {
-   delete mpQtTranslator;
-   delete mpLibTranslator;
-   delete mpAppTranslator;
+   foreach( QTranslator *translator, mTranslators )
+   {
+      delete translator;
+   }
 }
 
 
@@ -46,18 +46,30 @@ void Translate::install( QCoreApplication *app )
    {
       app = qApp;
    }
-   /* adopted from the Qt help */
-   mpQtTranslator->load( "qt_" + QLocale::system().name(),
-                         QLibraryInfo::location( QLibraryInfo::TranslationsPath ) );
-   app->installTranslator( mpQtTranslator );
 
-   mpLibTranslator->load( "Common_" + QLocale::system().name(),
-                          location( app ) );
-   app->installTranslator( mpLibTranslator );
+   load( app, "qt" );
+   load( app, "Common" );
+   load( app, app->applicationName() );
+}
 
-   mpAppTranslator->load( app->applicationName() + "_" + QLocale::system().name(),
-                          location( app ) );
-   app->installTranslator( mpAppTranslator );
+
+void Translate::load( QCoreApplication *app, const QString &catalog )
+{
+   QTranslator *translator = new QTranslator();
+
+   QString filename = QString( "%1_%2" ).arg( catalog, QLocale::system().name() );
+   if( !translator->load( filename, location( app ) ) )
+   {
+      if( !translator->load( filename, QLibraryInfo::location( QLibraryInfo::TranslationsPath ) ) )
+      {
+         delete translator;
+         translator = 0;
+      }
+   }
+   if( translator )
+   {
+      app->installTranslator( translator );
+   }
 }
 
 

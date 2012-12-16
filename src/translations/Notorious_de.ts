@@ -64,32 +64,32 @@
 <context>
     <name>Foundlist</name>
     <message>
-        <location filename="../apps/Notorious/Foundlist.cpp" line="108"/>
+        <location filename="../apps/Notorious/Foundlist.cpp" line="109"/>
         <source>Category</source>
         <translation>Kategorie</translation>
     </message>
     <message>
-        <location filename="../apps/Notorious/Foundlist.cpp" line="109"/>
+        <location filename="../apps/Notorious/Foundlist.cpp" line="110"/>
         <source>ID</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Notorious/Foundlist.cpp" line="110"/>
+        <location filename="../apps/Notorious/Foundlist.cpp" line="111"/>
         <source>Track</source>
         <translation>Nummer</translation>
     </message>
     <message>
-        <location filename="../apps/Notorious/Foundlist.cpp" line="111"/>
+        <location filename="../apps/Notorious/Foundlist.cpp" line="112"/>
         <source>Title</source>
         <translation>Titel</translation>
     </message>
     <message>
-        <location filename="../apps/Notorious/Foundlist.cpp" line="112"/>
+        <location filename="../apps/Notorious/Foundlist.cpp" line="113"/>
         <source>Playtime</source>
         <translation>Spielzeit</translation>
     </message>
     <message>
-        <location filename="../apps/Notorious/Foundlist.cpp" line="114"/>
+        <location filename="../apps/Notorious/Foundlist.cpp" line="115"/>
         <source>Ext</source>
         <translation>Ext</translation>
     </message>
@@ -107,7 +107,14 @@
 <context>
     <name>MainWidget</name>
     <message>
-        <location filename="../apps/Notorious/MainWidget.cpp" line="34"/>
+        <source>Settings / Import / Log</source>
+        <translation type="obsolete">Einstellungen / Import / Log</translation>
+    </message>
+</context>
+<context>
+    <name>NotoriousMainWidget</name>
+    <message>
+        <location filename="../apps/Notorious/NotoriousMainWidget.cpp" line="34"/>
         <source>Settings / Import / Log</source>
         <translation>Einstellungen / Import / Log</translation>
     </message>

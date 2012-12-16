@@ -13,7 +13,7 @@
 <context>
     <name>MagicEncoderWavConfig</name>
     <message>
-        <location filename="../libs/Magic/MagicEncoderWav/MagicEncoderWavConfig.cpp" line="33"/>
+        <location filename="../libs/Magic/MagicEncoderWav/MagicEncoderWavConfig.cpp" line="35"/>
         <source>Base Directory:</source>
         <translation>Basisverzeichnis:</translation>
     </message>

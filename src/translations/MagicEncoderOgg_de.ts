@@ -13,17 +13,17 @@
 <context>
     <name>MagicEncoderOggConfig</name>
     <message>
-        <location filename="../libs/Magic/MagicEncoderOgg/MagicEncoderOggConfig.cpp" line="35"/>
+        <location filename="../libs/Magic/MagicEncoderOgg/MagicEncoderOggConfig.cpp" line="37"/>
         <source>0 = low &amp; short, 1 = high &amp; long</source>
         <translation>0 = gut &amp; lang, 1 = schlecht &amp; kurz</translation>
     </message>
     <message>
-        <location filename="../libs/Magic/MagicEncoderOgg/MagicEncoderOggConfig.cpp" line="43"/>
+        <location filename="../libs/Magic/MagicEncoderOgg/MagicEncoderOggConfig.cpp" line="45"/>
         <source>Base Directory:</source>
         <translation>Basisverzeichnis:</translation>
     </message>
     <message>
-        <location filename="../libs/Magic/MagicEncoderOgg/MagicEncoderOggConfig.cpp" line="46"/>
+        <location filename="../libs/Magic/MagicEncoderOgg/MagicEncoderOggConfig.cpp" line="48"/>
         <source>Quality:</source>
         <translation>Qualität:</translation>
     </message>
