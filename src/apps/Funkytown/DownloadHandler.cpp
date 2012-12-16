@@ -12,8 +12,11 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
-#include <QtNetwork>
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QProgressBar>
+#include <QTimer>
+#include <QVBoxLayout>
 
 /* local library headers */
 #include <MySettings.hpp>

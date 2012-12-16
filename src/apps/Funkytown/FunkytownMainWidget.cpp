@@ -12,16 +12,21 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
-#include <QtNetwork>
+#include <QDragEnterEvent>
+#include <QDir>
+#include <QFileDialog>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
 
 /* local library headers */
-#include <DownloadHandler.hpp>
 #include <MySettings.hpp>
 #include <WidgetShot.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
+#include "DownloadHandler.hpp"
 #include "MainWindow.hpp"
 
 

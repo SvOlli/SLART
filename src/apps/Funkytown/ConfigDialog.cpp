@@ -12,7 +12,15 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QHBoxLayout>
+#include <QListWidget>
+#include <QLabel>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QTextBrowser>
 
 /* local library headers */
 #include <AboutWidget.hpp>
