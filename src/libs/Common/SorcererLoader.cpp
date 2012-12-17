@@ -65,8 +65,8 @@ void SorcererLoader::detect()
    {
       if( Settings::cleanup() )
       {
-         QMessageBox::critical( 0, QApplication::applicationName(),
-                                QObject::tr("Cleaned up unused setting entries.") );
+         QMessageBox::information( 0, QApplication::applicationName(),
+                                   QObject::tr("Cleaned up unused setting entries.") );
       }
    }
 }
