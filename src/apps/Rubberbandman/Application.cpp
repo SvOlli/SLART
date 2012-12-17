@@ -140,6 +140,7 @@ int main(int argc, char *argv[])
    {
       if( useGUI )
       {
+         Q_INIT_RESOURCE( Common );
          SorcererLoader::detect();
 
          Satellite *s = GenericSatMsgHandler::createSatellite();

@@ -19,7 +19,6 @@ QT += network
 QMAKE_CXXFLAGS_DEBUG += -DCOREDUMP_SIZE_MB=100
 
 # Input
-RESOURCES = $${TOPSRC}/libs/Common/Resources/Common.qrc
 RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
 
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts

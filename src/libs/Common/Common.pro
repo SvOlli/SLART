@@ -16,6 +16,8 @@ INCLUDEPATH += $${TOPSRC}/libs/Satellite
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}.ts
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
+RESOURCES = Resources/Common.qrc
+
 HEADERS += AboutWidget.hpp
 SOURCES += AboutWidget.cpp
 
