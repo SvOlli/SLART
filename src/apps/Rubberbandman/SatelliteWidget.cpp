@@ -17,7 +17,7 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
-#include <GenericSatMsgHandler.hpp>
+#include <GenericSatelliteHandler.hpp>
 #include <GlobalConfigWidget.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
@@ -35,7 +35,7 @@ SatelliteWidget::SatelliteWidget( QWidget *parent )
 , mpDatabase( DatabaseInterface::get() )
 , mpInfoEdit( new InfoEdit( this ) )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( 0 )
+, mpGenericSatelliteHandler( 0 )
 , mpNowPlaying( new QPushButton( tr("NP: To Clipboard"), this ) )
 , mpShowInFilesystem( new QPushButton( tr("Show In Filesystem"), this ) )
 , mpGetRandom( new QPushButton( tr("Get Random Track"), this ) )
@@ -72,8 +72,8 @@ SatelliteWidget::SatelliteWidget( QWidget *parent )
 
    if( mpSatellite )
    {
-      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog );
-      mpGenericSatMsgHandler->setConnectMsg( "P0R" );
+      mpGenericSatelliteHandler = new GenericSatelliteHandler( mpSatellite, GenericSatelliteHandler::WithPingAndDialog, this );
+      mpGenericSatelliteHandler->setConnectMsg( "P0R" );
       connect( mpSatellite, SIGNAL(received(QByteArray)),
                this, SLOT(handleSatellite(QByteArray)) );
       mpDatabase->registerUpdate( mpSatellite, "r0u" );

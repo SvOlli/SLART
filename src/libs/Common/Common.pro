@@ -47,8 +47,8 @@ SOURCES += DirWalkerCallbackProxy.cpp
 HEADERS += DnDFileInfo.hpp
 SOURCES += DnDFileInfo.cpp
 
-HEADERS += GenericSatMsgHandler.hpp
-SOURCES += GenericSatMsgHandler.cpp
+HEADERS += GenericSatelliteHandler.hpp
+SOURCES += GenericSatelliteHandler.cpp
 
 HEADERS += GlobalConfigWidget.hpp
 SOURCES += GlobalConfigWidget.cpp
@@ -122,6 +122,9 @@ SOURCES += SyntaxHighlightingRuleComment.cpp
 
 HEADERS += TagMap.hpp
 SOURCES += TagMap.cpp
+
+HEADERS += ThreadAutoStart.hpp
+SOURCES += ThreadAutoStart.cpp
 
 HEADERS += Trace.hpp
 SOURCES += Trace.cpp

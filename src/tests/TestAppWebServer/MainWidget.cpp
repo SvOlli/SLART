@@ -19,7 +19,7 @@
 
 /* local library headers */
 #include <Database.hpp>
-#include <GenericSatMsgHandler.hpp>
+#include <GenericSatelliteHandler.hpp>
 #include <Satellite.hpp>
 #include <WebServer.hpp>
 #include <MySettings.hpp>
@@ -59,7 +59,7 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    if( mpSatellite )
    {
-      GenericSatMsgHandler *genericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithoutPing );
+      GenericSatelliteHandler *genericSatMsgHandler = new GenericSatelliteHandler( mpSatellite, GenericSatelliteHandler::WithoutPing, this );
       genericSatMsgHandler->setConnectMsg( "P0R" );
    }
 }

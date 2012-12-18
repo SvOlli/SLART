@@ -1,5 +1,5 @@
 /*
- * src/libs/Common/GenericSatMsgHandler.cpp
+ * src/libs/Common/GenericSatelliteHandler.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
@@ -8,7 +8,7 @@
 
 
 /* class declaration */
-#include "GenericSatMsgHandler.hpp"
+#include "GenericSatelliteHandler.hpp"
 
 /* system headers */
 
@@ -27,11 +27,13 @@
 #include "Satellite.hpp"
 #include "SatelliteSingleSend.hpp"
 #include "Settings.hpp"
+#include "ThreadAutoStart.hpp"
 #include "WidgetShot.hpp"
 
 
-GenericSatMsgHandler::GenericSatMsgHandler( Satellite *satellite, StartupMode mode )
-: QObject( satellite )
+GenericSatelliteHandler::GenericSatelliteHandler( Satellite *satellite, StartupMode mode,
+                                                  QObject *parent )
+: QObject( parent )
 , mConnectMsg()
 , mpSatellite( satellite )
 , mWithQuitDialog( mode == WithPingAndDialog )
@@ -50,36 +52,35 @@ GenericSatMsgHandler::GenericSatMsgHandler( Satellite *satellite, StartupMode mo
 }
 
 
-GenericSatMsgHandler::~GenericSatMsgHandler()
+GenericSatelliteHandler::~GenericSatelliteHandler()
 {
 }
 
 
-void GenericSatMsgHandler::setConnectMsg( const QByteArray &msg )
+void GenericSatelliteHandler::setConnectMsg( const QByteArray &msg )
 {
    mConnectMsg = msg;
 }
 
 
-Satellite *GenericSatMsgHandler::createSatellite()
+void GenericSatelliteHandler::createSatellite()
 {
    if( Settings::value( Settings::CommonUseSatellite ) )
    {
-      return Satellite::create( QHostAddress( Settings::value( Settings::GlobalSatelliteHost ) ),
-                                Settings::value( Settings::GlobalSatellitePort ) );
+      new ThreadAutoStart( Satellite::create( QHostAddress( Settings::value( Settings::GlobalSatelliteHost ) ),
+                                              Settings::value( Settings::GlobalSatellitePort ) ) );
    }
-   return 0;
 }
 
 
-void GenericSatMsgHandler::send(const QByteArray &message)
+void GenericSatelliteHandler::send(const QByteArray &message)
 {
    SatelliteSingleSend::send( QHostAddress( Settings::value( Settings::GlobalSatelliteHost ) ),
                               Settings::value( Settings::GlobalSatellitePort ), message );
 }
 
 
-void GenericSatMsgHandler::sendPing()
+void GenericSatelliteHandler::sendPing()
 {
    disconnect( mpSatellite, SIGNAL(connected()),
                this, SLOT(sendPing()) );
@@ -87,7 +88,7 @@ void GenericSatMsgHandler::sendPing()
 }
 
 
-void GenericSatMsgHandler::connected()
+void GenericSatelliteHandler::connected()
 {
    if( !mConnectMsg.isNull() )
    {
@@ -96,7 +97,7 @@ void GenericSatMsgHandler::connected()
 }
 
 
-void GenericSatMsgHandler::handle( const QByteArray &msg )
+void GenericSatelliteHandler::handle( const QByteArray &msg )
 {
    QStringList src( Satellite::split( msg ) );
 
@@ -161,7 +162,7 @@ void GenericSatMsgHandler::handle( const QByteArray &msg )
 }
 
 
-void GenericSatMsgHandler::anotherInstanceMessage()
+void GenericSatelliteHandler::anotherInstanceMessage()
 {
    mWithQuitDialog = false;
    QMainWindow *mainWindow = 0;

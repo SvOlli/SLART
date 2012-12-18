@@ -15,7 +15,7 @@
 #include <QtGui>
 
 /* local library headers */
-#include <GenericSatMsgHandler.hpp>
+#include <GenericSatelliteHandler.hpp>
 #include <GlobalConfigWidget.hpp>
 #include <Satellite.hpp>
 #include <Settings.hpp>
@@ -32,7 +32,7 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
 , mpConfig( config )
 , mpPlaylist( parent )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( 0 )
+, mpGenericSatelliteHandler( 0 )
 , mPartymanIcon( QIcon(":/PartymanSmile.png") )
 , mStopIcon( QCommonStyle().standardIcon(QStyle::SP_MediaStop) /*QIcon(":/Stop.png")*/ )
 , mPlayIcon( QCommonStyle().standardIcon(QStyle::SP_MediaPlay) /*QIcon(":/Play.png")*/ )
@@ -120,9 +120,9 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
             this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
-   connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
+   connect( mpGenericSatelliteHandler, SIGNAL(updateConfig()),
             mpConfig, SLOT(readSettings()) );
-   connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
+   connect( mpGenericSatelliteHandler, SIGNAL(anotherInstance()),
             this, SLOT(initDisconnect()) );
    connect( mpPlayer[0], SIGNAL(trackPlaying(TrackInfo)),
             this, SLOT(handleTrackPlaying(TrackInfo)) );
@@ -142,7 +142,7 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
 
    if( mpSatellite )
    {
-      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog );
+      mpGenericSatelliteHandler = new GenericSatelliteHandler( mpSatellite, GenericSatelliteHandler::WithPingAndDialog, this );
       connect( mpSatellite, SIGNAL(received(QByteArray)),
                this, SLOT(handleSatellite(QByteArray)) );
    }

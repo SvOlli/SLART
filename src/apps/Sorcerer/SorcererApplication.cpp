@@ -13,7 +13,7 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
-#include <GenericSatMsgHandler.hpp>
+#include <GenericSatelliteHandler.hpp>
 #include <MainWindow.hpp>
 #include <Satellite.hpp>
 #include <Settings.hpp>
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
    translate.load( &app, "Innuendo" );
    translate.load( &app, "Rubberbandman" );
    Settings::setApplicationStyleSheet( &app );
-   Satellite *s = GenericSatMsgHandler::createSatellite();
+   GenericSatelliteHandler::createSatellite();
    DatabaseInterface::create();
 
    MainWindow window;
@@ -50,7 +50,6 @@ int main(int argc, char *argv[])
    window.setMainWidget( mainWidget );
    window.show();
 
-   if( s ) s->start();
    retval = app.exec();
 
    DatabaseInterface::destroy();

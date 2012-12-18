@@ -37,7 +37,7 @@ class QToolButton;
 /* forward declaration of local classes */
 class PartymanConfigDialog;
 class Database;
-class GenericSatMsgHandler;
+class GenericSatelliteHandler;
 class PartymanMainWindow;
 class Satellite;
 class TrackInfo;
@@ -226,7 +226,7 @@ private:
    PartymanConfigDialog    *mpConfig;
    PartymanMainWindow      *mpPlaylist;
    Satellite               *mpSatellite;
-   GenericSatMsgHandler    *mpGenericSatMsgHandler;
+   GenericSatelliteHandler *mpGenericSatelliteHandler;
    PlayerWidget            *mpPlayer[2];
    QIcon                   mPartymanIcon;
    QIcon                   mStopIcon;

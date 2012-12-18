@@ -15,7 +15,7 @@
 #include <QtGui>
 
 /* local library headers */
-#include <GenericSatMsgHandler.hpp>
+#include <GenericSatelliteHandler.hpp>
 #include <GlobalConfigWidget.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
@@ -31,7 +31,7 @@
 InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( 0 )
+, mpGenericSatelliteHandler( 0 )
 , mpMessageBuffer( new LogListWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpPingButton( new QPushButton( tr("Ping"), this ) )
@@ -98,10 +98,10 @@ InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
 
    if( mpSatellite )
    {
-      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog );
-      connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
+      mpGenericSatelliteHandler = new GenericSatelliteHandler( mpSatellite, GenericSatelliteHandler::WithPingAndDialog, this );
+      connect( mpGenericSatelliteHandler, SIGNAL(updateConfig()),
                mpConfig, SLOT(readSettings()) );
-      connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
+      connect( mpGenericSatelliteHandler, SIGNAL(anotherInstance()),
                this, SLOT(noAutostart()) );
       connect( mpSatellite, SIGNAL(received(QByteArray)),
                this, SLOT(handleSatellite(QByteArray)) );

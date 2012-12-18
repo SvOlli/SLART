@@ -15,7 +15,7 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
-#include <GenericSatMsgHandler.hpp>
+#include <GenericSatelliteHandler.hpp>
 #include <MainWindow.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
          Q_INIT_RESOURCE( Common );
          SorcererLoader::detect();
 
-         Satellite *s = GenericSatMsgHandler::createSatellite();
+         GenericSatelliteHandler::createSatellite();
          {
             QFile qssFile( MySettings().styleSheetFile() );
             if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
@@ -158,7 +158,6 @@ int main(int argc, char *argv[])
          window.setMainWidget( mainWidget );
          window.show();
 
-         if( s ) s->start();
          retval = app.exec();
 
          Satellite::destroy();

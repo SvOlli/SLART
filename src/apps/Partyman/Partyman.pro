@@ -17,6 +17,7 @@ LIBS += -lSatellite
 QMAKE_CXXFLAGS_DEBUG += -DCOREDUMP_SIZE_MB=100
 
 # Input
+RESOURCES = Resources/Partyman.qrc
 RC_FILE = Resources/WinIcon.rc
 
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts

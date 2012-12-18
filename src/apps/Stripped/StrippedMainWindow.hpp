@@ -33,7 +33,7 @@ class CDDBClient;
 class CDEdit;
 class CDReader;
 class StrippedConfigDialog;
-class GenericSatMsgHandler;
+class GenericSatelliteHandler;
 class ParanoiaStatus;
 class Satellite;
 
@@ -153,15 +153,15 @@ private:
 
    int         mForbidMove;
 
-   Satellite            *mpSatellite;
-   GenericSatMsgHandler *mpGenericSatMsgHandler;
-   CDInfo               *mpCDInfo;
-   CDDBClient           *mpCDDBClient;
-   CDEdit               *mpCDEdit;
-   CDReader             *mpCDReader;
-   ParanoiaStatus       *mpParanoiaStatus;
-   QLabel               *mpMessage;
-   StrippedConfigDialog *mpConfigDialog;
+   Satellite               *mpSatellite;
+   GenericSatelliteHandler *mpGenericSatelliteHandler;
+   CDInfo                  *mpCDInfo;
+   CDDBClient              *mpCDDBClient;
+   CDEdit                  *mpCDEdit;
+   CDReader                *mpCDReader;
+   ParanoiaStatus          *mpParanoiaStatus;
+   QLabel                  *mpMessage;
+   StrippedConfigDialog    *mpConfigDialog;
 
    QAction     *mpActionSettings;
    QAction     *mpActionCancel;

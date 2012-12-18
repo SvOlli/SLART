@@ -16,7 +16,7 @@
 #include <QTimer>
 
 /* local library headers */
-#include <GenericSatMsgHandler.hpp>
+#include <GenericSatelliteHandler.hpp>
 #include <Satellite.hpp>
 #include <Settings.hpp>
 #include <WidgetShot.hpp>
@@ -35,7 +35,7 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
 , mForbidMove( 50 )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( 0 )
+, mpGenericSatelliteHandler( 0 )
 , mpCDInfo( new CDInfo() )
 , mpCDDBClient( new CDDBClient( mpCDInfo, this ) )
 , mpCDEdit( new CDEdit( mpCDInfo, mpCDDBClient, this ) )
@@ -209,8 +209,8 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
 
    if( mpSatellite )
    {
-      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithoutPing );
-      connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
+      mpGenericSatelliteHandler = new GenericSatelliteHandler( mpSatellite, GenericSatelliteHandler::WithoutPing, this );
+      connect( mpGenericSatelliteHandler, SIGNAL(updateConfig()),
                mpConfigDialog, SLOT(readSettings()) );
    }
 

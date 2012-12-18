@@ -33,7 +33,7 @@ class QStringList;
 class ConfigDialog;
 class DropDialog;
 class ExecButton;
-class GenericSatMsgHandler;
+class GenericSatelliteHandler;
 class LogListWidget;
 class Satellite;
 
@@ -109,16 +109,16 @@ protected:
 private:
    Q_DISABLE_COPY( InnuendoMainWidget )
 
-   Satellite            *mpSatellite;
-   GenericSatMsgHandler *mpGenericSatMsgHandler;
-   LogListWidget        *mpMessageBuffer;
-   QPushButton          *mpSettingsButton;
-   QPushButton          *mpPingButton;
-   ConfigDialog         *mpConfig;
-   DropDialog           *mpDropDialog;
-   ExecButton           **mpExecButtons;
-   int                  mNumExecButtons;
-   QStringList          mAutostart;
+   Satellite               *mpSatellite;
+   GenericSatelliteHandler *mpGenericSatelliteHandler;
+   LogListWidget           *mpMessageBuffer;
+   QPushButton             *mpSettingsButton;
+   QPushButton             *mpPingButton;
+   ConfigDialog            *mpConfig;
+   DropDialog              *mpDropDialog;
+   ExecButton              **mpExecButtons;
+   int                     mNumExecButtons;
+   QStringList             mAutostart;
 };
 
 /*! @} */

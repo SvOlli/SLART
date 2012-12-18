@@ -17,7 +17,7 @@
 #include <QStringList>
 
 /* local library headers */
-#include <GenericSatMsgHandler.hpp>
+#include <GenericSatelliteHandler.hpp>
 #include <Satellite.hpp>
 #include <Settings.hpp>
 
@@ -28,7 +28,7 @@
 CommandLineHandler::CommandLineHandler( const QStringList &list, QObject *parent )
 : QObject( parent )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( 0 )
+, mpGenericSatelliteHandler( 0 )
 , mConnected( false )
 , mList()
 {
@@ -40,8 +40,8 @@ CommandLineHandler::CommandLineHandler( const QStringList &list, QObject *parent
    }
    if( mpSatellite )
    {
-      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPing );
-      connect( mpGenericSatMsgHandler, SIGNAL(anotherInstance()),
+      mpGenericSatelliteHandler = new GenericSatelliteHandler( mpSatellite, GenericSatelliteHandler::WithPing, this );
+      connect( mpGenericSatelliteHandler, SIGNAL(anotherInstance()),
                this, SLOT(gotPing()) );
    }
    connect( this, SIGNAL(done()),

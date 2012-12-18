@@ -24,7 +24,7 @@
 /* forward declaration of Qt classes */
 
 /* forward declaration of local classes */
-class GenericSatMsgHandler;
+class GenericSatelliteHandler;
 class Satellite;
 
 
@@ -77,10 +77,10 @@ signals:
    void done();
 
 private:
-   Satellite            *mpSatellite; /*!< \brief satellite instance */
-   GenericSatMsgHandler *mpGenericSatMsgHandler; /*!< \brief generic satellite message handler instance */
-   bool                 mConnected; /*!< \brief connected to bus? */
-   QStringList          mList; /*!< \brief list to send */
+   Satellite               *mpSatellite; /*!< \brief satellite instance */
+   GenericSatelliteHandler *mpGenericSatelliteHandler; /*!< \brief generic satellite message handler instance */
+   bool                    mConnected; /*!< \brief connected to bus? */
+   QStringList             mList; /*!< \brief list to send */
 };
 
 /*! @} */

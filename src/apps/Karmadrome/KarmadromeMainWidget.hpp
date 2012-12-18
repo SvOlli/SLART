@@ -34,7 +34,7 @@ class QTimer;
 class ButtonsWidget;
 class KarmadromeConfigDialog;
 class DatabaseInterface;
-class GenericSatMsgHandler;
+class GenericSatelliteHandler;
 class Satellite;
 class ScrollLine;
 
@@ -184,7 +184,7 @@ private:
 
    DatabaseInterface       *mpDatabase; /*!< \brief handle for running database jobs */
    Satellite               *mpSatellite; /*!< \brief handle for interprocess communication */
-   GenericSatMsgHandler    *mpGenericSatMsgHandler; /*!< \brief handling generic interprocess communication messages */
+   GenericSatelliteHandler *mpGenericSatelliteHandler; /*!< \brief handling generic interprocess communication messages */
    ScrollLine              *mpFileName; /*!< \brief widget for displaying filename */
    TrackInfoWidget         *mpTrackInfo; /*!< \brief widget for displaying track information */
    QPushButton             *mpReadButton; /*!< \brief read button */

@@ -30,12 +30,11 @@ int main(int argc, char *argv[])
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("TestAppSatellite");
 
-   Satellite *s = Satellite::create( QHostAddress::LocalHost, 24224 );
+   Satellite::create( QHostAddress::LocalHost, 24224 );
 
    MainWindow window;
    window.show();
 
-   if( s ) s->start();
    retval = app.exec();
 
    Satellite::destroy();

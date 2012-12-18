@@ -16,7 +16,7 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
-#include <GenericSatMsgHandler.hpp>
+#include <GenericSatelliteHandler.hpp>
 #include <GlobalConfigWidget.hpp>
 #include <MySettings.hpp>
 #include <Satellite.hpp>
@@ -36,7 +36,7 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
 : QWidget( parent, flags )
 , mpDatabase( DatabaseInterface::get() )
 , mpSatellite( Satellite::get() )
-, mpGenericSatMsgHandler( 0 )
+, mpGenericSatelliteHandler( 0 )
 , mpFileName( new ScrollLine( this ) )
 , mpTrackInfo( new TrackInfoWidget( false, this ) )
 , mpReadButton( new QPushButton( this ) )
@@ -127,9 +127,9 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
 
    if( mpSatellite )
    {
-      mpGenericSatMsgHandler = new GenericSatMsgHandler( mpSatellite, GenericSatMsgHandler::WithPingAndDialog );
-      mpGenericSatMsgHandler->setConnectMsg( "P0R" );
-      connect( mpGenericSatMsgHandler, SIGNAL(updateConfig()),
+      mpGenericSatelliteHandler = new GenericSatelliteHandler( mpSatellite, GenericSatelliteHandler::WithPingAndDialog, this );
+      mpGenericSatelliteHandler->setConnectMsg( "P0R" );
+      connect( mpGenericSatelliteHandler, SIGNAL(updateConfig()),
                mpConfigDialog, SLOT(readSettings()) );
       connect( mpSatellite, SIGNAL(received(QByteArray)),
                this, SLOT(handleSatellite(QByteArray)) );

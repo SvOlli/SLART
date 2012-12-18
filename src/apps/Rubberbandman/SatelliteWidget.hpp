@@ -29,7 +29,7 @@ class QString;
 
 /* forward declaration of local classes */
 class DatabaseInterface;
-class GenericSatMsgHandler;
+class GenericSatelliteHandler;
 class InfoEdit;
 class Satellite;
 
@@ -100,14 +100,14 @@ signals:
 private:
    Q_DISABLE_COPY( SatelliteWidget )
 
-   DatabaseInterface    *mpDatabase;
-   InfoEdit             *mpInfoEdit;
-   Satellite            *mpSatellite;
-   GenericSatMsgHandler *mpGenericSatMsgHandler;
-   QPushButton          *mpNowPlaying;
-   QPushButton          *mpShowInFilesystem;
-   QPushButton          *mpGetRandom;
-   TrackInfo            mTrackInfo;
+   DatabaseInterface       *mpDatabase;
+   InfoEdit                *mpInfoEdit;
+   Satellite               *mpSatellite;
+   GenericSatelliteHandler *mpGenericSatelliteHandler;
+   QPushButton             *mpNowPlaying;
+   QPushButton             *mpShowInFilesystem;
+   QPushButton             *mpGetRandom;
+   TrackInfo               mTrackInfo;
 };
 
 /*! @} */

@@ -1,13 +1,13 @@
 /*
- * src/libs/Common/GenericSatMsgHandler.hpp
+ * src/libs/Common/GenericSatelliteHandler.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
-#ifndef GENERICSATMSGHANDLER_HPP
-#define GENERICSATMSGHANDLER_HPP GENERICSATMSGHANDLER_HPP
+#ifndef GENERICSATELLITEHANDLER_HPP
+#define GENERICSATELLITEHANDLER_HPP GENERICSATELLITEHANDLER_HPP
 
 /* base class */
 #include <QObject>
@@ -36,9 +36,9 @@ class Satellite;
 /*!
  \brief \todo complete documentation
 
- \dotfile "graphs/libs/Common/GenericSatMsgHandler_connect.dot" "Connect Graph"
+ \dotfile "graphs/libs/Common/GenericSatelliteHandler_connect.dot" "Connect Graph"
 */
-class GenericSatMsgHandler : public QObject
+class GenericSatelliteHandler : public QObject
 {
    Q_OBJECT
 
@@ -54,14 +54,16 @@ public:
 
     \param satellite
     \param mode
+    \param parent
    */
-   GenericSatMsgHandler( Satellite *satellite, StartupMode mode );
+   GenericSatelliteHandler( Satellite *satellite, StartupMode mode,
+                            QObject *parent = 0);
 
    /*!
     \brief destructor
 
    */
-   virtual ~GenericSatMsgHandler();
+   virtual ~GenericSatelliteHandler();
 
    /*!
     \brief set message to send upon connection
@@ -75,7 +77,7 @@ public:
 
     \return Satellite created Satellite instance
    */
-   static Satellite *createSatellite();
+   static void createSatellite();
 
    /*!
     \brief send a message via Satellite according to settings
@@ -122,7 +124,7 @@ private slots:
    void connected();
 
 private:
-   Q_DISABLE_COPY( GenericSatMsgHandler )
+   Q_DISABLE_COPY( GenericSatelliteHandler )
 
    /* for handling two instances running:
       show the error message and quit the program */
