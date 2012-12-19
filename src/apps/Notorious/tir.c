@@ -27,6 +27,7 @@
  * - handle short reads on header
  * - handle short reads on data
  * - create better error reporting
+ * - support multiple open/read/close-functions (gz,xz,lzma,uncompressed)
  */
 
 
