@@ -317,7 +317,7 @@ void PlayerWidget::handleResponse()
          long  major = data.mid(vpos+2,dotpos-vpos-2).toLong();
          float minor = data.mid(dotpos+1).toFloat();
          bool  ok = false;
-         if( (major == 1) && (minor > 4.999) )
+         if( ((major == 1) && (minor > 4.999) ) || (major >= 2) )
          {
             ok = true;
          }
