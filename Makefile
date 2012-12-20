@@ -4,6 +4,14 @@ DOCS = example.lircrc README.GPL README.LGPL README.TagLib SLARTmessages.txt Sty
 
 all: release
 
+cdebug:
+	mkdir -p cbuild/debug
+	+(cd cbuild/debug && cmake ../../src -DCMAKE_BUILD_TYPE=debug && make)
+
+crelease:
+	mkdir -p cbuild/release
+	+(cd cbuild/release && cmake ../../src && make)
+
 debug release: src/Makefile
 	+(cd src;make $(MAKEFLAGS) $@)
 
@@ -37,3 +45,7 @@ install: release
 
 doc:
 	extra/generate-docs.sh
+
+translations:
+	extra/generate-translations.sh
+
