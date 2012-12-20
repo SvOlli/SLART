@@ -9,6 +9,10 @@ TEMPLATE = subdirs
 SUBDIRS += TestAppCodeEditor
 SUBDIRS += TestAppCommandLine
 #SUBDIRS += TestAppDatabaseBrowser
+SUBDIRS += TestAppDragAndDrop
+SUBDIRS += TestAppIconView
 SUBDIRS += TestAppSatellite
 SUBDIRS += TestAppWebServer
 SUBDIRS += TestAppXxtea
+#SUBDIRS += TestBinary
+
