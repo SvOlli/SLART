@@ -224,8 +224,9 @@ private:
    ControlWidget &operator=( const ControlWidget &that );
 
    /*!
-    \brief \todo
+    \brief set appropiate set of actions according to current state
 
+    (incomplete, unused)
    */
    void setActions();
 
