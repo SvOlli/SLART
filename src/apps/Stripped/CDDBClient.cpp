@@ -69,8 +69,10 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    mainLayout->setStretchFactor( mpSplit,      0 );
 
    /* setting up the state machine and states */
+   mpStateMachine->setObjectName( "GetTrackData" );
    mpStateMachine->setInitialState( mpStateEjected );
 
+   mpStateEjected->setObjectName( "Ejected" );
    mpStateEjected->assignProperty( this, "statusMessage", tr("ejected") );
    mpStateEjected->assignProperty( mpHits, "enabled", false );
    mpStateEjected->assignProperty( mpSplit, "enabled", false );
@@ -78,6 +80,7 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    connect( mpStateEjected, SIGNAL(entered()),
             this, SLOT(handleStateEjected()) );
 
+   mpStateCleared->setObjectName( "Cleared" );
    mpStateCleared->assignProperty( this, "statusMessage", tr("cleared") );
    mpStateCleared->assignProperty( mpHits, "enabled", false );
    mpStateCleared->assignProperty( mpSplit, "enabled", false );
@@ -87,6 +90,7 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    connect( mpStateCleared, SIGNAL(entered()),
             this, SLOT(handleStateCleared()) );
 
+   mpStateQuery->setObjectName( "Query" );
    mpStateQuery->assignProperty( this, "statusMessage", tr("query") );
    mpStateQuery->assignProperty( mpHits, "enabled", false );
    mpStateQuery->assignProperty( mpSplit, "enabled", false );
@@ -98,6 +102,7 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    connect( mpStateQuery, SIGNAL(entered()),
             this, SLOT(handleStateQuery()) );
 
+   mpStateRead->setObjectName( "Read" );
    mpStateRead->assignProperty( this, "statusMessage", tr("read") );
    mpStateRead->assignProperty( mpHits, "enabled", false );
    mpStateRead->assignProperty( mpSplit, "enabled", false );
@@ -108,6 +113,7 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    connect( mpStateRead, SIGNAL(entered()),
             this, SLOT(handleStateRead()) );
 
+   mpStateCDText->setObjectName( "CDText" );
    mpStateCDText->assignProperty( this, "statusMessage", tr("cdtext") );
    mpStateCDText->assignProperty( mpHits, "enabled", false );
    mpStateCDText->assignProperty( mpSplit, "enabled", false );
@@ -117,6 +123,7 @@ CDDBClient::CDDBClient( CDInfo *cdinfo, QWidget *parent )
    connect( mpStateCDText, SIGNAL(entered()),
             this, SLOT(handleStateCDText()) );
 
+   mpStateDone->setObjectName( "Done" );
    mpStateDone->assignProperty( this, "statusMessage", tr("done") );
    mpStateDone->assignProperty( mpHits, "enabled", true );
    mpStateDone->assignProperty( mpSplit, "enabled", true );
