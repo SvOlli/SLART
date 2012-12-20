@@ -9,28 +9,15 @@ MESSAGE( STATUS "==== src/libs/CommandLine ====" )
 
 PROJECT( CommandLine )
 
-INCLUDE( LocalLibrary )
+INCLUDE( LocalTools )
 
-SET( CommandLine_PUBLIC_HEADERS
-   CommandLine.hpp
-)
-
-SET( CommandLine_PRIVATE_HEADERS
-   CommandLineOption.hpp
-   CommandLineOptionBool.hpp
-   CommandLineOptionString.hpp
-)
-
-SET( CommandLine_SOURCES
-   CommandLine.cpp
-   CommandLineOption.cpp
-   CommandLineOptionBool.cpp
-   CommandLineOptionString.cpp
-)
+ADD_SOURCE( CommandLine             cpp hpp         )
+ADD_SOURCE( CommandLineOption       cpp hpp private )
+ADD_SOURCE( CommandLineOptionBool   cpp hpp private )
+ADD_SOURCE( CommandLineOptionString cpp hpp private )
 
 ADD_LIBRARY( CommandLine STATIC
-   ${CommandLine_PUBLIC_HEADERS}
-   ${CommandLine_PRIVATE_HEADERS}
+   ${CommandLine_HEADERS}
    ${CommandLine_SOURCES}
 )
 

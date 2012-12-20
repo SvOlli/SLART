@@ -9,26 +9,21 @@ MESSAGE( STATUS "==== src/tests/TextAppIconView ====" )
 
 PROJECT( TextAppIconView )
 
+INCLUDE( LocalTools )
+
 INCLUDE( ${QT_USE_FILE} )
 ADD_DEFINITIONS( ${QT_DEFINITIONS} )
 
-SET( TextAppIconView_HEADERS
-   MainWidget.hpp
-   MainWindow.hpp
-)
+ADD_SOURCE( Application cpp         )
+ADD_SOURCE( MainWidget  cpp hpp moc )
+ADD_SOURCE( MainWindow  cpp hpp moc )
 
-SET( TextAppIconView_SOURCES
-   Application.cpp
-   MainWidget.cpp
-   MainWindow.cpp
-)
-
-QT4_WRAP_CPP( TextAppIconView_MOC_HEADERS
-   ${TextAppIconView_HEADERS}
+QT4_WRAP_CPP( TextAppIconView_MOC_GENERATED
+   ${TextAppIconView_MOC_HEADERS}
 )
 
 ADD_EXECUTABLE( TextAppIconView
-   ${TextAppIconView_MOC_HEADERS}
+   ${TextAppIconView_MOC_GENERATED}
    ${TextAppIconView_HEADERS}
    ${TextAppIconView_SOURCES}
 )

@@ -9,6 +9,7 @@ MESSAGE( STATUS "==== src/apps/Stripped ====" )
 
 PROJECT( Stripped )
 
+INCLUDE( LocalTools )
 INCLUDE( FindPkgConfig )
 PKG_CHECK_MODULES( CDDBPARANOIA REQUIRED libcdio_paranoia )
 
@@ -22,32 +23,17 @@ INCLUDE_DIRECTORIES(
 )
 ADD_DEFINITIONS( ${QT_DEFINITIONS} )
 
-SET( Stripped_HEADERS
-   CDDBClient.hpp
-   CDEditCheckBox.hpp
-   CDEdit.hpp
-   CDEditLineEdit.hpp
-   CDInfo.hpp
-   CDReader.hpp
-   CDReaderThread.hpp
-   ParanoiaStatus.hpp
-   StrippedConfigDialog.hpp
-   StrippedMainWindow.hpp
-)
-
-SET( Stripped_SOURCES
-   CDDBClient.cpp
-   CDEditCheckBox.cpp
-   CDEdit.cpp
-   CDEditLineEdit.cpp
-   CDInfo.cpp
-   CDReader.cpp
-   CDReaderThread.cpp
-   ParanoiaStatus.cpp
-   StrippedApplication.cpp
-   StrippedConfigDialog.cpp
-   StrippedMainWindow.cpp
-)
+ADD_SOURCE( CDDBClient           cpp hpp moc )
+ADD_SOURCE( CDEditCheckBox       cpp hpp moc )
+ADD_SOURCE( CDEdit               cpp hpp moc )
+ADD_SOURCE( CDEditLineEdit       cpp hpp moc )
+ADD_SOURCE( CDInfo               cpp hpp     )
+ADD_SOURCE( CDReader             cpp hpp moc )
+ADD_SOURCE( CDReaderThread       cpp hpp moc )
+ADD_SOURCE( ParanoiaStatus       cpp hpp moc )
+ADD_SOURCE( StrippedApplication  cpp         )
+ADD_SOURCE( StrippedConfigDialog cpp hpp moc )
+ADD_SOURCE( StrippedMainWindow   cpp hpp moc )
 
 SET( Stripped_RESOURCES
 )
@@ -56,8 +42,8 @@ FILE( GLOB Stripped_TS_FILES
    ${TRANSLATIONS_SOURCE_DIR}/Stripped_*.ts
 )
 
-QT4_WRAP_CPP( Stripped_MOC_HEADERS
-   ${Stripped_HEADERS}
+QT4_WRAP_CPP( Stripped_MOC_GENERATED
+   ${Stripped_MOC_HEADERS}
 )
 
 QT4_ADD_RESOURCES( Stripped_RESOURCES_RCC
@@ -69,7 +55,7 @@ QT4_ADD_TRANSLATION( Stripped_QM_FILES
 )
 
 ADD_EXECUTABLE( Stripped
-   ${Stripped_MOC_HEADERS}
+   ${Stripped_MOC_GENERATED}
    ${Stripped_HEADERS}
    ${Stripped_SOURCES}
    ${Stripped_QM_FILES}

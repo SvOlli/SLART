@@ -18,23 +18,16 @@ INCLUDE_DIRECTORIES(
    ${COMMON_INCLUDE_DIR}
 )
 
-SET( TestAppWebServer_HEADERS
-   MainWidget.hpp
-   WebServerSanityTests.hpp
-)
-
-SET( TestAppWebServer_SOURCES
-   Application.cpp
-   MainWidget.cpp
-   WebServerSanityTests.cpp
-)
+ADD_SOURCE( Application          cpp         )
+ADD_SOURCE( MainWidget           cpp hpp moc )
+ADD_SOURCE( WebServerSanityTests cpp hpp     )
 
 SET( TestAppWebServer_RESOURCES
    Resources/TestAppWebServer.qrc
 )
 
-QT4_WRAP_CPP( TestAppWebServer_MOC_HEADERS
-   ${TestAppWebServer_HEADERS}
+QT4_WRAP_CPP( TestAppWebServer_MOC_GENERATED
+   ${TestAppWebServer_MOC_HEADERS}
 )
 
 QT4_ADD_RESOURCES( TestAppWebServer_RESOURCES_RCC
@@ -42,7 +35,7 @@ QT4_ADD_RESOURCES( TestAppWebServer_RESOURCES_RCC
 )
 
 ADD_EXECUTABLE( TestAppWebServer
-   ${TestAppWebServer_MOC_HEADERS}
+   ${TestAppWebServer_MOC_GENERATED}
    ${TestAppWebServer_HEADERS}
    ${TestAppWebServer_SOURCES}
    ${TestAppWebServer_RESOURCES_RCC}

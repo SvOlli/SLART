@@ -9,6 +9,8 @@ MESSAGE( STATUS "==== src/apps/Funkytown ====" )
 
 PROJECT( Funkytown )
 
+INCLUDE( LocalTools )
+
 SET( QT_USE_QTNETWORK 1 )
 INCLUDE( ${QT_USE_FILE} )
 ADD_DEFINITIONS( ${QT_DEFINITIONS} )
@@ -17,26 +19,14 @@ INCLUDE_DIRECTORIES(
    ${COMMON_INCLUDE_DIR}
 )
 
-SET( Funkytown_HEADERS
-   ConfigDialog.hpp
-   Cookie.hpp
-   CookieJar.hpp
-   DownloadHandler.hpp
-   FunkytownMainWidget.hpp
-   MagicQueue.hpp
-   TheMagic.hpp
-)
-
-SET( Funkytown_SOURCES
-   Application.cpp
-   ConfigDialog.cpp
-   Cookie.cpp
-   CookieJar.cpp
-   DownloadHandler.cpp
-   FunkytownMainWidget.cpp
-   MagicQueue.cpp
-   TheMagic.cpp
-)
+ADD_SOURCE( Application         cpp         )
+ADD_SOURCE( ConfigDialog        cpp hpp moc )
+ADD_SOURCE( Cookie              cpp hpp     )
+ADD_SOURCE( CookieJar           cpp hpp     )
+ADD_SOURCE( DownloadHandler     cpp hpp moc )
+ADD_SOURCE( FunkytownMainWidget cpp hpp moc )
+ADD_SOURCE( MagicQueue          cpp hpp moc )
+ADD_SOURCE( TheMagic            cpp hpp moc )
 
 SET( Funkytown_RESOURCES
    Resources/Funkytown.qrc
@@ -46,8 +36,8 @@ FILE( GLOB Funkytown_TS_FILES
    ${TRANSLATIONS_SOURCE_DIR}/Funkytown_*.ts
 )
 
-QT4_WRAP_CPP( Funkytown_MOC_HEADERS
-   ${Funkytown_HEADERS}
+QT4_WRAP_CPP( Funkytown_MOC_GENERATED
+   ${Funkytown_MOC_HEADERS}
 )
 
 QT4_ADD_RESOURCES( Funkytown_RESOURCES_RCC
@@ -59,7 +49,7 @@ QT4_ADD_TRANSLATION( Funkytown_QM_FILES
 )
 
 ADD_EXECUTABLE( Funkytown
-   ${Funkytown_MOC_HEADERS}
+   ${Funkytown_MOC_GENERATED}
    ${Funkytown_HEADERS}
    ${Funkytown_SOURCES}
    ${Funkytown_QM_FILES}

@@ -9,6 +9,7 @@ MESSAGE( STATUS "==== src/tests/TextAppEditor ====" )
 
 PROJECT( TestAppCodeEditor )
 
+INCLUDE( LocalTools )
 FIND_PACKAGE( Lua51 REQUIRED )
 
 #SET( QT_USE_QTNETWORK 1 )
@@ -19,25 +20,17 @@ INCLUDE_DIRECTORIES(
    ${COMMON_INCLUDE_DIR}
 )
 
-SET( TestAppCodeEditor_HEADERS
-   ../../libs/Common/LuaEditorDialog.hpp
-   ../../libs/Common/MyLua.hpp
-   MainWidget.hpp
-)
+ADD_SOURCE( Application                       cpp         )
+ADD_SOURCE( ../../libs/Common/LuaEditorDialog cpp hpp moc )
+ADD_SOURCE( ../../libs/Common/MyLua           cpp hpp moc )
+ADD_SOURCE( MainWidget                        cpp hpp moc )
 
-SET( TestAppCodeEditor_SOURCES
-   Application.cpp
-   ../../libs/Common/LuaEditorDialog.cpp
-   ../../libs/Common/MyLua.cpp
-   MainWidget.cpp
-)
-
-QT4_WRAP_CPP( TestAppCodeEditor_MOC_HEADERS
-   ${TestAppCodeEditor_HEADERS}
+QT4_WRAP_CPP( TestAppCodeEditor_MOC_GENERATED
+   ${TestAppCodeEditor_MOC_HEADERS}
 )
 
 ADD_EXECUTABLE( TestAppCodeEditor
-   ${TestAppCodeEditor_MOC_HEADERS}
+   ${TestAppCodeEditor_MOC_GENERATED}
    ${TestAppCodeEditor_HEADERS}
    ${TestAppCodeEditor_SOURCES}
 )

@@ -7,6 +7,10 @@
 
 MESSAGE( STATUS "==== src/apps/Sorcerer ====" )
 
+PROJECT( Sorcerer )
+
+INCLUDE( LocalTools )
+
 SET( QT_USE_QTNETWORK 1 )
 SET( QT_USE_QTSQL 1 )
 INCLUDE( ${QT_USE_FILE} )
@@ -17,22 +21,12 @@ INCLUDE_DIRECTORIES(
    ${TAGLIB_INCLUDE_DIR}
 )
 
-SET( Sorcerer_HEADERS
-   SorcererMainWidget.hpp
-   ../Innuendo/SatelliteConfigWidget.hpp
-   ../Rubberbandman/DatabaseWidget.hpp
-   ../Rubberbandman/DatabaseWorker.hpp
-   ../Rubberbandman/DirWalkerUpdate.hpp
-)
-
-SET( Sorcerer_SOURCES
-   SorcererApplication.cpp
-   SorcererMainWidget.cpp
-   ../Innuendo/SatelliteConfigWidget.cpp
-   ../Rubberbandman/DatabaseWidget.cpp
-   ../Rubberbandman/DatabaseWorker.cpp
-   ../Rubberbandman/DirWalkerUpdate.cpp
-)
+ADD_SOURCE( SorcererApplication               cpp         )
+ADD_SOURCE( SorcererMainWidget                cpp hpp moc )
+ADD_SOURCE( ../Innuendo/SatelliteConfigWidget cpp hpp moc )
+ADD_SOURCE( ../Rubberbandman/DatabaseWidget   cpp hpp moc )
+ADD_SOURCE( ../Rubberbandman/DatabaseWorker   cpp hpp moc )
+ADD_SOURCE( ../Rubberbandman/DirWalkerUpdate  cpp hpp     )
 
 SET( Sorcerer_RESOURCES
 )
@@ -41,8 +35,8 @@ FILE( GLOB Sorcerer_TS_FILES
    ${TRANSLATIONS_SOURCE_DIR}/Sorcerer_*.ts
 )
 
-QT4_WRAP_CPP( Sorcerer_MOC_HEADERS
-   ${Sorcerer_HEADERS}
+QT4_WRAP_CPP( Sorcerer_MOC_GENERATED
+   ${Sorcerer_MOC_HEADERS}
 )
 
 QT4_ADD_TRANSLATION( Sorcerer_QM_FILES
@@ -54,12 +48,11 @@ QT4_ADD_RESOURCES( Sorcerer_RESOURCES_RCC
 )
 
 ADD_EXECUTABLE( Sorcerer
-   ${Sorcerer_MOC_HEADERS}
+   ${Sorcerer_MOC_GENERATED}
    ${Sorcerer_HEADERS}
    ${Sorcerer_SOURCES}
    ${Sorcerer_RESOURCES_RCC}
    ${Sorcerer_QM_FILES}
-   ${Sorcerer_RESOURCES_RCC}
 )
 
 ADD_DEPENDENCIES( Sorcerer

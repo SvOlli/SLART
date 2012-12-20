@@ -9,66 +9,10 @@ MESSAGE( STATUS "==== src/libs/TagLib ====" )
 
 PROJECT( TagLib )
 
-INCLUDE_DIRECTORIES( . )
+INCLUDE( LocalTools )
 
-SET( TagLib_PUBLIC_HEADERS
-   apefooter.h
-   apeitem.h
-   apetag.h
-   attachedpictureframe.h
-   audioproperties.h
-   commentsframe.h
-   fileref.h
-   flacfile.h
-   flacproperties.h
-   generalencapsulatedobjectframe.h
-   id3v1genres.h
-   id3v1tag.h
-   id3v2extendedheader.h
-   id3v2footer.h
-   id3v2framefactory.h
-   id3v2frame.h
-   id3v2header.h
-   id3v2synchdata.h
-   id3v2tag.h
-   mpcfile.h
-   mpcproperties.h
-   mpegfile.h
-   mpegheader.h
-   mpegproperties.h
-   oggfile.h
-   oggflacfile.h
-   oggpage.h
-   oggpageheader.h
-   relativevolumeframe.h
-   speexfile.h
-   speexproperties.h
-   tag.h
-   taglib_export.h
-   taglib.h
-   tagunion.h
-   tbytevector.h
-   tbytevectorlist.h
-   tdebug.h
-   textidentificationframe.h
-   tfile.h
-   tlist.h
-   tmap.h
-   trueaudiofile.h
-   trueaudioproperties.h
-   tstring.h
-   tstringlist.h
-   unicode.h
-   uniquefileidentifierframe.h
-   unknownframe.h
-   unsynchronizedlyricsframe.h
-   urllinkframe.h
-   vorbisfile.h
-   vorbisproperties.h
-   wavpackfile.h
-   wavpackproperties.h
-   xingheader.h
-   xiphcomment.h
+INCLUDE_DIRECTORIES(
+   .
 )
 
 SET( TagLib_PRIVATE_HEADERS
@@ -76,64 +20,66 @@ SET( TagLib_PRIVATE_HEADERS
    tmap.tcc
 )
 
-SET( TagLib_SOURCES
-   apefooter.cpp
-   apeitem.cpp
-   apetag.cpp
-   attachedpictureframe.cpp
-   audioproperties.cpp
-   commentsframe.cpp
-   fileref.cpp
-   flacfile.cpp
-   flacproperties.cpp
-   generalencapsulatedobjectframe.cpp
-   id3v1genres.cpp
-   id3v1tag.cpp
-   id3v2extendedheader.cpp
-   id3v2footer.cpp
-   id3v2frame.cpp
-   id3v2framefactory.cpp
-   id3v2header.cpp
-   id3v2synchdata.cpp
-   id3v2tag.cpp
-   mpcfile.cpp
-   mpcproperties.cpp
-   mpegfile.cpp
-   mpegheader.cpp
-   mpegproperties.cpp
-   oggfile.cpp
-   oggflacfile.cpp
-   oggpage.cpp
-   oggpageheader.cpp
-   relativevolumeframe.cpp
-   speexfile.cpp
-   speexproperties.cpp
-   tag.cpp
-   tagunion.cpp
-   tbytevector.cpp
-   tbytevectorlist.cpp
-   tdebug.cpp
-   textidentificationframe.cpp
-   tfile.cpp
-   trueaudiofile.cpp
-   trueaudioproperties.cpp
-   tstring.cpp
-   tstringlist.cpp
-   unicode.cpp
-   uniquefileidentifierframe.cpp
-   unknownframe.cpp
-   unsynchronizedlyricsframe.cpp
-   urllinkframe.cpp
-   vorbisfile.cpp
-   vorbisproperties.cpp
-   wavpackfile.cpp
-   wavpackproperties.cpp
-   xingheader.cpp
-   xiphcomment.cpp
-)
+ADD_SOURCE( apefooter                      cpp h )
+ADD_SOURCE( apeitem                        cpp h )
+ADD_SOURCE( apetag                         cpp h )
+ADD_SOURCE( attachedpictureframe           cpp h )
+ADD_SOURCE( audioproperties                cpp h )
+ADD_SOURCE( commentsframe                  cpp h )
+ADD_SOURCE( fileref                        cpp h )
+ADD_SOURCE( flacfile                       cpp h )
+ADD_SOURCE( flacproperties                 cpp h )
+ADD_SOURCE( generalencapsulatedobjectframe cpp h )
+ADD_SOURCE( id3v1genres                    cpp h )
+ADD_SOURCE( id3v1tag                       cpp h )
+ADD_SOURCE( id3v2extendedheader            cpp h )
+ADD_SOURCE( id3v2footer                    cpp h )
+ADD_SOURCE( id3v2frame                     cpp h )
+ADD_SOURCE( id3v2framefactory              cpp h )
+ADD_SOURCE( id3v2header                    cpp h )
+ADD_SOURCE( id3v2synchdata                 cpp h )
+ADD_SOURCE( id3v2tag                       cpp h )
+ADD_SOURCE( mpcfile                        cpp h )
+ADD_SOURCE( mpcproperties                  cpp h )
+ADD_SOURCE( mpegfile                       cpp h )
+ADD_SOURCE( mpegheader                     cpp h )
+ADD_SOURCE( mpegproperties                 cpp h )
+ADD_SOURCE( oggfile                        cpp h )
+ADD_SOURCE( oggflacfile                    cpp h )
+ADD_SOURCE( oggpage                        cpp h )
+ADD_SOURCE( oggpageheader                  cpp h )
+ADD_SOURCE( relativevolumeframe            cpp h )
+ADD_SOURCE( speexfile                      cpp h )
+ADD_SOURCE( speexproperties                cpp h )
+ADD_SOURCE( tag                            cpp h )
+ADD_SOURCE( taglib_export                      h )
+ADD_SOURCE( taglib                             h )
+ADD_SOURCE( tagunion                       cpp h )
+ADD_SOURCE( tbytevector                    cpp h )
+ADD_SOURCE( tbytevectorlist                cpp h )
+ADD_SOURCE( tdebug                         cpp h )
+ADD_SOURCE( textidentificationframe        cpp h )
+ADD_SOURCE( tfile                          cpp h )
+ADD_SOURCE( tlist                              h )
+ADD_SOURCE( tmap                               h )
+ADD_SOURCE( trueaudiofile                  cpp h )
+ADD_SOURCE( trueaudioproperties            cpp h )
+ADD_SOURCE( tstring                        cpp h )
+ADD_SOURCE( tstringlist                    cpp h )
+ADD_SOURCE( unicode                        cpp h )
+ADD_SOURCE( uniquefileidentifierframe      cpp h )
+ADD_SOURCE( unknownframe                   cpp h )
+ADD_SOURCE( unsynchronizedlyricsframe      cpp h )
+ADD_SOURCE( urllinkframe                   cpp h )
+ADD_SOURCE( vorbisfile                     cpp h )
+ADD_SOURCE( vorbisproperties               cpp h )
+ADD_SOURCE( wavpackfile                    cpp h )
+ADD_SOURCE( wavpackproperties              cpp h )
+ADD_SOURCE( xingheader                     cpp h )
+ADD_SOURCE( xiphcomment                    cpp h )
 
 ADD_LIBRARY( TagLib STATIC
-   ${TagLib_PUBLIC_HEADERS}
+   ${TagLib_HEADERS}
    ${TagLib_PRIVATE_HEADERS}
    ${TagLib_SOURCES}
 )

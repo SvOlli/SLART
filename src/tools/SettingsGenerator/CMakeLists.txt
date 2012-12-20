@@ -9,25 +9,19 @@ MESSAGE( STATUS "==== src/tools/SettingsGenerator ====" )
 
 PROJECT( SettingsGenerator )
 
-INCLUDE( SourceHelper )
+INCLUDE( LocalTools )
 
 SET( QT_DONT_USE_QTGUI 1 )
 INCLUDE( ${QT_USE_FILE} )
 ADD_DEFINITIONS( ${QT_DEFINITIONS} )
 
-SET( SettingsGenerator_HEADERS
-   SettingsGeneratorHandler.hpp
-   SettingsGeneratorStorage.hpp
-)
-
-SET( SettingsGenerator_SOURCES
-   Application.cpp
-   SettingsGeneratorHandler.cpp
-   SettingsGeneratorStorage.cpp
-)
+ADD_SOURCE( Application              cpp     )
+ADD_SOURCE( SettingsGeneratorHandler cpp hpp )
+ADD_SOURCE( SettingsGeneratorStorage cpp hpp )
 
 ADD_EXECUTABLE( SettingsGenerator
    ${SettingsGenerator_SOURCES}
+   ${SettingsGenerator_HEADERS}
 )
 TARGET_LINK_LIBRARIES( SettingsGenerator
    ${QT_LIBRARIES}

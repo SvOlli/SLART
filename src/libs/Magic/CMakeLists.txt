@@ -9,13 +9,15 @@ MESSAGE( STATUS "==== src/libs/Magic/MagicInterface ====" )
 
 PROJECT( MagicInterface )
 
-SET( MagicInterface_PUBLIC_HEADERS
+INCLUDE( LocalTools )
+
+SET( MagicInterface_HEADERS
    MagicEncoderInterface.hpp
 )
 
 #ADD_LIBRARY( MagicInterface
 #   ${MagicInterface_SOURCES)
-#   ${MagicInterface_PUBLIC_HEADERS}
+#   ${MagicInterface_HEADERS}
 #)
 
 SET( MAGICINTERFACE_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR} CACHE STRING "MagicInterface include directory" )

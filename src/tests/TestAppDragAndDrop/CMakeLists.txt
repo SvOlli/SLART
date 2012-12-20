@@ -9,6 +9,8 @@ MESSAGE( STATUS "==== src/tests/TextAppDragAndDrop ====" )
 
 PROJECT( TestAppDragAndDrop )
 
+INCLUDE( LocalTools )
+
 #SET( QT_USE_QTNETWORK 1 )
 INCLUDE( ${QT_USE_FILE} )
 ADD_DEFINITIONS( ${QT_DEFINITIONS} )
@@ -16,21 +18,15 @@ INCLUDE_DIRECTORIES(
    ${COMMON_INCLUDE_DIR}
 )
 
-SET( TestAppDragAndDrop_HEADERS
-   MainWidget.hpp
-)
+ADD_SOURCE( Application cpp         )
+ADD_SOURCE( MainWidget  cpp hpp moc )
 
-SET( TestAppDragAndDrop_SOURCES
-   Application.cpp
-   MainWidget.cpp
-)
-
-QT4_WRAP_CPP( TestAppDragAndDrop_MOC_HEADERS
-   ${TestAppDragAndDrop_HEADERS}
+QT4_WRAP_CPP( TestAppDragAndDrop_MOC_GENERATED
+   ${TestAppDragAndDrop_MOC_HEADERS}
 )
 
 ADD_EXECUTABLE( TestAppDragAndDrop
-   ${TestAppDragAndDrop_MOC_HEADERS}
+   ${TestAppDragAndDrop_MOC_GENERATED}
    ${TestAppDragAndDrop_HEADERS}
    ${TestAppDragAndDrop_SOURCES}
 )

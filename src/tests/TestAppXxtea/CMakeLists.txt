@@ -17,19 +17,14 @@ INCLUDE_DIRECTORIES(
    ${COMMON_INCLUDE_DIR}
 )
 
-SET( TestAppXxtea_HEADERS
-)
+ADD_SOURCE( Application cpp )
 
-SET( TestAppXxtea_SOURCES
-   Application.cpp
-)
-
-QT4_WRAP_CPP( TestAppXxtea_MOC_HEADERS
-   ${TestAppXxtea_HEADERS}
+QT4_WRAP_CPP( TestAppXxtea_MOC_GENERATED
+   ${TestAppXxtea_MOC_HEADERS}
 )
 
 ADD_EXECUTABLE( TestAppXxtea
-   ${TestAppXxtea_MOC_HEADERS}
+   ${TestAppXxtea_MOC_GENERATED}
    ${TestAppXxtea_HEADERS}
    ${TestAppXxtea_SOURCES}
 )

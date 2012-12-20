@@ -9,17 +9,20 @@ MESSAGE( STATUS "==== src/libs/Magic/MagicEncoderOgg ====" )
 
 PROJECT( MagicEncoderOgg )
 
-INCLUDE( ${QT_USE_FILE} )
-ADD_DEFINITIONS( ${QT_DEFINITIONS} )
-
+INCLUDE( LocalTools )
 INCLUDE( FindPkgConfig )
 PKG_CHECK_MODULES( VORBISFILE REQUIRED vorbisfile )
 
+INCLUDE( ${QT_USE_FILE} )
+ADD_DEFINITIONS( ${QT_DEFINITIONS} )
 INCLUDE_DIRECTORIES(
    ${COMMON_INCLUDE_DIR}
    ${MAGICENCODER_INCLUDE_DIR}
    ${VORBISFILE_INCLUDE_DIR}
 )
+
+ADD_SOURCE( MagicEncoderOgg       cpp hpp moc )
+ADD_SOURCE( MagicEncoderOggConfig cpp hpp moc )
 
 FILE( GLOB MagicEncoderOgg_TS_FILES
    ${TRANSLATIONS_SOURCE_DIR}/MagicEncoderOgg_*.ts
@@ -29,28 +32,13 @@ QT4_ADD_TRANSLATION( MagicEncoderOgg_QM_FILES
    ${MagicEncoderOgg_TS_FILES}
 )
 
-SET( MagicEncoderOgg_PUBLIC_HEADERS
-   MagicEncoderOgg.hpp
-   MagicEncoderOggConfig.hpp
-)
-
-SET( MagicEncoderOgg_PRIVATE_HEADERS
-)
-
-SET( MagicEncoderOgg_SOURCES
-   MagicEncoderOgg.cpp
-   MagicEncoderOggConfig.cpp
-)
-
-QT4_WRAP_CPP( MagicEncoderOgg_MOC_HEADERS
-   ${MagicEncoderOgg_PUBLIC_HEADERS}
-   ${MagicEncoderOgg_PRIVATE_HEADERS}
+QT4_WRAP_CPP( MagicEncoderOgg_MOC_GENERATED
+   ${MagicEncoderOgg_MOC_HEADERS}
 )
 
 ADD_LIBRARY( MagicEncoderOgg MODULE
-   ${MagicEncoderOgg_MOC_HEADERS}
-   ${MagicEncoderOgg_PUBLIC_HEADERS}
-   ${MagicEncoderOgg_PRIVATE_HEADERS}
+   ${MagicEncoderOgg_MOC_GENERATED}
+   ${MagicEncoderOgg_HEADERS}
    ${MagicEncoderOgg_SOURCES}
    ${MagicEncoderOgg_QM_FILES}
 )

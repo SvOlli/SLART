@@ -9,6 +9,8 @@ MESSAGE( STATUS "==== src/apps/Karmadrome ====" )
 
 PROJECT( Karmadrome )
 
+INCLUDE( LocalTools )
+
 SET( QT_USE_QTNETWORK 1 )
 SET( QT_USE_QTSQL 1 )
 INCLUDE( ${QT_USE_FILE} )
@@ -18,24 +20,13 @@ INCLUDE_DIRECTORIES(
    ${COMMON_INCLUDE_DIR}
 )
 
-SET( Karmadrome_HEADERS
-   ButtonsWidget.hpp
-   ExportFolder.hpp
-   ExportFolderList.hpp
-   ImportFolder.hpp
-   KarmadromeConfigDialog.hpp
-   KarmadromeMainWidget.hpp
-)
-
-SET( Karmadrome_SOURCES
-   ButtonsWidget.cpp
-   ExportFolder.cpp
-   ExportFolderList.cpp
-   ImportFolder.cpp
-   KarmadromeApplication.cpp
-   KarmadromeConfigDialog.cpp
-   KarmadromeMainWidget.cpp
-)
+ADD_SOURCE( ButtonsWidget          cpp hpp moc )
+ADD_SOURCE( ExportFolder           cpp hpp moc )
+ADD_SOURCE( ExportFolderList       cpp hpp moc )
+ADD_SOURCE( ImportFolder           cpp hpp moc )
+ADD_SOURCE( KarmadromeApplication  cpp         )
+ADD_SOURCE( KarmadromeConfigDialog cpp hpp moc )
+ADD_SOURCE( KarmadromeMainWidget   cpp hpp moc )
 
 SET( Karmadrome_RESOURCES
 )
@@ -44,8 +35,8 @@ FILE( GLOB Karmadrome_TS_FILES
    ${TRANSLATIONS_SOURCE_DIR}/Karmadrome_*.ts
 )
 
-QT4_WRAP_CPP( Karmadrome_MOC_HEADERS
-   ${Karmadrome_HEADERS}
+QT4_WRAP_CPP( Karmadrome_MOC_GENERATED
+   ${Karmadrome_MOC_HEADERS}
 )
 
 QT4_ADD_RESOURCES( Karmadrome_RESOURCES_RCC
@@ -57,7 +48,7 @@ QT4_ADD_TRANSLATION( Karmadrome_QM_FILES
 )
 
 ADD_EXECUTABLE( Karmadrome
-   ${Karmadrome_MOC_HEADERS}
+   ${Karmadrome_MOC_GENERATED}
    ${Karmadrome_HEADERS}
    ${Karmadrome_SOURCES}
    ${Karmadrome_QM_FILES}
