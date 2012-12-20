@@ -49,8 +49,9 @@ public:
    /*!
     \brief cancel current operation
 
+    unimplemented
    */
-   void cancel() { mCancel = true; } ;
+   void cancel() { mCancel = true; }
    /*!
     \brief start main work (called by QThread)
 

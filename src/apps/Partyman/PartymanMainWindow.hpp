@@ -243,20 +243,20 @@ private:
 
    bool                    mProhibitCloseWindow; /*!< \brief flag to store of close is prohibited */
    int                     mForbidMove;
-   Database                *mpDatabase; /*!< \todo */
-   PartymanConfigDialog    *mpConfig; /*!< \todo */
-   PlaylistContentWidget   *mpPlaylistContent; /*!< \todo */
-   ControlWidget           *mpControl; /*!< \todo */
-   QTextBrowser            *mpHelpText; /*!< \brief \todo TODO */
-   TrackInfoWidget         *mpTrackInfo; /*!< \brief \todo TODO */
-   SearchTrackWidget       *mpSearch; /*!< \brief \todo TODO */
-   FileSysTreeView         *mpTreeView; /*!< \brief \todo TODO */
-   FileSysTreeModel        *mpTreeModel; /*!< \brief \todo TODO */
-   FileSysTreeModel        *mpNextTreeModel; /*!< \brief \todo TODO */
-   FileSysTreeUpdate       *mpTreeUpdate; /*!< \brief \todo TODO */
-   QDockWidget             *mpDockTreeView;
-   QString                 mCurrentFile;
-   QString                 mNextFile;
+   Database                *mpDatabase; /*!< \brief database instance */
+   PartymanConfigDialog    *mpConfig; /*!< \brief configuration dialog */
+   PlaylistContentWidget   *mpPlaylistContent; /*!< \brief playlist widget */
+   ControlWidget           *mpControl; /*!< \brief control widget */
+   QTextBrowser            *mpHelpText; /*!< \brief help widget */
+   TrackInfoWidget         *mpTrackInfo; /*!< \brief track info widget */
+   SearchTrackWidget       *mpSearch; /*!< \brief search widget */
+   FileSysTreeView         *mpTreeView; /*!< \brief database tree view */
+   FileSysTreeModel        *mpTreeModel; /*!< \brief database tree model */
+   FileSysTreeModel        *mpNextTreeModel; /*!< \brief database tree model used for update */
+   FileSysTreeUpdate       *mpTreeUpdate; /*!< \brief database tree update helper */
+   QDockWidget             *mpDockTreeView; /*!< \brief dock containing database tree */
+   QString                 mCurrentFile; /*!< \brief helper to store current track */
+   QString                 mNextFile; /*!< \brief helper to store upcoming track */
 };
 
 /*! @} */

@@ -120,10 +120,6 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
             this, SLOT(handleSkipTrack()) );
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
-   connect( mpGenericSatelliteHandler, SIGNAL(updateConfig()),
-            mpConfig, SLOT(readSettings()) );
-   connect( mpGenericSatelliteHandler, SIGNAL(anotherInstance()),
-            this, SLOT(initDisconnect()) );
    connect( mpPlayer[0], SIGNAL(trackPlaying(TrackInfo)),
             this, SLOT(handleTrackPlaying(TrackInfo)) );
    connect( mpPlayer[1], SIGNAL(trackPlaying(TrackInfo)),
@@ -143,6 +139,10 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
    if( mpSatellite )
    {
       mpGenericSatelliteHandler = new GenericSatelliteHandler( mpSatellite, GenericSatelliteHandler::WithPingAndDialog, this );
+      connect( mpGenericSatelliteHandler, SIGNAL(updateConfig()),
+               mpConfig, SLOT(readSettings()) );
+      connect( mpGenericSatelliteHandler, SIGNAL(anotherInstance()),
+               this, SLOT(initDisconnect()) );
       connect( mpSatellite, SIGNAL(received(QByteArray)),
                this, SLOT(handleSatellite(QByteArray)) );
    }
@@ -211,6 +211,127 @@ void ControlWidget::saveTracks( bool unload )
 }
 
 
+void ControlWidget::setActions()
+{
+   if( !mConnected )
+   {
+      mpPlayAction->setChecked( true );
+      mpSkipAction->setDisabled( true );
+      mpStartButton->setMenu( 0 );
+      mpStartButton->setChecked( false );
+   }
+   else
+   {
+      mpStartButton->setMenu( mpStartButtonMenu );
+      mpStartButton->setChecked( true );
+
+      if( mPaused )
+      {
+         mpPauseAction->setIcon( mPlayIcon );
+         mpPauseAction->setText( tr("Resume") );
+      }
+      else
+      {
+         if( mKioskMode )
+         {
+            mpSkipAction->setIcon( QIcon() );
+            mpSkipAction->setText( tr("Kiosk Mode") );
+            mpSkipAction->setEnabled( false );
+            mpPlayAction->setEnabled( false );
+            mpPauseAction->setEnabled( false );
+         }
+         else
+         {
+            mpSkipAction->setIcon( mSkipIcon );
+            mpSkipAction->setText( tr("Next") );
+            mpSkipAction->setEnabled( true );
+            mpPlayAction->setEnabled( true );
+            mpPauseAction->setEnabled( true );
+
+            if( Settings::value( Settings::PartymanDerMixDrun ) )
+            {
+
+            }
+            else
+            {
+
+            }
+         }
+      }
+   }
+
+   mpPlayAction->setCheckable( true );
+   mpPlayAction->setChecked( true );
+   mpPlayAction->setDisabled( true );
+
+   mpSkipAction->setDisabled( true );
+
+   mpStartButton->setMenu( true ? 0 : mpStartButtonMenu );
+   mpStartButton->setChecked( false );
+
+   mpStopAction->setDisabled( mKioskMode );
+
+   mpPauseAction->setDisabled( false );
+
+   mpPlayAction->setIcon( mPlayIcon );
+   mpPlayAction->setText( tr("Start") );
+   mpStopAction->setIcon( mStopIcon );
+   mpStopAction->setText( tr("Stop") );
+
+
+   if( !mConnected )
+   {
+      mpPlayAction->setChecked( true );
+      mpSkipAction->setDisabled( true );
+      mpStartButton->setMenu( 0 );
+      mpStartButton->setChecked( false );
+   }
+   else
+   {
+      mpSkipAction->setDisabled( mKioskMode );
+      mpPauseAction->setDisabled( mKioskMode & !mPaused );
+      mpStopAction->setDisabled( mKioskMode );
+      mpSkipAction->setDisabled( mKioskMode | !mConnected );
+      if( mKioskMode )
+      {
+         mpSkipAction->setIcon( QIcon() );
+         mpSkipAction->setText( tr("Kiosk Mode") );
+      }
+      else
+      {
+         mpSkipAction->setIcon( mSkipIcon );
+         mpSkipAction->setText( tr("Next") );
+      }
+
+      if( mPaused )
+      {
+         mpPlayAction->setIcon( mPauseIcon );
+         mpPlayAction->setText( tr("Pause") );
+         mpPauseAction->setIcon( mPlayIcon );
+         mpPauseAction->setText( tr("Resume") );
+      }
+      else
+      {
+         if( Settings::value( Settings::PartymanDerMixDrun ) )
+         {
+            mpPlayAction->setIcon( mPlayIcon );
+            mpPlayAction->setText( tr("Start") );
+            mpStopAction->setIcon( mStopIcon );
+            mpStopAction->setText( tr("Stop") );
+         }
+         else
+         {
+            mpPlayAction->setIcon( QIcon() );
+            mpPlayAction->setText( tr("Connect") );
+            mpStopAction->setIcon( QIcon() );
+            mpStopAction->setText( tr("Disconnect") );
+         }
+      }
+   }
+   mpLoadAction->setEnabled( Settings::value( Settings::GlobalClipboardMode ) > 0 );
+}
+
+
 void ControlWidget::readConfig()
 {
    mpPlayer[0]->readConfig();
@@ -252,7 +373,7 @@ void ControlWidget::initConnect()
       {
          QStringList args;
          QString params( Settings::value( Settings::PartymanDerMixDparams ) );
-         args << "-c" << "-p" << QString::number( port );
+         args << "-c" << QString("main.port=%1").arg( port );
          if( !params.isEmpty() )
          {
             args << params.split(' ');
@@ -687,6 +808,7 @@ void ControlWidget::dragEnterEvent( QDragEnterEvent *event )
       if( (state[0] == PlayerFSM::disconnected) || (state[0] == PlayerFSM::ready) ||
           (state[1] == PlayerFSM::disconnected) || (state[1] == PlayerFSM::ready) )
       {
+         // FIXME: prevent from dropping track already in one of two players
          event->acceptProposedAction();
          return;
       }

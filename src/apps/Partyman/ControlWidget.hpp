@@ -223,6 +223,12 @@ private:
    ControlWidget( const ControlWidget &that );
    ControlWidget &operator=( const ControlWidget &that );
 
+   /*!
+    \brief \todo
+
+   */
+   void setActions();
+
    PartymanConfigDialog    *mpConfig;
    PartymanMainWindow      *mpPlaylist;
    Satellite               *mpSatellite;
