@@ -74,29 +74,24 @@ bool Settings::remove( const QString &key, const QString &applicationName )
 {
    bool removed = false;
    QStringList allApplications;
-   allApplications << "Funkytown"
-                   << "Innuendo"
-                   << "Karmadrome"
-                   << "Notorious"
-                   << "Partyman"
-                   << "Rubberbandman"
-                   << "Stripped";
-
    if( applicationName.isEmpty() )
    {
-      foreach( const QString &application, allApplications )
-      {
-         QSettings *settings = cpSettings->get( application );
-         if( settings->contains( key ) )
-         {
-            removed = true;
-            settings->remove( key );
-         }
-      }
+      allApplications << "Funkytown"
+                      << "Innuendo"
+                      << "Karmadrome"
+                      << "Notorious"
+                      << "Partyman"
+                      << "Rubberbandman"
+                      << "Stripped";
    }
    else
    {
-      QSettings *settings = cpSettings->get( applicationName );
+      allApplications << applicationName;
+   }
+
+   foreach( const QString &application, allApplications )
+   {
+      QSettings *settings = cpSettings->get( application );
       if( settings->contains( key ) )
       {
          removed = true;

@@ -1257,10 +1257,10 @@ public:
 
 private:
    /*!
-    \brief \todo
+    \brief helper function for cleanup()
 
-    \param key
-    \param applicationName
+    \param key key to remove
+    \param applicationName application name of key to remove (empty = all)
    */
    static bool remove( const QString &key,
                        const QString &applicationName = QString() );
