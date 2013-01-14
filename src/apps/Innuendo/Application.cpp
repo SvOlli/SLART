@@ -72,7 +72,10 @@ int main(int argc, char *argv[])
       {
          message.append( argv[i] );
       }
-      GenericSatelliteHandler::send( message.join("\n").toUtf8() );
+      QObject *msg = GenericSatelliteHandler::send( message.join("\n").toUtf8() );
+      QObject::connect( msg, SIGNAL(done()),
+                        &app, SLOT(quit()) );
+      retval = app.exec();
    }
 
    return retval;
