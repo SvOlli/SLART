@@ -265,20 +265,20 @@ private:
 
    */
    enum { modeUndefined, modeGetDevices, modeReadToc, modeReadCDText,
-          modeReadAudioData, modeEject } mMode; /*!< \todo */
+          modeReadAudioData, modeEject } mMode; /*!< \brief \todo complete documentation */
 
-   ::CdIo_t             *mpCdIo; /*!< \todo */
-   ::cdrom_drive_t      *mpDrive; /*!< \todo */
-   ::cdrom_paranoia_t   *mpParanoia; /*!< \todo */
-   CDInfo               *mpCDInfo; /*!< \todo */
-   CDEdit               *mpCDEdit; /*!< \todo */
-   unsigned long        *mpCallbackFunction; /*!< \todo */
-   bool                 mCancel; /*!< \todo */
-   bool                 mTrackHasErrors; /*!< \todo */
-   bool                 mDiscHasErrors; /*!< \todo */
-   QString              mDevice; /*!< \todo */
-   QStringList          mDevices; /*!< \todo */
-   MagicEncoderList     mEncoders; /*!< \todo */
+   ::CdIo_t             *mpCdIo; /*!< \brief \todo complete documentation */
+   ::cdrom_drive_t      *mpDrive; /*!< \brief \todo complete documentation */
+   ::cdrom_paranoia_t   *mpParanoia; /*!< \brief \todo complete documentation */
+   CDInfo               *mpCDInfo; /*!< \brief \todo complete documentation */
+   CDEdit               *mpCDEdit; /*!< \brief \todo complete documentation */
+   unsigned long        *mpCallbackFunction; /*!< \brief \todo complete documentation */
+   bool                 mCancel; /*!< \brief \todo complete documentation */
+   bool                 mTrackHasErrors; /*!< \brief \todo complete documentation */
+   bool                 mDiscHasErrors; /*!< \brief \todo complete documentation */
+   QString              mDevice; /*!< \brief \todo complete documentation */
+   QStringList          mDevices; /*!< \brief \todo complete documentation */
+   MagicEncoderList     mEncoders; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

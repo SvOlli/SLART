@@ -255,25 +255,25 @@ private:
    */
    void handleReadData( QNetworkReply *reply );
 
-   RequestType             mRequestType;
-   QStateMachine           *mpStateMachine;
-   QState                  *mpStateEjected;
-   QState                  *mpStateCleared;
-   QState                  *mpStateQuery;
-   QState                  *mpStateRead;
-   QState                  *mpStateCDText;
-   QState                  *mpStateDone;
-   QLabel                  *mpCount;
-   QComboBox               *mpHits;
-   QLabel                  *mpSplitLabel;
-   QComboBox               *mpSplit;
-   QNetworkAccessManager   *mpNAM;
-   CDInfo                  *mpCDInfo;
-   QTimer                  *mpMessageResetTimer;
-   QString                 mReadCDTextMessage;
-   QString                 mQueryCDDBMessage;
-   QString                 mStatusMessage;
-   QStringList             mLastParameter;
+   RequestType             mRequestType; /*!< \brief \todo complete documentation */
+   QStateMachine           *mpStateMachine; /*!< \brief \todo complete documentation */
+   QState                  *mpStateEjected; /*!< \brief \todo complete documentation */
+   QState                  *mpStateCleared; /*!< \brief \todo complete documentation */
+   QState                  *mpStateQuery; /*!< \brief \todo complete documentation */
+   QState                  *mpStateRead; /*!< \brief \todo complete documentation */
+   QState                  *mpStateCDText; /*!< \brief \todo complete documentation */
+   QState                  *mpStateDone; /*!< \brief \todo complete documentation */
+   QLabel                  *mpCount; /*!< \brief \todo complete documentation */
+   QComboBox               *mpHits; /*!< \brief \todo complete documentation */
+   QLabel                  *mpSplitLabel; /*!< \brief \todo complete documentation */
+   QComboBox               *mpSplit; /*!< \brief \todo complete documentation */
+   QNetworkAccessManager   *mpNAM; /*!< \brief \todo complete documentation */
+   CDInfo                  *mpCDInfo; /*!< \brief \todo complete documentation */
+   QTimer                  *mpMessageResetTimer; /*!< \brief \todo complete documentation */
+   QString                 mReadCDTextMessage; /*!< \brief \todo complete documentation */
+   QString                 mQueryCDDBMessage; /*!< \brief \todo complete documentation */
+   QString                 mStatusMessage; /*!< \brief \todo complete documentation */
+   QStringList             mLastParameter; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

@@ -94,13 +94,13 @@ signals:
 private:
    Q_DISABLE_COPY( RubberbandmanMainWidget )
 
-   BrowseWidget      *mpBrowseWidget; /*!< \brief \todo */
-   SatelliteWidget   *mpSatelliteWidget; /*!< \brief \todo */
-   DatabaseWidget    *mpDatabaseWidget; /*!< \brief \todo */
-   QTabWidget        *mpTabs; /*!< \brief \todo */
-   QPushButton       *mpSettingsButton; /*!< \brief \todo */
+   BrowseWidget      *mpBrowseWidget;/*!< \brief \todo complete documentation */
+   SatelliteWidget   *mpSatelliteWidget;/*!< \brief \todo complete documentation */
+   DatabaseWidget    *mpDatabaseWidget;/*!< \brief \todo complete documentation */
+   QTabWidget        *mpTabs;/*!< \brief \todo complete documentation */
+   QPushButton       *mpSettingsButton;/*!< \brief \todo complete documentation */
    QLabel            *mpDatabaseActivity; /*!< \brief small widget indicating database activity */
-   ConfigDialog      *mpConfigDialog; /*!< \brief \todo */
+   ConfigDialog      *mpConfigDialog;/*!< \brief \todo complete documentation */
    QPixmap           mActiveLED;
    QPixmap           mIdleLED;
 };

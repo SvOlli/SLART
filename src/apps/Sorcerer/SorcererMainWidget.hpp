@@ -114,21 +114,21 @@ signals:
 private:
    Q_DISABLE_COPY( SorcererMainWidget )
 
-   DatabaseInterface       *mpDatabase; /*!< \todo */
-   QTabWidget              *mpTabs; /*!< \todo */
-   QLabel                  *mpHint; /*!< \todo */
-   QPushButton             *mpNext; /*!< \todo */
+   DatabaseInterface       *mpDatabase; /*!< \brief \todo complete documentation */
+   QTabWidget              *mpTabs; /*!< \brief \todo complete documentation */
+   QLabel                  *mpHint; /*!< \brief \todo complete documentation */
+   QPushButton             *mpNext; /*!< \brief \todo complete documentation */
 
-   DatabaseWidget          *mpDatabaseWidget; /*!< \todo */
-   SatelliteConfigWidget   *mpSatelliteConfigWidget; /*!< \todo */
-   ProxyWidget             *mpProxyWidget; /*!< \todo */
+   DatabaseWidget          *mpDatabaseWidget; /*!< \brief \todo complete documentation */
+   SatelliteConfigWidget   *mpSatelliteConfigWidget; /*!< \brief \todo complete documentation */
+   ProxyWidget             *mpProxyWidget; /*!< \brief \todo complete documentation */
 
-   int                     mLastTab; /*!< \todo */
-   bool                    mDatabaseOk; /*!< \todo */
-   bool                    mCommunicationOk; /*!< \todo */
-   bool                    mProxyOk; /*!< \todo */
-   const QString           mQuit; /*!< \todo */
-   const QString           mStart; /*!< \todo */
+   int                     mLastTab; /*!< \brief \todo complete documentation */
+   bool                    mDatabaseOk; /*!< \brief \todo complete documentation */
+   bool                    mCommunicationOk; /*!< \brief \todo complete documentation */
+   bool                    mProxyOk; /*!< \brief \todo complete documentation */
+   const QString           mQuit; /*!< \brief \todo complete documentation */
+   const QString           mStart; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

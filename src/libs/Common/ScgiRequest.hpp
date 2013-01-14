@@ -57,8 +57,8 @@ public:
    const QByteArray content() const;
 
 private:
-   const char  *mpContentStart; /*!< \brief \todo TODO */
-   int         mContentSize; /*!< \brief \todo TODO */
+   const char  *mpContentStart; /*!< \brief \todo complete documentation */
+   int         mContentSize; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

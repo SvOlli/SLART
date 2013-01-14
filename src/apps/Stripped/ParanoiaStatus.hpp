@@ -100,14 +100,14 @@ signals:
 private:
    Q_DISABLE_COPY( ParanoiaStatus )
 
-   int               *mpData; /*!< \brief \todo */
-   QGridLayout       *mpLayout; /*!< \brief \todo */
-   QLabel            *mpError; /*!< \brief \todo */
-   QSpinBox          *mpTrackNr; /*!< \brief \todo */
-   QLabel            *mpTotal; /*!< \brief \todo */
-   QLabel            **mpHeaders; /*!< \brief \todo */
-   QLabel            **mpTrackErrors; /*!< \brief \todo */
-   QLabel            **mpTotalErrors; /*!< \brief \todo */
+   int               *mpData;/*!< \brief \todo complete documentation */
+   QGridLayout       *mpLayout;/*!< \brief \todo complete documentation */
+   QLabel            *mpError;/*!< \brief \todo complete documentation */
+   QSpinBox          *mpTrackNr;/*!< \brief \todo complete documentation */
+   QLabel            *mpTotal;/*!< \brief \todo complete documentation */
+   QLabel            **mpHeaders;/*!< \brief \todo complete documentation */
+   QLabel            **mpTrackErrors;/*!< \brief \todo complete documentation */
+   QLabel            **mpTotalErrors;/*!< \brief \todo complete documentation */
    QToolBar          *mpToolBar;
 };
 

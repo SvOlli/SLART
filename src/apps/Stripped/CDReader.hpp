@@ -223,13 +223,13 @@ signals:
 private:
    Q_DISABLE_COPY( CDReader )
 
-   CDReaderThread       *mpCDReaderThread; /*!< \todo */
-   CDInfo               *mpCDInfo; /*!< \todo */
-   CDEdit               *mpCDEdit; /*!< \todo */
-   QProgressBar         *mpProgressBar; /*!< \todo */
-   QLabel               *mpRippingSpeed; /*!< \todo */
-   MagicEncoderList     mEncoders; /*!< \todo */
-   QString              mDevice; /*!< \todo */
+   CDReaderThread       *mpCDReaderThread; /*!< \brief \todo complete documentation */
+   CDInfo               *mpCDInfo; /*!< \brief \todo complete documentation */
+   CDEdit               *mpCDEdit; /*!< \brief \todo complete documentation */
+   QProgressBar         *mpProgressBar; /*!< \brief \todo complete documentation */
+   QLabel               *mpRippingSpeed; /*!< \brief \todo complete documentation */
+   MagicEncoderList     mEncoders; /*!< \brief \todo complete documentation */
+   QString              mDevice; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

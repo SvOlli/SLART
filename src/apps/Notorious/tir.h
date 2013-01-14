@@ -4,8 +4,6 @@
  *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
- *
- * tir is a small "unTar In Ram" library that right now only unpacks tar.bz2
  */
 
 
@@ -19,7 +17,6 @@
 */
 
 /*!
- \file tir.h
  \brief "unTar In Ram"
 
  A small set of routines to handle reading data from a tar archive.

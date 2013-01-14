@@ -39,7 +39,7 @@ class Satellite;
 */
 
 /*!
- \brief \todo complete documentation
+ \brief \todo complete documentation complete documentation
 
  \dotfile "graphs/libs/Common/DatabaseThread_connect.dot" "Connect Graph"
 */
@@ -227,20 +227,20 @@ public:
               const QVariant &payload = QVariant() );
 
    /*!
-    \brief \todo
+    \brief \todo complete documentation
 
    */
    Q_INVOKABLE void commit( bool intermediate = false );
 
 signals:
    /*!
-    \brief \todo
+    \brief \todo complete documentation
 
    */
    void working( bool on );
 
    /*!
-    \brief \todo
+    \brief \todo complete documentation
 
    */
    void sendUpdate( const QByteArray &message );
@@ -249,7 +249,7 @@ private:
    Q_DISABLE_COPY( DatabaseThread )
 
    /*!
-    \brief \todo
+    \brief \todo complete documentation
 
    */
    void prepare();

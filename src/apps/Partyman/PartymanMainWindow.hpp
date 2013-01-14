@@ -177,7 +177,7 @@ public slots:
    void showTab( const QString &name );
 
    /*!
-    \brief \todo
+    \brief \todo complete documentation
 
     \param bool
    */
@@ -185,14 +185,14 @@ public slots:
 
 signals:
    /*!
-    \brief \todo
+    \brief \todo complete documentation
 
     \param qmi
    */
    void expand( const QModelIndex &qmi );
 
    /*!
-    \brief \todo
+    \brief \todo complete documentation
 
     \param isValid
    */
@@ -230,7 +230,7 @@ private:
                         bool favoriteOnly, bool leastPlayed, const QString &playFolder );
 
    /*!
-    \brief \todo
+    \brief \todo complete documentation
 
     \param widget
     \param name

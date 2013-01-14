@@ -110,15 +110,15 @@ protected:
 private:
    Q_DISABLE_COPY( FunkytownMainWidget )
 
-   QGridLayout             *mpLayout; /*!< \todo */
-   QLabel                  *mpDirText; /*!< \todo */
-   QPushButton             *mpDirButton; /*!< \todo */
-   QLabel                  *mpNameText; /*!< \todo */
-   QLineEdit               *mpNameInput; /*!< \todo */
-   QPushButton             *mpGoButton; /*!< \todo */
-   QPushButton             *mpSettingsButton; /*!< \todo */
-   ConfigDialog            *mpConfigDialog; /*!< \todo */
-   DownloadHandler         *mpDownloadHandler; /*!< \todo */
+   QGridLayout             *mpLayout; /*!< \brief \todo complete documentation */
+   QLabel                  *mpDirText; /*!< \brief \todo complete documentation */
+   QPushButton             *mpDirButton; /*!< \brief \todo complete documentation */
+   QLabel                  *mpNameText; /*!< \brief \todo complete documentation */
+   QLineEdit               *mpNameInput; /*!< \brief \todo complete documentation */
+   QPushButton             *mpGoButton; /*!< \brief \todo complete documentation */
+   QPushButton             *mpSettingsButton; /*!< \brief \todo complete documentation */
+   ConfigDialog            *mpConfigDialog; /*!< \brief \todo complete documentation */
+   DownloadHandler         *mpDownloadHandler; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

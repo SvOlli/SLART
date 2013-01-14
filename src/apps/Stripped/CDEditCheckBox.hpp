@@ -66,7 +66,7 @@ protected:
    void keyPressEvent( QKeyEvent *event );
 
 private:
-   CDEdit   *mpParent; /*!< \todo */
+   CDEdit   *mpParent; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

@@ -72,7 +72,7 @@ protected:
 private:
    Q_DISABLE_COPY( TimeSlider )
 
-   QTimer mWheelTimeout; /*!< \todo */
+   QTimer mWheelTimeout; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

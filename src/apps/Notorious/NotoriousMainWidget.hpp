@@ -76,12 +76,12 @@ signals:
 private:
    Q_DISABLE_COPY( NotoriousMainWidget )
 
-   FreeDB       *mpFreeDB; /*!< \todo */
-   SearchWidget *mpSearch; /*!< \todo */
-   Foundlist    *mpFound; /*!< \todo */
-   Foundlist    *mpCDInfo; /*!< \todo */
-   ConfigDialog *mpConfig; /*!< \todo */
-   QPushButton  *mpSettingsButton; /*!< \todo */
+   FreeDB       *mpFreeDB; /*!< \brief \todo complete documentation */
+   SearchWidget *mpSearch; /*!< \brief \todo complete documentation */
+   Foundlist    *mpFound; /*!< \brief \todo complete documentation */
+   Foundlist    *mpCDInfo; /*!< \brief \todo complete documentation */
+   ConfigDialog *mpConfig; /*!< \brief \todo complete documentation */
+   QPushButton  *mpSettingsButton; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

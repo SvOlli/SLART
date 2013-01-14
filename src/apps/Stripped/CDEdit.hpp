@@ -194,33 +194,33 @@ private:
    */
    void ensureVisibleFocus( QWidget *widget );
 
-   CDInfo       *mpCDInfo; /*!< \todo */
-   CDDBClient   *mpCDDBClient; /*!< \todo */
-   QScrollArea  *mpScrollArea; /*!< \todo */
-   QWidget      *mpScrollWidget; /*!< \todo */
-   QGridLayout  *mpMainLayout; /*!< \todo */
-   QLabel       *mpLabelDiscArtist; /*!< \todo */
-   QLabel       *mpLabelDiscTitle; /*!< \todo */
-   QLabel       *mpLabelDiscGenre; /*!< \todo */
-   QLineEdit    *mpDiscArtist; /*!< \todo */
-   QLineEdit    *mpDiscTitle; /*!< \todo */
-   QLineEdit    *mpDiscGenre; /*!< \todo */
-   QLabel       *mpLabelDiscID; /*!< \todo */
-   QLabel       *mpDiscID; /*!< \todo */
-   QLabel       *mpDiscPlaytime; /*!< \todo */
-   QLabel       *mpLabelTrackNr; /*!< \todo */
-   QLabel       *mpLabelEnqueueTrack; /*!< \todo */
-   QLabel       *mpLabelTrackArtist; /*!< \todo */
-   QLabel       *mpLabelTrackTitle; /*!< \todo */
-   QLabel       *mpLabelTrackYear; /*!< \todo */
-   QLabel       *mpLabelTrackPlaytime; /*!< \todo */
-   QCheckBox    **mpTrackNr; /*!< \todo */
-   QCheckBox    **mpEnqueueTrack; /*!< \todo */
-   QLineEdit    **mpTrackArtist; /*!< \todo */
-   QLineEdit    **mpTrackTitle; /*!< \todo */
-   QLineEdit    **mpTrackYear; /*!< \todo */
-   QLabel       **mpTrackPlaytime; /*!< \todo */
-   int          mLastColumn; /*!< \todo */
+   CDInfo       *mpCDInfo; /*!< \brief \todo complete documentation */
+   CDDBClient   *mpCDDBClient; /*!< \brief \todo complete documentation */
+   QScrollArea  *mpScrollArea; /*!< \brief \todo complete documentation */
+   QWidget      *mpScrollWidget; /*!< \brief \todo complete documentation */
+   QGridLayout  *mpMainLayout; /*!< \brief \todo complete documentation */
+   QLabel       *mpLabelDiscArtist; /*!< \brief \todo complete documentation */
+   QLabel       *mpLabelDiscTitle; /*!< \brief \todo complete documentation */
+   QLabel       *mpLabelDiscGenre; /*!< \brief \todo complete documentation */
+   QLineEdit    *mpDiscArtist; /*!< \brief \todo complete documentation */
+   QLineEdit    *mpDiscTitle; /*!< \brief \todo complete documentation */
+   QLineEdit    *mpDiscGenre; /*!< \brief \todo complete documentation */
+   QLabel       *mpLabelDiscID; /*!< \brief \todo complete documentation */
+   QLabel       *mpDiscID; /*!< \brief \todo complete documentation */
+   QLabel       *mpDiscPlaytime; /*!< \brief \todo complete documentation */
+   QLabel       *mpLabelTrackNr; /*!< \brief \todo complete documentation */
+   QLabel       *mpLabelEnqueueTrack; /*!< \brief \todo complete documentation */
+   QLabel       *mpLabelTrackArtist; /*!< \brief \todo complete documentation */
+   QLabel       *mpLabelTrackTitle; /*!< \brief \todo complete documentation */
+   QLabel       *mpLabelTrackYear; /*!< \brief \todo complete documentation */
+   QLabel       *mpLabelTrackPlaytime; /*!< \brief \todo complete documentation */
+   QCheckBox    **mpTrackNr; /*!< \brief \todo complete documentation */
+   QCheckBox    **mpEnqueueTrack; /*!< \brief \todo complete documentation */
+   QLineEdit    **mpTrackArtist; /*!< \brief \todo complete documentation */
+   QLineEdit    **mpTrackTitle; /*!< \brief \todo complete documentation */
+   QLineEdit    **mpTrackYear; /*!< \brief \todo complete documentation */
+   QLabel       **mpTrackPlaytime; /*!< \brief \todo complete documentation */
+   int          mLastColumn; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

@@ -189,21 +189,21 @@ protected:
    bool writeChunk( const char* buffer, qint64 size );
 
    /* settings */
-   MagicEncoderProxy *mpProxy; /*!< \brief \todo */
-   QAction           *mpToggleEnableAction; /*!< \brief \todo */
-   bool              mEnqueue; /*!< \brief \todo */
-   bool              mDirOverride; /*!< \brief \todo */
-   QString           mDirectory; /*!< \brief \todo */
-   QString           mPluginFileName; /*!< \brief \todo */
-   QString           mMsgHeader; /*!< \brief \todo */
-   const QString     mName; /*!< \brief \todo */
-   QFile             mFile; /*!< \brief \todo */
+   MagicEncoderProxy *mpProxy;/*!< \brief \todo complete documentation */
+   QAction           *mpToggleEnableAction;/*!< \brief \todo complete documentation */
+   bool              mEnqueue;/*!< \brief \todo complete documentation */
+   bool              mDirOverride;/*!< \brief \todo complete documentation */
+   QString           mDirectory;/*!< \brief \todo complete documentation */
+   QString           mPluginFileName;/*!< \brief \todo complete documentation */
+   QString           mMsgHeader;/*!< \brief \todo complete documentation */
+   const QString     mName;/*!< \brief \todo complete documentation */
+   QFile             mFile;/*!< \brief \todo complete documentation */
    TagMap            mTagMap; /*!< \brief tags to insert in encoded file */
 
 private:
    Q_DISABLE_COPY( MagicEncoder )
 
-   QString           mFileName; /*!< \brief \todo */
+   QString           mFileName;/*!< \brief \todo complete documentation */
 };
 
 /*! @} */

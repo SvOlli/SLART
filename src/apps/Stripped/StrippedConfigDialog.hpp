@@ -139,24 +139,24 @@ signals:
 private:
    Q_DISABLE_COPY( StrippedConfigDialog )
 
-   CDReader             *mpCDReader; /*!< \brief \todo */
-   GlobalConfigWidget   *mpGlobalConfigWidget; /*!< \brief \todo */
-   ProxyWidget          *mpProxyWidget; /*!< \brief \todo */
-   QLabel               *mpDevicesLabel; /*!< \brief \todo */
-   QComboBox            *mpDevicesBox; /*!< \brief \todo */
-   QCheckBox            *mpAutoFreeDB; /*!< \brief \todo */
-   QCheckBox            *mpAutoEject; /*!< \brief \todo */
-   QCheckBox            *mpAutoEnqueue; /*!< \brief \todo */
-   QCheckBox            *mpCDTextLatin1; /*!< \brief \todo */
-   QLabel               *mpDirButtonLabel; /*!< \brief \todo */
-   QLineEdit            *mpDirEdit; /*!< \brief \todo */
-   QPushButton          *mpDirButton; /*!< \brief \todo */
-   QLabel               *mpPatternLabel; /*!< \brief \todo */
-   QLineEdit            *mpPattern; /*!< \brief \todo */
-   QLabel               *mpPatternExample; /*!< \brief \todo */
-   QTabWidget           *mpEncoderTabs; /*!< \brief \todo */
+   CDReader             *mpCDReader;/*!< \brief \todo complete documentation */
+   GlobalConfigWidget   *mpGlobalConfigWidget;/*!< \brief \todo complete documentation */
+   ProxyWidget          *mpProxyWidget;/*!< \brief \todo complete documentation */
+   QLabel               *mpDevicesLabel;/*!< \brief \todo complete documentation */
+   QComboBox            *mpDevicesBox;/*!< \brief \todo complete documentation */
+   QCheckBox            *mpAutoFreeDB;/*!< \brief \todo complete documentation */
+   QCheckBox            *mpAutoEject;/*!< \brief \todo complete documentation */
+   QCheckBox            *mpAutoEnqueue;/*!< \brief \todo complete documentation */
+   QCheckBox            *mpCDTextLatin1;/*!< \brief \todo complete documentation */
+   QLabel               *mpDirButtonLabel;/*!< \brief \todo complete documentation */
+   QLineEdit            *mpDirEdit;/*!< \brief \todo complete documentation */
+   QPushButton          *mpDirButton;/*!< \brief \todo complete documentation */
+   QLabel               *mpPatternLabel;/*!< \brief \todo complete documentation */
+   QLineEdit            *mpPattern;/*!< \brief \todo complete documentation */
+   QLabel               *mpPatternExample;/*!< \brief \todo complete documentation */
+   QTabWidget           *mpEncoderTabs;/*!< \brief \todo complete documentation */
    TagMap               mTagMap; /*!< \brief contains dummy parameter as an example */
-   MagicEncoderList     mEncoders; /*!< \brief \todo */
+   MagicEncoderList     mEncoders;/*!< \brief \todo complete documentation */
 };
 
 /* defaults */

@@ -126,12 +126,12 @@ private:
    bool                 mUnsetFlags; /*!< \brief unset flags */
    bool                 mSetGroups; /*!< \brief add to groups */
    bool                 mUnsetGroups; /*!< \brief remove from groups */
-   QString              mDir; /*!< \brief \todo */
-   QString              mPatternWithTrackNr; /*!< \brief \todo */
-   QString              mPatternWithoutTrackNr; /*!< \brief \todo */
-   TrackInfo            mTrackInfo; /*!< \brief \todo */
-   TagMap               mTagMap; /*!< \brief \todo */
-   DatabaseInterface    *mpDatabase; /*!< \brief \todo */
+   QString              mDir;/*!< \brief \todo complete documentation */
+   QString              mPatternWithTrackNr;/*!< \brief \todo complete documentation */
+   QString              mPatternWithoutTrackNr;/*!< \brief \todo complete documentation */
+   TrackInfo            mTrackInfo;/*!< \brief \todo complete documentation */
+   TagMap               mTagMap;/*!< \brief \todo complete documentation */
+   DatabaseInterface    *mpDatabase;/*!< \brief \todo complete documentation */
 };
 
 /*! @} */
