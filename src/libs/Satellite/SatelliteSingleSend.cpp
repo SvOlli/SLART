@@ -25,10 +25,10 @@
 /* class variable instantiation */
 
 
-void SatelliteSingleSend::send( const QHostAddress &host, quint16 port,
+QObject *SatelliteSingleSend::send( const QHostAddress &host, quint16 port,
                            const QByteArray &message )
 {
-   new SatelliteSingleSend( host, port, message );
+   return new SatelliteSingleSend( host, port, message );
 }
 
 
@@ -51,6 +51,7 @@ SatelliteSingleSend::SatelliteSingleSend( const QHostAddress &host, quint16 port
 
 SatelliteSingleSend::~SatelliteSingleSend()
 {
+   emit done();
 }
 
 

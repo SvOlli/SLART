@@ -53,8 +53,9 @@ public:
     \param host host to connect to
     \param port port to connect to
     \param message message to send
+    \return object that holds message, which will emit signal done on completion
    */
-   static void send( const QHostAddress &host, quint16 port, const QByteArray &message );
+   static QObject *send( const QHostAddress &host, quint16 port, const QByteArray &message );
 
 private slots:
    /*!
@@ -64,6 +65,11 @@ private slots:
    void connected();
 
 signals:
+   /*!
+    \brief emitted upon deletion to show job is done
+
+   */
+   void done();
 
 private:
    /*!
