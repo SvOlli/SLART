@@ -119,6 +119,12 @@ public slots:
 
 private slots:
    /*!
+    \brief start the client and connect to server
+
+   */
+   void restart();
+
+   /*!
     \brief connection to server failed
 
     \param socketError
@@ -192,12 +198,6 @@ private:
 
    */
    virtual ~Satellite();
-
-   /*!
-    \brief start the client and connect to server
-
-   */
-   void restart();
 
    /*!
     \brief main loop
