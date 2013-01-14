@@ -83,8 +83,9 @@ public:
     \brief send a message via Satellite according to settings
 
     \param message message to send
+    \return object that holds the message and emits "done()" when done/deleted
    */
-   static void send( const QByteArray &message );
+   static QObject *send( const QByteArray &message );
 
 public slots:
    /*!

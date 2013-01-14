@@ -73,10 +73,10 @@ void GenericSatelliteHandler::createSatellite()
 }
 
 
-void GenericSatelliteHandler::send(const QByteArray &message)
+QObject *GenericSatelliteHandler::send(const QByteArray &message)
 {
-   SatelliteSingleSend::send( QHostAddress( Settings::value( Settings::GlobalSatelliteHost ) ),
-                              Settings::value( Settings::GlobalSatellitePort ), message );
+   return SatelliteSingleSend::send( QHostAddress( Settings::value( Settings::GlobalSatelliteHost ) ),
+                                     Settings::value( Settings::GlobalSatellitePort ), message );
 }
 
 
