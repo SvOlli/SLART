@@ -5,7 +5,8 @@
 # distributed as public domain
 #
 
-CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
+# CMAKE_PARSE_ARGUMENTS was introduced with 2.8.3
+CMAKE_MINIMUM_REQUIRED( VERSION 2.8.3 )
 
 IF( "${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}" )
    MESSAGE( FATAL_ERROR "Only out of sources builds are supported" )
