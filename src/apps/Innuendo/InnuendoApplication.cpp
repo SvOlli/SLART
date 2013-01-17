@@ -14,7 +14,7 @@
 /* local library headers */
 #include <GenericSatelliteHandler.hpp>
 #include <MainWindow.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <Satellite.hpp>
 #include <SorcererLoader.hpp>
 #include <Trace.hpp>
@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
    {
       QApplication app( argc, argv );
       Q_INIT_RESOURCE( Common );
+      Settings::setApplicationStyleSheet( &app );
 
       Translate translate;
       translate.install( &app );
@@ -45,14 +46,6 @@ int main(int argc, char *argv[])
       SorcererLoader::detect();
 
       GenericSatelliteHandler::createSatellite();
-      {
-         QFile qssFile( MySettings().styleSheetFile() );
-         if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
-         {
-            app.setStyleSheet( qssFile.readAll() );
-            qssFile.close();
-         }
-      }
 
       MainWindow window;
       InnuendoMainWidget *mainWidget = new InnuendoMainWidget( &window );

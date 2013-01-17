@@ -24,7 +24,7 @@ RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
 
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
-SOURCES += Application.cpp
+SOURCES += InnuendoApplication.cpp
 
 HEADERS += ConfigDialog.hpp
 SOURCES += ConfigDialog.cpp

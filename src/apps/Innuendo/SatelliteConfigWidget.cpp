@@ -15,8 +15,8 @@
 #include <QtGui>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 
@@ -74,7 +74,7 @@ void SatelliteConfigWidget::readSettings()
 {
    foreach( QAbstractButton *button, mButtonList )
    {
-      button->setChecked( MySettings( button->text() ).value( "UseSatellite", false ).toBool() );
+      button->setChecked( Settings::get( button->text() )->value( "UseSatellite", false ).toBool() );
    }
    emit useInnuendoClicked( mButtonList.at(0)->isChecked() );
 }
@@ -84,7 +84,7 @@ void SatelliteConfigWidget::writeSettings()
 {
    foreach( QAbstractButton *button, mButtonList )
    {
-      MySettings( button->text() ).setValue( "UseSatellite", button->isChecked() );
+      Settings::get( button->text() )->setValue( "UseSatellite", button->isChecked() );
    }
 }
 

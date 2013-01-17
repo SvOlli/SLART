@@ -17,7 +17,7 @@
 /* local library headers */
 #include <GenericSatelliteHandler.hpp>
 #include <GlobalConfigWidget.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <Satellite.hpp>
 #include <WidgetShot.hpp>
 
@@ -39,7 +39,7 @@ InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpDropDialog( new DropDialog( this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint ) )
 , mpExecButtons(0)
 , mNumExecButtons(0)
-, mAutostart( MySettings().VALUE_STARTUP )
+, mAutostart( Settings::value( Settings::InnuendoStartup ) )
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
@@ -127,33 +127,6 @@ InnuendoMainWidget::~InnuendoMainWidget()
 }
 
 
-#if 0
-void MainWidget::aboutToClose()
-{
-TRACESTART(MainWidget::closeEvent)
-   QStringList runningApplications;
-
-   for( int i = 0; i < mNumExecButtons; i++ )
-   {
-TRACEMSG << mpExecButtons[i]->text() << mpExecButtons[i]->isChecked();
-      if( mpExecButtons[i]->isChecked() )
-      {
-         runningApplications << mpExecButtons[i]->text();
-         mpExecButtons[i]->click();
-      }
-   }
-   if( runningApplications.count() )
-   {
-      MySettings().setValue( "Startup", runningApplications );
-   }
-   else
-   {
-      MySettings().remove( "Startup" );
-   }
-}
-#endif
-
-
 void InnuendoMainWidget::autostart()
 {
    if( mAutostart.count() > 0 )
@@ -205,7 +178,7 @@ void InnuendoMainWidget::handleSatellite( const QByteArray &msg )
       mpMessageBuffer->addItem( line );
    }
 
-   while( mpMessageBuffer->count() > MySettings().VALUE_BUFFERSIZE )
+   while( mpMessageBuffer->count() > Settings::value( Settings::InnuendoBufferSize ) )
    {
       item = mpMessageBuffer->takeItem(0);
       if( item )

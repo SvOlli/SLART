@@ -19,10 +19,10 @@ INCLUDE_DIRECTORIES(
    ${COMMON_INCLUDE_DIR}
 )
 
-ADD_SOURCE( Application           cpp         )
 ADD_SOURCE( ConfigDialog          cpp hpp moc )
 ADD_SOURCE( DropDialog            cpp hpp moc )
 ADD_SOURCE( ExecButton            cpp hpp moc )
+ADD_SOURCE( InnuendoApplication   cpp         )
 ADD_SOURCE( InnuendoMainWidget    cpp hpp moc )
 ADD_SOURCE( LogListWidget         cpp hpp moc )
 ADD_SOURCE( SatelliteConfigWidget cpp hpp moc )

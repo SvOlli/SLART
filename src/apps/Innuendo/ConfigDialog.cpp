@@ -17,7 +17,7 @@
 /* local library headers */
 #include <AboutWidget.hpp>
 #include <GlobalConfigWidget.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <ProxyWidget.hpp>
 #include <Satellite.hpp>
 #include <WidgetShot.hpp>
@@ -123,9 +123,8 @@ void ConfigDialog::readSettings()
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
 
-   MySettings settings;
-   mpBufferSize->setValue( settings.VALUE_BUFFERSIZE );
-   QStringList autostart( settings.VALUE_STARTUP );
+   mpBufferSize->setValue( Settings::value( Settings::InnuendoBufferSize ) );
+   QStringList autostart( Settings::value( Settings::InnuendoStartup ) );
 
    mpAutostartPartyman->setChecked( autostart.contains( "Partyman" ) );
    mpAutostartKarmadrome->setChecked( autostart.contains( "Karmadrome" ) );
@@ -145,7 +144,6 @@ void ConfigDialog::writeSettings()
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
 
-   MySettings settings;
    QStringList autostart;
    if( mpAutostartPartyman->isChecked() ) { autostart.append( "Partyman" ); }
    if( mpAutostartKarmadrome->isChecked() ) { autostart.append( "Karmadrome" ); }
@@ -154,15 +152,8 @@ void ConfigDialog::writeSettings()
    if( mpAutostartFunkytown->isChecked() ) { autostart.append( "Funkytown" ); }
    if( mpAutostartNotorious->isChecked() ) { autostart.append( "Notorious" ); }
    if( mpAutostartCreep->isChecked() ) { autostart.append( "Creep" ); }
-   settings.setValue( "BufferSize", mpBufferSize->value() );
-   if( autostart.isEmpty() )
-   {
-      settings.remove( "Startup" );
-   }
-   else
-   {
-      settings.setValue( "Startup", autostart );
-   }
+   Settings::setValue( Settings::InnuendoBufferSize, mpBufferSize->value() );
+   Settings::setValue( Settings::InnuendoStartup, autostart );
 
    emit configChanged();
 }

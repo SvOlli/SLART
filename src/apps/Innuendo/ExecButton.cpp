@@ -7,22 +7,18 @@
  */
 
 /* class declaration */
+#include "ExecButton.hpp"
 
 /* system headers */
 
 /* Qt headers */
+#include <QCoreApplication>
+#include <QMessageBox>
 
 /* local library headers */
 
 /* local headers */
-
-#include "ExecButton.hpp"
-
-#include <QtGui>
-
 #include "ConfigDialog.hpp"
-
-#include <MySettings.hpp>
 
 
 ExecButton::ExecButton( const QString &name, QWidget *parent )
@@ -60,8 +56,6 @@ ExecButton::~ExecButton()
 
 void ExecButton::handleClick()
 {
-   MySettings settings;
-
    if( isChecked() )
    {
       /* start */
