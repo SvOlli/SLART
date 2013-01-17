@@ -35,7 +35,9 @@ class QByteArray;
  */
 
 /*!
- \brief Encrypt data using the xxtea algorithm. If data size is less then 8 bytes no encryption will take place.
+ \brief Encrypt/Decrypt data using the xxtea algorithm.
+
+ If data size is less then 8 bytes no encryption will take place.
  If data size is not a multiple of 4 bytes, the last not fitting bytes will not encrypted.
 
 */

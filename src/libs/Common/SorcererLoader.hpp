@@ -26,7 +26,6 @@ class QPluginLoader;
 
 /* forward declaration of local classes */
 class SorcererInterface;
-class MySettings;
 
 /*!
   \addtogroup Common

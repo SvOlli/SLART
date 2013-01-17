@@ -8,7 +8,6 @@
 
 #include "Database.hpp"
 #include "DatabaseInterface.hpp"
-#include "MySettings.hpp"
 #include "TrackInfoWidget.hpp"
 #include "Satellite.hpp"
 #include "ScrollLine.hpp"

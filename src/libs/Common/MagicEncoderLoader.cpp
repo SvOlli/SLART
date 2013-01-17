@@ -26,7 +26,6 @@
 
 /* local headers */
 #include "Database.hpp"
-#include "MySettings.hpp"
 #include "Satellite.hpp"
 #include "Version.hpp"
 

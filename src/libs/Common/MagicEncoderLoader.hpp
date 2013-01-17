@@ -27,7 +27,6 @@ class QPluginLoader;
 
 /* forward declaration of local classes */
 class MagicEncoderProxy;
-class MySettings;
 class Satellite;
 typedef QList<MagicEncoderProxy*> MagicEncoderList;
 

@@ -35,6 +35,11 @@ class QThread;
 /*!
  \brief this is a small helper class to start threads immediately after entering
  the main loop
+
+ This is necessary, because
+ \code QTimer::singleShot( 0, thread, SLOT(start()) ); \endcode
+ will cause the event to be enqueued in the eventloop of the thread, causing
+ a chicken/egg-like problem.
 */
 /*
  \dotfile "graphs/libs/Common/ThreadAutoStart_connect.dot" "Connect Graph"
