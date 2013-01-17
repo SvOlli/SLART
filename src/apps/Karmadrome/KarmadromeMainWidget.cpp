@@ -18,7 +18,7 @@
 #include <DatabaseInterface.hpp>
 #include <GenericSatelliteHandler.hpp>
 #include <GlobalConfigWidget.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <Satellite.hpp>
 #include <ScrollLine.hpp>
 #include <TrackInfoWidget.hpp>
@@ -197,11 +197,10 @@ void KarmadromeMainWidget::handleSatellite( const QByteArray &msg )
                }
             }
 
-            MySettings settings;
-            ExportFolder *exportFolder = new ExportFolder( message.at(1), message.at(2),
-                                                           settings.VALUE_EXPORTASRELATIVE,
-                                                           settings.VALUE_RANDOMIZEEXPORT );
-            Q_UNUSED( exportFolder );
+            /* will remove itself using deleteLater() */
+            new ExportFolder( message.at(1), message.at(2),
+                              Settings::value( Settings::KarmadromeExportAsRelative ),
+                              Settings::value( Settings::KarmadromeRandomizeExport ) );
          }
       }
 
@@ -209,9 +208,9 @@ void KarmadromeMainWidget::handleSatellite( const QByteArray &msg )
       {
          if( message.at(2).startsWith( "/" ) )
          {
-            ImportFolder *importFolder = new ImportFolder( message.at(1), message.at(2),
-                                                           MySettings().VALUE_CLEARBEFOREIMPORT );
-            Q_UNUSED( importFolder );
+            /* will remove itself using deleteLater() */
+            new ImportFolder( message.at(1), message.at(2),
+                              Settings::value( Settings::KarmadromeClearBeforeImport ) );
          }
       }
    }
@@ -318,15 +317,14 @@ void KarmadromeMainWidget::handleAdd()
 
 void KarmadromeMainWidget::handleExport( QAction *action )
 {
-   MySettings settings;
    setButtonsEnabled( false );
    QFileDialog dialog( this, tr("Rubberbandman: Export %1 To:").arg(action->text()) );
    dialog.setFileMode( QFileDialog::AnyFile );
    dialog.setFilter( tr("Playlist files (*.m3u)") );
-   QString rqdir( settings.VALUE_EXPORTDIRECTORY );
+   QString rqdir( Settings::value( Settings::KarmadromeExportDirectory ) );
    if( !QFileInfo( rqdir ).isDir() )
    {
-      rqdir = settings.VALUE_IMPORTDIRECTORY;
+      rqdir = Settings::value( Settings::KarmadromeImportDirectory );
    }
    if( !QFileInfo( rqdir ).isDir() )
    {
@@ -337,7 +335,7 @@ void KarmadromeMainWidget::handleExport( QAction *action )
    dialog.setConfirmOverwrite( false ); // handled in exportM3u()
    if( dialog.exec() )
    {
-      settings.setValue( "ExportDirectory", dialog.directory().absolutePath() );
+      Settings::setValue( Settings::KarmadromeExportDirectory, dialog.directory().absolutePath() );
       if( dialog.selectedFiles().count() == 0 )
       {
          return;
@@ -357,8 +355,8 @@ void KarmadromeMainWidget::handleExport( QAction *action )
          folder = QChar(2);
       }
       ExportFolder *exportFolder = new ExportFolder( folder, fileName,
-                                                     settings.VALUE_EXPORTASRELATIVE,
-                                                     settings.VALUE_RANDOMIZEEXPORT );
+                                                     Settings::value( Settings::KarmadromeExportAsRelative ),
+                                                     Settings::value( Settings::KarmadromeRandomizeExport ) );
       connect( exportFolder, SIGNAL(destroyed()),
                this, SLOT(setButtonsEnabled()) );
    }
@@ -371,15 +369,14 @@ void KarmadromeMainWidget::handleExport( QAction *action )
 
 void KarmadromeMainWidget::handleImport( QAction *action )
 {
-   MySettings settings;
    setButtonsEnabled( false );
    QFileDialog dialog( this, tr("Rubberbandman: Import %1 From:").arg(action->text()) );
    dialog.setFileMode( QFileDialog::ExistingFiles );
    dialog.setFilter( tr("Playlist files (*.m3u)") );
-   QString rqdir( settings.VALUE_IMPORTDIRECTORY );
+   QString rqdir( Settings::value( Settings::KarmadromeImportDirectory ) );
    if( !QFileInfo( rqdir ).isDir() )
    {
-      rqdir = settings.VALUE_EXPORTDIRECTORY;
+      rqdir = Settings::value( Settings::KarmadromeExportDirectory );
    }
    if( !QFileInfo( rqdir ).isDir() )
    {
@@ -389,8 +386,7 @@ void KarmadromeMainWidget::handleImport( QAction *action )
    dialog.setAcceptMode( QFileDialog::AcceptOpen );
    if( dialog.exec() )
    {
-      TrackInfo trackInfo;
-      settings.setValue( "ImportDirectory", dialog.directory().absolutePath() );
+      Settings::setValue( Settings::KarmadromeImportDirectory, dialog.directory().absolutePath() );
       QString cwd( QDir::currentPath() );
 
       QString folder( action->text() );
@@ -406,7 +402,7 @@ void KarmadromeMainWidget::handleImport( QAction *action )
       for( int i = 0; i < dialog.selectedFiles().count(); i++ )
       {
          ImportFolder *importFolder = new ImportFolder( folder, dialog.selectedFiles().at(i),
-                                                        (!i) ? settings.VALUE_CLEARBEFOREIMPORT : false );
+                                                        (!i) ? Settings::value( Settings::KarmadromeClearBeforeImport ) : false );
          connect( importFolder, SIGNAL(destroyed()),
                   this, SLOT(setButtonsEnabled()) );
       }
@@ -444,8 +440,7 @@ void KarmadromeMainWidget::handleReadButton()
 
 void KarmadromeMainWidget::labelReadButton()
 {
-   MySettings settings( "Global" );
-   int mode = settings.VALUE_CLIPBOARDMODE;
+   int mode = Settings::value( Settings::GlobalClipboardMode );
 
    switch( mode )
    {
