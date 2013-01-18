@@ -30,7 +30,7 @@ class QSpinBox;
 class QStringList;
 
 /* forward declaration of local classes */
-class ConfigDialog;
+class InnuendoConfigDialog;
 class DropDialog;
 class ExecButton;
 class GenericSatelliteHandler;
@@ -114,7 +114,7 @@ private:
    LogListWidget           *mpMessageBuffer;
    QPushButton             *mpSettingsButton;
    QPushButton             *mpPingButton;
-   ConfigDialog            *mpConfig;
+   InnuendoConfigDialog    *mpConfig;
    DropDialog              *mpDropDialog;
    ExecButton              **mpExecButtons;
    int                     mNumExecButtons;

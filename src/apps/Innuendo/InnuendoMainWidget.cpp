@@ -25,9 +25,9 @@
 #include <WidgetShot.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
-#include "ExecButton.hpp"
 #include "DropDialog.hpp"
+#include "ExecButton.hpp"
+#include "InnuendoConfigDialog.hpp"
 #include "LogListWidget.hpp"
 
 
@@ -38,7 +38,7 @@ InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpMessageBuffer( new LogListWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpPingButton( new QPushButton( tr("Ping"), this ) )
-, mpConfig( new ConfigDialog( this ) )
+, mpConfig( new InnuendoConfigDialog( this ) )
 , mpDropDialog( new DropDialog( this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint ) )
 , mpExecButtons(0)
 , mNumExecButtons(0)

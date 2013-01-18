@@ -19,7 +19,6 @@
 /* local library headers */
 
 /* local headers */
-#include "ConfigDialog.hpp"
 
 
 LogListWidget::LogListWidget( QWidget *parent )

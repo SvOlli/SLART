@@ -1,5 +1,5 @@
 /*
- * src/apps/Innuendo/ConfigDialog.cpp
+ * src/apps/Innuendo/InnuendoConfigDialog.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "ConfigDialog.hpp"
+#include "InnuendoConfigDialog.hpp"
 
 /* system headers */
 
@@ -32,7 +32,7 @@
 #include "SatelliteConfigWidget.hpp"
 
 
-ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
+InnuendoConfigDialog::InnuendoConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpSatelliteConfigWidget( new SatelliteConfigWidget( this ) )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
@@ -116,14 +116,14 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 }
 
 
-void ConfigDialog::exec()
+void InnuendoConfigDialog::exec()
 {
    readSettings();
    QDialog::exec();
 }
 
 
-void ConfigDialog::readSettings()
+void InnuendoConfigDialog::readSettings()
 {
    mpSatelliteConfigWidget->readSettings();
    mpGlobalConfigWidget->readSettings();
@@ -144,7 +144,7 @@ void ConfigDialog::readSettings()
 }
 
 
-void ConfigDialog::writeSettings()
+void InnuendoConfigDialog::writeSettings()
 {
    mpSatelliteConfigWidget->writeSettings();
    mpGlobalConfigWidget->writeSettings();

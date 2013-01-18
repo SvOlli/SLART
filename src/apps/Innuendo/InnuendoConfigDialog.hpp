@@ -1,5 +1,5 @@
 /*
- * src/apps/Innuendo/ConfigDialog.hpp
+ * src/apps/Innuendo/InnuendoConfigDialog.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -44,14 +44,14 @@ class SatelliteConfigWidget;
 /*!
  \brief \todo complete documentation
 
- \dotfile "graphs/apps/Innuendo/ConfigDialog_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Innuendo/InnuendoConfigDialog_connect.dot" "Connect Graph"
 */
-class ConfigDialog : public QDialog
+class InnuendoConfigDialog : public QDialog
 {
    Q_OBJECT
 
 public:
-   ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   InnuendoConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
    /*!
@@ -78,8 +78,8 @@ signals:
    void configChanged();
 
 private:
-   ConfigDialog( const ConfigDialog &that );
-   ConfigDialog &operator=( const ConfigDialog &that );
+   InnuendoConfigDialog( const InnuendoConfigDialog &that );
+   InnuendoConfigDialog &operator=( const InnuendoConfigDialog &that );
 
    SatelliteConfigWidget   *mpSatelliteConfigWidget;
    GlobalConfigWidget      *mpGlobalConfigWidget;

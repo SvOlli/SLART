@@ -18,7 +18,6 @@
 /* local library headers */
 
 /* local headers */
-#include "ConfigDialog.hpp"
 
 
 ExecButton::ExecButton( const QString &name, QWidget *parent )
