@@ -1,5 +1,5 @@
 /*
- * src/apps/Innuendo/Application.cpp
+ * src/apps/Innuendo/InnuendoApplication.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -9,7 +9,7 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
 
 /* local library headers */
 #include <GenericSatelliteHandler.hpp>

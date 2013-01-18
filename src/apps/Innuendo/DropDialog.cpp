@@ -12,7 +12,16 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QClipboard>
+#include <QComboBox>
+#include <QDragEnterEvent>
+#include <QHBoxLayout>
+#include <QMimeData>
+#include <QPushButton>
+#include <QSignalMapper>
+#include <QTextBrowser>
+#include <QVBoxLayout>
 
 /* local library headers */
 #include <AboutWidget.hpp>

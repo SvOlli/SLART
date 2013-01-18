@@ -12,7 +12,10 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QDateTime>
+#include <QDragEnterEvent>
+#include <QGridLayout>
+#include <QTimer>
 
 /* local library headers */
 #include <GenericSatelliteHandler.hpp>

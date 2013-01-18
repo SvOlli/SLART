@@ -12,7 +12,10 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QCheckBox>
+#include <QLabel>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 /* local library headers */
 #include <Satellite.hpp>
