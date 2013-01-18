@@ -1,5 +1,5 @@
 /*
- * src/apps/Rubberbandman/Application.cpp
+ * src/apps/Rubberbandman/RubberbandmanApplication.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)

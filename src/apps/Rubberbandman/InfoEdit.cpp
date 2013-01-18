@@ -18,7 +18,6 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
-#include <MySettings.hpp>
 #include <Satellite.hpp>
 #include <ScrollLine.hpp>
 #include <TagMap.hpp>

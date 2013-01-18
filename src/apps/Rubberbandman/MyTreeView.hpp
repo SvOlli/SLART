@@ -24,7 +24,6 @@
 /* local library headers */
 #include <Database.hpp>
 #include <DirWalker.hpp>
-#include <MySettings.hpp>
 #include <Satellite.hpp>
 
 /* local headers */
