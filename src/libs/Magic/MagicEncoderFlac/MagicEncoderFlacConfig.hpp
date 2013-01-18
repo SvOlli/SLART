@@ -80,7 +80,4 @@ private:
 
 /*! @} */
 
-#define VALUE_FLACQUALITY        value( "FlacQuality", 5 ).toInt()
-#define VALUE_FLACUSEOGA         value( "FlacUseOga", false ).toBool()
-
 #endif

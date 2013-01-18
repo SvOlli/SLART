@@ -78,6 +78,4 @@ private:
 
 /*! @} */
 
-#define VALUE_OGGQUALITY         value( "OggQuality", 0.4 ).toDouble()
-
 #endif
