@@ -18,7 +18,7 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <TagMap.hpp>
 #include <TrackInfo.hpp>
 
@@ -94,11 +94,11 @@ void TrackWriter::write( const TrackInfo &trackInfo )
    QString newName;
    if( trackInfo.mTrackNr < 0 )
    {
-      newName = tagMap.fileName( MySettings().VALUE_WITHOUTTRACKNR );
+      newName = tagMap.fileName( Settings::value( Settings::RubberbandmanWithoutTrackNr ) );
    }
    else
    {
-      newName = tagMap.fileName( MySettings().VALUE_WITHTRACKNR );
+      newName = tagMap.fileName( Settings::value( Settings::RubberbandmanWithTrackNr ) );
    }
    newName.append( trackInfo.mFileName.mid( trackInfo.mFileName.lastIndexOf('.') ) );
    TrackInfo ti( trackInfo );

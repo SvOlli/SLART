@@ -17,7 +17,7 @@
 /* local library headers */
 #include <AboutWidget.hpp>
 #include <GlobalConfigWidget.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <WidgetShot.hpp>
 
 /* local headers */
@@ -129,11 +129,10 @@ void ConfigDialog::exec()
 
 void ConfigDialog::readSettings()
 {
-   MySettings settings;
-   mpAutoRescan->setChecked( settings.VALUE_AUTORESCAN );
-   mpWithTrackNr->setText( settings.VALUE_WITHTRACKNR );
-   mpWithoutTrackNr->setText( settings.VALUE_WITHOUTTRACKNR );
-   mpPlayingPattern->setText( settings.VALUE_PLAYINGPATTERN );
+   mpAutoRescan->setChecked( Settings::value( Settings::RubberbandmanAutoRescan ) );
+   mpWithTrackNr->setText( Settings::value( Settings::RubberbandmanWithTrackNr ) );
+   mpWithoutTrackNr->setText( Settings::value( Settings::RubberbandmanWithoutTrackNr ) );
+   mpPlayingPattern->setText( Settings::value( Settings::RubberbandmanPlayingPattern ) );
 
    mpGlobalConfigWidget->readSettings();
 
@@ -143,11 +142,10 @@ void ConfigDialog::readSettings()
 
 void ConfigDialog::writeSettings()
 {
-   MySettings settings;
-   settings.setValue( "AutoRescan", mpAutoRescan->isChecked() );
-   settings.setValue( "WithTrackNr", mpWithTrackNr->text() );
-   settings.setValue( "WithoutTrackNr", mpWithoutTrackNr->text() );
-   settings.setValue( "PlayingPattern", mpPlayingPattern->text() );
+   Settings::setValue( Settings::RubberbandmanAutoRescan, mpAutoRescan->isChecked() );
+   Settings::setValue( Settings::RubberbandmanWithTrackNr, mpWithTrackNr->text() );
+   Settings::setValue( Settings::RubberbandmanWithoutTrackNr, mpWithoutTrackNr->text() );
+   Settings::setValue( Settings::RubberbandmanPlayingPattern, mpPlayingPattern->text() );
 
    mpGlobalConfigWidget->writeSettings();
 

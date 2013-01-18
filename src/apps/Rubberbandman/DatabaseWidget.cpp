@@ -19,7 +19,7 @@
 
 /* local library headers */
 #include <Database.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "DatabaseWorker.hpp"
@@ -89,7 +89,7 @@ DatabaseWidget::DatabaseWidget( QWidget *parent )
    layout->addWidget( mpPartymanInfo );
    layout->addStretch();
    setLayout(layout);
-   mpBaseDir->setText( MySettings( "Global" ).VALUE_MUSICBASE );
+   mpBaseDir->setText( Settings::value( Settings::GlobalMusicBase ) );
    readPartymanConfig();
 }
 
@@ -122,7 +122,7 @@ void DatabaseWidget::handleUpdate( bool checked )
    disableButtons( true );
    mCheckedText   = tr( "files scanned" );
    mProcessedText = tr( "updated" );
-   QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
+   QString baseDir( Settings::value( Settings::GlobalMusicBase ) );
    if( !baseDir.isEmpty() )
    {
       mpDatabaseWorker->startUpdate( baseDir );
@@ -185,10 +185,9 @@ void DatabaseWidget::setBaseDir()
 
    if( fileDialog.exec() )
    {
-      MySettings settings( "Global" );
       QString result( fileDialog.selectedFiles().at(0) );
       mpBaseDir->setText( result );
-      settings.setValue( "MusicBase", result.replace('\\','/') );
+      Settings::setValue( Settings::GlobalMusicBase, result.replace('\\','/') );
    }
 }
 
@@ -199,8 +198,7 @@ void DatabaseWidget::checkValidDir( const QString &dirName )
    if( qfi.isDir() )
    {
       mpUpdateButton->setDisabled( false );
-      MySettings settings( "Global" );
-      settings.setValue( "MusicBase", QString( dirName ).replace('\\','/') );
+      Settings::setValue( Settings::GlobalMusicBase, QString( dirName ).replace('\\','/') );
    }
    else
    {
@@ -227,13 +225,11 @@ void DatabaseWidget::handleFinished()
 
 void DatabaseWidget::readPartymanConfig( const QHostInfo &hi )
 {
-   MySettings partymanSettings( "Partyman" );
-
-   mPartymanLocal = partymanSettings.value("DerMixDrun", true).toBool();
+   mPartymanLocal = Settings::value( Settings::PartymanDerMixDrun );
    if( !mPartymanLocal && (hi.lookupId() == -1) )
    {
-      QHostInfo::lookupHost(partymanSettings.value("DerMixDhost", "localhost").toString(),
-                            this, SLOT(readPartymanConfig(QHostInfo)));
+      QHostInfo::lookupHost( Settings::value( Settings::PartymanDerMixDhost ),
+                             this, SLOT(readPartymanConfig(QHostInfo)) );
       return;
    }
    mPartymanLocal |= (hi.error() != QHostInfo::NoError);

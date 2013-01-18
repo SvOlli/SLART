@@ -18,7 +18,7 @@
 /* local library headers */
 #include <DatabaseInterface.hpp>
 #include <DirWalker.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <Satellite.hpp>
 
 /* local headers */
@@ -45,8 +45,6 @@ FileSysBrowser::FileSysBrowser( QWidget *parent )
 , mContextModelIndex()
 , mFileInfo()
 {
-   MySettings settings;
-
    QCompleter *completer = new QCompleter( this );
    completer->setModel( new QDirModel( QStringList(),
                                        QDir::NoDotAndDotDot | QDir::AllDirs,
@@ -54,7 +52,7 @@ FileSysBrowser::FileSysBrowser( QWidget *parent )
                                        completer ) );
    mpRootDir->setCompleter( completer );
 
-   mpModel->setNameFilters( settings.VALUE_FILEEXTENSIONS );
+   mpModel->setNameFilters( Settings::value( Settings::RubberbandmanFileExtensions ) );
    mpModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files );
    mpModel->setSorting( QDir::Name | QDir::DirsFirst | QDir::IgnoreCase /*| QDir::LocaleAware*/ );
    mpModel->setLazyChildCount( true );
@@ -143,7 +141,7 @@ void FileSysBrowser::handleRootDir()
    if( qmi.isValid() )
    {
       QString current( mpModel->filePath( mpView->currentIndex() ) );
-      MySettings().setValue( "RootDirectory", mpRootDir->text() );
+      Settings::setValue( Settings::RubberbandmanRootDirectory, mpRootDir->text() );
       mpModel->refresh( qmi );
       mpView->setRootIndex( qmi );
       mpView->setCurrentIndex( mpModel->index( current ) );
@@ -260,7 +258,7 @@ void FileSysBrowser::menuMove( bool contentOnly )
          QFile::rename( mFileInfo.fileName(), dest );
       }
 
-      if( MySettings().VALUE_AUTORESCAN )
+      if( Settings::value( Settings::RubberbandmanAutoRescan ) )
       {
          handleRootDir();
       }
@@ -285,7 +283,7 @@ void FileSysBrowser::menuRename()
          if( qd.rename( mFileInfo.fileName(), text ) )
          {
             mpDatabase->rename( mFileInfo.absoluteFilePath(), qfi.absoluteFilePath() );
-            if( MySettings().VALUE_AUTORESCAN )
+            if( Settings::value( Settings::RubberbandmanAutoRescan ) )
             {
                handleRootDir();
             }
@@ -320,7 +318,7 @@ void FileSysBrowser::menuDelete()
       {
          qdir.remove( mFileInfo.fileName() );
       }
-      if( MySettings().VALUE_AUTORESCAN )
+      if( Settings::value( Settings::RubberbandmanAutoRescan ) )
       {
          mpView->setCurrentIndex( mpView->indexAbove( mContextModelIndex ) );
          handleRootDir();

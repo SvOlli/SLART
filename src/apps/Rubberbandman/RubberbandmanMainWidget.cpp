@@ -17,8 +17,8 @@
 /* local library headers */
 #include <DatabaseInterface.hpp>
 #include <LEDIcon.hpp>
-#include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 #include <WidgetShot.hpp>
 
 /* local headers */
@@ -40,7 +40,6 @@ RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFla
 , mActiveLED( LEDIcon::pixmap( QColor("#ff0000"), 25 ) )
 , mIdleLED( LEDIcon::pixmap( QColor("#5f0000"), 25 ) )
 {
-   MySettings settings;
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
@@ -48,7 +47,7 @@ RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFla
    mpTabs->addTab( mpBrowseWidget,    tr("Filesystem") );
    mpTabs->addTab( mpSatelliteWidget, tr("Satellite") );
    mpTabs->addTab( mpDatabaseWidget,  tr("Database") );
-   mpTabs->setCurrentIndex( settings.VALUE_CURRENTTAB );
+   mpTabs->setCurrentIndex( Settings::value( Settings::RubberbandmanCurrentTab ) );
 
    mainLayout->addWidget( mpTabs );
    QHBoxLayout *bottomLayout( new QHBoxLayout() );
@@ -89,7 +88,7 @@ void RubberbandmanMainWidget::goToFilesystem()
 
 void RubberbandmanMainWidget::handleTabChange( int tabNr )
 {
-   MySettings().setValue( "CurrentTab", tabNr );
+   Settings::setValue( Settings::RubberbandmanCurrentTab, tabNr );
 }
 
 

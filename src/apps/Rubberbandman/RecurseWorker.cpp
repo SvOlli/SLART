@@ -21,7 +21,7 @@
 /* local library headers */
 #include <DatabaseInterface.hpp>
 #include <DirWalkerCallbackProxy.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -131,17 +131,8 @@ void RecurseWorker::startNormTitle( const QString &dir )
 
 void RecurseWorker::run()
 {
-#if 1
-   {
-      MySettings settings;
-      mPatternWithoutTrackNr = settings.VALUE_WITHOUTTRACKNR;
-      mPatternWithTrackNr    = settings.VALUE_WITHTRACKNR;
-   }
-#else
-   // already migrated from MySettings to Settings for later use
    mPatternWithoutTrackNr = Settings::value( Settings::RubberbandmanWithoutTrackNr );
    mPatternWithTrackNr    = Settings::value( Settings::RubberbandmanWithTrackNr );
-#endif
    workDir( mDir );
    mpDatabase->call( this, "done" );
    exec();

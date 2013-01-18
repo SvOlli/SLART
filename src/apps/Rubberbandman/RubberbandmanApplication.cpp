@@ -17,8 +17,8 @@
 #include <DatabaseInterface.hpp>
 #include <GenericSatelliteHandler.hpp>
 #include <MainWindow.hpp>
-#include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 #include <SorcererLoader.hpp>
 #include <Trace.hpp>
 #include <Translate.hpp>
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
       }
 
       QString arg;
-      QString baseDir( MySettings( "Global" ).VALUE_MUSICBASE );
+      QString baseDir( Settings::value( Settings::GlobalMusicBase ) );
       DatabaseWorker *databaseWorker = new DatabaseWorker();
       while( args.size() > 0 )
       {
@@ -141,17 +141,11 @@ int main(int argc, char *argv[])
       if( useGUI )
       {
          Q_INIT_RESOURCE( Common );
+         Settings::setApplicationStyleSheet( &app );
+
          SorcererLoader::detect();
 
          GenericSatelliteHandler::createSatellite();
-         {
-            QFile qssFile( MySettings().styleSheetFile() );
-            if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
-            {
-               app.setStyleSheet( qssFile.readAll() );
-               qssFile.close();
-            }
-         }
 
          MainWindow window;
          RubberbandmanMainWidget *mainWidget = new RubberbandmanMainWidget( &window );

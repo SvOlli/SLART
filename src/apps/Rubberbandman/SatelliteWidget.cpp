@@ -19,8 +19,8 @@
 #include <DatabaseInterface.hpp>
 #include <GenericSatelliteHandler.hpp>
 #include <GlobalConfigWidget.hpp>
-#include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -123,7 +123,7 @@ void SatelliteWidget::handleSatellite( const QByteArray &msg )
 void SatelliteWidget::handleNowPlaying()
 {
    GlobalConfigWidget::setClipboard( mpInfoEdit->tagsFileName(
-      MySettings().VALUE_PLAYINGPATTERN ) );
+      Settings::value( Settings::RubberbandmanPlayingPattern ) ) );
 }
 
 
