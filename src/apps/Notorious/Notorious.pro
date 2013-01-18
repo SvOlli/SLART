@@ -23,10 +23,7 @@ RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
 
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
-SOURCES += Application.cpp
-
-HEADERS += ConfigDialog.hpp
-SOURCES += ConfigDialog.cpp
+SOURCES += NotoriousApplication.cpp
 
 HEADERS += Foundlist.hpp
 SOURCES += Foundlist.cpp
@@ -42,6 +39,9 @@ SOURCES += FreeDBImport.cpp
 
 HEADERS += FreeDBQuery.hpp
 SOURCES += FreeDBQuery.cpp
+
+HEADERS += NotoriousConfigDialog.hpp
+SOURCES += NotoriousConfigDialog.cpp
 
 HEADERS += NotoriousMainWidget.hpp
 SOURCES += NotoriousMainWidget.cpp

@@ -25,10 +25,7 @@ RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
 
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
-SOURCES += Application.cpp
-
-HEADERS += ConfigDialog.hpp
-SOURCES += ConfigDialog.cpp
+SOURCES += FunkytownApplication.cpp
 
 HEADERS += Cookie.hpp
 SOURCES += Cookie.cpp
@@ -38,6 +35,9 @@ SOURCES += CookieJar.cpp
 
 HEADERS += DownloadHandler.hpp
 SOURCES += DownloadHandler.cpp
+
+HEADERS += FunkytownConfigDialog.hpp
+SOURCES += FunkytownConfigDialog.cpp
 
 HEADERS += FunkytownMainWidget.hpp
 SOURCES += FunkytownMainWidget.cpp

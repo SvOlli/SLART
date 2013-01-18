@@ -26,14 +26,14 @@ TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
 SOURCES += InnuendoApplication.cpp
 
-HEADERS += ConfigDialog.hpp
-SOURCES += ConfigDialog.cpp
-
 HEADERS += DropDialog.hpp
 SOURCES += DropDialog.cpp
 
 HEADERS += ExecButton.hpp
 SOURCES += ExecButton.cpp
+
+HEADERS += InnuendoConfigDialog.hpp
+SOURCES += InnuendoConfigDialog.cpp
 
 HEADERS += InnuendoMainWidget.hpp
 SOURCES += InnuendoMainWidget.cpp

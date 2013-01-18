@@ -22,13 +22,10 @@ RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}.ts
 TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
 
-SOURCES += Application.cpp
+SOURCES += RubberbandmanApplication.cpp
 
 HEADERS += BrowseWidget.hpp
 SOURCES += BrowseWidget.cpp
-
-HEADERS += ConfigDialog.hpp
-SOURCES += ConfigDialog.cpp
 
 HEADERS += Console.hpp
 SOURCES += Console.cpp
@@ -62,6 +59,9 @@ SOURCES += MyTreeView.cpp
 
 HEADERS += RecurseWorker.hpp
 SOURCES += RecurseWorker.cpp
+
+HEADERS += RubberbandmanConfigDialog.hpp
+SOURCES += RubberbandmanConfigDialog.cpp
 
 HEADERS += RubberbandmanMainWidget.hpp
 SOURCES += RubberbandmanMainWidget.cpp
