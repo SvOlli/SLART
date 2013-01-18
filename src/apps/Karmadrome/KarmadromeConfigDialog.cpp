@@ -12,7 +12,13 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QSpinBox>
+#include <QTableWidget>
 
 /* local library headers */
 #include <AboutWidget.hpp>

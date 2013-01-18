@@ -1,5 +1,5 @@
 /*
- * src/apps/Karmadrome/Application.cpp
+ * src/apps/Karmadrome/KarmadromeApplication.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -10,7 +10,7 @@
 #include <cstdlib>
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
 
 /* local library headers */
 #include <DatabaseInterface.hpp>

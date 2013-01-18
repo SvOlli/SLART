@@ -12,7 +12,15 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QAction>
+#include <QApplication>
+#include <QFileDialog>
+#include <QGridLayout>
+#include <QInputDialog>
+#include <QMenu>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QTimer>
 
 /* local library headers */
 #include <DatabaseInterface.hpp>

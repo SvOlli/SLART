@@ -12,7 +12,11 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QAbstractButton>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QPushButton>
+#include <QSignalMapper>
 
 /* local library headers */
 
