@@ -80,9 +80,6 @@ SOURCES += MyLua.cpp
 HEADERS += MyMouseEvent.hpp
 SOURCES += MyMouseEvent.cpp
 
-HEADERS += MySettings.hpp
-SOURCES += MySettings.cpp
-
 HEADERS += ProxyWidget.hpp
 SOURCES += ProxyWidget.cpp
 
