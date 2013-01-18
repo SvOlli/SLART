@@ -161,13 +161,4 @@ private:
 
 /*! @} */
 
-/* defaults */
-#define VALUE_ANIMATEVIEWS             value("AnimateViews", false).toBool()
-#define VALUE_CLIPBOARDMODE            value("ClipboardMode", 0).toInt()
-#define VALUE_DOUBLECLICKINTERVAL      value("DoubleClickInterval", QApplication::doubleClickInterval() ).toInt()
-#define VALUE_NORMALIZECASE            value("NormalizeCase", false ).toBool()
-#define VALUE_NORMALIZESPACES          value("NormalizeSpaces", false ).toBool()
-#define VALUE_USEGLOBALSTYLESHEETFILE  value("UseGlobalStyleSheetFile", true).toBool()
-#define VALUE_STYLESHEETFILE           value("StyleSheetFile", QString()).toString()
-
 #endif

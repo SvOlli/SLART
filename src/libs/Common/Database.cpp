@@ -23,7 +23,6 @@
 #include "DatabaseInterface.hpp"
 
 /* local headers */
-#include "MySettings.hpp"
 
 #ifndef SQLITE_BUSY
 #define SQLITE_BUSY    5

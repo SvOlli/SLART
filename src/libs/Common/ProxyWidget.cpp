@@ -20,7 +20,7 @@
 /* local library headers */
 
 /* local headers */
-#include "MySettings.hpp"
+#include "Settings.hpp"
 
 
 ProxyWidget::ProxyWidget( QWidget *parent )
@@ -158,22 +158,19 @@ void ProxyWidget::updateWidgets( bool disabled )
 
 void ProxyWidget::setProxy( QHttp *http )
 {
-   MySettings settings( "Global" );
-
    QString      host;
    int          port = 0;
    QString      login;
    QString      password;
 
-   settings.beginGroup( "HTTPProxy" );
-   if( settings.value("Enable", false).toBool() )
+   if( Settings::value( Settings::GlobalHTTPProxyEnable ) )
    {
-      host = settings.value("Host", QString("proxy") ).toString();
-      port = settings.value("Port", 8080).toInt();
-      if( settings.value("Auth", false).toBool() )
+      host = Settings::value( Settings::GlobalHTTPProxyHost );
+      port = Settings::value( Settings::GlobalHTTPProxyPort );
+      if( Settings::value( Settings::GlobalHTTPProxyAuth ) )
       {
-         login    = settings.value("Login",    QString("login") ).toString();
-         password = settings.value("Password", QString("password") ).toString();
+         login    = Settings::value( Settings::GlobalHTTPProxyLogin );
+         password = Settings::value( Settings::GlobalHTTPProxyPassword );
       }
    }
    http->setProxy( host, port, login, password );
@@ -182,24 +179,21 @@ void ProxyWidget::setProxy( QHttp *http )
 
 void ProxyWidget::setProxy( QNetworkAccessManager *nam )
 {
-   MySettings settings( "Global" );
-
    QNetworkProxy::ProxyType   type = QNetworkProxy::NoProxy;
    QString                    host;
    int                        port = 0;
    QString                    login;
    QString                    password;
 
-   settings.beginGroup( "HTTPProxy" );
-   if( settings.value("Enable", false).toBool() )
+   if( Settings::value( Settings::GlobalHTTPProxyEnable ) )
    {
       type = QNetworkProxy::HttpCachingProxy;
-      host = settings.value("Host", QString("proxy") ).toString();
-      port = settings.value("Port", 8080).toInt();
-      if( settings.value("Auth", false).toBool() )
+      host = Settings::value( Settings::GlobalHTTPProxyHost );
+      port = Settings::value( Settings::GlobalHTTPProxyPort );
+      if( Settings::value( Settings::GlobalHTTPProxyAuth ) )
       {
-         login    = settings.value("Login",    QString("login") ).toString();
-         password = settings.value("Password", QString("password") ).toString();
+         login    = Settings::value( Settings::GlobalHTTPProxyLogin );
+         password = Settings::value( Settings::GlobalHTTPProxyPassword );
       }
    }
    nam->setProxy( QNetworkProxy( type, host, port, login, password ) );
@@ -208,15 +202,12 @@ void ProxyWidget::setProxy( QNetworkAccessManager *nam )
 
 void ProxyWidget::readSettings()
 {
-   MySettings settings( "Global" );
-
-   settings.beginGroup( "HTTPProxy" );
-   mpProxyOnButton->setChecked(   settings.value("Enable",   false).toBool() );
-   mpProxyHostInput->setText(     settings.value("Host",     QString("proxy") ).toString() );
-   mpProxyPortInput->setValue(    settings.value("Port",     8080).toInt() );
-   mpProxyAuthButton->setChecked( settings.value("Auth",     false).toBool() );
-   mpProxyLoginInput->setText(    settings.value("Login",    QString("login") ).toString() );
-   mpProxyPasswordInput->setText( settings.value("Password", QString("password") ).toString() );
+   mpProxyOnButton->setChecked(   Settings::value( Settings::GlobalHTTPProxyEnable ) );
+   mpProxyHostInput->setText(     Settings::value( Settings::GlobalHTTPProxyHost ) );
+   mpProxyPortInput->setValue(    Settings::value( Settings::GlobalHTTPProxyPort ) );
+   mpProxyAuthButton->setChecked( Settings::value( Settings::GlobalHTTPProxyAuth ) );
+   mpProxyLoginInput->setText(    Settings::value( Settings::GlobalHTTPProxyLogin ) );
+   mpProxyPasswordInput->setText( Settings::value( Settings::GlobalHTTPProxyPassword ) );
 
    updateWidgets();
 }
@@ -224,16 +215,12 @@ void ProxyWidget::readSettings()
 
 void ProxyWidget::writeSettings()
 {
-   MySettings settings( "Global" );
-
-   settings.beginGroup( "HTTPProxy" );
-   settings.setValue( "Enable",   mpProxyOnButton->isChecked() );
-   settings.setValue( "Host",     mpProxyHostInput->text() );
-   settings.setValue( "Port",     mpProxyPortInput->value() );
-   settings.setValue( "Auth",     mpProxyAuthButton->isChecked() );
-   settings.setValue( "Login",    mpProxyLoginInput->text() );
-   settings.setValue( "Password", mpProxyPasswordInput->text() );
-   settings.sync();
+   Settings::setValue( Settings::GlobalHTTPProxyEnable,   mpProxyOnButton->isChecked() );
+   Settings::setValue( Settings::GlobalHTTPProxyHost,     mpProxyHostInput->text() );
+   Settings::setValue( Settings::GlobalHTTPProxyPort,     mpProxyPortInput->value() );
+   Settings::setValue( Settings::GlobalHTTPProxyAuth,     mpProxyAuthButton->isChecked() );
+   Settings::setValue( Settings::GlobalHTTPProxyLogin,    mpProxyLoginInput->text() );
+   Settings::setValue( Settings::GlobalHTTPProxyPassword, mpProxyPasswordInput->text() );
 
 #if 0
    // \todo: adept to Satellite

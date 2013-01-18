@@ -447,6 +447,9 @@ void Settings::setValue( FunkytownString id, const QString &value )
    QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
+   case FunkytownDirectory:
+      settings->setValue( "Directory", value );
+      return;
    case FunkytownUserAgent:
       settings->setValue( "UserAgent", value );
       return;
@@ -461,6 +464,8 @@ QString Settings::value( FunkytownString id )
    QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
+   case FunkytownDirectory:
+      return settings->value( "Directory" ).toString();
    case FunkytownUserAgent:
       return settings->value( "UserAgent", "Shockwave Flash" ).toString();
    default:
@@ -702,9 +707,6 @@ void Settings::setValue( GlobalHTTPProxyString id, const QString &value )
    case GlobalHTTPProxyPassword:
       settings->setValue( "HTTPProxy/Password", value );
       return;
-   case GlobalHTTPProxyPort:
-      settings->setValue( "HTTPProxy/Port", value );
-      return;
    default:
       qFatal( "illegal GlobalHTTPProxyString value" );
    }
@@ -717,13 +719,11 @@ QString Settings::value( GlobalHTTPProxyString id )
    switch( id )
    {
    case GlobalHTTPProxyHost:
-      return settings->value( "HTTPProxy/Host" ).toString();
+      return settings->value( "HTTPProxy/Host", "proxy" ).toString();
    case GlobalHTTPProxyLogin:
-      return settings->value( "HTTPProxy/Login" ).toString();
+      return settings->value( "HTTPProxy/Login", "login" ).toString();
    case GlobalHTTPProxyPassword:
-      return settings->value( "HTTPProxy/Password" ).toString();
-   case GlobalHTTPProxyPort:
-      return settings->value( "HTTPProxy/Port", "8080" ).toString();
+      return settings->value( "HTTPProxy/Password", "password" ).toString();
    default:
       qFatal( "illegal GlobalHTTPProxyString value" );
       return QString();
@@ -760,6 +760,34 @@ bool Settings::value( GlobalHTTPProxyBool id )
    default:
       qFatal( "illegal GlobalHTTPProxyBool value" );
       return bool();
+   }
+}
+
+
+void Settings::setValue( GlobalHTTPProxyInt id, int value )
+{
+   QSettings *settings = cpSettings->get( "Global" );
+   switch( id )
+   {
+   case GlobalHTTPProxyPort:
+      settings->setValue( "HTTPProxy/Port", value );
+      return;
+   default:
+      qFatal( "illegal GlobalHTTPProxyInt value" );
+   }
+}
+
+
+int Settings::value( GlobalHTTPProxyInt id )
+{
+   QSettings *settings = cpSettings->get( "Global" );
+   switch( id )
+   {
+   case GlobalHTTPProxyPort:
+      return settings->value( "HTTPProxy/Port", 8080 ).toInt();
+   default:
+      qFatal( "illegal GlobalHTTPProxyInt value" );
+      return int();
    }
 }
 
@@ -944,7 +972,7 @@ QString Settings::value( NotoriousString id )
    switch( id )
    {
    case NotoriousDatabaseFile:
-      return settings->value( "DatabaseFile" ).toString();
+      return settings->value( "DatabaseFile", "freedb.sqlite" ).toString();
    default:
       qFatal( "illegal NotoriousString value" );
       return QString();

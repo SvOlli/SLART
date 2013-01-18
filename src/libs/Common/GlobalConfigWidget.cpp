@@ -6,12 +6,31 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "GlobalConfigWidget.hpp"
-#include "MySettings.hpp"
+
+/* system headers */
+
+/* Qt headers */
+#include <QApplication>
+#include <QCheckBox>
+#include <QClipboard>
+#include <QComboBox>
+#include <QCompleter>
+#include <QCoreApplication>
+#include <QDirModel>
+#include <QFileDialog>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSpinBox>
+
+/* local library headers */
+
+/* local headers */
 #include "Satellite.hpp"
 #include "Settings.hpp"
-
-#include <QtGui>
 
 
 GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
@@ -104,57 +123,42 @@ void GlobalConfigWidget::setSatelliteClicked( bool isSet )
 
 void GlobalConfigWidget::readSettings()
 {
-   MySettings settings( "Global" );
-   MySettings appSettings;
    mpUseSatellite->setChecked( Settings::value( Settings::CommonUseSatellite ) );
    mpSatellitePort->setEnabled( Settings::value( Settings::CommonUseSatellite ) );
    mpSatellitePort->setValue( Settings::value( Settings::GlobalSatellitePort ) );
-   mpUseGlobalStyleSheetFile->setChecked( appSettings.VALUE_USEGLOBALSTYLESHEETFILE );
-   if( mpUseGlobalStyleSheetFile->isChecked() )
-   {
-      mpUseGlobalStyleSheetFile->setText( tr("Use Global Style Sheet File:") );
-      mpStyleSheetFileName->setText( settings.VALUE_STYLESHEETFILE );
-   }
-   else
-   {
-      mpUseGlobalStyleSheetFile->setText( tr("Use Application Style Sheet File:") );
-      mpStyleSheetFileName->setText( appSettings.VALUE_STYLESHEETFILE );
-   }
-   mpClipboardSelection->setCurrentIndex( settings.VALUE_CLIPBOARDMODE );
-   mpAnimateViews->setChecked( settings.VALUE_ANIMATEVIEWS );
-   mpNormalizeCase->setChecked( settings.VALUE_NORMALIZECASE );
-   mpNormalizeSpaces->setChecked( settings.VALUE_NORMALIZESPACES );
-   mpDoubleClickInterval->setValue( settings.VALUE_DOUBLECLICKINTERVAL );
+   mpUseGlobalStyleSheetFile->setChecked( Settings::value( Settings::CommonUseGlobalStyleSheetFile ) );
+   updateStyleSheetFileName();
+   mpClipboardSelection->setCurrentIndex( Settings::value( Settings::GlobalClipboardMode ) );
+   mpAnimateViews->setChecked( Settings::value( Settings::GlobalAnimateViews ) );
+   mpNormalizeCase->setChecked( Settings::value( Settings::GlobalNormalizeCase ) );
+   mpNormalizeSpaces->setChecked( Settings::value( Settings::GlobalNormalizeSpaces ) );
+   mpDoubleClickInterval->setValue( Settings::value( Settings::GlobalDoubleClickInterval ) );
 }
 
 
 void GlobalConfigWidget::writeSettings()
 {
-   MySettings settings( "Global" );
-   MySettings appSettings;
    Settings::setValue( Settings::CommonUseSatellite, mpUseSatellite->isChecked() );
    Settings::setValue( Settings::GlobalSatellitePort, mpSatellitePort->value() );
-   mpSatellitePort->setValue( Settings::value( Settings::GlobalSatellitePort ) );
-   appSettings.setValue( "UseGlobalStyleSheetFile", mpUseGlobalStyleSheetFile->isChecked() );
+   Settings::setValue( Settings::CommonUseGlobalStyleSheetFile, mpUseGlobalStyleSheetFile->isChecked() );
+   QString styleSheetFile( mpStyleSheetFileName->text() );
    if( mpUseGlobalStyleSheetFile->isChecked() )
    {
-      settings.setValue( "StyleSheetFile", mpStyleSheetFileName->text() );
+      Settings::setValue( Settings::GlobalStyleSheetFile, styleSheetFile );
    }
    else
    {
-      appSettings.setValue( "StyleSheetFile", mpStyleSheetFileName->text() );
+      Settings::setValue( Settings::CommonStyleSheetFile, styleSheetFile );
    }
-   settings.setValue( "ClipboardMode", mpClipboardSelection->currentIndex() );
-   settings.setValue( "AnimateViews",  mpAnimateViews->isChecked() );
-   settings.setValue( "NormalizeCase", mpNormalizeCase->isChecked() );
-   settings.setValue( "NormalizeSpaces", mpNormalizeSpaces->isChecked() );
-   settings.setValue( "DoubleClickInterval", mpDoubleClickInterval->value() );
+   Settings::setValue( Settings::GlobalClipboardMode, mpClipboardSelection->currentIndex() );
+   Settings::setValue( Settings::GlobalAnimateViews, mpAnimateViews->isChecked() );
+   Settings::setValue( Settings::GlobalNormalizeCase, mpNormalizeCase->isChecked() );
+   Settings::setValue( Settings::GlobalNormalizeSpaces, mpNormalizeSpaces->isChecked() );
+   Settings::setValue( Settings::GlobalDoubleClickInterval, mpDoubleClickInterval->value() );
 
    QApplication::setDoubleClickInterval( mpDoubleClickInterval->value() );
 
-   settings.sync();
-
-   QFile qssFile( appSettings.styleSheetFile() );
+   QFile qssFile( styleSheetFile );
    if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
    {
       qApp->setStyleSheet( qssFile.readAll() );
@@ -172,12 +176,12 @@ void GlobalConfigWidget::updateStyleSheetFileName()
    if( mpUseGlobalStyleSheetFile->isChecked() )
    {
       mpUseGlobalStyleSheetFile->setText( tr("Use Global Style Sheet File:") );
-      mpStyleSheetFileName->setText( MySettings( "Global" ).VALUE_STYLESHEETFILE );
+      mpStyleSheetFileName->setText( Settings::value( Settings::CommonStyleSheetFile ) );
    }
    else
    {
       mpUseGlobalStyleSheetFile->setText( tr("Use Application Style Sheet File:") );
-      mpStyleSheetFileName->setText( MySettings().VALUE_STYLESHEETFILE );
+      mpStyleSheetFileName->setText( Settings::value( Settings::GlobalStyleSheetFile ) );
    }
 }
 
@@ -227,11 +231,9 @@ void GlobalConfigWidget::showDoubleClickInterval( bool allow )
 
 void GlobalConfigWidget::setClipboard( const QString &text )
 {
-   MySettings settings( "Global" );
    QClipboard *clipboard = QApplication::clipboard();
 
-#if 1
-   int mode = settings.value( "ClipboardMode", 0 ).toInt();
+   int mode = Settings::value( Settings::GlobalClipboardMode );
    if( (mode == 1) || (mode == 3) || (mode == 4) )
    {
       clipboard->setText( text, QClipboard::Selection );
@@ -240,33 +242,14 @@ void GlobalConfigWidget::setClipboard( const QString &text )
    {
       clipboard->setText( text, QClipboard::Clipboard );
    }
-#else
-   switch( settings.value( "ClipboardMode", 0 ).toInt() )
-   {
-      case 1:
-         clipboard->setText( text, QClipboard::Selection );
-         break;
-      case 2:
-         clipboard->setText( text, QClipboard::Clipboard );
-         break;
-      case 3:
-      case 4:
-         clipboard->setText( text, QClipboard::Selection );
-         clipboard->setText( text, QClipboard::Clipboard );
-         break;
-      default:
-         break;
-   }
-#endif
 }
 
 
 QString GlobalConfigWidget::getClipboard()
 {
-   MySettings settings( "Global" );
    QClipboard *clipboard = QApplication::clipboard();
 
-   switch( settings.value( "ClipboardMode", 0 ).toInt() )
+   switch( Settings::value( Settings::GlobalClipboardMode ) )
    {
       case 1:
       case 3:

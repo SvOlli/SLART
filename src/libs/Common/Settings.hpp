@@ -189,6 +189,7 @@ public:
     */
    enum FunkytownString
    {
+      FunkytownDirectory,
       FunkytownUserAgent
    };
    /*!
@@ -264,8 +265,7 @@ public:
    {
       GlobalHTTPProxyHost,
       GlobalHTTPProxyLogin,
-      GlobalHTTPProxyPassword,
-      GlobalHTTPProxyPort
+      GlobalHTTPProxyPassword
    };
    /*!
     \brief enum for value() and setValue()
@@ -276,6 +276,15 @@ public:
    {
       GlobalHTTPProxyAuth,
       GlobalHTTPProxyEnable
+   };
+   /*!
+    \brief enum for value() and setValue()
+
+    automatically generated
+    */
+   enum GlobalHTTPProxyInt
+   {
+      GlobalHTTPProxyPort
    };
    /*!
     \brief enum for value() and setValue()
@@ -890,6 +899,24 @@ public:
     \param id id of registry key
     */
    static bool value( GlobalHTTPProxyBool id );
+
+   /*!
+    \brief set a value in registry
+
+    automatically generated
+    \param id id of registry key
+    \param value to set
+    */
+   static void setValue( GlobalHTTPProxyInt id, int value );
+
+   /*!
+    \brief get a value in registry
+
+    automatically generated
+    \return value in registry
+    \param id id of registry key
+    */
+   static int value( GlobalHTTPProxyInt id );
 
    /*!
     \brief set a value in registry

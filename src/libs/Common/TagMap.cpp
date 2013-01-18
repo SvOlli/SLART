@@ -6,10 +6,19 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "TagMap.hpp"
-#include "MySettings.hpp"
 
-#include <QApplication>
+/* system headers */
+
+/* Qt headers */
+
+/* local library headers */
+
+/* local headers */
+#include "Settings.hpp"
+
+/* class variables */
 
 #include "Trace.hpp"
 
@@ -71,9 +80,8 @@ QString TagMap::fileName( const QString &pattern, bool filterPath )
 QString TagMap::normalizeString( const QString &string )
 {
    QString newString;
-   MySettings settings( "Global" );
 
-   if( settings.value( "NormalizeCase", false ).toBool() )
+   if( Settings::value( Settings::GlobalNormalizeCase ) )
    {
       bool nextUpper = true;
 
@@ -116,7 +124,7 @@ QString TagMap::normalizeString( const QString &string )
    newString.replace( "\"", "''" );
    newString.replace( QChar::fromLatin1( '\xB4' ), '\'' ); // accent acute
    newString.replace( QChar::fromLatin1( '\x60' ), '\'' ); // accent grave
-   if( settings.value( "NormalizeSpaces", false ).toBool() )
+   if( Settings::value( Settings::GlobalNormalizeSpaces ) )
    {
       newString = newString.simplified();
    }
