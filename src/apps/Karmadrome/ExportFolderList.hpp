@@ -56,10 +56,9 @@ public slots:
 signals:
 
 private:
-   ExportFolderList( const ExportFolderList &that );
-   ExportFolderList &operator=( const ExportFolderList &that );
+   Q_DISABLE_COPY( ExportFolderList )
 
-   QString     mFileName;
+   QString     mFileName; /*!< \brief \todo TODO */
 };
 
 /*! @} */

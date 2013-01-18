@@ -64,12 +64,11 @@ private slots:
    void handleFinished( int exitCode, QProcess::ExitStatus exitStatus );
 
 private:
-   ExecButton( const ExecButton &that );
-   ExecButton &operator=( const ExecButton &that );
+   Q_DISABLE_COPY( ExecButton )
 
-   QString   mName;
-   QProcess  mProcess;
-   bool      mTerminating;
+   QString   mName; /*!< \brief \todo TODO */
+   QProcess  mProcess; /*!< \brief \todo TODO */
+   bool      mTerminating; /*!< \brief \todo TODO */
 };
 
 /*! @} */

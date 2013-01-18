@@ -44,27 +44,26 @@ public:
    QStringList sql();
 
 private:
-   TarEntry( const TarEntry &that );
-   TarEntry &operator=( const TarEntry &that );
+   Q_DISABLE_COPY( TarEntry )
 
-   bool          mDirty;
-   const QString mSQLLine;
-   const QChar   mCR;
-   const QChar   mLF;
-   const QChar   mBadData;
-   const QChar   mQuote;
-   const QString mDoubleQuote;
+   bool          mDirty; /*!< \brief \todo TODO */
+   const QString mSQLLine; /*!< \brief \todo TODO */
+   const QChar   mCR; /*!< \brief \todo TODO */
+   const QChar   mLF; /*!< \brief \todo TODO */
+   const QChar   mBadData; /*!< \brief \todo TODO */
+   const QChar   mQuote; /*!< \brief \todo TODO */
+   const QString mDoubleQuote; /*!< \brief \todo TODO */
 
-   QString     mCategory;
-   QString     mID;
-   QString     mData;
-   QStringList mSQL;
-   QStringList mLines;
-   int         mTracks;
+   QString     mCategory; /*!< \brief \todo TODO */
+   QString     mID; /*!< \brief \todo TODO */
+   QString     mData; /*!< \brief \todo TODO */
+   QStringList mSQL; /*!< \brief \todo TODO */
+   QStringList mLines; /*!< \brief \todo TODO */
+   int         mTracks; /*!< \brief \todo TODO */
 
-   int     mStartframe[100];
-   int     mPlaytime[100];
-   QString mTitle[100];
+   int     mStartframe[100]; /*!< \brief \todo TODO */
+   int     mPlaytime[100]; /*!< \brief \todo TODO */
+   QString mTitle[100]; /*!< \brief \todo TODO */
 #if INCLUDE_EXT
    QString mExt[100];
 #endif

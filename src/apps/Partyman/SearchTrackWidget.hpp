@@ -81,14 +81,13 @@ signals:
    void requestAdd( const QStringList &entries );
 
 private:
-   SearchTrackWidget( const SearchTrackWidget &that );
-   SearchTrackWidget &operator=( const SearchTrackWidget &that );
+   Q_DISABLE_COPY( SearchTrackWidget )
 
-   Database              *mpDatabase;
-   QWidget               *mpParent;
-   PlaylistContentWidget *mpResults;
-   QLineEdit             *mpInput;
-   QLabel                *mpFound;
+   Database              *mpDatabase; /*!< \brief \todo TODO */
+   QWidget               *mpParent; /*!< \brief \todo TODO */
+   PlaylistContentWidget *mpResults; /*!< \brief \todo TODO */
+   QLineEdit             *mpInput; /*!< \brief \todo TODO */
+   QLabel                *mpFound; /*!< \brief \todo TODO */
 };
 
 /*! @} */

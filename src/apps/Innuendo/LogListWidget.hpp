@@ -52,8 +52,7 @@ protected:
    virtual QStringList mimeTypes () const;
 
 private:
-   LogListWidget( const LogListWidget &that );
-   LogListWidget &operator=( const LogListWidget &that );
+   Q_DISABLE_COPY( LogListWidget )
 };
 
 /*! @} */

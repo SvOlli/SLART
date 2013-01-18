@@ -1,5 +1,5 @@
 /*
- * src/apps/Partyman/Application.cpp
+ * src/apps/Partyman/PartymanApplication.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)

@@ -68,12 +68,11 @@ signals:
    void clicked( QWidget *widget );
 
 private:
-   ButtonsWidget( const ButtonsWidget &that );
-   ButtonsWidget &operator=( const ButtonsWidget &that );
+   Q_DISABLE_COPY( ButtonsWidget )
 
-   QGridLayout             *mpMainLayout;
-   QSignalMapper           *mpSignalMapper;
-   QList<QAbstractButton*> mButtonList;
+   QGridLayout             *mpMainLayout; /*!< \brief \todo TODO */
+   QSignalMapper           *mpSignalMapper; /*!< \brief \todo TODO */
+   QList<QAbstractButton*> mButtonList; /*!< \brief \todo TODO */
 };
 
 /*! @} */

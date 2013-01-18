@@ -78,20 +78,19 @@ signals:
    void configChanged();
 
 private:
-   InnuendoConfigDialog( const InnuendoConfigDialog &that );
-   InnuendoConfigDialog &operator=( const InnuendoConfigDialog &that );
+   Q_DISABLE_COPY( InnuendoConfigDialog )
 
-   SatelliteConfigWidget   *mpSatelliteConfigWidget;
-   GlobalConfigWidget      *mpGlobalConfigWidget;
-   ProxyWidget             *mpProxyWidget;
-   QSpinBox                *mpBufferSize;
-   QPushButton             *mpAutostartPartyman;
-   QPushButton             *mpAutostartKarmadrome;
-   QPushButton             *mpAutostartRubberbandman;
-   QPushButton             *mpAutostartStripped;
-   QPushButton             *mpAutostartFunkytown;
-   QPushButton             *mpAutostartNotorious;
-   QPushButton             *mpAutostartCreep;
+   SatelliteConfigWidget   *mpSatelliteConfigWidget; /*!< \brief \todo TODO */
+   GlobalConfigWidget      *mpGlobalConfigWidget; /*!< \brief \todo TODO */
+   ProxyWidget             *mpProxyWidget; /*!< \brief \todo TODO */
+   QSpinBox                *mpBufferSize; /*!< \brief \todo TODO */
+   QPushButton             *mpAutostartPartyman; /*!< \brief \todo TODO */
+   QPushButton             *mpAutostartKarmadrome; /*!< \brief \todo TODO */
+   QPushButton             *mpAutostartRubberbandman; /*!< \brief \todo TODO */
+   QPushButton             *mpAutostartStripped; /*!< \brief \todo TODO */
+   QPushButton             *mpAutostartFunkytown; /*!< \brief \todo TODO */
+   QPushButton             *mpAutostartNotorious; /*!< \brief \todo TODO */
+   QPushButton             *mpAutostartCreep; /*!< \brief \todo TODO */
 };
 
 /*! @} */

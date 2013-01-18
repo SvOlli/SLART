@@ -55,10 +55,9 @@ signals:
    void queryRunning( bool r );
 
 private:
-   Foundlist( const Foundlist &that );
-   Foundlist &operator=( const Foundlist &that );
+   Q_DISABLE_COPY( Foundlist )
 
-   FreeDBQuery mQuery;
+   FreeDBQuery mQuery; /*!< \brief \todo TODO */
 };
 
 /*! @} */

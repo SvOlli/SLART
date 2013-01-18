@@ -74,12 +74,11 @@ public:
    FileSysTreeItem *parent();
 
 private:
-   FileSysTreeItem( const FileSysTreeItem &that );
-   FileSysTreeItem &operator=( const FileSysTreeItem &that );
+   Q_DISABLE_COPY( FileSysTreeItem )
 
-   FileSysTreeItem         *mpParentItem;
-   QVariant                mItemData;
-   QList<FileSysTreeItem*> mChildItems;
+   FileSysTreeItem         *mpParentItem; /*!< \brief \todo TODO */
+   QVariant                mItemData; /*!< \brief \todo TODO */
+   QList<FileSysTreeItem*> mChildItems; /*!< \brief \todo TODO */
 };
 
 /*! @} */

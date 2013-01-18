@@ -56,15 +56,13 @@ public slots:
 signals:
 
 private:
-   ImportFolder();
-   ImportFolder( const ImportFolder &that );
-   ImportFolder &operator=( const ImportFolder &that );
+   Q_DISABLE_COPY( ImportFolder )
 
-   DatabaseInterface *mpDatabase;
-   int               mQueueSize;
-   const QString     mFavorite;
-   const QString     mUnwanted;
-   QString           mFolder;
+   DatabaseInterface *mpDatabase; /*!< \brief \todo TODO */
+   int               mQueueSize; /*!< \brief \todo TODO */
+   const QString     mFavorite; /*!< \brief \todo TODO */
+   const QString     mUnwanted; /*!< \brief \todo TODO */
+   QString           mFolder; /*!< \brief \todo TODO */
 };
 
 /*! @} */

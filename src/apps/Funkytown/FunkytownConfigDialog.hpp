@@ -78,19 +78,18 @@ public slots:
    void handleClear();
 
 private:
-   FunkytownConfigDialog( const FunkytownConfigDialog &that );
-   FunkytownConfigDialog &operator=( const FunkytownConfigDialog &that );
+   Q_DISABLE_COPY( FunkytownConfigDialog )
 
-   ProxyWidget        *mpProxyWidget;
-   QListWidget        *mpLogList;
-   QTextBrowser       *mpHelpText;
-   GlobalConfigWidget *mpGlobalConfigWidget;
-   QCheckBox          *mpOverwrite;
-   QCheckBox          *mpCoverArt;
-   QCheckBox          *mpTollKeep;
-   QLabel             *mpDownloadedFiles;
-   QLabel             *mpDownloadedBytes;
-   QPushButton        *mpClearButton;
+   ProxyWidget        *mpProxyWidget; /*!< \brief \todo TODO */
+   QListWidget        *mpLogList; /*!< \brief \todo TODO */
+   QTextBrowser       *mpHelpText; /*!< \brief \todo TODO */
+   GlobalConfigWidget *mpGlobalConfigWidget; /*!< \brief \todo TODO */
+   QCheckBox          *mpOverwrite; /*!< \brief \todo TODO */
+   QCheckBox          *mpCoverArt; /*!< \brief \todo TODO */
+   QCheckBox          *mpTollKeep; /*!< \brief \todo TODO */
+   QLabel             *mpDownloadedFiles; /*!< \brief \todo TODO */
+   QLabel             *mpDownloadedBytes; /*!< \brief \todo TODO */
+   QPushButton        *mpClearButton; /*!< \brief \todo TODO */
 };
 
 /*! @} */

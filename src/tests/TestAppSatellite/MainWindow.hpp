@@ -35,8 +35,7 @@ public:
    MainWindow( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 private:
-   MainWindow( const MainWindow &that );
-   MainWindow &operator=( const MainWindow &that );
+   Q_DISABLE_COPY( MainWindow )
 };
 
 #endif

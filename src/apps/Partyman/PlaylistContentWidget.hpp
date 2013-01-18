@@ -142,13 +142,12 @@ protected:
 #endif
 
 private:
-   PlaylistContentWidget( const PlaylistContentWidget &that );
-   PlaylistContentWidget &operator=( const PlaylistContentWidget &that );
+   Q_DISABLE_COPY( PlaylistContentWidget )
 
-   Database             *mpDatabase;
-   TrackInfoListModel   *mpPlaylistModel;
+   Database             *mpDatabase; /*!< \brief \todo TODO */
+   TrackInfoListModel   *mpPlaylistModel; /*!< \brief \todo TODO */
 
-   QTimer               *mpTimer;
+   QTimer               *mpTimer; /*!< \brief \todo TODO */
 };
 
 /*! @} */

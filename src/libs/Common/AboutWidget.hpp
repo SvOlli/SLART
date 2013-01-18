@@ -45,8 +45,7 @@ public slots:
    void handleLink( const QString &url );
 
 private:
-   AboutWidget( const AboutWidget &that );
-   AboutWidget &operator=( const AboutWidget &that );
+   Q_DISABLE_COPY( AboutWidget )
 };
 
 /*! @} */

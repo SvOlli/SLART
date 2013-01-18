@@ -55,12 +55,11 @@ public slots:
    void writeData( const QStringList &entries );
 
 private:
-   ExportFolder( const ExportFolder &that );
-   ExportFolder &operator=( const ExportFolder &that );
+   Q_DISABLE_COPY( ExportFolder )
 
-   bool        mRelative;
-   bool        mRandomize;
-   QString     mFileName;
+   bool        mRelative; /*!< \brief \todo TODO */
+   bool        mRandomize; /*!< \brief \todo TODO */
+   QString     mFileName; /*!< \brief \todo TODO */
 };
 
 /*! @} */

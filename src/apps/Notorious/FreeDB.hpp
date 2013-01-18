@@ -48,12 +48,11 @@ public:
    static QStringList Categories();
 
 private:
-   FreeDB( const FreeDB &that );
-   FreeDB &operator=( const FreeDB &that );
+   Q_DISABLE_COPY( FreeDB )
 
-   QSqlDatabase *mpSqlDB;
-   FreeDBQuery  *mpSearchQuery;
-   FreeDBQuery  *mpInfoQuery;
+   QSqlDatabase *mpSqlDB; /*!< \brief \todo TODO */
+   FreeDBQuery  *mpSearchQuery; /*!< \brief \todo TODO */
+   FreeDBQuery  *mpInfoQuery; /*!< \brief \todo TODO */
 };
 
 /*! @} */

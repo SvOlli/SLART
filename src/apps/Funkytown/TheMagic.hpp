@@ -115,23 +115,23 @@ private:
           stageMySpacePlaylists, stageMySpaceArtistPlaylist,
           stageMySpaceSong, stageMySpaceMP3,
           stageYouTubeHTML
-        } mStage;
+        } mStage; /*!< \brief \todo TODO */
 
-   MagicQueue       *mpMagicQueue;
-   Satellite        *mpSatellite;
-   bool             mDownloadToFile;
-   bool             mSuccess;
-   QString          mContentType;
-   QString          mReferer;
-   QString          mMessage;
-   QString          mFileName;
-   QString          mBuffer;
-   QFile            *mpFile;
-   QBuffer          *mpBuffer;
-   QString          mMySpaceArtId;
-   QString          mMySpaceProfId;
-   QString          mMySpacePlaylistId;
-   QString          mMySpaceSongId;
+   MagicQueue       *mpMagicQueue; /*!< \brief \todo TODO */
+   Satellite        *mpSatellite; /*!< \brief \todo TODO */
+   bool             mDownloadToFile; /*!< \brief \todo TODO */
+   bool             mSuccess; /*!< \brief \todo TODO */
+   QString          mContentType; /*!< \brief \todo TODO */
+   QString          mReferer; /*!< \brief \todo TODO */
+   QString          mMessage; /*!< \brief \todo TODO */
+   QString          mFileName; /*!< \brief \todo TODO */
+   QString          mBuffer; /*!< \brief \todo TODO */
+   QFile            *mpFile; /*!< \brief \todo TODO */
+   QBuffer          *mpBuffer; /*!< \brief \todo TODO */
+   QString          mMySpaceArtId; /*!< \brief \todo TODO */
+   QString          mMySpaceProfId; /*!< \brief \todo TODO */
+   QString          mMySpacePlaylistId; /*!< \brief \todo TODO */
+   QString          mMySpaceSongId; /*!< \brief \todo TODO */
 
    void downloadToFile();
    void downloadToBuffer();

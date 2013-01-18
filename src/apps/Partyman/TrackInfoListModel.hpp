@@ -126,13 +126,12 @@ public slots:
    void readSettings();
 
 private:
-   TrackInfoListModel( const TrackInfoListModel &that );
-   TrackInfoListModel &operator=( const TrackInfoListModel &that );
+   Q_DISABLE_COPY( TrackInfoListModel )
 
-   Database       *mpDatabase;
-   bool           mLocalMode;
-   QString        mDisplayPattern;
-   TrackInfoList  mList;
+   Database       *mpDatabase; /*!< \brief \todo TODO */
+   bool           mLocalMode; /*!< \brief \todo TODO */
+   QString        mDisplayPattern; /*!< \brief \todo TODO */
+   TrackInfoList  mList; /*!< \brief \todo TODO */
 };
 
 /*! @} */

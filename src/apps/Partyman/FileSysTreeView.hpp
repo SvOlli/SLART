@@ -76,8 +76,7 @@ private slots:
    void setToolTip( const QModelIndex &index );
 
 private:
-   FileSysTreeView( const FileSysTreeView &that );
-   FileSysTreeView &operator=( const FileSysTreeView &that );
+   Q_DISABLE_COPY( FileSysTreeView )
 };
 
 /*! @} */

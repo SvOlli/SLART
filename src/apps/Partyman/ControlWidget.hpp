@@ -220,8 +220,7 @@ protected:
    void dropEvent( QDropEvent *event );
 
 private:
-   ControlWidget( const ControlWidget &that );
-   ControlWidget &operator=( const ControlWidget &that );
+   Q_DISABLE_COPY( ControlWidget )
 
    /*!
     \brief set appropiate set of actions according to current state
@@ -230,38 +229,38 @@ private:
    */
    void setActions();
 
-   PartymanConfigDialog    *mpConfig;
-   PartymanMainWindow      *mpPlaylist;
-   Satellite               *mpSatellite;
-   GenericSatelliteHandler *mpGenericSatelliteHandler;
-   PlayerWidget            *mpPlayer[2];
-   QIcon                   mPartymanIcon;
-   QIcon                   mStopIcon;
-   QIcon                   mPlayIcon;
-   QIcon                   mPauseIcon;
-   QIcon                   mSkipIcon;
-   QIcon                   mLoadIcon;
-   QPushButton             *mpSettingsButton;
-   QToolButton             *mpStartButton;
-   QToolButton             *mpSkipButton;
-   QSystemTrayIcon         *mpTrayIcon;
-   QMenu                   *mpTrayIconStopMenu;
-   QMenu                   *mpTrayIconPlayMenu;
-   QMenu                   *mpStartButtonMenu;
-   QAction                 *mpPlayAction;
-   QAction                 *mpSkipAction;
-   QAction                 *mpPauseAction;
-   QAction                 *mpStopAction;
-   QAction                 *mpLoadAction;
-   QTimer                  *mpTrayIconClickTimer;
-   bool                    mConnected;
-   bool                    mPaused;
-   bool                    mKioskMode;
-   QProcess                mDerMixDprocess;
-   QProcess                mLoggerProcess;
-   bool                    mWaitForDerMixD;
-   bool                    mDerMixDstarted;
-   QByteArray              mLastP0p;
+   PartymanConfigDialog    *mpConfig; /*!< \brief \todo TODO */
+   PartymanMainWindow      *mpPlaylist; /*!< \brief \todo TODO */
+   Satellite               *mpSatellite; /*!< \brief \todo TODO */
+   GenericSatelliteHandler *mpGenericSatelliteHandler; /*!< \brief \todo TODO */
+   PlayerWidget            *mpPlayer[2]; /*!< \brief \todo TODO */
+   QIcon                   mPartymanIcon; /*!< \brief \todo TODO */
+   QIcon                   mStopIcon; /*!< \brief \todo TODO */
+   QIcon                   mPlayIcon; /*!< \brief \todo TODO */
+   QIcon                   mPauseIcon; /*!< \brief \todo TODO */
+   QIcon                   mSkipIcon; /*!< \brief \todo TODO */
+   QIcon                   mLoadIcon; /*!< \brief \todo TODO */
+   QPushButton             *mpSettingsButton; /*!< \brief \todo TODO */
+   QToolButton             *mpStartButton; /*!< \brief \todo TODO */
+   QToolButton             *mpSkipButton; /*!< \brief \todo TODO */
+   QSystemTrayIcon         *mpTrayIcon; /*!< \brief \todo TODO */
+   QMenu                   *mpTrayIconStopMenu; /*!< \brief \todo TODO */
+   QMenu                   *mpTrayIconPlayMenu; /*!< \brief \todo TODO */
+   QMenu                   *mpStartButtonMenu; /*!< \brief \todo TODO */
+   QAction                 *mpPlayAction; /*!< \brief \todo TODO */
+   QAction                 *mpSkipAction; /*!< \brief \todo TODO */
+   QAction                 *mpPauseAction; /*!< \brief \todo TODO */
+   QAction                 *mpStopAction; /*!< \brief \todo TODO */
+   QAction                 *mpLoadAction; /*!< \brief \todo TODO */
+   QTimer                  *mpTrayIconClickTimer; /*!< \brief \todo TODO */
+   bool                    mConnected; /*!< \brief \todo TODO */
+   bool                    mPaused; /*!< \brief \todo TODO */
+   bool                    mKioskMode; /*!< \brief \todo TODO */
+   QProcess                mDerMixDprocess; /*!< \brief \todo TODO */
+   QProcess                mLoggerProcess; /*!< \brief \todo TODO */
+   bool                    mWaitForDerMixD; /*!< \brief \todo TODO */
+   bool                    mDerMixDstarted; /*!< \brief \todo TODO */
+   QByteArray              mLastP0p; /*!< \brief \todo TODO */
 };
 
 /*! @} */

@@ -48,41 +48,77 @@ class SearchWidget : public QWidget
    Q_OBJECT
 
 public:
+   /*!
+    \brief \todo
+
+    \param parent
+    \param flags
+   */
    SearchWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+
+   /*!
+    \brief \todo
+
+    \return const QString
+   */
    const QString &getSQL() { return mSQL; }
 
 public slots:
+   /*!
+    \brief \todo
+
+   */
    void generateSQL();
+   /*!
+    \brief \todo
+
+   */
    void checkSubmit();
+   /*!
+    \brief \todo
+
+    \param r
+   */
    void query1Running( bool r );
+   /*!
+    \brief \todo
+
+    \param r
+   */
    void query2Running( bool r );
 
 signals:
    void submit( const QString &sql );
 
 private:
-   SearchWidget( const SearchWidget &that );
-   SearchWidget &operator=( const SearchWidget &that );
+   Q_DISABLE_COPY( SearchWidget )
+
+   /*!
+    \brief \todo
+
+    \param time
+    \return QString
+   */
    QString time2frames( const QString &time );
 
-   const QChar mStar;
-   const QChar mPercent;
-   const QChar mQuote;
-   const QString mDoubleQuote;
+   const QChar mStar; /*!< \brief \todo TODO */
+   const QChar mPercent; /*!< \brief \todo TODO */
+   const QChar mQuote; /*!< \brief \todo TODO */
+   const QString mDoubleQuote; /*!< \brief \todo TODO */
 
-   QLineEdit   *mpTitle;
-   QCheckBox   *mpExact;
-   QComboBox   *mpTrack;
-   QLineEdit   *mpMinTime;
-   QLineEdit   *mpMaxTime;
-   QPushButton *mpSearchButton;
-//   QPushButton *mpSettingsButton;
-   QLabel      *mpSQLClause;
-   QLabel      *mpQuery1Info;
-   QLabel      *mpQuery2Info;
-   QTime       mTime1;
-   QTime       mTime2;
-   QString     mSQL;
+   QLineEdit   *mpTitle; /*!< \brief \todo TODO */
+   QCheckBox   *mpExact; /*!< \brief \todo TODO */
+   QComboBox   *mpTrack; /*!< \brief \todo TODO */
+   QLineEdit   *mpMinTime; /*!< \brief \todo TODO */
+   QLineEdit   *mpMaxTime; /*!< \brief \todo TODO */
+   QPushButton *mpSearchButton; /*!< \brief \todo TODO */
+//   QPushButton *mpSettingsButton; /*!< \brief \todo TODO */
+   QLabel      *mpSQLClause; /*!< \brief \todo TODO */
+   QLabel      *mpQuery1Info; /*!< \brief \todo TODO */
+   QLabel      *mpQuery2Info; /*!< \brief \todo TODO */
+   QTime       mTime1; /*!< \brief \todo TODO */
+   QTime       mTime2; /*!< \brief \todo TODO */
+   QString     mSQL; /*!< \brief \todo TODO */
 };
 
 /*! @} */

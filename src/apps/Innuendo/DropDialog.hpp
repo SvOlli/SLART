@@ -79,8 +79,8 @@ public slots:
    void handleClipboard();
 
 private:
-   DropDialog( const DropDialog &that );
-   DropDialog &operator=( const DropDialog &that );
+   Q_DISABLE_COPY( DropDialog )
+
    /*!
     \brief handle the drop
 
@@ -92,15 +92,15 @@ private:
    */
    void getMimeData( const QMimeData *mimeData );
 
-   QComboBox       *mpMimeTypes;
-   QPushButton     *mpClipboard;
-   QPushButton     *mpColor;
-   QPushButton     *mpHtml;
-   QPushButton     *mpText;
-   QPushButton     *mpUrls;
-   QTextBrowser    *mpTextBrowser;
-   QSignalMapper   *mpSignalMapper;
-   QStringList     mMimeDataCache;
+   QComboBox       *mpMimeTypes; /*!< \brief \todo TODO */
+   QPushButton     *mpClipboard; /*!< \brief \todo TODO */
+   QPushButton     *mpColor; /*!< \brief \todo TODO */
+   QPushButton     *mpHtml; /*!< \brief \todo TODO */
+   QPushButton     *mpText; /*!< \brief \todo TODO */
+   QPushButton     *mpUrls; /*!< \brief \todo TODO */
+   QTextBrowser    *mpTextBrowser; /*!< \brief \todo TODO */
+   QSignalMapper   *mpSignalMapper; /*!< \brief \todo TODO */
+   QStringList     mMimeDataCache; /*!< \brief \todo TODO */
 };
 
 /*! @} */

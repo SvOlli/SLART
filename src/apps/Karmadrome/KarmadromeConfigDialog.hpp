@@ -87,8 +87,7 @@ signals:
    void configChanged();
 
 private:
-   KarmadromeConfigDialog( const KarmadromeConfigDialog &that );
-   KarmadromeConfigDialog &operator=( const KarmadromeConfigDialog &that );
+   Q_DISABLE_COPY( KarmadromeConfigDialog )
 
    GlobalConfigWidget   *mpGlobalConfigWidget;
    QLabel               *mpNumColumnsLabel;

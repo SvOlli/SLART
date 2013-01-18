@@ -57,8 +57,7 @@ signals:
    void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
-   MainWidget( const MainWidget &that );
-   MainWidget &operator=( const MainWidget &that );
+   Q_DISABLE_COPY( MainWidget )
 
    Database             *mpDatabase;
    WebServer            *mpWebServer;

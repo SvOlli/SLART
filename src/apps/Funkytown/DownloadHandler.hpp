@@ -102,8 +102,7 @@ signals:
    void errorMessage( const QString &message );
 
 private:
-   DownloadHandler( const DownloadHandler &that );
-   DownloadHandler &operator=( const DownloadHandler &that );
+   Q_DISABLE_COPY( DownloadHandler )
 
    bool                         mDownloading;
    int                          mHttpGetId;

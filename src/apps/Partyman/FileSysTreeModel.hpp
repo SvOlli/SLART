@@ -113,10 +113,9 @@ public:
    QString getPath( const QModelIndex &index ) const;
 
 private:
-   FileSysTreeModel( const FileSysTreeModel &that );
-   FileSysTreeModel &operator=( const FileSysTreeModel &that );
+   Q_DISABLE_COPY( FileSysTreeModel )
 
-   FileSysTreeItem *mpRootItem;
+   FileSysTreeItem *mpRootItem; /*!< \brief \todo TODO */
 };
 
 /*! @} */

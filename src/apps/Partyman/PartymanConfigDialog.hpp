@@ -115,42 +115,40 @@ signals:
    void updateBrowser();
 
 private:
-   PartymanConfigDialog( const PartymanConfigDialog &that );
-   PartymanConfigDialog &operator=( const PartymanConfigDialog &that );
+   Q_DISABLE_COPY( PartymanConfigDialog )
 
-
-   Database             *mpDatabase;
-   QLabel               *mpDerMixDhostLabel;
-   QLineEdit            *mpDerMixDhost;
-   QLabel               *mpDerMixDportLabel;
-   QSpinBox             *mpDerMixDport;
-   QCheckBox            *mpDerMixDlog;
-   QCheckBox            *mpDerMixDrun;
-   QLabel               *mpDerMixDcmdLabel;
-   QLineEdit            *mpDerMixDcmd;
-   QLabel               *mpDerMixDparamsLabel;
-   QLineEdit            *mpDerMixDparams;
-   QCheckBox            *mpAutoConnect;
-   QSpinBox             *mpCrossfadeTime;
-   QComboBox            *mpNormalizeMode;
-   QDoubleSpinBox       *mpNormalizeValue;
-   MyClipboard          *mpClipboard;
-   QLineEdit            *mpLogCmd;
-   QCheckBox            *mpCountSkip;
-   QCheckBox            *mpTrayIcon;
-   QCheckBox            *mpTrayIconBubble;
-   QDoubleSpinBox       *mpTrayIconBubbleTime;
-   QCheckBox            *mpPlayOnlyFavorite;
-   QCheckBox            *mpPlayOnlyLeastPlayed;
-   QComboBox            *mpPlayFolder;
-   QSpinBox             *mpPlayNotAgainCount;
-   QLineEdit            *mpNamePattern;
-   QLineEdit            *mpPlayerPattern;
-   QLineEdit            *mpListPattern;
-   QLineEdit            *mpTrayIconPattern;
-   QPushButton          *mpUpdateBrowserButton;
-   QPushButton          *mpStartKioskButton;
-   GlobalConfigWidget   *mpGlobalSettings;
+   Database             *mpDatabase; /*!< \brief \todo TODO */
+   QLabel               *mpDerMixDhostLabel; /*!< \brief \todo TODO */
+   QLineEdit            *mpDerMixDhost; /*!< \brief \todo TODO */
+   QLabel               *mpDerMixDportLabel; /*!< \brief \todo TODO */
+   QSpinBox             *mpDerMixDport; /*!< \brief \todo TODO */
+   QCheckBox            *mpDerMixDlog; /*!< \brief \todo TODO */
+   QCheckBox            *mpDerMixDrun; /*!< \brief \todo TODO */
+   QLabel               *mpDerMixDcmdLabel; /*!< \brief \todo TODO */
+   QLineEdit            *mpDerMixDcmd; /*!< \brief \todo TODO */
+   QLabel               *mpDerMixDparamsLabel; /*!< \brief \todo TODO */
+   QLineEdit            *mpDerMixDparams; /*!< \brief \todo TODO */
+   QCheckBox            *mpAutoConnect; /*!< \brief \todo TODO */
+   QSpinBox             *mpCrossfadeTime; /*!< \brief \todo TODO */
+   QComboBox            *mpNormalizeMode; /*!< \brief \todo TODO */
+   QDoubleSpinBox       *mpNormalizeValue; /*!< \brief \todo TODO */
+   MyClipboard          *mpClipboard; /*!< \brief \todo TODO */
+   QLineEdit            *mpLogCmd; /*!< \brief \todo TODO */
+   QCheckBox            *mpCountSkip; /*!< \brief \todo TODO */
+   QCheckBox            *mpTrayIcon; /*!< \brief \todo TODO */
+   QCheckBox            *mpTrayIconBubble; /*!< \brief \todo TODO */
+   QDoubleSpinBox       *mpTrayIconBubbleTime; /*!< \brief \todo TODO */
+   QCheckBox            *mpPlayOnlyFavorite; /*!< \brief \todo TODO */
+   QCheckBox            *mpPlayOnlyLeastPlayed; /*!< \brief \todo TODO */
+   QComboBox            *mpPlayFolder; /*!< \brief \todo TODO */
+   QSpinBox             *mpPlayNotAgainCount; /*!< \brief \todo TODO */
+   QLineEdit            *mpNamePattern; /*!< \brief \todo TODO */
+   QLineEdit            *mpPlayerPattern; /*!< \brief \todo TODO */
+   QLineEdit            *mpListPattern; /*!< \brief \todo TODO */
+   QLineEdit            *mpTrayIconPattern; /*!< \brief \todo TODO */
+   QPushButton          *mpUpdateBrowserButton; /*!< \brief \todo TODO */
+   QPushButton          *mpStartKioskButton; /*!< \brief \todo TODO */
+   GlobalConfigWidget   *mpGlobalSettings; /*!< \brief \todo TODO */
 };
 
 /*! @} */

@@ -230,8 +230,7 @@ signals:
    void message( const QString &message = QString() );
 
 private:
-   CDDBClient( const CDDBClient &that );
-   CDDBClient &operator=( const CDDBClient &that );
+   Q_DISABLE_COPY( CDDBClient )
 
    /*!
     \brief send out a command to freedb server

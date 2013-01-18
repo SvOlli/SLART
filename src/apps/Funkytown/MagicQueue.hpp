@@ -73,10 +73,9 @@ public slots:
    void handleSelect( QListWidgetItem *item );
 
 private:
-   MagicQueue( const MagicQueue &that );
-   MagicQueue &operator=( const MagicQueue &that );
+   Q_DISABLE_COPY( MagicQueue )
 
-   QList<TheMagic*> mMagicList;
+   QList<TheMagic*> mMagicList; /*!< \brief \todo TODO */
 
 #if LIST_NEEDS_FIXING
    void updateList();

@@ -87,10 +87,9 @@ signals:
    void fullOrNoCommunication();
 
 private:
-   SatelliteConfigWidget( const SatelliteConfigWidget &that );
-   SatelliteConfigWidget &operator=( const SatelliteConfigWidget &that );
+   Q_DISABLE_COPY( SatelliteConfigWidget )
 
-   QList<QCheckBox*>    mButtonList;
+   QList<QCheckBox*>    mButtonList; /*!< \brief \todo TODO */
 };
 
 /*! @} */
