@@ -1,5 +1,5 @@
 /*
- * src/apps/Sorcerer/Application.cpp
+ * src/apps/Sorcerer/SorcererApplication.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)

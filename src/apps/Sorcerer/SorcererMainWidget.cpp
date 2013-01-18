@@ -12,13 +12,17 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QLabel>
+#include <QPushButton>
+#include <QTableWidget>
+#include <QVBoxLayout>
 
 /* local library headers */
 #include <AboutWidget.hpp>
 #include <DatabaseInterface.hpp>
 #include <ProxyWidget.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include "../../apps/Innuendo/SatelliteConfigWidget.hpp"
 #include "../../apps/Rubberbandman/DatabaseWidget.hpp"
 
@@ -36,8 +40,8 @@ SorcererMainWidget::SorcererMainWidget( QWidget *parent, Qt::WindowFlags flags )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mLastTab( 0 )
 , mDatabaseOk( false )
-, mCommunicationOk( MySettings( "Global" ).value( "SatellitePort" ).isValid() )
-, mProxyOk( MySettings( "Global/HTTPProxy" ).value( "Enable" ).isValid() )
+, mCommunicationOk( Settings::get( "Global" )->value( "SatellitePort" ).isValid() )
+, mProxyOk( Settings::get( "Global" )->value( "HTTPProxy/Enable" ).isValid() )
 , mQuit( tr("quit") )
 , mStart( tr("start") )
 {
