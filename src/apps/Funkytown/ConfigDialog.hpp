@@ -95,15 +95,4 @@ private:
 
 /*! @} */
 
-/* defaults */
-#define VALUE_BYTES               value("Bytes", 0).toULongLong()
-#define VALUE_COVERART            value("CoverArt", false).toBool()
-#define VALUE_DIRECTORY           value("Directory", QDir::currentPath()).toString()
-#define VALUE_FILES               value("Files", 0).toUInt()
-#define VALUE_OVERWRITE           value("Overwrite", false).toBool()
-#define VALUE_SLARTCOMMUNICATION  value("SLARTCommunication", false).toBool()
-#define VALUE_STYLESHEET          value("StyleSheet", QString()).toString()
-#define VALUE_TOLLKEEP            value("TollKeep", true).toBool()
-#define VALUE_USERAGENT           value("UserAgent", QString("Shockwave Flash")).toString()
-
 #endif

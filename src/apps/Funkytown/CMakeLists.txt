@@ -19,14 +19,14 @@ INCLUDE_DIRECTORIES(
    ${COMMON_INCLUDE_DIR}
 )
 
-ADD_SOURCE( Application         cpp         )
-ADD_SOURCE( ConfigDialog        cpp hpp moc )
-ADD_SOURCE( Cookie              cpp hpp     )
-ADD_SOURCE( CookieJar           cpp hpp     )
-ADD_SOURCE( DownloadHandler     cpp hpp moc )
-ADD_SOURCE( FunkytownMainWidget cpp hpp moc )
-ADD_SOURCE( MagicQueue          cpp hpp moc )
-ADD_SOURCE( TheMagic            cpp hpp moc )
+ADD_SOURCE( ConfigDialog         cpp hpp moc )
+ADD_SOURCE( Cookie               cpp hpp     )
+ADD_SOURCE( CookieJar            cpp hpp     )
+ADD_SOURCE( DownloadHandler      cpp hpp moc )
+ADD_SOURCE( FunkytownApplication cpp         )
+ADD_SOURCE( FunkytownMainWidget  cpp hpp moc )
+ADD_SOURCE( MagicQueue           cpp hpp moc )
+ADD_SOURCE( TheMagic             cpp hpp moc )
 
 SET( Funkytown_RESOURCES
    Resources/Funkytown.qrc

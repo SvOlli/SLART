@@ -1,5 +1,5 @@
 /*
- * src/apps/Funkytown/Application.cpp
+ * src/apps/Funkytown/FunkytownApplication.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -15,7 +15,7 @@
 /* local library headers */
 #include <GenericSatelliteHandler.hpp>
 #include <MainWindow.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <Satellite.hpp>
 #include <SorcererLoader.hpp>
 #include <Trace.hpp>
@@ -37,24 +37,16 @@ int main(int argc, char *argv[])
 
    QApplication app( argc, argv );
    Q_INIT_RESOURCE( Common );
+   Settings::setApplicationStyleSheet( &app );
 
    Translate translate;
    translate.install( &app );
 
    QStringList *startUrls = new QStringList();
-   MySettings settings;
 
    SorcererLoader::detect();
 
    GenericSatelliteHandler::createSatellite();
-   {
-      QFile qssFile( settings.styleSheetFile() );
-      if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
-      {
-         app.setStyleSheet( qssFile.readAll() );
-         qssFile.close();
-      }
-   }
 
    for( retval = 1; retval < argc; retval++ )
    {

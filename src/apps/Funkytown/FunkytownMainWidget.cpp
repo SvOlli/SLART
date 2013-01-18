@@ -21,7 +21,7 @@
 #include <QPushButton>
 
 /* local library headers */
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <WidgetShot.hpp>
 
 /* local headers */
@@ -42,8 +42,6 @@ FunkytownMainWidget::FunkytownMainWidget( QWidget *parent )
 , mpConfigDialog( new ConfigDialog( this ) )
 , mpDownloadHandler( new DownloadHandler() )
 {
-   MySettings settings;
-
    mpLayout->setContentsMargins( 3, 3, 3, 3 );
    mpLayout->setSpacing( 3 );
    parent->setWindowIcon( QIcon( ":/SLART.png" ) );
@@ -56,7 +54,7 @@ FunkytownMainWidget::FunkytownMainWidget( QWidget *parent )
    mpSettingsButton->setAcceptDrops( false );
    mpDownloadHandler->setAcceptDrops( false );
 
-   mpDirButton->setText( settings.VALUE_DIRECTORY );
+   mpDirButton->setText( Settings::value( Settings::FunkytownDirectory ) );
    QDir::setCurrent( mpDirButton->text() );
 
    downloadActive( false );
@@ -116,10 +114,9 @@ void FunkytownMainWidget::setDownloadDir()
 
    if( fileDialog.exec() )
    {
-      MySettings settings;
       QString result( fileDialog.selectedFiles().at(0) );
       mpDirButton->setText( result );
-      settings.setValue( "Directory", result.replace('\\','/') );
+      Settings::setValue( Settings::FunkytownDirectory, result.replace('\\','/') );
    }
 
    QDir::setCurrent( mpDirButton->text() );

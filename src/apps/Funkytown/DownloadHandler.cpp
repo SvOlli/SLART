@@ -19,8 +19,8 @@
 #include <QVBoxLayout>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <ScrollLine.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -53,7 +53,7 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    QGroupBox  *groupBox    = new QGroupBox( tr("Now Processing:"), this );
    QBoxLayout *groupLayout = new QVBoxLayout();
 
-   if( MySettings().VALUE_SLARTCOMMUNICATION )
+   if( Settings::value( Settings::CommonUseSatellite ) )
    {
       mpMagicQueue->setSelectionMode( QAbstractItemView::MultiSelection );
       mpEnqueue->setEnabled( false );
@@ -209,7 +209,7 @@ TRACESTART(DownloadHandler::startDownload)
       mpHttp->setHost( url.left(slash1) );
 
       QString referer( mpTheMagic->referer() );
-      QString userAgent( MySettings().VALUE_USERAGENT );
+      QString userAgent( Settings::value( Settings::FunkytownUserAgent ) );
       QStringList cookies( mCookieJar.take( url.left(slash1), url.mid(slash1) ) );
 
       QHttpRequestHeader requestHeader( "GET", url.mid(slash1) );

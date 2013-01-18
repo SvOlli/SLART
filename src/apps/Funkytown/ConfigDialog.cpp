@@ -25,8 +25,8 @@
 /* local library headers */
 #include <AboutWidget.hpp>
 #include <GlobalConfigWidget.hpp>
-#include <MySettings.hpp>
 #include <ProxyWidget.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 
@@ -117,28 +117,29 @@ void ConfigDialog::logMessage( const QString &message )
 
 void ConfigDialog::readSettings()
 {
-   MySettings settings;
-
    mpProxyWidget->readSettings();
 
-   mpOverwrite->setChecked( settings.VALUE_OVERWRITE );
-   mpCoverArt->setChecked( settings.VALUE_COVERART );
-   mpTollKeep->setChecked( settings.VALUE_TOLLKEEP );
-   mpDownloadedFiles->setText( QString::number( settings.VALUE_FILES ) );
-   mpDownloadedBytes->setText( QString::number( settings.VALUE_BYTES / 1048576 ) + "M" );
+   mpOverwrite->setChecked( Settings::value( Settings::FunkytownOverwrite ) );
+   mpCoverArt->setChecked( Settings::value( Settings::FunkytownCoverArt ) );
+   mpTollKeep->setChecked( Settings::value( Settings::FunkytownTollKeep ) );
+   mpDownloadedFiles->setText( QString::number( Settings::value( Settings::FunkytownFiles ) ) );
+   mpDownloadedBytes->setText( QString::number( Settings::value( Settings::FunkytownBytes ) / 1048576 ) + "M" );
 }
 
 
 void ConfigDialog::writeSettings()
 {
-   MySettings settings;
-
    mpProxyWidget->writeSettings();
 
-   settings.setValue( "Overwrite", mpOverwrite->isChecked() );
-   settings.setValue( "CoverArt", mpCoverArt->isChecked() );
-   settings.setValue( "TollKeep", mpTollKeep->isChecked() );
-   settings.setValue( "UserAgent", settings.VALUE_USERAGENT );
+   QString userAgent( Settings::value( Settings::FunkytownUserAgent ) );
+   if( userAgent.isEmpty() )
+   {
+      userAgent = "Shockwave Flash";
+      Settings::setValue( Settings::FunkytownUserAgent, userAgent );
+   }
+   Settings::setValue( Settings::FunkytownOverwrite, mpOverwrite->isChecked() );
+   Settings::setValue( Settings::FunkytownCoverArt, mpCoverArt->isChecked() );
+   Settings::setValue( Settings::FunkytownTollKeep, mpTollKeep->isChecked() );
 }
 
 
@@ -150,8 +151,8 @@ void ConfigDialog::handleClear()
          QMessageBox::Ok | QMessageBox::Cancel,
          QMessageBox::Cancel ) == QMessageBox::Ok )
    {
-      MySettings settings;
-      settings.remove( "Files" );
-      settings.remove( "Bytes" );
+      QSettings *settings = Settings::get();
+      settings->remove( "Files" );
+      settings->remove( "Bytes" );
    }
 }

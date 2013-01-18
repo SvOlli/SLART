@@ -18,8 +18,8 @@
 #include <QFileInfo>
 
 /* local library headers */
-#include <MySettings.hpp>
 #include <Satellite.hpp>
+#include <Settings.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
@@ -151,7 +151,7 @@ void TheMagic::downloadToFile()
    sanitizeFileName();
    mpFile = new QFile( mFileName );
 
-   if( !(MySettings().VALUE_OVERWRITE) )
+   if( !Settings::value( Settings::FunkytownOverwrite ) )
    {
       if( mpFile->exists() )
       {
@@ -351,15 +351,14 @@ void TheMagic::processGenericFile()
    QFileInfo fileinfo( mFileName );
    if( mSuccess && (fileinfo.size() > 0) )
    {
-      MySettings settings;
-      if( settings.VALUE_TOLLKEEP )
+      if( Settings::value( Settings::FunkytownTollKeep ) )
       {
-         qulonglong total = settings.VALUE_BYTES;
+         qulonglong total = Settings::value( Settings::FunkytownBytes );
          total += fileinfo.size();
-         settings.setValue( "Bytes", total );
+         Settings::setValue( Settings::FunkytownBytes, total );
 
-         unsigned int count = settings.VALUE_FILES + 1;
-         settings.setValue( "Files", count );
+         unsigned int count = Settings::value( Settings::FunkytownFiles ) + 1;
+         Settings::setValue( Settings::FunkytownFiles, count );
       }
 
       if( mpSatellite )
@@ -645,15 +644,14 @@ void TheMagic::parseMySpaceMP3()
 
    if( mSuccess )
    {
-      MySettings settings;
-      if( settings.VALUE_TOLLKEEP )
+      if( Settings::value( Settings::FunkytownTollKeep ) )
       {
-         qulonglong total = settings.VALUE_BYTES;
+         qulonglong total = Settings::value( Settings::FunkytownBytes );
          total += fileinfo.size();
-         settings.setValue( "Bytes", total );
+         Settings::setValue( Settings::FunkytownBytes, total );
 
-         unsigned int count = settings.VALUE_FILES + 1;
-         settings.setValue( "Files", count );
+         unsigned int count = Settings::value( Settings::FunkytownFiles ) + 1;
+         Settings::setValue( Settings::FunkytownFiles, count );
       }
 
       if( mpSatellite )
@@ -802,7 +800,7 @@ qDebug() << line;
             magic->mStage = stageMySpaceMP3;
             mpMagicQueue->addMagic( magic );
 
-            if( !(xmlCover.isEmpty()) && MySettings().VALUE_COVERART )
+            if( !(xmlCover.isEmpty()) && Settings::value( Settings::FunkytownCoverArt ) )
             {
                TheMagic *magic = new TheMagic( *this );
                magic->mURL = xmlCover.trimmed();

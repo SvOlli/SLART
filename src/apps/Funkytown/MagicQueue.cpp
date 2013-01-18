@@ -20,7 +20,6 @@
 #include <QListWidgetItem>
 
 /* local library headers */
-#include <MySettings.hpp>
 
 /* local headers */
 #include "ConfigDialog.hpp"
