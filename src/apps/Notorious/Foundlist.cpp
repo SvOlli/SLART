@@ -12,7 +12,8 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QClipboard>
 
 /* local library headers */
 

@@ -13,13 +13,13 @@
 
 /* Qt headers */
 #include <QApplication>
+#include <QMessageBox>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
-#include <QMessageBox>
 
 /* local library headers */
-#include "MySettings.hpp"
+#include <Settings.hpp>
 
 /* local headers */
 #include "FreeDBQuery.hpp"
@@ -33,9 +33,11 @@ FreeDB::FreeDB( QObject *parent )
 , mpSearchQuery( 0 )
 , mpInfoQuery( 0 )
 {
-   MySettings settings;
-   QString dbFileName( settings.value( "DatabaseFile", "freedb.sqlite" ).toString() );
-   settings.setValue( "DatabaseFile", dbFileName );
+   QString dbFileName( Settings::value( Settings::NotoriousDatabaseFile ) );
+   if( dbFileName.isEmpty() )
+   {
+      Settings::setValue( Settings::NotoriousDatabaseFile, dbFileName );
+   }
 
 #if USE_SQLITE
    mpSqlDB = new QSqlDatabase( QSqlDatabase::addDatabase( "QSQLITE" ) );

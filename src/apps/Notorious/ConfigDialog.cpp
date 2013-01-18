@@ -12,12 +12,19 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QCoreApplication>
+#include <QFileDialog>
+#include <QGridLayout>
+#include <QIcon>
+#include <QLabel>
+#include <QLineEdit>
+#include <QListWidget>
+#include <QPushButton>
 
 /* local library headers */
 #include <AboutWidget.hpp>
-#include <MySettings.hpp>
 #include <ProxyWidget.hpp>
+#include <Settings.hpp>
 #include <WidgetShot.hpp>
 
 /* local headers */
@@ -35,7 +42,7 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 , mpImportButton( new QPushButton( tr("Run Import"), this ) )
 , mTimeSpent()
 {
-   setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
+   setWindowTitle( QCoreApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon(":/SLART.png") );
 
    AboutWidget *about( new AboutWidget( this ) );
@@ -127,15 +134,11 @@ void ConfigDialog::handleProgress( unsigned count, const char *filename )
 
 void ConfigDialog::readSettings()
 {
-   MySettings settings;
-
 }
 
 
 void ConfigDialog::writeSettings()
 {
-   MySettings settings;
-
 }
 
 

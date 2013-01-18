@@ -1,5 +1,5 @@
 /*
- * src/apps/Notorious/Application.cpp
+ * src/apps/Notorious/NotoriousApplication.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -9,11 +9,11 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
 
 /* local library headers */
 #include <MainWindow.hpp>
-#include <MySettings.hpp>
+#include <Settings.hpp>
 #include <SorcererLoader.hpp>
 #include <Trace.hpp>
 #include <Translate.hpp>
@@ -34,20 +34,10 @@ int main(int argc, char *argv[])
 
    QApplication app( argc, argv );
    Q_INIT_RESOURCE( Common );
+   Settings::setApplicationStyleSheet( &app );
 
    Translate translate;
    translate.install( &app );
-
-   MySettings settings;
-   //SorcererLoader::detect();
-   {
-      QFile qssFile( settings.styleSheetFile() );
-      if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
-      {
-         app.setStyleSheet( qssFile.readAll() );
-         qssFile.close();
-      }
-   }
 
    MainWindow window;
    NotoriousMainWidget *mainWidget = new NotoriousMainWidget( &window );

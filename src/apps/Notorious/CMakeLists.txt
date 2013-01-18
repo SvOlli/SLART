@@ -26,17 +26,17 @@ INCLUDE_DIRECTORIES(
 )
 
 
-ADD_SOURCE( Application         cpp         )
-ADD_SOURCE( ConfigDialog        cpp hpp moc )
-ADD_SOURCE( Foundlist           cpp hpp moc )
-ADD_SOURCE( FreeDB              cpp hpp moc )
-ADD_SOURCE( FreeDBEntry         cpp hpp     )
-ADD_SOURCE( FreeDBImport        cpp hpp moc )
-ADD_SOURCE( FreeDBQuery         cpp hpp moc )
-ADD_SOURCE( NotoriousMainWidget cpp hpp moc )
-ADD_SOURCE( SearchWidget        cpp hpp moc )
-ADD_SOURCE( TarEntry            cpp hpp     )
-ADD_SOURCE( tir                 c   h       )
+ADD_SOURCE( ConfigDialog         cpp hpp moc )
+ADD_SOURCE( Foundlist            cpp hpp moc )
+ADD_SOURCE( FreeDB               cpp hpp moc )
+ADD_SOURCE( FreeDBEntry          cpp hpp     )
+ADD_SOURCE( FreeDBImport         cpp hpp moc )
+ADD_SOURCE( FreeDBQuery          cpp hpp moc )
+ADD_SOURCE( NotoriousApplication cpp         )
+ADD_SOURCE( NotoriousMainWidget  cpp hpp moc )
+ADD_SOURCE( SearchWidget         cpp hpp moc )
+ADD_SOURCE( TarEntry             cpp hpp     )
+ADD_SOURCE( tir                  c   h       )
 
 SET( Notorious_RESOURCES
 )

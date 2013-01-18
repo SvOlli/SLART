@@ -12,7 +12,9 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QPushButton>
+#include <QSplitter>
+#include <QVBoxLayout>
 
 /* local library headers */
 #include <WidgetShot.hpp>
