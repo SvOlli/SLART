@@ -1,5 +1,5 @@
 /*
- * src/apps/Notorious/ConfigDialog.hpp
+ * src/apps/Notorious/NotoriousConfigDialog.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -42,14 +42,14 @@ class FreeDBImport;
 /*!
  \brief \todo complete documentation
 
- \dotfile "graphs/apps/Notorious/ConfigDialog_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Notorious/NotoriousConfigDialog_connect.dot" "Connect Graph"
 */
-class ConfigDialog : public QDialog
+class NotoriousConfigDialog : public QDialog
 {
    Q_OBJECT
 
 public:
-   ConfigDialog( QWidget *parent = 0 );
+   NotoriousConfigDialog( QWidget *parent = 0 );
 
 public slots:
    /*!
@@ -94,8 +94,7 @@ public slots:
    void handleProgress( unsigned count, const char *filename );
 
 private:
-   ConfigDialog( const ConfigDialog &that );
-   ConfigDialog &operator=( const ConfigDialog &that );
+   Q_DISABLE_COPY( NotoriousConfigDialog )
 
    FreeDBImport *mpFreeDBImport;
    QListWidget  *mpLogList;

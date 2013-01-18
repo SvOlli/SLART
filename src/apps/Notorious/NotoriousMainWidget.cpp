@@ -20,9 +20,9 @@
 #include <WidgetShot.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
 #include "FreeDB.hpp"
 #include "Foundlist.hpp"
+#include "NotoriousConfigDialog.hpp"
 #include "SearchWidget.hpp"
 
 
@@ -32,7 +32,7 @@ NotoriousMainWidget::NotoriousMainWidget( QWidget *parent, Qt::WindowFlags flags
 , mpSearch( new SearchWidget( this ) )
 , mpFound( new Foundlist( QThread::NormalPriority, this ) )
 , mpCDInfo( new Foundlist( QThread::HighestPriority, this ) )
-, mpConfig( new ConfigDialog( this ) )
+, mpConfig( new NotoriousConfigDialog( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings / Import / Log"), this ) )
 {
    setMinimumSize( 600, 400 );

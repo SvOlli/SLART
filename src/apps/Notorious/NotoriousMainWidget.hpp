@@ -25,7 +25,7 @@ class QLineEdit;
 class QPushButton;
 
 /* forward declaration of local classes */
-class ConfigDialog;
+class NotoriousConfigDialog;
 class FreeDB;
 class Foundlist;
 class SearchWidget;
@@ -76,12 +76,12 @@ signals:
 private:
    Q_DISABLE_COPY( NotoriousMainWidget )
 
-   FreeDB       *mpFreeDB; /*!< \brief \todo complete documentation */
-   SearchWidget *mpSearch; /*!< \brief \todo complete documentation */
-   Foundlist    *mpFound; /*!< \brief \todo complete documentation */
-   Foundlist    *mpCDInfo; /*!< \brief \todo complete documentation */
-   ConfigDialog *mpConfig; /*!< \brief \todo complete documentation */
-   QPushButton  *mpSettingsButton; /*!< \brief \todo complete documentation */
+   FreeDB                  *mpFreeDB; /*!< \brief \todo complete documentation */
+   SearchWidget            *mpSearch; /*!< \brief \todo complete documentation */
+   Foundlist               *mpFound; /*!< \brief \todo complete documentation */
+   Foundlist               *mpCDInfo; /*!< \brief \todo complete documentation */
+   NotoriousConfigDialog   *mpConfig; /*!< \brief \todo complete documentation */
+   QPushButton             *mpSettingsButton; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

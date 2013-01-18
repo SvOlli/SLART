@@ -1,5 +1,5 @@
 /*
- * src/apps/Notorious/ConfigDialog.cpp
+ * src/apps/Notorious/NotoriousConfigDialog.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "ConfigDialog.hpp"
+#include "NotoriousConfigDialog.hpp"
 
 /* system headers */
 
@@ -31,7 +31,7 @@
 #include "FreeDBImport.hpp"
 
 
-ConfigDialog::ConfigDialog( QWidget *parent )
+NotoriousConfigDialog::NotoriousConfigDialog( QWidget *parent )
 : QDialog( parent )
 , mpFreeDBImport( new FreeDBImport( this ) )
 , mpLogList( new QListWidget( this ) )
@@ -110,21 +110,21 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 }
 
 
-void ConfigDialog::exec()
+void NotoriousConfigDialog::exec()
 {
    readSettings();
    QDialog::exec();
 }
 
 
-void ConfigDialog::logMessage( const QString &message )
+void NotoriousConfigDialog::logMessage( const QString &message )
 {
    mpLogList->addItem( message );
    mpLogList->scrollToBottom();
 }
 
 
-void ConfigDialog::handleProgress( unsigned count, const char *filename )
+void NotoriousConfigDialog::handleProgress( unsigned count, const char *filename )
 {
    mpCount->setText( QString::number( count ) );
    mpFileName->setText( QString(filename) );
@@ -132,17 +132,17 @@ void ConfigDialog::handleProgress( unsigned count, const char *filename )
 }
 
 
-void ConfigDialog::readSettings()
+void NotoriousConfigDialog::readSettings()
 {
 }
 
 
-void ConfigDialog::writeSettings()
+void NotoriousConfigDialog::writeSettings()
 {
 }
 
 
-void ConfigDialog::setFileName()
+void NotoriousConfigDialog::setFileName()
 {
    QFileDialog fileDialog( this );
 
@@ -159,7 +159,7 @@ void ConfigDialog::setFileName()
 }
 
 
-void ConfigDialog::checkValidFile( const QString &fileName )
+void NotoriousConfigDialog::checkValidFile( const QString &fileName )
 {
    QFileInfo qfi( fileName );
    if( qfi.isFile() && qfi.isReadable() && fileName.endsWith( ".tar.bz2", Qt::CaseInsensitive ) )
@@ -173,7 +173,7 @@ void ConfigDialog::checkValidFile( const QString &fileName )
 }
 
 
-void ConfigDialog::handleImport()
+void NotoriousConfigDialog::handleImport()
 {
    if( mpFreeDBImport->isRunning() )
    {
