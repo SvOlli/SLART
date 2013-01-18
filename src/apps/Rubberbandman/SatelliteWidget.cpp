@@ -23,7 +23,6 @@
 #include <Settings.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
 #include "FileSysBrowser.hpp"
 #include "InfoEdit.hpp"
 

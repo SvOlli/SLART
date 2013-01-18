@@ -27,7 +27,6 @@
 #include <Satellite.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
 
 
 /*!

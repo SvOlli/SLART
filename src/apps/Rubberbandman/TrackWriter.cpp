@@ -23,7 +23,6 @@
 #include <TrackInfo.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
 
 
 TrackWriter::TrackWriter( QObject *target, const QString &method,

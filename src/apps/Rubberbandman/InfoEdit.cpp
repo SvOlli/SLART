@@ -23,7 +23,6 @@
 #include <TagMap.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
 #include "LineEdit.hpp"
 #include "TrackReader.hpp"
 #include "TrackWriter.hpp"

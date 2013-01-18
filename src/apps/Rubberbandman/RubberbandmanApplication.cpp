@@ -24,7 +24,6 @@
 #include <Translate.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
 #include "Console.hpp"
 #include "DatabaseWorker.hpp"
 #include "RubberbandmanMainWidget.hpp"

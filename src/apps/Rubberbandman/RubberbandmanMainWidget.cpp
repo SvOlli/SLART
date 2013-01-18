@@ -23,8 +23,8 @@
 
 /* local headers */
 #include "BrowseWidget.hpp"
-#include "ConfigDialog.hpp"
 #include "DatabaseWidget.hpp"
+#include "RubberbandmanConfigDialog.hpp"
 #include "SatelliteWidget.hpp"
 
 
@@ -36,7 +36,7 @@ RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFla
 , mpTabs( new QTabWidget( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpDatabaseActivity( new QLabel( this ) )
-, mpConfigDialog( new ConfigDialog( this ) )
+, mpConfigDialog( new RubberbandmanConfigDialog( this ) )
 , mActiveLED( LEDIcon::pixmap( QColor("#ff0000"), 25 ) )
 , mIdleLED( LEDIcon::pixmap( QColor("#5f0000"), 25 ) )
 {

@@ -28,7 +28,7 @@ class QTabWidget;
 
 /* forward declaration of local classes */
 class BrowseWidget;
-class ConfigDialog;
+class RubberbandmanConfigDialog;
 class Database;
 class DatabaseWidget;
 class SatelliteWidget;
@@ -94,15 +94,15 @@ signals:
 private:
    Q_DISABLE_COPY( RubberbandmanMainWidget )
 
-   BrowseWidget      *mpBrowseWidget;/*!< \brief \todo complete documentation */
-   SatelliteWidget   *mpSatelliteWidget;/*!< \brief \todo complete documentation */
-   DatabaseWidget    *mpDatabaseWidget;/*!< \brief \todo complete documentation */
-   QTabWidget        *mpTabs;/*!< \brief \todo complete documentation */
-   QPushButton       *mpSettingsButton;/*!< \brief \todo complete documentation */
-   QLabel            *mpDatabaseActivity; /*!< \brief small widget indicating database activity */
-   ConfigDialog      *mpConfigDialog;/*!< \brief \todo complete documentation */
-   QPixmap           mActiveLED;
-   QPixmap           mIdleLED;
+   BrowseWidget               *mpBrowseWidget; /*!< \brief \todo complete documentation */
+   SatelliteWidget            *mpSatelliteWidget; /*!< \brief \todo complete documentation */
+   DatabaseWidget             *mpDatabaseWidget; /*!< \brief \todo complete documentation */
+   QTabWidget                 *mpTabs; /*!< \brief \todo complete documentation */
+   QPushButton                *mpSettingsButton; /*!< \brief \todo complete documentation */
+   QLabel                     *mpDatabaseActivity; /*!< \brief small widget indicating database activity */
+   RubberbandmanConfigDialog  *mpConfigDialog; /*!< \brief \todo complete documentation */
+   QPixmap                    mActiveLED; /*!< \brief \todo TODO */
+   QPixmap                    mIdleLED; /*!< \brief \todo TODO */
 };
 
 /*! @} */

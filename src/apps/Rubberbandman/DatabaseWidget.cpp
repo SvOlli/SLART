@@ -23,7 +23,6 @@
 
 /* local headers */
 #include "DatabaseWorker.hpp"
-#include "ConfigDialog.hpp"
 
 
 DatabaseWidget::DatabaseWidget( QWidget *parent )

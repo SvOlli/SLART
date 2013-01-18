@@ -22,7 +22,6 @@
 #include <Satellite.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
 #include "DirWalkerDelete.hpp"
 #include "DirWalkerMove.hpp"
 #include "MyTreeView.hpp"
@@ -77,7 +76,7 @@ FileSysBrowser::FileSysBrowser( QWidget *parent )
    /* evil hack */
    mpDotButton->setMaximumWidth( mpDotButton->height() );
 
-   mpRootDir->setText( settings.VALUE_ROOTDIRECTORY );
+   mpRootDir->setText( Settings::value( Settings::RubberbandmanRootDirectory ) );
    handleRootDir();
    mpView->setAnimated( true );
    connect( mpView, SIGNAL(clicked(QModelIndex)),

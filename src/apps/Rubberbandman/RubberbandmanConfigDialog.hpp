@@ -1,5 +1,5 @@
 /*
- * src/apps/Rubberbandman/ConfigDialog.hpp
+ * src/apps/Rubberbandman/RubberbandmanConfigDialog.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -43,9 +43,9 @@ class ProxyWidget;
 /*!
  \brief \todo complete documentation
 
- \dotfile "graphs/apps/Rubberbandman/ConfigDialog_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Rubberbandman/RubberbandmanConfigDialog_connect.dot" "Connect Graph"
 */
-class ConfigDialog : public QDialog
+class RubberbandmanConfigDialog : public QDialog
 {
    Q_OBJECT
 
@@ -56,13 +56,13 @@ public:
     \param parent
     \param flags
    */
-   ConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   RubberbandmanConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
    /*!
     \brief destructor
 
    */
-   virtual ~ConfigDialog();
+   virtual ~RubberbandmanConfigDialog();
 
 public slots:
    /*!
@@ -104,7 +104,7 @@ signals:
    void configChanged();
 
 private:
-   Q_DISABLE_COPY( ConfigDialog )
+   Q_DISABLE_COPY( RubberbandmanConfigDialog )
 
    GlobalConfigWidget   *mpGlobalConfigWidget; /*!< \brief \todo complete documentation */
    QCheckBox            *mpAutoRescan; /*!< \brief \todo complete documentation */

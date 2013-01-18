@@ -1,5 +1,5 @@
 /*
- * src/apps/Rubberbandman/ConfigDialog.cpp
+ * src/apps/Rubberbandman/RubberbandmanConfigDialog.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "ConfigDialog.hpp"
+#include "RubberbandmanConfigDialog.hpp"
 
 /* system headers */
 
@@ -23,7 +23,7 @@
 /* local headers */
 
 
-ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
+RubberbandmanConfigDialog::RubberbandmanConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpAutoRescan( new QCheckBox( tr("Rescan After Filesystem Operation"), this ) )
@@ -115,19 +115,19 @@ ConfigDialog::ConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 }
 
 
-ConfigDialog::~ConfigDialog()
+RubberbandmanConfigDialog::~RubberbandmanConfigDialog()
 {
 }
 
 
-void ConfigDialog::exec()
+void RubberbandmanConfigDialog::exec()
 {
    readSettings();
    QDialog::exec();
 }
 
 
-void ConfigDialog::readSettings()
+void RubberbandmanConfigDialog::readSettings()
 {
    mpAutoRescan->setChecked( Settings::value( Settings::RubberbandmanAutoRescan ) );
    mpWithTrackNr->setText( Settings::value( Settings::RubberbandmanWithTrackNr ) );
@@ -140,7 +140,7 @@ void ConfigDialog::readSettings()
 }
 
 
-void ConfigDialog::writeSettings()
+void RubberbandmanConfigDialog::writeSettings()
 {
    Settings::setValue( Settings::RubberbandmanAutoRescan, mpAutoRescan->isChecked() );
    Settings::setValue( Settings::RubberbandmanWithTrackNr, mpWithTrackNr->text() );
@@ -153,19 +153,19 @@ void ConfigDialog::writeSettings()
 }
 
 
-void ConfigDialog::updateWithTrackNr( const QString &text )
+void RubberbandmanConfigDialog::updateWithTrackNr( const QString &text )
 {
    mpWithTrackNrExample->setText( mTagMap.fileName(text+".ext", true) );
 }
 
 
-void ConfigDialog::updateWithoutTrackNr( const QString &text )
+void RubberbandmanConfigDialog::updateWithoutTrackNr( const QString &text )
 {
    mpWithoutTrackNrExample->setText( mTagMap.fileName(text+".ext", true) );
 }
 
 
-void ConfigDialog::updatePlayingPattern( const QString &text )
+void RubberbandmanConfigDialog::updatePlayingPattern( const QString &text )
 {
    mpPlayingPatternExample->setText( mTagMap.fileName(text, false) );
 }
