@@ -1,5 +1,5 @@
 /*
- * src/apps/Funkytown/ConfigDialog.hpp
+ * src/apps/Funkytown/FunkytownConfigDialog.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -41,14 +41,14 @@ class ProxyWidget;
 /*!
  \brief \todo complete documentation
 
- \dotfile "graphs/apps/Funkytown/ConfigDialog_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Funkytown/FunkytownConfigDialog_connect.dot" "Connect Graph"
 */
-class ConfigDialog : public QDialog
+class FunkytownConfigDialog : public QDialog
 {
    Q_OBJECT
 
 public:
-   ConfigDialog( QWidget *parent = 0 );
+   FunkytownConfigDialog( QWidget *parent = 0 );
 
 public slots:
    /*!
@@ -78,8 +78,8 @@ public slots:
    void handleClear();
 
 private:
-   ConfigDialog( const ConfigDialog &that );
-   ConfigDialog &operator=( const ConfigDialog &that );
+   FunkytownConfigDialog( const FunkytownConfigDialog &that );
+   FunkytownConfigDialog &operator=( const FunkytownConfigDialog &that );
 
    ProxyWidget        *mpProxyWidget;
    QListWidget        *mpLogList;

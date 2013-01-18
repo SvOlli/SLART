@@ -22,7 +22,6 @@
 /* local library headers */
 
 /* local headers */
-#include "ConfigDialog.hpp"
 #include "TheMagic.hpp"
 
 

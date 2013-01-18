@@ -1,5 +1,5 @@
 /*
- * src/apps/Funkytown/ConfigDialog.cpp
+ * src/apps/Funkytown/FunkytownConfigDialog.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "ConfigDialog.hpp"
+#include "FunkytownConfigDialog.hpp"
 
 /* system headers */
 
@@ -31,7 +31,7 @@
 /* local headers */
 
 
-ConfigDialog::ConfigDialog( QWidget *parent )
+FunkytownConfigDialog::FunkytownConfigDialog( QWidget *parent )
 : QDialog( parent )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mpLogList( new QListWidget( this ) )
@@ -101,21 +101,21 @@ ConfigDialog::ConfigDialog( QWidget *parent )
 }
 
 
-void ConfigDialog::exec()
+void FunkytownConfigDialog::exec()
 {
    readSettings();
    QDialog::exec();
 }
 
 
-void ConfigDialog::logMessage( const QString &message )
+void FunkytownConfigDialog::logMessage( const QString &message )
 {
    mpLogList->addItem( message );
    mpLogList->scrollToBottom();
 }
 
 
-void ConfigDialog::readSettings()
+void FunkytownConfigDialog::readSettings()
 {
    mpProxyWidget->readSettings();
 
@@ -127,7 +127,7 @@ void ConfigDialog::readSettings()
 }
 
 
-void ConfigDialog::writeSettings()
+void FunkytownConfigDialog::writeSettings()
 {
    mpProxyWidget->writeSettings();
 
@@ -143,7 +143,7 @@ void ConfigDialog::writeSettings()
 }
 
 
-void ConfigDialog::handleClear()
+void FunkytownConfigDialog::handleClear()
 {
    if( QMessageBox::question( this,
          QApplication::applicationName() + ": " + tr("Clear Statistics"),

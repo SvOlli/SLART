@@ -32,7 +32,7 @@ class QListWidget;
 class QPushButton;
 
 /* forward declaration of local classes */
-class ConfigDialog;
+class FunkytownConfigDialog;
 class DownloadHandler;
 
 /*!
@@ -117,7 +117,7 @@ private:
    QLineEdit               *mpNameInput; /*!< \brief \todo complete documentation */
    QPushButton             *mpGoButton; /*!< \brief \todo complete documentation */
    QPushButton             *mpSettingsButton; /*!< \brief \todo complete documentation */
-   ConfigDialog            *mpConfigDialog; /*!< \brief \todo complete documentation */
+   FunkytownConfigDialog   *mpConfigDialog; /*!< \brief \todo complete documentation */
    DownloadHandler         *mpDownloadHandler; /*!< \brief \todo complete documentation */
 };
 

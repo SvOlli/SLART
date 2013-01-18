@@ -25,7 +25,7 @@
 #include <WidgetShot.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
+#include "FunkytownConfigDialog.hpp"
 #include "DownloadHandler.hpp"
 #include "MainWindow.hpp"
 
@@ -39,7 +39,7 @@ FunkytownMainWidget::FunkytownMainWidget( QWidget *parent )
 , mpNameInput( new QLineEdit( this ) )
 , mpGoButton( new QPushButton( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings / Log / Help"), this ) )
-, mpConfigDialog( new ConfigDialog( this ) )
+, mpConfigDialog( new FunkytownConfigDialog( this ) )
 , mpDownloadHandler( new DownloadHandler() )
 {
    mpLayout->setContentsMargins( 3, 3, 3, 3 );

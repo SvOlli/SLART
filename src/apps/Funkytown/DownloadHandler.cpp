@@ -23,7 +23,6 @@
 #include <Settings.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
 #include "MagicQueue.hpp"
 #include "TheMagic.hpp"
 

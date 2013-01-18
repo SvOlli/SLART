@@ -22,7 +22,6 @@
 #include <Settings.hpp>
 
 /* local headers */
-#include "ConfigDialog.hpp"
 #include "MagicQueue.hpp"
 
 #define USE_TRACE 0
