@@ -12,17 +12,19 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
 #include <QHttpRequestHeader>
 #include <QHttpResponseHeader>
+#include <QListWidget>
 #include <QTcpSocket>
+#include <QTextDocument> // for Qt::escape()
+#include <QVBoxLayout>
 
 /* local library headers */
 #include <Database.hpp>
 #include <GenericSatelliteHandler.hpp>
 #include <Satellite.hpp>
 #include <WebServer.hpp>
-#include <MySettings.hpp>
 
 /* local headers */
 
