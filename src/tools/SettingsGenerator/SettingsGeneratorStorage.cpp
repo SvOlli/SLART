@@ -232,6 +232,7 @@ QStringList SettingsGeneratorStorage::definition() const
    toType.replace( "int", "Int" );
    toType.replace( "ulonglong", "ULongLong" );
    toType.replace( "ulong", "ULong" );
+   toType.replace( "longlong", "LongLong" );
    toType.replace( "long", "Long" );
    toType.replace( "bool", "Bool" );
    toType.replace( "double", "Double" );

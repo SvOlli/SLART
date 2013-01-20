@@ -1278,6 +1278,34 @@ int Settings::value( PartymanInt id )
 }
 
 
+void Settings::setValue( PartymanLonglong id, qlonglong value )
+{
+   QSettings *settings = cpSettings->get( "Partyman" );
+   switch( id )
+   {
+   case PartymanDerMixDpid:
+      settings->setValue( "DerMixDpid", value );
+      return;
+   default:
+      qFatal( "illegal PartymanLonglong value" );
+   }
+}
+
+
+qlonglong Settings::value( PartymanLonglong id )
+{
+   QSettings *settings = cpSettings->get( "Partyman" );
+   switch( id )
+   {
+   case PartymanDerMixDpid:
+      return settings->value( "DerMixDpid", 0 ).toLongLong();
+   default:
+      qFatal( "illegal PartymanLonglong value" );
+      return qlonglong();
+   }
+}
+
+
 void Settings::setValue( RubberbandmanString id, const QString &value )
 {
    QSettings *settings = cpSettings->get( "Rubberbandman" );

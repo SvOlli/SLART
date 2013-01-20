@@ -429,6 +429,15 @@ public:
 
     automatically generated
     */
+   enum PartymanLonglong
+   {
+      PartymanDerMixDpid
+   };
+   /*!
+    \brief enum for value() and setValue()
+
+    automatically generated
+    */
    enum RubberbandmanString
    {
       RubberbandmanPlayingPattern,
@@ -1133,6 +1142,24 @@ public:
     \param id id of registry key
     */
    static int value( PartymanInt id );
+
+   /*!
+    \brief set a value in registry
+
+    automatically generated
+    \param id id of registry key
+    \param value to set
+    */
+   static void setValue( PartymanLonglong id, qlonglong value );
+
+   /*!
+    \brief get a value in registry
+
+    automatically generated
+    \return value in registry
+    \param id id of registry key
+    */
+   static qlonglong value( PartymanLonglong id );
 
    /*!
     \brief set a value in registry
