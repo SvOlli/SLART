@@ -256,8 +256,8 @@ private:
    bool                    mConnected; /*!< \brief \todo TODO */
    bool                    mPaused; /*!< \brief \todo TODO */
    bool                    mKioskMode; /*!< \brief \todo TODO */
-   QProcess                mDerMixDprocess; /*!< \brief \todo TODO */
-   QProcess                mLoggerProcess; /*!< \brief \todo TODO */
+   QProcess                *mpDerMixDprocess; /*!< \brief \todo TODO */
+   QProcess                *mpLoggerProcess; /*!< \brief \todo TODO */
    bool                    mWaitForDerMixD; /*!< \brief \todo TODO */
    bool                    mDerMixDstarted; /*!< \brief \todo TODO */
    QByteArray              mLastP0p; /*!< \brief \todo TODO */

@@ -55,8 +55,8 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
 , mConnected( false )
 , mPaused( false )
 , mKioskMode( false )
-, mDerMixDprocess()
-, mLoggerProcess()
+, mpDerMixDprocess( new QProcess( this ) )
+, mpLoggerProcess( new QProcess( this ) )
 , mWaitForDerMixD( false )
 , mDerMixDstarted( false )
 , mLastP0p()
@@ -129,11 +129,11 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
    connect( mpTrayIconClickTimer, SIGNAL(timeout()),
             this, SLOT(handlePause()) );
 
-   connect( &mDerMixDprocess, SIGNAL(readyReadStandardError()),
+   connect( mpDerMixDprocess, SIGNAL(readyReadStandardError()),
             this, SLOT(handleDerMixDstartup()) );
-   connect( &mDerMixDprocess, SIGNAL(finished(int,QProcess::ExitStatus)),
+   connect( mpDerMixDprocess, SIGNAL(finished(int,QProcess::ExitStatus)),
             this, SLOT(handleDerMixDfinish(int,QProcess::ExitStatus)) );
-   connect( &mDerMixDprocess, SIGNAL(error(QProcess::ProcessError)),
+   connect( mpDerMixDprocess, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(handleDerMixDerror(QProcess::ProcessError)) );
 
    if( mpSatellite )
@@ -154,16 +154,17 @@ ControlWidget::~ControlWidget()
    mpPlayer[0]->disconnect();
    mpPlayer[1]->disconnect();
 
-   if( mDerMixDprocess.state() != QProcess::NotRunning )
+   if( mpDerMixDprocess->state() != QProcess::NotRunning )
    {
-      mDerMixDprocess.terminate();
-      mDerMixDprocess.waitForFinished();
+      mpDerMixDprocess->terminate();
+      mpDerMixDprocess->waitForFinished();
    }
-   if( mDerMixDprocess.state() != QProcess::NotRunning )
+   if( mpDerMixDprocess->state() != QProcess::NotRunning )
    {
-      mDerMixDprocess.kill();
-      mDerMixDprocess.waitForFinished();
+      mpDerMixDprocess->kill();
+      mpDerMixDprocess->waitForFinished();
    }
+   Settings::setValue( Settings::PartymanDerMixDpid, 0 );
 }
 
 
@@ -378,7 +379,9 @@ void ControlWidget::initConnect()
          {
             args << params.split(' ');
          }
-         mDerMixDprocess.start( Settings::value( Settings::PartymanDerMixDcmd ), args );
+         mpDerMixDprocess->start( Settings::value( Settings::PartymanDerMixDcmd ), args );
+         qlonglong pid = static_cast<qlonglong>( mpDerMixDprocess->pid() );
+         Settings::setValue( Settings::PartymanDerMixDpid, pid );
          /* block until dermixd is up an running */
          for( mWaitForDerMixD = true; mWaitForDerMixD; )
          {
@@ -447,7 +450,8 @@ void ControlWidget::initDisconnect( ErrorCode errorCode )
       }
       if( Settings::value( Settings::PartymanDerMixDrun ) )
       {
-         mDerMixDprocess.terminate();
+         mpDerMixDprocess->terminate();
+         Settings::setValue( Settings::PartymanDerMixDpid, 0 );
       }
       emit signalConnected( false );
       mpPlaylist->setTrackInfo( TrackInfo() );
@@ -679,14 +683,14 @@ void ControlWidget::log( const QString &udpEvent, const QString &logEvent, const
       {
          args << data;
       }
-      mLoggerProcess.start( command, args );
+      mpLoggerProcess->start( command, args );
    }
 }
 
 
 void ControlWidget::handleDerMixDstartup()
 {
-   QStringList data( QString::fromLocal8Bit( mDerMixDprocess.readAllStandardError().constData() ).split('\n') );
+   QStringList data( QString::fromLocal8Bit( mpDerMixDprocess->readAllStandardError().constData() ).split('\n') );
 
    foreach( const QString &line, data )
    {
