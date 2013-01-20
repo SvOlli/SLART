@@ -67,7 +67,7 @@ private:
    Q_DISABLE_COPY( ExecButton )
 
    QString   mName; /*!< \brief \todo TODO */
-   QProcess  mProcess; /*!< \brief \todo TODO */
+   QProcess  *mpProcess; /*!< \brief \todo TODO */
    bool      mTerminating; /*!< \brief \todo TODO */
 };
 

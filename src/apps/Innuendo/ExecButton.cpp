@@ -23,7 +23,7 @@
 ExecButton::ExecButton( const QString &name, QWidget *parent )
 : QPushButton( name, parent )
 , mName( QCoreApplication::applicationDirPath() )
-, mProcess()
+, mpProcess( new QProcess( this ) )
 , mTerminating( false )
 {
    mName.append( '/' );
@@ -33,23 +33,17 @@ ExecButton::ExecButton( const QString &name, QWidget *parent )
 
    connect( this, SIGNAL(clicked()),
             this, SLOT(handleClick()) );
-   connect( &mProcess, SIGNAL(error(QProcess::ProcessError)),
+   connect( mpProcess, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(handleError(QProcess::ProcessError)) );
-   connect( &mProcess, SIGNAL(finished(int,QProcess::ExitStatus)),
+   connect( mpProcess, SIGNAL(finished(int,QProcess::ExitStatus)),
             this, SLOT(handleFinished(int,QProcess::ExitStatus)) );
 }
 
 
 ExecButton::~ExecButton()
 {
-   disconnect( this, SIGNAL(clicked()),
-               this, SLOT(handleClick()) );
-   disconnect( &mProcess, SIGNAL(error(QProcess::ProcessError)),
-               this, SLOT(handleError(QProcess::ProcessError)) );
-   disconnect( &mProcess, SIGNAL(finished(int,QProcess::ExitStatus)),
-               this, SLOT(handleFinished(int,QProcess::ExitStatus)) );
-   mProcess.terminate();
-   mProcess.waitForFinished();
+   mpProcess->terminate();
+   mpProcess->waitForFinished();
 }
 
 
@@ -59,13 +53,13 @@ void ExecButton::handleClick()
    {
       /* start */
       mTerminating = false;
-      mProcess.start( mName );
+      mpProcess->start( mName );
    }
    else
    {
       /* stop */
       mTerminating = true;
-      mProcess.terminate();
+      mpProcess->terminate();
    }
 }
 
