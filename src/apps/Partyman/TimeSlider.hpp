@@ -15,13 +15,13 @@
 /* system headers */
 
 /* Qt headers */
-#include <QTimer>
 
 /* local library headers */
 
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QTimer;
 
 /* forward declaration of local classes */
 
@@ -72,7 +72,7 @@ protected:
 private:
    Q_DISABLE_COPY( TimeSlider )
 
-   QTimer mWheelTimeout; /*!< \brief \todo complete documentation */
+   QTimer*  mpWheelTimeout; /*!< \brief \todo complete documentation */
 };
 
 /*! @} */

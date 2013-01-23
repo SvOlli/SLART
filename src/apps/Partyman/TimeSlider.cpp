@@ -12,6 +12,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QTimer>
 
 /* local library headers */
 #include <MyMouseEvent.hpp>
@@ -21,11 +22,12 @@
 
 TimeSlider::TimeSlider( Qt::Orientation orientation, QWidget *parent )
 : QSlider( orientation, parent )
+, mpWheelTimeout( new QTimer( this ) )
 {
-   mWheelTimeout.setSingleShot( true );
-   mWheelTimeout.setInterval( 333 );
+   mpWheelTimeout->setSingleShot( true );
+   mpWheelTimeout->setInterval( 333 );
    setInvertedControls( true );
-   connect( &mWheelTimeout, SIGNAL(timeout()),
+   connect( mpWheelTimeout, SIGNAL(timeout()),
             this, SIGNAL(sliderReleased()) );
 }
 
@@ -54,11 +56,11 @@ void TimeSlider::mouseReleaseEvent( QMouseEvent *event )
 
 void TimeSlider::wheelEvent( QWheelEvent *event )
 {
-   if( !mWheelTimeout.isActive() )
+   if( !mpWheelTimeout->isActive() )
    {
       emit sliderPressed();
    }
-   mWheelTimeout.start();
+   mpWheelTimeout->start();
    QSlider::wheelEvent( event );
 }
 
