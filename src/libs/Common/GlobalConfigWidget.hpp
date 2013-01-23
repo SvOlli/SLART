@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QString>
 
 /* local library headers */
 
@@ -132,6 +133,11 @@ public slots:
     \param isSet
    */
    void setSatelliteClicked( bool isSet );
+   /*!
+    \brief update the file name variables from widget according to settings
+
+   */
+   void updateFileNames();
 
 signals:
    /*!
@@ -157,6 +163,8 @@ private:
    QCheckBox    *mpNormalizeSpaces;
    QLabel       *mpDoubleClickLabel;
    QSpinBox     *mpDoubleClickInterval;
+   QString      mGlobalStyleSheetFileName;
+   QString      mApplicationStyleSheetFileName;
 };
 
 /*! @} */

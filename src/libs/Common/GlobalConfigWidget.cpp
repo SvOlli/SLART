@@ -101,6 +101,8 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
             mpSatellitePort, SLOT(setEnabled(bool)) );
    connect( mpUseGlobalStyleSheetFile, SIGNAL(clicked()),
             this, SLOT(updateStyleSheetFileName()) );
+   connect( mpStyleSheetFileName, SIGNAL(textChanged(QString)),
+            this, SLOT(updateFileNames()) );
    connect( mpDotButton, SIGNAL(clicked()),
             this, SLOT(selectFile()) );
    connect( mpUseSatellite, SIGNAL(clicked(bool)),
@@ -121,18 +123,33 @@ void GlobalConfigWidget::setSatelliteClicked( bool isSet )
 }
 
 
+void GlobalConfigWidget::updateFileNames()
+{
+   if( mpUseGlobalStyleSheetFile->isChecked() )
+   {
+      mGlobalStyleSheetFileName = mpStyleSheetFileName->text();
+   }
+   else
+   {
+      mApplicationStyleSheetFileName = mpStyleSheetFileName->text();
+   }
+}
+
+
 void GlobalConfigWidget::readSettings()
 {
    mpUseSatellite->setChecked( Settings::value( Settings::CommonUseSatellite ) );
    mpSatellitePort->setEnabled( Settings::value( Settings::CommonUseSatellite ) );
    mpSatellitePort->setValue( Settings::value( Settings::GlobalSatellitePort ) );
    mpUseGlobalStyleSheetFile->setChecked( Settings::value( Settings::CommonUseGlobalStyleSheetFile ) );
-   updateStyleSheetFileName();
+   mGlobalStyleSheetFileName = Settings::value( Settings::GlobalStyleSheetFile );
+   mApplicationStyleSheetFileName = Settings::value( Settings::CommonStyleSheetFile );
    mpClipboardSelection->setCurrentIndex( Settings::value( Settings::GlobalClipboardMode ) );
    mpAnimateViews->setChecked( Settings::value( Settings::GlobalAnimateViews ) );
    mpNormalizeCase->setChecked( Settings::value( Settings::GlobalNormalizeCase ) );
    mpNormalizeSpaces->setChecked( Settings::value( Settings::GlobalNormalizeSpaces ) );
    mpDoubleClickInterval->setValue( Settings::value( Settings::GlobalDoubleClickInterval ) );
+   updateStyleSheetFileName();
 }
 
 
@@ -141,15 +158,8 @@ void GlobalConfigWidget::writeSettings()
    Settings::setValue( Settings::CommonUseSatellite, mpUseSatellite->isChecked() );
    Settings::setValue( Settings::GlobalSatellitePort, mpSatellitePort->value() );
    Settings::setValue( Settings::CommonUseGlobalStyleSheetFile, mpUseGlobalStyleSheetFile->isChecked() );
-   QString styleSheetFile( mpStyleSheetFileName->text() );
-   if( mpUseGlobalStyleSheetFile->isChecked() )
-   {
-      Settings::setValue( Settings::GlobalStyleSheetFile, styleSheetFile );
-   }
-   else
-   {
-      Settings::setValue( Settings::CommonStyleSheetFile, styleSheetFile );
-   }
+   Settings::setValue( Settings::GlobalStyleSheetFile, mGlobalStyleSheetFileName );
+   Settings::setValue( Settings::CommonStyleSheetFile, mApplicationStyleSheetFileName );
    Settings::setValue( Settings::GlobalClipboardMode, mpClipboardSelection->currentIndex() );
    Settings::setValue( Settings::GlobalAnimateViews, mpAnimateViews->isChecked() );
    Settings::setValue( Settings::GlobalNormalizeCase, mpNormalizeCase->isChecked() );
@@ -158,7 +168,9 @@ void GlobalConfigWidget::writeSettings()
 
    QApplication::setDoubleClickInterval( mpDoubleClickInterval->value() );
 
-   QFile qssFile( styleSheetFile );
+   QFile qssFile( mpUseGlobalStyleSheetFile->isChecked() ?
+                     mGlobalStyleSheetFileName :
+                     mApplicationStyleSheetFileName );
    if( qssFile.exists() && qssFile.open( QIODevice::ReadOnly ) )
    {
       qApp->setStyleSheet( qssFile.readAll() );
@@ -176,12 +188,12 @@ void GlobalConfigWidget::updateStyleSheetFileName()
    if( mpUseGlobalStyleSheetFile->isChecked() )
    {
       mpUseGlobalStyleSheetFile->setText( tr("Use Global Style Sheet File:") );
-      mpStyleSheetFileName->setText( Settings::value( Settings::CommonStyleSheetFile ) );
+      mpStyleSheetFileName->setText( mGlobalStyleSheetFileName );
    }
    else
    {
       mpUseGlobalStyleSheetFile->setText( tr("Use Application Style Sheet File:") );
-      mpStyleSheetFileName->setText( Settings::value( Settings::GlobalStyleSheetFile ) );
+      mpStyleSheetFileName->setText( mApplicationStyleSheetFileName );
    }
 }
 
