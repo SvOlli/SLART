@@ -10,6 +10,12 @@
 #include "ControlWidget.hpp"
 
 /* system headers */
+#ifdef Q_OS_UNIX
+extern "C" {
+#include <sys/types.h>
+#include <signal.h>
+}
+#endif
 
 /* Qt headers */
 #include <QtGui>
@@ -379,9 +385,14 @@ void ControlWidget::initConnect()
          {
             args << params.split(' ');
          }
+         qlonglong pid = Settings::value( Settings::PartymanDerMixDpid );
+         if( pid > 0 )
+         {
+#ifdef Q_OS_UNIX
+            ::kill( static_cast<pid_t>( pid ), SIGTERM );
+#endif
+         }
          mpDerMixDprocess->start( Settings::value( Settings::PartymanDerMixDcmd ), args );
-         qlonglong pid = static_cast<qlonglong>( mpDerMixDprocess->pid() );
-         Settings::setValue( Settings::PartymanDerMixDpid, pid );
          /* block until dermixd is up an running */
          for( mWaitForDerMixD = true; mWaitForDerMixD; )
          {
@@ -392,6 +403,8 @@ void ControlWidget::initConnect()
             QMessageBox::critical( this, QApplication::applicationName(),
                                    tr("Could not start DerMixD") );
          }
+         pid = static_cast<qlonglong>( mpDerMixDprocess->pid() );
+         Settings::setValue( Settings::PartymanDerMixDpid, pid );
       }
       else
       {
