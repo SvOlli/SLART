@@ -42,6 +42,7 @@ ADD_SOURCE( TrackReader               cpp hpp moc )
 ADD_SOURCE( TrackWriter               cpp hpp moc )
 
 SET( Rubberbandman_RESOURCES
+   Resources/Rubberbandman.qrc
 )
 
 FILE( GLOB Rubberbandman_TS_FILES

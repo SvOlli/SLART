@@ -42,7 +42,7 @@ RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFla
 {
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   parent->setWindowIcon( QIcon( ":/SLART.png" ) );
+   parent->setWindowIcon( QIcon( ":/RubberbandmanIcon.png" ) );
 
    mpTabs->addTab( mpBrowseWidget,    tr("Filesystem") );
    mpTabs->addTab( mpSatelliteWidget, tr("Satellite") );
