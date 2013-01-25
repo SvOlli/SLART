@@ -68,7 +68,6 @@ private:
 
    QString   mName; /*!< \brief \todo TODO */
    QProcess  *mpProcess; /*!< \brief \todo TODO */
-   bool      mTerminating; /*!< \brief \todo TODO */
 };
 
 /*! @} */

@@ -24,7 +24,6 @@ ExecButton::ExecButton( const QString &name, QWidget *parent )
 : QPushButton( name, parent )
 , mName( QCoreApplication::applicationDirPath() )
 , mpProcess( new QProcess( this ) )
-, mTerminating( false )
 {
    mName.append( '/' );
    mName.append( name );
@@ -52,13 +51,13 @@ void ExecButton::handleClick()
    if( isChecked() )
    {
       /* start */
-      mTerminating = false;
       mpProcess->start( mName );
    }
    else
    {
       /* stop */
-      mTerminating = true;
+      disconnect( mpProcess, SIGNAL(error(QProcess::ProcessError)),
+                  this, SLOT(handleError(QProcess::ProcessError)) );
       mpProcess->terminate();
    }
 }
@@ -74,7 +73,6 @@ void ExecButton::handleError( QProcess::ProcessError error )
          text.append( tr("Could not start %1").arg( mName ) );
          break;
       case QProcess::Crashed:
-         if( mTerminating ) return;
          text.append( tr("Crashed application %1").arg( mName ) );
          break;
       default:
