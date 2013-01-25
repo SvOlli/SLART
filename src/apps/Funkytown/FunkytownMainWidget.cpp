@@ -44,7 +44,7 @@ FunkytownMainWidget::FunkytownMainWidget( QWidget *parent )
 {
    mpLayout->setContentsMargins( 3, 3, 3, 3 );
    mpLayout->setSpacing( 3 );
-   parent->setWindowIcon( QIcon( ":/SLART.png" ) );
+   parent->setWindowIcon( QIcon( ":/FunkytownIcon.png" ) );
 
    mpDirText->setAcceptDrops( false );
    mpDirButton->setAcceptDrops( false );
