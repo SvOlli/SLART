@@ -28,6 +28,7 @@ ADD_SOURCE( LogListWidget         cpp hpp moc )
 ADD_SOURCE( SatelliteConfigWidget cpp hpp moc )
 
 SET( Innuendo_RESOURCES
+   Resources/Innuendo.qrc
 )
 
 FILE( GLOB Innuendo_TS_FILES
@@ -39,6 +40,7 @@ QT4_WRAP_CPP( Innuendo_MOC_GENERATED
 )
 
 QT4_ADD_RESOURCES( Innuendo_RESOURCES_RCC
+   ${Innuendo_RESOURCES}
 )
 
 QT4_ADD_TRANSLATION( Innuendo_QM_FILES

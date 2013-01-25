@@ -46,7 +46,7 @@ InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   parent->setWindowIcon( QIcon( ":/SLART.png" ) );
+   parent->setWindowIcon( QIcon( ":/InnuendoIcon.png" ) );
 
    mpMessageBuffer->setDragEnabled( true );
 
