@@ -36,6 +36,7 @@ ADD_SOURCE( StrippedConfigDialog cpp hpp moc )
 ADD_SOURCE( StrippedMainWindow   cpp hpp moc )
 
 SET( Stripped_RESOURCES
+   Resources/Stripped.qrc
 )
 
 FILE( GLOB Stripped_TS_FILES

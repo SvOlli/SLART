@@ -28,7 +28,6 @@
 #include "CDReader.hpp"
 #include "ParanoiaStatus.hpp"
 #include "StrippedConfigDialog.hpp"
-#include "StrippedMainWindow.hpp"
 
 
 StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
@@ -55,7 +54,7 @@ StrippedMainWindow::StrippedMainWindow( QWidget *parent, Qt::WindowFlags flags )
 , mpActionNormTitle( new QAction( tr("Norm. Title"), this) )
 , mpActionCopyYear( new QAction( tr("Copy Year"), this) )
 {
-   setWindowIcon( QIcon( ":/SLART.png" ) );
+   setWindowIcon( QIcon( ":/StrippedIcon.png" ) );
    setWindowTitle( QApplication::applicationName() );
    QApplication::setDoubleClickInterval( Settings::value( Settings::GlobalDoubleClickInterval ) );
    setCentralWidget( mpCDEdit );
