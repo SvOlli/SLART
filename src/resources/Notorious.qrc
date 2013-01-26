@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/Notorious">
-        <file alias="Icon.png">icons/Note.png</file>
+        <file alias="Icon.png">icons/Notorious.png</file>
     </qresource>
 </RCC>

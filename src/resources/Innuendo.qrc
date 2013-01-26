@@ -6,5 +6,8 @@
         <file alias="Funkytown/Icon.png">icons/Funkytown.png</file>
         <file alias="Innuendo/Icon.png">icons/Innuendo.png</file>
         <file alias="Rubberbandman/Icon.png">icons/Rubberbandman.png</file>
+        <file alias="Sorcerer/Icon.png">icons/Sorcerer.png</file>
+        <file alias="Notorious/Icon.png">icons/Notorious.png</file>
+        <file alias="Karmadrome/Icon.png">icons/Karmadrome.png</file>
     </qresource>
 </RCC>

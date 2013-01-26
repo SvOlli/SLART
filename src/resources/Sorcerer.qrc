@@ -2,4 +2,11 @@
     <qresource prefix="/Rubberbandman">
         <file alias="Icon.png">icons/Rubberbandman.png</file>
     </qresource>
+    <qresource prefix="/Innuendo">
+        <file alias="Icon.png">icons/Innuendo.png</file>
+    </qresource>
+    <qresource prefix="/Sorcerer">
+        <file alias="RealIcon.png">icons/Sorcerer.png</file>
+        <file alias="Icon.png">icons/Note.png</file>
+    </qresource>
 </RCC>

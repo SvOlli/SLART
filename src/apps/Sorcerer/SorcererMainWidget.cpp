@@ -78,11 +78,11 @@ SorcererMainWidget::SorcererMainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpHint->setFrameShadow( QFrame::Raised );
    mpHint->setFrameShape( QFrame::Box );
 
-   mpTabs->addTab( welcome,                 tr("Welcome") );
-   mpTabs->addTab( mpDatabaseWidget,        tr("Database") );
-   mpTabs->addTab( mpSatelliteConfigWidget, tr("Communication") );
-   mpTabs->addTab( mpProxyWidget,           tr("Proxy") );
-   mpTabs->addTab( welldone,                tr("Done") );
+   mpTabs->addTab( welcome,                 QIcon( ":/Sorcerer/RealIcon.png" ),  tr("Welcome") );
+   mpTabs->addTab( mpDatabaseWidget,        QIcon( ":/Rubberbandman/Icon.png" ), tr("Database") );
+   mpTabs->addTab( mpSatelliteConfigWidget, QIcon( ":/Innuendo/Icon.png" ),      tr("Communication") );
+   mpTabs->addTab( mpProxyWidget,           QIcon( ":/Sorcerer/Icon.png" ),      tr("Proxy") );
+   mpTabs->addTab( welldone,                QIcon( ":/Sorcerer/RealIcon.png" ),  tr("Done") );
    for( i = 0; i < mpTabs->count(); i++ )
    {
       mpTabs->setTabEnabled( i, (i==0) );

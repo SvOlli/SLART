@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/Karmadrome">
-        <file alias="Icon.png">icons/Note.png</file>
+        <file alias="Icon.png">icons/Karmadrome.png</file>
     </qresource>
 </RCC>
