@@ -63,9 +63,9 @@ void GenericSatelliteHandler::setConnectMsg( const QByteArray &msg )
 }
 
 
-void GenericSatelliteHandler::createSatellite()
+void GenericSatelliteHandler::createSatellite( bool force )
 {
-   if( Settings::value( Settings::CommonUseSatellite ) )
+   if( force || Settings::value( Settings::CommonUseSatellite ) )
    {
       new ThreadAutoStart( Satellite::create( QHostAddress( Settings::value( Settings::GlobalSatelliteHost ) ),
                                               Settings::value( Settings::GlobalSatellitePort ) ) );

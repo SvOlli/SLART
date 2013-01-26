@@ -49,8 +49,6 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
             this, SLOT(request(QTcpSocket*,QHttpRequestHeader)) );
    connect( this, SIGNAL(response(QTcpSocket*,QHttpResponseHeader,QByteArray)),
             mpWebServer, SLOT(response(QTcpSocket*,QHttpResponseHeader,QByteArray)) );
-   connect( mpSatellite, SIGNAL(received(QByteArray) ),
-            this, SLOT(newMsg(QByteArray)) );
 
    mpMessageBuffer->setAlternatingRowColors( true );
    mpWebServer->start( 22222, QString(":/web/") );
@@ -61,6 +59,8 @@ MainWidget::MainWidget( QWidget *parent , Qt::WindowFlags flags )
 
    if( mpSatellite )
    {
+      connect( mpSatellite, SIGNAL(received(QByteArray) ),
+               this, SLOT(newMsg(QByteArray)) );
       GenericSatelliteHandler *genericSatMsgHandler = new GenericSatelliteHandler( mpSatellite, GenericSatelliteHandler::WithoutPing, this );
       genericSatMsgHandler->setConnectMsg( "P0R" );
    }

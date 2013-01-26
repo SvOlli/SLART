@@ -31,10 +31,11 @@ int main(int argc, char *argv[])
 
    WebServerSanityTests::scgiRequest();
 
-   GenericSatelliteHandler::createSatellite();
+   GenericSatelliteHandler::createSatellite( true );
 
    MainWindow window;
    MainWidget *mainWidget = new MainWidget( &window );
+   window.setWindowIcon( QIcon( ":/web/SLART.png" ) );
    window.setMainWidget( mainWidget );
    window.show();
 

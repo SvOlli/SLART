@@ -75,9 +75,10 @@ public:
    /*!
     \brief create a Satellite instance according to Settings
 
+    \param force force creation, even if disabled via settings, used for tests
     \return Satellite created Satellite instance
    */
-   static void createSatellite();
+   static void createSatellite( bool force = false );
 
    /*!
     \brief send a message via Satellite according to settings
