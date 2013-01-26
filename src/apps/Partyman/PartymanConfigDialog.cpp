@@ -66,7 +66,7 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
    gpConfig = this;
 
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
-   setWindowIcon( QIcon(":/PartymanSmile.png") );
+   setWindowIcon( QIcon(":/Partyman/Icon.png") );
 
    mpGlobalSettings->showClipboard();
    mpGlobalSettings->showAnimate();
@@ -176,8 +176,8 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
    AboutWidget *about  = new AboutWidget( this,
    tr("<table align='center'><tr><td align='center'>Our hail to the new king:</td></tr>"
    "<tr><td align='center'><a href='http://svolli.org/software/partyman/'>"
-   "<img src=':/PartymanSmile.png'></a>&nbsp;&nbsp;<a href='http://svolli.org/software/partyman/'>"
-   "<img src=':/PartymanWriting.png'></a></td></tr><tr><td align='center'>Version " SLART_VERSION
+   "<img src=':/Partyman/Icon.png'></a>&nbsp;&nbsp;<a href='http://svolli.org/software/partyman/'>"
+   "<img src=':/Partyman/Writing.png'></a></td></tr><tr><td align='center'>Version " SLART_VERSION
    " written by Sven Oliver Moll as a part of <a href='http://svolli.org/software/slart/'>SLART</a>."
    "</td></tr><tr><td align='left'>Distributed unter the terms of the "
    "<a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>.</td></tr><tr><td align='center'>"

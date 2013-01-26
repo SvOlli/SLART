@@ -29,7 +29,7 @@ ADD_SOURCE( MagicQueue            cpp hpp moc )
 ADD_SOURCE( TheMagic              cpp hpp moc )
 
 SET( Funkytown_RESOURCES
-   Resources/Funkytown.qrc
+   ../../resources/Funkytown.qrc
 )
 
 FILE( GLOB Funkytown_TS_FILES

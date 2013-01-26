@@ -45,7 +45,7 @@ FunkytownConfigDialog::FunkytownConfigDialog( QWidget *parent )
 , mpClearButton( new QPushButton( tr("Clear"), this ) )
 {
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
-   setWindowIcon( QIcon(":/SLART.png") );
+   setWindowIcon( QIcon( ":/Funkytown/Icon.png" ) );
 
    mpHelpText->setReadOnly( true );
    mpHelpText->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );

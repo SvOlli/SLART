@@ -50,7 +50,7 @@ SorcererMainWidget::SorcererMainWidget( QWidget *parent, Qt::WindowFlags flags )
 
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   parent->setWindowIcon( QIcon( ":/SLART.png" ) );
+   parent->setWindowIcon( QIcon( ":/Sorcerer/Icon.png" ) );
 
    AboutWidget *about = new AboutWidget( this );
    QLabel *welcome    = new QLabel( tr("Hello and welcome to SLART<hr>"

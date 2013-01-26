@@ -29,6 +29,7 @@ ADD_SOURCE( KarmadromeConfigDialog cpp hpp moc )
 ADD_SOURCE( KarmadromeMainWidget   cpp hpp moc )
 
 SET( Karmadrome_RESOURCES
+   ../../resources/Karmadrome.qrc
 )
 
 FILE( GLOB Karmadrome_TS_FILES

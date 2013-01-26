@@ -29,6 +29,7 @@ ExecButton::ExecButton( const QString &name, QWidget *parent )
    mName.append( name );
 
    setCheckable( true );
+   setIcon( QIcon( QString(":/%1/Icon.png").arg(name) ) );
 
    connect( this, SIGNAL(clicked()),
             this, SLOT(handleClick()) );
@@ -41,6 +42,8 @@ ExecButton::ExecButton( const QString &name, QWidget *parent )
 
 ExecButton::~ExecButton()
 {
+   disconnect( mpProcess, SIGNAL(error(QProcess::ProcessError)),
+               this, SLOT(handleError(QProcess::ProcessError)) );
    mpProcess->terminate();
    mpProcess->waitForFinished();
 }

@@ -18,9 +18,9 @@ if [ -z "${LUPDATE}"; then
    exit 1
 fi
 
-cd "$(mydir)/../src/translations"
+cd "$(mydir)/../src/resources/translations"
 
-find .. -name CMakeLists.txt | xargs grep -l '_\*\.ts' |
+find ../.. -name CMakeLists.txt | xargs grep -l '_\*\.ts' |
 while read cmakelists; do
    dirname="${cmakelists%/*}"
    echo "processing ${dirname}"
@@ -32,7 +32,7 @@ while read cmakelists; do
    echo
 done
 
-find .. -name CMakeLists.txt | xargs grep -l '[^_][^\*]\.ts' |
+find ../.. -name CMakeLists.txt | xargs grep -l '[^_][^\*]\.ts' |
 while read cmakelists; do
    dirname="${cmakelists%/*}"
    echo "processing ${dirname}"

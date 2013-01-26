@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Notorious">
+        <file alias="Icon.png">icons/Note.png</file>
+    </qresource>
+</RCC>

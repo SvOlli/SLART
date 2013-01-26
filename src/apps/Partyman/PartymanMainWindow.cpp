@@ -61,7 +61,7 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    }
 
    setAttribute( Qt::WA_AlwaysShowToolTips, true );
-   setWindowIcon( QIcon( ":/PartymanSmile.png" ) );
+   setWindowIcon( QIcon( ":/Partyman/Icon.png" ) );
    setDockNestingEnabled( true );
 
    /* setting up playlist */
@@ -84,7 +84,7 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
    mpHelpText->setReadOnly( true );
    mpHelpText->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
    mpHelpText->setOpenExternalLinks( true );
-   mpHelpText->setSource( QUrl("qrc:/Usage.html") );
+   mpHelpText->setSource( QUrl("qrc:/Partyman/Usage.html") );
 
    /* settings up info panel */
    QDockWidget *dockTrackInfo = setupDock( mpTrackInfo, "Info", tr("Info"),
@@ -265,6 +265,7 @@ void PartymanMainWindow::closeEvent( QCloseEvent *event )
       }
    }
    Settings::setValue( Settings::CommonGeometry, saveGeometry() );
+   mpDockTreeView->setWindowTitle( tr("Update") );
    Settings::setValue( Settings::CommonState, saveState() );
    event->accept();
 }

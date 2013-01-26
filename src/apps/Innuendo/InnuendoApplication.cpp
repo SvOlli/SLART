@@ -37,7 +37,6 @@ int main(int argc, char *argv[])
    if( argc == 1 )
    {
       QApplication app( argc, argv );
-      Q_INIT_RESOURCE( Common );
       Settings::setApplicationStyleSheet( &app );
 
       Translate translate;

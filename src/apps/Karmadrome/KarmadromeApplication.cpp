@@ -57,7 +57,6 @@ int main(int argc, char *argv[])
    bool useGUI = true;
 #endif
    QApplication app( argc, argv, useGUI );
-   Q_INIT_RESOURCE( Common );
 
    Translate translate;
    translate.install( &app );

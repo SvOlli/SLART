@@ -17,11 +17,11 @@ LIBS += -lSatellite
 QMAKE_CXXFLAGS_DEBUG += -DCOREDUMP_SIZE_MB=100
 
 # Input
-RESOURCES = Resources/Rubberbandman.qrc
-RC_FILE = $${TOPSRC}/libs/Common/Resources/WinIcon.rc
+RESOURCES = $${TOPSRC}/resources/$${TARGET}.qrc
+RC_FILE = $${TOPSRC}/resources/windows/$${TARGET}.rc
 
-TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}.ts
-TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
+TRANSLATIONS += $${TOPSRC}/resources/translations/$${TARGET}.ts
+TRANSLATIONS += $${TOPSRC}/resources/translations/$${TARGET}_de.ts
 
 SOURCES += RubberbandmanApplication.cpp
 

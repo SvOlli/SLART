@@ -12,8 +12,8 @@ TOPSRC = "../../.."
 include( $${TOPSRC}/buildconfig.pri )
 
 #does not work, bug in qmake?
-#TRANSLATIONS += $${TOPSRC}/translations/MagicEncoderFlac_de.ts
-TRANSLATIONS += ../../../translations/MagicEncoderFlac_de.ts
+#TRANSLATIONS += $${TOPSRC}/resources/translations/MagicEncoderFlac_de.ts
+TRANSLATIONS += ../../../resources/translations/MagicEncoderFlac_de.ts
 
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib $${TOPSRC}/libs/Magic/MagicEncoder
 LIBS += -lMagicEncoder -lCommon -lSatellite

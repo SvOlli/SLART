@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Rubberbandman">
+        <file alias="Icon.png">icons/Rubberbandman.png</file>
+    </qresource>
+</RCC>

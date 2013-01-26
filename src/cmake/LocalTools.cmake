@@ -1,5 +1,5 @@
 #
-# src/cmake/SourceHelper.cmake
+# src/cmake/LocalTools.cmake
 #
 # written by SvOlli
 # distributed as public domain

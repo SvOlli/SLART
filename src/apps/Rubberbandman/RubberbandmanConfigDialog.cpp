@@ -39,7 +39,7 @@ RubberbandmanConfigDialog::RubberbandmanConfigDialog( QWidget *parent, Qt::Windo
 , mTagMap()
 {
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
-   setWindowIcon( QIcon(":/SLART.png") );
+   setWindowIcon( QIcon( ":/Rubberbandman/Icon.png" ) );
 
    mpWithTrackNrLabel->setAlignment( Qt::AlignTop );
    mpWithoutTrackNrLabel->setAlignment( Qt::AlignTop );

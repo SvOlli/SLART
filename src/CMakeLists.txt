@@ -89,7 +89,7 @@ INCLUDE(CPack)
 # simulate autotools' "make dist"
 #add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 
-SET( TRANSLATIONS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/translations CACHE PATH "translations directory" )
+SET( TRANSLATIONS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/resources/translations CACHE PATH "translations directory" )
 SET( BIN_DIR ${CMAKE_BINARY_DIR}/bin CACHE PATH "binaries directory" )
 SET( LIB_DIR ${CMAKE_BINARY_DIR}/lib CACHE PATH "libraries directory" )
 SET( TEST_DIR ${CMAKE_BINARY_DIR}/test CACHE PATH "test binaries directory" )

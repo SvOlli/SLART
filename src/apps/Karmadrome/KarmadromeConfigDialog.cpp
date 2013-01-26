@@ -40,7 +40,7 @@ KarmadromeConfigDialog::KarmadromeConfigDialog( QWidget *parent, Qt::WindowFlags
 , mpUseCheckBoxes( new QCheckBox( tr("Use Checkboxes Instead Of Buttons For Folders"), this ) )
 {
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
-   setWindowIcon( QIcon(":/SLART.png") );
+   setWindowIcon( QIcon( ":/Karmadrome/Icon.png" ) );
 
    mpNumColumns->setRange( 1, 9 );
 

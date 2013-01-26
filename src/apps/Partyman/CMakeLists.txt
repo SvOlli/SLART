@@ -47,7 +47,7 @@ ADD_SOURCE( PlayerFSMSearching    cpp hpp     )
 ADD_SOURCE( PlaylistContentWidget cpp hpp moc )
 
 SET( Partyman_RESOURCES
-   Resources/Partyman.qrc
+   ../../resources/Partyman.qrc
 )
 
 QT4_ADD_RESOURCES( Partyman_RESOURCES_RCC

@@ -43,7 +43,7 @@ NotoriousConfigDialog::NotoriousConfigDialog( QWidget *parent )
 , mTimeSpent()
 {
    setWindowTitle( QCoreApplication::applicationName() + ": " + tr("Settings") );
-   setWindowIcon( QIcon(":/SLART.png") );
+   setWindowIcon( QIcon( ":/Notorious/Icon.png" ) );
 
    AboutWidget *about( new AboutWidget( this ) );
    QLabel      *freedbInfo = new QLabel( tr("FreeDB database archives for import can be downloaded at "

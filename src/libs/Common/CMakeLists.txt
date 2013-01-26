@@ -69,7 +69,6 @@ ADD_SOURCE( WidgetShot                    cpp hpp     )
 ADD_SOURCE( Xxtea                         cpp hpp     )
 
 SET( Common_RESOURCES
-   Resources/Common.qrc
 )
 
 FILE( GLOB Common_TS_FILES

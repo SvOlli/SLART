@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/Funkytown">
+        <file>documentation/Funkytown/Usage.html</file>
+        <file alias="Icon.png">icons/Funkytown.png</file>
+    </qresource>
+</RCC>

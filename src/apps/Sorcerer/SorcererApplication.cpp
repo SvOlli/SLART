@@ -35,7 +35,6 @@ int main(int argc, char *argv[])
    enableCore();
 
    QApplication app( argc, argv );
-   Q_INIT_RESOURCE( Common );
 
    Translate translate;
    translate.install( &app );

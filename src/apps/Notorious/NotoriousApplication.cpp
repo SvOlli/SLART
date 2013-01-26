@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
    enableCore();
 
    QApplication app( argc, argv );
-   Q_INIT_RESOURCE( Common );
    Settings::setApplicationStyleSheet( &app );
 
    Translate translate;

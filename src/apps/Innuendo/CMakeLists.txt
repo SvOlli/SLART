@@ -28,7 +28,7 @@ ADD_SOURCE( LogListWidget         cpp hpp moc )
 ADD_SOURCE( SatelliteConfigWidget cpp hpp moc )
 
 SET( Innuendo_RESOURCES
-   Resources/Innuendo.qrc
+   ../../resources/Innuendo.qrc
 )
 
 FILE( GLOB Innuendo_TS_FILES

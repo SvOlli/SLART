@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/Partyman">
+        <file alias="Usage.html">documentation/Partyman/Usage.html</file>
+        <file alias="Settings.html">documentation/Partyman/Settings.html</file>
+        <file alias="Pattern.html">documentation/Partyman/Pattern.html</file>
+        <file alias="Icon.png">icons/Partyman.png</file>
+        <file alias="Writing.png">icons/Partyman/PartymanWriting.png</file>
+        <file>icons/Partyman/Load.png</file>
+    </qresource>
+</RCC>

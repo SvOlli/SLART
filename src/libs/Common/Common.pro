@@ -13,10 +13,10 @@ include( ../../buildconfig.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Satellite
 
-TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}.ts
-TRANSLATIONS += $${TOPSRC}/translations/$${TARGET}_de.ts
+TRANSLATIONS += $${TOPSRC}/resources/translations/$${TARGET}.ts
+TRANSLATIONS += $${TOPSRC}/resources/translations/$${TARGET}_de.ts
 
-RESOURCES = Resources/Common.qrc
+#RESOURCES = Resources/Common.qrc
 
 HEADERS += AboutWidget.hpp
 SOURCES += AboutWidget.cpp

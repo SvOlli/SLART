@@ -47,7 +47,7 @@ InnuendoConfigDialog::InnuendoConfigDialog( QWidget *parent, Qt::WindowFlags fla
 , mpAutostartCreep( new QPushButton( tr("Creep"), this) )
 {
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
-   setWindowIcon( QIcon(":/SLART.png") );
+   setWindowIcon( QIcon( ":/Innuendo/Icon.png" ) );
 
    mpAutostartPartyman->setCheckable( true );
    mpAutostartKarmadrome->setCheckable( true );

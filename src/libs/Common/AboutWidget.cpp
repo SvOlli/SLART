@@ -19,15 +19,11 @@ AboutWidget::AboutWidget( QWidget *parent, const QString &aboutText )
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 1, 1, 1, 1 );
 
-   QString iconFileName( QString(":/%1Icon.png").arg( QCoreApplication::applicationName() ) );
-   if( !QFile::exists( iconFileName ) )
-   {
-      iconFileName = ":/SLART.png";
-   }
+   QString iconFileName( QString(":/%1/Icon.png").arg( QCoreApplication::applicationName() ) );
    QLabel *aboutLabel = new QLabel( this );
    if( aboutText.isEmpty() )
    {
-      QString message( "<table><tr valign='bottom'><td><img src='%1'></td><td>%2 Version %3"
+      QString message( "<table><tr valign='middle'><td><img src='%1'></td><td>%2 Version %3"
          " written by Sven Oliver Moll as a part of <a href='http://svolli.org/software/slart/'>"
          "%3</a>.<br>Distributed unter the terms of the "
          "<a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>. Based upon the "

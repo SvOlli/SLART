@@ -55,7 +55,7 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
    int i = 0;
    int encodersActive = 0;
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
-   setWindowIcon( QIcon(":/SLART.png") );
+   setWindowIcon( QIcon(":/Stripped/Icon.png") );
 
    QCompleter *completer = new QCompleter( this );
    completer->setModel( new QDirModel( QStringList(),

@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="web/favicon.ico">../../../libs/Common/Resources/SLART.ico</file>
-        <file alias="web/SLART.png">../../../libs/Common/Resources/SLART.png</file>
+        <file alias="web/favicon.ico">../../../resources/windows/Note.ico</file>
+        <file alias="web/SLART.png">../../../resources/icons/Note.png</file>
         <file alias="web/static.html">static.html</file>
         <file alias="web/ajax.js">ajax.js</file>
     </qresource>

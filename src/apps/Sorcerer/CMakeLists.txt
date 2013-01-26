@@ -29,6 +29,7 @@ ADD_SOURCE( ../Rubberbandman/DatabaseWorker   cpp hpp moc )
 ADD_SOURCE( ../Rubberbandman/DirWalkerUpdate  cpp hpp     )
 
 SET( Sorcerer_RESOURCES
+   ../../resources/Sorcerer.qrc
 )
 
 FILE( GLOB Sorcerer_TS_FILES

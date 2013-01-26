@@ -39,6 +39,7 @@ ADD_SOURCE( TarEntry              cpp hpp     )
 ADD_SOURCE( tir                   c   h       )
 
 SET( Notorious_RESOURCES
+   ../../resources/Notorious.qrc
 )
 
 FILE( GLOB Notorious_TS_FILES

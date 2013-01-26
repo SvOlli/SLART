@@ -5,6 +5,6 @@
 # distributed as public domain
 #
 
-MESSAGE( "\n==== src/translations ====" )
+MESSAGE( "\n==== src/resources/translations ====" )
 
 MESSAGE( STATUS "TODO" )

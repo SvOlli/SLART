@@ -70,7 +70,7 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
    QGridLayout *mainLayout   = new QGridLayout( this );
 
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   parent->setWindowIcon( QIcon( ":/SLART.png" ) );
+   parent->setWindowIcon( QIcon( ":/Karmadrome/Icon.png" ) );
 
    mpTimer->setSingleShot( true );
    mpTimer->setInterval( 500 );

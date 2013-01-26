@@ -42,7 +42,7 @@ NotoriousMainWidget::NotoriousMainWidget( QWidget *parent, Qt::WindowFlags flags
    splitter->setOrientation( Qt::Vertical );
 
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
-   parent->setWindowIcon( QIcon( ":/SLART.png" ) );
+   parent->setWindowIcon( QIcon( ":/Notorious/Icon.png" ) );
 
    splitter->addWidget( mpFound );
    splitter->addWidget( mpCDInfo );

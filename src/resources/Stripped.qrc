@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Stripped">
+        <file alias="Icon.png">icons/Stripped.png</file>
+    </qresource>
+</RCC>

@@ -139,7 +139,6 @@ int main(int argc, char *argv[])
    {
       if( useGUI )
       {
-         Q_INIT_RESOURCE( Common );
          Settings::setApplicationStyleSheet( &app );
 
          SorcererLoader::detect();

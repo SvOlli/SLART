@@ -38,6 +38,8 @@ class QApplication;
 /*!
  \brief abstraction layer
 
+ Descriptions of all Settings are in docs/Registy.ini, code is generated using
+ src/tools/SettingsGenerator .
 */
 class Settings : public QObject
 {

@@ -39,12 +39,12 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
 , mpPlaylist( parent )
 , mpSatellite( Satellite::get() )
 , mpGenericSatelliteHandler( 0 )
-, mPartymanIcon( QIcon(":/PartymanSmile.png") )
+, mPartymanIcon( QIcon( ":/Partyman/Icon.png" ) )
 , mStopIcon( QCommonStyle().standardIcon(QStyle::SP_MediaStop) /*QIcon(":/Stop.png")*/ )
 , mPlayIcon( QCommonStyle().standardIcon(QStyle::SP_MediaPlay) /*QIcon(":/Play.png")*/ )
 , mPauseIcon( QCommonStyle().standardIcon(QStyle::SP_MediaPause) /*QIcon(":/Pause.png")*/ )
 , mSkipIcon( QCommonStyle().standardIcon(QStyle::SP_MediaSkipForward) /*QIcon(":/Skip.png")*/ )
-, mLoadIcon( QIcon(":/Load.png") )
+, mLoadIcon( QIcon( ":/Partyman/Load.png" ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpStartButton( new QToolButton( /*tr("Connect"),*/ this ) )
 , mpSkipButton( new QToolButton( /*mSkipIcon, tr("Next"),*/ this ) )
@@ -105,7 +105,7 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
    mpSkipAction->setCheckable( true );
    mpSkipAction->setDisabled( true );
 
-   mpTrayIcon->setIcon( QIcon(":/PartymanSmile.png") );
+   mpTrayIcon->setIcon( QIcon(":/Partyman/Icon.png") );
    mpTrayIcon->setContextMenu( mpTrayIconStopMenu );
    mpTrayIconPlayMenu->addAction( mpPauseAction );
    mpTrayIconPlayMenu->addAction( mpStopAction );
