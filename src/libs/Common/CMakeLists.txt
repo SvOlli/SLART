@@ -66,6 +66,7 @@ ADD_SOURCE( TrackInfoWidget               cpp hpp moc )
 ADD_SOURCE( Translate                     cpp hpp     )
 ADD_SOURCE( WebServer                     cpp hpp moc )
 ADD_SOURCE( WidgetShot                    cpp hpp     )
+ADD_SOURCE( WindowIconChanger             cpp hpp moc )
 ADD_SOURCE( Xxtea                         cpp hpp     )
 
 SET( Common_RESOURCES

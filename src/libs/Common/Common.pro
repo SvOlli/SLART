@@ -143,6 +143,9 @@ SOURCES += WebServer.cpp
 HEADERS += WidgetShot.hpp
 SOURCES += WidgetShot.cpp
 
+HEADERS += WindowIconChanger.hpp
+SOURCES += WindowIconChanger.cpp
+
 HEADERS += Xxtea.hpp
 SOURCES += Xxtea.cpp
 
