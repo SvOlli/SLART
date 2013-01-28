@@ -25,7 +25,7 @@ AboutWidget::AboutWidget( QWidget *parent, const QString &aboutText )
    {
       QString message( "<table><tr valign='middle'><td><img src='%1'></td><td>%2 Version %3"
          " written by Sven Oliver Moll as a part of <a href='http://svolli.org/software/slart/'>"
-         "%3</a>.<br>Distributed unter the terms of the "
+         "%4</a>.<br>Distributed unter the terms of the "
          "<a href='http://www.gnu.org/licenses/gpl.html'>GPL</a>. Based upon the "
          "<a href='about:qt'>Qt</a> framework.</td></td></table>" );
       aboutLabel->setText( message.arg( iconFileName, QApplication::applicationName(),
