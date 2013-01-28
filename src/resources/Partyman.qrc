@@ -5,6 +5,6 @@
         <file alias="Pattern.html">documentation/Partyman/Pattern.html</file>
         <file alias="Icon.png">icons/Partyman.png</file>
         <file alias="Writing.png">icons/Partyman/PartymanWriting.png</file>
-        <file>icons/Partyman/Load.png</file>
+        <file alias="Load.png">icons/Partyman/Load.png</file>
     </qresource>
 </RCC>

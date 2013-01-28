@@ -64,6 +64,7 @@ void CommandLineHandler::gotPing()
       mpSatellite->send( fileName.prepend( "P0Q\n" ).toUtf8() );
    }
    emit done();
+   deleteLater();
 }
 
 
@@ -75,5 +76,6 @@ void CommandLineHandler::timeout()
       list << mList;
       Settings::setValue( Settings::PartymanPlaylistAppend, list );
       emit done();
+      deleteLater();
    }
 }
