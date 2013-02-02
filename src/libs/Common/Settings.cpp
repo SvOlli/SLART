@@ -105,7 +105,13 @@ bool Settings::remove( const QString &key, const QString &applicationName )
 
 bool Settings::exist()
 {
-   return cpSettings->get()->contains( "UseSatellite" );
+   QSettings *settings = cpSettings->get();
+   bool retval = settings->contains( "UseSatellite" );
+   if( !retval )
+   {
+      delete settings; // prevent caching of settings changed by Sorcerer
+   }
+   return retval;
 }
 
 
