@@ -167,6 +167,7 @@ ControlWidget::~ControlWidget()
       mpDerMixDprocess->kill();
       mpDerMixDprocess->waitForFinished();
    }
+   CrashCleanup::removeObject( mpDerMixDprocess );
    Settings::setValue( Settings::PartymanDerMixDpid, 0 );
 }
 

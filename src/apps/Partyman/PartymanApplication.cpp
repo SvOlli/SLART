@@ -60,7 +60,6 @@ int main(int argc, char *argv[])
 
    QStringList args( QApplication::arguments() );
    GenericSatelliteHandler::createSatellite();
-   CrashCleanup::create();
    CrashCleanup::addObject( Settings::get() );
    if( args.size() > 1 )
    {
@@ -84,7 +83,8 @@ int main(int argc, char *argv[])
    }
 
    Satellite::destroy();
-   CrashCleanup::destroy();
+   Settings::get()->sync();
+   CrashCleanup::removeObject( Settings::get() );
 
    return retval;
 }
