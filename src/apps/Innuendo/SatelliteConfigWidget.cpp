@@ -37,6 +37,7 @@ SatelliteConfigWidget::SatelliteConfigWidget( QWidget *parent )
          << "Funkytown"
          << "Notorious"
          << "Creep"
+         << "Underpass"
          ;
 
    QBoxLayout *layout = new QVBoxLayout( this );

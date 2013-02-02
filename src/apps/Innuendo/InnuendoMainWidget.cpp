@@ -59,6 +59,7 @@ InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
       << "Funkytown"
       << "Notorious"
       << "Creep"
+      << "Underpass"
       ;
    QStringList toolTips;
    toolTips
@@ -69,6 +70,7 @@ InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
       << "Downloader"
       << "FreeDB Search Tool"
       << "Remote Control Daemon"
+      << "Streaming Client"
       ;
 
    mNumExecButtons = applications.count();

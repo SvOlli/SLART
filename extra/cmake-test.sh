@@ -52,6 +52,7 @@ apps/Partyman \
 apps/Rubberbandman \
 apps/Sorcerer \
 apps/Stripped \
+apps/Underpass \
 . ; do
    rm -rf * || true
    cmake ../src -DCMAKE_BUILD_TYPE=debug || fail "cmake debug ${i}"
@@ -65,6 +66,12 @@ done
 #libs/GlobalShortcut \
 #tests/TestAppDatabaseBrowser \
 #tests/TestBinary \
+
+if [ -f "../src/Makefile" ]; then
+   cd ..
+   make ${makeflags} debug
+   make ${makeflags} release
+fi
 
 cd ${HOME}
 
