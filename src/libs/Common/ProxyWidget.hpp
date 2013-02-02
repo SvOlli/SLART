@@ -25,6 +25,7 @@ class QHttp;
 class QLabel;
 class QLineEdit;
 class QNetworkAccessManager;
+class QProcess;
 class QPushButton;
 class QSpinBox;
 
@@ -73,6 +74,13 @@ public:
     \param nam
    */
    static void setProxy( QNetworkAccessManager *nam );
+
+   /*!
+    \brief set proxy in QProcess environment
+
+    \param nam
+   */
+   static void setProxy( QProcess *process );
 
    /*!
     \brief read settings from storage

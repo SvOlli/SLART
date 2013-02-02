@@ -16,6 +16,7 @@
 #include <QHttp>
 #include <QNetworkAccessManager>
 #include <QNetworkProxy>
+#include <QStringList>
 
 /* local library headers */
 
@@ -197,6 +198,38 @@ void ProxyWidget::setProxy( QNetworkAccessManager *nam )
       }
    }
    nam->setProxy( QNetworkProxy( type, host, port, login, password ) );
+}
+
+
+void ProxyWidget::setProxy( QProcess *process )
+{
+   QRegExp httpRegExp( "^https?_proxy=" );
+   httpRegExp.setCaseSensitivity( Qt::CaseSensitive );
+
+   QStringList environment( process->environment() );
+   while( int index = environment.indexOf( httpRegExp ) >= 0 )
+   {
+      environment.removeAt( index );
+   }
+   if( Settings::value( Settings::GlobalHTTPProxyEnable ) )
+   {
+      QString proxyValue( "%1=http://" );
+      if( Settings::value( Settings::GlobalHTTPProxyAuth ) )
+      {
+         proxyValue.append( Settings::value( Settings::GlobalHTTPProxyLogin ) );
+         proxyValue.append( ':' );
+         proxyValue.append( Settings::value( Settings::GlobalHTTPProxyPassword ) );
+         proxyValue.append( '@' );
+      }
+      proxyValue.append( Settings::value( Settings::GlobalHTTPProxyHost ) );
+      proxyValue.append( ':' );
+      proxyValue.append( Settings::value( Settings::GlobalHTTPProxyPort ) );
+      environment.append( proxyValue.arg("http_proxy") );
+      environment.append( proxyValue.arg("https_proxy") );
+      environment.append( proxyValue.arg("HTTP_PROXY") );
+      environment.append( proxyValue.arg("HTTPS_PROXY") );
+   }
+   process->setEnvironment( environment );
 }
 
 
