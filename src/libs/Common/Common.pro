@@ -29,6 +29,9 @@ SOURCES += CodeEditor.cpp
 HEADERS += CodeEditorLineNumberArea.hpp
 SOURCES += CodeEditorLineNumberArea.cpp
 
+HEADERS += CrashCleanup.hpp
+SOURCES += CrashCleanup.cpp
+
 HEADERS += Database.hpp
 SOURCES += Database.cpp
 
