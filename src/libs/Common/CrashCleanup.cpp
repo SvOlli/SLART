@@ -21,7 +21,7 @@
 /* local headers */
 
 
-CrashCleanup *CrashCleanup::cpHandler = 0;
+QList<QObject*> CrashCleanup::cObjects;
 
 
 static void setSignals( __sighandler_t signalHandler )
@@ -49,55 +49,40 @@ static void setSignals( __sighandler_t signalHandler )
 }
 
 
-void CrashCleanup::create()
-{
-   if( !cpHandler )
-   {
-      cpHandler = new CrashCleanup();
-   }
-   setSignals( (__sighandler_t)(CrashCleanup::runCleanup) );
-}
-
-
-void CrashCleanup::destroy()
-{
-   if( cpHandler )
-   {
-      delete cpHandler;
-      cpHandler = 0;
-   }
-   setSignals( (__sighandler_t)(SIG_DFL) );
-}
-
-
 void CrashCleanup::addObject( QObject *object )
 {
-   cpHandler->mObjects.prepend( object );
+   if( !cObjects.size() )
+   {
+      /* first object, so install signal handler */
+      setSignals( (__sighandler_t)(CrashCleanup::runCleanup) );
+   }
+   if( !cObjects.contains( object ) )
+   {
+      cObjects.prepend( object );
+   }
 }
 
 
 void CrashCleanup::removeObject( QObject *object )
 {
-   cpHandler->mObjects.removeOne( object );
+   cObjects.removeOne( object );
+   if( !cObjects.count() )
+   {
+      /* no one left, party's over, clean up */
+      setSignals( SIG_DFL );
+   }
 }
 
 
 void CrashCleanup::runCleanup( int signal )
 {
-   foreach( QObject *object, cpHandler->mObjects )
+   foreach( QObject *object, cObjects )
    {
       delete object;
    }
+   /* re-raise the signal without handler */
+   setSignals( SIG_DFL );
+   ::raise( signal );
+   /* should not get here */
    ::exit( signal );
-}
-
-
-CrashCleanup::CrashCleanup()
-: mObjects()
-{
-}
-
-
-CrashCleanup::~CrashCleanup()
-{
 }

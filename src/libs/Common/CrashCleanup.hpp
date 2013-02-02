@@ -36,22 +36,12 @@ class QObject;
  \brief small helper to clean up most important stuff by calling destructors
  of registered classes
 
- Registered objects will be deleted in reverse order of addition.
+ Registered objects will be deleted in reverse order of addition. Signal will
+ be re-raised after completion.
 */
 class CrashCleanup
 {
 public:
-   /*!
-    \brief constructor replacement
-
-   */
-   static void create();
-   /*!
-    \brief destructor replacement
-
-   */
-   static void destroy();
-
    /*!
     \brief add an object that will be deleted opon crash
 
@@ -74,23 +64,12 @@ public:
    static void runCleanup( int signal );
 
 private:
-   /*!
-    \brief constructor
-
-    \param fileName database file name
-   */
    CrashCleanup();
-
-   /*!
-    \brief destructor
-
-   */
    virtual ~CrashCleanup();
 
    Q_DISABLE_COPY( CrashCleanup )
 
-   static CrashCleanup  *cpHandler; /*!< \brief single instance object */
-   QList<QObject*>      mObjects; /*!< \brief list of object to be deleted by runCleanup */
+   static QList<QObject*> cObjects; /*!< \brief list of object to be deleted by runCleanup */
 };
 
 /*! @} */
