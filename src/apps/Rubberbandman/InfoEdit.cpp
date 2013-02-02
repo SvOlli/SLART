@@ -269,6 +269,7 @@ void InfoEdit::loadTrackInfo( const TrackInfo &trackInfo )
    mIsFile   = false;
 
    mTrackInfo = trackInfo;
+   mFileName = mTrackInfo.filePath();
    QFileInfo fileInfo( mFileName );
    if( !fileInfo.exists() && !trackInfo.mDirectory.isEmpty() )
    {
