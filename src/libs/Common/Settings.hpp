@@ -498,6 +498,24 @@ public:
       StrippedCDTextLatin1
    };
    /*!
+    \brief enum for value() and setValue()
+
+    automatically generated
+    */
+   enum UnderpassString
+   {
+      UnderpassLastStation
+   };
+   /*!
+    \brief enum for value() and setValue()
+
+    automatically generated
+    */
+   enum UnderpassStringList
+   {
+      UnderpassPlayers
+   };
+   /*!
     \brief set a value in registry
 
     automatically generated
@@ -1270,6 +1288,42 @@ public:
     \param id id of registry key
     */
    static bool value( StrippedBool id );
+
+   /*!
+    \brief set a value in registry
+
+    automatically generated
+    \param id id of registry key
+    \param value to set
+    */
+   static void setValue( UnderpassString id, const QString &value );
+
+   /*!
+    \brief get a value in registry
+
+    automatically generated
+    \return value in registry
+    \param id id of registry key
+    */
+   static QString value( UnderpassString id );
+
+   /*!
+    \brief set a value in registry
+
+    automatically generated
+    \param id id of registry key
+    \param value to set
+    */
+   static void setValue( UnderpassStringList id, const QStringList &value );
+
+   /*!
+    \brief get a value in registry
+
+    automatically generated
+    \return value in registry
+    \param id id of registry key
+    */
+   static QStringList value( UnderpassStringList id );
 
    /*!
     \brief cleanup unused registry entries

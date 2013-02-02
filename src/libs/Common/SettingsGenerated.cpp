@@ -1514,6 +1514,62 @@ bool Settings::value( StrippedBool id )
 }
 
 
+void Settings::setValue( UnderpassString id, const QString &value )
+{
+   QSettings *settings = cpSettings->get( "Underpass" );
+   switch( id )
+   {
+   case UnderpassLastStation:
+      settings->setValue( "LastStation", value );
+      return;
+   default:
+      qFatal( "illegal UnderpassString value" );
+   }
+}
+
+
+QString Settings::value( UnderpassString id )
+{
+   QSettings *settings = cpSettings->get( "Underpass" );
+   switch( id )
+   {
+   case UnderpassLastStation:
+      return settings->value( "LastStation" ).toString();
+   default:
+      qFatal( "illegal UnderpassString value" );
+      return QString();
+   }
+}
+
+
+void Settings::setValue( UnderpassStringList id, const QStringList &value )
+{
+   QSettings *settings = cpSettings->get( "Underpass" );
+   switch( id )
+   {
+   case UnderpassPlayers:
+      settings->setValue( "Players", value );
+      return;
+   default:
+      qFatal( "illegal UnderpassStringList value" );
+   }
+}
+
+
+QStringList Settings::value( UnderpassStringList id )
+{
+   QSettings *settings = cpSettings->get( "Underpass" );
+   switch( id )
+   {
+   case UnderpassPlayers:
+      return settings->value( "Players", QStringList() << "mpg123" << "ogg123" ).toStringList();
+   default:
+      qFatal( "illegal UnderpassStringList value" );
+      return QStringList();
+   }
+}
+
+
 bool Settings::cleanup()
 {
    bool retval = false;
