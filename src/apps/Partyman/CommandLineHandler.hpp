@@ -35,7 +35,12 @@ class Satellite;
 */
 
 /*!
- \brief \todo complete documentation
+ \brief helper class to enqueue tracks from command line
+
+ Creating an instance of this class will try to connect to an already running
+ Partyman. If it succeeds, it will add the tracks provided as parameter, if it
+ fails, it will add them to the playlist stored in the settings. On completing
+ either task it'll delete itself and quit the application.
 
  \dotfile "graphs/apps/Partyman/CommandLineHandler_connect.dot" "Connect Graph"
 */

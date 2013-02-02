@@ -65,7 +65,8 @@ int main(int argc, char *argv[])
    if( args.size() > 1 )
    {
       args.takeFirst(); // first argument is program name
-      CommandLineHandler commandLineHandler( args );
+      CommandLineHandler *commandLineHandler = new CommandLineHandler( args );
+      Q_UNUSED( commandLineHandler )
       retval = app.exec();
    }
    else
