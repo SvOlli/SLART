@@ -10,17 +10,13 @@
 #include "ControlWidget.hpp"
 
 /* system headers */
-#ifdef Q_OS_UNIX
-extern "C" {
-#include <sys/types.h>
-#include <signal.h>
-}
-#endif
+#include <csignal>
 
 /* Qt headers */
 #include <QtGui>
 
 /* local library headers */
+#include <CrashCleanup.hpp>
 #include <GenericSatelliteHandler.hpp>
 #include <GlobalConfigWidget.hpp>
 #include <Satellite.hpp>
@@ -67,6 +63,7 @@ ControlWidget::ControlWidget( Database *database, PartymanConfigDialog *config,
 , mDerMixDstarted( false )
 , mLastP0p()
 {
+   CrashCleanup::addObject( mpDerMixDprocess );
    setAcceptDrops( true );
    setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
    mpSettingsButton->setObjectName( QString("SettingsButton") );

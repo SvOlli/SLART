@@ -13,6 +13,7 @@
 #include <QtGui>
 
 /* local library headers */
+#include <CrashCleanup.hpp>
 #include <GenericSatelliteHandler.hpp>
 #include <MainWindowCheckClose.hpp>
 #include <Satellite.hpp>
@@ -59,6 +60,8 @@ int main(int argc, char *argv[])
 
    QStringList args( QApplication::arguments() );
    GenericSatelliteHandler::createSatellite();
+   CrashCleanup::create();
+   CrashCleanup::addObject( Settings::get() );
    if( args.size() > 1 )
    {
       args.takeFirst(); // first argument is program name
@@ -80,6 +83,7 @@ int main(int argc, char *argv[])
    }
 
    Satellite::destroy();
+   CrashCleanup::destroy();
 
    return retval;
 }
