@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/Underpass">
         <file alias="Icon.png">icons/Underpass.png</file>
+        <file alias="Stations.txt">defaults/UnderpassStations.txt</file>
     </qresource>
 </RCC>
