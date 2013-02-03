@@ -9,5 +9,6 @@
         <file alias="Sorcerer/Icon.png">icons/Sorcerer.png</file>
         <file alias="Notorious/Icon.png">icons/Notorious.png</file>
         <file alias="Karmadrome/Icon.png">icons/Karmadrome.png</file>
+        <file alias="Underpass/Icon.png">icons/Underpass.png</file>
     </qresource>
 </RCC>
