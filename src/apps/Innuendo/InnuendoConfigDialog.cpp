@@ -38,14 +38,17 @@ InnuendoConfigDialog::InnuendoConfigDialog( QWidget *parent, Qt::WindowFlags fla
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
 , mpBufferSize( new QSpinBox( this ) )
-, mpAutostartPartyman( new QPushButton( tr("Partyman"), this) )
-, mpAutostartKarmadrome( new QPushButton( tr("Karmadrome"), this) )
-, mpAutostartRubberbandman( new QPushButton( tr("Rubberbandman"), this) )
-, mpAutostartStripped( new QPushButton( tr("Stripped"), this) )
-, mpAutostartFunkytown( new QPushButton( tr("Funkytown"), this) )
-, mpAutostartNotorious( new QPushButton( tr("Notorious"), this) )
-, mpAutostartCreep( new QPushButton( tr("Creep"), this) )
+, mpAutostartPartyman( new QPushButton( QIcon(":/Partyman/Icon.png"), tr("Partyman"), this) )
+, mpAutostartKarmadrome( new QPushButton( QIcon(":/Karmadrome/Icon.png"), tr("Karmadrome"), this) )
+, mpAutostartRubberbandman( new QPushButton( QIcon(":/Rubberbandman/Icon.png"), tr("Rubberbandman"), this) )
+, mpAutostartStripped( new QPushButton( QIcon(":/Stripped/Icon.png"), tr("Stripped"), this) )
+, mpAutostartFunkytown( new QPushButton( QIcon(":/Funkytown/Icon.png"), tr("Funkytown"), this) )
+, mpAutostartNotorious( new QPushButton( QIcon(":/Notorious/Icon.png"), tr("Notorious"), this) )
+, mpAutostartCreep( new QPushButton( QIcon(":/Creep/Icon.png"), tr("Creep"), this) )
+, mpAutostartUnderpass( new QPushButton( QIcon(":/Underpass/Icon.png"), tr("Underpass"), this) )
 {
+   mpBufferSize->setRange( 50, 50000 );
+
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon( ":/Innuendo/Icon.png" ) );
 
@@ -55,6 +58,7 @@ InnuendoConfigDialog::InnuendoConfigDialog( QWidget *parent, Qt::WindowFlags fla
    mpAutostartStripped->setCheckable( true );
    mpAutostartFunkytown->setCheckable( true );
    mpAutostartCreep->setCheckable( true );
+   mpAutostartUnderpass->setCheckable( true );
 
    AboutWidget *about = new AboutWidget( this );
    mpGlobalConfigWidget->showClipboard();
@@ -68,13 +72,14 @@ InnuendoConfigDialog::InnuendoConfigDialog( QWidget *parent, Qt::WindowFlags fla
 
    QGroupBox   *autostartBox    = new QGroupBox( tr("Autostart With Innuendo:") );
    QGridLayout *autostartLayout = new QGridLayout( autostartBox );
-   autostartLayout->addWidget( mpAutostartPartyman, 0, 0 );
-   autostartLayout->addWidget( mpAutostartKarmadrome, 0, 1 );
+   autostartLayout->addWidget( mpAutostartPartyman,      0, 0 );
+   autostartLayout->addWidget( mpAutostartKarmadrome,    0, 1 );
    autostartLayout->addWidget( mpAutostartRubberbandman, 0, 2 );
-   autostartLayout->addWidget( mpAutostartStripped, 1, 0 );
-   autostartLayout->addWidget( mpAutostartFunkytown, 1, 1 );
-   autostartLayout->addWidget( mpAutostartNotorious, 1, 2 );
-   autostartLayout->addWidget( mpAutostartCreep, 2, 0 );
+   autostartLayout->addWidget( mpAutostartStripped,      1, 0 );
+   autostartLayout->addWidget( mpAutostartFunkytown,     1, 1 );
+   autostartLayout->addWidget( mpAutostartNotorious,     1, 2 );
+   autostartLayout->addWidget( mpAutostartCreep,         2, 0 );
+   autostartLayout->addWidget( mpAutostartUnderpass,     2, 1 );
    autostartBox->setLayout( autostartLayout );
 
    QWidget     *iTab    = new QWidget( this );
@@ -84,7 +89,6 @@ InnuendoConfigDialog::InnuendoConfigDialog( QWidget *parent, Qt::WindowFlags fla
    iLayout->addWidget( autostartBox,                           2, 0, 1, 2 );
    iLayout->setColumnStretch( 0, 1 );
    iLayout->setRowStretch( 1, 1 );
-   mpBufferSize->setRange( 50, 50000 );
 
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
@@ -139,6 +143,7 @@ void InnuendoConfigDialog::readSettings()
    mpAutostartFunkytown->setChecked( autostart.contains( "Funkytown" ) );
    mpAutostartNotorious->setChecked( autostart.contains( "Notorious" ) );
    mpAutostartCreep->setChecked( autostart.contains( "Creep" ) );
+   mpAutostartUnderpass->setChecked( autostart.contains( "Underpass" ) );
 
    emit configChanged();
 }
@@ -158,6 +163,7 @@ void InnuendoConfigDialog::writeSettings()
    if( mpAutostartFunkytown->isChecked() ) { autostart.append( "Funkytown" ); }
    if( mpAutostartNotorious->isChecked() ) { autostart.append( "Notorious" ); }
    if( mpAutostartCreep->isChecked() ) { autostart.append( "Creep" ); }
+   if( mpAutostartUnderpass->isChecked() ) { autostart.append( "Underpass" ); }
    Settings::setValue( Settings::InnuendoBufferSize, mpBufferSize->value() );
    Settings::setValue( Settings::InnuendoStartup, autostart );
 

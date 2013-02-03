@@ -91,6 +91,7 @@ private:
    QPushButton             *mpAutostartFunkytown; /*!< \brief \todo TODO */
    QPushButton             *mpAutostartNotorious; /*!< \brief \todo TODO */
    QPushButton             *mpAutostartCreep; /*!< \brief \todo TODO */
+   QPushButton             *mpAutostartUnderpass; /*!< \brief \todo TODO */
 };
 
 /*! @} */
