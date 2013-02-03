@@ -4,6 +4,7 @@ Section: unknown
 Priority: extra
 Architecture: ${arch}
 Depends: ${shlibs:Depends}
+Recommends: mpg123, vorbis-tools
 Installed-Size: ${size}
 Maintainer: Sven Oliver Moll <svolli@svolli.org>
 Build-Depends: debhelper (>= 5)
