@@ -526,6 +526,15 @@ public:
       UnderpassStopOnPartymanStart
    };
    /*!
+    \brief enum for value() and setValue()
+
+    automatically generated
+    */
+   enum UnderpassInt
+   {
+      UnderpassBufferSize
+   };
+   /*!
     \brief set a value in registry
 
     automatically generated
@@ -1352,6 +1361,24 @@ public:
     \param id id of registry key
     */
    static bool value( UnderpassBool id );
+
+   /*!
+    \brief set a value in registry
+
+    automatically generated
+    \param id id of registry key
+    \param value to set
+    */
+   static void setValue( UnderpassInt id, int value );
+
+   /*!
+    \brief get a value in registry
+
+    automatically generated
+    \return value in registry
+    \param id id of registry key
+    */
+   static int value( UnderpassInt id );
 
    /*!
     \brief cleanup unused registry entries

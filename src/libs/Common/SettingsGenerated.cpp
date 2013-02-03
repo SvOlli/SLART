@@ -1603,6 +1603,34 @@ bool Settings::value( UnderpassBool id )
 }
 
 
+void Settings::setValue( UnderpassInt id, int value )
+{
+   QSettings *settings = cpSettings->get( "Underpass" );
+   switch( id )
+   {
+   case UnderpassBufferSize:
+      settings->setValue( "BufferSize", value );
+      return;
+   default:
+      qFatal( "illegal UnderpassInt value" );
+   }
+}
+
+
+int Settings::value( UnderpassInt id )
+{
+   QSettings *settings = cpSettings->get( "Underpass" );
+   switch( id )
+   {
+   case UnderpassBufferSize:
+      return settings->value( "BufferSize", 500 ).toInt();
+   default:
+      qFatal( "illegal UnderpassInt value" );
+      return int();
+   }
+}
+
+
 bool Settings::cleanup()
 {
    bool retval = false;
