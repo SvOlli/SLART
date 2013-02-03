@@ -95,7 +95,10 @@ private:
    GenericSatelliteHandler *mpGenericSatelliteHandler;
    UnderpassConfigDialog   *mpConfig;
    QProcess                *mpProcess;
+   QAction                 *mpAddAction;
+   QAction                 *mpDeleteAction;
    QPushButton             *mpSettingsButton;
+   QPushButton             *mpAddDeleteButton;
    QPushButton             *mpStartButton;
    QComboBox               *mpStation;
    QLineEdit               *mpUrl;

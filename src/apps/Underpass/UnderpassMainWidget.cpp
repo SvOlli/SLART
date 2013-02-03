@@ -12,6 +12,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QAction>
 #include <QComboBox>
 #include <QCommonStyle>
 #include <QDateTime>
@@ -20,6 +21,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QMenu>
 #include <QProcess>
 #include <QPushButton>
 #include <QSettings>
@@ -38,107 +40,28 @@
 #include "UnderpassConfigDialog.hpp"
 
 
-static QStringList tokenize( const QString &input )
-{
-   QStringList tokenized;
-   QString token;
-   enum { stnq, stsq, stdq, stbs, stqb } state = stnq;
-
-   foreach( const QChar &c, input )
-   {
-      switch( state )
-      {
-      case stnq:
-         switch( c.toLatin1() )
-         {
-         case ' ':
-            if( !token.isEmpty() )
-            {
-               tokenized.append( token );
-            }
-            token.clear();
-            break;
-         case '\'':
-            state = stsq;
-            break;
-         case '"':
-            state = stdq;
-            break;
-         case '\\':
-            state = stbs;
-            break;
-         default:
-            token.append( c );
-         }
-         break;
-      case stsq:
-         switch( c.toLatin1() )
-         {
-         case '\'':
-            state = stnq;
-            break;
-         default:
-            token.append( c );
-         }
-         break;
-      case stdq:
-         switch( c.toLatin1() )
-         {
-         case '"':
-            state = stnq;
-            break;
-         case '\\':
-            state = stqb;
-            break;
-         default:
-            token.append( c );
-         }
-         break;
-      case stbs:
-      case stqb:
-         token.append( c );
-         state = (state == stqb) ? stdq : stnq;
-         break;
-      }
-   }
-
-   if( state != stnq )
-   {
-      tokenized.clear();
-   }
-   else
-   {
-      if( !token.isEmpty() )
-      {
-         tokenized.append( token );
-      }
-   }
-   return tokenized;
-}
-
-
 UnderpassMainWidget::UnderpassMainWidget( QWidget *parent, Qt::WindowFlags flags )
 : QWidget( parent, flags )
 , mpSatellite( Satellite::get() )
 , mpGenericSatelliteHandler( 0 )
 , mpConfig( new UnderpassConfigDialog( this ) )
 , mpProcess( new QProcess( this ) )
+, mpAddAction( new QAction( tr("Add"), this ) )
+, mpDeleteAction( new QAction( tr("Delete"), this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
+, mpAddDeleteButton( new QPushButton( tr("Add/Delete"), this ) )
 , mpStartButton( new QPushButton( QCommonStyle().standardIcon(QStyle::SP_MediaPlay), tr("Start"), this ) )
 , mpStation( new QComboBox( this ) )
 , mpUrl( new QLineEdit( this ) )
 , mpPlayer( new QComboBox( this ) )
 , mpMessageBuffer( new QListWidget( this ) )
 {
-   qDebug() << tokenize( "SvOlli was here..." );
-   qDebug() << tokenize( " \\\" " );
-   qDebug() << tokenize( " \\\\ " );
-   qDebug() << tokenize( "testing 'single \\ quotes'" );
-   qDebug() << tokenize( "also \"double  \\\"  quotes\" " );
-   qDebug() << tokenize( "SvOlli was \\ here..." );
+   QMenu *addDeleteMenu = new QMenu( mpAddDeleteButton );
+   addDeleteMenu->addAction( mpAddAction );
+   addDeleteMenu->addAction( mpDeleteAction );
+   mpAddDeleteButton->setMenu( addDeleteMenu );
 
    mpStartButton->setCheckable( true );
-   mpStation->addItem( tr("| New |") );
    const QString stationsPrefix( "Stations/" );
    foreach( const QString &entry, Settings::get()->allKeys() )
    {
@@ -156,17 +79,19 @@ UnderpassMainWidget::UnderpassMainWidget( QWidget *parent, Qt::WindowFlags flags
    CrashCleanup::addObject( mpProcess );
    QGridLayout *mainLayout   = new QGridLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
+   mainLayout->setColumnStretch( 1, 1 );
    parent->setWindowIcon( QIcon( ":/Underpass/Icon.png" ) );
 
    mainLayout->addWidget( new QLabel( tr( "Station:" ), this ), 0, 0 );
    mainLayout->addWidget( new QLabel( tr( "Url:"), this ),      1, 0 );
    mainLayout->addWidget( new QLabel( tr( "Player:"), this ),   2, 0 );
    mainLayout->addWidget( mpStation,        0, 1 );
-   mainLayout->addWidget( mpUrl,            1, 1 );
+   mainLayout->addWidget( mpAddDeleteButton,0, 2 );
+   mainLayout->addWidget( mpUrl,            1, 1, 1, 2 );
    mainLayout->addWidget( mpPlayer,         2, 1 );
-   mainLayout->addWidget( mpStartButton,    3, 0, 1, 2 );
-   mainLayout->addWidget( mpMessageBuffer,         4, 0, 1, 2 );
-   mainLayout->addWidget( mpSettingsButton, 5, 0, 1, 2 );
+   mainLayout->addWidget( mpStartButton,    2, 2 );
+   mainLayout->addWidget( mpMessageBuffer,  4, 0, 1, 3 );
+   mainLayout->addWidget( mpSettingsButton, 5, 0, 1, 3 );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
             mpConfig, SLOT(exec()) );
@@ -198,6 +123,7 @@ UnderpassMainWidget::UnderpassMainWidget( QWidget *parent, Qt::WindowFlags flags
    if( index >= 0 )
    {
       mpStation->setCurrentIndex( index );
+      readData( Settings::value( Settings::UnderpassLastStation ) );
    }
 
    WidgetShot::addWidget( "Main", this );
@@ -219,6 +145,33 @@ void UnderpassMainWidget::readConfig()
 
 void UnderpassMainWidget::handleSatellite( const QByteArray &msg )
 {
+   QStringList src( Satellite::split( msg ) );
+
+   if( src.at(0) == "p0p" )
+   {
+      if( Settings::value( Settings::UnderpassStopOnPartymanStart ) )
+      {
+         startProcess( false );
+      }
+   }
+   else if( src.at(0) == "U0S" )
+   {
+      startProcess( false );
+   }
+   else if( src.at(0) == "U0P" )
+   {
+      startProcess( true );
+   }
+   else if( src.at(0) == "U0N" )
+   {
+      // switch to next station
+      int index = mpStation->currentIndex() + 1;
+      if( index >= mpStation->count() )
+      {
+         index = 0;
+      }
+      mpStation->setCurrentIndex( index );
+   }
 }
 
 
@@ -237,11 +190,24 @@ void UnderpassMainWidget::readData( const QString &name )
          mpPlayer->setCurrentIndex( index );
       }
    }
+   if( mpStartButton->isChecked() )
+   {
+      startProcess( false );
+      startProcess( true );
+   }
 }
 
 
 void UnderpassMainWidget::startProcess( bool start )
 {
+   mpStartButton->setChecked( start );
+   mpAddDeleteButton->setDisabled( start );
+   mpPlayer->setDisabled( start );
+   mpUrl->setDisabled( start );
+   mpStartButton->setIcon( start ? QCommonStyle().standardIcon(QStyle::SP_MediaStop) :
+                                   QCommonStyle().standardIcon(QStyle::SP_MediaPlay) );
+   mpStartButton->setText( start ? tr("Stop") : tr("Start") );
+   mpSatellite->send( start ? "u0p" : "u0s" );
    if( start )
    {
       ProxyWidget::setProxy( mpProcess );
