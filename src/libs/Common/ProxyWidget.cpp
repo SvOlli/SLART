@@ -223,7 +223,7 @@ void ProxyWidget::setProxy( QProcess *process )
       }
       proxyValue.append( Settings::value( Settings::GlobalHTTPProxyHost ) );
       proxyValue.append( ':' );
-      proxyValue.append( Settings::value( Settings::GlobalHTTPProxyPort ) );
+      proxyValue.append( QString::number( Settings::value( Settings::GlobalHTTPProxyPort ) ) );
       environment.append( proxyValue.arg("http_proxy") );
       environment.append( proxyValue.arg("https_proxy") );
       environment.append( proxyValue.arg("HTTP_PROXY") );
