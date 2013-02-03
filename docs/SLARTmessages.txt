@@ -59,3 +59,12 @@ Innuendo:
 - commands
   - I0L: log (parameters: text to log)
 
+Underpass:
+- commands:
+  - U0A: plAy
+  - U0S: Stop
+  - U0N: Next station
+- status messages
+  - u0p: playing
+  - u0s: stopped
+
