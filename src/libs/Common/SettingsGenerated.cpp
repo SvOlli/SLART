@@ -1145,6 +1145,9 @@ void Settings::setValue( PartymanBool id, bool value )
    case PartymanSplitterVertical:
       settings->setValue( "SplitterVertical", value );
       return;
+   case PartymanStopOnUnderpassStart:
+      settings->setValue( "StopOnUnderpassStart", value );
+      return;
    case PartymanTrayIcon:
       settings->setValue( "TrayIcon", value );
       return;
@@ -1176,6 +1179,8 @@ bool Settings::value( PartymanBool id )
       return settings->value( "PlayOnlyLeastPlayed", false ).toBool();
    case PartymanSplitterVertical:
       return settings->value( "SplitterVertical", false ).toBool();
+   case PartymanStopOnUnderpassStart:
+      return settings->value( "StopOnUnderpassStart", true ).toBool();
    case PartymanTrayIcon:
       return settings->value( "TrayIcon", false ).toBool();
    case PartymanTrayIconBubble:
@@ -1566,6 +1571,34 @@ QStringList Settings::value( UnderpassStringList id )
    default:
       qFatal( "illegal UnderpassStringList value" );
       return QStringList();
+   }
+}
+
+
+void Settings::setValue( UnderpassBool id, bool value )
+{
+   QSettings *settings = cpSettings->get( "Underpass" );
+   switch( id )
+   {
+   case UnderpassStopOnPartymanStart:
+      settings->setValue( "StopOnPartymanStart", value );
+      return;
+   default:
+      qFatal( "illegal UnderpassBool value" );
+   }
+}
+
+
+bool Settings::value( UnderpassBool id )
+{
+   QSettings *settings = cpSettings->get( "Underpass" );
+   switch( id )
+   {
+   case UnderpassStopOnPartymanStart:
+      return settings->value( "StopOnPartymanStart", true ).toBool();
+   default:
+      qFatal( "illegal UnderpassBool value" );
+      return bool();
    }
 }
 

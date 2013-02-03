@@ -398,6 +398,7 @@ public:
       PartymanPlayOnlyFavorite,
       PartymanPlayOnlyLeastPlayed,
       PartymanSplitterVertical,
+      PartymanStopOnUnderpassStart,
       PartymanTrayIcon,
       PartymanTrayIconBubble
    };
@@ -514,6 +515,15 @@ public:
    enum UnderpassStringList
    {
       UnderpassPlayers
+   };
+   /*!
+    \brief enum for value() and setValue()
+
+    automatically generated
+    */
+   enum UnderpassBool
+   {
+      UnderpassStopOnPartymanStart
    };
    /*!
     \brief set a value in registry
@@ -1324,6 +1334,24 @@ public:
     \param id id of registry key
     */
    static QStringList value( UnderpassStringList id );
+
+   /*!
+    \brief set a value in registry
+
+    automatically generated
+    \param id id of registry key
+    \param value to set
+    */
+   static void setValue( UnderpassBool id, bool value );
+
+   /*!
+    \brief get a value in registry
+
+    automatically generated
+    \return value in registry
+    \param id id of registry key
+    */
+   static bool value( UnderpassBool id );
 
    /*!
     \brief cleanup unused registry entries
