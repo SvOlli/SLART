@@ -5,5 +5,5 @@ GenericName=audio cd extractor
 Comment=audio cd extractor
 Type=Application
 Exec=Stripped
-Icon=SLART
+Icon=Stripped
 Categories=AudioVideo;Audio;Qt;SLART;

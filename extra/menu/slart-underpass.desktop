@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=SLART: Underpass
+GenericName=audio stream player
+Comment=audio stream player
+Type=Application
+Exec=Underpass
+Icon=Underpass
+Categories=AudioVideo;Audio;Qt;SLART;

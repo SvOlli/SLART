@@ -5,5 +5,5 @@ GenericName=tag editor
 Comment=tag editor
 Type=Application
 Exec=Rubberbandman
-Icon=SLART
+Icon=Rubberbandman
 Categories=AudioVideo;Audio;Qt;SLART;

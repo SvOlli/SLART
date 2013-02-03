@@ -5,5 +5,5 @@ GenericName=music categoriser
 Comment=music categoriser
 Type=Application
 Exec=Karmadrome
-Icon=SLART
+Icon=Karmadrome
 Categories=AudioVideo;Audio;Qt;SLART;

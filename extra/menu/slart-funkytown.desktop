@@ -5,5 +5,5 @@ GenericName=audio downloader
 Comment=audio downloader
 Type=Application
 Exec=Funkytown
-Icon=SLART
+Icon=Funkytown
 Categories=AudioVideo;Audio;Qt;SLART;

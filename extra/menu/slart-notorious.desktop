@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=SLART: Notorious
+GenericName=simple freedb browser
+Comment=simple freedb browser
+Type=Application
+Exec=Notorious
+Icon=Notorious
+Categories=AudioVideo;Audio;Qt;SLART;

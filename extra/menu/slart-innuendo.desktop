@@ -5,5 +5,5 @@ GenericName=control center
 Comment=control center
 Type=Application
 Exec=Innuendo
-Icon=SLART
+Icon=Innuendo
 Categories=AudioVideo;Audio;Qt;SLART;
