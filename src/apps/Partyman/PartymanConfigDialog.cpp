@@ -48,7 +48,7 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
 , mpCountSkip( new QCheckBox( tr("Increase Track Played Counter On Skip"), this ) )
-, mpStopOnUnderpass( new QCheckBox( tr("Stop if Underpass is started"), this ) )
+, mpStopOnUnderpass( new QCheckBox( tr("Stop playing if Underpass is started"), this ) )
 , mpTrayIcon( new QCheckBox( tr("Show Tray Icon"), this ) )
 , mpTrayIconBubble( new QCheckBox( tr("With Bubble"), this ) )
 , mpTrayIconBubbleTime( new QDoubleSpinBox( this ) )
