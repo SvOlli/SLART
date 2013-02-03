@@ -590,7 +590,7 @@ void ControlWidget::handleSatellite( const QByteArray &msg )
          }
       }
 
-      if( src.at(0) == "P0A" )
+      else if( src.at(0) == "P0A" )
       {
          if( mConnected )
          {
@@ -605,12 +605,12 @@ void ControlWidget::handleSatellite( const QByteArray &msg )
          }
       }
 
-      if( src.at(0) == "P0N" )
+      else if( src.at(0) == "P0N" )
       {
          handleSkipTrack();
       }
 
-      if( src.at(0) == "P0S" )
+      else if( src.at(0) == "P0S" )
       {
          if( !mKioskMode )
          {
@@ -618,7 +618,7 @@ void ControlWidget::handleSatellite( const QByteArray &msg )
          }
       }
 
-      if( src.at(0) == "P0R" )
+      else if( src.at(0) == "P0R" )
       {
          if( mpSatellite && !mLastP0p.isEmpty() )
          {
@@ -626,7 +626,7 @@ void ControlWidget::handleSatellite( const QByteArray &msg )
          }
       }
 
-      if( src.at(0) == "P0C" )
+      else if( src.at(0) == "P0C" )
       {
          bool favorite = false;
          bool unwanted = false;
@@ -647,7 +647,7 @@ void ControlWidget::handleSatellite( const QByteArray &msg )
          }
       }
 
-      if( src.at(0) == "P0T" )
+      else if( src.at(0) == "P0T" )
       {
          if( src.size() > 1 )
          {
@@ -655,10 +655,18 @@ void ControlWidget::handleSatellite( const QByteArray &msg )
          }
       }
 
-      if( (src.at(0) == "k0u") ||
-          (src.at(0) == "r0u") )
+      else if( (src.at(0) == "k0u") ||
+               (src.at(0) == "r0u") )
       {
          emit trackUpdate();
+      }
+
+      else if( src.at(0) == "u0p" )
+      {
+         if( Settings::value( Settings::PartymanStopOnUnderpassStart ) && !mKioskMode )
+         {
+            initDisconnect();
+         }
       }
    }
 }

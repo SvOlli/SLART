@@ -135,6 +135,7 @@ private:
    MyClipboard          *mpClipboard; /*!< \brief \todo TODO */
    QLineEdit            *mpLogCmd; /*!< \brief \todo TODO */
    QCheckBox            *mpCountSkip; /*!< \brief \todo TODO */
+   QCheckBox            *mpStopOnUnderpass;  /*!< \brief setting for autostop if Underpass is started */
    QCheckBox            *mpTrayIcon; /*!< \brief \todo TODO */
    QCheckBox            *mpTrayIconBubble; /*!< \brief \todo TODO */
    QDoubleSpinBox       *mpTrayIconBubbleTime; /*!< \brief \todo TODO */

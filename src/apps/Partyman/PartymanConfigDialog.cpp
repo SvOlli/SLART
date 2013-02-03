@@ -48,6 +48,7 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
 , mpCountSkip( new QCheckBox( tr("Increase Track Played Counter On Skip"), this ) )
+, mpStopOnUnderpass( new QCheckBox( tr("Stop if Underpass is started"), this ) )
 , mpTrayIcon( new QCheckBox( tr("Show Tray Icon"), this ) )
 , mpTrayIconBubble( new QCheckBox( tr("With Bubble"), this ) )
 , mpTrayIconBubbleTime( new QDoubleSpinBox( this ) )
@@ -129,9 +130,10 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
    partymanLayout->addWidget( new QLabel( tr("External Logger:") ), 3, 0 );
    partymanLayout->addWidget( mpLogCmd,                             3, 1, 1, 4 );
    partymanLayout->addWidget( mpCountSkip,                          4, 0, 1, 5 );
+   partymanLayout->addWidget( mpStopOnUnderpass,                    5, 0, 1, 5 );
    partymanLayout->setColumnStretch( 1, 1 );
    partymanLayout->setColumnStretch( 2, 1 );
-   partymanLayout->setRowStretch( 6, 1 );
+   partymanLayout->setRowStretch( 7, 1 );
    partymanTab->setLayout( partymanLayout );
    connect( mpTrayIcon, SIGNAL(clicked(bool)),
             this, SLOT(handleShowTrayIcon(bool)) );
@@ -262,6 +264,7 @@ void PartymanConfigDialog::readSettings()
    mpNormalizeValue->setValue( Settings::value( Settings::PartymanNormalizeValue ) );
    mpLogCmd->setText( Settings::value( Settings::PartymanLogCmd ) );
    mpCountSkip->setChecked( Settings::value( Settings::PartymanCountSkip ) );
+   mpStopOnUnderpass->setChecked( Settings::value( Settings::PartymanStopOnUnderpassStart ));
    mpTrayIcon->setChecked( Settings::value( Settings::PartymanTrayIcon ) );
    mpTrayIconBubble->setChecked( Settings::value( Settings::PartymanTrayIconBubble ) );
    mpTrayIconBubbleTime->setValue( Settings::value( Settings::PartymanTrayIconBubbleTime ) );
@@ -304,6 +307,7 @@ void PartymanConfigDialog::writeSettings()
    Settings::setValue( Settings::PartymanNormalizeValue, mpNormalizeValue->value() );
    Settings::setValue( Settings::PartymanLogCmd, mpLogCmd->text() );
    Settings::setValue( Settings::PartymanCountSkip, mpCountSkip->isChecked() );
+   Settings::setValue( Settings::PartymanStopOnUnderpassStart, mpStopOnUnderpass->isChecked() );
    Settings::setValue( Settings::PartymanTrayIcon, mpTrayIcon->isChecked() );
    Settings::setValue( Settings::PartymanTrayIconBubble, mpTrayIconBubble->isChecked() );
    Settings::setValue( Settings::PartymanTrayIconBubbleTime, mpTrayIconBubbleTime->value() );
