@@ -102,6 +102,9 @@ HEADERS += Settings.hpp
 SOURCES += Settings.cpp
 SOURCES += SettingsGenerated.cpp
 
+HEADERS += ShellLikeTokenizer.hpp
+SOURCES += ShellLikeTokenizer.cpp
+
 HEADERS += SorcererLoader.hpp
 SOURCES += SorcererLoader.cpp
 
