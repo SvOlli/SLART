@@ -243,15 +243,14 @@ void UnderpassMainWidget::startProcess( bool start )
    {
       ProxyWidget::setProxy( mpProcess );
       QStringList args;
+      qDebug() << mpProcess->environment();
 #if 1
       args << "-v" << mpUrl->text();
-      QStringList environment( mpProcess->environment() );
+      mpProcess->start( mpPlayer->currentText(), args );
 #else
       args << "-c" << mpPlayer->currentText() + " -v " + mpUrl->text();
       mpProcess->start( "/bin/sh", args );
 #endif
-      mpProcess->setEnvironment( environment );
-      mpProcess->start( mpPlayer->currentText(), args );
    }
    else
    {
