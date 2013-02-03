@@ -32,10 +32,13 @@ class QListWidget;
 class UnderpassConfigDialog;
 class GenericSatelliteHandler;
 class Satellite;
+class StationStorage;
 
 
 /*!
-  \addtogroup Underpass Underpass: central application
+  \addtogroup Underpass Underpass: streamed audio player
+
+  Underpass just is a small frontend intended for mpg123 and ogg123.
 
   @{
 */
@@ -65,11 +68,17 @@ public slots:
    */
    void handleSatellite( const QByteArray &msg );
 
-   void readData( const QString &name );
+   void handleStationChange(const QString &name);
 
-   void startProcess( bool start );
+   void addStation();
+
+   void startProcess( bool start = true );
 
    void readProcessOutput();
+
+   void setPlayerText( const QString &text );
+
+   void updateStationList();
 
 private slots:
 
@@ -91,19 +100,22 @@ protected:
 private:
    Q_DISABLE_COPY( UnderpassMainWidget )
 
+   static void setComboBoxByValue( QComboBox *comboBox, const QString &value );
+   static void sortComboBox( QComboBox *comboBox );
+
    Satellite               *mpSatellite;
+   StationStorage          *mpStorage;
    GenericSatelliteHandler *mpGenericSatelliteHandler;
    UnderpassConfigDialog   *mpConfig;
    QProcess                *mpProcess;
-   QAction                 *mpAddAction;
-   QAction                 *mpDeleteAction;
    QPushButton             *mpSettingsButton;
-   QPushButton             *mpAddDeleteButton;
+   QPushButton             *mpAddStationButton;
    QPushButton             *mpStartButton;
    QComboBox               *mpStation;
    QLineEdit               *mpUrl;
    QComboBox               *mpPlayer;
    QListWidget             *mpMessageBuffer;
+   QString                 mLastStation;
 };
 
 /*! @} */

@@ -13,6 +13,7 @@
 
 /* Qt headers */
 #include <QApplication>
+#include <QCheckBox>
 #include <QHBoxLayout>
 #include <QIcon>
 #include <QLabel>
@@ -29,13 +30,22 @@
 #include <WidgetShot.hpp>
 
 /* local headers */
+#include "StationStorage.hpp"
 
 
-UnderpassConfigDialog::UnderpassConfigDialog( QWidget *parent, Qt::WindowFlags flags )
+UnderpassConfigDialog::UnderpassConfigDialog( StationStorage *storage,
+                                              QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
+, mpStorage( storage )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpProxyWidget( new ProxyWidget( this ) )
+, mpStopOnPartyman( new QCheckBox( tr("Stop playing if Partyman is started"), this ) )
+, mpRestoreDefaults( new QPushButton( tr("Restore default stations"), this ) )
+, mpBufferSize( new QSpinBox( this ) )
+, mRestoreDefaultsClicked( false )
 {
+   mpBufferSize->setRange( 50, 50000 );
+
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon( ":/Underpass/Icon.png" ) );
 
@@ -49,8 +59,19 @@ UnderpassConfigDialog::UnderpassConfigDialog( QWidget *parent, Qt::WindowFlags f
    buttonLayout->addWidget( okButton );
    buttonLayout->addWidget( cancelButton );
 
+   QWidget     *underpassTab    = new QWidget( this );
+   QGridLayout *underpassLayout = new QGridLayout( underpassTab );
+   underpassLayout->addWidget( new QLabel( tr("Buffer Size:"), this ), 0, 0 );
+   underpassLayout->addWidget( mpBufferSize,                           0, 1 );
+   underpassLayout->addWidget( mpStopOnPartyman,                       1, 0, 1, 2 );
+   underpassLayout->addWidget( mpRestoreDefaults,                      8, 0, 1, 2 );
+   underpassLayout->setColumnStretch( 0, 1 );
+   underpassLayout->setRowStretch( 7, 1 );
+   underpassTab->setLayout( underpassLayout );
+
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
+   tabs->addTab( underpassTab,            tr("Underpass") );
    tabs->addTab( mpProxyWidget,           tr("Proxy") );
    tabs->addTab( mpGlobalConfigWidget,    tr("Global") );
 
@@ -59,6 +80,8 @@ UnderpassConfigDialog::UnderpassConfigDialog( QWidget *parent, Qt::WindowFlags f
    mainLayout->addLayout( buttonLayout );
    setLayout( mainLayout );
 
+   connect( mpRestoreDefaults, SIGNAL(clicked()),
+            this, SLOT(restoreDefaultsClicked()) );
    connect( okButton, SIGNAL(clicked()),
             this, SLOT(accept()) );
    connect( cancelButton, SIGNAL(clicked()),
@@ -80,11 +103,21 @@ void UnderpassConfigDialog::exec()
 }
 
 
+void UnderpassConfigDialog::restoreDefaultsClicked()
+{
+   mRestoreDefaultsClicked = true;
+}
+
+
 void UnderpassConfigDialog::readSettings()
 {
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
 
+   mpBufferSize->setValue( Settings::value( Settings::UnderpassBufferSize ) );
+   mpStopOnPartyman->setChecked( Settings::value( Settings::UnderpassStopOnPartymanStart ));
+
+   mRestoreDefaultsClicked = false;
    emit configChanged();
 }
 
@@ -94,6 +127,12 @@ void UnderpassConfigDialog::writeSettings()
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();
 
+   Settings::setValue( Settings::UnderpassBufferSize, mpBufferSize->value() );
+   Settings::setValue( Settings::UnderpassStopOnPartymanStart, mpStopOnPartyman->isChecked() );
+
+   if( mRestoreDefaultsClicked )
+   {
+      mpStorage->createDefaults();
+   }
    emit configChanged();
 }
-

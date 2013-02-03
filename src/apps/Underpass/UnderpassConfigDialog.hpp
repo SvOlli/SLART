@@ -21,10 +21,14 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QCheckBox;
+class QPushButton;
+class QSpinBox;
 
 /* forward declaration of local classes */
 class GlobalConfigWidget;
 class ProxyWidget;
+class StationStorage;
 
 
 /*!
@@ -43,7 +47,8 @@ class UnderpassConfigDialog : public QDialog
    Q_OBJECT
 
 public:
-   UnderpassConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   UnderpassConfigDialog( StationStorage *storage,
+                          QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
    /*!
@@ -62,6 +67,12 @@ public slots:
    */
    void writeSettings();
 
+   /*!
+    \brief register click on create defaults for use on writeSettings()
+
+   */
+   void restoreDefaultsClicked();
+
 signals:
    /*!
     \brief configuration has changed
@@ -72,8 +83,13 @@ signals:
 private:
    Q_DISABLE_COPY( UnderpassConfigDialog )
 
+   StationStorage          *mpStorage; /*!< \brief \todo TODO */
    GlobalConfigWidget      *mpGlobalConfigWidget; /*!< \brief \todo TODO */
    ProxyWidget             *mpProxyWidget; /*!< \brief \todo TODO */
+   QCheckBox               *mpStopOnPartyman;  /*!< \brief \todo TODO */
+   QPushButton             *mpRestoreDefaults; /*!< \brief \todo TODO */
+   QSpinBox                *mpBufferSize; /*!< \brief \todo TODO */
+   bool                    mRestoreDefaultsClicked; /*!< \brief \todo TODO */
 };
 
 /*! @} */

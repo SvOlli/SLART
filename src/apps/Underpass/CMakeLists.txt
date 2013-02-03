@@ -19,6 +19,7 @@ INCLUDE_DIRECTORIES(
    ${COMMON_INCLUDE_DIR}
 )
 
+ADD_SOURCE( StationStorage         cpp hpp moc )
 ADD_SOURCE( UnderpassApplication   cpp         )
 ADD_SOURCE( UnderpassConfigDialog  cpp hpp moc )
 ADD_SOURCE( UnderpassMainWidget    cpp hpp moc )

@@ -27,6 +27,9 @@ TRANSLATIONS += $${TOPSRC}/resources/translations/$${TARGET}_de.ts
 
 SOURCES += UnderpassApplication.cpp
 
+HEADERS += StationStorage.hpp
+SOURCES += StationStorage.cpp
+
 HEADERS += UnderpassConfigDialog.hpp
 SOURCES += UnderpassConfigDialog.cpp
 
