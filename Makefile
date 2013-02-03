@@ -32,9 +32,9 @@ install: release
 	cp -d build/release/bin/* $(DESTDIR)$(PREFIX)/bin
 	cp -d build/release/lib/*.so* $(DESTDIR)$(PREFIX)/lib
 	#cp -d extra/icons/* $(DESTDIR)$(PREFIX)/share/pixmaps
-        for i in $$(cd $(DESTDIR)$(PREFIX)/bin;ls|grep -v Creep) ; do \
-          convert src/resources/icons/$$i.png \
-          $(DESTDIR)$(PREFIX)/share/pixmap/$$i.xpm; done
+	for i in $$(cd $(DESTDIR)$(PREFIX)/bin;ls [D-Z]*) ; do \
+	  convert src/resources/icons/$$i.png \
+	  $(DESTDIR)$(PREFIX)/share/pixmaps/$$i.xpm; done
 	cp -d extra/menu/*.desktop $(DESTDIR)$(PREFIX)/share/applications
 	cp -d extra/stylesheets/* \
           $(DESTDIR)$(PREFIX)/share/slart/stylesheets
