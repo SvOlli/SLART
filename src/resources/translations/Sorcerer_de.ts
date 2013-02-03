@@ -57,69 +57,69 @@ Räume Registry auf.</translation>
 <context>
     <name>SorcererMainWidget</name>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="33"/>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="175"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="37"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="179"/>
         <source>Next</source>
         <translation>Weiter</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="41"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="45"/>
         <source>quit</source>
         <translation>Quit</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="42"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="46"/>
         <source>start</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="52"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="56"/>
         <source>Hello and welcome to SLART&lt;hr&gt;Before %1 can be started a little bit of setup needs to be done.&lt;br&gt;&lt;br&gt;This little wizard will help you on this task. There&apos;s no need to worry,&lt;br&gt;anything you configure here can be configured in the appropriate&lt;br&gt;SLART application as well.</source>
         <translation>Hallo und willkommen zu SLART&lt;hr&gt;Bevor %1 gestartet werden kann, muss noch ein bisschen was eingestellt werden&lt;br&gt;&lt;br&gt;Dieses Programm hilft dabei. Kein Grund zur Beunruhigung,&lt;br&gt;alles was hier eingestellt wird kann in den jeweiligen&lt;br&gt;SLART Programmen auch eingestellt werden.</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="60"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="64"/>
         <source>%1 (running for %2)</source>
         <translation>%1 (läuft für %2)</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="63"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="67"/>
         <source>Well, that&apos;s all. Wasn&apos;t so hard, was it?&lt;br&gt;&lt;br&gt;Now, press &apos;Done&apos; to start %1.</source>
         <translation>So, das war&apos;s schon. War doch nicht so schlimm, oder?&lt;br&gt;&lt;br&gt;Nun bitte &apos;Fertig&apos; anklicken um %1 zu starten.</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="69"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="73"/>
         <source>Now, press &apos;Done&apos; to quit Sorcerer.</source>
         <translation>Nun &apos;Fertig&apos; anklicken um Sorcerer zu beenden.</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="77"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="81"/>
         <source>Welcome</source>
         <translation>Willkommen</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="78"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="82"/>
         <source>Database</source>
         <translation>Datenbank</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="79"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="83"/>
         <source>Communication</source>
         <translation>Kommunikation</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="80"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="84"/>
         <source>Proxy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="81"/>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="179"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="85"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="183"/>
         <source>Done</source>
         <translation>Fertig</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="137"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="141"/>
         <source>A recommendation for each pannel will be displayed here.
 
 Right now, just press the &apos;Next&apos;-Button below.</source>
@@ -128,30 +128,34 @@ Right now, just press the &apos;Next&apos;-Button below.</source>
 Jetzt erst mal auf &apos;Weiter&apos; klicken.</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="142"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="146"/>
         <source>A database is needed for operation. Please create one by selecting the
 directory containing the music by pressing &apos;...&apos; and then press &apos;Update&apos; to
 create the database. This might take some time. Press &apos;Next&apos; once it&apos;s done.</source>
-        <translation type="unfinished">Damit die Programme arbeiten können wird eine Datenbank benötigt. Durch
+        <translation>Damit die Programme arbeiten können wird eine Datenbank benötigt. Durch
 das Anklicken auf &apos;...&apos; wird das Basisverzeichnis für Musik ausgewählt. Danach
 auf &apos;Update&apos; klicken, damit die Datenbank erzeugt wird. Danach auf &apos;Weiter&apos; klicken.</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="149"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="153"/>
         <source>&apos;Full Communication&apos; is strongly recommended
 to take advantage of all SLART features.
 So go ahead and press &apos;Full Communication&apos; and &apos;Next&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;Volle Kommunikation&apos; wird dringend empfohlen
+um alle Vorteile von SLART verwenden zu können.
+Deshalb also einmal auf &apos;Volle Kommunikation&apos; und &apos;Weiter&apos; klicken.</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="155"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="159"/>
         <source>Ususally a proxy is not necessary for web access.
 If unsure look at the proxy settings of your web browser.
 Once you&apos;ve set the proxy (or decided not to) press &apos;Next&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Normalerweise ist ein Proxyserver für einen Web Zugriff nicht nötig.
+Bei Zweifeln empfiehlt es sich in die Webbrowsers-Einstellungen zu sehen.
+Wenn die Proxyeinstellungen korrekt sind, auf &apos;Weiter&apos; klicken.</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="163"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="167"/>
         <source>
 
 Now, press &apos;Done&apos; to start %1.</source>
@@ -160,7 +164,7 @@ Now, press &apos;Done&apos; to start %1.</source>
 Nun auf &apos;Fertig&apos; klicken, um %1 zu starten.</translation>
     </message>
     <message>
-        <location filename="../apps/Sorcerer/SorcererMainWidget.cpp" line="167"/>
+        <location filename="../../apps/Sorcerer/SorcererMainWidget.cpp" line="171"/>
         <source>
 
 Now, press &apos;Done&apos; to quit.</source>

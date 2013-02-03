@@ -5,12 +5,12 @@
 <context>
     <name>MagicEncoderConfig</name>
     <message>
-        <location filename="../libs/Magic/MagicEncoder/MagicEncoderConfig.cpp" line="26"/>
+        <location filename="../../libs/Magic/MagicEncoder/MagicEncoderConfig.cpp" line="26"/>
         <source>Use This Encoder</source>
         <translation>Encoder verwenden</translation>
     </message>
     <message>
-        <location filename="../libs/Magic/MagicEncoder/MagicEncoderConfig.cpp" line="27"/>
+        <location filename="../../libs/Magic/MagicEncoder/MagicEncoderConfig.cpp" line="27"/>
         <source>Override Base Directory</source>
         <translation>Eigenes Verzeichnis verwenden</translation>
     </message>

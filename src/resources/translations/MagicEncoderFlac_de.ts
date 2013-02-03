@@ -4,7 +4,7 @@
 <context>
     <name>MagicEncoderFlac</name>
     <message>
-        <location filename="../libs/Magic/MagicEncoderFlac/MagicEncoderFlac.cpp" line="28"/>
+        <location filename="../../libs/Magic/MagicEncoderFlac/MagicEncoderFlac.cpp" line="28"/>
         <source>FLAC</source>
         <translation></translation>
     </message>
@@ -12,22 +12,22 @@
 <context>
     <name>MagicEncoderFlacConfig</name>
     <message>
-        <location filename="../libs/Magic/MagicEncoderFlac/MagicEncoderFlacConfig.cpp" line="31"/>
+        <location filename="../../libs/Magic/MagicEncoderFlac/MagicEncoderFlacConfig.cpp" line="31"/>
         <source>Use Ogg Container</source>
         <translation>Ogg Container verwenden</translation>
     </message>
     <message>
-        <location filename="../libs/Magic/MagicEncoderFlac/MagicEncoderFlacConfig.cpp" line="36"/>
+        <location filename="../../libs/Magic/MagicEncoderFlac/MagicEncoderFlacConfig.cpp" line="36"/>
         <source>0 = fastest; 8 = best</source>
         <translation>0 = schnellste; 8 = beste</translation>
     </message>
     <message>
-        <location filename="../libs/Magic/MagicEncoderFlac/MagicEncoderFlacConfig.cpp" line="44"/>
+        <location filename="../../libs/Magic/MagicEncoderFlac/MagicEncoderFlacConfig.cpp" line="44"/>
         <source>Base Directory:</source>
         <translation>Basisverzeichnis:</translation>
     </message>
     <message>
-        <location filename="../libs/Magic/MagicEncoderFlac/MagicEncoderFlacConfig.cpp" line="47"/>
+        <location filename="../../libs/Magic/MagicEncoderFlac/MagicEncoderFlacConfig.cpp" line="47"/>
         <source>Compression Level:</source>
         <translation>Komprimierungsstufe:</translation>
     </message>

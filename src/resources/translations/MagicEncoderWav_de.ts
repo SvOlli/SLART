@@ -5,7 +5,7 @@
 <context>
     <name>MagicEncoderWav</name>
     <message>
-        <location filename="../libs/Magic/MagicEncoderWav/MagicEncoderWav.cpp" line="26"/>
+        <location filename="../../libs/Magic/MagicEncoderWav/MagicEncoderWav.cpp" line="26"/>
         <source>wav</source>
         <translation></translation>
     </message>
@@ -13,7 +13,7 @@
 <context>
     <name>MagicEncoderWavConfig</name>
     <message>
-        <location filename="../libs/Magic/MagicEncoderWav/MagicEncoderWavConfig.cpp" line="35"/>
+        <location filename="../../libs/Magic/MagicEncoderWav/MagicEncoderWavConfig.cpp" line="35"/>
         <source>Base Directory:</source>
         <translation>Basisverzeichnis:</translation>
     </message>
