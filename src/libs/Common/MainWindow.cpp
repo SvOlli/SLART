@@ -15,6 +15,9 @@
 #include "Trace.hpp"
 
 
+MainWindow *MainWindow::cpMainWindow;
+
+
 MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
 , mProhibitCloseWindow( false )
@@ -22,6 +25,11 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
 , mForbidMove( 75 )
 , mpMainWidget( 0 )
 {
+   if( cpMainWindow )
+   {
+      qFatal( "Need to reimplement cpMainWindow" );
+   }
+   cpMainWindow = this;
    setWindowTitle( QApplication::applicationName() );
    QApplication::setDoubleClickInterval( Settings::value( Settings::GlobalDoubleClickInterval ) );
 }
@@ -29,6 +37,7 @@ MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags 
 
 MainWindow::~MainWindow()
 {
+   cpMainWindow = 0;
 }
 
 
@@ -61,19 +70,6 @@ bool MainWindow::event( QEvent *event )
 }
 
 
-void MainWindow::changeTitle( const QIcon &icon, const QString &title )
-{
-   if( !icon.isNull() )
-   {
-      setWindowIcon( icon );
-   }
-   if( !title.isNull() )
-   {
-      setWindowTitle( title );
-   }
-}
-
-
 void MainWindow::closeEvent( QCloseEvent *event )
 {
    if( mSaveWindow )
@@ -82,4 +78,17 @@ void MainWindow::closeEvent( QCloseEvent *event )
       Settings::setValue( Settings::CommonState, saveState() );
    }
    event->accept();
+}
+
+
+void MainWindow::setIconAndTitle( const QIcon &icon, const QString &title )
+{
+   if( !icon.isNull() && cpMainWindow )
+   {
+      cpMainWindow->setWindowIcon( icon );
+   }
+   if( !title.isNull() && cpMainWindow )
+   {
+      cpMainWindow->setWindowTitle( title );
+   }
 }

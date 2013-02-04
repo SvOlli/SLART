@@ -65,14 +65,13 @@ public:
    */
    void setMainWidget( QWidget *mainWidget );
 
-public slots:
    /*!
-    \brief handle request for new icon and title
+    \brief set icon and/or title of all main windows (usually just one)
 
-    \param icon
-    \param title
+    \param icon icon to set (if not to be set, pass null QIcon())
+    \param title icon to set (if not to be set, pass null QString())
    */
-   void changeTitle( const QIcon &icon, const QString &title );
+   static void setIconAndTitle( const QIcon &icon, const QString &title );
 
 protected:
    /*!
@@ -92,10 +91,12 @@ protected:
 private:
    Q_DISABLE_COPY( MainWindow )
 
-   bool          mProhibitCloseWindow;
-   bool          mSaveWindow;
-   int           mForbidMove;
-   QWidget       *mpMainWidget;
+   bool          mProhibitCloseWindow; /*!< \brief \todo TODO */
+   bool          mSaveWindow; /*!< \brief \todo TODO */
+   int           mForbidMove; /*!< \brief \todo TODO */
+   QWidget       *mpMainWidget; /*!< \brief \todo TODO */
+
+   static MainWindow  *cpMainWindow; /*!< \brief handle for setIconAndTitle() */
 };
 
 /*! @} */
