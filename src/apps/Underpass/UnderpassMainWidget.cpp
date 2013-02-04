@@ -53,8 +53,11 @@ UnderpassMainWidget::UnderpassMainWidget( QWidget *parent, Qt::WindowFlags flags
 , mpUrl( new QLineEdit( this ) )
 , mpPlayer( new QComboBox( this ) )
 , mpMessageBuffer( new QListWidget( this ) )
+, mDeleteLastLine( false )
+, mLineBuffer()
 , mLastStation()
 {
+   mpMessageBuffer->setFont( QFont( "Courier") );
    mpStartButton->setCheckable( true );
    mpAddStationButton->setToolTip( tr("click to add a new station\nclear url to remove current station") );
    QStringList stationList( mpStorage->stationList() );
@@ -243,7 +246,6 @@ void UnderpassMainWidget::startProcess( bool start )
    {
       ProxyWidget::setProxy( mpProcess );
       QStringList args;
-      qDebug() << mpProcess->environment();
 #if 1
       args << "-v" << mpUrl->text();
       mpProcess->start( mpPlayer->currentText(), args );
@@ -261,35 +263,49 @@ void UnderpassMainWidget::startProcess( bool start )
 
 void UnderpassMainWidget::readProcessOutput()
 {
-   QStringList output( QString::fromLocal8Bit(mpProcess->readAllStandardError().constData()).split('\n') );
+   QString output( QString::fromLocal8Bit( mpProcess->readAllStandardError().constData() ) );
 
-   foreach( const QString &line, output )
+   QListWidgetItem *item = 0;
+   foreach( const QChar &qc, output )
    {
-      if( line.startsWith('\r') && mpMessageBuffer->count() > 0 )
+      char c = qc.toAscii();
+      if( (c == '\r') || (c == '\n') )
       {
-         QListWidgetItem *item = mpMessageBuffer->takeItem(mpMessageBuffer->count() - 1);
-         if( item )
+         if( mDeleteLastLine )
          {
-            delete item;
+            item = mpMessageBuffer->takeItem( mpMessageBuffer->count() - 1 );
+            if( item )
+            {
+               delete item;
+               item = 0;
+            }
          }
-         mpMessageBuffer->addItem( line.mid(1) );
+         mpMessageBuffer->addItem( mLineBuffer );
+         while( mpMessageBuffer->count() > Settings::value( Settings::UnderpassBufferSize ) )
+         {
+            item = mpMessageBuffer->takeItem( 0 );
+            if( item )
+            {
+               delete item;
+            }
+         }
+         mLineBuffer.clear();
+         if( mpMessageBuffer->visualItemRect( mpMessageBuffer->item( mpMessageBuffer->count() - 1 ) ).y()
+               < mpMessageBuffer->size().height() )
+         {
+            mpMessageBuffer->scrollToBottom();
+         }
+         mDeleteLastLine = (c == '\r');
       }
-      else
+      else if( c == '\t' )
       {
-         mpMessageBuffer->addItem( line );
+         mLineBuffer += QString(' ').repeated( 8 );
+      }
+      else if( !c || (c >= ' ') )
+      {
+         mLineBuffer += qc;
       }
    }
-
-   while( mpMessageBuffer->count() > Settings::value( Settings::UnderpassBufferSize ) )
-   {
-      QListWidgetItem *item = mpMessageBuffer->takeItem(0);
-      if( item )
-      {
-         delete item;
-      }
-   }
-
-   mpMessageBuffer->scrollToBottom();
 }
 
 

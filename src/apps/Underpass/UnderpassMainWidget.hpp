@@ -112,6 +112,8 @@ private:
    QLineEdit               *mpUrl;
    QComboBox               *mpPlayer;
    QListWidget             *mpMessageBuffer;
+   bool                    mDeleteLastLine;
+   QString                 mLineBuffer;
    QString                 mLastStation;
 };
 
