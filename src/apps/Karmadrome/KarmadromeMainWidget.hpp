@@ -170,15 +170,6 @@ public slots:
    */
    void removeFolderFromTrack( const TrackInfo &trackInfo, const QVariant &payload );
 
-signals:
-   /*!
-    \brief \todo complete documentation
-
-    \param icon
-    \param title
-   */
-   void requestChangeTitle( const QIcon &icon, const QString &title );
-
 private:
    Q_DISABLE_COPY( KarmadromeMainWidget )
 

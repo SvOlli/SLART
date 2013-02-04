@@ -102,15 +102,6 @@ public slots:
    */
    void unlockCommunication();
 
-signals:
-   /*!
-    \brief request a new icon and title
-
-    \param icon
-    \param title
-   */
-   void requestChangeTitle( const QIcon &icon, const QString &title );
-
 private:
    Q_DISABLE_COPY( SorcererMainWidget )
 

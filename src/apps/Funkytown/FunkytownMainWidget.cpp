@@ -84,13 +84,6 @@ FunkytownMainWidget::FunkytownMainWidget( QWidget *parent )
    connect( mpDownloadHandler, SIGNAL(errorMessage(QString)),
             mpConfigDialog, SLOT(logMessage(QString)) );
 
-   MainWindow *mainWindow = qobject_cast<MainWindow*>(parent);
-   if( mainWindow )
-   {
-      connect( this, SIGNAL(requestChangeTitle(QIcon,QString)),
-               mainWindow, SLOT(changeTitle(QIcon,QString)) );
-   }
-
    mpSettingsButton->setObjectName( QString("SettingsButton") );
 
    setAcceptDrops( true );

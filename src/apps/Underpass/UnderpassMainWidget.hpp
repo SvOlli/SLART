@@ -82,9 +82,6 @@ public slots:
 
 private slots:
 
-signals:
-   void requestChangeTitle( const QIcon &icon, const QString &title );
-
 protected:
    /*!
     \brief for implementing dropping

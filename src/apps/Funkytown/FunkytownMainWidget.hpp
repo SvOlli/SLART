@@ -83,15 +83,6 @@ public slots:
    */
    void downloadActive( bool downloadActive = false );
 
-signals:
-   /*!
-    \brief request to change the title and icon
-
-    \param icon
-    \param title
-   */
-   void requestChangeTitle( const QIcon &icon, const QString &title );
-
 protected:
    /*!
     \brief for implementing dropping

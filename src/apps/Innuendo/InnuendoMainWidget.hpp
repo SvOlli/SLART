@@ -91,9 +91,6 @@ private slots:
    */
    void noAutostart();
 
-signals:
-   void requestChangeTitle( const QIcon &icon, const QString &title );
-
 protected:
    /*!
     \brief for implementing dropping
