@@ -53,7 +53,8 @@ SorcererMainWidget::SorcererMainWidget( QWidget *parent, Qt::WindowFlags flags )
    parent->setWindowIcon( QIcon( ":/Sorcerer/Icon.png" ) );
 
    AboutWidget *about = new AboutWidget( this );
-   QLabel *welcome    = new QLabel( tr("Hello and welcome to SLART<hr>"
+   QLabel *welcome    = new QLabel( tr("Hello and welcome to SLART<br>"
+                                       "<img src=':/SLART/Icon.png'><hr>"
                                        "Before %1 can be started a little bit of setup needs to be done.<br><br>"
                                        "This little wizard will help you on this task. There's no need to worry,<br>"
                                        "anything you configure here can be configured in the appropriate<br>"
@@ -78,11 +79,11 @@ SorcererMainWidget::SorcererMainWidget( QWidget *parent, Qt::WindowFlags flags )
    mpHint->setFrameShadow( QFrame::Raised );
    mpHint->setFrameShape( QFrame::Box );
 
-   mpTabs->addTab( welcome,                 QIcon( ":/Sorcerer/RealIcon.png" ),  tr("Welcome") );
+   mpTabs->addTab( welcome,                 QIcon( ":/Sorcerer/Icon.png" ),      tr("Welcome") );
    mpTabs->addTab( mpDatabaseWidget,        QIcon( ":/Rubberbandman/Icon.png" ), tr("Database") );
    mpTabs->addTab( mpSatelliteConfigWidget, QIcon( ":/Innuendo/Icon.png" ),      tr("Communication") );
-   mpTabs->addTab( mpProxyWidget,           QIcon( ":/Sorcerer/Icon.png" ),      tr("Proxy") );
-   mpTabs->addTab( welldone,                QIcon( ":/Sorcerer/RealIcon.png" ),  tr("Done") );
+   mpTabs->addTab( mpProxyWidget,           QIcon( ":/SLART/Icon.png" ),         tr("Proxy") );
+   mpTabs->addTab( welldone,                QIcon( ":/Sorcerer/Icon.png" ),      tr("Done") );
    for( i = 0; i < mpTabs->count(); i++ )
    {
       mpTabs->setTabEnabled( i, (i==0) );

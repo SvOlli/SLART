@@ -6,7 +6,9 @@
         <file alias="Icon.png">icons/Innuendo.png</file>
     </qresource>
     <qresource prefix="/Sorcerer">
-        <file alias="RealIcon.png">icons/Sorcerer.png</file>
+        <file alias="Icon.png">icons/Sorcerer.png</file>
+    </qresource>
+    <qresource prefix="/SLART">
         <file alias="Icon.png">icons/Note.png</file>
     </qresource>
 </RCC>
