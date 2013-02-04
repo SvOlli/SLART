@@ -33,6 +33,9 @@
 #include "TrackInfoWidget.hpp"
 
 
+PartymanMainWindow *PartymanMainWindow::cpMainWindow;
+
+
 PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
 , mProhibitCloseWindow( false )
@@ -52,6 +55,12 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 , mCurrentFile()
 , mNextFile()
 {
+   if( cpMainWindow )
+   {
+      qFatal( "Need to reimplement cpMainWindow handling" );
+   }
+   cpMainWindow = this;
+
    qsrand( time((time_t*)0) );
    setUnifiedTitleAndToolBarOnMac(true);
    WidgetShot::addWidget( "Main", this );
@@ -116,8 +125,6 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(finishBrowserUpdate()) );
    connect( mpControl, SIGNAL(requestAddToPlaylist(QStringList,bool)),
             this, SLOT(addEntries(QStringList,bool)) );
-   connect( mpControl, SIGNAL(requestChangeTitle(QIcon,QString)),
-            this, SLOT(changeTitle(QIcon,QString)) );
    connect( this, SIGNAL(playlistIsValid(bool)),
             mpControl, SLOT(allowConnect(bool)) );
    connect( mpControl, SIGNAL(trackUpdate()),
@@ -161,6 +168,7 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 
 PartymanMainWindow::~PartymanMainWindow()
 {
+   cpMainWindow = 0;
    if( mpTreeUpdate->isRunning() )
    {
       mpTreeUpdate->cancel();
@@ -536,4 +544,17 @@ void PartymanMainWindow::savePlaylist()
 
    Settings::setValue( Settings::PartymanPlaylist, playlist );
    Settings::setValue( Settings::PartymanPlaylistAppend, QStringList() );
+}
+
+
+void PartymanMainWindow::setIconAndTitle( const QIcon &icon, const QString &title )
+{
+   if( !icon.isNull() && cpMainWindow )
+   {
+      cpMainWindow->setWindowIcon( icon );
+   }
+   if( !title.isNull() && cpMainWindow )
+   {
+      cpMainWindow->setWindowTitle( title );
+   }
 }

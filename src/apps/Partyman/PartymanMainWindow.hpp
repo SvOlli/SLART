@@ -27,12 +27,12 @@ class QPushButton;
 class QTextBrowser;
 
 /* forward declaration of local classes */
-class PartymanConfigDialog;
 class ControlWidget;
 class Database;
 class FileSysTreeModel;
 class FileSysTreeUpdate;
 class FileSysTreeView;
+class PartymanConfigDialog;
 class PlaylistControlWidget;
 class PlaylistContentWidget;
 class SearchTrackWidget;
@@ -98,6 +98,14 @@ public:
     \param trackInfo
    */
    void setTrackInfo( const TrackInfo &trackInfo );
+
+   /*!
+    \brief set icon and/or title of all main windows (usually just one)
+
+    \param icon icon to set (if not to be set, pass null QIcon())
+    \param title icon to set (if not to be set, pass null QString())
+   */
+   static void setIconAndTitle( const QIcon &icon, const QString &title );
 
 public slots:
    /*!
@@ -242,7 +250,7 @@ private:
                            const QString &label, const QKeySequence &shortCutKey );
 
    bool                    mProhibitCloseWindow; /*!< \brief flag to store of close is prohibited */
-   int                     mForbidMove;
+   int                     mForbidMove; /*!< \brief \todo TODO */
    Database                *mpDatabase; /*!< \brief database instance */
    PartymanConfigDialog    *mpConfig; /*!< \brief configuration dialog */
    PlaylistContentWidget   *mpPlaylistContent; /*!< \brief playlist widget */
@@ -257,6 +265,8 @@ private:
    QDockWidget             *mpDockTreeView; /*!< \brief dock containing database tree */
    QString                 mCurrentFile; /*!< \brief helper to store current track */
    QString                 mNextFile; /*!< \brief helper to store upcoming track */
+
+   static PartymanMainWindow  *cpMainWindow; /*!< \brief handle for setIconAndTitle() */
 };
 
 /*! @} */

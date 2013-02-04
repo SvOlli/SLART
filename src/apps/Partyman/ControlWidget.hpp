@@ -182,11 +182,6 @@ public slots:
 
 signals:
    /*!
-    \brief request a new icon and title
-
-   */
-   void requestChangeTitle( const QIcon &icon, const QString &title );
-   /*!
     \brief request for adding file to playlist (used for unload)
 
    */
