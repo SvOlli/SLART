@@ -89,6 +89,57 @@ public:
    */
    void removeStation( const QString &name );
 
+   /*!
+    \brief name of station
+   */
+   Q_PROPERTY( QString station
+               READ station
+               WRITE setStation )
+   /*!
+    \brief return name of station
+
+    \return QString
+   */
+   QString station() const;
+
+   /*!
+    \brief url of station
+   */
+   Q_PROPERTY( QString url
+               READ url
+               WRITE setUrl )
+   /*!
+    \brief return url of station
+
+    \return QString
+   */
+   QString url() const;
+
+   /*!
+    \brief player used for station
+   */
+   Q_PROPERTY( QString player
+               READ player
+               WRITE setPlayer )
+   /*!
+    \brief return player identification string
+
+    \return QString
+   */
+   QString player() const;
+
+   /*!
+    \brief has station list changed? (will be reset after read)
+   */
+   Q_PROPERTY( bool stationListChanged
+               READ stationListChanged )
+   /*!
+    \brief read if station list changed (will reset after read)
+
+    \return bool
+   */
+   bool stationListChanged();
+
 public slots:
    /*!
     \brief set the currently used station
@@ -116,25 +167,6 @@ public slots:
    */
    void save();
 
-signals:
-   /*!
-    \brief emitted by setStation to output url of current station
-
-    \param text
-   */
-   void url( const QString &text );
-   /*!
-    \brief emitted by setStation to output player of current station
-
-    \param text
-   */
-   void player( const QString &text );
-   /*!
-    \brief emitted by setStation when the station list has changed
-
-   */
-   void stationListChanged();
-
 private:
    Q_DISABLE_COPY( StationStorage )
 
@@ -142,9 +174,9 @@ private:
    QTimer            *mpTimer; /*!< \brief timer to delay writing to settings */
    bool              mListChanged; /*!< \brief marker if stationListChanged needs to be emitted */
    const QString     mPrefix; /*!< \brief prefix ("subdirectory") of stations in settings */
-   QString           mStation; /*!< \brief name of current station */
-   QString           mUrl; /*!< \brief url of current station */
-   QString           mPlayer; /*!< \brief player of current station */
+   QString           mStation; /*!< \brief name of current \ref station */
+   QString           mUrl; /*!< \brief \ref url of current station */
+   QString           mPlayer; /*!< \brief \ref player of current station */
 };
 
 /*! @} */

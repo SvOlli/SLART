@@ -68,6 +68,12 @@ QStringList StationStorage::playerList() const
 }
 
 
+QString StationStorage::station() const
+{
+   return mStation;
+}
+
+
 void StationStorage::setStation( const QString &name )
 {
    const QString data( mpSettings->value( mPrefix.arg(name) ).toString() );
@@ -82,13 +88,12 @@ void StationStorage::setStation( const QString &name )
    {
       mUrl.clear();
    }
-   if( mListChanged )
-   {
-      mListChanged = false;
-      emit stationListChanged();
-   }
-   emit player( mPlayer );
-   emit url( mUrl );
+}
+
+
+QString StationStorage::player() const
+{
+   return mPlayer;
 }
 
 
@@ -99,10 +104,24 @@ void StationStorage::setPlayer( const QString &text )
 }
 
 
+QString StationStorage::url() const
+{
+   return mUrl;
+}
+
+
 void StationStorage::setUrl( const QString &text )
 {
    mUrl = text;
    mpTimer->start();
+}
+
+
+bool StationStorage::stationListChanged()
+{
+   bool retval = mListChanged;
+   mListChanged = false;
+   return retval;
 }
 
 

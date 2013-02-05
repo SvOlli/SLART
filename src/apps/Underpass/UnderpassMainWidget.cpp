@@ -94,23 +94,21 @@ UnderpassMainWidget::UnderpassMainWidget( QWidget *parent, Qt::WindowFlags flags
    connect( mpConfig, SIGNAL(configChanged()),
             this, SLOT(readConfig()) );
    connect( mpStation, SIGNAL(currentIndexChanged(QString)),
-            this, SLOT(handleStationChange(QString)), Qt::QueuedConnection );
+            this, SLOT(handleStationChange(QString)) );
    connect( mpAddStationButton, SIGNAL(clicked()),
             this, SLOT(addStation()) );
    connect( mpStartButton, SIGNAL(clicked(bool)),
             this, SLOT(startProcess(bool)) );
    connect( mpProcess, SIGNAL(readyReadStandardError()),
             this, SLOT(readProcessOutput()) );
+   connect( mpProcess, SIGNAL(error(QProcess::ProcessError)),
+            this, SLOT(processError(QProcess::ProcessError)) );
+   connect( mpProcess, SIGNAL(finished(int,QProcess::ExitStatus)),
+            this, SLOT(processFinished(int,QProcess::ExitStatus)) );
    connect( mpUrl, SIGNAL(textChanged(QString)),
             mpStorage, SLOT(setUrl(QString)), Qt::QueuedConnection );
    connect( mpPlayer, SIGNAL(currentIndexChanged(QString)),
             mpStorage, SLOT(setPlayer(QString)), Qt::QueuedConnection );
-   connect( mpStorage, SIGNAL(url(QString)),
-            mpUrl, SLOT(setText(QString)), Qt::QueuedConnection );
-   connect( mpStorage, SIGNAL(player(QString)),
-            this, SLOT(setPlayerText(QString)), Qt::QueuedConnection );
-   connect( mpStorage, SIGNAL(stationListChanged()),
-            this, SLOT(updateStationList()), Qt::QueuedConnection );
 
    readConfig();
 
@@ -132,7 +130,7 @@ UnderpassMainWidget::UnderpassMainWidget( QWidget *parent, Qt::WindowFlags flags
    if( index >= 0 )
    {
       mpStation->setCurrentIndex( index );
-      mpStorage->setStation( lastStation );
+      handleStationChange( lastStation );
    }
    WidgetShot::addWidget( "Main", this );
 }
@@ -196,6 +194,12 @@ void UnderpassMainWidget::handleStationChange( const QString &name )
       mLastStation = name;
    }
    mpStorage->setStation( name );
+   mpUrl->setText( mpStorage->url() );
+   setComboBoxByValue( mpPlayer, mpStorage->player() );
+   if( mpStorage->stationListChanged() )
+   {
+      updateStationList();
+   }
    if( mpStartButton->isChecked() )
    {
       startProcess( false );
@@ -218,7 +222,7 @@ void UnderpassMainWidget::updateStationList()
 void UnderpassMainWidget::addStation()
 {
    bool ok;
-   QString text = QInputDialog::getText( this, QString( tr("Add Station:") ),
+   QString text = QInputDialog::getText( this, tr("Add Station:"),
                                          tr("Add Station:"),
                                          QLineEdit::Normal, QString(), &ok );
    if( ok && !text.isEmpty() )
@@ -248,6 +252,7 @@ void UnderpassMainWidget::startProcess( bool start )
       QStringList args;
 #if 1
       args << "-v" << mpUrl->text();
+      systemMessage( QString("%1 %2").arg(mpPlayer->currentText(),args.join(" ")) );
       mpProcess->start( mpPlayer->currentText(), args );
 #else
       args << "-c" << mpPlayer->currentText() + " -v " + mpUrl->text();
@@ -258,6 +263,15 @@ void UnderpassMainWidget::startProcess( bool start )
    {
       mpProcess->terminate();
    }
+}
+
+
+void UnderpassMainWidget::systemMessage( const QString &text )
+{
+   QListWidgetItem *item = new QListWidgetItem( text, mpMessageBuffer );
+   item->setBackground( QBrush( mpMessageBuffer->palette().color( QPalette::AlternateBase ) ) );
+   mpMessageBuffer->addItem( item );
+   mpMessageBuffer->scrollToBottom();
 }
 
 
@@ -273,14 +287,19 @@ void UnderpassMainWidget::readProcessOutput()
       {
          if( mDeleteLastLine )
          {
-            item = mpMessageBuffer->takeItem( mpMessageBuffer->count() - 1 );
-            if( item )
+            for( int i = 1; (item = mpMessageBuffer->item( mpMessageBuffer->count() - i )) ; ++i )
             {
-               delete item;
-               item = 0;
+               if( item->background() != QBrush( mpMessageBuffer->palette().color( QPalette::AlternateBase ) ) )
+               {
+                  item->setText( mLineBuffer );
+                  break;
+               }
             }
          }
-         mpMessageBuffer->addItem( mLineBuffer );
+         else
+         {
+            mpMessageBuffer->addItem( mLineBuffer );
+         }
          while( mpMessageBuffer->count() > Settings::value( Settings::UnderpassBufferSize ) )
          {
             item = mpMessageBuffer->takeItem( 0 );
@@ -299,7 +318,7 @@ void UnderpassMainWidget::readProcessOutput()
       }
       else if( c == '\t' )
       {
-         mLineBuffer += QString(' ').repeated( 8 );
+         mLineBuffer += QString(' ').repeated( 8 - mLineBuffer.size() % 8 );
       }
       else if( !c || (c >= ' ') )
       {
@@ -349,5 +368,22 @@ void UnderpassMainWidget::setComboBoxByValue( QComboBox *comboBox, const QString
    if( index >= 0 )
    {
       comboBox->setCurrentIndex( index );
+   }
+}
+
+
+void UnderpassMainWidget::processError( QProcess::ProcessError error )
+{
+   if( error == QProcess::FailedToStart )
+   {
+      systemMessage( tr("process failed to start, programm missing?") );
+      startProcess( false );
+   }
+   else
+   {
+      if( mpStartButton->isChecked() )
+      {
+         QTimer::singleShot( 0, this, SLOT(startProcess()) );
+      }
    }
 }

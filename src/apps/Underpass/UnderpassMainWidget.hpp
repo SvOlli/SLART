@@ -13,7 +13,9 @@
 #include <QWidget>
 
 /* system headers */
+
 /* Qt headers */
+#include <QProcess>
 #include <QStringList>
 
 /* local library headers */
@@ -23,7 +25,6 @@
 /* forward declaration of Qt classes */
 class QComboBox;
 class QIcon;
-class QProcess;
 class QPushButton;
 class QLineEdit;
 class QListWidget;
@@ -68,7 +69,7 @@ public slots:
    */
    void handleSatellite( const QByteArray &msg );
 
-   void handleStationChange(const QString &name);
+   void handleStationChange( const QString &name );
 
    void addStation();
 
@@ -79,6 +80,10 @@ public slots:
    void setPlayerText( const QString &text );
 
    void updateStationList();
+
+   void systemMessage( const QString &text );
+
+   void processError( QProcess::ProcessError error );
 
 private slots:
 
