@@ -47,7 +47,7 @@ UnderpassMainWidget::UnderpassMainWidget( QWidget *parent, Qt::WindowFlags flags
 , mpConfig( new UnderpassConfigDialog( mpStorage, this ) )
 , mpProcess( new QProcess( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
-, mpAddStationButton( new QPushButton( tr("Add"), this ) )
+, mpAddStationButton( new QPushButton( QCommonStyle().standardIcon(QStyle::SP_FileIcon), tr("Add"), this ) )
 , mpStartButton( new QPushButton( QCommonStyle().standardIcon(QStyle::SP_MediaPlay), tr("Start"), this ) )
 , mpStation( new QComboBox( this ) )
 , mpUrl( new QLineEdit( this ) )
@@ -345,6 +345,8 @@ void UnderpassMainWidget::dropEvent( QDropEvent *event )
 #if 0
    mpDropDialog->dropEvent( event );
    mpDropDialog->show();
+#else
+   Q_UNUSED( event )
 #endif
 }
 
@@ -383,7 +385,13 @@ void UnderpassMainWidget::processError( QProcess::ProcessError error )
    {
       if( mpStartButton->isChecked() )
       {
-         QTimer::singleShot( 0, this, SLOT(startProcess()) );
+         QTimer::singleShot( 100, this, SLOT(startProcess()) );
       }
    }
+}
+
+
+void UnderpassMainWidget::processFinished( int /*exitCode*/, QProcess::ExitStatus /*status*/ )
+{
+   startProcess( false );
 }

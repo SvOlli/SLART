@@ -85,6 +85,8 @@ public slots:
 
    void processError( QProcess::ProcessError error );
 
+   void processFinished( int exitCode, QProcess::ExitStatus status );
+
 private slots:
 
 protected:

@@ -141,7 +141,7 @@ void StationStorage::addStation( const QString &name,
 
 void StationStorage::removeStation( const QString &name )
 {
-   mpSettings->remove( mPrefix.arg(mStation) );
+   mpSettings->remove( mPrefix.arg(name) );
    mListChanged = true;
 }
 
