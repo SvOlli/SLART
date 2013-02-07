@@ -29,18 +29,6 @@
 #include "RubberbandmanMainWidget.hpp"
 
 
-/*!
- \addtogroup Rubberbandman
-
- @{
- \brief
-
- \param argc
- \param argv
-
- \dotfile "graphs/apps/Rubberbandman/Application_connect.dot" "Connect Graph"
- @}
- */
 int main(int argc, char *argv[])
 {
    int retval = 0;

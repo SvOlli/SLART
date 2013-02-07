@@ -107,6 +107,7 @@ private:
    Q_DISABLE_COPY( RubberbandmanConfigDialog )
 
    GlobalConfigWidget   *mpGlobalConfigWidget; /*!< \brief \todo complete documentation */
+   QCheckBox            *mpAutoRename; /*!< \brief automatically renaming files */
    QCheckBox            *mpAutoRescan; /*!< \brief \todo complete documentation */
    QLabel               *mpWithTrackNrLabel; /*!< \brief \todo complete documentation */
    QLineEdit            *mpWithTrackNr; /*!< \brief \todo complete documentation */

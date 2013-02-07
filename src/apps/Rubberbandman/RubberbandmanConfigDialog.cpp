@@ -26,6 +26,7 @@
 RubberbandmanConfigDialog::RubberbandmanConfigDialog( QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
+, mpAutoRename( new QCheckBox( tr("Rename Files To Match Pattern"), this ) )
 , mpAutoRescan( new QCheckBox( tr("Rescan After Filesystem Operation"), this ) )
 , mpWithTrackNrLabel( new QLabel( tr("Pattern For Rename\nWith Track Nr"), this ) )
 , mpWithTrackNr( new QLineEdit( this ) )
@@ -66,17 +67,18 @@ RubberbandmanConfigDialog::RubberbandmanConfigDialog( QWidget *parent, Qt::Windo
 
    QWidget     *rbmTab    = new QWidget( this );
    QGridLayout *rbmLayout = new QGridLayout( rbmTab );
-   rbmLayout->addWidget( mpAutoRescan, 0, 0, 1, 2 );
-   rbmLayout->addWidget( mpWithTrackNrLabel, 1, 0, 2, 1 );
-   rbmLayout->addWidget( mpWithTrackNr, 1, 1 );
-   rbmLayout->addWidget( mpWithTrackNrExample, 2, 1 );
-   rbmLayout->addWidget( mpWithoutTrackNrLabel, 3, 0, 2, 1 );
-   rbmLayout->addWidget( mpWithoutTrackNr, 3, 1 );
-   rbmLayout->addWidget( mpWithoutTrackNrExample, 4, 1 );
-   rbmLayout->addWidget( mpPlayingPatternLabel, 5, 0, 2, 1 );
-   rbmLayout->addWidget( mpPlayingPattern, 5, 1 );
-   rbmLayout->addWidget( mpPlayingPatternExample, 6, 1 );
-   rbmLayout->setRowStretch( 7, 1 );
+   rbmLayout->addWidget( mpAutoRename,             0, 0, 1, 2 );
+   rbmLayout->addWidget( mpAutoRescan,             1, 0, 1, 2 );
+   rbmLayout->addWidget( mpWithTrackNrLabel,       2, 0, 2, 1 );
+   rbmLayout->addWidget( mpWithTrackNr,            2, 1 );
+   rbmLayout->addWidget( mpWithTrackNrExample,     3, 1 );
+   rbmLayout->addWidget( mpWithoutTrackNrLabel,    4, 0, 2, 1 );
+   rbmLayout->addWidget( mpWithoutTrackNr,         4, 1 );
+   rbmLayout->addWidget( mpWithoutTrackNrExample,  5, 1 );
+   rbmLayout->addWidget( mpPlayingPatternLabel,    6, 0, 2, 1 );
+   rbmLayout->addWidget( mpPlayingPattern,         6, 1 );
+   rbmLayout->addWidget( mpPlayingPatternExample,  7, 1 );
+   rbmLayout->setRowStretch( 8, 1 );
    rbmTab->setLayout( rbmLayout );
 
    QHBoxLayout *buttonLayout = new QHBoxLayout;
@@ -108,7 +110,15 @@ RubberbandmanConfigDialog::RubberbandmanConfigDialog( QWidget *parent, Qt::Windo
             this, SLOT(updateWithoutTrackNr(QString)) );
    connect( mpPlayingPattern, SIGNAL(textChanged(QString)),
             this, SLOT(updatePlayingPattern(QString)) );
+   connect( mpAutoRename, SIGNAL(toggled(bool)),
+            mpAutoRescan, SLOT(setEnabled(bool)) );
+   connect( mpAutoRename, SIGNAL(toggled(bool)),
+            mpWithoutTrackNr, SLOT(setEnabled(bool)) );
+   connect( mpAutoRename, SIGNAL(toggled(bool)),
+            mpWithTrackNr, SLOT(setEnabled(bool)) );
 
+   // workaround to make sure that slots are called
+   mpAutoRename->setChecked( true );
    readSettings();
 
    WidgetShot::addWidget( "Config", this );
@@ -129,6 +139,7 @@ void RubberbandmanConfigDialog::exec()
 
 void RubberbandmanConfigDialog::readSettings()
 {
+   mpAutoRename->setChecked( Settings::value( Settings::RubberbandmanAutoRename ) );
    mpAutoRescan->setChecked( Settings::value( Settings::RubberbandmanAutoRescan ) );
    mpWithTrackNr->setText( Settings::value( Settings::RubberbandmanWithTrackNr ) );
    mpWithoutTrackNr->setText( Settings::value( Settings::RubberbandmanWithoutTrackNr ) );
@@ -142,6 +153,7 @@ void RubberbandmanConfigDialog::readSettings()
 
 void RubberbandmanConfigDialog::writeSettings()
 {
+   Settings::setValue( Settings::RubberbandmanAutoRename, mpAutoRename->isChecked() );
    Settings::setValue( Settings::RubberbandmanAutoRescan, mpAutoRescan->isChecked() );
    Settings::setValue( Settings::RubberbandmanWithTrackNr, mpWithTrackNr->text() );
    Settings::setValue( Settings::RubberbandmanWithoutTrackNr, mpWithoutTrackNr->text() );

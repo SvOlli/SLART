@@ -286,8 +286,15 @@ void RecurseWorker::updateTrackInfo( const TrackInfo &trackInfo )
                                          mPatternWithTrackNr ) );
    QFileInfo qfi( oldpath );
    QString newpath( qfi.absolutePath() + "/" + newname + "." + qfi.suffix().toLower() );
+   if( Settings::value( Settings::RubberbandmanAutoRename ) )
+   {
+      ti.mFileName = newname + "." + qfi.suffix().toLower();
+   }
+   else
+   {
+      newpath = oldpath;
+   }
    QString tmppath( qfi.absolutePath() + "/" + newname + ".rbm." + qfi.suffix().toLower() );
-   ti.mFileName = newname + "." + qfi.suffix().toLower();
    mpDatabase->updateTrackInfo( ti );
 
    if( tagsChanged )
