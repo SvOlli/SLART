@@ -1387,6 +1387,9 @@ void Settings::setValue( RubberbandmanBool id, bool value )
    QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
+   case RubberbandmanAutoRename:
+      settings->setValue( "AutoRename", value );
+      return;
    case RubberbandmanAutoRescan:
       settings->setValue( "AutoRescan", value );
       return;
@@ -1401,6 +1404,8 @@ bool Settings::value( RubberbandmanBool id )
    QSettings *settings = cpSettings->get( "Rubberbandman" );
    switch( id )
    {
+   case RubberbandmanAutoRename:
+      return settings->value( "AutoRename", true ).toBool();
    case RubberbandmanAutoRescan:
       return settings->value( "AutoRescan", true ).toBool();
    default:

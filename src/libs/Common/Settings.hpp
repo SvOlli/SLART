@@ -464,6 +464,7 @@ public:
     */
    enum RubberbandmanBool
    {
+      RubberbandmanAutoRename,
       RubberbandmanAutoRescan
    };
    /*!
