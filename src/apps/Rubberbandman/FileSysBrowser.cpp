@@ -254,7 +254,7 @@ void FileSysBrowser::menuMove( bool contentOnly )
       }
       else
       {
-         QFile::rename( mFileInfo.fileName(), dest );
+         QFile::rename( mFileInfo.absoluteFilePath(), dest );
       }
 
       if( Settings::value( Settings::RubberbandmanAutoRescan ) )

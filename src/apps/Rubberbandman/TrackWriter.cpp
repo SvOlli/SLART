@@ -101,7 +101,7 @@ void TrackWriter::write( const TrackInfo &trackInfo )
    }
    newName.append( trackInfo.mFileName.mid( trackInfo.mFileName.lastIndexOf('.') ) );
    TrackInfo ti( trackInfo );
-   if( !Settings::value( Settings::RubberbandmanAutoRename ) && (newName != trackInfo.mFileName) )
+   if( Settings::value( Settings::RubberbandmanAutoRename ) && (newName != trackInfo.mFileName) )
    {
       QFile::rename( trackInfo.mDirectory + "/" + trackInfo.mFileName,
                      trackInfo.mDirectory + "/" + newName );
