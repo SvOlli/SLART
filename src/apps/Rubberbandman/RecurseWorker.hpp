@@ -91,6 +91,13 @@ signals:
 
    */
    void currentPath( const QString &path );
+   /*!
+    \brief send out if there are errors
+
+    \param message error message
+    \param fileName name of file the error occured on
+    */
+   void error( const QString &message, const QString &fileName );
 
 private:
    Q_DISABLE_COPY( RecurseWorker )

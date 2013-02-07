@@ -185,18 +185,31 @@ void RecurseWorker::updateTrackInfo( const TrackInfo &trackInfo )
       if( f.file() )
       {
          oldTags = trackInfo;
-         if( f.audioProperties() )
-         {
-            oldTags.mPlayTime = f.audioProperties()->length();
-         }
 
-         oldTags.mArtist  = QString::fromUtf8( f.tag()->artist().toCString( true ) );
-         oldTags.mTitle   = QString::fromUtf8( f.tag()->title().toCString( true ) );
-         oldTags.mAlbum   = QString::fromUtf8( f.tag()->album().toCString( true ) );
-         oldTags.mTrackNr = f.tag()->track();
-         oldTags.mYear    = f.tag()->year();
-         oldTags.mGenre   = QString::fromUtf8( f.tag()->genre().toCString( true ) );
+         TagLib::AudioProperties *audioProperties = f.audioProperties();
+         TagLib::Tag *tag = f.tag();
+         if( audioProperties )
+         {
+            oldTags.mPlayTime = audioProperties->length();
+         }
+         if( tag )
+         {
+            oldTags.mArtist  = QString::fromUtf8( tag->artist().toCString( true ) );
+            oldTags.mTitle   = QString::fromUtf8( tag->title().toCString( true ) );
+            oldTags.mAlbum   = QString::fromUtf8( tag->album().toCString( true ) );
+            oldTags.mTrackNr = tag->track();
+            oldTags.mYear    = tag->year();
+            oldTags.mGenre   = QString::fromUtf8( tag->genre().toCString( true ) );
+         }
+         else
+         {
+            emit error( tr("Could not read tags"), oldpath );
+         }
          ti = oldTags;
+      }
+      else
+      {
+         emit error( tr("Could not read file"), oldpath );
       }
    }
 
@@ -303,12 +316,20 @@ void RecurseWorker::updateTrackInfo( const TrackInfo &trackInfo )
       if( qf.copy( tmppath ) )
       {
          TagLib::FileRef f( tmppath.toLocal8Bit().data() );
-         f.tag()->setArtist( TagLib::String( ti.mArtist.toUtf8().data(), TagLib::String::UTF8 ) );
-         f.tag()->setTitle( TagLib::String( ti.mTitle.toUtf8().data(), TagLib::String::UTF8 ) );
-         f.tag()->setAlbum( TagLib::String( ti.mAlbum.toUtf8().data(), TagLib::String::UTF8 ) );
-         f.tag()->setTrack( ti.mTrackNr );
-         f.tag()->setYear( ti.mYear );
-         f.tag()->setGenre( TagLib::String( ti.mGenre.toUtf8().data(), TagLib::String::UTF8 ) );
+         TagLib::Tag *tag = f.tag();
+         if( tag )
+         {
+            tag->setArtist( TagLib::String( ti.mArtist.toUtf8().data(), TagLib::String::UTF8 ) );
+            tag->setTitle( TagLib::String( ti.mTitle.toUtf8().data(), TagLib::String::UTF8 ) );
+            tag->setAlbum( TagLib::String( ti.mAlbum.toUtf8().data(), TagLib::String::UTF8 ) );
+            tag->setTrack( ti.mTrackNr );
+            tag->setYear( ti.mYear );
+            tag->setGenre( TagLib::String( ti.mGenre.toUtf8().data(), TagLib::String::UTF8 ) );
+         }
+         else
+         {
+            emit error( tr("Could not read tags"), tmppath );
+         }
          f.save();
          QFile( oldpath ).remove();
          QFile::rename( tmppath, newpath );
