@@ -30,6 +30,7 @@
 #include <Satellite.hpp>
 #include <ScrollLine.hpp>
 #include <TrackInfoWidget.hpp>
+#include <WindowIconChanger.hpp>
 #include <WidgetShot.hpp>
 
 /* local headers */
@@ -143,6 +144,8 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
                this, SLOT(handleSatellite(QByteArray)) );
       mpDatabase->registerUpdate( mpSatellite, "k0u" );
    }
+   WindowIconChanger *wic = new WindowIconChanger( parent, QIcon(":/Common/DatabaseUp.png"), this );
+   DatabaseInterface::get()->connectActivityIndicator( wic, SLOT(changed(bool)) );
 }
 
 
