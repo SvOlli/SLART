@@ -23,7 +23,7 @@ FileSysTreeView::FileSysTreeView( QWidget *parent )
 : QTreeView( parent )
 {
    setSelectionMode( QAbstractItemView::NoSelection );
-   setIndentation( 8 );
+   setIndentation( indentation() / 2 );
    setMouseTracking( true );
    setUniformRowHeights ( true );
    connect(this, SIGNAL(entered(QModelIndex)),
