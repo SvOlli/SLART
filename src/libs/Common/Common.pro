@@ -7,9 +7,11 @@
 TARGET = Common
 TEMPLATE = lib
 CONFIG += qt staticlib
-QT += sql network lua
+QT += sql network
 
 include( ../../buildconfig.pri )
+include( $${TOPSRC}/lua-5.1.pri )
+include( $${TOPSRC}/gio-2.0.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Satellite
 
@@ -55,6 +57,9 @@ SOURCES += GenericSatelliteHandler.cpp
 
 HEADERS += GlobalConfigWidget.hpp
 SOURCES += GlobalConfigWidget.cpp
+
+HEADERS += GSettingsWrapper.hpp
+SOURCES += GSettingsWrapper.cpp
 
 HEADERS += ImageWidget.hpp
 SOURCES += ImageWidget.cpp

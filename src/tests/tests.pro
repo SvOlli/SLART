@@ -10,6 +10,7 @@ SUBDIRS += TestAppCodeEditor
 SUBDIRS += TestAppCommandLine
 #SUBDIRS += TestAppDatabaseBrowser
 SUBDIRS += TestAppDragAndDrop
+SUBDIRS += TestAppGSettings
 SUBDIRS += TestAppIconView
 SUBDIRS += TestAppSatellite
 SUBDIRS += TestAppWebServer
