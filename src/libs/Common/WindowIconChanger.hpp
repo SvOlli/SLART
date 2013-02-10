@@ -104,10 +104,10 @@ private slots:
 private:
    Q_DISABLE_COPY( WindowIconChanger )
 
-   QWidget     *mpWidget;
-   QTimer      *mpTimer;
-   QIcon       mNewIcon;
-   QIcon       mOldIcon;
+   QWidget     *mpWidget; /*! \brief widget to change icon */
+   QTimer      *mpTimer; /* \brief timer to delay change back */
+   QIcon       mNewIcon; /* \brief the icon to set upon changed(true) */
+   QIcon       mOldIcon; /* \brief the icon to set upon changed(false) */
 };
 
 /*! @} */

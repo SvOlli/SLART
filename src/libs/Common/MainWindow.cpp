@@ -15,7 +15,7 @@
 #include "Trace.hpp"
 
 
-MainWindow *MainWindow::cpMainWindow;
+MainWindow *MainWindow::cpMainWindow = 0;
 
 
 MainWindow::MainWindow( bool saveWindow, QWidget *parent, Qt::WindowFlags flags )

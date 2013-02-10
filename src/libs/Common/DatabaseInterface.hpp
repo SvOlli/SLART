@@ -274,7 +274,16 @@ public:
               const QVariant &payload = QVariant() );
 
 private:
+   /*!
+    \brief constructor
+
+    \param fileName database file name
+   */
    DatabaseInterface( const QString &fileName = QString() );
+   /*!
+    \brief destructor
+
+   */
    virtual ~DatabaseInterface();
 
    Q_DISABLE_COPY( DatabaseInterface )

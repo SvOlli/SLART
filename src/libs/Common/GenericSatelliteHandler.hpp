@@ -34,7 +34,7 @@ class Satellite;
 */
 
 /*!
- \brief \todo complete documentation
+ \brief generic handler for \ref Satellite
 
  \dotfile "graphs/libs/Common/GenericSatelliteHandler_connect.dot" "Connect Graph"
 */

@@ -193,10 +193,10 @@ protected:
    QAction           *mpToggleEnableAction;/*!< \brief \todo complete documentation */
    bool              mEnqueue;/*!< \brief \todo complete documentation */
    bool              mDirOverride;/*!< \brief \todo complete documentation */
+   const QString     mName;/*!< \brief \todo complete documentation */
    QString           mDirectory;/*!< \brief \todo complete documentation */
    QString           mPluginFileName;/*!< \brief \todo complete documentation */
    QString           mMsgHeader;/*!< \brief \todo complete documentation */
-   const QString     mName;/*!< \brief \todo complete documentation */
    QFile             mFile;/*!< \brief \todo complete documentation */
    TagMap            mTagMap; /*!< \brief tags to insert in encoded file */
 

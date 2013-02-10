@@ -2,4 +2,7 @@
     <qresource prefix="/Rubberbandman">
         <file alias="Icon.png">icons/Rubberbandman.png</file>
     </qresource>
+    <qresource prefix="/Common">
+        <file alias="DatabaseUp.png">icons/Common/Database-Upload-icon.png</file>
+    </qresource>
 </RCC>

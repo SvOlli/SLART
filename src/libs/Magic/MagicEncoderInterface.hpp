@@ -29,7 +29,6 @@ class QThread;
 class MagicEncoder;
 class MagicEncoderConfig;
 class MagicEncoderProxy;
-class Satellite;
 class ScrollLine;
 
 

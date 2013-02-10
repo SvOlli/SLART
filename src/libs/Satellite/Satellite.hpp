@@ -40,7 +40,7 @@ class SatelliteServer;
 /*!
   \addtogroup Satellite Satellite: interprocess communication
 
-  \brief part of \ref Common
+  \brief \todo
   @{
   */
 

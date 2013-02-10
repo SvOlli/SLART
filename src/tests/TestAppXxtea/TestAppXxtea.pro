@@ -1,5 +1,5 @@
 ######################################################################
-# src/tests/TestAppWebServer/TestAppWebServer.pro
+# src/tests/TestAppXxtea/TestAppXxtea.pro
 # hand hacked by SvOlli
 # released as public domain
 ######################################################################

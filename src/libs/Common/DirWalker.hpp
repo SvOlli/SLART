@@ -28,19 +28,15 @@ class QString;
 
 
 /*!
-    \brief interface to provide callbacks
-
-   */
-/*!
   \addtogroup Common
 
   @{
 */
 
 /*!
- \brief \todo complete documentation
+  \brief interface to provide callbacks
 
-*/
+ */
 class DirWalkerCallbacks
 {
 public:

@@ -54,7 +54,6 @@ signals:
    void response( QTcpSocket *id,
                   const QHttpResponseHeader &header,
                   const QByteArray &data );
-   void requestChangeTitle( const QIcon &icon, const QString &title );
 
 private:
    Q_DISABLE_COPY( MainWidget )

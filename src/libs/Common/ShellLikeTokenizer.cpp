@@ -28,6 +28,7 @@ ShellLikeTokenizer::ShellLikeTokenizer()
 {
 }
 
+
 ShellLikeTokenizer::ShellLikeTokenizer( const QString &input )
 : mIsDirty( true )
 , mIsValid( false )
@@ -36,14 +37,15 @@ ShellLikeTokenizer::ShellLikeTokenizer( const QString &input )
 {
 }
 
+
 ShellLikeTokenizer::ShellLikeTokenizer( const ShellLikeTokenizer &that )
 : mIsDirty( that.mIsDirty )
 , mIsValid( that.mIsValid )
 , mInput( that.mInput )
 , mOutput( that.mOutput )
 {
-
 }
+
 
 ShellLikeTokenizer &ShellLikeTokenizer::operator=( const ShellLikeTokenizer &that )
 {

@@ -28,19 +28,7 @@
 #include "ImportFolder.hpp"
 #include "KarmadromeMainWidget.hpp"
 
-/*!
- \addtogroup Karmadrome
 
- @{
- \brief main routine
-
- \param argc number of arguments
- \param argv arguments list
-
- \dotfile "graphs/apps/Karmadrome/KarmadromeApplication_connect.dot" "Connect Graph"
-
- @}
- */
 int main(int argc, char *argv[])
 {
    int retval = 0;
