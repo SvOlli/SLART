@@ -23,6 +23,7 @@
 #include <DatabaseInterface.hpp>
 #include <ProxyWidget.hpp>
 #include <Settings.hpp>
+#include <WindowIconChanger.hpp>
 #include "../../apps/Innuendo/SatelliteConfigWidget.hpp"
 #include "../../apps/Rubberbandman/DatabaseWidget.hpp"
 
@@ -104,6 +105,8 @@ SorcererMainWidget::SorcererMainWidget( QWidget *parent, Qt::WindowFlags flags )
    connect( mpDatabaseWidget, SIGNAL(databaseUpdated()),
             this, SLOT(unlockDatabase()) );
    handleTabChange(0);
+   WindowIconChanger *wic = new WindowIconChanger( parent, QIcon(":/Common/DatabaseUp.png"), this );
+   DatabaseInterface::get()->connectActivityIndicator( wic, SLOT(changed(bool)) );
 
    setLayout( mainLayout );
 }
