@@ -6,9 +6,10 @@
 
 TARGET = TestAppCodeEditor
 TEMPLATE = app
-QT += sql network lua
+QT += sql network
 
 include( ../../buildconfig.pri )
+include( $${TOPSRC}/lua-5.1.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
