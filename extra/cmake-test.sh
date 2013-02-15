@@ -38,6 +38,7 @@ libs/TagLib \
 tests/TestAppCodeEditor \
 tests/TestAppCommandLine \
 tests/TestAppDragAndDrop \
+tests/TestAppFileSysCompleter \
 tests/TestAppGSettings \
 tests/TestAppIconView \
 tests/TestAppSatellite \
