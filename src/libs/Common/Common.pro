@@ -52,6 +52,9 @@ SOURCES += DirWalkerCallbackProxy.cpp
 HEADERS += DnDFileInfo.hpp
 SOURCES += DnDFileInfo.cpp
 
+HEADERS += FileIconProvider.hpp
+SOURCES += FileIconProvider.cpp
+
 HEADERS += GenericSatelliteHandler.hpp
 SOURCES += GenericSatelliteHandler.cpp
 
