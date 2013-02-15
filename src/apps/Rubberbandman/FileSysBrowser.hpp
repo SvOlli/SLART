@@ -24,7 +24,7 @@
 
 /* forward declaration of Qt classes */
 class QAction;
-class QDirModel;
+class QFileSystemModel;
 class QLineEdit;
 class QPushButton;
 class QModelIndex;
@@ -33,6 +33,7 @@ class QTreeView;
 
 /* forward declaration of local classes */
 class DatabaseInterface;
+class FileIconProvider;
 
 
 /*!
@@ -142,14 +143,14 @@ private:
    QLineEdit            *mpRootDir;
    QPushButton          *mpDotButton;
    QTreeView            *mpView;
-   QDirModel            *mpModel;
+   QFileSystemModel     *mpModel;
    QAction              *mpMenuSendToPartyman;
-   QAction              *mpMenuRescan;
    QAction              *mpMenuMoveFile;
    QAction              *mpMenuMoveDirectory;
    QAction              *mpMenuMoveContent;
    QAction              *mpMenuRename;
    QAction              *mpMenuDelete;
+   FileIconProvider     *mpFileIconProvider;
    QModelIndex          mContextModelIndex;
    QFileInfo            mFileInfo;
 };

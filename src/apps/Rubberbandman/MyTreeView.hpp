@@ -18,8 +18,7 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
-#include <QString>
+#include <QModelIndex>
 
 /* local library headers */
 #include <Database.hpp>
@@ -27,6 +26,11 @@
 #include <Satellite.hpp>
 
 /* local headers */
+
+/* forward declaration of Qt classes */
+class QTimer;
+
+/* forward declaration of local classes */
 
 
 /*!
@@ -57,12 +61,22 @@ public:
    */
    virtual ~MyTreeView();
 
+public slots:
+   /*!
+    \brief \todo
+
+   */
+   void scrollToActive();
+
 protected:
    /*!
     \brief handle return/enter key
 
    */
    virtual void keyPressEvent( QKeyEvent *event );
+
+private:
+   Q_DISABLE_COPY( MyTreeView )
 };
 
 /*! @} */

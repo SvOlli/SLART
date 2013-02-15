@@ -12,8 +12,26 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QAction>
+#include <QApplication>
+#include <QCompleter>
+#include <QDirModel>
+#include <QDragEnterEvent>
+#include <QFileDialog>
+#include <QFileSystemModel>
+#include <QHBoxLayout>
+#include <QHeaderView>
+#include <QInputDialog>
+#include <QLabel>
+#include <QLineEdit>
+#include <QMenu>
+#include <QMessageBox>
+#include <QMimeData>
+#include <QPushButton>
 #include <QString>
+#include <QTimer>
+#include <QUrl>
+#include <QVBoxLayout>
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
@@ -24,6 +42,7 @@
 /* local headers */
 #include "DirWalkerDelete.hpp"
 #include "DirWalkerMove.hpp"
+#include "FileIconProvider.hpp"
 #include "MyTreeView.hpp"
 
 
@@ -33,32 +52,50 @@ FileSysBrowser::FileSysBrowser( QWidget *parent )
 , mpRootDir( new QLineEdit( this ) )
 , mpDotButton( new QPushButton( "...", this ) )
 , mpView( new MyTreeView( this ) )
-, mpModel( new QDirModel( this ) )
+, mpModel( new QFileSystemModel( this ) )
 , mpMenuSendToPartyman( new QAction( tr("Send To Partyman"), this ) )
-, mpMenuRescan( new QAction( tr("Rescan"), this ) )
 , mpMenuMoveFile( new QAction( tr("Move"), this ) )
 , mpMenuMoveDirectory( new QAction( tr("Move Directory"), this ) )
 , mpMenuMoveContent( new QAction( tr("Move Content"), this ) )
 , mpMenuRename( new QAction( tr("Rename"), this ) )
 , mpMenuDelete( new QAction( tr("Delete"), this ) )
+, mpFileIconProvider( new FileIconProvider() )
 , mContextModelIndex()
 , mFileInfo()
 {
+   const QString rootDir( Settings::value( Settings::RubberbandmanRootDirectory ) );
    QCompleter *completer = new QCompleter( this );
+
+#if 1
+   // \todo: migrate QDirModel to QFileSystemModel
    completer->setModel( new QDirModel( QStringList(),
                                        QDir::NoDotAndDotDot | QDir::AllDirs,
                                        QDir::Name,
                                        completer ) );
-   mpRootDir->setCompleter( completer );
+#else
+   // this sucks! QFileSystemModel seems not be up to the job
+   QFileSystemModel *dirsModel = new QFileSystemModel( completer );
+   dirsModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs );
+   for( int i = 1; i >= 0; i = rootDir.indexOf( "/", i + 1 ) )
+   {
+      dirsModel->setRootPath( rootDir.left( i ) );
+   }
+   dirsModel->setRootPath( rootDir + "/" );
+   dirsModel->setRootPath( "/" );
+   completer->setModel( dirsModel );
+#endif
 
+   mpModel->setRootPath( "/" );
    mpModel->setNameFilters( Settings::value( Settings::RubberbandmanFileExtensions ) );
    mpModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files );
-   mpModel->setSorting( QDir::Name | QDir::DirsFirst | QDir::IgnoreCase /*| QDir::LocaleAware*/ );
-   mpModel->setLazyChildCount( true );
+   mpModel->setIconProvider( mpFileIconProvider );
 
    mpView->setContextMenuPolicy( Qt::CustomContextMenu );
    mpView->setModel( mpModel );
    mpView->setDragDropMode( QAbstractItemView::DragOnly );
+
+   mpRootDir->setCompleter( completer );
+   mpRootDir->setText( rootDir );
 
    QVBoxLayout *layout = new QVBoxLayout( this );
    QHBoxLayout *topLayout = new QHBoxLayout;
@@ -76,7 +113,6 @@ FileSysBrowser::FileSysBrowser( QWidget *parent )
    /* evil hack */
    mpDotButton->setMaximumWidth( mpDotButton->height() );
 
-   mpRootDir->setText( Settings::value( Settings::RubberbandmanRootDirectory ) );
    handleRootDir();
    mpView->setAnimated( true );
    connect( mpView, SIGNAL(clicked(QModelIndex)),
@@ -89,8 +125,6 @@ FileSysBrowser::FileSysBrowser( QWidget *parent )
             this, SLOT(contextMenu(QPoint)) );
    connect( mpMenuSendToPartyman, SIGNAL(triggered()),
             this, SLOT(menuSendToPartyman()) );
-   connect( mpMenuRescan, SIGNAL(triggered()),
-            this, SLOT(handleRootDir()) );
    connect( mpMenuMoveFile, SIGNAL(triggered()),
             this, SLOT(menuMove()) );
    connect( mpMenuMoveDirectory, SIGNAL(triggered()),
@@ -108,6 +142,7 @@ FileSysBrowser::FileSysBrowser( QWidget *parent )
 
 FileSysBrowser::~FileSysBrowser()
 {
+   delete mpFileIconProvider;
 }
 
 
@@ -139,9 +174,8 @@ void FileSysBrowser::handleRootDir()
    QModelIndex qmi( mpModel->index( mpRootDir->text() ) );
    if( qmi.isValid() )
    {
-      QString current( mpModel->filePath( mpView->currentIndex() ) );
+      const QString current( mpModel->filePath( mpView->currentIndex() ) );
       Settings::setValue( Settings::RubberbandmanRootDirectory, mpRootDir->text() );
-      mpModel->refresh( qmi );
       mpView->setRootIndex( qmi );
       mpView->setCurrentIndex( mpModel->index( current ) );
       scrollTo( current );
@@ -155,9 +189,17 @@ void FileSysBrowser::handleRootDir()
 
 void FileSysBrowser::scrollTo( const QString &fileName )
 {
-   QModelIndex qmi( mpModel->index( fileName ) );
-   mpView->scrollTo( qmi, QAbstractItemView::PositionAtCenter );
+   QModelIndex qmi;
+   for( int i = 1; i >= 0; i = fileName.indexOf( "/", i + 1 ) )
+   {
+      qmi = mpModel->index( fileName.left( i ) );
+      mpView->expand( qmi );
+      mpView->scrollTo( qmi, QAbstractItemView::PositionAtCenter );
+   }
+   qmi = mpModel->index( fileName );
    mpView->setCurrentIndex( qmi );
+   mpView->scrollTo( qmi, QAbstractItemView::PositionAtCenter );
+   QTimer::singleShot( 333, mpView, SLOT(scrollToActive()) );
    // \todo: only emit if in visible area
    emit clicked( fileName );
 }
@@ -173,12 +215,6 @@ void FileSysBrowser::contextMenu( const QPoint &pos )
    mFileInfo.setFile( mpModel->filePath( mContextModelIndex ) );
 
    QMenu menu(mpView);
-   menu.addAction( mpMenuRescan );
-   if( !mFileInfo.isDir() )
-   {
-      menu.addAction( mpMenuSendToPartyman );
-   }
-   menu.addSeparator();
    if( mFileInfo.isDir() )
    {
       menu.addAction( mpMenuMoveDirectory );
@@ -190,6 +226,11 @@ void FileSysBrowser::contextMenu( const QPoint &pos )
    }
    menu.addAction( mpMenuRename );
    menu.addAction( mpMenuDelete );
+   if( !mFileInfo.isDir() )
+   {
+      menu.addSeparator();
+      menu.addAction( mpMenuSendToPartyman );
+   }
    menu.exec( mpView->mapToGlobal( pos ) );
 }
 

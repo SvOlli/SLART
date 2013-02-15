@@ -13,11 +13,13 @@
 
 /* Qt headers */
 #include <QKeyEvent>
+#include <QTimer>
 
 /* local library headers */
 
 /* local headers */
 
+#include <Trace.hpp>
 
 MyTreeView::MyTreeView( QWidget *parent )
 : QTreeView( parent )
@@ -45,4 +47,17 @@ void MyTreeView::keyPressEvent( QKeyEvent *event )
       }
    }
    QTreeView::keyPressEvent( event );
+}
+
+
+void MyTreeView::scrollToActive()
+{
+   QModelIndex qmi( currentIndex() );
+   scrollTo( qmi, PositionAtCenter );
+   QWidget *w = indexWidget( qmi );
+   if( w )
+   {
+      setFocus();
+      w->setFocus();
+   }
 }
