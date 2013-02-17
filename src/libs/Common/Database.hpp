@@ -38,6 +38,8 @@ class QSqlQuery;
 /*!
  \brief \todo complete documentation
 
+ \depricated only in use by Partyman and TestAppWebServer
+
 */
 class Database
 {

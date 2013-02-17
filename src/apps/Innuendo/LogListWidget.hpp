@@ -25,7 +25,6 @@
 /* forward declaration of Qt classes */
 
 /* forward declaration of local classes */
-class Database;
 
 
 /*!

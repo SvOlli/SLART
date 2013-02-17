@@ -21,13 +21,20 @@
 #define TAR_BLOCK_SIZE 0x00000200
 #define TAR_BLOCK_MASK 0xfffffe00
 
+#define TAR_OFFSET_FILEMODE 0x64
+#define TAR_OFFSET_FILEUID  0x6C
+#define TAR_OFFSET_FILEGID  0x74
+#define TAR_OFFSET_FILESIZE 0x7C
+#define TAR_OFFSET_FILEDATE 0x88
+#define TAR_OFFSET_CHECKSUM 0x94
+#define TAR_OFFSET_FILETYPE 0x9C
+
 
 /*
- * \todo:
- * - handle short reads on header
- * - handle short reads on data
- * - create better error reporting
- * - support multiple open/read/close-functions (gz,xz,lzma,uncompressed)
+ * \todo: handle short reads on header
+ * \todo: handle short reads on data
+ * \todo: create better error reporting
+ * \todo: support multiple open/read/close-functions (gz,xz,lzma,uncompressed)
  */
 
 

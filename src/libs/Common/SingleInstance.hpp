@@ -68,7 +68,7 @@ public:
          }
          else
          {
-            object = new T( 0 );
+            object = new T( static_cast<QObject*>(0) );
          }
          cpSingleInstance->insert( typeName, object );
       }

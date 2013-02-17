@@ -37,12 +37,23 @@ class QFileInfo;
 /*!
  \brief \todo complete documentation
 
+ unused
+
  \dotfile "graphs/libs/Common/DirWalkerCallbackProxy_connect.dot" "Connect Graph"
 */
 class DirWalkerCallbackProxy : public DirWalkerCallbacks
 {
 public:
-   DirWalkerCallbackProxy( QObject *target, enum Qt::ConnectionType connectionType = Qt::QueuedConnection );
+   DirWalkerCallbackProxy( QObject *target,
+                           Qt::ConnectionType connectionType = Qt::QueuedConnection );
+   /*!
+    \brief \todo
+
+   */
+   /*!
+    \brief \todo
+
+   */
    virtual ~DirWalkerCallbackProxy();
 
    /*!

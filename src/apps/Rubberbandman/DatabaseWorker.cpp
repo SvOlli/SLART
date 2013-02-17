@@ -20,7 +20,6 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
-#include <DirWalkerCallbackProxy.hpp>
 
 /* local headers */
 #include "DirWalkerUpdate.hpp"

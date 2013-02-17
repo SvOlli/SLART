@@ -24,8 +24,6 @@
 class QString;
 
 /* forward declaration of local classes */
-class Database;
-
 
 
 /*!
