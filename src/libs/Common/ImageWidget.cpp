@@ -12,13 +12,13 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QImage>
+#include <QPainter>
 
 /* local library headers */
 
 /* local headers */
 
-#include "Trace.hpp"
 
 
 ImageWidget::ImageWidget( QWidget *parent )
@@ -27,7 +27,6 @@ ImageWidget::ImageWidget( QWidget *parent )
 , mTransformationMode( Qt::SmoothTransformation )
 , mpImage( 0 )
 {
-
 }
 
 ImageWidget::~ImageWidget()
@@ -41,7 +40,6 @@ ImageWidget::~ImageWidget()
 
 void ImageWidget::paintEvent( QPaintEvent *event )
 {
-TRACESTART(ImageWidget::paintEvent)
    Q_UNUSED( event );
    float ratio = 0.0;
    if( mpImage && !mpImage->isNull() )
@@ -51,7 +49,6 @@ TRACESTART(ImageWidget::paintEvent)
       int x = ( width() - image.width() ) / 2;
       int y = ( height() - image.height() ) / 2;
       widgetPainter.drawImage( x, y, image );
-TRACEMSG << x << y;
       if( x == 0 )
       {
          ratio = (float)(width()) / mpImage->width();
@@ -66,20 +63,24 @@ TRACEMSG << x << y;
       QPainter widgetPainter( this );
       widgetPainter.eraseRect( rect() );
    }
-TRACEMSG << ratio;
    emit currentRatio( ratio );
 }
 
 
 void ImageWidget::setImage( const QImage &image )
 {
-TRACESTART(ImageWidget::setImage)
    if( mpImage )
    {
       delete mpImage;
    }
    mpImage = new QImage( image );
    repaint();
+}
+
+
+void ImageWidget::setImage( const QByteArray &data )
+{
+   setImage( QImage::fromData( data ) );
 }
 
 
@@ -98,4 +99,19 @@ void ImageWidget::setAspectRatioMode( Qt::AspectRatioMode mode )
 void ImageWidget::setTransformationMode( Qt::TransformationMode mode )
 {
    mTransformationMode = mode;
+}
+
+
+QSize ImageWidget::minimumSizeHint() const
+{
+   QSize size( 20, 20 );
+   if( minimumSize().width() > size.width() )
+   {
+      size.setWidth( minimumSize().width() );
+   }
+   if( minimumSize().height() > size.height() )
+   {
+      size.setHeight( minimumSize().height() );
+   }
+   return size;
 }

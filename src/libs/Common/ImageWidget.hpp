@@ -54,6 +54,13 @@ public:
    */
    virtual ~ImageWidget();
 
+   /*!
+    \brief \todo
+
+    \return QSize
+   */
+   virtual QSize minimumSizeHint() const;
+
 protected:
    /*!
     \brief intercepting paint event for scaled drawing
@@ -67,6 +74,11 @@ public slots:
 
    */
    void setImage( const QImage &image );
+   /*!
+    \brief set the image data
+
+   */
+   void setImage( const QByteArray &data );
    /*!
     \brief load image data from file
 
