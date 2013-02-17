@@ -103,6 +103,9 @@ SOURCES += ScgiRequest.cpp
 HEADERS += ScrollLine.hpp
 SOURCES += ScrollLine.cpp
 
+HEADERS += Sequence.hpp
+SOURCES += Sequence.cpp
+
 HEADERS += SingleInstance.hpp
 SOURCES += SingleInstance.cpp
 
