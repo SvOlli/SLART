@@ -37,6 +37,7 @@ libs/Satellite \
 libs/TagLib \
 tests/TestAppCodeEditor \
 tests/TestAppCommandLine \
+tests/TestAppCoverArt \
 tests/TestAppDragAndDrop \
 tests/TestAppFileSysCompleter \
 tests/TestAppGSettings \

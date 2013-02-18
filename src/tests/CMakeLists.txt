@@ -7,6 +7,7 @@
 
 ADD_SUBDIRECTORY( TestAppCodeEditor )
 ADD_SUBDIRECTORY( TestAppCommandLine )
+ADD_SUBDIRECTORY( TestAppCoverArt )
 #ADD_SUBDIRECTORY( TestAppDatabaseBrowser )
 ADD_SUBDIRECTORY( TestAppDragAndDrop )
 ADD_SUBDIRECTORY( TestAppFileSysCompleter )
