@@ -52,6 +52,12 @@ SOURCES += DirWalkerCallbackProxy.cpp
 HEADERS += DnDFileInfo.hpp
 SOURCES += DnDFileInfo.cpp
 
+HEADERS += Downloader.hpp
+SOURCES += Downloader.cpp
+
+HEADERS += DownloadReply.hpp
+SOURCES += DownloadReply.cpp
+
 HEADERS += FileIconProvider.hpp
 SOURCES += FileIconProvider.cpp
 
@@ -66,6 +72,9 @@ SOURCES += GSettingsWrapper.cpp
 
 HEADERS += ImageWidget.hpp
 SOURCES += ImageWidget.cpp
+
+HEADERS += IODeviceStreamer.hpp
+SOURCES += IODeviceStreamer.cpp
 
 HEADERS += LuaEditorDialog.hpp
 SOURCES += LuaEditorDialog.cpp
