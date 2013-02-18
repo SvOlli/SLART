@@ -17,6 +17,7 @@
 /* Qt headers */
 #include <QByteArray>
 #include <QList>
+#include <QMap>
 #include <QUrl>
 
 /* local library headers */
@@ -31,6 +32,7 @@ class QLabel;
 class QLineEdit;
 class QListWidget;
 class QModelIndex;
+class QSignalMapper;
 class QTreeView;
 
 /* forward declaration of local classes */
@@ -53,20 +55,23 @@ public slots:
 
    void entryClicked( const QModelIndex &index );
 
+   void saveImage( QWidget *widget );
+
 signals:
    void requestDownload( unsigned int id, const QList<QUrl> &requst );
 
 private:
    Q_DISABLE_COPY( MainWidget )
 
-   Downloader                 *mpDownloader;
-   DownloadJobCoverAmazonDE   *mpAmazon;
-   QGridLayout                *mpLayout;
-   QTreeView                  *mpFileSysTree;
-   QFileSystemModel           *mpFileSysModel;
-   QLineEdit                  *mpLineEdit;
-   QListWidget                *mpListWidget;
-   QList<ImageWidget*>        mCoversList;
+   Downloader                       *mpDownloader;
+   DownloadJobCoverAmazonDE         *mpAmazon;
+   QGridLayout                      *mpLayout;
+   QTreeView                        *mpFileSysTree;
+   QFileSystemModel                 *mpFileSysModel;
+   QLineEdit                        *mpLineEdit;
+   QSignalMapper                    *mpSignalMapper;
+   QList<ImageWidget*>              mCoversList;
+   QMap<QWidget*,QByteArray>        mDataMap;
 };
 
 #endif

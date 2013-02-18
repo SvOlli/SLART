@@ -18,6 +18,7 @@
 #include <QList>
 #include <QModelIndex>
 #include <QRegExp>
+#include <QSignalMapper>
 #include <QSplitter>
 #include <QTreeView>
 #include <QUrl>
@@ -42,8 +43,9 @@ MainWidget::MainWidget( QWidget *parent )
 , mpFileSysTree( new QTreeView( this ) )
 , mpFileSysModel( new QFileSystemModel( this ) )
 , mpLineEdit( new QLineEdit( this ) )
-, mpListWidget( 0 )
+, mpSignalMapper( new QSignalMapper( this ) )
 , mCoversList()
+, mDataMap()
 {
    QThread *t = new QThread();
    connect( qApp, SIGNAL(aboutToQuit()),
@@ -80,6 +82,8 @@ MainWidget::MainWidget( QWidget *parent )
             this, SLOT(requestFromLine()) );
    connect( mpFileSysTree, SIGNAL(clicked(QModelIndex)),
             this, SLOT(entryClicked(QModelIndex)) );
+   connect( mpSignalMapper, SIGNAL(mapped(QWidget*)),
+            this, SLOT(saveImage(QWidget*)) );
 
    QList<int> sizes;
    sizes << 30 << 300;
@@ -91,6 +95,18 @@ MainWidget::~MainWidget()
 {
 }
 
+
+void MainWidget::entryClicked( const QModelIndex &index )
+{
+TRACESTART(MainWidget::entryClicked)
+   QString dirName( mpFileSysModel->filePath(index) );
+   QRegExp re( ".*/([^/]*)/([^/]*)" );
+   dirName.replace( re, "\\1 \\2" );
+   mpLineEdit->setText( dirName );
+   requestFromLine();
+}
+
+
 void MainWidget::requestFromLine()
 {
 TRACESTART(MainWidget::requestFromLine)
@@ -98,6 +114,7 @@ TRACESTART(MainWidget::requestFromLine)
    {
       delete mCoversList.takeLast();
    }
+   mDataMap.clear();
    mpAmazon->query( mpLineEdit->text() );
 }
 
@@ -113,15 +130,25 @@ TRACESTART(MainWidget::showCovers)
 TRACEMSG << image.size() << mCoversList.size() / 5 << mCoversList.size() % 5;
    mpLayout->addWidget( w, mCoversList.size() / 5, mCoversList.size() % 5 );
    mCoversList.append( w );
+   mDataMap.insert( w, data );
+   connect( w, SIGNAL(clicked(QPoint)),
+            mpSignalMapper, SLOT(map()) );
+   mpSignalMapper->setMapping( w, w );
 }
 
 
-void MainWidget::entryClicked( const QModelIndex &index )
+void MainWidget::saveImage( QWidget *widget )
 {
-TRACESTART(MainWidget::entryClicked)
-   QString dirName( mpFileSysModel->filePath(index) );
-   QRegExp re( ".*/([^/]*)/([^/]*)" );
-   dirName.replace( re, "\\1 \\2" );
-   mpLineEdit->setText( dirName );
-   requestFromLine();
+   QString fileName("/tmp/AlbumArt");
+   QFile f( fileName );
+   if( f.open( QIODevice::WriteOnly ) )
+   {
+      f.write( mDataMap.value( widget ) );
+      f.close();
+      QString extension( QString::fromLocal8Bit( QImageReader::imageFormat( fileName ).constData() ) );
+      extension.replace( "jpeg", "jpg" );
+      fileName = QString("%1.%2").arg( fileName, extension );
+      QFile::remove( fileName );
+      f.rename( fileName );
+   }
 }
