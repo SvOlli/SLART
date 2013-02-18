@@ -22,6 +22,7 @@
 
 /* forward declaration of Qt classes */
 class QImage;
+class QMouseEvent;
 
 /* forward declaration of local classes */
 
@@ -55,7 +56,7 @@ public:
    virtual ~ImageWidget();
 
    /*!
-    \brief \todo
+    \brief overload to send a minimum size so image won't disappear on autosizing layouts
 
     \return QSize
    */
@@ -65,45 +66,70 @@ protected:
    /*!
     \brief intercepting paint event for scaled drawing
 
+    \param event
    */
    void paintEvent( QPaintEvent *event );
+
+   /*!
+    \brief intercepting mouse event for emitting click
+
+    \param event
+   */
+   void mousePressEvent( QMouseEvent *event );
 
 public slots:
    /*!
     \brief set the image data
 
+    \param image
    */
    void setImage( const QImage &image );
    /*!
     \brief set the image data
 
+    \param data
    */
    void setImage( const QByteArray &data );
    /*!
     \brief load image data from file
 
+    \param fileName
    */
    void setImage( const QString &fileName );
    /*!
     \brief set aspect ratio: Qt::IgnoreAspectRatio, Qt::KeepAspectRatio, Qt::KeepAspectRatioByExpanding
 
+    \param mode
    */
    void setAspectRatioMode( Qt::AspectRatioMode mode );
    /*!
     \brief set transformation mode: Qt::FastTransformation, Qt::SmoothTransformation
 
+    \param mode
    */
    void setTransformationMode( Qt::TransformationMode mode );
 
 signals:
+   /*!
+    \brief emit radio of image to stored graphics data
+
+    \param radio
+   */
    void currentRatio( float radio );
+
+   /*!
+    \brief click on image
+
+    \param pos
+   */
+   void clicked( const QPoint &pos );
 
 private:
    Q_DISABLE_COPY( ImageWidget )
 
-   Qt::AspectRatioMode     mAspectRatioMode;
-   Qt::TransformationMode  mTransformationMode;
-   QImage                  *mpImage;
+   Qt::AspectRatioMode     mAspectRatioMode; /*!< \brief \todo TODO */
+   Qt::TransformationMode  mTransformationMode; /*!< \brief \todo TODO */
+   QImage                  *mpImage; /*!< \brief \todo TODO */
 };
 
 /*! @} */

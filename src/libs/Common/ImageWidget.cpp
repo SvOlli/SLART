@@ -13,6 +13,7 @@
 
 /* Qt headers */
 #include <QImage>
+#include <QMouseEvent>
 #include <QPainter>
 
 /* local library headers */
@@ -64,6 +65,17 @@ void ImageWidget::paintEvent( QPaintEvent *event )
       widgetPainter.eraseRect( rect() );
    }
    emit currentRatio( ratio );
+}
+
+
+void ImageWidget::mousePressEvent( QMouseEvent *event )
+{
+   if( (event->button() != Qt::LeftButton) || !mpImage )
+   {
+      return;
+   }
+   emit clicked( event->pos() );
+   event->accept();
 }
 
 
