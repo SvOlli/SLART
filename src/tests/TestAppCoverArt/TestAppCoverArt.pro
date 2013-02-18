@@ -22,12 +22,15 @@ SOURCES += Application.cpp
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
 
-HEADERS += Downloader.hpp
-SOURCES += Downloader.cpp
+HEADERS += ../../libs/Common/Downloader.hpp
+SOURCES += ../../libs/Common/Downloader.cpp
+
+HEADERS += ../../libs/Common/DownloadReply.hpp
+SOURCES += ../../libs/Common/DownloadReply.cpp
 
 HEADERS += DownloadJobCoverAmazonDE.hpp
 SOURCES += DownloadJobCoverAmazonDE.cpp
 
-HEADERS += IODeviceStreamer.hpp
-SOURCES += IODeviceStreamer.cpp
+HEADERS += ../../libs/Common/IODeviceStreamer.hpp
+SOURCES += ../../libs/Common/IODeviceStreamer.cpp
 

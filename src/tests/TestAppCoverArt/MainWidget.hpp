@@ -49,9 +49,9 @@ public:
 public slots:
    void requestFromLine();
 
-   void showCovers( const QList<QByteArray> &data );
+   void showCovers( const QByteArray &data );
 
-   void entryClicked(const QModelIndex &index );
+   void entryClicked( const QModelIndex &index );
 
 signals:
    void requestDownload( unsigned int id, const QList<QUrl> &requst );

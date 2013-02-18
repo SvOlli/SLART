@@ -20,9 +20,7 @@ INCLUDE_DIRECTORIES(
 
 ADD_SOURCE( Application                cpp         )
 ADD_SOURCE( MainWidget                 cpp hpp moc )
-ADD_SOURCE( Downloader                 cpp hpp moc )
 ADD_SOURCE( DownloadJobCoverAmazonDE   cpp hpp moc )
-ADD_SOURCE( IODeviceStreamer           cpp hpp moc )
 
 SET( TestAppCoverArt_RESOURCES
 )

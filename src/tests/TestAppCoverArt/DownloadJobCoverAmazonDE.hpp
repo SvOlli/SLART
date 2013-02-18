@@ -17,6 +17,7 @@
 /* Qt headers */
 #include <QStringList>
 #include <QUrl>
+#include <QVariant>
 
 /* local library headers */
 
@@ -35,22 +36,23 @@ class DownloadJobCoverAmazonDE : public QObject
 
 public:
    DownloadJobCoverAmazonDE( Downloader *downloader,
+                             QObject *target, const char *slot,
                              QObject *parent = 0 );
    virtual ~DownloadJobCoverAmazonDE();
 
-   void setTarget(QObject *object, const char *slot );
    void query( const QString &query );
+
 public slots:
-   void parseHtml( const QList<QByteArray> &data );
+   void parseHtml( const QByteArray &data );
 
 signals:
    void requestDownload( QObject *object, const char *slot,
-                         const QList<QUrl> &urlList );
+                         const QUrl &urlList );
 
 private:
    Q_DISABLE_COPY( DownloadJobCoverAmazonDE )
 
-   QObject        *mpObject;
+   QObject        *mpTarget;
    const char     *mpSlot;
 };
 

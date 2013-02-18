@@ -36,8 +36,8 @@
 
 MainWidget::MainWidget( QWidget *parent )
 : QSplitter( Qt::Vertical, parent )
-, mpDownloader( new Downloader( this ) )
-, mpAmazon( new DownloadJobCoverAmazonDE( mpDownloader, this ) )
+, mpDownloader( new Downloader() )
+, mpAmazon( new DownloadJobCoverAmazonDE( mpDownloader, this, SLOT(showCovers(QByteArray)) ) )
 , mpLayout( new QGridLayout( this ) )
 , mpFileSysTree( new QTreeView( this ) )
 , mpFileSysModel( new QFileSystemModel( this ) )
@@ -45,8 +45,13 @@ MainWidget::MainWidget( QWidget *parent )
 , mpListWidget( 0 )
 , mCoversList()
 {
+   QThread *t = new QThread();
+   connect( qApp, SIGNAL(aboutToQuit()),
+            t, SLOT(quit()) );
+   mpDownloader->moveToThread( t );
+   mpAmazon->moveToThread( t );
+   t->start();
    QWidget *w = 0;
-   mpAmazon->setTarget( this, SLOT(showCovers(QList<QByteArray>)) );
    mpFileSysTree->setModel( mpFileSysModel );
    mpFileSysModel->setRootPath( "/" );
    mpFileSysModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs );
@@ -89,30 +94,27 @@ MainWidget::~MainWidget()
 void MainWidget::requestFromLine()
 {
 TRACESTART(MainWidget::requestFromLine)
-   mpAmazon->query( mpLineEdit->text() );
-}
-
-
-void MainWidget::showCovers( const QList<QByteArray> &data )
-{
-TRACESTART(MainWidget::showCovers)
    while( !mCoversList.isEmpty() )
    {
       delete mCoversList.takeLast();
    }
-   QImage image;
-   for( int i = 0; i < data.size(); ++i )
-   {
-      image = QImage::fromData( data.at(i) );
-      ImageWidget *w = new ImageWidget( this );
-      w->setImage( image );
-      w->setToolTip( tr("%1 x %2").arg( QString::number(image.width()),
-                                      QString::number(image.height())) );
-TRACEMSG << image.size() << i/5 << i % 5;
-      mpLayout->addWidget( w, i/5, i % 5 );
-      mCoversList.append( w );
-   }
+   mpAmazon->query( mpLineEdit->text() );
 }
+
+
+void MainWidget::showCovers( const QByteArray &data )
+{
+TRACESTART(MainWidget::showCovers)
+   QImage image( QImage::fromData( data ) );
+   ImageWidget *w = new ImageWidget( this );
+   w->setImage( image );
+   w->setToolTip( tr("%1 x %2").arg( QString::number(image.width()),
+                                      QString::number(image.height())) );
+TRACEMSG << image.size() << mCoversList.size() / 5 << mCoversList.size() % 5;
+   mpLayout->addWidget( w, mCoversList.size() / 5, mCoversList.size() % 5 );
+   mCoversList.append( w );
+}
+
 
 void MainWidget::entryClicked( const QModelIndex &index )
 {
