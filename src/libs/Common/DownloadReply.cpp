@@ -52,5 +52,4 @@ void DownloadReply::getData()
       emit complete( mpReply->readAll(), mPayload );
    }
    mpReply->deleteLater();
-   deleteLater();
 }

@@ -2,7 +2,7 @@
  * src/tests/TestAppWebServer/IODeviceStreamer.hpp
  * written by Sven Oliver Moll
  *
- * distributed under the terms of the GNU General Public License (GPL)
+ * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
@@ -26,6 +26,12 @@ class QIODevice;
 
 /* forward declaration of local classes */
 
+
+/*!
+  \addtogroup Common
+
+  @{
+*/
 
 /*!
  \brief copy data from one file to another
