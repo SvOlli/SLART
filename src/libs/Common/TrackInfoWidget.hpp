@@ -29,6 +29,7 @@ class QPushButton;
 
 /* forward declaration of local classes */
 class Database;
+class ImageWidget;
 class ScrollLine;
 
 
@@ -48,9 +49,29 @@ class TrackInfoWidget : public QWidget
    Q_OBJECT
 
 public:
+   /*!
+    \brief \todo
+
+    \param includeFolders
+    \param parent
+   */
    TrackInfoWidget( bool includeFolders, QWidget *parent = 0 );
+
+   /*!
+    \brief \todo
+
+    \deprecated only used by Partyman
+
+    \param database
+    \param includeFolders
+    \param parent
+   */
    TrackInfoWidget( Database *database,
                     bool includeFolders, QWidget *parent = 0 );
+   /*!
+    \brief \todo
+
+   */
    virtual ~TrackInfoWidget();
 
 public slots:
@@ -72,49 +93,63 @@ public slots:
    /*!
     \brief display a menu to change groups part 2: get selection an update
 
+    \param groups
    */
    void handleGroupsMenu( const QStringList &groups );
    /*!
     \brief remotely set both "Favorite" and "No Auto" checkboxes
 
+    \param favorite
+    \param unwanted
    */
    void setFavoriteUnwanted( bool favorite, bool unwanted );
    /*!
     \brief update the track data
 
+    \param trackInfo
    */
    void getTrack( const TrackInfo &trackInfo );
    /*!
     \brief update the displayed track info
 
+    \param reread
    */
    void update( bool reread = true );
    /*!
     \brief 
 
+    \param trackInfo
    */
    void updateTrackInfo( const TrackInfo &trackInfo );
+   /*!
+    \brief \todo
+
+    \param coverImage
+   */
+   void setCoverImage( const QImage &coverImage );
 
 signals:
    /*!
     \brief either "Favorite" or "No Auto" checkbox has been clicked
 
+    \param trackInfo
    */
    void checkboxClicked( const TrackInfo &trackInfo );
 
 private:
    Q_DISABLE_COPY( TrackInfoWidget )
 
-   Database    *mpDatabase;
-   TrackInfo   mTrackInfo;
-   bool        mIncludeFolders;
-   QLabel      *mpTimesPlayed;
-   ScrollLine  *mpArtist;
-   ScrollLine  *mpTitle;
-   ScrollLine  *mpAlbum;
-   ScrollLine  *mpTrackNr;
-   QCheckBox   *mpFavoriteButton;
-   QCheckBox   *mpUnwantedButton;
+   Database    *mpDatabase; /*!< \brief \todo TODO */
+   TrackInfo   mTrackInfo; /*!< \brief \todo TODO */
+   bool        mIncludeFolders; /*!< \brief \todo TODO */
+   QLabel      *mpTimesPlayed; /*!< \brief \todo TODO */
+   ScrollLine  *mpArtist; /*!< \brief \todo TODO */
+   ScrollLine  *mpTitle; /*!< \brief \todo TODO */
+   ScrollLine  *mpAlbum; /*!< \brief \todo TODO */
+   ScrollLine  *mpTrackNr; /*!< \brief \todo TODO */
+   QCheckBox   *mpFavoriteButton; /*!< \brief \todo TODO */
+   QCheckBox   *mpUnwantedButton; /*!< \brief \todo TODO */
+   ImageWidget *mpCoverArt; /*!< \brief \todo TODO */
 };
 
 /*! @} */

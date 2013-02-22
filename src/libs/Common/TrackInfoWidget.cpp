@@ -6,13 +6,31 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
-#include "Database.hpp"
-#include "DatabaseInterface.hpp"
+/* class declaration */
 #include "TrackInfoWidget.hpp"
-#include "Satellite.hpp"
-#include "ScrollLine.hpp"
 
-#include <QtGui>
+/* system headers */
+
+/* Qt headers */
+#include <QAction>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QMenu>
+#include <QThread>
+#include <QTimer>
+
+/* local library headers */
+#include <Database.hpp>
+#include <DatabaseInterface.hpp>
+#include <ImageWidget.hpp>
+#include <Satellite.hpp>
+#include <ScrollLine.hpp>
+
+/* local headers */
+
+/* class variables */
+
 
 #include "Trace.hpp"
 
@@ -29,7 +47,9 @@ TrackInfoWidget::TrackInfoWidget( bool includeFolders, QWidget *parent )
 , mpTrackNr( new ScrollLine( this, false ) )
 , mpFavoriteButton( new QCheckBox( tr("Favorite") ) )
 , mpUnwantedButton( new QCheckBox( tr("No Auto") ) )
+, mpCoverArt( new ImageWidget( this ) )
 {
+   mpCoverArt->hide();
    mpFavoriteButton->setCheckable( true );
    mpUnwantedButton->setCheckable( true );
    QGridLayout *mainLayout = new QGridLayout( this );
@@ -49,6 +69,7 @@ TrackInfoWidget::TrackInfoWidget( bool includeFolders, QWidget *parent )
    mainLayout->addWidget( mpTimesPlayed,    4, 2 );
    mainLayout->addWidget( mpFavoriteButton, 4, 3 );
    mainLayout->addWidget( mpUnwantedButton, 4, 4 );
+   mainLayout->addWidget( mpCoverArt,       1, 5, 4, 1 );
 
    mainLayout->setColumnStretch( 0,  1 );
    mainLayout->setColumnStretch( 1, 17 );
@@ -103,7 +124,9 @@ TrackInfoWidget::TrackInfoWidget( Database *database,
 , mpTrackNr( new ScrollLine( this, false ) )
 , mpFavoriteButton( new QCheckBox( tr("Favorite") ) )
 , mpUnwantedButton( new QCheckBox( tr("No Auto") ) )
+, mpCoverArt( new ImageWidget( this ) )
 {
+   mpCoverArt->hide();
    mpFavoriteButton->setCheckable( true );
    mpUnwantedButton->setCheckable( true );
    QGridLayout *mainLayout = new QGridLayout( this );
@@ -174,7 +197,7 @@ void TrackInfoWidget::handleFavoriteButton()
    else
    {
       DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
-      DatabaseInterface::get()->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
+      DatabaseInterface::get()->getTrackInfo( this, SLOT(updateTrackInfo(TrackInfo)), mTrackInfo.mID );
    }
 }
 
@@ -195,7 +218,7 @@ void TrackInfoWidget::handleUnwantedButton()
    else
    {
       DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
-      DatabaseInterface::get()->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
+      DatabaseInterface::get()->getTrackInfo( this, SLOT(updateTrackInfo(TrackInfo)), mTrackInfo.mID );
    }
 }
 
@@ -208,7 +231,7 @@ void TrackInfoWidget::handleGroupsMenu()
    }
    else
    {
-      DatabaseInterface::get()->getFolders( this, "handleGroupsMenu" );
+      DatabaseInterface::get()->getFolders( this, SLOT(handleGroupsMenu(QStringList)) );
    }
 }
 
@@ -233,7 +256,7 @@ void TrackInfoWidget::handleGroupsMenu( const QStringList &groups )
       else
       {
          DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
-         DatabaseInterface::get()->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
+         DatabaseInterface::get()->getTrackInfo( this, SLOT(updateTrackInfo(TrackInfo)), mTrackInfo.mID );
       }
    }
 }
@@ -264,7 +287,7 @@ void TrackInfoWidget::setFavoriteUnwanted( bool favorite, bool unwanted )
    else
    {
       DatabaseInterface::get()->updateTrackInfo( mTrackInfo );
-      DatabaseInterface::get()->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
+      DatabaseInterface::get()->getTrackInfo( this, SLOT(updateTrackInfo(TrackInfo)), mTrackInfo.mID );
    }
 }
 
@@ -290,7 +313,7 @@ void TrackInfoWidget::update( bool reread )
    {
       if( reread )
       {
-         DatabaseInterface::get()->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
+         DatabaseInterface::get()->getTrackInfo( this, SLOT(updateTrackInfo(TrackInfo)), mTrackInfo.mID );
       }
       else
       {
@@ -350,4 +373,11 @@ void TrackInfoWidget::updateTrackInfo( const TrackInfo &trackInfo )
       mpFavoriteButton->setToolTip( empty );
       mpUnwantedButton->setToolTip( empty );
    }
+}
+
+
+void TrackInfoWidget::setCoverImage( const QImage &coverImage )
+{
+   mpCoverArt->setVisible( !coverImage.isNull() );
+   mpCoverArt->setImage( coverImage );
 }

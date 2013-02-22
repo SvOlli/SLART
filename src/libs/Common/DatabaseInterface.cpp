@@ -19,6 +19,7 @@
 #include <QtSql>
 
 /* local library headers */
+#include <TrackInfo.hpp>
 
 /* local headers */
 
@@ -55,19 +56,21 @@ void DatabaseInterface::destroy()
 
 
 DatabaseInterface::DatabaseInterface( const QString &fileName )
-: mpDatabase( new DatabaseThread( fileName ) )
+: mpThread( new QThread() )
+, mpDatabase( new DatabaseThread( fileName ) )
 {
+   mpDatabase->moveToThread( mpThread );
+   mpThread->connect( qApp, SIGNAL(aboutToQuit()),
+                      mpThread, SLOT(quit()) );
+   mpThread->start();
 }
 
 
 DatabaseInterface::~DatabaseInterface()
 {
-   if( mpDatabase->isRunning() )
-   {
-      call( mpDatabase, "quit" );
-      mpDatabase->wait();
-   }
+   mpDatabase->call( mpThread, SLOT(quit()) );
    delete mpDatabase;
+   delete mpThread;
 }
 
 
@@ -98,61 +101,61 @@ void DatabaseInterface::disableNotify()
 }
 
 
-void DatabaseInterface::getTrackInfo( QObject *target, const QString &method,
+void DatabaseInterface::getTrackInfo( QObject *target, const char *method,
                                       int id,
                                       const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getTrackInfo",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( QString, method ),
+                              Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
                               Q_ARG( int, id ),
                               Q_ARG( QString, QString() ),
                               Q_ARG( QVariant, payload ) );
 }
 
 
-void DatabaseInterface::getTrackInfo( QObject *target, const QString &method,
+void DatabaseInterface::getTrackInfo( QObject *target, const char *method,
                                       const QString &fileName,
                                       const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getTrackInfo",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( QString, method ),
+                              Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
                               Q_ARG( int, 0 ),
                               Q_ARG( QString, fileName ),
                               Q_ARG( QVariant, payload ) );
 }
 
 
-void DatabaseInterface::getTrackInfoList( QObject *target, const QString &method,
+void DatabaseInterface::getTrackInfoList( QObject *target, const char *method,
                                           const QString &search,
                                           const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getTrackInfoList",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( QString, method ),
+                              Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
                               Q_ARG( QString, search ),
                               Q_ARG( QVariant, payload ) );
 }
 
 
-void DatabaseInterface::getPathNameList( QObject *target, const QString &method,
+void DatabaseInterface::getPathNameList( QObject *target, const char *method,
                                          const QString &search,
                                          const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getPathNameList",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( QString, method ),
+                              Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
                               Q_ARG( QString, search ),
                               Q_ARG( QVariant, payload ) );
 }
 
 
-void DatabaseInterface::getRandomTrack( QObject *target, const QString &method,
+void DatabaseInterface::getRandomTrack( QObject *target, const char *method,
                                         bool favorite, bool leastplayed,
                                         const QStringList &excludeArtists,
                                         const QString &folder,
@@ -161,7 +164,7 @@ void DatabaseInterface::getRandomTrack( QObject *target, const QString &method,
    QMetaObject::invokeMethod( mpDatabase, "getRandomTrack",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( QString, method ),
+                              Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
                               Q_ARG( bool, favorite ),
                               Q_ARG( bool, leastplayed ),
                               Q_ARG( QStringList, excludeArtists ),
@@ -170,25 +173,25 @@ void DatabaseInterface::getRandomTrack( QObject *target, const QString &method,
 }
 
 
-void DatabaseInterface::getFolders( QObject *target, const QString &method,
+void DatabaseInterface::getFolders( QObject *target, const char *method,
                                     const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getFolders",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( QString, method ),
+                              Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
                               Q_ARG( QVariant, payload ) );
 }
 
 
-void DatabaseInterface::getFolder( QObject *target, const QString &method,
+void DatabaseInterface::getFolder( QObject *target, const char *method,
                                    const QString &folder,
                                    const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "getFolder",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( QString, method ),
+                              Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
                               Q_ARG( QString, folder ),
                               Q_ARG( QVariant, payload ) );
 }
@@ -246,7 +249,7 @@ void DatabaseInterface::rename( const QString &oldName, const QString &newName )
                               Q_ARG( QString, newName ) );
 }
 
-void DatabaseInterface::getAllColumnData( QObject *target, const QString &method,
+void DatabaseInterface::getAllColumnData( QObject *target, const char *method,
                                           Column column,
                                           const QVariant &payload )
 {
@@ -266,36 +269,36 @@ void DatabaseInterface::getAllColumnData( QObject *target, const QString &method
       columnName = "Genre";
       break;
    default:
-      qFatal( "%s: illegal enum value", Q_FUNC_INFO );
+      qFatal( "%s:%d: illegal enum value in %s", __FILE__, __LINE__, Q_FUNC_INFO );
    }
 
    QMetaObject::invokeMethod( mpDatabase, "getAllColumnData",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( QString, method ),
+                              Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
                               Q_ARG( QString, columnName ),
                               Q_ARG( QVariant, payload ) );
 }
 
 
-void DatabaseInterface::generateTestLoad( QObject *target, const QString &method,
+void DatabaseInterface::generateTestLoad( QObject *target, const char *method,
                                           const QString &command, const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "generateTestLoad",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( QString, method ),
+                              Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
                               Q_ARG( QString, command ),
                               Q_ARG( QVariant, payload ) );
 }
 
 
-void DatabaseInterface::call( QObject *target, const QString &method,
+void DatabaseInterface::call( QObject *target, const char *method,
                               const QVariant &payload )
 {
    QMetaObject::invokeMethod( mpDatabase, "call",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
-                              Q_ARG( QString, method ),
+                              Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
                               Q_ARG( QVariant, payload ) );
 }

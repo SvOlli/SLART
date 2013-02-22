@@ -30,12 +30,136 @@
 #include "Trace.hpp"
 
 
-static const char _call_fail_msg[] = "%s:%d call failed in %s";
-static const char *call_fail_msg= &_call_fail_msg[0];
+static const char *signature_mismatch_msg = "%s:%d %s does not match %s or %s in %s";
+static const char *call_failed_msg = "%s:%d calling %s failed in %s";
+
+
+QByteArray DatabaseThread::slotName( const QByteArray &slot )
+{
+   return slot.mid( 1, slot.indexOf( '(' ) - 1 );
+}
+
+
+void DatabaseThread::callSlot( const char *file, unsigned int line, const char *func, QObject *target,
+                               const QByteArray &method, const QVariant &payload )
+{
+   const char *signal1 = SIGNAL(signal());
+   const char *signal2 = SIGNAL(signal(QVariant));
+
+   if( QMetaObject::checkConnectArgs( signal1, method.constData() ) )
+   {
+      if( !QMetaObject::invokeMethod( target, slotName( method ).constData(), Qt::QueuedConnection ) )
+      {
+         qFatal( call_failed_msg, file, line, method.constData(), func );
+      }
+   }
+   else if( QMetaObject::checkConnectArgs( signal2, method.constData() ) )
+   {
+      if( !QMetaObject::invokeMethod( target, slotName( method ).constData(), Qt::QueuedConnection,
+                                      Q_ARG( QVariant, payload ) ) )
+      {
+         qFatal( call_failed_msg, file, line, method.constData(), func );
+      }
+   }
+   else
+   {
+      qFatal( signature_mismatch_msg, file, line, method.constData(), signal1, signal2, func );
+   }
+}
+
+
+void DatabaseThread::callSlot( const char *file, unsigned int line, const char *func, QObject *target,
+                               const QByteArray &method, const QStringList &stringList, const QVariant &payload )
+{
+   const char *signal1 = SIGNAL(signal(QStringList));
+   const char *signal2 = SIGNAL(signal(QStringList,QVariant));
+
+   if( QMetaObject::checkConnectArgs( signal1, method.constData() ) )
+   {
+      if( !QMetaObject::invokeMethod( target, slotName( method ).constData(), Qt::QueuedConnection,
+                                      Q_ARG( QStringList, stringList ) ) )
+      {
+         qFatal( call_failed_msg, file, line, method.constData(), func );
+      }
+   }
+   else if( QMetaObject::checkConnectArgs( signal2, method.constData() ) )
+   {
+      if( !QMetaObject::invokeMethod( target, slotName( method ).constData(), Qt::QueuedConnection,
+                                      Q_ARG( QStringList, stringList ),
+                                      Q_ARG( QVariant, payload ) ) )
+      {
+         qFatal( call_failed_msg, file, line, method.constData(), func );
+      }
+   }
+   else
+   {
+      qFatal( signature_mismatch_msg, file, line, method.constData(), signal1, signal2, func );
+   }
+}
+
+
+void DatabaseThread::callSlot( const char *file, unsigned int line, const char *func, QObject *target,
+                               const QByteArray &method, const TrackInfo &trackInfo, const QVariant &payload )
+{
+   const char *signal1 = SIGNAL(signal(TrackInfo));
+   const char *signal2 = SIGNAL(signal(TrackInfo,QVariant));
+
+   if( QMetaObject::checkConnectArgs( signal1, method.constData() ) )
+   {
+      if( !QMetaObject::invokeMethod( target, slotName( method ).constData(), Qt::QueuedConnection,
+                                      Q_ARG( TrackInfo, trackInfo ) ) )
+      {
+         qFatal( call_failed_msg, file, line, method.constData(), func );
+      }
+   }
+   else if( QMetaObject::checkConnectArgs( signal2, method.constData() ) )
+   {
+      if( !QMetaObject::invokeMethod( target, slotName( method ).constData(), Qt::QueuedConnection,
+                                      Q_ARG( TrackInfo, trackInfo ),
+                                      Q_ARG( QVariant, payload ) ) )
+      {
+         qFatal( call_failed_msg, file, line, method.constData(), func );
+      }
+   }
+   else
+   {
+      qFatal( signature_mismatch_msg, file, line, method.constData(), signal1, signal2, func );
+   }
+}
+
+
+void DatabaseThread::callSlot( const char *file, unsigned int line, const char *func, QObject *target,
+                               const QByteArray &method, const TrackInfoList &trackInfoList, const QVariant &payload )
+{
+   const char *signal1 = SIGNAL(signal(TrackInfoList));
+   const char *signal2 = SIGNAL(signal(TrackInfoList,QVariant));
+
+   if( QMetaObject::checkConnectArgs( signal1, method.constData() ) )
+   {
+      if( !QMetaObject::invokeMethod( target, slotName( method ).constData(), Qt::QueuedConnection,
+                                      Q_ARG( TrackInfoList, trackInfoList ) ) )
+      {
+         qFatal( call_failed_msg, file, line, method.constData(), func );
+      }
+   }
+   else if( QMetaObject::checkConnectArgs( signal2, method.constData() ) )
+   {
+      if( !QMetaObject::invokeMethod( target, slotName( method ).constData(), Qt::QueuedConnection,
+                                      Q_ARG( TrackInfoList, trackInfoList ),
+                                      Q_ARG( QVariant, payload ) ) )
+      {
+         qFatal( call_failed_msg, file, line, method.constData(), func );
+      }
+   }
+   else
+   {
+      qFatal( signature_mismatch_msg, file, line, method.constData(), signal1, signal2, func );
+   }
+}
 
 
 DatabaseThread::DatabaseThread( const QString &fileName )
-: QThread()
+: QObject()
 , mpSqlDB( 0 )
 , mpQuery( 0 )
 , mpCommitTimer( 0 )
@@ -176,18 +300,11 @@ DatabaseThread::DatabaseThread( const QString &fileName )
       }
    }
    mpQuery->clear();
-   moveToThread( this );
-   start();
 }
 
 
 DatabaseThread::~DatabaseThread()
 {
-   if( isRunning() )
-   {
-      call( this, "quit" );
-      wait();
-   }
    if( mpQuery )
    {
       mpQuery->clear();
@@ -202,12 +319,6 @@ DatabaseThread::~DatabaseThread()
       *mpSqlDB = QSqlDatabase();
       delete mpSqlDB;
    }
-}
-
-
-void DatabaseThread::run()
-{
-   exec();
 }
 
 
@@ -265,7 +376,7 @@ void DatabaseThread::commit( bool intermediate )
 }
 
 
-void DatabaseThread::getTrackInfo( QObject *target, const QString &method,
+void DatabaseThread::getTrackInfo( QObject *target, const QByteArray &method,
                                    int id, const QString &fileName,
                                    const QVariant &payload )
 {
@@ -299,7 +410,7 @@ void DatabaseThread::getTrackInfo( QObject *target, const QString &method,
       QMetaObject::invokeMethod( this, "getTrackInfo",
                                  Qt::QueuedConnection,
                                  Q_ARG( QObject*, target ),
-                                 Q_ARG( QString, method ),
+                                 Q_ARG( QByteArray, method ),
                                  Q_ARG( int, id ),
                                  Q_ARG( QString, fileName ),
                                  Q_ARG( QVariant, payload ) );
@@ -337,27 +448,11 @@ void DatabaseThread::getTrackInfo( QObject *target, const QString &method,
    }
    emit working( false );
 
-   if( payload.isValid() )
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( TrackInfo, trackInfo ),
-                                      Q_ARG( QVariant, payload ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
-   else
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( TrackInfo, trackInfo ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
+   callSlot( __FILE__, __LINE__, Q_FUNC_INFO, target, method, trackInfo, payload );
 }
 
 
-void DatabaseThread::getTrackInfoList( QObject *target, const QString &method,
+void DatabaseThread::getTrackInfoList( QObject *target, const QByteArray &method,
                                        const QString &search,
                                        const QVariant &payload )
 {
@@ -388,7 +483,7 @@ void DatabaseThread::getTrackInfoList( QObject *target, const QString &method,
          QMetaObject::invokeMethod( this, "getTrackInfoList",
                                     Qt::QueuedConnection,
                                     Q_ARG( QObject*, target ),
-                                    Q_ARG( QString, method ),
+                                    Q_ARG( QByteArray, method ),
                                     Q_ARG( QString, search ),
                                     Q_ARG( QVariant, payload ) );
          return;
@@ -416,27 +511,11 @@ void DatabaseThread::getTrackInfoList( QObject *target, const QString &method,
    mpQuery->clear();
    emit working( false );
 
-   if( payload.isValid() )
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( TrackInfoList, trackInfoList ),
-                                      Q_ARG( QVariant, payload ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
-   else
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( TrackInfoList, trackInfoList ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
+   callSlot( __FILE__, __LINE__, Q_FUNC_INFO, target, method, trackInfoList, payload );
 }
 
 
-void DatabaseThread::getPathNameList( QObject *target, const QString &method,
+void DatabaseThread::getPathNameList( QObject *target, const QByteArray &method,
                                       const QString &search,
                                       const QVariant &payload )
 {
@@ -464,7 +543,7 @@ void DatabaseThread::getPathNameList( QObject *target, const QString &method,
          QMetaObject::invokeMethod( this, "getPathNameList",
                                     Qt::QueuedConnection,
                                     Q_ARG( QObject*, target ),
-                                    Q_ARG( QString, method ),
+                                    Q_ARG( QByteArray, method ),
                                     Q_ARG( QString, search ),
                                     Q_ARG( QVariant, payload ));
          return;
@@ -479,26 +558,10 @@ void DatabaseThread::getPathNameList( QObject *target, const QString &method,
    mpQuery->clear();
    emit working( false );
 
-   if( payload.isValid() )
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( QStringList, pathNameList ),
-                                      Q_ARG( QVariant, payload ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
-   else
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( QStringList, pathNameList ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
+   callSlot( __FILE__, __LINE__, Q_FUNC_INFO, target, method, pathNameList, payload );
 }
 
-void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
+void DatabaseThread::getRandomTrack( QObject *target, const QByteArray &method,
                                      bool favorite, bool leastplayed,
                                      const QStringList &excludeArtists,
                                      const QString &folder,
@@ -539,7 +602,7 @@ void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
          QMetaObject::invokeMethod( this, "getRandomTrack",
                                     Qt::QueuedConnection,
                                     Q_ARG( QObject*, target ),
-                                    Q_ARG( QString, method ),
+                                    Q_ARG( QByteArray, method ),
                                     Q_ARG( bool, favorite ),
                                     Q_ARG( bool, leastplayed ),
                                     Q_ARG( QStringList, excludeArtists ),
@@ -580,34 +643,20 @@ void DatabaseThread::getRandomTrack( QObject *target, const QString &method,
       }
       mpQuery->clear();
       emit working( false );
+
       getTrackInfo( target, method, id, QString() );
    }
    else
    {
       mpQuery->clear();
       emit working( false );
-      if( payload.isValid() )
-      {
-         if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                         Q_ARG( TrackInfo, TrackInfo() ),
-                                         Q_ARG( QVariant, payload ) ) )
-         {
-            qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-         }
-      }
-      else
-      {
-         if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                         Q_ARG( TrackInfo, TrackInfo() ) ) )
-         {
-            qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-         }
-      }
+
+      callSlot( __FILE__, __LINE__, Q_FUNC_INFO, target, method, TrackInfo(), payload );
    }
 }
 
 
-void DatabaseThread::getFolders( QObject *target, const QString &method,
+void DatabaseThread::getFolders( QObject *target, const QByteArray &method,
                                  const QVariant &payload )
 {
    QStringList folders;
@@ -633,27 +682,11 @@ void DatabaseThread::getFolders( QObject *target, const QString &method,
    mpQuery->clear();
    emit working( false );
 
-   if( payload.isValid() )
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( QStringList, folders ),
-                                      Q_ARG( QVariant, payload )) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
-   else
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( QStringList, folders ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
+   callSlot( __FILE__, __LINE__, Q_FUNC_INFO, target, method, folders, payload );
 }
 
 
-void DatabaseThread::getFolder( QObject *target, const QString &method,
+void DatabaseThread::getFolder( QObject *target, const QByteArray &method,
                                 const QString &folder,
                                 const QVariant &payload )
 {
@@ -691,7 +724,7 @@ void DatabaseThread::getFolder( QObject *target, const QString &method,
             QMetaObject::invokeMethod( this, "getFolder",
                                        Qt::QueuedConnection,
                                        Q_ARG( QObject*, target ),
-                                       Q_ARG( QString, method ),
+                                       Q_ARG( QByteArray, method ),
                                        Q_ARG( QString, folder ),
                                        Q_ARG( QVariant, payload ) );
             return;
@@ -705,23 +738,7 @@ void DatabaseThread::getFolder( QObject *target, const QString &method,
       emit working( false );
    }
 
-   if( payload.isValid() )
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( QStringList, fileNames ),
-                                      Q_ARG( QVariant, payload ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
-   else
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( QStringList, fileNames ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
+   callSlot( __FILE__, __LINE__, Q_FUNC_INFO, target, method, fileNames, payload );
 }
 
 
@@ -1085,7 +1102,7 @@ TRACEMSG << "rows:" << mpQuery->numRowsAffected();
 }
 
 
-void DatabaseThread::getAllColumnData( QObject *target, const QString &method,
+void DatabaseThread::getAllColumnData( QObject *target, const QByteArray &method,
                                        const QString &columnName,
                                        const QVariant &payload )
 {
@@ -1102,7 +1119,7 @@ void DatabaseThread::getAllColumnData( QObject *target, const QString &method,
          QMetaObject::invokeMethod( this, "getAllColumnData",
                                     Qt::QueuedConnection,
                                     Q_ARG( QObject*, target ),
-                                    Q_ARG( QString, method ),
+                                    Q_ARG( QByteArray, method ),
                                     Q_ARG( QString, columnName ),
                                     Q_ARG( QVariant, payload ));
          return;
@@ -1115,27 +1132,11 @@ void DatabaseThread::getAllColumnData( QObject *target, const QString &method,
    mpQuery->clear();
    emit working( false );
 
-   if( payload.isValid() )
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( QStringList, list ),
-                                      Q_ARG( QVariant, payload ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
-   else
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( QStringList, list ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
+   callSlot( __FILE__, __LINE__, Q_FUNC_INFO, target, method, list, payload );
 }
 
 
-void DatabaseThread::generateTestLoad( QObject *target, const QString &method,
+void DatabaseThread::generateTestLoad( QObject *target, const QByteArray &method,
                                        const QString &command, const QVariant &payload )
 {
    emit working( true );
@@ -1182,39 +1183,11 @@ void DatabaseThread::generateTestLoad( QObject *target, const QString &method,
 
    emit working( false );
 
-   if( payload.isValid() )
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( QVariant, payload ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
-   else
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
+   callSlot( __FILE__, __LINE__, Q_FUNC_INFO, target, method, payload );
 }
 
 
-void DatabaseThread::call( QObject *target, const QString &method, const QVariant &payload )
+void DatabaseThread::call( QObject *target, const QByteArray &method, const QVariant &payload )
 {
-   if( payload.isValid() )
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection,
-                                      Q_ARG( QVariant, payload ) ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
-   else
-   {
-      if( !QMetaObject::invokeMethod( target, method.toAscii().constData(), Qt::QueuedConnection ) )
-      {
-         qFatal( call_fail_msg, __FILE__, __LINE__, Q_FUNC_INFO );
-      }
-   }
+   callSlot( __FILE__, __LINE__, Q_FUNC_INFO, target, method, payload );
 }
