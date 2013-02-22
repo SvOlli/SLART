@@ -106,7 +106,7 @@ SorcererMainWidget::SorcererMainWidget( QWidget *parent, Qt::WindowFlags flags )
             this, SLOT(unlockDatabase()) );
    handleTabChange(0);
    WindowIconChanger *wic = new WindowIconChanger( parent, QIcon(":/Common/DatabaseUp.png"), this );
-   DatabaseInterface::get()->connectActivityIndicator( wic, SLOT(changed(bool)) );
+   mpDatabase->connectActivityIndicator( wic, SLOT(changed(bool)) );
 
    setLayout( mainLayout );
 }
@@ -209,7 +209,7 @@ void SorcererMainWidget::unlockDatabase()
 {
    if( DatabaseInterface::exists() )
    {
-      mpDatabase->getTrackInfoList( this, "countTracks" );
+      mpDatabase->getTrackInfoList( this, SLOT(countTracks(TrackInfoList)) );
    }
 }
 
