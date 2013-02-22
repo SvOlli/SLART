@@ -23,11 +23,28 @@
 /* local headers */
 
 
-TrackReader::TrackReader( QObject *target, const QString &method,
+static const char *signature_mismatch_msg = "%s:%d %s does not match %s in %s";
+static const char *call_failed_msg = "%s:%d calling %s failed in %s";
+
+static inline QByteArray slotName( const char *method )
+{
+   const char *c = 0;
+   for( c = method + 1; *c; ++c )
+   {
+      if( *c == '(' )
+      {
+         break;
+      }
+   }
+   return QByteArray( method + 1, c - method - 1 );
+}
+
+
+TrackReader::TrackReader( QObject *target, const char *method,
                           enum Qt::ConnectionType type )
 : QObject( 0 )
 , mpTarget( target )
-, mMethod( method )
+, mpMethod( method )
 , mType( type )
 {
 }
@@ -40,7 +57,7 @@ TrackReader::~TrackReader()
 
 void TrackReader::read( const QString &fileName )
 {
-   DatabaseInterface::get()->getTrackInfo( this, "handleTrackInfo", fileName );
+   DatabaseInterface::get()->getTrackInfo( this, SLOT(handleTrackInfo(TrackInfo)), fileName );
 }
 
 
@@ -67,10 +84,18 @@ void TrackReader::handleTrackInfo( const TrackInfo &trackInfo )
       }
    }
 
-   if( !QMetaObject::invokeMethod( mpTarget, mMethod.toAscii().constData(),
-                                   mType, Q_ARG( TrackInfo, ti ) ) )
+   const char *signal1 = SIGNAL(signal(TrackInfo));
+   if( QMetaObject::checkConnectArgs( signal1, mpMethod ) )
    {
-      qFatal( "%s:%d call failed in %s", __FILE__, __LINE__, Q_FUNC_INFO );
+      if( !QMetaObject::invokeMethod( mpTarget, slotName( mpMethod ).constData(),
+                                      mType, Q_ARG( TrackInfo, ti ) ) )
+      {
+         qFatal( call_failed_msg, __FILE__, __LINE__, signal1, Q_FUNC_INFO );
+      }
+   }
+   else
+   {
+      qFatal( signature_mismatch_msg, __FILE__, __LINE__, signal1, mpMethod, Q_FUNC_INFO );
    }
 
    deleteLater();

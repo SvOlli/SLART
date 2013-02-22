@@ -194,11 +194,9 @@ void FileSysBrowser::scrollTo( const QString &fileName )
    {
       qmi = mpModel->index( fileName.left( i ) );
       mpView->expand( qmi );
-      mpView->scrollTo( qmi, QAbstractItemView::PositionAtCenter );
    }
    qmi = mpModel->index( fileName );
    mpView->setCurrentIndex( qmi );
-   mpView->scrollTo( qmi, QAbstractItemView::PositionAtCenter );
    QTimer::singleShot( 333, mpView, SLOT(scrollToActive()) );
    // \todo: only emit if in visible area
    emit clicked( fileName );

@@ -132,7 +132,7 @@ void RecurseWorker::run()
    mPatternWithoutTrackNr = Settings::value( Settings::RubberbandmanWithoutTrackNr );
    mPatternWithTrackNr    = Settings::value( Settings::RubberbandmanWithTrackNr );
    workDir( mDir );
-   mpDatabase->call( this, "done" );
+   mpDatabase->call( this, SLOT(done()) );
    exec();
 }
 
@@ -165,7 +165,7 @@ void RecurseWorker::workDir( const QString &dir )
       }
       if( fileInfo.isFile() )
       {
-         mpDatabase->getTrackInfo( this, "updateTrackInfo", fileInfo.absoluteFilePath() );
+         mpDatabase->getTrackInfo( this, SLOT(updateTrackInfo(TrackInfo)), fileInfo.absoluteFilePath() );
       }
    }
 }

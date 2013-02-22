@@ -25,11 +25,28 @@
 /* local headers */
 
 
-TrackWriter::TrackWriter( QObject *target, const QString &method,
+static const char *signature_mismatch_msg = "%s:%d %s does not match %s or %s in %s";
+static const char *call_failed_msg = "%s:%d calling %s failed in %s";
+
+static inline QByteArray slotName( const char *method )
+{
+   const char *c = 0;
+   for( c = method + 1; *c; ++c )
+   {
+      if( *c == '(' )
+      {
+         break;
+      }
+   }
+   return QByteArray( method + 1, c - method - 1 );
+}
+
+
+TrackWriter::TrackWriter( QObject *target, const char *method,
                           enum Qt::ConnectionType type )
 : QObject( 0 )
 , mpTarget( target )
-, mMethod( method )
+, mpMethod( method )
 , mType( type )
 {
 }
@@ -111,19 +128,27 @@ void TrackWriter::write( const TrackInfo &trackInfo )
    ti.mLastTagsRead = QFileInfo( ti.mDirectory + "/" + ti.mFileName ).lastModified().toTime_t();
    database->updateTrackInfo( ti, true );
 
-   if( mpTarget && !mMethod.isEmpty() )
+   if( mpTarget && !mpMethod )
    {
       if( ti.mID > 0 )
       {
-         if( !QMetaObject::invokeMethod( mpTarget, mMethod.toAscii().constData(),
-                                         mType, Q_ARG( TrackInfo, ti ) ) )
+         const char *signal1 = SIGNAL(signal(TrackInfo));
+         if( QMetaObject::checkConnectArgs( signal1, mpMethod ) )
          {
-            qFatal( "%s:%d call failed in %s", __FILE__, __LINE__, Q_FUNC_INFO );
+            if( !QMetaObject::invokeMethod( mpTarget, slotName( mpMethod ).constData(),
+                                            mType, Q_ARG( TrackInfo, ti ) ) )
+            {
+               qFatal( call_failed_msg, __FILE__, __LINE__, signal1, Q_FUNC_INFO );
+            }
+         }
+         else
+         {
+            qFatal( signature_mismatch_msg, __FILE__, __LINE__, signal1, mpMethod, Q_FUNC_INFO );
          }
       }
       else
       {
-         database->getTrackInfo( mpTarget, mMethod,
+         database->getTrackInfo( mpTarget, mpMethod,
                                  ti.mDirectory + "/" + ti.mFileName );
       }
    }

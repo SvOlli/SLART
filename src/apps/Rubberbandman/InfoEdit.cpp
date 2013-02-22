@@ -187,10 +187,10 @@ InfoEdit::InfoEdit( QWidget *parent )
    connect( mpMenuFolders, SIGNAL(triggered(QAction*)),
             this, SLOT(handleFoldersMenu(QAction*)) );
 
-   mpDatabase->getAllColumnData( mpEditArtist, "setCompleterTexts", DatabaseInterface::Artist );
-   mpDatabase->getAllColumnData( mpEditTitle,  "setCompleterTexts", DatabaseInterface::Title );
-   mpDatabase->getAllColumnData( mpEditAlbum,  "setCompleterTexts", DatabaseInterface::Album );
-   mpDatabase->getAllColumnData( mpEditGenre,  "setCompleterTexts", DatabaseInterface::Genre );
+   mpDatabase->getAllColumnData( mpEditArtist, SLOT(setCompleterTexts(QStringList)), DatabaseInterface::Artist );
+   mpDatabase->getAllColumnData( mpEditTitle,  SLOT(setCompleterTexts(QStringList)), DatabaseInterface::Title );
+   mpDatabase->getAllColumnData( mpEditAlbum,  SLOT(setCompleterTexts(QStringList)), DatabaseInterface::Album );
+   mpDatabase->getAllColumnData( mpEditGenre,  SLOT(setCompleterTexts(QStringList)), DatabaseInterface::Genre );
 }
 
 
@@ -251,7 +251,7 @@ void InfoEdit::loadFile( const QString &fullpath )
    QFileInfo fileInfo( mFileName );
    if( fileInfo.isFile() )
    {
-      TrackReader *tr = new TrackReader( this, "loadTrackInfo" );
+      TrackReader *tr = new TrackReader( this, SLOT(loadTrackInfo(TrackInfo)) );
       tr->read( mFileName );
    }
    else
@@ -481,7 +481,7 @@ void InfoEdit::saveFile()
    }
    mTrackInfo.mGenre        = mpEditGenre->text();
 
-   TrackWriter *tw = new TrackWriter( this, "loadTrackInfo" );
+   TrackWriter *tw = new TrackWriter( this, SLOT(loadTrackInfo(TrackInfo)) );
    tw->write( mTrackInfo );
 
    if( mTrackInfo.mID <= 0 )
@@ -538,7 +538,7 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
 
       mpMenuFlags->clear();
       mpMenuFolders->clear();
-      mpDatabase->getFolders( this, "handleFoldersEntries" );
+      mpDatabase->getFolders( this, SLOT(handleFoldersEntries(QStringList)) );
 
       if( withRecurse )
       {

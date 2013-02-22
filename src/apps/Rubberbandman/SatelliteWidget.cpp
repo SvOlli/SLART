@@ -108,11 +108,11 @@ void SatelliteWidget::handleSatellite( const QByteArray &msg )
          if( message.size() > 1 )
          {
             message.takeFirst();
-            mpDatabase->generateTestLoad( this, "handleGetRandom", message.join(" ") );
+            mpDatabase->generateTestLoad( this, SLOT(handleGetRandom()), message.join(" ") );
          }
          else
          {
-            mpDatabase->generateTestLoad( this, "handleGetRandom", "cr cd dk sv dt vc" );
+            mpDatabase->generateTestLoad( this, SLOT(handleGetRandom()), "cr cd dk sv dt vc" );
          }
       }
    }
@@ -137,5 +137,5 @@ void SatelliteWidget::handleShowInFilesystem()
 
 void SatelliteWidget::handleGetRandom()
 {
-   mpDatabase->getRandomTrack( mpInfoEdit, "loadTrackInfo", false, false, QStringList() );
+   mpDatabase->getRandomTrack( mpInfoEdit, SLOT(loadTrackInfo(TrackInfo)), false, false, QStringList() );
 }

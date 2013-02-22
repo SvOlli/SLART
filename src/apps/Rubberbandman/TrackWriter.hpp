@@ -49,7 +49,7 @@ public:
     \param method
     \param type
    */
-   TrackWriter( QObject *target = 0, const QString &method = QString(),
+   TrackWriter( QObject *target = 0, const char *method = 0,
                 enum Qt::ConnectionType type = Qt::AutoConnection );
 
    /*!
@@ -72,7 +72,7 @@ private:
    Q_DISABLE_COPY( TrackWriter )
 
    QObject                 *mpTarget;
-   QString                 mMethod;
+   const char              *mpMethod;
    enum Qt::ConnectionType mType;
 };
 

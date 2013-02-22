@@ -117,7 +117,7 @@ void DatabaseWorker::run()
          exec();
          break;
       case ModeCleanup:
-         mpDatabase->getTrackInfoList( this, "cleanup" );
+         mpDatabase->getTrackInfoList( this, SLOT(cleanup(TrackInfoList)) );
          exec();
          break;
       case ModeImport:
@@ -151,19 +151,19 @@ void DatabaseWorker::cleanup( const TrackInfoList &trackInfoList )
    }
    emit progress( mChecked, mProcessed );
    //mpDatabase->cleanup(); //\todo
-   mpDatabase->call( this, "quit" );
+   mpDatabase->call( this, SLOT(quit()) );
 }
 
 
 void DatabaseWorker::handleFile( const QFileInfo &fileInfo )
 {
-   mpDatabase->getTrackInfo( this, "updateTrackInfoFromFile", fileInfo.absoluteFilePath() );
+   mpDatabase->getTrackInfo( this, SLOT(updateTrackInfoFromFile(TrackInfo)), fileInfo.absoluteFilePath() );
 }
 
 
 void DatabaseWorker::handleEnd()
 {
-   mpDatabase->call( this, "quit" );
+   mpDatabase->call( this, SLOT(quit()) );
 }
 
 

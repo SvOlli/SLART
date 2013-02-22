@@ -47,7 +47,7 @@ public:
     \brief constructor
 
    */
-   TrackReader( QObject *target, const QString &method,
+   TrackReader( QObject *target, const char *method,
                 enum Qt::ConnectionType type = Qt::AutoConnection );
    /*!
     \brief destructor
@@ -75,7 +75,7 @@ private:
    Q_DISABLE_COPY( TrackReader )
 
    QObject                 *mpTarget;
-   QString                 mMethod;
+   const char              *mpMethod;
    enum Qt::ConnectionType mType;
 };
 
