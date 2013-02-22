@@ -98,8 +98,7 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
 
    setLayout( mainLayout );
 
-   mpDatabase->getFolders( this, "updateFolderNames" );
-
+   mpDatabase->getFolders( this, SLOT(updateFolderNames(QStringList)) );
    mpDatabase->connectActivityIndicator( mpFileName, SLOT(setDisabled(bool)) );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
@@ -145,7 +144,7 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
       mpDatabase->registerUpdate( mpSatellite, "k0u" );
    }
    WindowIconChanger *wic = new WindowIconChanger( parent, QIcon(":/Common/DatabaseUp.png"), this );
-   DatabaseInterface::get()->connectActivityIndicator( wic, SLOT(changed(bool)) );
+   mpDatabase->connectActivityIndicator( wic, SLOT(changed(bool)) );
 }
 
 
@@ -242,7 +241,7 @@ void KarmadromeMainWidget::handleSatellite( const QByteArray &msg )
       {
          mpFileName->setText( message.at(1) );
          mpFileName->setDragFileName( message.at(1) );
-         mpDatabase->getTrackInfo( this, "updateTrackInfo", message.at(1) );
+         mpDatabase->getTrackInfo( this, SLOT(updateTrackInfo(TrackInfo)), message.at(1) );
       }
    }
 
@@ -258,18 +257,14 @@ void KarmadromeMainWidget::handleSatellite( const QByteArray &msg )
    if( (message.at(0) == "p0u") ||
        (message.at(0) == "r0u") )
    {
-#if 1
       if( mTrackInfo.isInDatabase() )
       {
-         mpDatabase->getTrackInfo( this, "updateTrackInfo", mTrackInfo.mID );
+         mpDatabase->getTrackInfo( this, SLOT(updateTrackInfo(TrackInfo)), mTrackInfo.mID );
       }
       else
       {
-         mpDatabase->getTrackInfo( this, "updateTrackInfo", mpFileName->text() );
+         mpDatabase->getTrackInfo( this, SLOT(updateTrackInfo(TrackInfo)), mpFileName->text() );
       }
-#else
-      mpDatabase->getTrackInfo( this, "updateTrackInfo", mpFileName->text() );
-#endif
    }
 }
 
@@ -320,7 +315,7 @@ void KarmadromeMainWidget::handleAdd()
       else
       {
          mpDatabase->insertFolder( folder );
-         mpDatabase->getFolders( this, "updateFolderNames" );
+         mpDatabase->getFolders( this, SLOT(updateFolderNames(QStringList)) );
       }
    }
 }
@@ -433,7 +428,7 @@ void KarmadromeMainWidget::handleRemove( QAction *action )
                                                  tr("Are you sure you want to delete the folder\n") +
                                                  action->text(), QMessageBox::Ok | QMessageBox::Cancel ) )
    {
-      mpDatabase->getFolder( this, "removeFolder", action->text() );
+      mpDatabase->getFolder( this, SLOT(removeFolder(QStringList,QVariant)), action->text() );
    }
    else
    {
@@ -445,7 +440,7 @@ void KarmadromeMainWidget::handleRemove( QAction *action )
 void KarmadromeMainWidget::handleReadButton()
 {
    mpFileName->setText( GlobalConfigWidget::getClipboard() );
-   mpDatabase->getTrackInfo( this, "updateTrackInfo", mpFileName->text() );
+   mpDatabase->getTrackInfo( this, SLOT(updateTrackInfo(TrackInfo)), mpFileName->text() );
 }
 
 
@@ -492,10 +487,10 @@ void KarmadromeMainWidget::removeFolder( const QStringList &entries, const QVari
    }
    foreach( const QString &entry, entries )
    {
-      mpDatabase->getTrackInfo( this, "removeFolderFromTrack", entry, payload );
+      mpDatabase->getTrackInfo( this, SLOT(removeFolderFromTrack(TrackInfo,QVariant)), entry, payload );
    }
    mpDatabase->deleteFolder( folder );
-   mpDatabase->getFolders( this, "updateFolderNames" );
+   mpDatabase->getFolders( this, SLOT(updateFolderNames(QStringList)) );
    setButtonsEnabled();
 }
 

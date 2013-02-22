@@ -32,18 +32,19 @@ ExportFolder::ExportFolder( const QString &folder, const QString &fileName,
 {
    qsrand( time((time_t*)0) );
    DatabaseInterface *database = DatabaseInterface::get();
-   QString favorite( QChar(1) );
-   QString unwanted( QChar(1) );
-   const QString *f = &folder;
+
    if( folder.startsWith( "|F", Qt::CaseInsensitive ) )
    {
-      f = &favorite;
+      database->getFolder( this, SLOT(writeData(QStringList)), QString( QChar(1) ) );
    }
-   if( folder.startsWith( "|U", Qt::CaseInsensitive ) )
+   else if( folder.startsWith( "|U", Qt::CaseInsensitive ) )
    {
-      f = &unwanted;
+      database->getFolder( this, SLOT(writeData(QStringList)), QString( QChar(2) ) );
    }
-   database->getFolder( this, "writeData", *f );
+   else
+   {
+      database->getFolder( this, SLOT(writeData(QStringList)), folder );
+   }
 }
 
 

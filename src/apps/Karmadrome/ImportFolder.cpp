@@ -74,7 +74,8 @@ TRACESTART(ImportFolder::ImportFolder)
                fileName = qfi.absoluteFilePath();
             }
             mQueueSize++;
-            mpDatabase->getTrackInfo( this, "addEntryToFolder", fileName );
+
+            mpDatabase->getTrackInfo( this, SLOT(addEntryToFolder(TrackInfo)), fileName );
          }
       }
       m3uFile.close();

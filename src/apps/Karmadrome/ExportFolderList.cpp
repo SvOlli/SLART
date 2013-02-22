@@ -28,7 +28,8 @@ ExportFolderList::ExportFolderList( const QString &fileName )
 , mFileName( fileName )
 {
    DatabaseInterface *database = DatabaseInterface::get();
-   database->getFolders( this, "writeData" );
+
+   database->getFolders( this, SLOT(writeData(QStringList)) );
 }
 
 
