@@ -61,6 +61,7 @@ public:
    /*!
     \brief 
 
+    \param trackInfo
    */
    void write( const TrackInfo &trackInfo );
 

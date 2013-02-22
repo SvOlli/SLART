@@ -46,8 +46,11 @@ public:
    /*!
     \brief constructor
 
+    \param target
+    \param method
+    \param type
    */
-   TrackReader( QObject *target, const char *method,
+   TrackReader( QObject *target, const char *method = 0,
                 enum Qt::ConnectionType type = Qt::AutoConnection );
    /*!
     \brief destructor
@@ -66,6 +69,7 @@ public slots:
    /*!
     \brief 
 
+    \param trackInfo
    */
    void handleTrackInfo( const TrackInfo &trackInfo );
 
