@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QImage>
 
 /* local library headers */
 
@@ -108,6 +109,12 @@ public slots:
     \param mode
    */
    void setTransformationMode( Qt::TransformationMode mode );
+   /*!
+    \brief get image data
+
+    \return QImage
+   */
+   QImage imageData() const;
 
 signals:
    /*!

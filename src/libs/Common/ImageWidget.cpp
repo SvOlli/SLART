@@ -30,12 +30,19 @@ ImageWidget::ImageWidget( QWidget *parent )
 {
 }
 
+
 ImageWidget::~ImageWidget()
 {
    if( mpImage )
    {
       delete mpImage;
    }
+}
+
+
+QImage ImageWidget::imageData() const
+{
+   return *mpImage;
 }
 
 
@@ -76,6 +83,65 @@ void ImageWidget::mousePressEvent( QMouseEvent *event )
    }
    emit clicked( event->pos() );
    event->accept();
+#if 0
+   QMimeData *mimeData = new QMimeData;
+   if( mDragUsingTempFile )
+   {
+      if( mpTempFile )
+      {
+         delete mpTempFile;
+      }
+      QString tempFileName( QDir::tempPath() );
+      if( mDragAsPng )
+      {
+         tempFileName.append( "/XXXXXX.PNG" );
+      }
+      else
+      {
+         tempFileName.append( "/XXXXXX.BMP" );
+      }
+      mpTempFile = new QTemporaryFile( tempFileName, this );
+      mpTempFile->open();
+      mpImage->save( mpTempFile, QFileInfo(tempFileName).suffix().toAscii() );
+      mpTempFile->close();
+      mimeData->setData( "text/uri-list", QUrl::fromLocalFile(mpTempFile->fileName()).toEncoded() );
+   }
+   else
+   {
+      QByteArray itemData;
+      QBuffer buffer( &itemData );
+      buffer.open( QIODevice::WriteOnly );
+      if( mDragAsPng )
+      {
+         mpImage->save( &buffer, "PNG" );
+         mimeData->setData( "image/png", itemData );
+      }
+      else
+      {
+         mpImage->save( &buffer, "BMP" );
+         mimeData->setData( "image/bmp", itemData );
+      }
+      buffer.close();
+   }
+
+   QDrag *drag = new QDrag( this );
+   drag->setMimeData( mimeData );
+   //drag->setHotSpot( event->pos() /*- rect().topLeft()*/ );
+   int x = 0;
+   int y = 0;
+   if( mpImage->width() > mpImage->height() )
+   {
+      x = mDragThumbSize;
+      y = ( x * mpImage->height() ) / mpImage->width();
+   }
+   else
+   {
+      y = mDragThumbSize;
+      x = ( y * mpImage->width() ) / mpImage->height();
+   }
+   drag->setPixmap( QPixmap::fromImage( mpImage->scaled( x, y ) ) );
+   drag->exec( Qt::CopyAction );
+#endif
 }
 
 
