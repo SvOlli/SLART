@@ -32,8 +32,8 @@ DownloadJobCoverAmazonDE::DownloadJobCoverAmazonDE( Downloader *downloader,
 , mpTarget( target )
 , mpSlot( slot )
 {
-   connect( this, SIGNAL(requestDownload(QObject*,const char*,QUrl)),
-            downloader, SLOT(download(QObject*,const char*,QUrl)) );
+   connect( this, SIGNAL(requestDownload(QObject*,const char*,QUrl,QVariant)),
+            downloader, SLOT(download(QObject*,const char*,QUrl,QVariant)) );
 }
 
 
@@ -50,23 +50,27 @@ TRACESTART(DownloadJobCoverAmazonDE::query)
    QUrl url( "http://www.amazon.de/s/ref=nb_sb_noss" );
    url.addQueryItem( "__mk_de_DE", QString::fromUtf8(amazon.constData()) );
    url.addQueryItem( "url", "search-alias=popular" );
-   url.addQueryItem( "field-keywords", QString("%1 %2").arg( query ) );
-   emit requestDownload( this, SLOT(parseHtml(QByteArray)), url );
+   url.addQueryItem( "field-keywords", query );
+   emit requestDownload( this, SLOT(parseHtml(QByteArray,QVariant)), url, QVariant( url ) );
 }
 
 
-void DownloadJobCoverAmazonDE::parseHtml( const QByteArray &data )
+void DownloadJobCoverAmazonDE::parseHtml( const QByteArray &data, const QVariant &payload )
 {
 TRACESTART(DownloadJobCoverAmazonDE::parseHtml)
 
-   QRegExp re( ".*<img[^>]*src=\"([^\"]*)\".*" );
+   QRegExp imgRe( ".*<img[^>]*src=\"([^\"]*)\".*" );
+   QRegExp linkRe( ".*<a[^>]*href=\"([^\"]*)\".*" );
    QString s( QString::fromUtf8(data.constData()) );
    QStringList l( s.split("\n", QString::SkipEmptyParts) );
    foreach( s, l )
    {
       if( s.contains("Produkt-Information") )
       {
-         emit requestDownload( mpTarget, mpSlot, QUrl( s.replace( re, "\\1" ) ) );
+         QUrl imgUrl( QString(s).replace( imgRe, "\\1" ) );
+         QUrl linkUrl( QString(s).replace( linkRe, "\\1" ) );
+         emit requestDownload( mpTarget, mpSlot, imgUrl, QVariant( linkUrl ) );
       }
    }
 }
+// <img src="http://ecx.images-amazon.com/images/I/51M22V8MHYL._SL500_AA300_.jpg" id="original-main-image"

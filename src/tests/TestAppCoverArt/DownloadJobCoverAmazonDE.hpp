@@ -43,11 +43,11 @@ public:
    void query( const QString &query );
 
 public slots:
-   void parseHtml( const QByteArray &data );
+   void parseHtml( const QByteArray &data, const QVariant &payload );
 
 signals:
    void requestDownload( QObject *object, const char *slot,
-                         const QUrl &urlList );
+                         const QUrl &urlList, const QVariant &payload );
 
 private:
    Q_DISABLE_COPY( DownloadJobCoverAmazonDE )

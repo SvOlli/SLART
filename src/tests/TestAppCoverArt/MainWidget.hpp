@@ -21,7 +21,6 @@
 #include <QUrl>
 
 /* local library headers */
-#include <TrackInfo.hpp>
 
 /* local headers */
 
@@ -51,14 +50,13 @@ public:
 public slots:
    void requestFromLine();
 
-   void showCovers( const QByteArray &data );
+   void showCovers( const QByteArray &data, const QVariant &payload );
 
    void entryClicked( const QModelIndex &index );
 
    void saveImage( QWidget *widget );
 
 signals:
-   void requestDownload( unsigned int id, const QList<QUrl> &requst );
 
 private:
    Q_DISABLE_COPY( MainWidget )
@@ -69,9 +67,11 @@ private:
    QTreeView                        *mpFileSysTree;
    QFileSystemModel                 *mpFileSysModel;
    QLineEdit                        *mpLineEdit;
+   ImageWidget                      *mpImage;
+   QLineEdit                        *mpMessage;
    QSignalMapper                    *mpSignalMapper;
-   QList<ImageWidget*>              mCoversList;
-   QMap<QWidget*,QByteArray>        mDataMap;
+   QMap<QWidget*,QUrl>              mDataMap;
+   int                              mNumColumns;
 };
 
 #endif
