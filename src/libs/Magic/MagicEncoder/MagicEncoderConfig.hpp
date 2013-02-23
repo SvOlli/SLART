@@ -31,7 +31,7 @@ class QPushButton;
 /* forward declaration of local classes */
 
 /*!
-  \addtogroup MagicEncoder
+  \addtogroup Magic
   @{
   */
 

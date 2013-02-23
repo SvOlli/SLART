@@ -40,7 +40,10 @@ class TrackInfo;
 class TrackInfoWidget;
 
 /*!
-  \addtogroup Partyman Partyman: dual slot audio player
+  \addtogroup Partyman
+
+  \brief application: dual slot audio player
+
   @{
   */
 

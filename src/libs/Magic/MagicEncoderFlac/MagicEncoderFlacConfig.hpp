@@ -30,7 +30,7 @@ class ScrollLine;
 
 
 /*!
-  \addtogroup MagicEncoderFlac
+  \addtogroup Magic
 
   @{
 */

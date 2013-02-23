@@ -29,7 +29,7 @@
 /* forward declaration of local classes */
 
 /*!
-  \addtogroup MagicEncoderFlac MagicEncoderFlac: interface for FLAC audio encoding
+  \addtogroup Magic
   @{
   */
 

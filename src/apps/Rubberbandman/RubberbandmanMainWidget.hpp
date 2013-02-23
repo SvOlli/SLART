@@ -35,7 +35,10 @@ class SatelliteWidget;
 
 
 /*!
-  \addtogroup Rubberbandman Rubberbandman: tag editor and database manager
+  \addtogroup Rubberbandman
+
+  \brief application: tag editor and database manager
+
   @{
   */
 

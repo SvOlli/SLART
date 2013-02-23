@@ -33,7 +33,9 @@ class ScrollLine;
 
 
 /*!
-  \addtogroup MagicEncoder
+  \addtogroup Magic
+
+  \brief library: plugin based audio codec framework (FLAC, mp3, OggVorbis and Wave)
 
   @{
 */

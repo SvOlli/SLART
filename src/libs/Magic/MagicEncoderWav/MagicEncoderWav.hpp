@@ -27,7 +27,7 @@
 /* forward declaration of local classes */
 
 /*!
-  \addtogroup MagicEncoderWav MagicEncoderWav: interface for wave audio encoding
+  \addtogroup Magic
   @{
   */
 

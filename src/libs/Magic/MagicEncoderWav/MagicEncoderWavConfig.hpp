@@ -29,7 +29,7 @@ class ScrollLine;
 
 
 /*!
-  \addtogroup MagicEncoderWav
+  \addtogroup Magic
 
   @{
 */

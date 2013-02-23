@@ -28,7 +28,7 @@ class MagicEncoderOgg;
 
 
 /*!
-  \addtogroup MagicEncoderOgg
+  \addtogroup Magic
 
   @{
 */

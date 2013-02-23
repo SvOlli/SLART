@@ -30,9 +30,8 @@ class QTcpSocket;
 
 
 /*!
-  \addtogroup Satellite Satellite: interprocess communication
+  \addtogroup Satellite
 
-  \brief part of \ref Common
   @{
   */
 

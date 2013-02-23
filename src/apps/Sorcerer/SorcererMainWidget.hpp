@@ -37,6 +37,7 @@ class SatelliteConfigWidget;
 /*!
   \addtogroup Sorcerer
 
+  \brief application: setup wizard
   @{
   */
 

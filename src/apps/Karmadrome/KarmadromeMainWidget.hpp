@@ -39,7 +39,9 @@ class Satellite;
 class ScrollLine;
 
 /*!
-  \addtogroup Karmadrome Karmadrome: playlist manager
+  \addtogroup Karmadrome
+
+  \brief application: playlist manager
   @{
   */
 

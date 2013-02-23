@@ -15,7 +15,6 @@
 #include <GenericSatelliteHandler.hpp>
 #include <Satellite.hpp>
 #include <Settings.hpp>
-#include <SingleInstance.hpp>
 #include <Trace.hpp>
 #include <Translate.hpp>
 

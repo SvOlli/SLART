@@ -36,7 +36,10 @@ class FunkytownConfigDialog;
 class DownloadHandler;
 
 /*!
-  \addtogroup Funkytown Funkytown: file downloader
+  \addtogroup Funkytown
+
+  \brief application: file downloader
+
   @{
   */
 

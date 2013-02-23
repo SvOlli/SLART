@@ -31,7 +31,7 @@ class ScrollLine;
 /* forward declaration of local classes */
 
 /*!
-  \addtogroup MagicEncoder MagicEncoder: abstract interface for audio encoding
+  \addtogroup Magic
   @{
   */
 

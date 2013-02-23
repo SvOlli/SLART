@@ -38,9 +38,10 @@ class SatelliteServer;
 
 
 /*!
-  \addtogroup Satellite Satellite: interprocess communication
+  \addtogroup Satellite Satellite
 
-  \brief \todo
+  \brief library: simple interprocess communication framework
+
   @{
   */
 

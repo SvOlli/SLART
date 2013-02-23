@@ -29,7 +29,7 @@ class MagicEncoderMp3;
 
 
 /*!
-  \addtogroup MagicEncoderMp3
+  \addtogroup Magic
 
   @{
 */

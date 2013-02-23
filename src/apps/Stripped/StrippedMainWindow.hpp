@@ -38,7 +38,9 @@ class ParanoiaStatus;
 class Satellite;
 
 /*!
-  \addtogroup Stripped Stripped: CD-ripping
+  \addtogroup Stripped
+
+  \brief application: CD-ripping tool
 
  @{
  */

@@ -25,7 +25,7 @@
 
 
 /*!
-  \addtogroup CommandLine CommandLine: handling command line parameters
+  \addtogroup CommandLine
 
  @{
  */

@@ -23,8 +23,7 @@
 /* forward declaration of local classes */
 
 /*!
-  \addtogroup SettingsGenerator SettingsGenerator: helper tool to generate
-  settings handling class
+  \addtogroup SettingsGenerator
 
  @{
  */

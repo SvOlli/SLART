@@ -30,7 +30,7 @@ extern "C" {
 /* forward declaration of local classes */
 
 /*!
-  \addtogroup MagicEncoderOgg MagicEncoderOgg: interface for OggVorbis audio encoding
+  \addtogroup Magic
   @{
   */
 

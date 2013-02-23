@@ -24,8 +24,9 @@
 /* forward declaration of local classes */
 
 /*!
-  \addtogroup SettingsGenerator SettingsGenerator: helper tool to generate
-  settings handling class
+  \addtogroup SettingsGenerator
+
+  \brief tool: helper to generate part of the settings handling class \ref Settings
 
  @{
  */

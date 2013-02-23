@@ -30,7 +30,7 @@ extern "C" {
 /* forward declaration of local classes */
 
 /*!
-  \addtogroup MagicEncoderMp3 MagicEncoderMp3: interface for mp3 audio encoding
+  \addtogroup Magic
   @{
   */
 

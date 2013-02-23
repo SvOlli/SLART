@@ -37,7 +37,9 @@ class StationStorage;
 
 
 /*!
-  \addtogroup Underpass Underpass: streamed audio player
+  \addtogroup Underpass
+
+  \brief application: streamed audio player
 
   Underpass just is a small frontend intended for mpg123 and ogg123.
 

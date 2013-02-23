@@ -24,7 +24,9 @@
 class CommandLineOption;
 
 /*!
-  \addtogroup CommandLine CommandLine: handling command line parameters
+  \addtogroup CommandLine
+
+  \brief library: handling command line parameters
 
  @{
  */

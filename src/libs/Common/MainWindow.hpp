@@ -26,9 +26,11 @@
 /* forward declaration of local classes */
 
 /*!
-  \addtogroup Common Common: common subroutines
+  \addtogroup Common
 
-  \brief also contains \ref Satellite
+  \brief library: common subroutines
+
+  randomly thrown together collection of more or less useful subroutines
  @{
  */
 

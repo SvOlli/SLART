@@ -31,7 +31,9 @@ class Foundlist;
 class SearchWidget;
 
 /*!
-  \addtogroup Notorious Notorious: FreeDB browser
+  \addtogroup Notorious
+
+  \brief application: FreeDB browser
   @{
   */
 
