@@ -55,6 +55,7 @@ GSettingsWrapper::~GSettingsWrapper()
 {
 #if GLIB_VERSION_2_26
    GSettings *gsettings = static_cast<GSettings*>( mpGSettings );
+   Q_UNUSED( gsettings );
    // would like to run g_free here, but it crashes applications
    //g_free( gsettings );
 #endif
