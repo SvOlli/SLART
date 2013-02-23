@@ -20,7 +20,6 @@ INCLUDE_DIRECTORIES(
 
 ADD_SOURCE( Application                cpp         )
 ADD_SOURCE( MainWidget                 cpp hpp moc )
-ADD_SOURCE( DownloadJobCoverAmazonDE   cpp hpp moc )
 
 SET( TestAppCoverArt_RESOURCES
 )
@@ -42,6 +41,7 @@ ADD_EXECUTABLE( TestAppCoverArt
 
 ADD_DEPENDENCIES( TestAppCoverArt
    Common
+   Kryptonite
    Satellite
 )
 

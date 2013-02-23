@@ -11,9 +11,9 @@ QT += sql network
 include( ../../buildconfig.pri )
 
 INCLUDEPATH += $${TOPSRC}/libs/Satellite
-LIBS += -lSatellite
 INCLUDEPATH += $${TOPSRC}/libs/Common
-LIBS += -lCommon -lSatellite
+INCLUDEPATH += $${TOPSRC}/libs/Kryptonite
+LIBS += -lCommon -lSatellite -lKryptonite
 
 # Input
 # RESOURCES = Resources/TestAppCoverArt.qrc
@@ -22,15 +22,18 @@ SOURCES += Application.cpp
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
 
-HEADERS += ../../libs/Common/Downloader.hpp
-SOURCES += ../../libs/Common/Downloader.cpp
+HEADERS += ../../libs/Kryptonite/Kryptonite.hpp
+SOURCES += ../../libs/Kryptonite/Kryptonite.cpp
 
-HEADERS += ../../libs/Common/DownloadReply.hpp
-SOURCES += ../../libs/Common/DownloadReply.cpp
+HEADERS += ../../libs/Kryptonite/KryptoniteJobCover.hpp
+SOURCES += ../../libs/Kryptonite/KryptoniteJobCover.cpp
 
-HEADERS += DownloadJobCoverAmazonDE.hpp
-SOURCES += DownloadJobCoverAmazonDE.cpp
+HEADERS += ../../libs/Kryptonite/KryptoniteJobCoverAmazonDE.hpp
+SOURCES += ../../libs/Kryptonite/KryptoniteJobCoverAmazonDE.cpp
 
-HEADERS += ../../libs/Common/IODeviceStreamer.hpp
-SOURCES += ../../libs/Common/IODeviceStreamer.cpp
+HEADERS += ../../libs/Kryptonite/KryptoniteReply.hpp
+SOURCES += ../../libs/Kryptonite/KryptoniteReply.cpp
+
+HEADERS += ../../libs/Kryptonite/IODeviceStreamer.hpp
+SOURCES += ../../libs/Kryptonite/IODeviceStreamer.cpp
 

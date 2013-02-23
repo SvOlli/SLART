@@ -28,18 +28,19 @@
 /* local library headers */
 #include <Database.hpp>
 #include <ImageWidget.hpp>
+#include <ProxyWidget.hpp>
 #include <Settings.hpp>
 
 /* local headers */
-#include "Downloader.hpp"
-#include "DownloadJobCoverAmazonDE.hpp"
+#include <Kryptonite.hpp>
+#include <KryptoniteJobCoverAmazonDE.hpp>
 
 #include "Trace.hpp"
 
 MainWidget::MainWidget( QWidget *parent )
 : QSplitter( Qt::Horizontal, parent )
-, mpDownloader( new Downloader() )
-, mpAmazon( new DownloadJobCoverAmazonDE( mpDownloader, this, SLOT(showCovers(QByteArray,QVariant)) ) )
+, mpKryptonite( new Kryptonite() )
+, mpAmazon( new KryptoniteJobCoverAmazonDE( mpKryptonite ) )
 , mpLayout( new QGridLayout( this ) )
 , mpFileSysTree( new QTreeView( this ) )
 , mpFileSysModel( new QFileSystemModel( this ) )
@@ -51,13 +52,13 @@ MainWidget::MainWidget( QWidget *parent )
 , mNumColumns( 4 )
 {
 TRACESTART(MainWidget::MainWidget)
-TRACEMSG << QMetaObject::normalizedSignature(SLOT(showCovers(QByteArray,QVariant)))
-         << QMetaObject::checkConnectArgs(SLOT(showCovers(QByteArray,QVariant)),SLOT(x(QByteArray)));
    QThread *t = new QThread();
    connect( qApp, SIGNAL(aboutToQuit()),
             t, SLOT(quit()) );
-   mpDownloader->moveToThread( t );
+   ProxyWidget::setProxy( mpKryptonite->networkAccessManager() );
+   mpKryptonite->moveToThread( t );
    mpAmazon->moveToThread( t );
+   t->setObjectName( "DownloadThread" );
    t->start();
    QWidget *w = 0;
    mpFileSysTree->setModel( mpFileSysModel );
@@ -102,6 +103,12 @@ TRACEMSG << QMetaObject::normalizedSignature(SLOT(showCovers(QByteArray,QVariant
             this, SLOT(entryClicked(QModelIndex)) );
    connect( mpSignalMapper, SIGNAL(mapped(QWidget*)),
             this, SLOT(saveImage(QWidget*)) );
+   connect( this, SIGNAL(requestSearch(QString)),
+            mpAmazon, SLOT(requestList(QString)) );
+   connect( mpAmazon, SIGNAL(imageFound(QByteArray,QVariant)),
+            this, SLOT(addThumbnail(QByteArray,QVariant)) );
+   connect( mpAmazon, SIGNAL(imageDownloaded(QByteArray,QVariant)),
+            this, SLOT(showImage(QByteArray,QVariant)) );
 
    QList<int> sizes;
    sizes << 30 << 300;
@@ -133,13 +140,13 @@ TRACESTART(MainWidget::requestFromLine)
       delete w;
    }
    mDataMap.clear();
-   mpAmazon->query( mpLineEdit->text() );
+   emit requestSearch( mpLineEdit->text() );
 }
 
 
-void MainWidget::showCovers( const QByteArray &data, const QVariant &payload )
+void MainWidget::addThumbnail( const QByteArray &data, const QVariant &payload )
 {
-TRACESTART(MainWidget::showCovers)
+TRACESTART(MainWidget::addThumbnail)
    QUrl url( payload.toUrl() );
    QImage image( QImage::fromData( data ) );
    ImageWidget *w = new ImageWidget( this );
@@ -156,11 +163,35 @@ TRACESTART(MainWidget::showCovers)
 
 void MainWidget::saveImage( QWidget *widget )
 {
-   ImageWidget *i = qobject_cast<ImageWidget*>(widget);
-   const QImage &img = i->imageData();
-
-   QString fileName("/tmp/AlbumArt.png");
-   img.save( fileName );
-   mpImage->setImage( fileName );
+   QModelIndex index( mpFileSysTree->currentIndex() );
+   QDir dir( mpFileSysModel->filePath(index) );
+   QString fileName( dir.absoluteFilePath( "AlbumArt.%1" ) );
    mpMessage->setText( mDataMap.value( widget ).toString() );
+   KryptoniteJobCover::requestImage( mpAmazon, mDataMap.value( widget ), fileName );
+//   emit requestItem( mDataMap.value( widget ) );
+}
+
+
+void MainWidget::showImage( const QByteArray &data, const QVariant &payload )
+{
+TRACESTART(MainWidget::showImage)
+TRACEMSG << payload.toString();
+   mpImage->setImage( data );
+   QString fileName( payload.toString() );
+   if( fileName.contains("%1") )
+   {
+      QByteArray dummy( data );
+      QBuffer buffer( &dummy );
+      buffer.open( QIODevice::ReadOnly );
+      QByteArray extension( QImageReader::imageFormat( &buffer ).toLower() );
+      extension.replace( "jpeg", "jpg" );
+      fileName = fileName.arg( extension.constData() );
+   }
+   QFile f( fileName );
+   if( f.open( QIODevice::WriteOnly ) )
+   {
+      f.write( data );
+      f.close();
+      mpMessage->setText( f.fileName() );
+   }
 }

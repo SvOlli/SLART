@@ -35,9 +35,9 @@ class QSignalMapper;
 class QTreeView;
 
 /* forward declaration of local classes */
-class Downloader;
-class DownloadJobCoverAmazonDE;
 class ImageWidget;
+class Kryptonite;
+class KryptoniteJobCoverAmazonDE;
 
 class MainWidget : public QSplitter
 {
@@ -50,19 +50,23 @@ public:
 public slots:
    void requestFromLine();
 
-   void showCovers( const QByteArray &data, const QVariant &payload );
+   void addThumbnail( const QByteArray &data, const QVariant &payload );
 
    void entryClicked( const QModelIndex &index );
 
    void saveImage( QWidget *widget );
 
+   void showImage( const QByteArray &data, const QVariant &payload );
+
 signals:
+   void requestSearch( const QString &query );
+   void requestItem( const QUrl &url );
 
 private:
    Q_DISABLE_COPY( MainWidget )
 
-   Downloader                       *mpDownloader;
-   DownloadJobCoverAmazonDE         *mpAmazon;
+   Kryptonite                       *mpKryptonite;
+   KryptoniteJobCoverAmazonDE       *mpAmazon;
    QGridLayout                      *mpLayout;
    QTreeView                        *mpFileSysTree;
    QFileSystemModel                 *mpFileSysModel;
