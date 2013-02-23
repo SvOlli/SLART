@@ -1,5 +1,5 @@
 /*
- * src/tests/TestAppWebServer/DownloadReply.cpp
+ * src/libs/Kryptonite/KryptoniteCall.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "DownloadReply.hpp"
+#include "KryptoniteCall.hpp"
 
 /* system headers */
 
@@ -22,9 +22,9 @@
 
 
 
-DownloadReply::DownloadReply( QNetworkReply *reply,
-                              QObject *target, const char *slot,
-                              const QVariant &payload )
+KryptoniteCall::KryptoniteCall( QNetworkReply *reply,
+                                QObject *target, const char *slot,
+                                const QVariant &payload )
 : QObject( reply )
 , mpReply( reply )
 , mPayload( payload )
@@ -40,12 +40,12 @@ DownloadReply::DownloadReply( QNetworkReply *reply,
 }
 
 
-DownloadReply::~DownloadReply()
+KryptoniteCall::~KryptoniteCall()
 {
 }
 
 
-void DownloadReply::getData()
+void KryptoniteCall::getData()
 {
    if( mpReply->bytesAvailable() > 0 )
    {

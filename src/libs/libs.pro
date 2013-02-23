@@ -8,6 +8,7 @@ TEMPLATE = subdirs
 
 SUBDIRS += CommandLine
 SUBDIRS += Common
+SUBDIRS += Kryptonite
 SUBDIRS += Magic
 SUBDIRS += Satellite
 SUBDIRS += TagLib

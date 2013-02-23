@@ -1,13 +1,13 @@
 /*
- * src/tests/TestAppWebServer/Downloader.hpp
+ * src/tests/TestAppWebServer/Kryptonite.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
-#ifndef DOWNLOADER_HPP
-#define DOWNLOADER_HPP DOWNLOADER_HPP
+#ifndef KRYPTONITE_HPP
+#define KRYPTONITE_HPP KRYPTONITE_HPP
 
 /* base class */
 #include <QObject>
@@ -24,7 +24,6 @@
 #include <QVariant>
 
 /* local library headers */
-#include <TrackInfo.hpp>
 
 /* local headers */
 
@@ -38,7 +37,9 @@ class QNetworkReply;
 
 
 /*!
-  \addtogroup Common
+  \addtogroup Kryptonite
+
+  \brief library: web download framework
 
   @{
 */
@@ -47,7 +48,7 @@ class QNetworkReply;
  \brief class for generating download requests
 
 */
-class Downloader : public QObject
+class Kryptonite : public QObject
 {
    Q_OBJECT
 
@@ -57,12 +58,21 @@ public:
 
     \param parent
    */
-   Downloader( QObject *parent = 0 );
+   Kryptonite( QObject *parent = 0 );
    /*!
     \brief destructor
 
    */
-   virtual ~Downloader();
+   virtual ~Kryptonite();
+
+   /*!
+    \brief get the QNetworkAccessManager used for downloading
+
+    necessary for settings proxy server
+
+    \return QNetworkAccessManager
+   */
+   QNetworkAccessManager *networkAccessManager();
 
 public slots:
 
@@ -74,8 +84,8 @@ public slots:
     \param url url to get data from
     \param payload payload to pass on to target object
    */
-   void download( QObject *target, const char *slot,
-                  const QUrl &url, const QVariant &payload = QVariant() );
+   QObject *download( QObject *target, const char *slot,
+                      const QUrl &url, const QVariant &payload = QVariant() );
    /*!
     \brief download data from a webserver directly to a file
 
@@ -84,22 +94,25 @@ public slots:
     \param fileName name of file to write data to
     \param url url to get data from
    */
-   void download( const QString &fileName, const QUrl &url );
+   QObject *download( const QString &fileName, const QUrl &url );
    /*!
     \brief download data from a webserver directly to a QIODevice object
 
     unused right now
 
     \param file
-    \param url url to get data from
     \param autoDelete delete file when transfer is complete
+    \param url url to get data from
    */
-   void download( QIODevice *file, const QUrl &url, bool autoDelete = false );
+   QObject *download( QIODevice *file, bool autoDelete, const QUrl &url );
 
 signals:
+   void downloadStarted( QObject *id, const QUrl &url );
+   void downloadProgress( QObject *id, int percent );
+   void downloadFinished( QObject *id );
 
 private:
-   Q_DISABLE_COPY( Downloader )
+   Q_DISABLE_COPY( Kryptonite )
 
    QNetworkAccessManager                  *mpManager; /*!< \brief \todo TODO */
    QNetworkCookieJar                      *mpCookieJar; /*!< \brief \todo TODO */

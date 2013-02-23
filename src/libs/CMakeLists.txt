@@ -6,6 +6,7 @@
 #
 
 ADD_SUBDIRECTORY( CommandLine )
+ADD_SUBDIRECTORY( Kryptonite )
 ADD_SUBDIRECTORY( Satellite )
 ADD_SUBDIRECTORY( Common )
 ADD_SUBDIRECTORY( Magic )

@@ -17,7 +17,6 @@
 /* Qt headers */
 
 /* local library headers */
-#include <TrackInfo.hpp>
 
 /* local headers */
 
@@ -28,7 +27,7 @@ class QIODevice;
 
 
 /*!
-  \addtogroup Common
+  \addtogroup Kryptonite
 
   @{
 */
@@ -38,8 +37,8 @@ class QIODevice;
 
  primary use is the file download function of \ref Downloader
 
- \dotfile "graphs/libs/Common/IODeviceStreamer_connect.dot" "Connect Graph"
 */
+//! \dotfile "graphs/libs/Common/IODeviceStreamer_connect.dot" "Connect Graph"
 class IODeviceStreamer : public QObject
 {
    Q_OBJECT
@@ -50,9 +49,10 @@ public:
 
     \param reader
     \param writer
-    \param autoDelete should writer be deleted after completion
+    \param autoDeleteWriter should writer be deleted after completion
    */
-   IODeviceStreamer( QIODevice *reader, QIODevice *writer, bool autoDelete );
+   IODeviceStreamer( QIODevice *reader, QIODevice *writer,
+                     bool autoDeleteWriter );
    /*!
     \brief destructor
 
@@ -67,6 +67,8 @@ public:
    */
    bool isSane();
 
+   QString writeFileName() const;
+
 public slots:
    /*!
     \brief slot for copying available data from reader to writer
@@ -74,13 +76,29 @@ public slots:
    */
    void readChunck();
 
+   /*!
+    \brief handle
+
+    \param bytesReceived
+    \param bytesTotal
+   */
+   void updateProgress( qint64 bytesReceived, qint64 bytesTotal );
+
 signals:
+   /*!
+    \brief copy progress (will be only submitted on change)
+
+    \return percent
+   */
+   void progress( int percent );
 
 private:
    Q_DISABLE_COPY( IODeviceStreamer )
 
    QIODevice      *mpReader; /*!< \brief reader */
    QIODevice      *mpWriter; /*!< \brief writer */
+   qint64         mReaderSize;
+   int            mPercent;
 };
 
 #endif

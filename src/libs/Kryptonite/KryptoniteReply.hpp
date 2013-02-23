@@ -1,13 +1,13 @@
 /*
- * src/tests/TestAppWebServer/DownloadReply.hpp
+ * src/libs/Kryptonite/KryptoniteReply.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU Lesser General Public License (LGPL)
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
-#ifndef DOWNLOADREPLY_HPP
-#define DOWNLOADREPLY_HPP DOWNLOADREPLY_HPP
+#ifndef KRYPTONITEREPLY_HPP
+#define KRYPTONITEREPLY_HPP KRYPTONITEREPLY_HPP
 
 /* base class */
 #include <QObject>
@@ -18,7 +18,6 @@
 #include <QVariant>
 
 /* local library headers */
-#include <TrackInfo.hpp>
 
 /* local headers */
 
@@ -29,7 +28,7 @@ class QNetworkReply;
 
 
 /*!
-  \addtogroup Common
+  \addtogroup Kryptonite
 
   @{
 */
@@ -37,9 +36,9 @@ class QNetworkReply;
 /*!
  \brief this class is only used internally by \ref Downloader
 
- \dotfile "graphs/libs/Common/DownloadReply_connect.dot" "Connect Graph"
+ \dotfile "graphs/libs/Common/KryptoniteReply_connect.dot" "Connect Graph"
 */
-class DownloadReply : public QObject
+class KryptoniteReply : public QObject
 {
    Q_OBJECT
 
@@ -52,16 +51,18 @@ public:
     \param slot target slot to send fetched data to
     \param payload payload to pass on to target
    */
-   DownloadReply( QNetworkReply *reply,
-                  QObject *target, const char *slot,
-                  const QVariant &payload = QVariant() );
+   KryptoniteReply( QNetworkReply *reply,
+                   QObject *target, const char *slot,
+                   const QVariant &payload = QVariant() );
    /*!
     \brief destructor
 
     will be called internally after completion
    */
-   virtual ~DownloadReply();
+   virtual ~KryptoniteReply();
 
+   static void async( QObject* object, const char *slot,
+                      const QByteArray &data, const QVariant &payload = QVariant() );
 public slots:
    /*!
     \brief internally used to get data when reply is finished
@@ -79,7 +80,7 @@ signals:
    void complete( const QByteArray &data, const QVariant &payload );
 
 private:
-   Q_DISABLE_COPY( DownloadReply )
+   Q_DISABLE_COPY( KryptoniteReply )
 
    QNetworkReply        *mpReply; /*!< \brief reply stored to obtain data */
    const QVariant       mPayload; /*!< \brief payload to pass on to target */
