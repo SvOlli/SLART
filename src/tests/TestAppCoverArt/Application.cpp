@@ -12,7 +12,9 @@
 #include <QtGui>
 
 /* local library headers */
+#include <GenericSatelliteHandler.hpp>
 #include <MainWindow.hpp>
+#include <Satellite.hpp>
 
 /* local headers */
 #include "MainWidget.hpp"
@@ -27,12 +29,16 @@ int main(int argc, char *argv[])
    app.setOrganizationDomain("svolli.org");
    app.setApplicationName("TestAppCoverArt");
 
+   GenericSatelliteHandler::createSatellite( true );
+
    MainWindow window;
    MainWidget *mainWidget = new MainWidget( &window );
    window.setMainWidget( mainWidget );
    window.show();
 
    retval = app.exec();
+
+   Satellite::destroy();
 
    return retval;
 }

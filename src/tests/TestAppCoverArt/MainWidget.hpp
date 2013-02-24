@@ -25,6 +25,7 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QCheckBox;
 class QFileSystemModel;
 class QGridLayout;
 class QLabel;
@@ -58,6 +59,8 @@ public slots:
 
    void showImage( const QByteArray &data, const QVariant &payload );
 
+   void handleSatelliteMessage( const QByteArray &msg );
+
 signals:
    void requestSearch( const QString &query );
    void requestItem( const QUrl &url );
@@ -71,6 +74,7 @@ private:
    QTreeView                        *mpFileSysTree;
    QFileSystemModel                 *mpFileSysModel;
    QLineEdit                        *mpLineEdit;
+   QCheckBox                        *mpFollowPartyman;
    ImageWidget                      *mpImage;
    QLineEdit                        *mpMessage;
    QSignalMapper                    *mpSignalMapper;

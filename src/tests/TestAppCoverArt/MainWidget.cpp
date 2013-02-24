@@ -29,6 +29,7 @@
 #include <Database.hpp>
 #include <ImageWidget.hpp>
 #include <ProxyWidget.hpp>
+#include <Satellite.hpp>
 #include <Settings.hpp>
 
 /* local headers */
@@ -45,6 +46,7 @@ MainWidget::MainWidget( QWidget *parent )
 , mpFileSysTree( new QTreeView( this ) )
 , mpFileSysModel( new QFileSystemModel( this ) )
 , mpLineEdit( new QLineEdit( this ) )
+, mpFollowPartyman( new QCheckBox( tr("Follow Partyman"), this ) )
 , mpImage( new ImageWidget( this ) )
 , mpMessage( new QLineEdit( this ) )
 , mpSignalMapper( new QSignalMapper( this ) )
@@ -81,6 +83,7 @@ TRACESTART(MainWidget::MainWidget)
    QVBoxLayout *v = new QVBoxLayout( w );
    v->addWidget( mpFileSysTree );
    v->addWidget( mpLineEdit );
+   v->addWidget( mpFollowPartyman );
    s->addWidget( w );
    w = new QWidget( this );
    w->setLayout( mpLayout );
@@ -93,6 +96,7 @@ TRACESTART(MainWidget::MainWidget)
    addWidget( w );
    QFileSystemWatcher *watcher = new QFileSystemWatcher( this );
    watcher->addPath( "/tmp" );
+   Satellite *satellite = Satellite::get();
 
    connect( watcher, SIGNAL(fileChanged(QString)),
             mpImage, SLOT(setImage(QString)) );
@@ -109,6 +113,8 @@ TRACESTART(MainWidget::MainWidget)
             this, SLOT(addThumbnail(QByteArray,QVariant)) );
    connect( mpAmazon, SIGNAL(imageDownloaded(QByteArray,QVariant)),
             this, SLOT(showImage(QByteArray,QVariant)) );
+   connect( satellite, SIGNAL(received(QByteArray)),
+            this, SLOT(handleSatelliteMessage(QByteArray)) );
 
    QList<int> sizes;
    sizes << 30 << 300;
@@ -118,6 +124,35 @@ TRACESTART(MainWidget::MainWidget)
 
 MainWidget::~MainWidget()
 {
+}
+
+
+void MainWidget::handleSatelliteMessage( const QByteArray &msg )
+{
+   QStringList src( Satellite::split( msg ) );
+   if( src.size() > 0 )
+   {
+      if( src.at(0) == "p0p" )
+      {
+         if( mpFollowPartyman->isChecked() && (src.size() > 1)  )
+         {
+            QFileInfo info( src.at(1) );
+            QString dirName( info.absolutePath() );
+            if( info.exists() )
+            {
+               QModelIndex qmi;
+               for( int i = 1; i >= 0; i = dirName.indexOf( "/", i + 1 ) )
+               {
+                  qmi = mpFileSysModel->index( dirName.left( i ) );
+                  mpFileSysTree->expand( qmi );
+               }
+               qmi = mpFileSysModel->index( dirName );
+               mpFileSysTree->setCurrentIndex( qmi );
+               entryClicked( qmi );
+            }
+         }
+      }
+   }
 }
 
 
