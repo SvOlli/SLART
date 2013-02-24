@@ -38,7 +38,7 @@ class Kryptonite;
 /*!
  \brief base class for downloading cover art image
 
- \dotfile "graphs/libs/Common/KryptoniteJobCover_connect.dot" "Connect Graph"
+ \dotfile "graphs/libs/Kryptonite/KryptoniteJobCover_connect.dot" "Connect Graph"
 */
 class KryptoniteJobCover : public QObject
 {

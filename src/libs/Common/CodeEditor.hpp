@@ -39,8 +39,9 @@ class SyntaxHighlighter;
   */
 
 /*!
- \brief
+ \brief base class for creating a simple code editor
 
+ \dotfile "graphs/libs/Common/CodeEditor_connect.dot" "Connect Graph"
 */
 class CodeEditor : public QPlainTextEdit
 {
@@ -106,6 +107,8 @@ private slots:
    void updateLineNumberArea( const QRect &rect, int dy );
 
 private:
+   Q_DISABLE_COPY( CodeEditor )
+
    CodeEditorLineNumberArea  *mpLineNumberArea; /*!< \brief \todo complete documentation */
 };
 

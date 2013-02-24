@@ -49,7 +49,7 @@ class QNetworkReply;
 /*!
  \brief class for generating download requests
 
- \dotfile "graphs/libs/Common/Kryptonite_connect.dot" "Connect Graph"
+ \dotfile "graphs/libs/Kryptonite/Kryptonite_connect.dot" "Connect Graph"
 */
 class Kryptonite : public QObject
 {

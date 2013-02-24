@@ -21,6 +21,7 @@
 
 /*!
  \name Binary.hpp
+
  \brief C++11 only: literals for binary notation. Implemented in templates only.
 
  No more 0x01, 0x02, 0x04, ... when you now can do 1_b32u, 10_b32u, 100_b32u, ...

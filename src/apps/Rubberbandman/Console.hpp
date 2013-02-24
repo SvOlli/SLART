@@ -45,8 +45,8 @@ public:
    /*!
     \brief constructor
 
-    \param checkedText
-    \param processedText
+    \param checkedText message for checking for new items
+    \param processedText message for checking for obsolete items
     \param parent
    */
    Console( const QString &checkedText,
@@ -60,24 +60,27 @@ public:
    virtual ~Console();
 
    /*!
-    \brief 
+    \brief output message
 
+    \param msg message data to output
    */
    void message( const QString &msg );
 
 public slots:
    /*!
-    \brief 
+    \brief invoke output of progress message
 
+    \param checked number of nuew items found
+    \param processed number of current items processed
    */
    void handleProgress( int checked, int processed );
 
 private:
    Q_DISABLE_COPY( Console )
 
-   QTextStream    mStdOut;
-   QString        mCheckedText;
-   QString        mProcessedText;
+   QTextStream    mStdOut; /*!< \brief text stream for output */
+   QString        mCheckedText; /*!< \brief message for checking for new items */
+   QString        mProcessedText; /*!< \brief message for checking for obsolete items */
 };
 
 /*! @} */

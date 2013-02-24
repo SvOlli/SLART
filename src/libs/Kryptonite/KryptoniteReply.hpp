@@ -36,7 +36,7 @@ class QNetworkReply;
 /*!
  \brief this class is only used internally by \ref Downloader
 
- \dotfile "graphs/libs/Common/KryptoniteReply_connect.dot" "Connect Graph"
+ \dotfile "graphs/libs/Kryptonite/KryptoniteReply_connect.dot" "Connect Graph"
 */
 class KryptoniteReply : public QObject
 {

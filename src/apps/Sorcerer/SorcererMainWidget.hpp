@@ -48,7 +48,7 @@ class SatelliteConfigWidget;
 /*!
  \brief
 
- \dotfile "graphs/libs/Sorcerer/SorcererWidget_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Sorcerer/SorcererMainWidget_connect.dot" "Connect Graph"
 */
 class SorcererMainWidget : public QWidget
 {

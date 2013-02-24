@@ -42,7 +42,7 @@ class SatelliteServer;
 
   \brief library: simple interprocess communication framework
 
-  Named after the song "Satellite To Satellite" by Falco.
+  Named after [the song "Satellite To Satellite" by Falco](https://en.wikipedia.org/wiki/Wiener_Blut_%28album%29).
   @{
   */
 

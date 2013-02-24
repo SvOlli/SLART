@@ -38,7 +38,7 @@ class QPushButton;
 /*!
  \brief base for magic encoder configuration widget
 
- \dotfile "graphs/libs/Magic/MagicEncoder_connect.dot" "Connect Graph"
+ \dotfile "graphs/libs/Magic/MagicEncoder/MagicEncoderConfig_connect.dot" "Connect Graph"
 */
 class MagicEncoderConfig : public QWidget
 {

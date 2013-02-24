@@ -40,6 +40,8 @@ class QApplication;
 
  Descriptions of all Settings are in docs/Registy.ini, code is generated using
  \ref SettingsGenerator .
+
+ \dotfile "graphs/libs/Common/Settings_connect.dot" "Connect Graph"
 */
 class Settings : public QObject
 {

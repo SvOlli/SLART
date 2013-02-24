@@ -38,9 +38,9 @@ class InfoEdit;
 */
 
 /*!
- \brief \todo complete documentation
+ \brief widget for file system browser and item editor
 
- \dotfile "graphs/apps/Rubberbandman/Rubberbandman_connect.dot" "Connect Graph"
+ \dotfile "graphs/apps/Rubberbandman/BrowseWidget_connect.dot" "Connect Graph"
 */
 class BrowseWidget : public QWidget
 {
@@ -64,14 +64,15 @@ public slots:
    /*!
     \brief show a specific file in filesystem tree
 
+    \param fileName
    */
    void scrollTo( const QString &fileName );
 
 private:
    Q_DISABLE_COPY( BrowseWidget )
 
-   FileSysBrowser *mpFileSysBrowser;
-   InfoEdit       *mpInfoEdit;
+   FileSysBrowser *mpFileSysBrowser; /*!< \brief file system browser */
+   InfoEdit       *mpInfoEdit; /*!< \brief item editor */
 };
 
 /*! @} */

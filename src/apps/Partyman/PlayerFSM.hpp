@@ -46,6 +46,7 @@ class PlayerWidget;
 /*!
  \brief \todo complete documentation
 
+ \dotfile "graphs/apps/Partyman/PlayerFSM_connect.dot" "Connect Graph"
 */
 class PlayerFSM
 {

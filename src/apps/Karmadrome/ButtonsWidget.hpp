@@ -36,7 +36,7 @@ class QSignalMapper;
 */
 
 /*!
- \brief \todo complete documentation
+ \brief a group box holding a dynamic amount of buttons
 
  \dotfile "graphs/apps/Karmadrome/ButtonsWidget_connect.dot" "Connect Graph"
 */
@@ -45,18 +45,31 @@ class ButtonsWidget : public QGroupBox
    Q_OBJECT
 
 public:
+   /*!
+    \brief constructor
+
+    \param parent
+   */
    ButtonsWidget( QWidget *parent = 0 );
+   /*!
+    \brief construtor
+
+    \param title title of the group box
+    \param parent
+   */
    ButtonsWidget( const QString &title, QWidget *parent = 0 );
 
 public slots:
    /*!
     \brief update the button list: replace all existing buttons
 
+    \param list
    */
    void updateButtons( const QStringList &list );
    /*!
     \brief set buttons checked state
 
+    \param list
    */
    void lockButtons( const QStringList &list );
 
@@ -64,15 +77,16 @@ signals:
    /*!
     \brief signalize the widget clicked on
 
+    \param widget
    */
    void clicked( QWidget *widget );
 
 private:
    Q_DISABLE_COPY( ButtonsWidget )
 
-   QGridLayout             *mpMainLayout; /*!< \brief \todo TODO */
-   QSignalMapper           *mpSignalMapper; /*!< \brief \todo TODO */
-   QList<QAbstractButton*> mButtonList; /*!< \brief \todo TODO */
+   QGridLayout             *mpMainLayout; /*!< \brief layout of buttons */
+   QSignalMapper           *mpSignalMapper; /*!< \brief used to match buttons */
+   QList<QAbstractButton*> mButtonList; /*!< \brief list of all buttons */
 };
 
 /*! @} */

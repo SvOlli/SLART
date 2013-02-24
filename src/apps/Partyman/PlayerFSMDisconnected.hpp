@@ -34,6 +34,7 @@
 /*!
  \brief \todo complete documentation
 
+ \dotfile "graphs/apps/Partyman/PlayerFSMDisconnected_connect.dot" "Connect Graph"
 */
 class PlayerFSMDisconnected : public PlayerFSMBase
 {
