@@ -42,6 +42,9 @@ class ScrollLine;
   \addtogroup Karmadrome
 
   \brief application: playlist manager
+
+  Named after [the song by Pop Will Eat Itself](https://en.wikipedia.org/wiki/Pop_Will_Eat_Itself#Singles).
+
   @{
   */
 

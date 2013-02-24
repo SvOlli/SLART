@@ -38,10 +38,11 @@ class SatelliteServer;
 
 
 /*!
-  \addtogroup Satellite Satellite
+  \addtogroup Satellite
 
   \brief library: simple interprocess communication framework
 
+  Named after the song "Satellite To Satellite" by Falco.
   @{
   */
 

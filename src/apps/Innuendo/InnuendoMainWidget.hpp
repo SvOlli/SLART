@@ -43,6 +43,8 @@ class Satellite;
 
   \brief application: central application
 
+  Named after [the song by Queen](https://en.wikipedia.org/wiki/Innuendo_%28song%29).
+
   @{
 */
 

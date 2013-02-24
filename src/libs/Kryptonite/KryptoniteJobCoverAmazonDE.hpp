@@ -36,20 +36,56 @@ class Kryptonite;
   @{
 */
 
+/*!
+ \brief class for downloading cover art image from amazon.de
+
+ \dotfile "graphs/libs/Common/KryptoniteCoverAmazonDE_connect.dot" "Connect Graph"
+*/
 class KryptoniteJobCoverAmazonDE : public KryptoniteJobCover
 {
    Q_OBJECT
 
 public:
-   KryptoniteJobCoverAmazonDE( Kryptonite *kryptonite,
-                               QObject *parent = 0 );
+   /*!
+    \brief constructor
+
+    \param kryptonite Kryptonite to use for download
+    \param parent
+   */
+   KryptoniteJobCoverAmazonDE( Kryptonite *kryptonite, QObject *parent = 0 );
+   /*!
+    \brief destructor
+
+   */
    virtual ~KryptoniteJobCoverAmazonDE();
 
 public slots:
+   /*!
+    \brief api call for searching
+
+    \param query what to search
+   */
    void requestList( const QString &query );
+   /*!
+    \brief api to downloading one image
+
+    \param url as obtained by imageFound
+    \param fileName to send to imageDownloaded
+   */
    void requestImage( const QUrl &url, const QString &fileName = QString() );
 
+   /*!
+    \brief internally used as callback for downloaded data
+
+    \param data search html to parse
+   */
    void parseListHtml( const QByteArray &data );
+   /*!
+    \brief internally used as callback for downloaded data
+
+    \param data item html to parse
+    \param payload data to send back to invoker
+   */
    void parseItemHtml( const QByteArray &data, const QVariant &payload );
 
 signals:

@@ -41,12 +41,15 @@ class QNetworkReply;
 
   \brief library: web download framework
 
+  Named after [the song by 3 Doors Down](https://en.wikipedia.org/wiki/Kryptonite_%28song%29).
+
   @{
 */
 
 /*!
  \brief class for generating download requests
 
+ \dotfile "graphs/libs/Common/Kryptonite_connect.dot" "Connect Graph"
 */
 class Kryptonite : public QObject
 {

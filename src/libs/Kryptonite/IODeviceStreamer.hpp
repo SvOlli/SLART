@@ -37,8 +37,8 @@ class QIODevice;
 
  primary use is the file download function of \ref Downloader
 
+ \dotfile "graphs/libs/Common/IODeviceStreamer_connect.dot" "Connect Graph"
 */
-//! \dotfile "graphs/libs/Common/IODeviceStreamer_connect.dot" "Connect Graph"
 class IODeviceStreamer : public QObject
 {
    Q_OBJECT

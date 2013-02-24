@@ -26,6 +26,9 @@ INCLUDE_DIRECTORIES(
    ${MAGICINTERFACE_INCLUDE_DIR}
 )
 
+# only used to generate Doxygen documentation
+ADD_SOURCE( Doxygen                           hpp     )
+
 ADD_SOURCE( AboutWidget                   cpp hpp moc )
 ADD_SOURCE( Binary                            hpp     )
 ADD_SOURCE( CodeEditor                    cpp hpp moc )

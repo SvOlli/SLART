@@ -44,6 +44,8 @@ class TrackInfoWidget;
 
   \brief application: dual slot audio player
 
+  Named after [the song by Prince](https://en.wikipedia.org/wiki/Partyman).
+
   @{
   */
 

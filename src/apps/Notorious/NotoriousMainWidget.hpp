@@ -34,6 +34,9 @@ class SearchWidget;
   \addtogroup Notorious
 
   \brief application: FreeDB browser
+
+  Named after [the song by Duran Duran](https://en.wikipedia.org/wiki/Notorious_%28song%29).
+
   @{
   */
 

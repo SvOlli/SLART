@@ -20,6 +20,9 @@ TRANSLATIONS += $${TOPSRC}/resources/translations/$${TARGET}_de.ts
 
 #RESOURCES = Resources/Common.qrc
 
+# only used for generating doxygen documentation
+HEADERS += Doxygen.hpp
+
 HEADERS += AboutWidget.hpp
 SOURCES += AboutWidget.cpp
 

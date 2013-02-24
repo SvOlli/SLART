@@ -41,6 +41,8 @@ class StationStorage;
 
   \brief application: streamed audio player
 
+  Named after [the song by John Foxx](https://en.wikipedia.org/wiki/John_Foxx#Singles).
+
   Underpass just is a small frontend intended for mpg123 and ogg123.
 
   @{

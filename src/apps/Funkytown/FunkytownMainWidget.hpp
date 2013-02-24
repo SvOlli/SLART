@@ -40,6 +40,8 @@ class DownloadHandler;
 
   \brief application: file downloader
 
+  Named after [the song by Lipps Inc](https://en.wikipedia.org/wiki/Funkytown).
+
   @{
   */
 

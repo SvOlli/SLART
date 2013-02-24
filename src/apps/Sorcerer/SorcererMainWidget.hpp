@@ -38,6 +38,9 @@ class SatelliteConfigWidget;
   \addtogroup Sorcerer
 
   \brief application: setup wizard
+
+  Named after [the song by Marylin Martin for the soundtrack of "Streets Of Fire"]().
+
   @{
   */
 

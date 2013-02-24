@@ -39,6 +39,8 @@ class SatelliteWidget;
 
   \brief application: tag editor and database manager
 
+  Named after [the song by Yello](https://de.wikipedia.org/wiki/Yello/Diskografie#Singles).
+
   @{
   */
 

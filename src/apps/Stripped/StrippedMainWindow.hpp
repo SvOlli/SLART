@@ -42,6 +42,8 @@ class Satellite;
 
   \brief application: CD-ripping tool
 
+  Named after [the song by Depeche Mode](https://en.wikipedia.org/wiki/Stripped_%28song%29).
+
  @{
  */
 

@@ -37,6 +37,7 @@ class ScrollLine;
 
   \brief library: plugin based audio codec framework (FLAC, mp3, OggVorbis and Wave)
 
+  Named after [the song by The Cars](https://en.wikipedia.org/wiki/Magic_%28The_Cars_song%29).
   @{
 */
 
