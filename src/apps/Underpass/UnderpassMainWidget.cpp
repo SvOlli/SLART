@@ -203,7 +203,7 @@ void UnderpassMainWidget::handleStationChange( const QString &name )
    if( mpStartButton->isChecked() )
    {
       startProcess( false );
-      QTimer::singleShot( 400, this, SLOT(startProcess()) );
+      QTimer::singleShot( 500, this, SLOT(startProcess()) );
    }
 }
 
@@ -385,7 +385,7 @@ void UnderpassMainWidget::processError( QProcess::ProcessError error )
    {
       if( mpStartButton->isChecked() )
       {
-         QTimer::singleShot( 100, this, SLOT(startProcess()) );
+         QTimer::singleShot( 500, this, SLOT(startProcess()) );
       }
    }
 }
