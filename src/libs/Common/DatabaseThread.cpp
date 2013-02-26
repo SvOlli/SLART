@@ -242,7 +242,7 @@ DatabaseThread::DatabaseThread( const QString &fileName )
             "LastTagsRead INTEGER,"
             "TimesPlayed INTEGER,"
             "Volume DOUBLE,"
-            "Groups VARCHAR,"
+            "Folders VARCHAR,"
             "Flags INTEGER);"
             << "CREATE UNIQUE INDEX slart_tracks_file ON slart_tracks (Directory,FileName);"
             << "CREATE INDEX slart_tracks_filename ON slart_tracks (FileName);"
@@ -386,7 +386,7 @@ void DatabaseThread::getTrackInfo( QObject *target, const QByteArray &method,
    QString sql( "SELECT id,Directory,FileName,Artist,Title,Album,"
                 "CASE WHEN TrackNr NOTNULL THEN TrackNr ELSE -1 END,"
                 "CASE WHEN Year NOTNULL THEN Year ELSE -1 END,"
-                "Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Groups,Flags"
+                "Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags"
                 " FROM slart_tracks WHERE ");
 
    if( fileName.isEmpty() )
@@ -433,7 +433,7 @@ void DatabaseThread::getTrackInfo( QObject *target, const QByteArray &method,
       trackInfo.mLastTagsRead = mpQuery->value(11).toUInt();
       trackInfo.mTimesPlayed  = mpQuery->value(12).toUInt();
       trackInfo.mVolume       = mpQuery->value(13).toDouble();
-      trackInfo.mGroups      = mpQuery->value(14).toString();
+      trackInfo.mGroups       = mpQuery->value(14).toString();
       trackInfo.mFlags        = mpQuery->value(15).toUInt();
 
       mpQuery->clear();
@@ -470,7 +470,7 @@ void DatabaseThread::getTrackInfoList( QObject *target, const QByteArray &method
    mpQuery->prepare( "SELECT Directory,FileName,Artist,Title,Album,"
                      "CASE WHEN TrackNr NOTNULL THEN TrackNr ELSE -1 END,"
                      "CASE WHEN Year NOTNULL THEN Year ELSE -1 END,"
-                     "Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Groups,Flags,id"
+                     "Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags,id"
                      " FROM slart_tracks WHERE Directory LIKE :directory OR FileName LIKE :fileName;" );
    mpQuery->bindValue( ":directory", sqlSearch );
    mpQuery->bindValue( ":fileName", sqlSearch );
@@ -585,7 +585,7 @@ void DatabaseThread::getRandomTrack( QObject *target, const QByteArray &method,
 
    if( !folder.isEmpty() )
    {
-      sql.append( " AND Groups LIKE '%|" );
+      sql.append( " AND Folders LIKE '%|" );
       sql.append( folder );
       sql.append( "|%'" );
    }
@@ -708,7 +708,7 @@ void DatabaseThread::getGroup( QObject *target, const QByteArray &method,
       }
       else
       {
-         sql.append( "Groups LIKE '%|" );
+         sql.append( "Folders LIKE '%|" );
          sql.append( folder );
          sql.append( "|%'" );
       }
@@ -792,7 +792,7 @@ void DatabaseThread::updateTrackInfo( const TrackInfo &trackInfo, bool allowinse
                         " Artist = :artist, Title = :title, Album = :album, TrackNr = :tracknr,"
                         " Year = :year, Genre = :genre, PlayTime = :playtime, LastScanned = :lastscanned,"
                         " LastTagsRead = :lasttagsread,"
-                        " TimesPlayed = :timesplayed, Volume = :volume, Groups = :folders, Flags = :flags"
+                        " TimesPlayed = :timesplayed, Volume = :volume, Folders = :folders, Flags = :flags"
                         " WHERE id = :id ;" );
       mpQuery->bindValue( ":id", trackInfo.mID );
    }
@@ -803,7 +803,7 @@ void DatabaseThread::updateTrackInfo( const TrackInfo &trackInfo, bool allowinse
          return;
       }
       mpQuery->prepare( "INSERT OR REPLACE INTO slart_tracks (Directory,FileName,Artist,Title,Album,"
-                        "TrackNr,Year,Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Groups,Flags)"
+                        "TrackNr,Year,Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Folders,Flags)"
                         " VALUES (:directory,:filename,:artist,:title,:album,:tracknr,:year,:genre,"
                         ":playtime,:lastscanned,:lasttagsread,:timesplayed,:folders,:flags);" );
    }
@@ -917,7 +917,7 @@ void DatabaseThread::deleteGroup( const QString &folder )
 
    QStringList sqlList;
    mpSqlDB->transaction();
-   mpQuery->prepare( "SELECT ID,Groups FROM slart_tracks WHERE Groups like :folder;" );
+   mpQuery->prepare( "SELECT ID,Folders FROM slart_tracks WHERE Folders like :folder;" );
    mpQuery->bindValue( ":folder", QString("%|%1|%").arg( folder ) );
    if( !mpQuery->exec() )
    {
@@ -932,7 +932,7 @@ void DatabaseThread::deleteGroup( const QString &folder )
    }
    QString id;
    QString folders;
-   QString sqlLine( "UPDATE slart_tracks SET Groups = '%1' WHERE ID = %2" );
+   QString sqlLine( "UPDATE slart_tracks SET Folders = '%1' WHERE ID = %2" );
    while( mpQuery->next() )
    {
       id      = mpQuery->value(0).toString();
