@@ -119,20 +119,20 @@ public:
     \brief get a list of all available folders
 
    */
-   QStringList getFolders();
+   QStringList getGroups();
    /* get all entries of a list
       QChar(1) = Favorite, QChar(2) = No Auto */
-   QStringList getFolder( const QString &folder );
+   QStringList getGroup( const QString &folder );
    /*!
     \brief add a folder
 
    */
-   void insertFolder( const QString &folder );
+   void insertGroup( const QString &folder );
    /*!
     \brief remove a folder
 
    */
-   void deleteFolder( const QString &folder );
+   void deleteGroup( const QString &folder );
    /*!
     \brief rename
 

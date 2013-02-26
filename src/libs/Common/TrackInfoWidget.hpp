@@ -52,10 +52,10 @@ public:
    /*!
     \brief \todo
 
-    \param includeFolders
+    \param includeGroups
     \param parent
    */
-   TrackInfoWidget( bool includeFolders, QWidget *parent = 0 );
+   TrackInfoWidget( bool includeGroups, QWidget *parent = 0 );
 
    /*!
     \brief \todo
@@ -63,11 +63,11 @@ public:
     \deprecated only used by Partyman
 
     \param database
-    \param includeFolders
+    \param includeGroups
     \param parent
    */
    TrackInfoWidget( Database *database,
-                    bool includeFolders, QWidget *parent = 0 );
+                    bool includeGroups, QWidget *parent = 0 );
    /*!
     \brief \todo
 
@@ -141,7 +141,7 @@ private:
 
    Database    *mpDatabase; /*!< \brief \todo TODO */
    TrackInfo   mTrackInfo; /*!< \brief \todo TODO */
-   bool        mIncludeFolders; /*!< \brief \todo TODO */
+   bool        mIncludeGroups; /*!< \brief \todo TODO */
    QLabel      *mpTimesPlayed; /*!< \brief \todo TODO */
    ScrollLine  *mpArtist; /*!< \brief \todo TODO */
    ScrollLine  *mpTitle; /*!< \brief \todo TODO */

@@ -35,11 +35,11 @@
 #include "Trace.hpp"
 
 
-TrackInfoWidget::TrackInfoWidget( bool includeFolders, QWidget *parent )
+TrackInfoWidget::TrackInfoWidget( bool includeGroups, QWidget *parent )
 : QWidget( parent )
 , mpDatabase( 0 )
 , mTrackInfo()
-, mIncludeFolders( includeFolders )
+, mIncludeGroups( includeGroups )
 , mpTimesPlayed( new QLabel( this ) )
 , mpArtist( new ScrollLine( this ) )
 , mpTitle( new ScrollLine( this ) )
@@ -91,7 +91,7 @@ TrackInfoWidget::TrackInfoWidget( bool includeFolders, QWidget *parent )
    connect( mpUnwantedButton, SIGNAL(clicked()),
             this, SLOT(handleUnwantedButton()) );
 
-   if( includeFolders )
+   if( includeGroups )
    {
       mpFavoriteButton->setContextMenuPolicy( Qt::CustomContextMenu );
       mpUnwantedButton->setContextMenuPolicy( Qt::CustomContextMenu );
@@ -112,11 +112,11 @@ TrackInfoWidget::~TrackInfoWidget()
 
 
 TrackInfoWidget::TrackInfoWidget( Database *database,
-                                  bool includeFolders, QWidget *parent )
+                                  bool includeGroups, QWidget *parent )
 : QWidget( parent )
 , mpDatabase( database )
 , mTrackInfo()
-, mIncludeFolders( includeFolders )
+, mIncludeGroups( includeGroups )
 , mpTimesPlayed( new QLabel( this ) )
 , mpArtist( new ScrollLine( this ) )
 , mpTitle( new ScrollLine( this ) )
@@ -167,7 +167,7 @@ TrackInfoWidget::TrackInfoWidget( Database *database,
    connect( mpUnwantedButton, SIGNAL(clicked()),
             this, SLOT(handleUnwantedButton()) );
 
-   if( includeFolders )
+   if( includeGroups )
    {
       mpFavoriteButton->setContextMenuPolicy( Qt::CustomContextMenu );
       mpUnwantedButton->setContextMenuPolicy( Qt::CustomContextMenu );
@@ -227,11 +227,11 @@ void TrackInfoWidget::handleGroupsMenu()
 {
    if( mpDatabase )
    {
-      handleGroupsMenu( mpDatabase->getFolders() );
+      handleGroupsMenu( mpDatabase->getGroups() );
    }
    else
    {
-      DatabaseInterface::get()->getFolders( this, SLOT(handleGroupsMenu(QStringList)) );
+      DatabaseInterface::get()->getGroups( this, SLOT(handleGroupsMenu(QStringList)) );
    }
 }
 
@@ -243,12 +243,12 @@ void TrackInfoWidget::handleGroupsMenu( const QStringList &groups )
    {
       QAction *action = menu.addAction( group );
       action->setCheckable( true );
-      action->setChecked( mTrackInfo.isInFolder( group ) );
+      action->setChecked( mTrackInfo.isInGroup( group ) );
    }
    QAction *selected = menu.exec( QCursor::pos() );
    if( selected )
    {
-      mTrackInfo.setFolder( selected->text(), selected->isChecked() );
+      mTrackInfo.setGroup( selected->text(), selected->isChecked() );
       if( mpDatabase )
       {
          mpDatabase->updateTrackInfo( &mTrackInfo );
@@ -332,11 +332,11 @@ void TrackInfoWidget::updateTrackInfo( const TrackInfo &trackInfo )
    if( mTrackInfo.mID )
    {
       setDisabled( false );
-      QString folderToolTip( mTrackInfo.getFolders().join("\n") );
+      QString folderToolTip( mTrackInfo.getGroups().join("\n") );
       mpArtist->setText( mTrackInfo.mArtist );
       mpTitle->setText( mTrackInfo.mTitle );
       mpAlbum->setText( mTrackInfo.mAlbum );
-      if( mIncludeFolders )
+      if( mIncludeGroups )
       {
          mpFavoriteButton->setToolTip( folderToolTip );
          mpUnwantedButton->setToolTip( folderToolTip );

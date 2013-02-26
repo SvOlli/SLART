@@ -1,5 +1,5 @@
 /*
- * src/apps/Karmadrome/ExportFolder.cpp
+ * src/apps/Karmadrome/ExportGroup.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "ExportFolder.hpp"
+#include "ExportGroup.hpp"
 
 /* system headers */
 #include <cstdio>
@@ -23,7 +23,7 @@
 /* local headers */
 
 
-ExportFolder::ExportFolder( const QString &folder, const QString &fileName,
+ExportGroup::ExportGroup( const QString &folder, const QString &fileName,
                             bool relative, bool randomize )
 : QObject( 0 )
 , mRelative( relative )
@@ -35,25 +35,25 @@ ExportFolder::ExportFolder( const QString &folder, const QString &fileName,
 
    if( folder.startsWith( "|F", Qt::CaseInsensitive ) )
    {
-      database->getFolder( this, SLOT(writeData(QStringList)), QString( QChar(1) ) );
+      database->getGroup( this, SLOT(writeData(QStringList)), QString( QChar(1) ) );
    }
    else if( folder.startsWith( "|U", Qt::CaseInsensitive ) )
    {
-      database->getFolder( this, SLOT(writeData(QStringList)), QString( QChar(2) ) );
+      database->getGroup( this, SLOT(writeData(QStringList)), QString( QChar(2) ) );
    }
    else
    {
-      database->getFolder( this, SLOT(writeData(QStringList)), folder );
+      database->getGroup( this, SLOT(writeData(QStringList)), folder );
    }
 }
 
 
-ExportFolder::~ExportFolder()
+ExportGroup::~ExportGroup()
 {
 }
 
 
-void ExportFolder::writeData( const QStringList &entries )
+void ExportGroup::writeData( const QStringList &entries )
 {
    QFile m3uFile( mFileName );
    QDir dir;

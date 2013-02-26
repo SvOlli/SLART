@@ -240,7 +240,7 @@ private:
 
    */
    bool getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
-                        bool favoriteOnly, bool leastPlayed, const QString &playFolder );
+                        bool favoriteOnly, bool leastPlayed, const QString &playGroup );
 
    /*!
     \brief \todo complete documentation

@@ -1,5 +1,5 @@
 /*
- * src/apps/Karmadrome/ImportFolder.hpp
+ * src/apps/Karmadrome/ImportGroup.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -38,31 +38,31 @@ class TrackInfo;
  \brief \todo complete documentation
 
 */
-class ImportFolder : public QObject
+class ImportGroup : public QObject
 {
    Q_OBJECT
 
 public:
-   ImportFolder( const QString &folder, const QString &fileName, bool cleanImport );
-   virtual ~ImportFolder();
+   ImportGroup( const QString &folder, const QString &fileName, bool cleanImport );
+   virtual ~ImportGroup();
 
 public slots:
    /*!
     \brief 
 
    */
-   void addEntryToFolder( const TrackInfo &ti );
+   void addEntryToGroup( const TrackInfo &ti );
 
 signals:
 
 private:
-   Q_DISABLE_COPY( ImportFolder )
+   Q_DISABLE_COPY( ImportGroup )
 
    DatabaseInterface *mpDatabase; /*!< \brief \todo TODO */
    int               mQueueSize; /*!< \brief \todo TODO */
    const QString     mFavorite; /*!< \brief \todo TODO */
    const QString     mUnwanted; /*!< \brief \todo TODO */
-   QString           mFolder; /*!< \brief \todo TODO */
+   QString           mGroup; /*!< \brief \todo TODO */
 };
 
 /*! @} */

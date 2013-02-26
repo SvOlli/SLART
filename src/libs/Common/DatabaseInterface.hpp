@@ -197,7 +197,7 @@ public:
     \param method with signature void method(QStringList[,QVariant])
     \param payload optional data to pass through to method
    */
-   void getFolders( QObject *target, const char *method,
+   void getGroups( QObject *target, const char *method,
                     const QVariant &payload = QVariant() );
 
    /*!
@@ -209,7 +209,7 @@ public:
     \param folder
     \param payload optional data to pass through to method
    */
-   void getFolder( QObject *target, const char *method,
+   void getGroup( QObject *target, const char *method,
                    const QString &folder,
                    const QVariant &payload = QVariant() );
 
@@ -219,14 +219,14 @@ public:
 
     \param folder
    */
-   void insertFolder( const QString &folder );
+   void insertGroup( const QString &folder );
 
    /*!
     \brief remove a folder
 
     \param folder
    */
-   void deleteFolder( const QString &folder );
+   void deleteGroup( const QString &folder );
 
    /*!
     \brief rename

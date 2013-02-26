@@ -81,7 +81,7 @@ void ButtonsWidget::updateButtons( const QStringList &fileNames )
       {
          button = new QPushButton( label, this );
       }
-      button->setObjectName( QString( "FolderButton" ) );
+      button->setObjectName( QString( "GroupButton" ) );
       button->setCheckable( true );
       button->setToolTip( fileNames.at(i) );
       mButtonList.append( button );

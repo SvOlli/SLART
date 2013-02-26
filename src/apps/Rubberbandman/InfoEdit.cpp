@@ -54,22 +54,22 @@ InfoEdit::InfoEdit( QWidget *parent )
 , mpButtonFlags( new QPushButton( tr("Flags"), this ) )
 , mpMenuFlags( new QMenu( this ) )
 , mpShowTimesPlayed( new QLabel( this ) )
-, mpButtonFolders( new QPushButton( tr("Folders"), this ) )
-, mpMenuFolders( new QMenu( this ) )
+, mpButtonGroups( new QPushButton( tr("Groups"), this ) )
+, mpMenuGroups( new QMenu( this ) )
 , mpRecurseSetFlags( 0 )
 , mpRecurseUnsetFlags( 0 )
 , mpFavoriteTrackFlag( 0 )
 , mpUnwantedTrackFlag( 0 )
 , mpTrackScannedFlag( 0 )
-, mpRecurseSetFolders( 0 )
-, mpRecurseUnsetFolders( 0 )
+, mpRecurseSetGroups( 0 )
+, mpRecurseUnsetGroups( 0 )
 , mIsValid( false )
 , mIsFile( false )
 , mCancel( false )
 , mFileName()
 {
    mpButtonFlags->setMenu( mpMenuFlags );
-   mpButtonFolders->setMenu( mpMenuFolders );
+   mpButtonGroups->setMenu( mpMenuGroups );
    mpShowTimesPlayed->setAlignment( Qt::AlignCenter );
 
    mpValidateTrackNr = new QIntValidator( 0, 99, mpEditTrackNr );
@@ -136,7 +136,7 @@ InfoEdit::InfoEdit( QWidget *parent )
    QGridLayout *databaseLayout = new QGridLayout;
    databaseLayout->addWidget( mpButtonFlags,     0, 0 );
    databaseLayout->addWidget( mpShowTimesPlayed, 0, 1 );
-   databaseLayout->addWidget( mpButtonFolders,   0, 2 );
+   databaseLayout->addWidget( mpButtonGroups,   0, 2 );
 
    databaseLayout->setVerticalSpacing( 0 );
    databaseLayout->setContentsMargins( 2, 2, 2, 2 );
@@ -184,8 +184,8 @@ InfoEdit::InfoEdit( QWidget *parent )
 
    connect( mpMenuFlags, SIGNAL(triggered(QAction*)),
             this, SLOT(handleFlagsMenu(QAction*)) );
-   connect( mpMenuFolders, SIGNAL(triggered(QAction*)),
-            this, SLOT(handleFoldersMenu(QAction*)) );
+   connect( mpMenuGroups, SIGNAL(triggered(QAction*)),
+            this, SLOT(handleGroupsMenu(QAction*)) );
 
    mpDatabase->getAllColumnData( mpEditArtist, SLOT(setCompleterTexts(QStringList)), DatabaseInterface::Artist );
    mpDatabase->getAllColumnData( mpEditTitle,  SLOT(setCompleterTexts(QStringList)), DatabaseInterface::Title );
@@ -278,7 +278,7 @@ void InfoEdit::loadTrackInfo( const TrackInfo &trackInfo )
    }
 
    mpButtonFlags->setDisabled( false );
-   mpButtonFolders->setDisabled( false );
+   mpButtonGroups->setDisabled( false );
    mpShowTimesPlayed->clear();
    if( fileInfo.isFile() )
    {
@@ -359,7 +359,7 @@ void InfoEdit::loadTrackInfo( const TrackInfo &trackInfo )
          mpButtonNormArtist->setDisabled( true );
          mpButtonNormTitle->setDisabled( true );
          mpButtonFlags->setDisabled( true );
-         mpButtonFolders->setDisabled( true );
+         mpButtonGroups->setDisabled( true );
       }
    }
 
@@ -421,11 +421,11 @@ void InfoEdit::handleSetSave()
          {
             recurseFlags |= RecurseWorker::UnsetFlags;
          }
-         if( mpRecurseSetFolders->isChecked() )
+         if( mpRecurseSetGroups->isChecked() )
          {
             recurseFlags |= RecurseWorker::SetGroups;
          }
-         if( mpRecurseUnsetFolders->isChecked() )
+         if( mpRecurseUnsetGroups->isChecked() )
          {
             recurseFlags |= RecurseWorker::UnsetGroups;
          }
@@ -441,7 +441,7 @@ void InfoEdit::handleSetSave()
             ti.mYear = mpEditYear->text().toUInt();
          }
          ti.mGenre   = mpEditGenre->text();
-         ti.mFolders = mTrackInfo.mFolders;
+         ti.mGroups = mTrackInfo.mGroups;
 
          mpRecurseWorker->startSetTags( mFileName, ti, recurseFlags );
       }
@@ -537,8 +537,8 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
       QString timesPlayed;
 
       mpMenuFlags->clear();
-      mpMenuFolders->clear();
-      mpDatabase->getFolders( this, SLOT(handleFoldersEntries(QStringList)) );
+      mpMenuGroups->clear();
+      mpDatabase->getGroups( this, SLOT(handleGroupsEntries(QStringList)) );
 
       if( withRecurse )
       {
@@ -552,15 +552,15 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
 
          mpMenuFlags->addSeparator();
 
-         mpRecurseSetFolders   = mpMenuFolders->addAction( tr("Set Selected Folders") );
-         mpRecurseSetFolders->setCheckable( true );
-         mpRecurseSetFolders->setChecked( true );
+         mpRecurseSetGroups   = mpMenuGroups->addAction( tr("Set Selected Groups") );
+         mpRecurseSetGroups->setCheckable( true );
+         mpRecurseSetGroups->setChecked( true );
 
-         mpRecurseUnsetFolders = mpMenuFolders->addAction( tr("Unset Selected Folders") );
-         mpRecurseUnsetFolders->setCheckable( true );
-         mpRecurseUnsetFolders->setChecked( false );
+         mpRecurseUnsetGroups = mpMenuGroups->addAction( tr("Unset Selected Groups") );
+         mpRecurseUnsetGroups->setCheckable( true );
+         mpRecurseUnsetGroups->setChecked( false );
 
-         mpMenuFolders->addSeparator();
+         mpMenuGroups->addSeparator();
       }
       else
       {
@@ -573,7 +573,7 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
    else
    {
       mpButtonFlags->setDisabled( true );
-      mpButtonFolders->setDisabled( true );
+      mpButtonGroups->setDisabled( true );
       mpShowTimesPlayed->setText( tr("Not In Database") );
    }
 
@@ -599,21 +599,21 @@ void InfoEdit::updateDatabaseInfo( bool withRecurse )
 }
 
 
-void InfoEdit::handleFoldersEntries( const QStringList &folders )
+void InfoEdit::handleGroupsEntries( const QStringList &folders )
 {
    if( folders.size() > 0 )
    {
-      mpButtonFolders->setDisabled( false );
+      mpButtonGroups->setDisabled( false );
       foreach( const QString &folder, folders )
       {
-         QAction *action = mpMenuFolders->addAction( folder );
+         QAction *action = mpMenuGroups->addAction( folder );
          action->setCheckable( true );
-         action->setChecked( mTrackInfo.isInFolder( action->text() ) );
+         action->setChecked( mTrackInfo.isInGroup( action->text() ) );
       }
    }
    else
    {
-      mpButtonFolders->setDisabled( true );
+      mpButtonGroups->setDisabled( true );
    }
 }
 
@@ -657,20 +657,20 @@ void InfoEdit::handleFlagsMenu( QAction *action )
 }
 
 
-void InfoEdit::handleFoldersMenu( QAction *action )
+void InfoEdit::handleGroupsMenu( QAction *action )
 {
-   if( action == mpRecurseSetFolders )
+   if( action == mpRecurseSetGroups )
    {
-      mpRecurseUnsetFolders->setChecked( false );
+      mpRecurseUnsetGroups->setChecked( false );
       return;
    }
 
-   if( action == mpRecurseUnsetFolders )
+   if( action == mpRecurseUnsetGroups )
    {
-      mpRecurseSetFolders->setChecked( false );
+      mpRecurseSetGroups->setChecked( false );
       return;
    }
 
-   mTrackInfo.setFolder( action->text(), action->isChecked() );
+   mTrackInfo.setGroup( action->text(), action->isChecked() );
    handleChange();
 }

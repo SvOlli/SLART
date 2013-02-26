@@ -130,73 +130,72 @@ Tags werden nicht eingelesen.</translation>
 <context>
     <name>FileSysBrowser</name>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="37"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="148"/>
         <source>Send To Partyman</source>
         <translation>An Partyman senden</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="38"/>
         <source>Rescan</source>
-        <translation>Neu einlesen</translation>
+        <translation type="obsolete">Neu einlesen</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="39"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="149"/>
         <source>Move</source>
         <translation>Verschieben</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="40"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="150"/>
         <source>Move Directory</source>
         <translation>Verzeichnis verschieben</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="41"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="151"/>
         <source>Move Content</source>
         <translation>Verzeichnisinhalt verschieben</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="42"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="152"/>
         <source>Rename</source>
         <translation>Umbenennen</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="43"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="153"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="66"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="195"/>
         <source>Root:</source>
         <translation>Wurzel:</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="224"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="355"/>
         <source>Move Content Of %1 To:</source>
         <translation>Verzeichnisinhalt von %1 verschieben nach:</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="228"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="359"/>
         <source>Move %1 To:</source>
         <translation>%1 verschieben nach:</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="303"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="434"/>
         <source>Delete %1</source>
         <translation>%1 löschen</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="272"/>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="273"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="403"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="404"/>
         <source>Rename %1 To:</source>
         <translation>%1 umbennen nach:</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="294"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="425"/>
         <source>New name is not valid.</source>
         <translation>Neuer Name ist ungültig.</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="304"/>
+        <location filename="../../apps/Rubberbandman/FileSysBrowser.cpp" line="435"/>
         <source>Really Delete %1 ?</source>
         <translation>Wirklich %1 löschen?</translation>
     </message>
@@ -239,8 +238,12 @@ Tags werden nicht eingelesen.</translation>
         <translation>Schalter</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/InfoEdit.cpp" line="57"/>
         <source>Folders</source>
+        <translation type="obsolete">Gruppen</translation>
+    </message>
+    <message>
+        <location filename="../../apps/Rubberbandman/InfoEdit.cpp" line="57"/>
+        <source>Groups</source>
         <translation>Gruppen</translation>
     </message>
     <message>
@@ -315,13 +318,21 @@ Tags werden nicht eingelesen.</translation>
     </message>
     <message>
         <location filename="../../apps/Rubberbandman/InfoEdit.cpp" line="555"/>
-        <source>Set Selected Folders</source>
+        <source>Set Selected Groups</source>
         <translation>Markierte Gruppen setzen</translation>
     </message>
     <message>
         <location filename="../../apps/Rubberbandman/InfoEdit.cpp" line="559"/>
-        <source>Unset Selected Folders</source>
+        <source>Unset Selected Groups</source>
         <translation>Markierte Gruppen zurücksetzen</translation>
+    </message>
+    <message>
+        <source>Set Selected Folders</source>
+        <translation type="obsolete">Markierte Gruppen setzen</translation>
+    </message>
+    <message>
+        <source>Unset Selected Folders</source>
+        <translation type="obsolete">Markierte Gruppen zurücksetzen</translation>
     </message>
     <message numerus="yes">
         <location filename="../../apps/Rubberbandman/InfoEdit.cpp" line="567"/>
@@ -370,99 +381,118 @@ Tags werden nicht eingelesen.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="96"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="84"/>
         <source>entries checked</source>
         <translation>Einträge überprüft</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="97"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="85"/>
         <source>cleaned</source>
         <translation>entfernt</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="102"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="90"/>
         <source>cleaning up</source>
         <translation>aufräumen</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="112"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="100"/>
         <source>%1 is not a directory
 </source>
         <translation>%1 ist kein Verzeichnis
 </translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="117"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="105"/>
         <source>files scanned</source>
         <translation>Dateien eingelesen</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="118"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="106"/>
         <source>updated</source>
         <translation>aktualisiert</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="124"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="112"/>
         <source>updating %1</source>
         <translation>aktualisiere %1</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="131"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanApplication.cpp" line="119"/>
         <source>Usage:	%1 (%2) (%3 &lt;directory&gt;) (%4)
 </source>
         <translation>Aufruf:	%1 (%2) (%3 &lt;Verzeichnis&gt;) (%4)</translation>
     </message>
 </context>
 <context>
+    <name>RecurseWorker</name>
+    <message>
+        <location filename="../../apps/Rubberbandman/RecurseWorker.cpp" line="205"/>
+        <location filename="../../apps/Rubberbandman/RecurseWorker.cpp" line="330"/>
+        <source>Could not read tags</source>
+        <translation>Konnte Tags nicht lesen</translation>
+    </message>
+    <message>
+        <location filename="../../apps/Rubberbandman/RecurseWorker.cpp" line="211"/>
+        <source>Could not read file</source>
+        <translation>Konnte Datei nicht lesen</translation>
+    </message>
+</context>
+<context>
     <name>RubberbandmanConfigDialog</name>
     <message>
         <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="29"/>
+        <source>Rename Files To Match Pattern</source>
+        <translation>Dateien nach Pattern umbenennen</translation>
+    </message>
+    <message>
+        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="30"/>
         <source>Rescan After Filesystem Operation</source>
         <translation>Dateisystem nach Aktionen neu einlesen</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="30"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="31"/>
         <source>Pattern For Rename
 With Track Nr</source>
         <translation>Muster zum Umbenennen
 mit Titel Nummer</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="33"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="34"/>
         <source>Pattern For Rename
 Without Track Nr</source>
         <translation>Muster zum Umbenennen
 ohne Titel Nummer</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="36"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="37"/>
         <source>Pattern For
 Now Playing</source>
         <translation>Muster für
 aktueller Titel</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="41"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="42"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="64"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="65"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="65"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="66"/>
         <source>Cancel</source>
         <translation>Abbruch</translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="88"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="90"/>
         <source>Rubberbandman</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="89"/>
+        <location filename="../../apps/Rubberbandman/RubberbandmanConfigDialog.cpp" line="91"/>
         <source>Global</source>
         <translation></translation>
     </message>

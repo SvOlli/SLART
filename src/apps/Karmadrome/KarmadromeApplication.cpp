@@ -23,9 +23,9 @@
 #include <Translate.hpp>
 
 /* local headers */
-#include "ExportFolder.hpp"
-#include "ExportFolderList.hpp"
-#include "ImportFolder.hpp"
+#include "ExportGroup.hpp"
+#include "ExportGroupList.hpp"
+#include "ImportGroup.hpp"
 #include "KarmadromeMainWidget.hpp"
 
 
@@ -175,21 +175,21 @@ int main(int argc, char *argv[])
       QObject *object = 0;
       if( dolist )
       {
-         ExportFolderList *exportFolderList =
-               new ExportFolderList( filename );
-         object = qobject_cast<QObject*>(exportFolderList);
+         ExportGroupList *exportGroupList =
+               new ExportGroupList( filename );
+         object = qobject_cast<QObject*>(exportGroupList);
       }
       else if( doimport )
       {
-         ImportFolder *importFolder =
-               new ImportFolder( foldername, filename, withclean );
-         object = qobject_cast<QObject*>(importFolder);
+         ImportGroup *importGroup =
+               new ImportGroup( foldername, filename, withclean );
+         object = qobject_cast<QObject*>(importGroup);
       }
       else if( doexport )
       {
-         ExportFolder *exportFolder =
-               new ExportFolder( foldername, filename, withrelative, withshuffle );
-         object = qobject_cast<QObject*>(exportFolder);
+         ExportGroup *exportGroup =
+               new ExportGroup( foldername, filename, withrelative, withshuffle );
+         object = qobject_cast<QObject*>(exportGroup);
       }
       QObject::connect( object, SIGNAL(destroyed()),
                         &app, SLOT(quit()) );

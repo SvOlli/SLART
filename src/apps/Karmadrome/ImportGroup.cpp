@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "ImportFolder.hpp"
+#include "ImportGroup.hpp"
 
 /* system headers */
 #include <cstdio>
@@ -27,29 +27,29 @@
 
 #include <Trace.hpp>
 
-ImportFolder::ImportFolder( const QString &folder, const QString &fileName, bool cleanImport )
+ImportGroup::ImportGroup( const QString &folder, const QString &fileName, bool cleanImport )
 : QObject( 0 )
 , mpDatabase( DatabaseInterface::get() )
 , mQueueSize( 0 )
 , mFavorite( QChar(1) )
 , mUnwanted( QChar(2) )
-, mFolder( folder )
+, mGroup( folder )
 {
-TRACESTART(ImportFolder::ImportFolder)
-   if( mFolder.startsWith( "|F", Qt::CaseInsensitive ) )
+TRACESTART(ImportGroup::ImportGroup)
+   if( mGroup.startsWith( "|F", Qt::CaseInsensitive ) )
    {
-      mFolder = mFavorite;
+      mGroup = mFavorite;
    }
-   if( mFolder.startsWith( "|U", Qt::CaseInsensitive ) )
+   if( mGroup.startsWith( "|U", Qt::CaseInsensitive ) )
    {
-      mFolder = mUnwanted;
+      mGroup = mUnwanted;
    }
 
    if( cleanImport )
    {
-      mpDatabase->deleteFolder( folder );
+      mpDatabase->deleteGroup( folder );
    }
-   mpDatabase->insertFolder( folder );
+   mpDatabase->insertGroup( folder );
 
    QFile m3uFile( fileName );
    if( m3uFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
@@ -75,7 +75,7 @@ TRACESTART(ImportFolder::ImportFolder)
             }
             mQueueSize++;
 
-            mpDatabase->getTrackInfo( this, SLOT(addEntryToFolder(TrackInfo)), fileName );
+            mpDatabase->getTrackInfo( this, SLOT(addEntryToGroup(TrackInfo)), fileName );
          }
       }
       m3uFile.close();
@@ -83,28 +83,28 @@ TRACESTART(ImportFolder::ImportFolder)
 }
 
 
-ImportFolder::~ImportFolder()
+ImportGroup::~ImportGroup()
 {
-TRACESTART(ImportFolder::~ImportFolder)
+TRACESTART(ImportGroup::~ImportGroup)
 }
 
 
-void ImportFolder::addEntryToFolder( const TrackInfo &ti )
+void ImportGroup::addEntryToGroup( const TrackInfo &ti )
 {
-TRACESTART(ImportFolder::addEntryToFolder)
+TRACESTART(ImportGroup::addEntryToGroup)
 
    TrackInfo trackInfo( ti );
-   if( mFolder == mFavorite )
+   if( mGroup == mFavorite )
    {
       trackInfo.setFlag( TrackInfo::Favorite, true );
    }
-   else if( mFolder == mUnwanted )
+   else if( mGroup == mUnwanted )
    {
       trackInfo.setFlag( TrackInfo::Unwanted, true );
    }
    else
    {
-      trackInfo.setFolder( mFolder, true );
+      trackInfo.setGroup( mGroup, true );
    }
    if( ti != trackInfo )
    {

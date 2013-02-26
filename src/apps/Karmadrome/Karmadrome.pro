@@ -27,14 +27,14 @@ SOURCES += KarmadromeApplication.cpp
 HEADERS += ButtonsWidget.hpp
 SOURCES += ButtonsWidget.cpp
 
-HEADERS += ExportFolder.hpp
-SOURCES += ExportFolder.cpp
+HEADERS += ExportGroup.hpp
+SOURCES += ExportGroup.cpp
 
-HEADERS += ExportFolderList.hpp
-SOURCES += ExportFolderList.cpp
+HEADERS += ExportGroupList.hpp
+SOURCES += ExportGroupList.cpp
 
-HEADERS += ImportFolder.hpp
-SOURCES += ImportFolder.cpp
+HEADERS += ImportGroup.hpp
+SOURCES += ImportGroup.cpp
 
 HEADERS += KarmadromeConfigDialog.hpp
 SOURCES += KarmadromeConfigDialog.cpp

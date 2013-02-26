@@ -1,5 +1,5 @@
 /*
- * src/apps/Karmadrome/ExportFolderList.cpp
+ * src/apps/Karmadrome/ExportGroupList.cpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
@@ -7,7 +7,7 @@
  */
 
 /* class declaration */
-#include "ExportFolderList.hpp"
+#include "ExportGroupList.hpp"
 
 /* system headers */
 #include <cstdio>
@@ -23,22 +23,22 @@
 #include "Trace.hpp"
 #include <QTimer>
 
-ExportFolderList::ExportFolderList( const QString &fileName )
+ExportGroupList::ExportGroupList( const QString &fileName )
 : QObject( 0 )
 , mFileName( fileName )
 {
    DatabaseInterface *database = DatabaseInterface::get();
 
-   database->getFolders( this, SLOT(writeData(QStringList)) );
+   database->getGroups( this, SLOT(writeData(QStringList)) );
 }
 
 
-ExportFolderList::~ExportFolderList()
+ExportGroupList::~ExportGroupList()
 {
 }
 
 
-void ExportFolderList::writeData( const QStringList &entries )
+void ExportGroupList::writeData( const QStringList &entries )
 {
    QFile file( mFileName );
    const QByteArray lf( "\n" );

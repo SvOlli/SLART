@@ -370,7 +370,7 @@ public:
       PartymanListPattern,
       PartymanLogCmd,
       PartymanNamePattern,
-      PartymanPlayFolder,
+      PartymanPlayGroup,
       PartymanPlayerPattern,
       PartymanSearch,
       PartymanTrayIconPattern

@@ -19,7 +19,7 @@
         <location filename="../../apps/Partyman/ControlWidget.cpp" line="52"/>
         <location filename="../../apps/Partyman/ControlWidget.cpp" line="251"/>
         <location filename="../../apps/Partyman/ControlWidget.cpp" line="308"/>
-        <location filename="../../apps/Partyman/ControlWidget.cpp" line="812"/>
+        <location filename="../../apps/Partyman/ControlWidget.cpp" line="817"/>
         <source>Next</source>
         <translation>Nächster</translation>
     </message>
@@ -97,14 +97,14 @@
         <translation>Weiter</translation>
     </message>
     <message>
-        <location filename="../../apps/Partyman/ControlWidget.cpp" line="765"/>
+        <location filename="../../apps/Partyman/ControlWidget.cpp" line="770"/>
         <source>Now Playing:</source>
         <translation>Spiele:</translation>
     </message>
     <message>
         <location filename="../../apps/Partyman/ControlWidget.cpp" line="243"/>
         <location filename="../../apps/Partyman/ControlWidget.cpp" line="303"/>
-        <location filename="../../apps/Partyman/ControlWidget.cpp" line="807"/>
+        <location filename="../../apps/Partyman/ControlWidget.cpp" line="812"/>
         <source>Kiosk Mode</source>
         <translation>Kiosk Modus</translation>
     </message>
@@ -218,8 +218,12 @@
     </message>
     <message>
         <location filename="../../apps/Partyman/PartymanConfigDialog.cpp" line="145"/>
+        <source>Play Group:</source>
+        <translation>Gruppe spielen:</translation>
+    </message>
+    <message>
         <source>Play Folder:</source>
-        <translation>Ordner spielen:</translation>
+        <translation type="obsolete">Ordner spielen:</translation>
     </message>
     <message>
         <location filename="../../apps/Partyman/PartymanConfigDialog.cpp" line="147"/>
@@ -322,47 +326,47 @@
 <context>
     <name>PartymanMainWindow</name>
     <message>
-        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="78"/>
+        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="87"/>
         <source>Playlist</source>
         <translation>Spielliste</translation>
     </message>
     <message>
-        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="82"/>
+        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="91"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="90"/>
+        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="99"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="94"/>
+        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="103"/>
         <source>Search</source>
         <translation>Suche</translation>
     </message>
     <message>
-        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="268"/>
+        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="276"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
-        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="443"/>
+        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="451"/>
         <source>*Wait*</source>
         <translation>*Warten*</translation>
     </message>
     <message>
-        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="458"/>
+        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="466"/>
         <source>database empty</source>
         <translation>leere Datenbank</translation>
     </message>
     <message>
-        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="459"/>
+        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="467"/>
         <source>The database is empty. Please run Rubberbandman.</source>
         <translation>Die Datenbank ist leer. Bitte Rubberbandman starten.</translation>
     </message>
     <message>
-        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="505"/>
+        <location filename="../../apps/Partyman/PartymanMainWindow.cpp" line="513"/>
         <source>Browse</source>
         <translation>Ansicht</translation>
     </message>

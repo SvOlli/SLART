@@ -24,7 +24,7 @@ TrackInfo::TrackInfo()
 , mLastTagsRead( 0 )
 , mTimesPlayed( 0 )
 , mVolume( 0.0 )
-, mFolders()
+, mGroups()
 , mFlags( 0 )
 {
 }
@@ -34,7 +34,7 @@ TrackInfo::TrackInfo( const QString &directory, const QString &filename,
                       int tracknr, int year, const QString &genre,
                       unsigned int playtime, unsigned int lastscanned, unsigned int lasttagsread,
                       unsigned int timesplayed, double volume,
-                      const QString &folders, unsigned int flags, unsigned int id )
+                      const QString &groups, unsigned int flags, unsigned int id )
 : mID( id )
 , mDirectory( directory )
 , mFileName( filename )
@@ -49,7 +49,7 @@ TrackInfo::TrackInfo( const QString &directory, const QString &filename,
 , mLastTagsRead( lasttagsread )
 , mTimesPlayed( timesplayed )
 , mVolume( volume )
-, mFolders( folders )
+, mGroups( groups )
 , mFlags( flags )
 {
 
@@ -70,7 +70,7 @@ TrackInfo::TrackInfo( const TrackInfo &that )
 , mLastTagsRead( that.mLastTagsRead )
 , mTimesPlayed ( that.mTimesPlayed )
 , mVolume      ( that.mVolume )
-, mFolders     ( that.mFolders )
+, mGroups     ( that.mGroups )
 , mFlags       ( that.mFlags )
 {
 }
@@ -96,7 +96,7 @@ TrackInfo &TrackInfo::operator=( const TrackInfo &that )
    mLastTagsRead = that.mLastTagsRead;
    mTimesPlayed  = that.mTimesPlayed;
    mVolume       = that.mVolume;
-   mFolders      = that.mFolders;
+   mGroups      = that.mGroups;
    mFlags        = that.mFlags;
 
    return *this;
@@ -121,7 +121,7 @@ bool TrackInfo::operator==( const TrackInfo &that ) const
       && (mLastTagsRead == that.mLastTagsRead )
       && (mTimesPlayed  == that.mTimesPlayed )
       && (mVolume       == that.mVolume )
-      && (mFolders      == that.mFolders )
+      && (mGroups      == that.mGroups )
       && (mFlags        == that.mFlags )
    );
 }
@@ -148,12 +148,12 @@ void TrackInfo::clear()
    mLastTagsRead = 0;
    mTimesPlayed  = 0;
    mVolume       = 0.0;
-   mFolders      = QString();
+   mGroups      = QString();
    mFlags        = 0;
 }
 
 
-bool TrackInfo::isInDatabase()
+bool TrackInfo::isInDatabase() const
 {
    return (mID > 0);
 }
@@ -169,13 +169,13 @@ void TrackInfo::setFlag( Flag flag, bool set )
 }
 
 
-bool TrackInfo::isFlagged( Flag flag )
+bool TrackInfo::isFlagged( Flag flag ) const
 {
    return (mFlags & getFlagMask( flag )) == (unsigned int)flag;
 }
 
 
-unsigned int TrackInfo::getFlagMask( Flag flag )
+unsigned int TrackInfo::getFlagMask( Flag flag ) const
 {
    switch( flag )
    {
@@ -197,47 +197,47 @@ QString TrackInfo::filePath() const
 }
 
 
-void TrackInfo::setFolder( const QString &folder, bool add )
+void TrackInfo::setGroup( const QString &group, bool add )
 {
-   QStringList folderList( mFolders.split('|', QString::SkipEmptyParts) );
-   int i = folderList.indexOf( folder );
+   QStringList groupList( mGroups.split('|', QString::SkipEmptyParts) );
+   int i = groupList.indexOf( group );
    if( add )
    {
       if( i < 0 )
       {
-         folderList.append( QString(folder).replace('|','\\') );
-         folderList.sort();
+         groupList.append( QString(group).replace('|','\\') );
+         groupList.sort();
       }
    }
    else
    {
       if( i >= 0 )
       {
-         folderList.removeAt( i );
+         groupList.removeAt( i );
       }
    }
-   if( folderList.count() )
+   if( groupList.count() )
    {
-      mFolders = folderList.join( "|" );
-      mFolders.prepend( "|" );
-      mFolders.append( "|" );
+      mGroups = groupList.join( "|" );
+      mGroups.prepend( "|" );
+      mGroups.append( "|" );
    }
    else
    {
-      mFolders.clear();
+      mGroups.clear();
    }
 }
 
 
-QStringList TrackInfo::getFolders()
+QStringList TrackInfo::getGroups() const
 {
-   return mFolders.split('|', QString::SkipEmptyParts);
+   return mGroups.split('|', QString::SkipEmptyParts);
 }
 
 
-bool TrackInfo::isInFolder( const QString &folder )
+bool TrackInfo::isInGroup( const QString &group ) const
 {
-   return mFolders.contains( QString("|") + folder + QString("|") );
+   return mGroups.contains( QString("|") + group + QString("|") );
 }
 
 
@@ -246,10 +246,10 @@ QString TrackInfo::toString() const
    return QString("id=%1,dir=%2,file=%3,artist=%4,title=%5,album=%6,trk=%7,year=%8,genre=%9,")
                   .arg(QString::number(mID), mDirectory, mFileName, mArtist, mTitle,
                        mAlbum, QString::number(mTrackNr), QString::number(mYear), mGenre)+
-          QString("pt=%1,ls=%2,lt=%3,tp=%4,vol=%5,folders=%6,flags=%7")
+          QString("pt=%1,ls=%2,lt=%3,tp=%4,vol=%5,groups=%6,flags=%7")
                   .arg(QString::number(mPlayTime), QString::number(mLastScanned),
                        QString::number(mLastTagsRead),QString::number(mTimesPlayed),
-                       QString::number(mVolume), mFolders, QString::number(mFlags,16));
+                       QString::number(mVolume), mGroups, QString::number(mFlags,16));
 }
 
 
@@ -289,7 +289,7 @@ QString TrackInfo::valueByKey( const QString &key ) const
    if( key.toUpper() == "GENRE" )       return mGenre;
    if( key.toUpper() == "PLAYTIME" )    return sec2minsec( mPlayTime );
    if( key.toUpper() == "TIMESPLAYED" ) return QString::number( mTimesPlayed );
-   if( key.toUpper() == "FOLDERS" )     return mFolders;
+   if( key.toUpper() == "FOLDERS" )     return mGroups;
    return QString();
 }
 

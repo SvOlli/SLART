@@ -173,10 +173,10 @@ void DatabaseInterface::getRandomTrack( QObject *target, const char *method,
 }
 
 
-void DatabaseInterface::getFolders( QObject *target, const char *method,
+void DatabaseInterface::getGroups( QObject *target, const char *method,
                                     const QVariant &payload )
 {
-   QMetaObject::invokeMethod( mpDatabase, "getFolders",
+   QMetaObject::invokeMethod( mpDatabase, "getGroups",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
                               Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
@@ -184,11 +184,11 @@ void DatabaseInterface::getFolders( QObject *target, const char *method,
 }
 
 
-void DatabaseInterface::getFolder( QObject *target, const char *method,
+void DatabaseInterface::getGroup( QObject *target, const char *method,
                                    const QString &folder,
                                    const QVariant &payload )
 {
-   QMetaObject::invokeMethod( mpDatabase, "getFolder",
+   QMetaObject::invokeMethod( mpDatabase, "getGroup",
                               Qt::QueuedConnection,
                               Q_ARG( QObject*, target ),
                               Q_ARG( QByteArray, QMetaObject::normalizedSignature( method ) ),
@@ -225,17 +225,17 @@ void DatabaseInterface::deleteTrackInfo( const QString &fileName )
 }
 
 
-void DatabaseInterface::insertFolder( const QString &folder )
+void DatabaseInterface::insertGroup( const QString &folder )
 {
-   QMetaObject::invokeMethod( mpDatabase, "insertFolder",
+   QMetaObject::invokeMethod( mpDatabase, "insertGroup",
                               Qt::QueuedConnection,
                               Q_ARG( QString, folder ) );
 }
 
 
-void DatabaseInterface::deleteFolder( const QString &folder )
+void DatabaseInterface::deleteGroup( const QString &folder )
 {
-   QMetaObject::invokeMethod( mpDatabase, "deleteFolder",
+   QMetaObject::invokeMethod( mpDatabase, "deleteGroup",
                               Qt::QueuedConnection,
                               Q_ARG( QString, folder ) );
 }

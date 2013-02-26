@@ -157,7 +157,7 @@ public slots:
 
     \param list
    */
-   void updateFolderNames( const QStringList &list );
+   void updateGroupNames( const QStringList &list );
 
    /*!
     \brief \todo complete documentation
@@ -165,7 +165,7 @@ public slots:
     \param entries
     \param payload folder parameter sent back from database
    */
-   void removeFolder( const QStringList &entries, const QVariant &payload );
+   void removeGroup( const QStringList &entries, const QVariant &payload );
 
    /*!
     \brief \todo complete documentation
@@ -173,7 +173,7 @@ public slots:
     \param trackInfo
     \param payload folder parameter sent back from database
    */
-   void removeFolderFromTrack( const TrackInfo &trackInfo, const QVariant &payload );
+   void removeGroupFromTrack( const TrackInfo &trackInfo, const QVariant &payload );
 
 private:
    Q_DISABLE_COPY( KarmadromeMainWidget )
@@ -201,8 +201,8 @@ private:
    KarmadromeConfigDialog  *mpConfigDialog; /*!< \brief configuration dialog */
    QTimer                  *mpTimer; /*!< \brief timer for sending updates */
 
-   QString                 mFolderNameToRemove; /*!< \brief  */
-   QStringList             mFolders; /*!< \brief  */
+   QString                 mGroupNameToRemove; /*!< \brief  */
+   QStringList             mGroups; /*!< \brief  */
    TrackInfo               mTrackInfo; /*!< \brief  */
 };
 

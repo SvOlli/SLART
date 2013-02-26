@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QMetaType>
 #include <QString>
 
 /* local library headers */
@@ -22,8 +23,6 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
-class QCompleter;
-class QWidget;
 
 /* forward declaration of local classes */
 
@@ -41,6 +40,10 @@ class QWidget;
 class TrackInfo
 {
 public:
+   /*!
+    \brief flags for special states of entry
+
+   */
    enum Flag {
       ScannedWithPeak  = 0x00000001,
       ScannedWithPower = 0x00000002,
@@ -50,30 +53,34 @@ public:
    };
 
    /*!
-    \brief \todo complete documentation
+    \brief constructor
 
    */
    TrackInfo();
+
    /*!
-    \brief
+    \brief copy constructor
 
     \param that
    */
    TrackInfo( const TrackInfo &that );
+
    /*!
-    \brief
+    \brief assignment operator
 
     \param that
    */
    TrackInfo &operator=( const TrackInfo &that );
+
    /*!
-    \brief
+    \brief is equal comparision operator
 
     \param that
    */
    bool operator==( const TrackInfo &that ) const;
+
    /*!
-    \brief
+    \brief is not equal comparision operator
 
     \param that
    */
@@ -95,7 +102,7 @@ public:
     \param lasttagsread
     \param timesplayed
     \param volume
-    \param folders
+    \param groups
     \param flags
     \param id
    */
@@ -112,26 +119,26 @@ public:
               unsigned int   lasttagsread,
               unsigned int   timesplayed = 0,
               double         volume = 0.0,
-              const QString &folders = QString(),
+              const QString &groups = QString(),
               unsigned int   flags = 0,
               unsigned int   id = 0 );
 
-   unsigned int mID;
-   QString      mDirectory;
-   QString      mFileName;
-   QString      mArtist;
-   QString      mTitle;
-   QString      mAlbum;
-   int          mTrackNr;
-   int          mYear;
-   QString      mGenre;
-   unsigned int mPlayTime;
-   unsigned int mLastScanned;
-   unsigned int mLastTagsRead;
-   unsigned int mTimesPlayed;
-   double       mVolume;
-   QString      mFolders;
-   unsigned int mFlags;
+   unsigned int mID; /*!< \brief database id */
+   QString      mDirectory; /*!< \brief directory of file */
+   QString      mFileName; /*!< \brief name of file TODO */
+   QString      mArtist; /*!< \brief artist name */
+   QString      mTitle; /*!< \brief track title name */
+   QString      mAlbum; /*!< \brief album name */
+   int          mTrackNr; /*!< \brief track number (-1 = not set) */
+   int          mYear; /*!< \brief year (-1 = not set) */
+   QString      mGenre; /*!< \brief genre of track */
+   unsigned int mPlayTime; /*!< \brief play time of track in seconds */
+   unsigned int mLastScanned; /*!< \brief timestamp of last scanning of track */
+   unsigned int mLastTagsRead; /*!< \brief timestamp of the last time the tags were read */
+   unsigned int mTimesPlayed; /*!< \brief number of times played */
+   double       mVolume; /*!< \brief volume adjustment factor */
+   QString      mGroups; /*!< \brief groups associated to track */
+   unsigned int mFlags; /*!< \brief flags of track */
 
    /*!
     \brief clear all data
@@ -142,60 +149,84 @@ public:
    /*!
     \brief mID > 0 when track is in database
 
+    \return bool
    */
-   bool isInDatabase();
+   bool isInDatabase() const;
 
    /*!
     \brief set or unset a flag
 
+    \param flag
+    \param set
    */
    void setFlag( Flag flag, bool set );
+
    /*!
     \brief check if a flag is set
 
+    \param flag
+    \return bool
    */
-   bool isFlagged( Flag flag );
+   bool isFlagged( Flag flag ) const;
+
    /*!
     \brief for combined flags get the mask
 
+    \param flag
+    \return unsigned int
    */
-   unsigned int getFlagMask( Flag flag );
+   unsigned int getFlagMask( Flag flag ) const;
 
    /*!
-    \brief add or remove the track to a folder
+    \brief add or remove the track to a group
 
+    \param group
+    \param add
    */
-   void setFolder( const QString &folder, bool add );
+   void setGroup( const QString &group, bool add );
+
    /*!
-    \brief check if the track is in a folder
+    \brief check if the track is in a group
 
+    \param group
+    \return bool
    */
-   bool isInFolder( const QString &folder );
+   bool isInGroup( const QString &group ) const;
+
    /*!
-    \brief get a list of all folders the track is in
+    \brief get a list of all groups the track is in
 
+    \return QStringList
    */
-   QStringList getFolders();
+   QStringList getGroups() const;
 
    /*!
     \brief return full path of file
 
+    \return QString
    */
    QString filePath() const;
+
    /*!
     \brief put it all together in a string for debugging purposes
 
+    \return QString
    */
    QString toString() const;
+
    /*!
     \brief format to a string by patterns
 
+    \param pattern
+    \return QString
    */
    QString displayString( const QString &pattern ) const;
 
    /*!
     \brief convert seconds to a 0:00 timecode
 
+    \param seconds
+    \return QString
    */
    static QString sec2minsec( int seconds );
 
@@ -203,6 +234,8 @@ private:
    /*!
     \brief subroutine for displayString
 
+    \param key
+    \return QString
    */
    QString valueByKey( const QString &key ) const;
 };
@@ -211,5 +244,7 @@ private:
 
 typedef QList<TrackInfo> TrackInfoList;
 
+Q_DECLARE_METATYPE(TrackInfo)
+Q_DECLARE_METATYPE(TrackInfoList)
 
 #endif

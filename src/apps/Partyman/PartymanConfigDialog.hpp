@@ -141,7 +141,7 @@ private:
    QDoubleSpinBox       *mpTrayIconBubbleTime; /*!< \brief \todo TODO */
    QCheckBox            *mpPlayOnlyFavorite; /*!< \brief \todo TODO */
    QCheckBox            *mpPlayOnlyLeastPlayed; /*!< \brief \todo TODO */
-   QComboBox            *mpPlayFolder; /*!< \brief \todo TODO */
+   QComboBox            *mpPlayGroup; /*!< \brief \todo TODO */
    QSpinBox             *mpPlayNotAgainCount; /*!< \brief \todo TODO */
    QLineEdit            *mpNamePattern; /*!< \brief \todo TODO */
    QLineEdit            *mpPlayerPattern; /*!< \brief \todo TODO */

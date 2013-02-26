@@ -35,10 +35,10 @@
 
 /* local headers */
 #include "ButtonsWidget.hpp"
-#include "ExportFolder.hpp"
-#include "ExportFolderList.hpp"
+#include "ExportGroup.hpp"
+#include "ExportGroupList.hpp"
 #include "KarmadromeConfigDialog.hpp"
-#include "ImportFolder.hpp"
+#include "ImportGroup.hpp"
 
 
 KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags flags )
@@ -57,15 +57,15 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
 , mpImportMenu( new QMenu( this ) )
 , mpImportFavorite( new QAction( tr("Favorite"), this ) )
 , mpImportUnwanted( new QAction( tr("No Auto"), this ) )
-, mpListButtons( new ButtonsWidget( tr("Folders:"), this ) )
+, mpListButtons( new ButtonsWidget( tr("Groups:"), this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
 , mpAddButton( new QPushButton( tr("Add"), this ) )
 , mpRemoveButton( new QPushButton( tr("Remove"), this ) )
 , mpRemoveMenu( new QMenu( this ) )
 , mpConfigDialog( new KarmadromeConfigDialog( this ) )
 , mpTimer( new QTimer( this ) )
-, mFolderNameToRemove()
-, mFolders()
+, mGroupNameToRemove()
+, mGroups()
 , mTrackInfo()
 {
    QGridLayout *mainLayout   = new QGridLayout( this );
@@ -98,7 +98,7 @@ KarmadromeMainWidget::KarmadromeMainWidget( QWidget *parent, Qt::WindowFlags fla
 
    setLayout( mainLayout );
 
-   mpDatabase->getFolders( this, SLOT(updateFolderNames(QStringList)) );
+   mpDatabase->getGroups( this, SLOT(updateGroupNames(QStringList)) );
    mpDatabase->connectActivityIndicator( mpFileName, SLOT(setDisabled(bool)) );
 
    connect( mpSettingsButton, SIGNAL(clicked()),
@@ -162,7 +162,7 @@ void KarmadromeMainWidget::addToList( QWidget *widget )
    }
    if( mTrackInfo.mID > 0 )
    {
-      mTrackInfo.setFolder( button->text(), button->isChecked() );
+      mTrackInfo.setGroup( button->text(), button->isChecked() );
       mpDatabase->updateTrackInfo( mTrackInfo );
       mpTrackInfo->getTrack( mTrackInfo );
       mpTimer->start();
@@ -208,7 +208,7 @@ void KarmadromeMainWidget::handleSatellite( const QByteArray &msg )
             }
 
             /* will remove itself using deleteLater() */
-            new ExportFolder( message.at(1), message.at(2),
+            new ExportGroup( message.at(1), message.at(2),
                               Settings::value( Settings::KarmadromeExportAsRelative ),
                               Settings::value( Settings::KarmadromeRandomizeExport ) );
          }
@@ -219,7 +219,7 @@ void KarmadromeMainWidget::handleSatellite( const QByteArray &msg )
          if( message.at(2).startsWith( "/" ) )
          {
             /* will remove itself using deleteLater() */
-            new ImportFolder( message.at(1), message.at(2),
+            new ImportGroup( message.at(1), message.at(2),
                               Settings::value( Settings::KarmadromeClearBeforeImport ) );
          }
       }
@@ -229,9 +229,9 @@ void KarmadromeMainWidget::handleSatellite( const QByteArray &msg )
    {
       if( message.at(0) == "K0A" )
       {
-         if( mFolders.contains( message.at(1) ) )
+         if( mGroups.contains( message.at(1) ) )
          {
-            mTrackInfo.setFolder( message.at(1), !mTrackInfo.isInFolder( message.at(1) ) );
+            mTrackInfo.setGroup( message.at(1), !mTrackInfo.isInGroup( message.at(1) ) );
             mpDatabase->updateTrackInfo( mTrackInfo );
             mpTimer->start();
          }
@@ -273,7 +273,7 @@ void KarmadromeMainWidget::updateLists()
 {
    int i;
 
-   mpListButtons->updateButtons( mFolders );
+   mpListButtons->updateButtons( mGroups );
    mpExportMenu->clear();
    mpImportMenu->clear();
    mpRemoveMenu->clear();
@@ -283,19 +283,19 @@ void KarmadromeMainWidget::updateLists()
    mpExportMenu->addAction( mpExportUnwanted );
    mpImportMenu->addAction( mpImportUnwanted );
 
-   if( mFolders.count() > 0 )
+   if( mGroups.count() > 0 )
    {
       mpExportMenu->addSeparator();
       mpImportMenu->addSeparator();
    }
 
-   for( i = 0; i < mFolders.count(); i++ )
+   for( i = 0; i < mGroups.count(); i++ )
    {
-      mpExportMenu->addAction( mFolders.at(i) );
-      mpImportMenu->addAction( mFolders.at(i) );
-      mpRemoveMenu->addAction( mFolders.at(i) );
+      mpExportMenu->addAction( mGroups.at(i) );
+      mpImportMenu->addAction( mGroups.at(i) );
+      mpRemoveMenu->addAction( mGroups.at(i) );
    }
-   mpListButtons->lockButtons( mTrackInfo.getFolders() );
+   mpListButtons->lockButtons( mTrackInfo.getGroups() );
 }
 
 
@@ -314,8 +314,8 @@ void KarmadromeMainWidget::handleAdd()
       }
       else
       {
-         mpDatabase->insertFolder( folder );
-         mpDatabase->getFolders( this, SLOT(updateFolderNames(QStringList)) );
+         mpDatabase->insertGroup( folder );
+         mpDatabase->getGroups( this, SLOT(updateGroupNames(QStringList)) );
       }
    }
 }
@@ -360,10 +360,10 @@ void KarmadromeMainWidget::handleExport( QAction *action )
       {
          folder = QChar(2);
       }
-      ExportFolder *exportFolder = new ExportFolder( folder, fileName,
+      ExportGroup *exportGroup = new ExportGroup( folder, fileName,
                                                      Settings::value( Settings::KarmadromeExportAsRelative ),
                                                      Settings::value( Settings::KarmadromeRandomizeExport ) );
-      connect( exportFolder, SIGNAL(destroyed()),
+      connect( exportGroup, SIGNAL(destroyed()),
                this, SLOT(setButtonsEnabled()) );
    }
    else
@@ -407,9 +407,9 @@ void KarmadromeMainWidget::handleImport( QAction *action )
 
       for( int i = 0; i < dialog.selectedFiles().count(); i++ )
       {
-         ImportFolder *importFolder = new ImportFolder( folder, dialog.selectedFiles().at(i),
+         ImportGroup *importGroup = new ImportGroup( folder, dialog.selectedFiles().at(i),
                                                         (!i) ? Settings::value( Settings::KarmadromeClearBeforeImport ) : false );
-         connect( importFolder, SIGNAL(destroyed()),
+         connect( importGroup, SIGNAL(destroyed()),
                   this, SLOT(setButtonsEnabled()) );
       }
       QDir::setCurrent( cwd );
@@ -428,7 +428,7 @@ void KarmadromeMainWidget::handleRemove( QAction *action )
                                                  tr("Are you sure you want to delete the folder\n") +
                                                  action->text(), QMessageBox::Ok | QMessageBox::Cancel ) )
    {
-      mpDatabase->getFolder( this, SLOT(removeFolder(QStringList,QVariant)), action->text() );
+      mpDatabase->getGroup( this, SLOT(removeGroup(QStringList,QVariant)), action->text() );
    }
    else
    {
@@ -473,12 +473,12 @@ void KarmadromeMainWidget::updateTrackInfo( const TrackInfo &trackInfo )
    mTrackInfo = trackInfo;
    mpListButtons->setDisabled( !mTrackInfo.isInDatabase() );
    mpTrackInfo->getTrack( mTrackInfo );
-   mpListButtons->lockButtons( mTrackInfo.getFolders() );
+   mpListButtons->lockButtons( mTrackInfo.getGroups() );
    mpFileName->setDragInfo( trackInfo );
 }
 
 
-void KarmadromeMainWidget::removeFolder( const QStringList &entries, const QVariant &payload )
+void KarmadromeMainWidget::removeGroup( const QStringList &entries, const QVariant &payload )
 {
    QString folder( payload.toString() );
    if( folder.isEmpty() )
@@ -487,15 +487,15 @@ void KarmadromeMainWidget::removeFolder( const QStringList &entries, const QVari
    }
    foreach( const QString &entry, entries )
    {
-      mpDatabase->getTrackInfo( this, SLOT(removeFolderFromTrack(TrackInfo,QVariant)), entry, payload );
+      mpDatabase->getTrackInfo( this, SLOT(removeGroupFromTrack(TrackInfo,QVariant)), entry, payload );
    }
-   mpDatabase->deleteFolder( folder );
-   mpDatabase->getFolders( this, SLOT(updateFolderNames(QStringList)) );
+   mpDatabase->deleteGroup( folder );
+   mpDatabase->getGroups( this, SLOT(updateGroupNames(QStringList)) );
    setButtonsEnabled();
 }
 
 
-void KarmadromeMainWidget::removeFolderFromTrack( const TrackInfo &ti, const QVariant &payload )
+void KarmadromeMainWidget::removeGroupFromTrack( const TrackInfo &ti, const QVariant &payload )
 {
    QString folder( payload.toString() );
    if( folder.isEmpty() )
@@ -503,7 +503,7 @@ void KarmadromeMainWidget::removeFolderFromTrack( const TrackInfo &ti, const QVa
       return;
    }
    TrackInfo trackInfo( ti );
-   trackInfo.setFolder( folder, false );
+   trackInfo.setGroup( folder, false );
    mpDatabase->updateTrackInfo( trackInfo );
 }
 
@@ -516,9 +516,9 @@ void KarmadromeMainWidget::setButtonsEnabled( bool enabled )
 }
 
 
-void KarmadromeMainWidget::updateFolderNames( const QStringList &list )
+void KarmadromeMainWidget::updateGroupNames( const QStringList &list )
 {
-   mFolders = list;
-   mFolders.sort();
+   mGroups = list;
+   mGroups.sort();
    updateLists();
 }

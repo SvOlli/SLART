@@ -1031,8 +1031,8 @@ void Settings::setValue( PartymanString id, const QString &value )
    case PartymanNamePattern:
       settings->setValue( "NamePattern", value );
       return;
-   case PartymanPlayFolder:
-      settings->setValue( "PlayFolder", value );
+   case PartymanPlayGroup:
+      settings->setValue( "PlayGroup", value );
       return;
    case PartymanPlayerPattern:
       settings->setValue( "PlayerPattern", value );
@@ -1066,8 +1066,8 @@ QString Settings::value( PartymanString id )
       return settings->value( "LogCmd" ).toString();
    case PartymanNamePattern:
       return settings->value( "NamePattern", QApplication::applicationName() + ": " + "|$TITLE|" ).toString();
-   case PartymanPlayFolder:
-      return settings->value( "PlayFolder" ).toString();
+   case PartymanPlayGroup:
+      return settings->value( "PlayGroup" ).toString();
    case PartymanPlayerPattern:
       return settings->value( "PlayerPattern", "|$ARTIST| - |$TITLE|" ).toString();
    case PartymanSearch:

@@ -37,9 +37,8 @@
         <translation>Spaltenanzahl</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeConfigDialog.cpp" line="37"/>
         <source>Clear Folder Before Import</source>
-        <translation>Ordner vor Import löschen</translation>
+        <translation type="obsolete">Ordner vor Import löschen</translation>
     </message>
     <message>
         <location filename="../../apps/Karmadrome/KarmadromeConfigDialog.cpp" line="38"/>
@@ -52,9 +51,18 @@
         <translation>m3u Liste beim Export zufällig mischen</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeConfigDialog.cpp" line="40"/>
         <source>Use Checkboxes Instead Of Buttons For Folders</source>
-        <translation>Checkboxen anstelle von Schaltflächen verwenden</translation>
+        <translation type="obsolete">Checkboxen anstelle von Schaltflächen verwenden</translation>
+    </message>
+    <message>
+        <location filename="../../apps/Karmadrome/KarmadromeConfigDialog.cpp" line="37"/>
+        <source>Clear Group Before Import</source>
+        <translation>Gruppe vor Import löschen</translation>
+    </message>
+    <message>
+        <location filename="../../apps/Karmadrome/KarmadromeConfigDialog.cpp" line="40"/>
+        <source>Use Checkboxes Instead Of Buttons For Groups</source>
+        <translation>Checkboxen anstelle von Schaltflächen für die Gruppen verwenden</translation>
     </message>
     <message>
         <location filename="../../apps/Karmadrome/KarmadromeConfigDialog.cpp" line="42"/>
@@ -85,96 +93,100 @@
 <context>
     <name>KarmadromeMainWidget</name>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="51"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="52"/>
         <source>Export m3u</source>
         <translation>m3u exportieren</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="53"/>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="57"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="54"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="58"/>
         <source>Favorite</source>
         <translation>Favorit</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="54"/>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="58"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="55"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="59"/>
         <source>No Auto</source>
         <translation>Nicht automatisch</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="55"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="56"/>
         <source>Import m3u</source>
         <translation>m3u importieren</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="59"/>
         <source>Folders:</source>
-        <translation>Ordner:</translation>
+        <translation type="obsolete">Ordner:</translation>
     </message>
     <message>
         <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="60"/>
+        <source>Groups:</source>
+        <translation>Gruppen:</translation>
+    </message>
+    <message>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="61"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="61"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="62"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="62"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="63"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="199"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="201"/>
         <source>Overwrite %1</source>
         <translation>%1 überschreiben</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="200"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="202"/>
         <source>Overwrite %1 ?</source>
         <translation>%1 überschreiben?</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="308"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="306"/>
         <source>Enter name of folder:</source>
         <translation>Verzeichnisnamen eingeben:</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="315"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="313"/>
         <source>Name is not valid.</source>
         <translation>Name ist ungültig.</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="329"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="327"/>
         <source>Rubberbandman: Export %1 To:</source>
         <translation>Rubberbandman: %1 exportieren nach:</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="331"/>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="383"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="329"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="381"/>
         <source>Playlist files (*.m3u)</source>
         <translation>Playlisten Dateien (*.m3u)</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="381"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="379"/>
         <source>Rubberbandman: Import %1 From:</source>
         <translation>Rubberbandman: %1 importieren von:</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="430"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="428"/>
         <source>Are you sure you want to delete the folder
 </source>
         <translation>Sind Sie sicher, dass sie diesen Ordner löschen wollen</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="457"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="455"/>
         <source>Read Selection</source>
         <translation>Selektion auslesen</translation>
     </message>
     <message>
-        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="462"/>
+        <location filename="../../apps/Karmadrome/KarmadromeMainWidget.cpp" line="460"/>
         <source>Read Clipboard</source>
         <translation>Zwischenablage auslesen</translation>
     </message>

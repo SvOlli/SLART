@@ -140,13 +140,13 @@ public slots:
     \brief handle the folders menu
 
    */
-   void handleFoldersMenu( QAction *action );
+   void handleGroupsMenu( QAction *action );
 
    /*!
     \brief \todo complete documentation
 
    */
-   void handleFoldersEntries( const QStringList &folders );
+   void handleGroupsEntries( const QStringList &folders );
 
 signals:
    /*!
@@ -218,15 +218,15 @@ private:
    QPushButton          *mpButtonFlags;
    QMenu                *mpMenuFlags;
    QLabel               *mpShowTimesPlayed;
-   QPushButton          *mpButtonFolders;
-   QMenu                *mpMenuFolders;
+   QPushButton          *mpButtonGroups;
+   QMenu                *mpMenuGroups;
    QAction              *mpRecurseSetFlags;
    QAction              *mpRecurseUnsetFlags;
    QAction              *mpFavoriteTrackFlag;
    QAction              *mpUnwantedTrackFlag;
    QAction              *mpTrackScannedFlag;
-   QAction              *mpRecurseSetFolders;
-   QAction              *mpRecurseUnsetFolders;
+   QAction              *mpRecurseSetGroups;
+   QAction              *mpRecurseUnsetGroups;
 
    bool                 mIsValid;
    bool                 mIsFile;

@@ -378,13 +378,13 @@ void PartymanMainWindow::getNextTrack( QString *fileName )
       bool favoriteOnly = Settings::value( Settings::PartymanPlayOnlyFavorite );
       bool leastPlayed  = Settings::value( Settings::PartymanPlayOnlyLeastPlayed );
       int notAgainCount = Settings::value( Settings::PartymanPlayNotAgainCount );
-      QString playFolder( Settings::value( Settings::PartymanPlayFolder ) );
+      QString playGroup( Settings::value( Settings::PartymanPlayGroup ) );
 
-      if( !getRandomTrack( fileName, &playedArtists, randomTries, favoriteOnly, leastPlayed, playFolder ) )
+      if( !getRandomTrack( fileName, &playedArtists, randomTries, favoriteOnly, leastPlayed, playGroup ) )
       {
-         if( !getRandomTrack( fileName, &playedArtists, randomTries, favoriteOnly, false, playFolder ) )
+         if( !getRandomTrack( fileName, &playedArtists, randomTries, favoriteOnly, false, playGroup ) )
          {
-            if( !getRandomTrack( fileName, &playedArtists, randomTries, false, false, playFolder ) )
+            if( !getRandomTrack( fileName, &playedArtists, randomTries, false, false, playGroup ) )
             {
                getRandomTrack( fileName, &playedArtists, randomTries, false, false, QString() );
             }
@@ -406,13 +406,13 @@ void PartymanMainWindow::setTrackInfoFavoriteUnwanted( bool favorite, bool unwan
 
 
 bool PartymanMainWindow::getRandomTrack( QString *fileName, QStringList *playedArtists, int randomTries,
-                                         bool favoriteOnly, bool leastPlayed, const QString &playFolder )
+                                         bool favoriteOnly, bool leastPlayed, const QString &playGroup )
 {
    TrackInfo trackInfo;
 
    for( int i = 0; i < randomTries; i++ )
    {
-      if( mpDatabase->getRandomTrack( &trackInfo, favoriteOnly, leastPlayed, *playedArtists, playFolder ) )
+      if( mpDatabase->getRandomTrack( &trackInfo, favoriteOnly, leastPlayed, *playedArtists, playGroup ) )
       {
          *fileName = trackInfo.filePath();
 

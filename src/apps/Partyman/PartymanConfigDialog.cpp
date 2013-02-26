@@ -54,7 +54,7 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
 , mpTrayIconBubbleTime( new QDoubleSpinBox( this ) )
 , mpPlayOnlyFavorite( new QCheckBox( tr("Play Favorite Tracks Only"), this ) )
 , mpPlayOnlyLeastPlayed( new QCheckBox( tr("Play Least Played Tracks Only"), this ) )
-, mpPlayFolder( new QComboBox( this ) )
+, mpPlayGroup( new QComboBox( this ) )
 , mpPlayNotAgainCount( new QSpinBox( this ) )
 , mpNamePattern( new QLineEdit( this ) )
 , mpPlayerPattern( new QLineEdit( this ) )
@@ -142,8 +142,8 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
    QGridLayout *randomLayout = new QGridLayout( randomTab );
    randomLayout->addWidget( mpPlayOnlyFavorite, 0, 0, 1, 3 );
    randomLayout->addWidget( mpPlayOnlyLeastPlayed, 1, 0, 1, 3 );
-   randomLayout->addWidget( new QLabel( tr("Play Folder:") ), 2, 0 );
-   randomLayout->addWidget( mpPlayFolder, 2, 1, 1, 2 );
+   randomLayout->addWidget( new QLabel( tr("Play Group:") ), 2, 0 );
+   randomLayout->addWidget( mpPlayGroup, 2, 1, 1, 2 );
    randomLayout->addWidget( new QLabel( tr("Number Of Tracks An Artist Is Not Played Again:") ), 3, 0, 1, 2 );
    randomLayout->addWidget( mpPlayNotAgainCount, 3, 2 );
    randomLayout->setRowStretch( 6, 1 );
@@ -248,9 +248,9 @@ void PartymanConfigDialog::exec()
 
 void PartymanConfigDialog::readSettings()
 {
-   mpPlayFolder->clear();
-   mpPlayFolder->addItem( tr("| All |") );
-   mpPlayFolder->addItems( mpDatabase->getFolders() );
+   mpPlayGroup->clear();
+   mpPlayGroup->addItem( tr("| All |") );
+   mpPlayGroup->addItems( mpDatabase->getGroups() );
 
    mpDerMixDhost->setText( Settings::value( Settings::PartymanDerMixDhost ) );
    mpDerMixDport->setValue( Settings::value( Settings::PartymanDerMixDport ) );
@@ -278,13 +278,13 @@ void PartymanConfigDialog::readSettings()
    handleDerMixDrun( mpDerMixDrun->isChecked() );
    mpGlobalSettings->readSettings();
 
-   QString playFolder( Settings::value( Settings::PartymanPlayFolder ) );
-   if( !playFolder.isEmpty() )
+   QString playGroup( Settings::value( Settings::PartymanPlayGroup ) );
+   if( !playGroup.isEmpty() )
    {
-      int i = mpPlayFolder->findText( playFolder );
+      int i = mpPlayGroup->findText( playGroup );
       if( i > 0 )
       {
-         mpPlayFolder->setCurrentIndex( i );
+         mpPlayGroup->setCurrentIndex( i );
       }
    }
    handleShowTrayIcon( mpTrayIcon->isChecked() );
@@ -318,8 +318,8 @@ void PartymanConfigDialog::writeSettings()
    Settings::setValue( Settings::PartymanListPattern, mpListPattern->text() );
    Settings::setValue( Settings::PartymanNamePattern, mpNamePattern->text() );
    Settings::setValue( Settings::PartymanTrayIconPattern, mpTrayIconPattern->text() );
-   Settings::setValue( Settings::PartymanPlayFolder, mpPlayFolder->currentIndex() ?
-                                                     mpPlayFolder->currentText() :
+   Settings::setValue( Settings::PartymanPlayGroup, mpPlayGroup->currentIndex() ?
+                                                     mpPlayGroup->currentText() :
                                                      QString() );
    mpGlobalSettings->writeSettings();
    if( Satellite::get() )

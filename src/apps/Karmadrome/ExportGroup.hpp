@@ -1,13 +1,13 @@
 /*
- * src/apps/Karmadrome/ExportFolders.hpp
+ * src/apps/Karmadrome/ExportGroup.hpp
  * written by Sven Oliver Moll
  *
  * distributed under the terms of the GNU General Public License (GPL)
  * available at http://www.gnu.org/licenses/gpl.html
  */
 
-#ifndef EXPORTFOLDERLIST_HPP
-#define EXPORTFOLDERLIST_HPP EXPORTFOLDERLIST_HPP
+#ifndef EXPORTFOLDER_HPP
+#define EXPORTFOLDER_HPP EXPORTFOLDER_HPP
 
 /* base class */
 #include <QObject>
@@ -36,26 +36,27 @@ class QString;
  \brief \todo complete documentation
 
 */
-class ExportFolderList : public QObject
+class ExportGroup : public QObject
 {
    Q_OBJECT
 
 public:
-   ExportFolderList( const QString &fileName );
-   virtual ~ExportFolderList();
+   ExportGroup( const QString &folder, const QString &fileName,
+                 bool relative, bool randomize );
+   virtual ~ExportGroup();
 
 public slots:
    /*!
-    \brief 
+    \brief import a playlist from m3u file
 
    */
    void writeData( const QStringList &entries );
 
-signals:
-
 private:
-   Q_DISABLE_COPY( ExportFolderList )
+   Q_DISABLE_COPY( ExportGroup )
 
+   bool        mRelative; /*!< \brief \todo TODO */
+   bool        mRandomize; /*!< \brief \todo TODO */
    QString     mFileName; /*!< \brief \todo TODO */
 };
 

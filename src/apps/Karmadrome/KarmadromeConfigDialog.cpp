@@ -34,10 +34,10 @@ KarmadromeConfigDialog::KarmadromeConfigDialog( QWidget *parent, Qt::WindowFlags
 , mpGlobalConfigWidget( new GlobalConfigWidget( this ) )
 , mpNumColumnsLabel( new QLabel( tr("Number Of Columns"), this ) )
 , mpNumColumns( new QSpinBox( this ) )
-, mpClearBeforeImport( new QCheckBox( tr("Clear Folder Before Import"), this ) )
+, mpClearBeforeImport( new QCheckBox( tr("Clear Group Before Import"), this ) )
 , mpExportAsRelative( new QCheckBox( tr("Export m3u With Relative Entries"), this ) )
 , mpRandomizeExport( new QCheckBox( tr("Randomize Output Of Export m3u"), this ) )
-, mpUseCheckBoxes( new QCheckBox( tr("Use Checkboxes Instead Of Buttons For Folders"), this ) )
+, mpUseCheckBoxes( new QCheckBox( tr("Use Checkboxes Instead Of Buttons For Groups"), this ) )
 {
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon( ":/Karmadrome/Icon.png" ) );

@@ -21,9 +21,9 @@ INCLUDE_DIRECTORIES(
 )
 
 ADD_SOURCE( ButtonsWidget          cpp hpp moc )
-ADD_SOURCE( ExportFolder           cpp hpp moc )
-ADD_SOURCE( ExportFolderList       cpp hpp moc )
-ADD_SOURCE( ImportFolder           cpp hpp moc )
+ADD_SOURCE( ExportGroup           cpp hpp moc )
+ADD_SOURCE( ExportGroupList       cpp hpp moc )
+ADD_SOURCE( ImportGroup           cpp hpp moc )
 ADD_SOURCE( KarmadromeApplication  cpp         )
 ADD_SOURCE( KarmadromeConfigDialog cpp hpp moc )
 ADD_SOURCE( KarmadromeMainWidget   cpp hpp moc )

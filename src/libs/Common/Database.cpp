@@ -125,7 +125,7 @@ Database::Database( const QString &fileName )
                                     "LastTagsRead INTEGER,"
                                     "TimesPlayed INTEGER,"
                                     "Volume DOUBLE,"
-                                    "Folders VARCHAR,"
+                                    "Groups VARCHAR,"
                                     "Flags INTEGER);"
       << "CREATE UNIQUE INDEX slart_tracks_file ON slart_tracks (Directory,FileName);"
       << "CREATE INDEX slart_tracks_filename ON slart_tracks (FileName);"
@@ -246,7 +246,7 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
    QString sql( "SELECT id,Directory,FileName,Artist,Title,Album,"
                 "CASE WHEN TrackNr NOTNULL THEN TrackNr ELSE -1 END,"
                 "CASE WHEN Year NOTNULL THEN Year ELSE -1 END,"
-                "Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags"
+                "Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Groups,Flags"
                 " FROM slart_tracks WHERE ");
    if( fileName.isEmpty() )
    {
@@ -290,7 +290,7 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
          trackInfo->mLastTagsRead = mpQuery->value(11).toUInt();
          trackInfo->mTimesPlayed  = mpQuery->value(12).toUInt();
          trackInfo->mVolume       = mpQuery->value(13).toDouble();
-         trackInfo->mFolders      = mpQuery->value(14).toString();
+         trackInfo->mGroups      = mpQuery->value(14).toString();
          trackInfo->mFlags        = mpQuery->value(15).toUInt();
       }
 
@@ -310,7 +310,7 @@ bool Database::getTrackInfo( TrackInfo *trackInfo, const QString &fileName )
          trackInfo->mGenre.clear();
          trackInfo->mTimesPlayed = 0;
          trackInfo->mVolume = 0.0;
-         trackInfo->mFolders.clear();
+         trackInfo->mGroups.clear();
          trackInfo->mFlags = 0;
       }
 
@@ -336,7 +336,7 @@ int Database::getTrackInfoList( TrackInfoList *trackInfoList, const QString &sea
       mpQuery->prepare( "SELECT Directory,FileName,Artist,Title,Album,"
                         "CASE WHEN TrackNr NOTNULL THEN TrackNr ELSE -1 END,"
                         "CASE WHEN Year NOTNULL THEN Year ELSE -1 END,"
-                        "Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Folders,Flags,id"
+                        "Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Volume,Groups,Flags,id"
                         " FROM slart_tracks WHERE Directory LIKE :directory OR FileName LIKE :fileName;" );
       mpQuery->bindValue( ":directory", sqlSearch );
       mpQuery->bindValue( ":fileName", sqlSearch );
@@ -436,7 +436,7 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo, bool allowinsert )
                         " Artist = :artist, Title = :title, Album = :album, TrackNr = :tracknr,"
                         " Year = :year, Genre = :genre, PlayTime = :playtime, LastScanned = :lastscanned,"
                         " LastTagsRead = :lasttagsread,"
-                        " TimesPlayed = :timesplayed, Volume = :volume, Folders = :folders, Flags = :flags"
+                        " TimesPlayed = :timesplayed, Volume = :volume, Groups = :folders, Flags = :flags"
                         " WHERE id = :id ;" );
       mpQuery->bindValue( ":id", trackInfo->mID );
    }
@@ -447,7 +447,7 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo, bool allowinsert )
          return;
       }
       mpQuery->prepare( "INSERT OR REPLACE INTO slart_tracks (Directory,FileName,Artist,Title,Album,"
-                        "TrackNr,Year,Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Folders,Flags)"
+                        "TrackNr,Year,Genre,PlayTime,LastScanned,LastTagsRead,TimesPlayed,Groups,Flags)"
                         " VALUES (:directory,:filename,:artist,:title,:album,:tracknr,:year,:genre,"
                         ":playtime,:lastscanned,:lasttagsread,:timesplayed,:folders,:flags);" );
    }
@@ -478,7 +478,7 @@ void Database::updateTrackInfo( const TrackInfo *trackInfo, bool allowinsert )
    mpQuery->bindValue( ":lasttagsread", trackInfo->mLastTagsRead );
    mpQuery->bindValue( ":timesplayed",  trackInfo->mTimesPlayed );
    mpQuery->bindValue( ":volume",       trackInfo->mVolume );
-   mpQuery->bindValue( ":folders",      trackInfo->mFolders );
+   mpQuery->bindValue( ":folders",      trackInfo->mGroups );
    mpQuery->bindValue( ":flags",        trackInfo->mFlags );
    if( !mpQuery->exec() )
    {
@@ -517,7 +517,7 @@ void Database::deleteTrackInfo( const TrackInfo *trackInfo )
 }
 
 
-QStringList Database::getFolders()
+QStringList Database::getGroups()
 {
    QStringList folders;
 
@@ -536,7 +536,7 @@ QStringList Database::getFolders()
 }
 
 
-QStringList Database::getFolder( const QString &folder )
+QStringList Database::getGroup( const QString &folder )
 {
    QStringList folders;
 
@@ -556,7 +556,7 @@ QStringList Database::getFolder( const QString &folder )
       }
       else
       {
-         sql.append( "Folders LIKE '%|" );
+         sql.append( "Groups LIKE '%|" );
          sql.append( folder );
          sql.append( "|%'" );
       }
@@ -602,7 +602,7 @@ QStringList Database::getAllColumnData( const QString &columnName )
 }
 
 
-void Database::insertFolder( const QString &folder )
+void Database::insertGroup( const QString &folder )
 {
    if( (folder == QChar(1)) || (folder == QChar(2)) )
    {
@@ -618,7 +618,7 @@ void Database::insertFolder( const QString &folder )
 }
 
 
-void Database::deleteFolder( const QString &folder )
+void Database::deleteGroup( const QString &folder )
 {
    mpQuery->prepare( "DELETE FROM slart_folders WHERE Name = :name;" );
    mpQuery->bindValue( ":name", folder );
@@ -654,7 +654,7 @@ bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite,
 
    if( !folder.isEmpty() )
    {
-      sql.append( " AND Folders LIKE '%|" );
+      sql.append( " AND Groups LIKE '%|" );
       sql.append( folder );
       sql.append( "|%'" );
    }
