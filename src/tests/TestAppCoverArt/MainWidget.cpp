@@ -150,6 +150,16 @@ void MainWidget::handleSatelliteMessage( const QByteArray &msg )
                mpFileSysTree->setCurrentIndex( qmi );
                entryClicked( qmi );
             }
+            QDir dir( dirName );
+            QStringList entries( dir.entryList( QStringList("AlbumArt.*")) );
+            if( entries.size() > 0 )
+            {
+               mpImage->setImage( dir.absoluteFilePath( entries.at(0) ) );
+            }
+            else
+            {
+               mpImage->setImage( QImage() );
+            }
          }
       }
    }
