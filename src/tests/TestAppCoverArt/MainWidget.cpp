@@ -150,16 +150,6 @@ void MainWidget::handleSatelliteMessage( const QByteArray &msg )
                mpFileSysTree->setCurrentIndex( qmi );
                entryClicked( qmi );
             }
-            QDir dir( dirName );
-            QStringList entries( dir.entryList( QStringList("AlbumArt.*")) );
-            if( entries.size() > 0 )
-            {
-               mpImage->setImage( dir.absoluteFilePath( entries.at(0) ) );
-            }
-            else
-            {
-               mpImage->setImage( QImage() );
-            }
          }
       }
    }
@@ -171,9 +161,21 @@ void MainWidget::entryClicked( const QModelIndex &index )
 TRACESTART(MainWidget::entryClicked)
    QString dirName( mpFileSysModel->filePath(index) );
    QRegExp re( ".*/([^/]*)/([^/]*)" );
+   QDir dir( dirName );
    dirName.replace( re, "\\1 \\2" );
    mpLineEdit->setText( dirName );
    requestFromLine();
+   QString searchPattern( Settings::value( Settings::FunkytownCoverFile ) );
+   searchPattern.append( ".*" );
+   QStringList entries( dir.entryList( QStringList( searchPattern ) ) );
+   if( entries.size() > 0 )
+   {
+      mpImage->setImage( dir.absoluteFilePath( entries.at(0) ) );
+   }
+   else
+   {
+      mpImage->setImage( QImage() );
+   }
 }
 
 
@@ -210,7 +212,7 @@ void MainWidget::saveImage( QWidget *widget )
 {
    QModelIndex index( mpFileSysTree->currentIndex() );
    QDir dir( mpFileSysModel->filePath(index) );
-   QString fileName( dir.absoluteFilePath( "AlbumArt.%1" ) );
+   QString fileName( dir.absoluteFilePath( Settings::value( Settings::FunkytownCoverFile ) ) );
    mpMessage->setText( mDataMap.value( widget ).toString() );
    KryptoniteJobCover::requestImage( mpAmazon, mDataMap.value( widget ), fileName );
 //   emit requestItem( mDataMap.value( widget ) );
@@ -223,20 +225,27 @@ TRACESTART(MainWidget::showImage)
 TRACEMSG << payload.toString();
    mpImage->setImage( data );
    QString fileName( payload.toString() );
-   if( fileName.contains("%1") )
+   fileName.append( "." );
+   if( !Settings::value( Settings::FunkytownCoverConvertTo ).isEmpty() )
    {
+      fileName.append( Settings::value( Settings::FunkytownCoverConvertTo ) );
+      QImage::fromData( data ).save( fileName );
+   }
+   else
+   {
+      /* detect file format from binary data for file extension */
       QByteArray dummy( data );
       QBuffer buffer( &dummy );
       buffer.open( QIODevice::ReadOnly );
       QByteArray extension( QImageReader::imageFormat( &buffer ).toLower() );
       extension.replace( "jpeg", "jpg" );
-      fileName = fileName.arg( extension.constData() );
+      fileName.append( extension.constData() );
+      QFile f( fileName );
+      if( f.open( QIODevice::WriteOnly ) )
+      {
+         f.write( data );
+         f.close();
+      }
    }
-   QFile f( fileName );
-   if( f.open( QIODevice::WriteOnly ) )
-   {
-      f.write( data );
-      f.close();
-      mpMessage->setText( f.fileName() );
-   }
+   mpMessage->setText( fileName );
 }
