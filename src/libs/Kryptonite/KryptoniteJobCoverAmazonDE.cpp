@@ -68,11 +68,11 @@ TRACESTART(KryptoniteJobCoverAmazonDE::parseListHtml)
 }
 
 
-void KryptoniteJobCoverAmazonDE::requestImage( const QUrl &url, const QString &fileName )
+void KryptoniteJobCoverAmazonDE::requestImage( const QUrl &url, const QVariant &payload )
 {
 TRACESTART(KryptoniteJobCoverAmazonDE::requestImage)
 
-   emit requestDownload( this, SLOT(parseItemHtml(QByteArray,QVariant)), url, QVariant(fileName) );
+   emit requestDownload( this, SLOT(parseItemHtml(QByteArray,QVariant)), url, payload );
 }
 
 

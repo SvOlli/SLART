@@ -33,11 +33,11 @@ KryptoniteJobCover::~KryptoniteJobCover()
 
 
 void KryptoniteJobCover::requestImage( KryptoniteJobCover *job,
-                                       const QUrl &url, const QString &fileName )
+                                       const QUrl &url, const QVariant &payload )
 {
    if( !QMetaObject::invokeMethod( job, "requestImage", Qt::QueuedConnection,
                                    Q_ARG( QUrl, url ),
-                                   Q_ARG( QString, fileName ) ) )
+                                   Q_ARG( QVariant, payload ) ) )
    {
       qFatal( "%s:%d call failed in %s", __FILE__, __LINE__, Q_FUNC_INFO );
    }

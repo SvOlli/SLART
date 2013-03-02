@@ -70,9 +70,9 @@ public slots:
     \brief api to downloading one image
 
     \param url as obtained by imageFound
-    \param fileName to send to imageDownloaded
+    \param payload to send back via imageDownloaded
    */
-   void requestImage( const QUrl &url, const QString &fileName = QString() );
+   void requestImage( const QUrl &url, const QVariant &payload = QVariant() );
 
    /*!
     \brief internally used as callback for downloaded data

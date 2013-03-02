@@ -63,10 +63,10 @@ public:
 
     \param job pointer of object to invoke
     \param url as obtained by imageFound
-    \param fileName to send to imageDownloaded
+    \param payload to send back via imageDownloaded
    */
    static void requestImage( KryptoniteJobCover *job,
-                             const QUrl &url, const QString &fileName = QString() );
+                             const QUrl &url, const QVariant &payload = QVariant() );
 
 public slots:
    /*!
@@ -81,7 +81,7 @@ public slots:
     \param url as obtained by imageFound
     \param fileName to send to imageDownloaded
    */
-   virtual void requestImage( const QUrl &url, const QString &fileName = QString() ) = 0;
+   virtual void requestImage( const QUrl &url, const QVariant &payload = QVariant() ) = 0;
 
 signals:
    /*!
