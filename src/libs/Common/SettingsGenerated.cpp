@@ -447,6 +447,12 @@ void Settings::setValue( FunkytownString id, const QString &value )
    QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
+   case FunkytownCoverConvertTo:
+      settings->setValue( "CoverConvertTo", value );
+      return;
+   case FunkytownCoverFile:
+      settings->setValue( "CoverFile", value );
+      return;
    case FunkytownDirectory:
       settings->setValue( "Directory", value );
       return;
@@ -464,6 +470,10 @@ QString Settings::value( FunkytownString id )
    QSettings *settings = cpSettings->get( "Funkytown" );
    switch( id )
    {
+   case FunkytownCoverConvertTo:
+      return settings->value( "CoverConvertTo" ).toString();
+   case FunkytownCoverFile:
+      return settings->value( "CoverFile", "Folder" ).toString();
    case FunkytownDirectory:
       return settings->value( "Directory" ).toString();
    case FunkytownUserAgent:

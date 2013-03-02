@@ -193,6 +193,8 @@ public:
     */
    enum FunkytownString
    {
+      FunkytownCoverConvertTo,
+      FunkytownCoverFile,
       FunkytownDirectory,
       FunkytownUserAgent
    };
