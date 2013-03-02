@@ -28,6 +28,7 @@ fi
 for i in \
 libs/CommandLine \
 libs/Common \
+libs/Kryptonite \
 libs/Magic/MagicEncoder \
 libs/Magic/MagicEncoderFlac \
 libs/Magic/MagicEncoderMp3 \
