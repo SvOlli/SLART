@@ -25,13 +25,13 @@
 /* local headers */
 
 
-int main(int argc, char *argv[])
+int main( int argc, char *argv[] )
 {
    int retval = 0;
 
    QCoreApplication::setOrganizationName("SLART");
    QCoreApplication::setOrganizationDomain("svolli.org");
-   QCoreApplication::setApplicationName("TestAppXxtea");
+   QCoreApplication::setApplicationName("TestAppGSettings");
    QCoreApplication app( argc, argv );
 
    QTextStream qStdOut( stdout );
@@ -47,24 +47,26 @@ int main(int argc, char *argv[])
       QString user = gsettingsProxyHttp.valueString( "authentication-user" );
       QString pass = gsettingsProxyHttp.valueString( "authentication-password" );
 
-      qStdOut << "GSettings Proxy http configuration:\n";
-      qStdOut << "isValid(): " << isValid << "\n";
-      qStdOut << "enabled: " << enabled << "\n";
-      qStdOut << "host: " << host << "\n";
-      qStdOut << "port: " << port << "\n";
-      qStdOut << "use-authentication: " << useauth << "\n";
-      qStdOut << "authentication-user: " << user << "\n";
-      qStdOut << "authentication-password: " << pass << "\n";
+      qStdOut << "\nGSettings Proxy http configuration:"
+                 "\nisValid(): " << isValid;
+      qStdOut << "\nenabled: " << enabled;
+      qStdOut << "\nhost: " << host;
+      qStdOut << "\nport: " << port;
+      qStdOut << "\nuse-authentication: " << useauth;
+      qStdOut << "\nauthentication-user: " << user;
+      qStdOut << "\nauthentication-password: " << pass;
       qStdOut << "\n";
    }
 
    GSettingsWrapper gsettingsProxy( "org.gnome.system.proxy" );
    {
-      bool isValid = gsettingsProxyHttp.isValid();
+      bool isValid = gsettingsProxy.isValid();
+      QString mode = gsettingsProxy.valueString( "mode" );
       QStringList ignoreHosts = gsettingsProxy.valueStringList( "ignore-hosts" );
-      qStdOut << "GSettings Proxy configuration:\n";
-      qStdOut << "isValid(): " << isValid << "\n";
-      qStdOut << "ignore-hosts: " << ignoreHosts.join(",") << "\n";
+      qStdOut << "\nGSettings Proxy configuration:"
+                 "\nisValid(): " << isValid;
+      qStdOut << "\nmode: " << mode;
+      qStdOut << "\nignore-hosts: " << ignoreHosts.join(",");
       qStdOut << "\n";
    }
 
@@ -72,10 +74,13 @@ int main(int argc, char *argv[])
    {
       bool isValid = gsettingsPanel.isValid();
       QStringList systrayWhitelist( gsettingsPanel.valueStringList( "systray-whitelist" ) );
-      qStdOut << "GSettings Panel configuration:\n";
-      qStdOut << "isValid(): " << isValid << "\n";
-      qStdOut << "systray-whitelist:" << systrayWhitelist.join(",") << "\n";
+      qStdOut << "\nGSettings Panel configuration:"
+                 "\nisValid(): " << isValid;
+      qStdOut << "\nsystray-whitelist:" << systrayWhitelist.join(",");
       qStdOut << "\n";
    }
+
+   qStdOut << "\n";
+
    return retval;
 }
