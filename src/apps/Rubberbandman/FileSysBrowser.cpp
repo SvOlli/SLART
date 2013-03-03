@@ -46,6 +46,98 @@
 #include "MyTreeView.hpp"
 
 
+#include <QtDebug>
+
+class MyFileSystemModel : public QFileSystemModel
+{
+public:
+   MyFileSystemModel( QObject *parent )
+   :QFileSystemModel( parent )
+   {
+   }
+
+   virtual bool	canFetchMore ( const QModelIndex & parent ) const
+   {
+      qDebug() << "canFetchMore";
+      return QFileSystemModel::canFetchMore( parent );
+   }
+   virtual int	columnCount ( const QModelIndex & parent = QModelIndex() ) const
+   {
+      int retval = QFileSystemModel::columnCount( parent );
+      qDebug() << "columnCount" << retval;
+      return retval;
+   }
+   virtual QVariant	data ( const QModelIndex & index, int role = Qt::DisplayRole ) const
+   {
+      QVariant retval( QFileSystemModel::data( index, role ) );
+      qDebug() << "data" << retval;
+      return retval;
+   }
+   virtual bool	dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent )
+   {
+      qDebug() << "dropMimeData";
+      return QFileSystemModel::dropMimeData( data, action, row, column, parent );
+   }
+   virtual void	fetchMore ( const QModelIndex & parent )
+   {
+      qDebug() << "fetchMore";
+      return QFileSystemModel::fetchMore( parent );
+   }
+   virtual Qt::ItemFlags	flags ( const QModelIndex & index ) const
+   {
+      qDebug() << "flags";
+      return QFileSystemModel::flags( index );
+   }
+   virtual bool	hasChildren ( const QModelIndex & parent = QModelIndex() ) const
+   {
+      qDebug() << "hasChildren";
+      return QFileSystemModel::hasChildren( parent );
+   }
+   virtual QVariant	headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const
+   {
+      qDebug() << "headerData";
+      return QFileSystemModel::headerData( section, orientation, role );
+   }
+   virtual QModelIndex	index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const
+   {
+      QModelIndex idx( QFileSystemModel::index( row, column, parent ) );
+      qDebug() << "index" << idx.data().toString();
+      return idx;
+   }
+   virtual QMimeData *	mimeData ( const QModelIndexList & indexes ) const
+   {
+      qDebug() << "mimeData";
+      return QFileSystemModel::mimeData( indexes );
+   }
+   virtual QStringList	mimeTypes () const
+   {
+      qDebug() << "mimeTypes";
+      return QFileSystemModel::mimeTypes();
+   }
+   virtual QModelIndex	parent ( const QModelIndex & index ) const
+   {
+      qDebug() << "parent";
+      return QFileSystemModel::parent( index );
+   }
+   virtual int	rowCount ( const QModelIndex & parent = QModelIndex() ) const
+   {
+      int retval = QFileSystemModel::rowCount( parent );
+      qDebug() << "rowCount" << retval;
+      return retval;
+   }
+   virtual bool	setData ( const QModelIndex & idx, const QVariant & value, int role = Qt::EditRole )
+   {
+      qDebug() << "setData";
+      return QFileSystemModel::setData( idx, value, role );
+   }
+   virtual void	sort ( int column, Qt::SortOrder order = Qt::AscendingOrder )
+   {
+      qDebug() << "sort";
+      return QFileSystemModel::sort( column, order );
+   }
+};
+
+
 FileSysBrowser::FileSysBrowser( QWidget *parent )
 : QWidget( parent )
 , mpDatabase( DatabaseInterface::get() )

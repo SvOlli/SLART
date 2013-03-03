@@ -20,6 +20,7 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
+#include <DirWalker.hpp>
 
 /* local headers */
 #include "DirWalkerUpdate.hpp"
@@ -28,29 +29,24 @@
 static const int UPDATE_TIMEOUT_MS = 333;
 
 
-DatabaseWorker::DatabaseWorker()
-: QThread( 0 )
-, mMode( ModeNone )
+DatabaseWorker::DatabaseWorker( QObject *parent )
+: QObject( parent )
 , mpDatabase( DatabaseInterface::get() )
-, mCancel( false )
 , mChecked( 0 )
 , mProcessed( 0 )
-, mPath()
-, mDirWalker()
-, mTrackInfo()
 , mTime()
 {
-   moveToThread( this );
 }
 
 
 DatabaseWorker::~DatabaseWorker()
 {
-   if( isRunning() )
-   {
-      quit();
-      wait();
-   }
+}
+
+
+void DatabaseWorker::setPath( const QString &path )
+{
+   mPath = path;
 }
 
 
@@ -60,152 +56,36 @@ void DatabaseWorker::updateStatus()
 }
 
 
-void DatabaseWorker::startUpdate( const QString &baseDir )
+void DatabaseWorker::startUpdate()
 {
-   if( mMode != ModeNone )
-   {
-      return;
-   }
-   mMode   = ModeUpdate;
-   mCancel = false;
-   mPath   = baseDir;
+   mChecked   = 0;
+   mProcessed = 0;
 
-   start();
+   emit message( tr("updating %1").arg( mPath ) );
+   emit progress( mChecked, mProcessed );
+   DirWalkerUpdate walkerCallbacks( this );
+   DirWalker().run( &walkerCallbacks, mPath );
+   mpDatabase->call( this, SIGNAL(done()) );
 }
 
 
 void DatabaseWorker::startCleanup()
 {
-   if( mMode != ModeNone )
-   {
-      return;
-   }
-   mMode   = ModeCleanup;
-   mCancel = false;
+   mChecked   = 0;
+   mProcessed = 0;
 
-   start();
-}
-
-
-void DatabaseWorker::startImport( const QString &fileName )
-{
-   if( mMode != ModeNone )
-   {
-      return;
-   }
-   mMode   = ModeImport;
-   mCancel = false;
-   mPath   = fileName;
-
-   start();
-}
-
-
-void DatabaseWorker::run()
-{
-   mChecked     = 0;
-   mProcessed   = 0;
+   emit message( tr("cleaning up") );
    emit progress( mChecked, mProcessed );
-   mTime.start();
-   switch( mMode )
-   {
-      case ModeUpdate:
-         {
-            DirWalkerUpdate walkerCallbacks( this );
-            mDirWalker.run( &walkerCallbacks, mPath );
-         }
-         exec();
-         break;
-      case ModeCleanup:
-         mpDatabase->getTrackInfoList( this, SLOT(cleanup(TrackInfoList)) );
-         exec();
-         break;
-      case ModeImport:
-         importM3u();
-         break;
-      default:
-         break;
-   }
-   emit progress( mChecked, mProcessed );
-   mMode = ModeNone;
+   mpDatabase->getTrackInfoList( this, SLOT(cleanup(TrackInfoList)) );
 }
 
 
-void DatabaseWorker::cleanup( const TrackInfoList &trackInfoList )
+void DatabaseWorker::startImport()
 {
-   QFileInfo qfi;
-   foreach( mTrackInfo, trackInfoList )
-   {
-      qfi.setFile( mTrackInfo.mDirectory + "/" + mTrackInfo.mFileName );
-      if( !qfi.isFile() )
-      {
-         mpDatabase->deleteTrackInfo( mTrackInfo );
-         ++mProcessed;
-      }
-      ++mChecked;
-      if( mTime.elapsed() > UPDATE_TIMEOUT_MS )
-      {
-         emit progress( mChecked, mProcessed );
-         mTime.restart();
-      }
-   }
-   emit progress( mChecked, mProcessed );
-   //mpDatabase->cleanup(); //\todo
-   mpDatabase->call( this, SLOT(quit()) );
-}
+   mChecked   = 0;
+   mProcessed = 0;
 
-
-void DatabaseWorker::handleFile( const QFileInfo &fileInfo )
-{
-   mpDatabase->getTrackInfo( this, SLOT(updateTrackInfoFromFile(TrackInfo)), fileInfo.absoluteFilePath() );
-}
-
-
-void DatabaseWorker::handleEnd()
-{
-   mpDatabase->call( this, SLOT(quit()) );
-}
-
-
-void DatabaseWorker::updateTrackInfoFromFile( const TrackInfo &trackInfo )
-{
-   QFileInfo fileInfo( trackInfo.mDirectory + "/" + trackInfo.mFileName );
-
-   if( (fileInfo.lastModified().toTime_t() > trackInfo.mLastTagsRead ) ||
-       (trackInfo.mPlayTime == 0) )
-   {
-      TagLib::FileRef f( fileInfo.absoluteFilePath().toLocal8Bit().data() );
-      if( f.file() && f.tag() )
-      {
-         TrackInfo ti( trackInfo );
-         ti.mArtist       = QString::fromUtf8( f.tag()->artist().toCString( true ) );
-         ti.mTitle        = QString::fromUtf8( f.tag()->title().toCString( true ) );
-         ti.mAlbum        = QString::fromUtf8( f.tag()->album().toCString( true ) );
-         ti.mTrackNr      = f.tag()->track();
-         ti.mYear         = f.tag()->year();
-         ti.mGenre        = QString::fromUtf8( f.tag()->genre().toCString( true ) );
-         if( f.audioProperties() )
-         {
-            ti.mPlayTime  = f.audioProperties()->length();
-         }
-         ti.mLastTagsRead = fileInfo.lastModified().toTime_t();
-
-         mpDatabase->updateTrackInfo( ti, true );
-         ++mProcessed;
-      }
-   }
-   ++mChecked;
-
-   if( mTime.elapsed() > UPDATE_TIMEOUT_MS )
-   {
-      emit progress( mChecked, mProcessed );
-      mTime.restart();
-   }
-}
-
-
-void DatabaseWorker::importM3u()
-{
+   emit message( tr("importing %1").arg( mPath ) );
    QFile m3uFile( mPath );
    if( !m3uFile.exists() )
    {
@@ -262,4 +142,76 @@ void DatabaseWorker::importM3u()
       }
    }
    m3uFile.close();
+}
+
+
+void DatabaseWorker::cleanup( const TrackInfoList &trackInfoList )
+{
+   QFileInfo qfi;
+   foreach( TrackInfo trackInfo, trackInfoList )
+   {
+      qfi.setFile( trackInfo.mDirectory + "/" + trackInfo.mFileName );
+      if( !qfi.isFile() )
+      {
+         mpDatabase->deleteTrackInfo( trackInfo );
+         ++mProcessed;
+      }
+      ++mChecked;
+      if( mTime.elapsed() > UPDATE_TIMEOUT_MS )
+      {
+         emit progress( mChecked, mProcessed );
+         mTime.restart();
+      }
+   }
+   emit progress( mChecked, mProcessed );
+   mpDatabase->call( this, SIGNAL(done()) );
+}
+
+
+void DatabaseWorker::handleFile( const QFileInfo &fileInfo )
+{
+   mpDatabase->getTrackInfo( this, SLOT(updateTrackInfoFromFile(TrackInfo)), fileInfo.absoluteFilePath() );
+}
+
+
+void DatabaseWorker::handleEnd()
+{
+   emit progress( mChecked, mProcessed );
+}
+
+
+void DatabaseWorker::updateTrackInfoFromFile( const TrackInfo &trackInfo )
+{
+   QFileInfo fileInfo( trackInfo.mDirectory + "/" + trackInfo.mFileName );
+
+   if( (fileInfo.lastModified().toTime_t() > trackInfo.mLastTagsRead ) ||
+       (trackInfo.mPlayTime == 0) )
+   {
+      TagLib::FileRef f( fileInfo.absoluteFilePath().toLocal8Bit().data() );
+      if( f.file() && f.tag() )
+      {
+         TrackInfo ti( trackInfo );
+         ti.mArtist       = QString::fromUtf8( f.tag()->artist().toCString( true ) );
+         ti.mTitle        = QString::fromUtf8( f.tag()->title().toCString( true ) );
+         ti.mAlbum        = QString::fromUtf8( f.tag()->album().toCString( true ) );
+         ti.mTrackNr      = f.tag()->track();
+         ti.mYear         = f.tag()->year();
+         ti.mGenre        = QString::fromUtf8( f.tag()->genre().toCString( true ) );
+         if( f.audioProperties() )
+         {
+            ti.mPlayTime  = f.audioProperties()->length();
+         }
+         ti.mLastTagsRead = fileInfo.lastModified().toTime_t();
+
+         mpDatabase->updateTrackInfo( ti, true );
+         ++mProcessed;
+      }
+   }
+   ++mChecked;
+
+   if( mTime.elapsed() > UPDATE_TIMEOUT_MS )
+   {
+      emit progress( mChecked, mProcessed );
+      mTime.restart();
+   }
 }

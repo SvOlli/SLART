@@ -27,7 +27,7 @@
 
 DatabaseWidget::DatabaseWidget( QWidget *parent )
 : QWidget( parent )
-, mpDatabaseWorker( new DatabaseWorker() )
+, mpDatabaseWorkerThread( new QThread() )
 , mpBaseDir( new QLineEdit( this ) )
 , mpUpdateButton( new QPushButton( tr("Update"), this ) )
 , mpCleanupButton( new QPushButton( tr("Clean Up"), this ) )
@@ -38,6 +38,8 @@ DatabaseWidget::DatabaseWidget( QWidget *parent )
 , mCheckedText()
 , mProcessedText()
 {
+   mpDatabaseWorkerThread->setObjectName( "DatabaseWorkerThread" );
+   mpDatabaseWorkerThread->start();
    QPushButton *browseButton  = new QPushButton( "...", this );
    /* evil hack */
    browseButton->setMaximumWidth( browseButton->height() );
@@ -67,10 +69,6 @@ DatabaseWidget::DatabaseWidget( QWidget *parent )
             this, SLOT(handleImport(bool)) );
    connect( mpBaseDir, SIGNAL(textChanged(QString)),
             this, SLOT(checkValidDir(QString)) );
-   connect( mpDatabaseWorker, SIGNAL(progress(int,int)),
-            this, SLOT(handleProgress(int,int)) );
-   connect( mpDatabaseWorker, SIGNAL(finished()),
-            this, SLOT(handleFinished()) );
 
    QVBoxLayout *layout = new QVBoxLayout;
    QHBoxLayout *rootLayout = new QHBoxLayout;
@@ -95,6 +93,25 @@ DatabaseWidget::DatabaseWidget( QWidget *parent )
 
 DatabaseWidget::~DatabaseWidget()
 {
+   if( mpDatabaseWorkerThread->isRunning() )
+   {
+      mpDatabaseWorkerThread->quit();
+      mpDatabaseWorkerThread->wait();
+   }
+}
+
+
+DatabaseWorker *DatabaseWidget::getDatabaseWorker()
+{
+   DatabaseWorker *databaseWorker = new DatabaseWorker();
+   connect( databaseWorker, SIGNAL(progress(int,int)),
+            this, SLOT(handleProgress(int,int)) );
+   connect( databaseWorker, SIGNAL(done()),
+            databaseWorker, SLOT(deleteLater()) );
+   connect( databaseWorker, SIGNAL(destroyed()),
+            this, SLOT(handleFinished()) );
+   databaseWorker->moveToThread( mpDatabaseWorkerThread );
+   return databaseWorker;
 }
 
 
@@ -124,7 +141,9 @@ void DatabaseWidget::handleUpdate( bool checked )
    QString baseDir( Settings::value( Settings::GlobalMusicBase ) );
    if( !baseDir.isEmpty() )
    {
-      mpDatabaseWorker->startUpdate( baseDir );
+      DatabaseWorker *worker = getDatabaseWorker();
+      worker->setPath( baseDir );
+      QTimer::singleShot( 0, worker, SLOT(startUpdate()) );
    }
    else
    {
@@ -143,7 +162,8 @@ void DatabaseWidget::handleCleanup( bool checked )
    disableButtons( true );
    mCheckedText   = tr( "entries checked" );
    mProcessedText = tr( "cleaned" );
-   mpDatabaseWorker->startCleanup();
+   DatabaseWorker *worker = getDatabaseWorker();
+   QTimer::singleShot( 0, worker, SLOT(startCleanup()) );
 }
 
 
@@ -165,7 +185,9 @@ void DatabaseWidget::handleImport( bool checked )
    {
       mCheckedText   = tr( "files scanned" );
       mProcessedText = tr( "added" );
-      mpDatabaseWorker->startImport( fileDialog.selectedFiles().at(0) );
+      DatabaseWorker *worker = getDatabaseWorker();
+      worker->setPath( fileDialog.selectedFiles().at(0) );
+      QTimer::singleShot( 0, worker, SLOT(startImport()) );
    }
    else
    {

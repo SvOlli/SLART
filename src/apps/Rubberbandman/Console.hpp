@@ -45,13 +45,9 @@ public:
    /*!
     \brief constructor
 
-    \param checkedText message for checking for new items
-    \param processedText message for checking for obsolete items
     \param parent
    */
-   Console( const QString &checkedText,
-            const QString &processedText,
-            QObject *parent = 0 );
+   Console( QObject *parent = 0 );
 
    /*!
     \brief destructor
@@ -60,13 +56,21 @@ public:
    virtual ~Console();
 
    /*!
+    \brief set progress output text messages
+
+    \param checkedText message for checking for new items
+    \param processedText message for checking for processed items
+   */
+   void setTexts( const QString &checkedText, const QString &processedText );
+
+public slots:
+   /*!
     \brief output message
 
     \param msg message data to output
    */
    void message( const QString &msg );
 
-public slots:
    /*!
     \brief invoke output of progress message
 

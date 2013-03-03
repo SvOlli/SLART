@@ -19,21 +19,27 @@
 /* local headers */
 
 
-Console::Console( const QString &checkedText,
-                  const QString &processedText,
-                  QObject *parent )
+Console::Console( QObject *parent )
 : QObject( parent )
 , mStdOut( ::stdout )
-, mCheckedText( checkedText )
-, mProcessedText( processedText )
+, mCheckedText()
+, mProcessedText()
 {
 }
 
 
 Console::~Console()
 {
-   mStdOut << tr( "Done." ) << "\n";
+//   mStdOut << tr( "Done." ) << "\n";
    mStdOut.flush();
+}
+
+
+void Console::setTexts( const QString &checkedText,
+                        const QString &processedText )
+{
+   mCheckedText = checkedText;
+   mProcessedText = processedText;
 }
 
 

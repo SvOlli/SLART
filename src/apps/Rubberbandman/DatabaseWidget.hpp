@@ -30,6 +30,7 @@ class QPushButton;
 class QSqlTableModel;
 class QString;
 class QTableView;
+class QThread;
 
 /* forward declaration of local classes */
 class Database;
@@ -124,7 +125,14 @@ private:
    */
    void disableButtons( bool disable );
 
-   DatabaseWorker *mpDatabaseWorker;
+   /*!
+    \brief create database worker for one run
+
+    \return DatabaseWorker
+   */
+   DatabaseWorker *getDatabaseWorker();
+
+   QThread        *mpDatabaseWorkerThread;
    QLineEdit      *mpBaseDir;
    QPushButton    *mpUpdateButton;
    QPushButton    *mpCleanupButton;

@@ -61,6 +61,9 @@ SOURCES += MyTreeView.cpp
 HEADERS += RecurseWorker.hpp
 SOURCES += RecurseWorker.cpp
 
+HEADERS += RubberbandmanCommandLine.hpp
+SOURCES += RubberbandmanCommandLine.cpp
+
 HEADERS += RubberbandmanConfigDialog.hpp
 SOURCES += RubberbandmanConfigDialog.cpp
 
