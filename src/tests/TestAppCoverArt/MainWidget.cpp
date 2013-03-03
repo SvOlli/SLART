@@ -35,13 +35,15 @@
 /* local headers */
 #include <Kryptonite.hpp>
 #include <KryptoniteJobCoverAmazonDE.hpp>
+#include <KryptoniteJobCoverDiscogs.hpp>
 
 #include "Trace.hpp"
 
 MainWidget::MainWidget( QWidget *parent )
 : QSplitter( Qt::Horizontal, parent )
 , mpKryptonite( new Kryptonite() )
-, mpAmazon( new KryptoniteJobCoverAmazonDE( mpKryptonite ) )
+, mpAmazonDE( new KryptoniteJobCoverAmazonDE( mpKryptonite ) )
+, mpDiscogs( new KryptoniteJobCoverDiscogs( mpKryptonite ) )
 , mpLayout( new QGridLayout( this ) )
 , mpFileSysTree( new QTreeView( this ) )
 , mpFileSysModel( new QFileSystemModel( this ) )
@@ -59,7 +61,8 @@ TRACESTART(MainWidget::MainWidget)
             t, SLOT(quit()) );
    ProxyWidget::setProxy( mpKryptonite->networkAccessManager() );
    mpKryptonite->moveToThread( t );
-   mpAmazon->moveToThread( t );
+   mpAmazonDE->moveToThread( t );
+   mpDiscogs->moveToThread( t );
    t->setObjectName( "DownloadThread" );
    t->start();
    QWidget *w = 0;
@@ -108,10 +111,16 @@ TRACESTART(MainWidget::MainWidget)
    connect( mpSignalMapper, SIGNAL(mapped(QWidget*)),
             this, SLOT(saveImage(QWidget*)) );
    connect( this, SIGNAL(requestSearch(QString)),
-            mpAmazon, SLOT(requestList(QString)) );
-   connect( mpAmazon, SIGNAL(imageFound(QByteArray,QVariant)),
+            mpDiscogs, SLOT(requestList(QString)) );
+   connect( mpDiscogs, SIGNAL(imageFound(QByteArray,QVariant)),
             this, SLOT(addThumbnail(QByteArray,QVariant)) );
-   connect( mpAmazon, SIGNAL(imageDownloaded(QByteArray,QVariant)),
+   connect( mpDiscogs, SIGNAL(imageDownloaded(QByteArray,QVariant)),
+            this, SLOT(showImage(QByteArray,QVariant)) );
+   connect( this, SIGNAL(requestSearch(QString)),
+            mpAmazonDE, SLOT(requestList(QString)) );
+   connect( mpAmazonDE, SIGNAL(imageFound(QByteArray,QVariant)),
+            this, SLOT(addThumbnail(QByteArray,QVariant)) );
+   connect( mpAmazonDE, SIGNAL(imageDownloaded(QByteArray,QVariant)),
             this, SLOT(showImage(QByteArray,QVariant)) );
    connect( satellite, SIGNAL(received(QByteArray)),
             this, SLOT(handleSatelliteMessage(QByteArray)) );
@@ -199,7 +208,7 @@ TRACESTART(MainWidget::addThumbnail)
    ImageWidget *w = new ImageWidget( this );
    w->setImage( image );
    w->setToolTip( tr("%1 x %2").arg( QString::number(image.width()),
-                                      QString::number(image.height())) );
+                                     QString::number(image.height())) );
    mpLayout->addWidget( w, mDataMap.size() / mNumColumns, mDataMap.size() % mNumColumns );
    mDataMap.insert( w, url );
    connect( w, SIGNAL(clicked(QPoint)),
@@ -214,7 +223,15 @@ void MainWidget::saveImage( QWidget *widget )
    QDir dir( mpFileSysModel->filePath(index) );
    QString fileName( dir.absoluteFilePath( Settings::value( Settings::FunkytownCoverFile ) ) );
    mpMessage->setText( mDataMap.value( widget ).toString() );
-   KryptoniteJobCover::requestImage( mpAmazon, mDataMap.value( widget ), fileName );
+   QString url( mDataMap.value( widget ).toString() );
+   if( url.startsWith("http://www.amazon.de/") )
+   {
+      KryptoniteJobCover::requestImage( mpAmazonDE, mDataMap.value( widget ), fileName );
+   }
+   else if( url.startsWith("http://www.discogs.com/") )
+   {
+      KryptoniteJobCover::requestImage( mpDiscogs, mDataMap.value( widget ), fileName );
+   }
 //   emit requestItem( mDataMap.value( widget ) );
 }
 

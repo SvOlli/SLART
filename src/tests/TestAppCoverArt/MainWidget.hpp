@@ -39,6 +39,7 @@ class QTreeView;
 class ImageWidget;
 class Kryptonite;
 class KryptoniteJobCoverAmazonDE;
+class KryptoniteJobCoverDiscogs;
 
 class MainWidget : public QSplitter
 {
@@ -69,7 +70,8 @@ private:
    Q_DISABLE_COPY( MainWidget )
 
    Kryptonite                       *mpKryptonite;
-   KryptoniteJobCoverAmazonDE       *mpAmazon;
+   KryptoniteJobCoverAmazonDE       *mpAmazonDE;
+   KryptoniteJobCoverDiscogs        *mpDiscogs;
    QGridLayout                      *mpLayout;
    QTreeView                        *mpFileSysTree;
    QFileSystemModel                 *mpFileSysModel;
