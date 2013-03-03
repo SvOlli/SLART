@@ -27,8 +27,6 @@
 /* local headers */
 
 
-static PartymanConfigDialog *gpConfig = 0;
-
 PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent, Qt::WindowFlags flags )
 : QDialog( parent, flags )
 , mpDatabase( database )
@@ -36,36 +34,34 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
 , mpDerMixDhost( new QLineEdit( this ) )
 , mpDerMixDportLabel( new QLabel( tr("Port:") ) )
 , mpDerMixDport( new QSpinBox( this ) )
-, mpDerMixDlog( new QCheckBox( tr("Log Communication To stdout"), this ) )
-, mpDerMixDrun( new QCheckBox( tr("Start/Stop via Partyman"), this ) )
+, mpDerMixDlog( new QCheckBox( tr("Log communication to stdout"), this ) )
+, mpDerMixDrun( new QCheckBox( tr("Start/stop via Partyman"), this ) )
 , mpDerMixDcmdLabel( new QLabel( tr("Command:"), this ) )
 , mpDerMixDcmd( new QLineEdit( this ) )
 , mpDerMixDparamsLabel( new QLabel( tr("Parameters:"), this ) )
 , mpDerMixDparams( new QLineEdit( this ) )
-, mpAutoConnect( new QCheckBox( tr("Connect On Startup"), this ) )
+, mpAutoConnect( new QCheckBox( tr("Connect on startup"), this ) )
 , mpCrossfadeTime( new QSpinBox( this ) )
 , mpNormalizeMode( new QComboBox( this ) )
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
-, mpCountSkip( new QCheckBox( tr("Increase Track Played Counter On Skip"), this ) )
+, mpCountSkip( new QCheckBox( tr("Increase track played counter on skip"), this ) )
 , mpStopOnUnderpass( new QCheckBox( tr("Stop playing if Underpass is started"), this ) )
-, mpTrayIcon( new QCheckBox( tr("Show Tray Icon"), this ) )
-, mpTrayIconBubble( new QCheckBox( tr("With Bubble"), this ) )
+, mpTrayIcon( new QCheckBox( tr("Show tray icon"), this ) )
+, mpTrayIconBubble( new QCheckBox( tr("With bubble"), this ) )
 , mpTrayIconBubbleTime( new QDoubleSpinBox( this ) )
-, mpPlayOnlyFavorite( new QCheckBox( tr("Play Favorite Tracks Only"), this ) )
-, mpPlayOnlyLeastPlayed( new QCheckBox( tr("Play Least Played Tracks Only"), this ) )
+, mpPlayOnlyFavorite( new QCheckBox( tr("Play favorite tracks only"), this ) )
+, mpPlayOnlyLeastPlayed( new QCheckBox( tr("Play least played tracks"), this ) )
 , mpPlayGroup( new QComboBox( this ) )
 , mpPlayNotAgainCount( new QSpinBox( this ) )
 , mpNamePattern( new QLineEdit( this ) )
 , mpPlayerPattern( new QLineEdit( this ) )
 , mpListPattern( new QLineEdit( this ) )
 , mpTrayIconPattern( new QLineEdit( this ) )
-, mpUpdateBrowserButton( new QPushButton( tr("Update Browser Tab"), this ) )
-, mpStartKioskButton( new QPushButton( tr("Start Kiosk Mode"), this ) )
+, mpUpdateBrowserButton( new QPushButton( tr("Update browse tab"), this ) )
+, mpStartKioskButton( new QPushButton( tr("Start kiosk mode"), this ) )
 , mpGlobalSettings( new GlobalConfigWidget( this ) )
 {
-   gpConfig = this;
-
    setWindowTitle( QApplication::applicationName() + ": " + tr("Settings") );
    setWindowIcon( QIcon(":/Partyman/Icon.png") );
 
@@ -122,12 +118,12 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
    QWidget     *partymanTab    = new QWidget( this );
    QGridLayout *partymanLayout = new QGridLayout( partymanTab );
    partymanLayout->addWidget( mpAutoConnect,                        0, 0, 1, 5 );
-   partymanLayout->addWidget( new QLabel( tr("Crossfade Time:") ),  1, 0, 1, 2 );
+   partymanLayout->addWidget( new QLabel( tr("Crossfade time:") ),  1, 0, 1, 2 );
    partymanLayout->addWidget( mpCrossfadeTime,                      1, 4 );
    partymanLayout->addWidget( mpTrayIcon,                           2, 0, 1, 2 );
    partymanLayout->addWidget( mpTrayIconBubble,                     2, 2, 1, 2 );
    partymanLayout->addWidget( mpTrayIconBubbleTime,                 2, 4 );
-   partymanLayout->addWidget( new QLabel( tr("External Logger:") ), 3, 0 );
+   partymanLayout->addWidget( new QLabel( tr("External logger:") ), 3, 0 );
    partymanLayout->addWidget( mpLogCmd,                             3, 1, 1, 4 );
    partymanLayout->addWidget( mpCountSkip,                          4, 0, 1, 5 );
    partymanLayout->addWidget( mpStopOnUnderpass,                    5, 0, 1, 5 );
@@ -142,9 +138,9 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
    QGridLayout *randomLayout = new QGridLayout( randomTab );
    randomLayout->addWidget( mpPlayOnlyFavorite, 0, 0, 1, 3 );
    randomLayout->addWidget( mpPlayOnlyLeastPlayed, 1, 0, 1, 3 );
-   randomLayout->addWidget( new QLabel( tr("Play Group:") ), 2, 0 );
+   randomLayout->addWidget( new QLabel( tr("Play group:") ), 2, 0 );
    randomLayout->addWidget( mpPlayGroup, 2, 1, 1, 2 );
-   randomLayout->addWidget( new QLabel( tr("Number Of Tracks An Artist Is Not Played Again:") ), 3, 0, 1, 2 );
+   randomLayout->addWidget( new QLabel( tr("Number of tracks before an artist is played again:") ), 3, 0, 1, 2 );
    randomLayout->addWidget( mpPlayNotAgainCount, 3, 2 );
    randomLayout->setRowStretch( 6, 1 );
    randomTab->setLayout( randomLayout );
@@ -152,10 +148,10 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
    QWidget     *displayTab          = new QWidget( this );
    QGridLayout *displayLayout       = new QGridLayout( displayTab );
    QBoxLayout  *displayButtonLayout = new QHBoxLayout;
-   displayLayout->addWidget( new QLabel( tr("Display Patterns:") ), 0, 0, 1, 2 );
+   displayLayout->addWidget( new QLabel( tr("Display patterns:") ), 0, 0, 1, 2 );
    displayLayout->addWidget( new QLabel( tr("Title:") ), 1, 0 );
    displayLayout->addWidget( mpNamePattern, 1, 1 );
-   displayLayout->addWidget( new QLabel( tr("Tray Icon:") ), 2, 0 );
+   displayLayout->addWidget( new QLabel( tr("Tray icon:") ), 2, 0 );
    displayLayout->addWidget( mpTrayIconPattern, 2, 1 );
    displayLayout->addWidget( new QLabel( tr("Player:") ), 3, 0 );
    displayLayout->addWidget( mpPlayerPattern, 3, 1 );
