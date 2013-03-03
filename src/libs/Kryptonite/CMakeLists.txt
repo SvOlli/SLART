@@ -20,6 +20,7 @@ ADD_SOURCE( IODeviceStreamer              cpp hpp moc )
 ADD_SOURCE( Kryptonite                    cpp hpp moc )
 ADD_SOURCE( KryptoniteJobCover            cpp hpp moc )
 ADD_SOURCE( KryptoniteJobCoverAmazonDE    cpp hpp moc )
+ADD_SOURCE( KryptoniteJobCoverDiscogs     cpp hpp moc )
 ADD_SOURCE( KryptoniteReply               cpp hpp moc )
 
 QT4_WRAP_CPP( Kryptonite_MOC_GENERATED

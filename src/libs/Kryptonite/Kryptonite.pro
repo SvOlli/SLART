@@ -23,5 +23,8 @@ SOURCES += KryptoniteJobCover.cpp
 HEADERS += KryptoniteJobCoverAmazonDE.hpp
 SOURCES += KryptoniteJobCoverAmazonDE.cpp
 
+HEADERS += KryptoniteJobCoverDiscogs.hpp
+SOURCES += KryptoniteJobCoverDiscogs.cpp
+
 HEADERS += KryptoniteReply.hpp
 SOURCES += KryptoniteReply.cpp
