@@ -13,5 +13,5 @@ LIBS += $$LUA_LIBS
 count( LUA_LIBS, 0 ) {
    error( "Lua 5.1 was not found" )
 } else {
-   build_pass:message( "Lua 5.1 configuration added." )
+   !build_pass:message( "Lua 5.1 configuration added." )
 }
