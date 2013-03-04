@@ -209,7 +209,22 @@ TRACESTART(MainWidget::addThumbnail)
    w->setImage( image );
    w->setToolTip( tr("%1 x %2").arg( QString::number(image.width()),
                                      QString::number(image.height())) );
-   mpLayout->addWidget( w, mDataMap.size() / mNumColumns, mDataMap.size() % mNumColumns );
+   int i = mDataMap.size();
+   int sq = (int)sqrt( i );
+   int sd = i - (sq * sq);
+   int x = 0;
+   int y = 0;
+   if( sd >= sq )
+   {
+      x = sd - sq;
+      y = sq;
+   }
+   else
+   {
+      x = sq;
+      y = sd;
+   }
+   mpLayout->addWidget( w, y, x );
    mDataMap.insert( w, url );
    connect( w, SIGNAL(clicked(QPoint)),
             mpSignalMapper, SLOT(map()) );
