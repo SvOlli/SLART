@@ -78,6 +78,7 @@ private:
    QLineEdit                        *mpLineEdit;
    QCheckBox                        *mpFollowPartyman;
    ImageWidget                      *mpImage;
+   QLabel                           *mpInfo;
    QLineEdit                        *mpMessage;
    QSignalMapper                    *mpSignalMapper;
    QMap<QWidget*,QUrl>              mDataMap;

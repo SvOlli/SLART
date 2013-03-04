@@ -50,6 +50,7 @@ MainWidget::MainWidget( QWidget *parent )
 , mpLineEdit( new QLineEdit( this ) )
 , mpFollowPartyman( new QCheckBox( tr("Follow Partyman"), this ) )
 , mpImage( new ImageWidget( this ) )
+, mpInfo( new QLabel( this ) )
 , mpMessage( new QLineEdit( this ) )
 , mpSignalMapper( new QSignalMapper( this ) )
 , mDataMap()
@@ -80,6 +81,7 @@ TRACESTART(MainWidget::MainWidget)
    mpFileSysTree->setColumnHidden( 1, true );
    mpFileSysTree->setColumnHidden( 2, true );
    mpFileSysTree->setColumnHidden( 3, true );
+   mpInfo->setAlignment( Qt::AlignCenter );
 
    QSplitter *s = new QSplitter( Qt::Vertical, this );
    w = new QWidget( this );
@@ -95,8 +97,10 @@ TRACESTART(MainWidget::MainWidget)
    w = new QWidget( this );
    v = new QVBoxLayout( w );
    v->addWidget( mpImage );
+   v->addWidget( mpInfo );
    v->addWidget( mpMessage );
    addWidget( w );
+   v->setStretch( 0, 1 );
    QFileSystemWatcher *watcher = new QFileSystemWatcher( this );
    watcher->addPath( "/tmp" );
    Satellite *satellite = Satellite::get();
@@ -180,10 +184,15 @@ TRACESTART(MainWidget::entryClicked)
    if( entries.size() > 0 )
    {
       mpImage->setImage( dir.absoluteFilePath( entries.at(0) ) );
+      mpMessage->setText( dir.absoluteFilePath( entries.at(0) ) );
+      QImage i( mpImage->imageData() );
+      mpInfo->setText( tr("%1 x %2").arg( QString::number(i.width()), QString::number(i.height())) );
    }
    else
    {
       mpImage->setImage( QImage() );
+      mpInfo->clear();
+      mpMessage->clear();
    }
 }
 
@@ -280,4 +289,6 @@ TRACEMSG << payload.toString();
       }
    }
    mpMessage->setText( fileName );
+   QImage i( mpImage->imageData() );
+   mpInfo->setText( tr("%1 x %2").arg( QString::number(i.width()), QString::number(i.height())) );
 }
