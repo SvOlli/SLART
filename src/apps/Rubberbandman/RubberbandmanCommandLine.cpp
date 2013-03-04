@@ -106,7 +106,7 @@ void RubberbandmanCommandLine::nextJob()
    }
    else
    {
-      emit done();
+      DatabaseInterface::get()->call( this, SIGNAL(done()) );
    }
 }
 
