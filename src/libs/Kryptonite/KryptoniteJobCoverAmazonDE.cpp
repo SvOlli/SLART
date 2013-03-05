@@ -36,6 +36,7 @@ KryptoniteJobCoverAmazonDE::~KryptoniteJobCoverAmazonDE()
 
 void KryptoniteJobCoverAmazonDE::requestList( const QString &query )
 {
+   emit message( tr( "Searching amazon.de" ) );
    QByteArray amazon( QByteArray::fromHex( "C3854DC3855AC395C391" ) );
    QUrl url( "http://www.amazon.de/s/ref=nb_sb_noss" );
    url.addQueryItem( "__mk_de_DE", QString::fromUtf8(amazon.constData()) );
@@ -47,6 +48,7 @@ void KryptoniteJobCoverAmazonDE::requestList( const QString &query )
 
 void KryptoniteJobCoverAmazonDE::parseListHtml( const QByteArray &data )
 {
+   emit message( tr( "Parsing amazon.de search reply" ), data );
    QRegExp imgRe( ".*<img[^>]*src=\"([^\"]*)\".*" );
    QRegExp linkRe( ".*<a[^>]*href=\"([^\"]*)\".*" );
    QString s( QString::fromUtf8(data.constData()) );
@@ -71,6 +73,7 @@ void KryptoniteJobCoverAmazonDE::requestImage( const QUrl &url, const QVariant &
 
 void KryptoniteJobCoverAmazonDE::parseItemHtml( const QByteArray &data, const QVariant &payload )
 {
+   emit message( tr( "Parsing amazon.de item page" ), data );
    QRegExp imgRe( ".*i=new Image;i.src = \"([^\"]*)\".*" );
    QString s( QString::fromUtf8(data.constData()) );
    QStringList l( s.split("\n", QString::SkipEmptyParts) );
@@ -80,6 +83,7 @@ void KryptoniteJobCoverAmazonDE::parseItemHtml( const QByteArray &data, const QV
       {
          QUrl imgUrl( QString(s).replace( imgRe, "\\1" ) );
          emit requestDownload( this, SIGNAL(imageDownloaded(QByteArray,QVariant)), imgUrl, payload );
+         return;
       }
    }
 }

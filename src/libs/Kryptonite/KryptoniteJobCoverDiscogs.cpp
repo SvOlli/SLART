@@ -23,7 +23,7 @@
 
 
 KryptoniteJobCoverDiscogs::KryptoniteJobCoverDiscogs( Kryptonite *kryptonite,
-                                                        QObject *parent )
+                                                      QObject *parent )
 : KryptoniteJobCover( kryptonite, parent )
 {
 }
@@ -36,6 +36,7 @@ KryptoniteJobCoverDiscogs::~KryptoniteJobCoverDiscogs()
 
 void KryptoniteJobCoverDiscogs::requestList( const QString &query )
 {
+   emit message( tr( "Searching discogs.com" ) );
    QUrl url( "http://www.discogs.com/search" );
    url.addQueryItem( "q", query );
    url.addQueryItem( "type", "all" );
@@ -45,6 +46,7 @@ void KryptoniteJobCoverDiscogs::requestList( const QString &query )
 
 void KryptoniteJobCoverDiscogs::parseListHtml( const QByteArray &data )
 {
+   emit message( tr( "Parsing discogs search reply" ), data );
    QRegExp imgRe( ".*<img[^>]*class=[^>]*search_result_image[^>]*src=\"([^\"]*)\".*" );
    QRegExp linkRe( ".*<a[^>]*class=[^>]*search_result_title[^>]*href=\"([^\"]*)\".*" );
    QString s( QString::fromUtf8(data.constData()) );
@@ -79,7 +81,9 @@ void KryptoniteJobCoverDiscogs::requestImage( const QUrl &url, const QVariant &p
 
 void KryptoniteJobCoverDiscogs::parseItemHtml( const QByteArray &data, const QVariant &payload )
 {
-   QRegExp imgRe( ".*<a href=\"([^\"]*)\">more images</a>.*" );
+   emit message( tr( "Parsing discogs.com item page" ), data );
+   //QRegExp imgRe( ".*<a href=\"([^\"]*)\">more images</a>.*" );
+   QRegExp imgRe( ".*<a href=\"(/viewimages?[^\"]*)\">.*" );
    QString s( QString::fromUtf8(data.constData()) );
    QStringList l( s.split("\n", QString::SkipEmptyParts) );
    foreach( s, l )
@@ -88,22 +92,33 @@ void KryptoniteJobCoverDiscogs::parseItemHtml( const QByteArray &data, const QVa
       {
          QUrl imgUrl( QString(s).replace( imgRe, "http://www.discogs.com\\1" ) );
          emit requestDownload( this, SLOT(parseImagesHtml(QByteArray,QVariant)), imgUrl, payload );
+         return;
       }
    }
 }
 
 
-void KryptoniteJobCoverDiscogs::parseImagesHtml(const QByteArray &data, const QVariant &payload)
+void KryptoniteJobCoverDiscogs::parseImagesHtml( const QByteArray &data, const QVariant &payload )
 {
-   QRegExp imgRe( ".*<img[^>]*class=\"shadow image_frame\"[^>]*src=\"([^\"]*)\".*" );
+   emit message( tr( "Parsing discogs.com images page" ), data );
+   // <div class="image"><a href="/viewimages?release=753791"><img src="http://s.pixogs.com/image/R-150-753791-1155372972.jpeg" alt="Revolverheld - Revolverheld" />
+   QRegExp imgRe1( ".*<img[^>]*class=\"shadow image_frame\"[^>]*src=\"([^\"]*)\".*" );
+   QRegExp imgRe2( ".*<div class=\"image\">.*<img[^>]*src=\"([^\"]*)\".*" );
    QString s( QString::fromUtf8(data.constData()) );
    QStringList l( s.split("\n", QString::SkipEmptyParts) );
    foreach( s, l )
    {
-      if( s.contains( imgRe ) )
+      if( s.contains( imgRe1 ) )
       {
-         QUrl imgUrl( QString(s).replace( imgRe, "\\1" ) );
+         QUrl imgUrl( QString(s).replace( imgRe1, "\\1" ) );
          emit requestDownload( this, SIGNAL(imageDownloaded(QByteArray,QVariant)), imgUrl, payload );
+         return;
+      }
+      else if( s.contains( imgRe2 ) )
+      {
+         QUrl imgUrl( QString(s).replace( imgRe2, "\\1" ) );
+         emit requestDownload( this, SIGNAL(imageDownloaded(QByteArray,QVariant)), imgUrl, payload );
+         return;
       }
    }
 }

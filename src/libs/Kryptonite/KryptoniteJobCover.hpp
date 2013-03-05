@@ -109,6 +109,14 @@ signals:
    */
    void imageDownloaded( const QByteArray &data, const QVariant &fileName );
 
+   /*!
+    \brief send a message on what is going on
+
+    \param message message sent
+    \param data data (webpage) of the current step
+   */
+   void message( const QString &message, const QByteArray &data = QByteArray() );
+
 private:
 };
 
