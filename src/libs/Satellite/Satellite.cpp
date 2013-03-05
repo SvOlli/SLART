@@ -26,7 +26,7 @@
 Satellite *Satellite::cpSatellite = 0;
 
 
-Satellite *Satellite::create(const QHostAddress &host, quint16 port)
+Satellite *Satellite::create( const QHostAddress &host, quint16 port )
 {
    if( !cpSatellite )
    {
@@ -88,19 +88,22 @@ void Satellite::setHostPort( const QHostAddress &host, quint16 port )
 
 void Satellite::run()
 {
-   mpServerConnection = new QTcpSocket( this );
-   connect( mpServerConnection, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SLOT(connectFail(QAbstractSocket::SocketError)) );
-   connect( mpServerConnection, SIGNAL(disconnected()),
-            this, SLOT(disconnected()) );
-   connect( mpServerConnection, SIGNAL(readyRead()),
-            this, SLOT(incomingData()) );
+   if( !mpServerConnection )
+   {
+      mpServerConnection = new QTcpSocket( this );
+      connect( mpServerConnection, SIGNAL(error(QAbstractSocket::SocketError)),
+               this, SLOT(connectFail(QAbstractSocket::SocketError)) );
+      connect( mpServerConnection, SIGNAL(disconnected()),
+               this, SLOT(disconnected()) );
+      connect( mpServerConnection, SIGNAL(readyRead()),
+               this, SLOT(incomingData()) );
 #if SATELLITE_DEBUG
-   connect( mpServerConnection, SIGNAL(connected()),
-            this, SLOT(connectSuccess()) );
+      connect( mpServerConnection, SIGNAL(connected()),
+               this, SLOT(connectSuccess()) );
 #endif
-   connect( mpServerConnection, SIGNAL(connected()),
-            this, SIGNAL(connected()) );
+      connect( mpServerConnection, SIGNAL(connected()),
+               this, SIGNAL(connected()) );
+   }
 #if SATELLITE_DEBUG
    emit debug( "c:entering event handler" );
 #endif

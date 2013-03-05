@@ -26,7 +26,7 @@
 
 
 QObject *SatelliteSingleSend::send( const QHostAddress &host, quint16 port,
-                           const QByteArray &message )
+                                    const QByteArray &message )
 {
    return new SatelliteSingleSend( host, port, message );
 }
