@@ -49,14 +49,23 @@ MainWidget::MainWidget( QWidget *parent )
 , mpFileSysModel( new QFileSystemModel( this ) )
 , mpLineEdit( new QLineEdit( this ) )
 , mpFollowPartyman( new QCheckBox( tr("Follow Partyman"), this ) )
+, mpCopyBuffer( new QPushButton( tr("Copy debug buffer to clipboard"), this ) )
 , mpImage( new ImageWidget( this ) )
-, mpInfo( new QLabel( this ) )
-, mpMessage( new QLineEdit( this ) )
+, mpInfo( new QListWidget( this ) )
 , mpSignalMapper( new QSignalMapper( this ) )
 , mDataMap()
-, mNumColumns( 4 )
 {
 TRACESTART(MainWidget::MainWidget)
+   mpKryptonite->setObjectName( "Downloader");
+   mpAmazonDE->setObjectName( "Amazon" );
+   mpDiscogs->setObjectName( "Discogs" );
+   mpFileSysTree->setObjectName( "FileSysTree" );
+   mpFileSysModel->setObjectName( "FileSysModel" );
+   mpLineEdit->setObjectName( "LineInput" );
+   mpFollowPartyman->setObjectName( "FollowPartyman" );
+   mpCopyBuffer->setObjectName( "CopyBuffer" );
+   mpImage->setObjectName( "Image" );
+   mpInfo->setObjectName( "Info" );
    QThread *t = new QThread();
    connect( qApp, SIGNAL(aboutToQuit()),
             t, SLOT(quit()) );
@@ -81,14 +90,16 @@ TRACESTART(MainWidget::MainWidget)
    mpFileSysTree->setColumnHidden( 1, true );
    mpFileSysTree->setColumnHidden( 2, true );
    mpFileSysTree->setColumnHidden( 3, true );
-   mpInfo->setAlignment( Qt::AlignCenter );
 
    QSplitter *s = new QSplitter( Qt::Vertical, this );
    w = new QWidget( this );
    QVBoxLayout *v = new QVBoxLayout( w );
    v->addWidget( mpFileSysTree );
    v->addWidget( mpLineEdit );
-   v->addWidget( mpFollowPartyman );
+   QHBoxLayout *h = new QHBoxLayout();
+   v->addLayout( h );
+   h->addWidget( mpFollowPartyman );
+   h->addWidget( mpCopyBuffer );
    s->addWidget( w );
    w = new QWidget( this );
    w->setLayout( mpLayout );
@@ -98,16 +109,12 @@ TRACESTART(MainWidget::MainWidget)
    v = new QVBoxLayout( w );
    v->addWidget( mpImage );
    v->addWidget( mpInfo );
-   v->addWidget( mpMessage );
    addWidget( w );
    v->setStretch( 0, 1 );
-   QFileSystemWatcher *watcher = new QFileSystemWatcher( this );
-   watcher->addPath( "/tmp" );
    Satellite *satellite = Satellite::get();
 
-   connect( watcher, SIGNAL(fileChanged(QString)),
-            mpImage, SLOT(setImage(QString)) );
-
+   connect( mpCopyBuffer, SIGNAL(clicked()),
+            this, SLOT(debugBufferToClipboard()) );
    connect( mpLineEdit, SIGNAL(returnPressed()),
             this, SLOT(requestFromLine()) );
    connect( mpFileSysTree, SIGNAL(clicked(QModelIndex)),
@@ -120,12 +127,16 @@ TRACESTART(MainWidget::MainWidget)
             this, SLOT(addThumbnail(QByteArray,QVariant)) );
    connect( mpDiscogs, SIGNAL(imageDownloaded(QByteArray,QVariant)),
             this, SLOT(showImage(QByteArray,QVariant)) );
+   connect( mpDiscogs, SIGNAL(message(QString,QByteArray)),
+            this, SLOT(message(QString,QByteArray)) );
    connect( this, SIGNAL(requestSearch(QString)),
             mpAmazonDE, SLOT(requestList(QString)) );
    connect( mpAmazonDE, SIGNAL(imageFound(QByteArray,QVariant)),
             this, SLOT(addThumbnail(QByteArray,QVariant)) );
    connect( mpAmazonDE, SIGNAL(imageDownloaded(QByteArray,QVariant)),
             this, SLOT(showImage(QByteArray,QVariant)) );
+   connect( mpAmazonDE, SIGNAL(message(QString,QByteArray)),
+            this, SLOT(message(QString,QByteArray)) );
    connect( satellite, SIGNAL(received(QByteArray)),
             this, SLOT(handleSatelliteMessage(QByteArray)) );
 
@@ -169,6 +180,30 @@ void MainWidget::handleSatelliteMessage( const QByteArray &msg )
 }
 
 
+void MainWidget::message( const QString &message, const QByteArray &data )
+{
+   if( !data.isNull() )
+   {
+      mDebugData = data;
+   }
+   mpInfo->addItem( message );
+
+   // ugly hack, but works as intended:
+   while( mpInfo->verticalScrollBar()->isVisible() )
+   {
+      delete mpInfo->takeItem( 0 );
+      QApplication::processEvents();
+   }
+   mpInfo->scrollToBottom();
+}
+
+
+void MainWidget::debugBufferToClipboard()
+{
+   QApplication::clipboard()->setText( QString::fromUtf8( mDebugData.constData() ) );
+}
+
+
 void MainWidget::entryClicked( const QModelIndex &index )
 {
 TRACESTART(MainWidget::entryClicked)
@@ -184,15 +219,14 @@ TRACESTART(MainWidget::entryClicked)
    if( entries.size() > 0 )
    {
       mpImage->setImage( dir.absoluteFilePath( entries.at(0) ) );
-      mpMessage->setText( dir.absoluteFilePath( entries.at(0) ) );
       QImage i( mpImage->imageData() );
-      mpInfo->setText( tr("%1 x %2").arg( QString::number(i.width()), QString::number(i.height())) );
+      message( tr("%1 x %2: %3").arg( QString::number(i.width()),
+                                      QString::number(i.height()),
+                                      dir.absoluteFilePath( entries.at(0) ) ) );
    }
    else
    {
       mpImage->setImage( QImage() );
-      mpInfo->clear();
-      mpMessage->clear();
    }
 }
 
@@ -205,6 +239,7 @@ TRACESTART(MainWidget::requestFromLine)
       delete w;
    }
    mDataMap.clear();
+   mpInfo->clear();
    emit requestSearch( mpLineEdit->text() );
 }
 
@@ -218,20 +253,20 @@ TRACESTART(MainWidget::addThumbnail)
    w->setImage( image );
    w->setToolTip( tr("%1 x %2").arg( QString::number(image.width()),
                                      QString::number(image.height())) );
+   int x    = 0;
+   int y    = 0;
    int i = mDataMap.size();
-   int sq = (int)sqrt( i );
-   int sd = i - (sq * sq);
-   int x = 0;
-   int y = 0;
-   if( sd >= sq )
+   int sqr  = (int)sqrt( i );
+   int dist = i - (sqr * sqr);
+   if( dist < sqr )
    {
-      x = sd - sq;
-      y = sq;
+      x = sqr;
+      y = dist;
    }
    else
    {
-      x = sq;
-      y = sd;
+      x = dist - sqr;
+      y = sqr;
    }
    mpLayout->addWidget( w, y, x );
    mDataMap.insert( w, url );
@@ -246,7 +281,7 @@ void MainWidget::saveImage( QWidget *widget )
    QModelIndex index( mpFileSysTree->currentIndex() );
    QDir dir( mpFileSysModel->filePath(index) );
    QString fileName( dir.absoluteFilePath( Settings::value( Settings::FunkytownCoverFile ) ) );
-   mpMessage->setText( mDataMap.value( widget ).toString() );
+   message( mDataMap.value( widget ).toString() );
    QString url( mDataMap.value( widget ).toString() );
    if( url.startsWith("http://www.amazon.de/") )
    {
@@ -288,7 +323,8 @@ TRACEMSG << payload.toString();
          f.close();
       }
    }
-   mpMessage->setText( fileName );
    QImage i( mpImage->imageData() );
-   mpInfo->setText( tr("%1 x %2").arg( QString::number(i.width()), QString::number(i.height())) );
+   message( tr("%1 x %2: %3").arg( QString::number(i.width()),
+                                   QString::number(i.height()),
+                                   fileName ));
 }

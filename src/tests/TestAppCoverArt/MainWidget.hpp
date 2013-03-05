@@ -28,9 +28,9 @@
 class QCheckBox;
 class QFileSystemModel;
 class QGridLayout;
-class QLabel;
 class QLineEdit;
 class QListWidget;
+class QPushButton;
 class QModelIndex;
 class QSignalMapper;
 class QTreeView;
@@ -62,6 +62,10 @@ public slots:
 
    void handleSatelliteMessage( const QByteArray &msg );
 
+   void message( const QString &message, const QByteArray &data = QByteArray() );
+
+   void debugBufferToClipboard();
+
 signals:
    void requestSearch( const QString &query );
    void requestItem( const QUrl &url );
@@ -77,12 +81,12 @@ private:
    QFileSystemModel                 *mpFileSysModel;
    QLineEdit                        *mpLineEdit;
    QCheckBox                        *mpFollowPartyman;
+   QPushButton                      *mpCopyBuffer;
    ImageWidget                      *mpImage;
-   QLabel                           *mpInfo;
-   QLineEdit                        *mpMessage;
+   QListWidget                      *mpInfo;
    QSignalMapper                    *mpSignalMapper;
    QMap<QWidget*,QUrl>              mDataMap;
-   int                              mNumColumns;
+   QByteArray                       mDebugData;
 };
 
 #endif
