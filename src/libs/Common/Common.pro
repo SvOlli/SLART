@@ -97,6 +97,9 @@ SOURCES += ProxyWidget.cpp
 HEADERS += PasswordChecker.hpp
 SOURCES += PasswordChecker.cpp
 
+HEADERS += PathEnterWidget.hpp
+SOURCES += PathEnterWidget.cpp
+
 HEADERS += ScgiRequest.hpp
 SOURCES += ScgiRequest.cpp
 
