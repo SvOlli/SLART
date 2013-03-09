@@ -13,6 +13,7 @@
 
 /* Qt headers */
 #include <QCoreApplication>
+#include <QDirModel>
 #include <QFileDialog>
 #include <QGridLayout>
 #include <QIcon>
@@ -23,6 +24,7 @@
 
 /* local library headers */
 #include <AboutWidget.hpp>
+#include <PathEnterWidget.hpp>
 #include <ProxyWidget.hpp>
 #include <Settings.hpp>
 #include <WidgetShot.hpp>
@@ -35,7 +37,7 @@ NotoriousConfigDialog::NotoriousConfigDialog( QWidget *parent )
 : QDialog( parent )
 , mpFreeDBImport( new FreeDBImport( this ) )
 , mpLogList( new QListWidget( this ) )
-, mpImportFile( new QLineEdit( this ) )
+, mpImportFile( new PathEnterWidget( this ) )
 , mpCount( new QLabel( this ) )
 , mpFileName( new QLabel( this ) )
 , mpTimeSpent( new QLabel( this ) )
@@ -51,10 +53,9 @@ NotoriousConfigDialog::NotoriousConfigDialog( QWidget *parent )
    freedbInfo->setOpenExternalLinks( true );
    QPushButton *okButton( new QPushButton(tr("OK"), this) );
    QPushButton *cancelButton( new QPushButton(tr("Cancel"), this) );
-   QPushButton *browseButton = new QPushButton( "...", this );
-   /* evil hack */
-   browseButton->setMaximumWidth( browseButton->height() );
-   mpImportFile->setText( "/media/share/freedb/" );
+   mpImportFile->setText( "/srv/freedb/" );
+   mpImportFile->setDirOnly( false );
+   mpImportFile->dirModel()->setNameFilters( QStringList("freedb-*.tar.bz2") );
 
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( okButton );
@@ -62,16 +63,15 @@ NotoriousConfigDialog::NotoriousConfigDialog( QWidget *parent )
 
    QWidget     *importTab    = new QWidget( this );
    QGridLayout *importLayout = new QGridLayout( importTab );
-   importLayout->addWidget( freedbInfo, 0, 0, 1, 3 );
-   importLayout->addWidget( mpImportFile, 1, 0, 1, 2 );
-   importLayout->addWidget( browseButton, 1, 2 );
+   importLayout->addWidget( freedbInfo,                                 0, 0, 1, 2 );
+   importLayout->addWidget( mpImportFile,                               1, 0, 1, 2 );
    importLayout->addWidget( new QLabel( tr("Files Processed:"), this ), 2, 0 );
+   importLayout->addWidget( mpCount,                                    2, 1 );
    importLayout->addWidget( new QLabel( tr("File Name:"), this ),       3, 0 );
+   importLayout->addWidget( mpFileName,                                 3, 1 );
    importLayout->addWidget( new QLabel( tr("Time Spent:"), this ),      4, 0 );
-   importLayout->addWidget( mpCount, 2, 1, 1, 2 );
-   importLayout->addWidget( mpFileName, 3, 1, 1, 2 );
-   importLayout->addWidget( mpTimeSpent, 4, 1, 1, 2 );
-   importLayout->addWidget( mpImportButton, 6, 0, 1, 3 );
+   importLayout->addWidget( mpTimeSpent,                                4, 1 );
+   importLayout->addWidget( mpImportButton,                             6, 0, 1, 2 );
    importLayout->setColumnStretch( 1, 1 );
    importLayout->setRowStretch( 5, 1 );
 
@@ -88,8 +88,6 @@ NotoriousConfigDialog::NotoriousConfigDialog( QWidget *parent )
 
    connect( mpFreeDBImport, SIGNAL(processed(unsigned,const char*)),
             this, SLOT(handleProgress(unsigned,const char*)) );
-   connect( browseButton, SIGNAL(clicked()),
-            this, SLOT(setFileName()) );
    connect( mpImportFile, SIGNAL(textChanged(QString)),
             this, SLOT(checkValidFile(QString)) );
    connect( mpImportButton, SIGNAL(clicked()),

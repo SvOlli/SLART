@@ -31,6 +31,7 @@ class QTextBrowser;
 
 /* forward declaration of local classes */
 class FreeDBImport;
+class PathEnterWidget;
 
 
 /*!
@@ -96,14 +97,14 @@ public slots:
 private:
    Q_DISABLE_COPY( NotoriousConfigDialog )
 
-   FreeDBImport *mpFreeDBImport;
-   QListWidget  *mpLogList;
-   QLineEdit    *mpImportFile;
-   QLabel       *mpCount;
-   QLabel       *mpFileName;
-   QLabel       *mpTimeSpent;
-   QPushButton  *mpImportButton;
-   QTime        mTimeSpent;
+   FreeDBImport      *mpFreeDBImport;
+   QListWidget       *mpLogList;
+   PathEnterWidget   *mpImportFile;
+   QLabel            *mpCount;
+   QLabel            *mpFileName;
+   QLabel            *mpTimeSpent;
+   QPushButton       *mpImportButton;
+   QTime             mTimeSpent;
 };
 
 /*! @} */
