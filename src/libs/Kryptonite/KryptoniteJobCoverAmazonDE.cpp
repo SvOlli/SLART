@@ -73,15 +73,36 @@ void KryptoniteJobCoverAmazonDE::requestImage( const QUrl &url, const QVariant &
 
 void KryptoniteJobCoverAmazonDE::parseItemHtml( const QByteArray &data, const QVariant &payload )
 {
+   // media%3Dhttp%253A%252F%252Fecx.images-amazon.com%252Fimages%252FI%252F41KzCF7bqML._SL500_.jpg%26
    emit message( tr( "Parsing amazon.de item page" ), data );
-   QRegExp imgRe( ".*i=new Image;i.src = \"([^\"]*)\".*" );
+   //QRegExp imgRe1( ".*media%3D(https?)%253A%252F%252F([^%]*)%252F([^%]*)%252F([^%]*)%252F([^%]*.jpg)%26.*" );
+   QRegExp imgRe1( ".*media%3D(.*.jpg)%26.*" );
+   //imgRe1.setMinimal( true );
    QString s( QString::fromUtf8(data.constData()) );
    QStringList l( s.split("\n", QString::SkipEmptyParts) );
    foreach( s, l )
    {
-      if( s.contains( imgRe ) )
+      if( s.contains( imgRe1 ) )
       {
-         QUrl imgUrl( QString(s).replace( imgRe, "\\1" ) );
+         s.replace( imgRe1, "\\1" );
+         while( s.contains('%') )
+         {
+            s = QUrl::fromPercentEncoding( s.toAscii() );
+         }
+         QUrl imgUrl( s );
+         //QUrl imgUrl( QString(s).replace( imgRe1, "\\1://\\2/\\3/\\4/\\5" ) );
+
+         emit requestDownload( this, SIGNAL(imageDownloaded(QByteArray,QVariant)), imgUrl, payload );
+         return;
+      }
+   }
+   emit message( tr( "Using fallback search" ) );
+   QRegExp imgRe2( ".*i=new Image;i.src = \"([^\"]*)\".*" );
+   foreach( s, l )
+   {
+      if( s.contains( imgRe2 ) )
+      {
+         QUrl imgUrl( QString(s).replace( imgRe2, "\\1" ) );
          emit requestDownload( this, SIGNAL(imageDownloaded(QByteArray,QVariant)), imgUrl, payload );
          return;
       }
