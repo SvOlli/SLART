@@ -20,6 +20,7 @@ INCLUDE_DIRECTORIES(
 )
 
 ADD_SOURCE( Application                cpp         )
+ADD_SOURCE( DropImageWidget            cpp hpp moc )
 ADD_SOURCE( MainWidget                 cpp hpp moc )
 
 SET( TestAppCoverArt_RESOURCES

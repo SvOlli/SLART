@@ -36,6 +36,7 @@
 #include <Kryptonite.hpp>
 #include <KryptoniteJobCoverAmazonDE.hpp>
 #include <KryptoniteJobCoverDiscogs.hpp>
+#include "DropImageWidget.hpp"
 
 #include "Trace.hpp"
 
@@ -50,10 +51,12 @@ MainWidget::MainWidget( QWidget *parent )
 , mpLineEdit( new QLineEdit( this ) )
 , mpFollowPartyman( new QCheckBox( tr("Follow Partyman"), this ) )
 , mpCopyBuffer( new QPushButton( tr("Copy debug buffer to clipboard"), this ) )
-, mpImage( new ImageWidget( this ) )
+, mpImage( new DropImageWidget( this ) )
 , mpInfo( new QListWidget( this ) )
 , mpSignalMapper( new QSignalMapper( this ) )
 , mDataMap()
+, mCacheMap()
+, mDebugData()
 {
 TRACESTART(MainWidget::MainWidget)
    mpKryptonite->setObjectName( "Downloader");
@@ -63,6 +66,7 @@ TRACESTART(MainWidget::MainWidget)
    mpFileSysModel->setObjectName( "FileSysModel" );
    mpLineEdit->setObjectName( "LineInput" );
    mpFollowPartyman->setObjectName( "FollowPartyman" );
+   mpFollowPartyman->setChecked( true );
    mpCopyBuffer->setObjectName( "CopyBuffer" );
    mpImage->setObjectName( "Image" );
    mpInfo->setObjectName( "Info" );
@@ -113,6 +117,8 @@ TRACESTART(MainWidget::MainWidget)
    v->setStretch( 0, 1 );
    Satellite *satellite = Satellite::get();
 
+   connect( mpImage, SIGNAL(droppedUrl(QUrl)),
+            this, SLOT(saveImage(QUrl)) );
    connect( mpCopyBuffer, SIGNAL(clicked()),
             this, SLOT(debugBufferToClipboard()) );
    connect( mpLineEdit, SIGNAL(returnPressed()),
@@ -200,7 +206,7 @@ void MainWidget::message( const QString &message, const QByteArray &data )
 
 void MainWidget::debugBufferToClipboard()
 {
-   QApplication::clipboard()->setText( QString::fromUtf8( mDebugData.constData() ) );
+   QApplication::clipboard()->setText( QString::fromUtf8( mDebugData.constData(), mDebugData.size() ) );
 }
 
 
@@ -239,6 +245,8 @@ TRACESTART(MainWidget::requestFromLine)
       delete w;
    }
    mDataMap.clear();
+   mCacheMap.clear();
+   mDebugData.clear();
    mpInfo->clear();
    emit requestSearch( mpLineEdit->text() );
 }
@@ -276,6 +284,33 @@ TRACESTART(MainWidget::addThumbnail)
 }
 
 
+void MainWidget::saveImage( const QUrl &url )
+{
+   message( tr( "Image dropped: %1" ).arg(url.toString()) );
+   QModelIndex index( mpFileSysTree->currentIndex() );
+   QDir dir( mpFileSysModel->filePath(index) );
+   QString fileName( dir.absoluteFilePath( Settings::value( Settings::FunkytownCoverFile ) ) );
+   message( url.toString() );
+   QStringList payload;
+   QString scheme( url.scheme().toLower() );
+   if( scheme.startsWith("http") )
+   {
+      payload << url.toString() << fileName;
+      mpKryptonite->download( this, SLOT(showImage(QByteArray,QVariant)), url, payload );
+   }
+   else if( scheme == "file" )
+   {
+      payload << QString() << fileName;
+      QFile f( url.toLocalFile() );
+      if( f.open( QIODevice::ReadOnly ) )
+      {
+         showImage( f.readAll(), payload );
+         f.close();
+      }
+   }
+}
+
+
 void MainWidget::saveImage( QWidget *widget )
 {
    QModelIndex index( mpFileSysTree->currentIndex() );
@@ -283,13 +318,23 @@ void MainWidget::saveImage( QWidget *widget )
    QString fileName( dir.absoluteFilePath( Settings::value( Settings::FunkytownCoverFile ) ) );
    message( mDataMap.value( widget ).toString() );
    QString url( mDataMap.value( widget ).toString() );
-   if( url.startsWith("http://www.amazon.de/") )
+   QStringList payload;
+   payload << url << fileName;
+   if( mCacheMap.contains( url ) )
    {
-      KryptoniteJobCover::requestImage( mpAmazonDE, mDataMap.value( widget ), fileName );
+      message( tr( "Using cached image" ) );
+      showImage( mCacheMap.value( url ), payload );
    }
-   else if( url.startsWith("http://www.discogs.com/") )
+   else
    {
-      KryptoniteJobCover::requestImage( mpDiscogs, mDataMap.value( widget ), fileName );
+      if( url.startsWith("http://www.amazon.de/") )
+      {
+         KryptoniteJobCover::requestImage( mpAmazonDE, mDataMap.value( widget ), payload );
+      }
+      else if( url.startsWith("http://www.discogs.com/") )
+      {
+         KryptoniteJobCover::requestImage( mpDiscogs, mDataMap.value( widget ), payload );
+      }
    }
 //   emit requestItem( mDataMap.value( widget ) );
 }
@@ -300,7 +345,13 @@ void MainWidget::showImage( const QByteArray &data, const QVariant &payload )
 TRACESTART(MainWidget::showImage)
 TRACEMSG << payload.toString();
    mpImage->setImage( data );
-   QString fileName( payload.toString() );
+   QStringList parameters( payload.toStringList() );
+   QString url( parameters.takeFirst() );
+   QString fileName( parameters.takeFirst() );
+   if( !url.isEmpty() && !mCacheMap.contains( url ) )
+   {
+      mCacheMap.insert( url, data );
+   }
    fileName.append( "." );
    if( !Settings::value( Settings::FunkytownCoverConvertTo ).isEmpty() )
    {

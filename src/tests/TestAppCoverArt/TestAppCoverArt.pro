@@ -13,11 +13,14 @@ include( ../../buildconfig.pri )
 INCLUDEPATH += $${TOPSRC}/libs/Satellite
 INCLUDEPATH += $${TOPSRC}/libs/Common
 INCLUDEPATH += $${TOPSRC}/libs/Kryptonite
-LIBS += -lCommon -lSatellite -lKryptonite
+LIBS += -lCommon -lSatellite #-lKryptonite
 
 # Input
 # RESOURCES = Resources/TestAppCoverArt.qrc
 SOURCES += Application.cpp
+
+HEADERS += DropImageWidget.hpp
+SOURCES += DropImageWidget.cpp
 
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
@@ -30,6 +33,9 @@ SOURCES += ../../libs/Kryptonite/KryptoniteJobCover.cpp
 
 HEADERS += ../../libs/Kryptonite/KryptoniteJobCoverAmazonDE.hpp
 SOURCES += ../../libs/Kryptonite/KryptoniteJobCoverAmazonDE.cpp
+
+HEADERS += ../../libs/Kryptonite/KryptoniteJobCoverDiscogs.hpp
+SOURCES += ../../libs/Kryptonite/KryptoniteJobCoverDiscogs.cpp
 
 HEADERS += ../../libs/Kryptonite/KryptoniteReply.hpp
 SOURCES += ../../libs/Kryptonite/KryptoniteReply.cpp

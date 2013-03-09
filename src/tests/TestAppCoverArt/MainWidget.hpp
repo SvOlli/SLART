@@ -34,12 +34,14 @@ class QPushButton;
 class QModelIndex;
 class QSignalMapper;
 class QTreeView;
+class QUrl;
 
 /* forward declaration of local classes */
 class ImageWidget;
 class Kryptonite;
 class KryptoniteJobCoverAmazonDE;
 class KryptoniteJobCoverDiscogs;
+class DropImageWidget;
 
 class MainWidget : public QSplitter
 {
@@ -57,6 +59,8 @@ public slots:
    void entryClicked( const QModelIndex &index );
 
    void saveImage( QWidget *widget );
+
+   void saveImage( const QUrl &url );
 
    void showImage( const QByteArray &data, const QVariant &payload );
 
@@ -82,10 +86,11 @@ private:
    QLineEdit                        *mpLineEdit;
    QCheckBox                        *mpFollowPartyman;
    QPushButton                      *mpCopyBuffer;
-   ImageWidget                      *mpImage;
+   DropImageWidget                  *mpImage;
    QListWidget                      *mpInfo;
    QSignalMapper                    *mpSignalMapper;
    QMap<QWidget*,QUrl>              mDataMap;
+   QMap<QString,QByteArray>         mCacheMap;
    QByteArray                       mDebugData;
 };
 
