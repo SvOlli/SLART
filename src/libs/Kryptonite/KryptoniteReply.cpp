@@ -13,6 +13,7 @@
 
 /* Qt headers */
 #include <QNetworkReply>
+#include <QTimer>
 
 /* local library headers */
 
@@ -20,20 +21,32 @@
 
 
 
-KryptoniteReply::KryptoniteReply( QNetworkReply *reply,
+KryptoniteReply::KryptoniteReply( QNetworkAccessManager *manager,
+                                  const QNetworkRequest &request,
                                   QObject *target, const char *slot,
                                   const QVariant &payload )
-: QObject( reply )
-, mpReply( reply )
+: QObject( manager )
+, mpManager( manager )
+, mpReply( 0 )
+, mRequest( request )
 , mPayload( payload )
 {
-   connect( reply, SIGNAL(finished()),
-            this, SLOT(getData()) );
    connect( this, SIGNAL(complete(QByteArray,QVariant)),
             target, slot );
-   connect( reply, SIGNAL(error(QNetworkReply::NetworkError)),
-            reply, SLOT(deleteLater()) );
    connect( target, SIGNAL(destroyed()),
+            this, SLOT(deleteLater()) );
+   QTimer::singleShot( 1, this, SLOT(request()) );
+}
+
+
+void KryptoniteReply::request()
+{
+   mpReply = mpManager->get( mRequest );
+   connect( mpReply, SIGNAL(error(QNetworkReply::NetworkError)),
+            mpReply, SLOT(deleteLater()) );
+   connect( mpReply, SIGNAL(finished()),
+            this, SLOT(getData()) );
+   connect( mpReply, SIGNAL(destroyed()),
             this, SLOT(deleteLater()) );
 }
 

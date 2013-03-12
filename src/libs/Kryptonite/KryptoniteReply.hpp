@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QNetworkRequest>
 #include <QVariant>
 
 /* local library headers */
@@ -22,6 +23,7 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
+class QNetworkAccessManager;
 class QNetworkReply;
 
 /* forward declaration of local classes */
@@ -46,14 +48,17 @@ public:
    /*!
     \brief constructor
 
-    \param reply network reply
+    \param manager network access manager used to create network connection
+    \param request request to send
     \param target target object to send fetched data to
     \param slot target slot to send fetched data to
     \param payload payload to pass on to target
    */
-   KryptoniteReply( QNetworkReply *reply,
-                   QObject *target, const char *slot,
-                   const QVariant &payload = QVariant() );
+   KryptoniteReply( QNetworkAccessManager *manager,
+                    const QNetworkRequest &request,
+                    QObject *target, const char *slot,
+                    const QVariant &payload = QVariant() );
+
    /*!
     \brief destructor
 
@@ -61,9 +66,13 @@ public:
    */
    virtual ~KryptoniteReply();
 
-   static void async( QObject* object, const char *slot,
-                      const QByteArray &data, const QVariant &payload = QVariant() );
 public slots:
+   /*!
+    \brief internally used to send out the request in a delayed fashion
+
+   */
+   void request();
+
    /*!
     \brief internally used to get data when reply is finished
 
@@ -82,8 +91,10 @@ signals:
 private:
    Q_DISABLE_COPY( KryptoniteReply )
 
-   QNetworkReply        *mpReply; /*!< \brief reply stored to obtain data */
-   const QVariant       mPayload; /*!< \brief payload to pass on to target */
+   QNetworkAccessManager   *mpManager;
+   QNetworkReply           *mpReply; /*!< \brief reply stored to obtain data */
+   const QNetworkRequest   mRequest; /*!< \brief request stored for delayed invocation */
+   const QVariant          mPayload; /*!< \brief payload to pass on to target */
 };
 
 #endif

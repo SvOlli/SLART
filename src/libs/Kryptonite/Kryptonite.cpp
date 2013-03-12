@@ -51,7 +51,7 @@ QObject *Kryptonite::download( QObject *target, const char *slot,
 {
    QNetworkRequest request;
    request.setUrl( url );
-   return new KryptoniteReply( mpManager->get( request ), target, slot, payload );
+   return new KryptoniteReply( mpManager, request, target, slot, payload );
 }
 
 
