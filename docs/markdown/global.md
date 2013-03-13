@@ -5,23 +5,23 @@ or SLART for short is a collection of tool hacked up to cover several
 aspects listening to music and beyond, like ripping CDs etc.
 
 The project consists of several components:
-| Module Name            | Short Description                            |
-| ---------------------- | -------------------------------------------- |
-| \ref PartymanPage      | double deck audio player                     |
-| \ref InnuendoPage      | central starting and information application |
-| \ref RubberbandmanPage | tag editor                                   |
-| \ref KarmadromePage    | playlist/group management                    |
-| \ref UnderpassPage     | player for audio streams                     |
-| \ref FunkytownPage     | downloading tool                             |
-| \ref NotoriousPage     | freedb database browser                      |
-| \ref StrippedPage      | ripper for audio CDs                         |
-| \ref SorcererPage      | setup wizard                                 |
-| \ref CreepPage         | remote control tool                          |
-| \ref CommandLinePage   | command line arguments parser                |
-| \ref CommonPage        | common subroutines library                   |
-| \ref KryptonitePage    | downloading framework                        |
-| \ref MagicPage         | audio decoder/encoder interface              |
-| \ref SatellitePage     | interprocess communication                   |
+| Module Name            | Short Description                            | Named after the song by |
+| ---------------------- | -------------------------------------------- | ----------------------- |
+| \ref PartymanPage      | double deck audio player                     | [Prince](https://en.wikipedia.org/wiki/Partyman) |
+| \ref InnuendoPage      | central starting and information application | [Queen](https://en.wikipedia.org/wiki/Innuendo_%28song%29) |
+| \ref RubberbandmanPage | tag editor                                   | [Yello](https://de.wikipedia.org/wiki/Yello/Diskografie#Singles) |
+| \ref KarmadromePage    | playlist/group management                    | [Pop Will Eat Itself](https://en.wikipedia.org/wiki/Pop_Will_Eat_Itself#Singles) |
+| \ref UnderpassPage     | player for audio streams                     | [John Foxx](https://en.wikipedia.org/wiki/John_Foxx#Singles) |
+| \ref FunkytownPage     | downloading tool                             | [Lipps Inc](https://en.wikipedia.org/wiki/Funkytown) |
+| \ref NotoriousPage     | freedb database browser                      | [Duran Duran](https://en.wikipedia.org/wiki/Notorious_%28song%29) |
+| \ref StrippedPage      | ripper for audio CDs                         | [Depeche Mode](https://en.wikipedia.org/wiki/Stripped_%28song%29) |
+| \ref SorcererPage      | setup wizard                                 | [Marylin Martin (for the soundtrack of "Streets Of Fire")](https://en.wikipedia.org/wiki/Streets_of_Fire#Soundtrack) |
+| \ref CreepPage         | remote control tool                          | [Radiohead](https://en.wikipedia.org/wiki/Creep_%28Radiohead_song%29) |
+| \ref CommandLinePage   | command line arguments parser                | - |
+| \ref CommonPage        | common subroutines library                   | - |
+| \ref KryptonitePage    | downloading framework                        | [3 Doors Down](https://en.wikipedia.org/wiki/Kryptonite_%28song%29) |
+| \ref MagicPage         | audio decoder/encoder interface              | [The Cars](https://en.wikipedia.org/wiki/Magic_%28The_Cars_song%29) |
+| \ref SatellitePage     | interprocess communication                   | [Falco (Satellite To Satellite)](https://en.wikipedia.org/wiki/Wiener_Blut_%28album%29) |
 
 
 

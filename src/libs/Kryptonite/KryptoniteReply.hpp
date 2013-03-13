@@ -36,7 +36,7 @@ class QNetworkReply;
 */
 
 /*!
- \brief this class is only used internally by \ref Downloader
+ \brief this class is only used internally by \ref Kryptonite
 
  \dotfile "graphs/libs/Kryptonite/KryptoniteReply_connect.dot" "Connect Graph"
 */

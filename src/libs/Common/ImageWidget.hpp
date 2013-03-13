@@ -35,7 +35,10 @@ class QMouseEvent;
 */
 
 /*!
- \brief \todo complete documentation
+ \brief widget containing an auto-scaled image
+
+ The image can be provided either by file name, raw data in a QByteArray or a
+ QImage. It will be scaled to fit widget size automatically.
 
 */
 class ImageWidget : public QWidget
