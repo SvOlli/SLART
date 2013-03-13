@@ -52,6 +52,9 @@ SOURCES += DirWalkerCallbackProxy.cpp
 HEADERS += DnDFileInfo.hpp
 SOURCES += DnDFileInfo.cpp
 
+HEADERS += DropImageWidget.hpp
+SOURCES += DropImageWidget.cpp
+
 HEADERS += FileIconProvider.hpp
 SOURCES += FileIconProvider.cpp
 

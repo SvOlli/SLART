@@ -19,9 +19,6 @@ LIBS += -lCommon -lSatellite #-lKryptonite
 # RESOURCES = Resources/TestAppCoverArt.qrc
 SOURCES += Application.cpp
 
-HEADERS += DropImageWidget.hpp
-SOURCES += DropImageWidget.cpp
-
 HEADERS += MainWidget.hpp
 SOURCES += MainWidget.cpp
 

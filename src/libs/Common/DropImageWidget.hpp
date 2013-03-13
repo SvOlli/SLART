@@ -35,7 +35,10 @@ class QUrl;
 */
 
 /*!
- \brief \todo complete documentation
+ \brief extension to \ref ImageWidget that allows dropping something to this
+ image.
+
+ Only the first of the dropped urls will be emitted using \ref droppedUrl.
 
 */
 class DropImageWidget : public ImageWidget
