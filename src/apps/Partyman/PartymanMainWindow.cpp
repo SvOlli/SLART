@@ -33,9 +33,6 @@
 #include "TrackInfoWidget.hpp"
 
 
-PartymanMainWindow *PartymanMainWindow::cpMainWindow;
-
-
 PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 : QMainWindow( parent, flags )
 , mProhibitCloseWindow( false )
@@ -55,12 +52,6 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 , mCurrentFile()
 , mNextFile()
 {
-   if( cpMainWindow )
-   {
-      qFatal( "Need to reimplement cpMainWindow handling" );
-   }
-   cpMainWindow = this;
-
    qsrand( time((time_t*)0) );
    setUnifiedTitleAndToolBarOnMac(true);
    WidgetShot::addWidget( "Main", this );
@@ -168,7 +159,6 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 
 PartymanMainWindow::~PartymanMainWindow()
 {
-   cpMainWindow = 0;
    if( mpTreeUpdate->isRunning() )
    {
       mpTreeUpdate->cancel();
@@ -547,14 +537,22 @@ void PartymanMainWindow::savePlaylist()
 }
 
 
-void PartymanMainWindow::setIconAndTitle( const QIcon &icon, const QString &title )
+void PartymanMainWindow::setIconAndTitle( QWidget *childWidget, const QIcon &icon, const QString &title )
 {
-   if( !icon.isNull() && cpMainWindow )
+   for( QWidget *w = childWidget; w; w = w->parentWidget() )
    {
-      cpMainWindow->setWindowIcon( icon );
-   }
-   if( !title.isNull() && cpMainWindow )
-   {
-      cpMainWindow->setWindowTitle( title );
+      PartymanMainWindow *pmw = qobject_cast<PartymanMainWindow*>( w );
+      if( pmw )
+      {
+         if( !icon.isNull() && pmw )
+         {
+            pmw->setWindowIcon( icon );
+         }
+         if( !title.isNull() && pmw )
+         {
+            pmw->setWindowTitle( title );
+         }
+         return;
+      }
    }
 }

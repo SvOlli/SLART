@@ -107,10 +107,12 @@ public:
    /*!
     \brief set icon and/or title of all main windows (usually just one)
 
+    \param childWidget child widget to search PartymanMainWindow parent for
     \param icon icon to set (if not to be set, pass null QIcon())
     \param title icon to set (if not to be set, pass null QString())
    */
-   static void setIconAndTitle( const QIcon &icon, const QString &title );
+   static void setIconAndTitle( QWidget *childWidget,
+                                const QIcon &icon, const QString &title );
 
 public slots:
    /*!
@@ -270,8 +272,6 @@ private:
    QDockWidget             *mpDockTreeView; /*!< \brief dock containing database tree */
    QString                 mCurrentFile; /*!< \brief helper to store current track */
    QString                 mNextFile; /*!< \brief helper to store upcoming track */
-
-   static PartymanMainWindow  *cpMainWindow; /*!< \brief handle for setIconAndTitle() */
 };
 
 /*! @} */

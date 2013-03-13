@@ -424,8 +424,8 @@ void ControlWidget::initConnect()
 
 void ControlWidget::initDisconnect( ErrorCode errorCode )
 {
-   PartymanMainWindow::setIconAndTitle( mPartymanIcon, QApplication::applicationName() +
-                                                       ": " + tr("(disconnected)") );
+   PartymanMainWindow::setIconAndTitle( this, mPartymanIcon, QApplication::applicationName() +
+                                                             ": " + tr("(disconnected)") );
    mpTrayIcon->setToolTip( QString() );
    mpTrayIcon->setContextMenu( mpTrayIconStopMenu );
    if( mConnected )
@@ -497,8 +497,8 @@ void ControlWidget::handlePause( bool reset )
    }
    else
    {
-      PartymanMainWindow::setIconAndTitle( mPauseIcon, QApplication::applicationName() +
-                                                       ": " + tr("(paused)") );
+      PartymanMainWindow::setIconAndTitle( this, mPauseIcon, QApplication::applicationName() +
+                                                             ": " + tr("(paused)") );
       mpPlayAction->setIcon( mPauseIcon );
       mpPlayAction->setText( tr("Pause") );
       mpPauseAction->setIcon( mPlayIcon );
@@ -756,7 +756,7 @@ void ControlWidget::handleTrackPlaying( const TrackInfo &trackInfo )
       bubble.append( '\n' );
       bubble.append( trackInfo.mFileName );
    }
-   PartymanMainWindow::setIconAndTitle( mPlayIcon, title );
+   PartymanMainWindow::setIconAndTitle( this, mPlayIcon, title );
    mpTrayIcon->setToolTip( bubble );
    if( Settings::value( Settings::PartymanTrayIcon ) &&
        Settings::value( Settings::PartymanTrayIconBubble ) &&
