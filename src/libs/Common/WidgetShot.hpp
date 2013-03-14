@@ -58,14 +58,6 @@ public:
    static void shootWidget( const QString &widgetName, const QString &fileName );
 
 private:
-
-   /*!
-    \brief private construtor, class only uses static methods
-
-    \param
-   */
-   WidgetShot();
-
    Q_DISABLE_COPY( WidgetShot )
 
    static QHash< QString, QPointer<QWidget> > *cpWidgetList; /*!< \brief \todo complete documentation */

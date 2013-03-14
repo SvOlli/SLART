@@ -143,5 +143,6 @@ constexpr char operator"" _b8()
    return binary_helper<char, Ts...>();
 }
 
-#endif
+/*! @} */
 
+#endif

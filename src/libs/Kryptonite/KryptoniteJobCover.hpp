@@ -118,6 +118,7 @@ signals:
    void message( const QString &message, const QByteArray &data = QByteArray() );
 
 private:
+   Q_DISABLE_COPY( KryptoniteJobCover )
 };
 
 /*! @} */

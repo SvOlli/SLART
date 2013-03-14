@@ -101,4 +101,6 @@ private:
    Q_DISABLE_COPY( KryptoniteJobCoverDiscogs )
 };
 
+/*! @} */
+
 #endif

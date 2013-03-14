@@ -37,6 +37,7 @@ class DatabaseWorker;
 /*!
  \brief generating text console output for non gui operation
 
+ \dotfile "graphs/apps/Rubberbandman/RubberbandmanCommandLine_connect.dot" "Connect Graph"
 */
 class RubberbandmanCommandLine : public QObject
 {

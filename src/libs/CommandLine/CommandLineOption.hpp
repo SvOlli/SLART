@@ -79,4 +79,6 @@ private:
    Q_DISABLE_COPY( CommandLineOption )
 };
 
+/*! @} */
+
 #endif

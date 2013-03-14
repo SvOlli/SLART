@@ -91,10 +91,12 @@ signals:
 private:
    Q_DISABLE_COPY( KryptoniteReply )
 
-   QNetworkAccessManager   *mpManager;
+   QNetworkAccessManager   *mpManager; /*!< \brief network access manager to use */
    QNetworkReply           *mpReply; /*!< \brief reply stored to obtain data */
    const QNetworkRequest   mRequest; /*!< \brief request stored for delayed invocation */
    const QVariant          mPayload; /*!< \brief payload to pass on to target */
 };
+
+/*! @} */
 
 #endif

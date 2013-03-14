@@ -101,4 +101,6 @@ private:
    int            mPercent;
 };
 
+/*! @} */
+
 #endif

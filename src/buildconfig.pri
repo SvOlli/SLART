@@ -68,6 +68,7 @@ contains( QMAKE_CXX, g++ ) {
   #QMAKE_CXXFLAGS_DEBUG += -ffunction-sections -fdata-sections
   !macx {
     QMAKE_LFLAGS_RELEASE += -Wl,--gc-sections -rdynamic
+    QMAKE_LFLAGS_DEBUG += -rdynamic
     #QMAKE_LFLAGS_DEBUG += -Wl,--gc-sections -rdynamic
   }
 }

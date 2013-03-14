@@ -96,4 +96,6 @@ private:
    Q_DISABLE_COPY( MagicEncoderConfig )
 };
 
+/*! @} */
+
 #endif

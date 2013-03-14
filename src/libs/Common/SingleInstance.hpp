@@ -49,6 +49,7 @@ public:
     \brief get (or create) the single instance of an object by name
 
     \param typeName name of type to get
+    \param useParent use \ref cpSingleInstance as parent (false: 0)
     \return T* pointer to object
    */
    template<typename T>
