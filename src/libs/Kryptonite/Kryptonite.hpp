@@ -77,6 +77,12 @@ public:
    */
    QNetworkAccessManager *networkAccessManager();
 
+   /*!
+    \brief remove all pending instances of \ref KryptoniteReply
+
+   */
+   void clear();
+
 public slots:
 
    /*!
@@ -110,8 +116,25 @@ public slots:
    QObject *download( QIODevice *file, bool autoDelete, const QUrl &url );
 
 signals:
+   /*!
+    \brief notify of a started download to harddisk
+
+    \param id
+    \param url
+   */
    void downloadStarted( QObject *id, const QUrl &url );
+   /*!
+    \brief notify of progress on a download
+
+    \param id
+    \param percent
+   */
    void downloadProgress( QObject *id, int percent );
+   /*!
+    \brief notify that download has finished
+
+    \param id
+   */
    void downloadFinished( QObject *id );
 
 private:
@@ -120,5 +143,7 @@ private:
    QNetworkAccessManager                  *mpManager; /*!< \brief \todo TODO */
    QNetworkCookieJar                      *mpCookieJar; /*!< \brief \todo TODO */
 };
+
+/*! @} */
 
 #endif

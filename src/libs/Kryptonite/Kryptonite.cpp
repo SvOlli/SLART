@@ -46,6 +46,16 @@ QNetworkAccessManager *Kryptonite::networkAccessManager()
 }
 
 
+void Kryptonite::clear()
+{
+   QList<KryptoniteReply*> pendingReplies( findChildren<KryptoniteReply*>() );
+   foreach( KryptoniteReply *k, pendingReplies )
+   {
+      k->deleteLater();
+   }
+}
+
+
 QObject *Kryptonite::download( QObject *target, const char *slot,
                                const QUrl &url, const QVariant &payload )
 {
