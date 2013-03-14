@@ -20,7 +20,6 @@
 /* local library headers */
 
 /* local headers */
-#include "DnDFileInfo.hpp"
 
 /* forward declaration of Qt classes */
 class QDirModel;
@@ -66,6 +65,14 @@ class PathEnterWidget : public QWidget
    Q_PROPERTY( bool dirOnly
                READ dirOnly
                WRITE setDirOnly )
+
+   /*!
+    * \brief when not in directory-only mode:
+    *
+    */
+   Q_PROPERTY( QStringList nameFilters
+               READ nameFilters
+               WRITE setNameFilters )
 
 public:
    /*!
@@ -138,6 +145,21 @@ public:
    */
    void setBrowseMessage( const QString &text );
 
+   /*!
+    \brief set the name filters for what files to accept when not in
+    directory-only mode
+
+    \param filters filters to set
+   */
+   void setNameFilters( const QStringList &filters );
+
+   /*!
+    \brief get the name filters
+
+    \return QStringList filters
+   */
+   QStringList nameFilters();
+
 public slots:
    /*!
     \brief passed on to QLineEdit
@@ -151,6 +173,12 @@ public slots:
 
    */
    void browse();
+
+   /*!
+    \brief trigger the signal \ref newFileName
+
+   */
+   void sendFileName();
 
 signals:
    /*!
@@ -172,6 +200,13 @@ signals:
 
    */
    void returnPressed();
+
+   /*!
+    \brief signalize that a new file name has been set
+
+    \param fileName the new fileName
+   */
+   void newFileName( const QString &fileName );
 
 protected:
    /*!

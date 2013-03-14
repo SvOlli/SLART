@@ -20,6 +20,7 @@
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QTimer>
 #include <QUrl>
 
 /* local library headers */
@@ -51,6 +52,7 @@ PathEnterWidget::PathEnterWidget( const QString &content, QWidget *parent )
 
 void PathEnterWidget::setup()
 {
+   mpLineEdit->setAcceptDrops( false );
    connect( mpLineEdit, SIGNAL(textChanged(QString)),
             this, SIGNAL(textChanged(QString)) );
    connect( mpLineEdit, SIGNAL(textEdited(QString)),
@@ -62,6 +64,8 @@ void PathEnterWidget::setup()
    button->setMaximumWidth( button->height() );
    connect( button, SIGNAL(clicked()),
             this, SLOT(browse()) );
+   connect( mpLineEdit, SIGNAL(returnPressed()),
+            this, SLOT(sendFileName()) );
 
    QCompleter *completer = new QCompleter( this );
    completer->setModel( mpDirModel );
@@ -134,6 +138,18 @@ void PathEnterWidget::setBrowseMessage( const QString &text )
 }
 
 
+void PathEnterWidget::setNameFilters( const QStringList &filters )
+{
+   mpDirModel->setNameFilters( filters );
+}
+
+
+QStringList PathEnterWidget::nameFilters()
+{
+   return mpDirModel->nameFilters();
+}
+
+
 void PathEnterWidget::setText( const QString &value )
 {
    mpLineEdit->setText( value );
@@ -146,14 +162,29 @@ void PathEnterWidget::browse()
 
    fileDialog.setFilters( mpDirModel->nameFilters() );
    fileDialog.setFileMode( mDirOnly ? QFileDialog::DirectoryOnly : QFileDialog::ExistingFile );
-   fileDialog.setDirectory( mpLineEdit->text() );
+   QFileInfo qfi( mpLineEdit->text() );
+   if( qfi.isDir() )
+   {
+      fileDialog.setDirectory( mpLineEdit->text() );
+   }
+   else
+   {
+      fileDialog.setDirectory( qfi.absolutePath() );
+   }
    fileDialog.setReadOnly( true );
 
    if( fileDialog.exec() )
    {
       QString result( fileDialog.selectedFiles().at(0) );
       mpLineEdit->setText( result );
+      sendFileName();
    }
+}
+
+
+void PathEnterWidget::sendFileName()
+{
+   emit newFileName( mpLineEdit->text() );
 }
 
 
@@ -167,12 +198,22 @@ void PathEnterWidget::dragEnterEvent( QDragEnterEvent *event )
       if( url.scheme() == "file" )
       {
          QFileInfo qfi( url.toLocalFile() );
-         if( mDirOnly && !qfi.isDir() )
+         if( mDirOnly )
          {
-            return;
+            if( qfi.isDir() )
+            {
+               event->acceptProposedAction();
+            }
+         }
+         else
+         {
+            QModelIndex qmi( mpDirModel->index( qfi.absoluteFilePath() ) );
+            if( qmi.isValid() )
+            {
+               event->acceptProposedAction();
+            }
          }
       }
-      event->acceptProposedAction();
    }
 }
 
@@ -190,8 +231,9 @@ void PathEnterWidget::dropEvent( QDropEvent *event )
          if( url.scheme() == "file" )
          {
             mpLineEdit->setText( url.toLocalFile() );
+            event->acceptProposedAction();
+            QTimer::singleShot( 0, this, SLOT(sendFileName()) );
          }
-         event->acceptProposedAction();
       }
    }
 }
