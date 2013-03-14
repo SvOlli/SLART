@@ -55,8 +55,8 @@ int main(int argc, char *argv[])
 #endif
    QApplication app( argc, argv, useGUI );
 
-   Translate translate;
-   translate.install( &app );
+   Translate *translate = new Translate( &app );
+   translate->install();
 
    QStringList args( QApplication::arguments() );
    GenericSatelliteHandler::createSatellite();

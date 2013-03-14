@@ -39,8 +39,8 @@ int main(int argc, char *argv[])
       QApplication app( argc, argv );
       Settings::setApplicationStyleSheet( &app );
 
-      Translate translate;
-      translate.install( &app );
+      Translate *translate = new Translate( &app );
+      translate->install();
 
       SorcererLoader::detect();
 

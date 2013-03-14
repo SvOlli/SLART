@@ -35,8 +35,8 @@ int main(int argc, char *argv[])
    QApplication app( argc, argv );
    Settings::setApplicationStyleSheet( &app );
 
-   Translate translate;
-   translate.install( &app );
+   Translate *translate = new Translate( &app );
+   translate->install();
 
    MainWindow window;
    NotoriousMainWidget *mainWidget = new NotoriousMainWidget( &window );

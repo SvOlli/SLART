@@ -36,10 +36,11 @@ int main(int argc, char *argv[])
 
    QApplication app( argc, argv );
 
-   Translate translate;
-   translate.install( &app );
-   translate.load( &app, "Innuendo" );
-   translate.load( &app, "Rubberbandman" );
+   Translate *translate = new Translate( &app );
+   translate->install();
+   translate->load( "Innuendo" );
+   translate->load( "Rubberbandman" );
+
    Settings::setApplicationStyleSheet( &app );
    GenericSatelliteHandler::createSatellite();
    DatabaseInterface::create();
