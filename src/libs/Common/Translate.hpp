@@ -8,17 +8,23 @@
 #ifndef TRANSLATE_HPP
 #define TRANSLATE_HPP TRANSLATE_HPP
 
+/* base class */
+#include <QObject>
+
 /* system headers */
 
 /* Qt headers */
+#include <QCoreApplication>
 #include <QList>
+#include <QLocale>
 
 /* local library headers */
 
 /* local headers */
 
 /* forward declaration of Qt classes */
-class QCoreApplication;
+class QAction;
+class QActionGroup;
 class QString;
 class QTranslator;
 
@@ -35,26 +41,55 @@ class QTranslator;
  \brief wrapper for handling multiple translation sources
 
 */
-class Translate
+class Translate : public QObject
 {
+   Q_OBJECT
+
 public:
-   Translate();
+   /*!
+    \brief constructor
+
+   */
+   Translate(QObject *parent);
+   /*!
+    \brief destructor
+
+   */
    virtual ~Translate();
 
    /*!
     \brief install the default translators
 
-    \param app application to add translators to ( 0 = qApp )
+    \param lang language to switch to
    */
-   void install( QCoreApplication *app = 0 );
+   void install( const QString &lang = QLocale::system().name() );
 
    /*!
     \brief install an additional translator
 
-    \param app application to add translator
     \param catalog base name of .ts file to install
+    \param lang language to switch to
    */
-   void load( QCoreApplication *app, const QString &catalog );
+   void load( const QString &catalog,
+              const QString &lang = QLocale::system().name() );
+
+   /*!
+    \brief generate a group of available languages
+
+    To change translation on the fly, overload changeEvent( QEvent* event ),
+    and check for event->type() == QEvent::LanguageChange to update all tr().
+
+    \return QActionGroup
+   */
+   static QActionGroup *langGroup();
+
+public slots:
+   /*!
+    \brief slot for actiongroup created by \ref langGroup
+
+    \param action
+   */
+   void languageChanged( QAction *action );
 
 private:
    Q_DISABLE_COPY( Translate )
@@ -63,9 +98,7 @@ private:
     \brief get the location of own translation files
 
    */
-   static QString location( QCoreApplication *app );
-
-   QList<QTranslator*>  mTranslators;
+   static QString location();
 };
 
 /*! @} */

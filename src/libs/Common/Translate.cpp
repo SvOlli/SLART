@@ -12,10 +12,10 @@
 /* system headers */
 
 /* Qt headers */
+#include <QActionGroup>
 #include <QCoreApplication>
 #include <QDir>
 #include <QLibraryInfo>
-#include <QLocale>
 #include <QTranslator>
 
 /* local library headers */
@@ -25,40 +25,37 @@
 /* class variables */
 
 
-Translate::Translate()
-: mTranslators()
+Translate::Translate( QObject *parent )
+: QObject( parent )
 {
 }
 
 
 Translate::~Translate()
 {
-   foreach( QTranslator *translator, mTranslators )
-   {
-      delete translator;
-   }
 }
 
 
-void Translate::install( QCoreApplication *app )
+void Translate::install( const QString &lang )
 {
-   if( !app )
+   QList<QTranslator*> translators( findChildren<QTranslator*>() );
+   foreach( QTranslator *t, translators )
    {
-      app = qApp;
+      delete t;
    }
 
-   load( app, "qt" );
-   load( app, "Common" );
-   load( app, app->applicationName() );
+   load( "qt", lang );
+   load( "Common", lang );
+   load( QCoreApplication::instance()->applicationName(), lang );
 }
 
 
-void Translate::load( QCoreApplication *app, const QString &catalog )
+void Translate::load( const QString &catalog, const QString &lang )
 {
-   QTranslator *translator = new QTranslator();
+   QTranslator *translator = new QTranslator( this );
 
-   QString filename = QString( "%1_%2" ).arg( catalog, QLocale::system().name() );
-   if( !translator->load( filename, location( app ) ) )
+   QString filename = QString( "%1_%2" ).arg( catalog, lang );
+   if( !translator->load( filename, location() ) )
    {
       if( !translator->load( filename, QLibraryInfo::location( QLibraryInfo::TranslationsPath ) ) )
       {
@@ -68,14 +65,14 @@ void Translate::load( QCoreApplication *app, const QString &catalog )
    }
    if( translator )
    {
-      app->installTranslator( translator );
+      QCoreApplication::instance()->installTranslator( translator );
    }
 }
 
 
-QString Translate::location( QCoreApplication *app )
+QString Translate::location()
 {
-   QDir dir( app->applicationDirPath() );
+   QDir dir( QCoreApplication::instance()->applicationDirPath() );
    /* try to change to translations directory */
 #if defined Q_OS_MAC
    dir.cd( "../Resources/translations" );
@@ -84,4 +81,63 @@ QString Translate::location( QCoreApplication *app )
 #endif
    /* if it failed, path of application is returned */
    return dir.absolutePath();
+}
+
+
+QActionGroup *Translate::langGroup()
+{
+   // search for the only instance of Translate
+   QList<Translate*> translates( QCoreApplication::instance()->findChildren<Translate*>() );
+   if( translates.size() != 1 )
+   {
+      qWarning( "found %d Translate instances, expected 1", translates.size() );
+      return 0;
+   }
+   Translate *translate = translates.takeFirst();
+
+   QActionGroup* group = new QActionGroup( translate );
+
+   group->setExclusive( true );
+
+   connect( group, SIGNAL(triggered(QAction*)),
+            translate, SLOT(languageChanged(QAction*)) );
+
+   QString defaultLocale = QLocale::system().name();
+   defaultLocale.truncate( defaultLocale.lastIndexOf('_') );
+
+   QDir dir( location() );
+   QString mask("%1_*.qm");
+   mask = mask.arg( QCoreApplication::instance()->applicationName() );
+   QStringList fileNames( dir.entryList( QStringList( mask ) ) );
+
+   foreach( const QString &fileName, fileNames )
+   {
+      QString locale( fileName );
+      QRegExp re( ".*_([a-z]*).qm" );
+      locale.replace( re, "\\1" );
+
+      QString lang( QLocale::languageToString( QLocale( locale ).language() ) );
+      //QIcon icon( QString("%1/%2.png").arg( location(), locale ) );
+      //QAction *action = new QAction( icon, lang, langGroup );
+      QAction *action = new QAction( lang, group );
+      action->setCheckable( true );
+      action->setData( locale );
+      group->addAction( action );
+
+      if( locale == defaultLocale )
+      {
+         action->setChecked( true );
+      }
+   }
+
+   return group;
+}
+
+
+void Translate::languageChanged( QAction* action )
+{
+   if( action )
+   {
+      install( action->data().toString() );
+   }
 }
