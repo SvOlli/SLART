@@ -315,23 +315,26 @@ void RecurseWorker::updateTrackInfo( const TrackInfo &trackInfo )
       if( qf.copy( tmppath ) )
       {
          TagLib::FileRef f( tmppath.toLocal8Bit().data() );
-         TagLib::Tag *tag = f.tag();
-         if( tag )
+         if( !f.isNull() )
          {
-            tag->setArtist( TagLib::String( ti.mArtist.toUtf8().data(), TagLib::String::UTF8 ) );
-            tag->setTitle( TagLib::String( ti.mTitle.toUtf8().data(), TagLib::String::UTF8 ) );
-            tag->setAlbum( TagLib::String( ti.mAlbum.toUtf8().data(), TagLib::String::UTF8 ) );
-            tag->setTrack( ti.mTrackNr );
-            tag->setYear( ti.mYear );
-            tag->setGenre( TagLib::String( ti.mGenre.toUtf8().data(), TagLib::String::UTF8 ) );
+            TagLib::Tag *tag = f.tag();
+            if( tag )
+            {
+               tag->setArtist( TagLib::String( ti.mArtist.toUtf8().data(), TagLib::String::UTF8 ) );
+               tag->setTitle( TagLib::String( ti.mTitle.toUtf8().data(), TagLib::String::UTF8 ) );
+               tag->setAlbum( TagLib::String( ti.mAlbum.toUtf8().data(), TagLib::String::UTF8 ) );
+               tag->setTrack( ti.mTrackNr );
+               tag->setYear( ti.mYear );
+               tag->setGenre( TagLib::String( ti.mGenre.toUtf8().data(), TagLib::String::UTF8 ) );
+            }
+            else
+            {
+               emit error( tr("Could not read tags"), tmppath );
+            }
+            f.save();
+            QFile( oldpath ).remove();
+            QFile::rename( tmppath, newpath );
          }
-         else
-         {
-            emit error( tr("Could not read tags"), tmppath );
-         }
-         f.save();
-         QFile( oldpath ).remove();
-         QFile::rename( tmppath, newpath );
       }
    }
    else
