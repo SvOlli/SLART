@@ -58,7 +58,6 @@ MainWidget::MainWidget( QWidget *parent )
 , mCacheMap()
 , mDebugData()
 {
-TRACESTART(MainWidget::MainWidget)
    mpKryptonite->setObjectName( "Downloader");
    mpAmazonDE->setObjectName( "Amazon" );
    mpDiscogs->setObjectName( "Discogs" );
@@ -212,7 +211,6 @@ void MainWidget::debugBufferToClipboard()
 
 void MainWidget::entryClicked( const QModelIndex &index )
 {
-TRACESTART(MainWidget::entryClicked)
    QString dirName( mpFileSysModel->filePath(index) );
    QRegExp re( ".*/([^/]*)/([^/]*)" );
    QDir dir( dirName );
@@ -239,7 +237,6 @@ TRACESTART(MainWidget::entryClicked)
 
 void MainWidget::requestFromLine()
 {
-TRACESTART(MainWidget::requestFromLine)
    foreach( QWidget *w, mDataMap.keys() )
    {
       delete w;
@@ -254,7 +251,6 @@ TRACESTART(MainWidget::requestFromLine)
 
 void MainWidget::addThumbnail( const QByteArray &data, const QVariant &payload )
 {
-TRACESTART(MainWidget::addThumbnail)
    QUrl url( payload.toUrl() );
    QImage image( QImage::fromData( data ) );
    ImageWidget *w = new ImageWidget( this );
