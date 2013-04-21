@@ -103,6 +103,9 @@ SOURCES += PasswordChecker.cpp
 HEADERS += PathEnterWidget.hpp
 SOURCES += PathEnterWidget.cpp
 
+HEADERS += QVariantReply.hpp
+SOURCES += QVariantReply.cpp
+
 HEADERS += ScgiRequest.hpp
 SOURCES += ScgiRequest.cpp
 
