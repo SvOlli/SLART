@@ -24,6 +24,7 @@
 #include <QProcess>
 #include <QPushButton>
 #include <QTimer>
+#include <QToolButton>
 
 /* local library headers */
 #include <CrashCleanup.hpp>
@@ -47,8 +48,8 @@ UnderpassMainWidget::UnderpassMainWidget( QWidget *parent, Qt::WindowFlags flags
 , mpConfig( new UnderpassConfigDialog( mpStorage, this ) )
 , mpProcess( new QProcess( this ) )
 , mpSettingsButton( new QPushButton( tr("Settings"), this ) )
-, mpAddStationButton( new QPushButton( QCommonStyle().standardIcon(QStyle::SP_FileIcon), tr("Add"), this ) )
-, mpStartButton( new QPushButton( QCommonStyle().standardIcon(QStyle::SP_MediaPlay), tr("Start"), this ) )
+, mpAddStationButton( new QToolButton( this ) )
+, mpStartButton( new QToolButton( this ) )
 , mpStation( new QComboBox( this ) )
 , mpUrl( new QLineEdit( this ) )
 , mpPlayer( new QComboBox( this ) )
@@ -59,7 +60,15 @@ UnderpassMainWidget::UnderpassMainWidget( QWidget *parent, Qt::WindowFlags flags
 {
    mpMessageBuffer->setFont( QFont( "Courier") );
    mpStartButton->setCheckable( true );
+   mpStartButton->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
+   mpStartButton->setIcon( QCommonStyle().standardIcon(QStyle::SP_MediaPlay) );
+   mpStartButton->setText( tr("Start") );
+   mpStartButton->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
+   mpAddStationButton->setIcon( QCommonStyle().standardIcon(QStyle::SP_FileIcon) );
+   mpAddStationButton->setText( tr("Add") );
    mpAddStationButton->setToolTip( tr("click to add a new station\nclear url to remove current station") );
+   mpAddStationButton->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
+   mpAddStationButton->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
    QStringList stationList( mpStorage->stationList() );
    QStringList playerList( mpStorage->playerList() );
    if( stationList.isEmpty() )

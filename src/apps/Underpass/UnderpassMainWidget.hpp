@@ -25,9 +25,10 @@
 /* forward declaration of Qt classes */
 class QComboBox;
 class QIcon;
-class QPushButton;
 class QLineEdit;
 class QListWidget;
+class QPushButton;
+class QToolButton;
 
 /* forward declaration of local classes */
 class UnderpassConfigDialog;
@@ -117,8 +118,8 @@ private:
    UnderpassConfigDialog   *mpConfig;
    QProcess                *mpProcess;
    QPushButton             *mpSettingsButton;
-   QPushButton             *mpAddStationButton;
-   QPushButton             *mpStartButton;
+   QToolButton             *mpAddStationButton;
+   QToolButton             *mpStartButton;
    QComboBox               *mpStation;
    QLineEdit               *mpUrl;
    QComboBox               *mpPlayer;
