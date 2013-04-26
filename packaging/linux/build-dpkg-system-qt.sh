@@ -13,7 +13,7 @@ RELEASE="${TOPSRC}/build/release"
 DEBIAN="${RELEASE}/DEBIAN"
 EXTRA="${TOPSRC}/extra"
 
-VERSION="$(grep SLART_VERSION ../../src/libs/Common/Version.hpp | cut -f2 -d\")"
+VERSION="$(grep '#define.*SLART_VERSION' ../../src/libs/Common/Version.hpp | cut -f2 -d\")"
 REVISION="$(git rev-list HEAD|wc -l).$(git show --abbrev-commit HEAD|grep '^commit'|sed -e 's/commit //')"
 
 echo "Building SLART ${VERSION}-${REVISION}"
