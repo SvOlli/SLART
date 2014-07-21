@@ -38,6 +38,7 @@ SatelliteWidget::SatelliteWidget( QWidget *parent )
 , mpNowPlaying( new QPushButton( tr("NP: To Clipboard"), this ) )
 , mpShowInFilesystem( new QPushButton( tr("Show In Filesystem"), this ) )
 , mpGetRandom( new QPushButton( tr("Get Random Track"), this ) )
+, mpEnqueue( new QPushButton( tr("Enqueue in Partyman"), this ) )
 {
    QBoxLayout *mainLayout;
    QBoxLayout *buttonLayout;
@@ -56,6 +57,7 @@ SatelliteWidget::SatelliteWidget( QWidget *parent )
    buttonLayout->addWidget( mpNowPlaying );
    buttonLayout->addWidget( mpShowInFilesystem );
    buttonLayout->addWidget( mpGetRandom );
+   buttonLayout->addWidget( mpEnqueue );
    mainLayout->addStretch();
    mainLayout->addLayout( buttonLayout );
    mainLayout->addStretch();
@@ -68,6 +70,8 @@ SatelliteWidget::SatelliteWidget( QWidget *parent )
             this, SLOT(handleShowInFilesystem()) );
    connect( mpGetRandom, SIGNAL(clicked()),
             this, SLOT(handleGetRandom()) );
+   connect( mpEnqueue, SIGNAL(clicked()),
+            this, SLOT(handleEnqueue()) );
 
    if( mpSatellite )
    {
@@ -138,4 +142,13 @@ void SatelliteWidget::handleShowInFilesystem()
 void SatelliteWidget::handleGetRandom()
 {
    mpDatabase->getRandomTrack( mpInfoEdit, SLOT(loadTrackInfo(TrackInfo)), false, false, QStringList() );
+}
+
+
+void SatelliteWidget::handleEnqueue()
+{
+   if( !(mpInfoEdit->fileName().isEmpty()) )
+   {
+      emit mpSatellite->send( QString("P0Q\n%1").arg(mpInfoEdit->fileName()).toUtf8() );
+   }
 }

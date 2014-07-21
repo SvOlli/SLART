@@ -84,6 +84,11 @@ public slots:
 
    */
    void handleGetRandom();
+   /*!
+    \brief handle the "Enqueue In Partyman" button
+
+   */
+   void handleEnqueue();
 
 signals:
    /*!
@@ -107,6 +112,7 @@ private:
    QPushButton             *mpNowPlaying;
    QPushButton             *mpShowInFilesystem;
    QPushButton             *mpGetRandom;
+   QPushButton             *mpEnqueue;
    TrackInfo               mTrackInfo;
 };
 
