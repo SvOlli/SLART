@@ -306,16 +306,17 @@ void RecurseWorker::updateTrackInfo( const TrackInfo &trackInfo )
    {
       newpath = oldpath;
    }
-   QString tmppath( qfi.absolutePath() + "/" + newname + ".rbm." + qfi.suffix().toLower() );
    mpDatabase->updateTrackInfo( ti );
 
    if( tagsChanged )
    {
+      QString tmppath( qfi.absolutePath() + "/" + newname + ".rbm." + qfi.suffix().toLower() );
+
       QFile qf( oldpath );
-      if( qf.copy( tmppath ) )
+      TagLib::FileRef f( tmppath.toLocal8Bit().data() );
+      if( !f.isNull() )
       {
-         TagLib::FileRef f( tmppath.toLocal8Bit().data() );
-         if( !f.isNull() )
+         if( qf.copy( tmppath ) )
          {
             TagLib::Tag *tag = f.tag();
             if( tag )
