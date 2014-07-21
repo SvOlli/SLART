@@ -70,6 +70,9 @@ SOURCES += GSettingsWrapper.cpp
 HEADERS += ImageWidget.hpp
 SOURCES += ImageWidget.cpp
 
+HEADERS += LineEditDAC.hpp
+SOURCES += LineEditDAC.cpp
+
 HEADERS += LuaEditorDialog.hpp
 SOURCES += LuaEditorDialog.cpp
 
