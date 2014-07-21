@@ -20,6 +20,7 @@
 #include <Satellite.hpp>
 #include <Settings.hpp>
 #include <WidgetShot.hpp>
+#include <WindowIconChanger.hpp>
 
 /* local headers */
 #include "BrowseWidget.hpp"
@@ -40,6 +41,9 @@ RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFla
 , mActiveLED( LEDIcon::pixmap( QColor("#ff0000"), 25 ) )
 , mIdleLED( LEDIcon::pixmap( QColor("#5f0000"), 25 ) )
 {
+   mpBrowseWidget->setObjectName( "BrowseWidget" );
+   mpSatelliteWidget->setObjectName( "SatelliteWidget" );
+   mpDatabaseWidget->setObjectName( "DatabaseWidget" );
    QVBoxLayout *mainLayout = new QVBoxLayout( this );
    mainLayout->setContentsMargins( 3, 3, 3, 3 );
    parent->setWindowIcon( QIcon( ":/Rubberbandman/Icon.png" ) );
@@ -66,6 +70,8 @@ RubberbandmanMainWidget::RubberbandmanMainWidget( QWidget *parent, Qt::WindowFla
    connect( mpSatelliteWidget, SIGNAL(partymanConfigUpdate()),
             mpDatabaseWidget, SLOT(readPartymanConfig()) );
    DatabaseInterface::get()->connectActivityIndicator( this, SLOT(databaseActive(bool)) );
+   WindowIconChanger *wic = new WindowIconChanger( parent, QIcon(":/Common/DatabaseUp.png"), this );
+   DatabaseInterface::get()->connectActivityIndicator( wic, SLOT(changed(bool)) );
 
    setLayout( mainLayout );
 
