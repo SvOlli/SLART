@@ -69,7 +69,7 @@ public slots:
     \brief show dialog
 
    */
-   void exec();
+   int exec();
    /*!
     \brief read settings from storage
 

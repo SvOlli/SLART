@@ -14,6 +14,7 @@
 /* Qt headers */
 #include <QCheckBox>
 #include <QGroupBox>
+#include <QNetworkAccessManager>
 #include <QProgressBar>
 #include <QTimer>
 #include <QVBoxLayout>
@@ -38,7 +39,7 @@ DownloadHandler::DownloadHandler( QWidget *parent )
 : QWidget( parent )
 , mDownloading( false )
 , mHttpGetId( 0 )
-, mpHttp( new QHttp( this ) )
+, mpNetworkAccessManager( new QNetworkAccessManager( this ) )
 , mpURL( new ScrollLine( this ) )
 , mpFileName( new ScrollLine( this ) )
 , mpEnqueue( new QCheckBox( tr("Enqueue In Partyman"), this ) )
@@ -77,11 +78,11 @@ DownloadHandler::DownloadHandler( QWidget *parent )
    layout->addWidget( mpMagicQueue );
    setLayout( layout );
 
-   connect( mpHttp, SIGNAL(requestFinished(int,bool)),
+   connect( mpNetworkAccessManager, SIGNAL(requestFinished(int,bool)),
             this, SLOT(httpRequestFinished(int,bool)) );
-   connect( mpHttp, SIGNAL(dataReadProgress(int,int)),
+   connect( mpNetworkAccessManager, SIGNAL(dataReadProgress(int,int)),
             this, SLOT(updateDataReadProgress(int,int)) );
-   connect( mpHttp, SIGNAL(responseHeaderReceived(QHttpResponseHeader)),
+   connect( mpNetworkAccessManager, SIGNAL(responseHeaderReceived(QHttpResponseHeader)),
             this, SLOT(readResponseHeader(QHttpResponseHeader)) );
    connect( mpTimer, SIGNAL(timeout()),
             this, SLOT(startDownload()) );
@@ -98,7 +99,7 @@ void DownloadHandler::handleEnqueue( bool checked )
 
 void DownloadHandler::updateDataReadProgress( int bytesRead, int totalBytes )
 {
-   if ( mAborting )
+   if( mAborting )
    {
       return;
    }
@@ -204,8 +205,8 @@ TRACESTART(DownloadHandler::startDownload)
       }
       int slash1 = url.indexOf('/');
 
-      ProxyWidget::setProxy( mpHttp );
-      mpHttp->setHost( url.left(slash1) );
+      ProxyWidget::setProxy( mpNetworkAccessManager );
+      mpNetworkAccessManager->setHost( url.left(slash1) );
 
       QString referer( mpTheMagic->referer() );
       QString userAgent( Settings::value( Settings::FunkytownUserAgent ) );
@@ -233,7 +234,7 @@ TRACESTART(DownloadHandler::startDownload)
 #if USE_TRACE
 TRACEMSG << requestHeader.toString();
 #endif
-      mHttpGetId = mpHttp->request( requestHeader, 0, mpTheMagic->ioDevice() );
+      mHttpGetId = mpNetworkAccessManager->request( requestHeader, 0, mpTheMagic->ioDevice() );
    }
    else
    {

@@ -12,10 +12,18 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QBoxLayout>
+#include <QCompleter>
+#include <QDirModel>
+#include <QFileDialog>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QString>
 #include <QSqlTableModel>
 #include <QTableView>
+#include <QThread>
+#include <QTimer>
 
 /* local library headers */
 #include <Database.hpp>
@@ -179,7 +187,7 @@ void DatabaseWidget::handleImport( bool checked )
 
    fileDialog.setFileMode( QFileDialog::ExistingFile );
    fileDialog.setDirectory( mpBaseDir->text() );
-   fileDialog.setFilter("Playlists (*.m3u)");
+   fileDialog.setNameFilter("Playlists (*.m3u)");
    fileDialog.setReadOnly( true );
    if( fileDialog.exec() )
    {

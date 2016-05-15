@@ -59,18 +59,30 @@ void Kryptonite::clear()
 QObject *Kryptonite::download( QObject *target, const char *slot,
                                const QUrl &url, const QVariant &payload )
 {
-   QNetworkRequest request;
-   request.setUrl( url );
+   QNetworkRequest request( url );
+   return new KryptoniteReply( mpManager, request, target, slot, payload );
+}
+
+
+QObject *Kryptonite::download( QObject *target, const char *slot,
+                               const QNetworkRequest &request, const QVariant &payload )
+{
    return new KryptoniteReply( mpManager, request, target, slot, payload );
 }
 
 
 QObject *Kryptonite::download( const QString &fileName, const QUrl &url )
 {
+   return download( fileName, QNetworkRequest( url ) );
+}
+
+
+QObject *Kryptonite::download( const QString &fileName, const QNetworkRequest &request )
+{
    QFile *f = new QFile( fileName );
    if( f->open( QIODevice::WriteOnly ) )
    {
-      return download( f, true, url );
+      return download( f, true, request );
    }
    else
    {
@@ -82,11 +94,16 @@ QObject *Kryptonite::download( const QString &fileName, const QUrl &url )
 
 QObject *Kryptonite::download( QIODevice *file, bool autoDelete, const QUrl &url )
 {
-   QNetworkRequest request;
-   request.setUrl( url );
+   return download( file, autoDelete, QNetworkRequest( url ) );
+}
+
+
+QObject *Kryptonite::download( QIODevice *file, bool autoDelete, const QNetworkRequest &request )
+{
    IODeviceStreamer *streamer = new IODeviceStreamer( mpManager->get( request ), file, autoDelete );
    connect( streamer, SIGNAL(destroyed(QObject*)),
             this, SIGNAL(downloadFinished(QObject*)) );
-   emit downloadStarted( qobject_cast<QObject*>( file ), url );
+   emit downloadStarted( qobject_cast<QObject*>( file ), request );
+   emit downloadStarted( qobject_cast<QObject*>( file ), request.url() );
    return streamer;
 }

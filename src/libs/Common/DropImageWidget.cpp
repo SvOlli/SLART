@@ -14,6 +14,7 @@
 /* Qt headers */
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QMimeData>
 #include <QUrl>
 
 /* local library headers */

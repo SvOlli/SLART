@@ -7,7 +7,7 @@
 TARGET = Creep
 TEMPLATE = app
 QT -= gui
-QT += network
+QT += widgets network
 
 include ( ../../buildconfig.pri )
 

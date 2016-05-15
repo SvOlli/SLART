@@ -39,6 +39,7 @@ class MagicEncoderWav : public MagicEncoder
 {
    Q_OBJECT
    Q_INTERFACES(MagicEncoderInterface)
+   Q_PLUGIN_METADATA(IID "org.svolli.slart.magic.encoder.wav")
 
    friend class MagicEncoderWavConfig;
 

@@ -82,7 +82,7 @@ public slots:
     \brief execute the dialog
 
    */
-   void exec();
+   int exec();
 
    /*!
     \brief set the directory where the ripped tracks go to

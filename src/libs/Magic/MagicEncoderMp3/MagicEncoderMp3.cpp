@@ -16,7 +16,12 @@ extern "C" {
 }
 
 /* Qt headers */
-#include <QtGui>
+#include <QAction>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QSpinBox>
 
 /* local library headers */
 #include <ScrollLine.hpp>
@@ -176,6 +181,3 @@ MagicEncoderConfig *MagicEncoderMp3::configWidget( QWidget *parent )
    }
    return mpConfigWidget;
 }
-
-
-Q_EXPORT_PLUGIN2(MagicEncoder, MagicEncoderMp3)

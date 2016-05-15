@@ -21,7 +21,6 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
-class QHttp;
 class QLabel;
 class QLineEdit;
 class QNetworkAccessManager;
@@ -60,13 +59,6 @@ public:
 
    */
    virtual ~ProxyWidget();
-
-   /*!
-    \brief set proxy in QHttp class
-
-    \param http
-   */
-   static void setProxy( QHttp *http );
 
    /*!
     \brief set proxy in QNetworkAccessManager class

@@ -108,7 +108,7 @@ private:
    int                          mHttpGetId;
    bool                         mAborting;
 
-   QHttp                        *mpHttp;
+   QNetworkAccessManager        *mpNetworkAccessManager;
    ScrollLine                   *mpURL;
    ScrollLine                   *mpFileName;
    QCheckBox                    *mpEnqueue;

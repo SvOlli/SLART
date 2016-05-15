@@ -6,7 +6,7 @@
 
 TARGET = TestAppWebServer
 TEMPLATE = app
-QT += sql network
+QT += widgets sql network
 
 include( ../../buildconfig.pri )
 
@@ -15,7 +15,7 @@ LIBS += -lCommon
 INCLUDEPATH += $${TOPSRC}/libs/Satellite
 LIBS += -lSatellite
 contains( TARGETARCH, debug ) {
-QT += sql network
+QT += widgets sql network
 }
 
 # Input

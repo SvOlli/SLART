@@ -18,7 +18,7 @@ TRANSLATIONS += ../../../resources/translations/MagicEncoderWav_de.ts
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/TagLib $${TOPSRC}/libs/Magic/MagicEncoder
 LIBS += -lMagicEncoder -lCommon -lSatellite
 contains( TARGETARCH, debug ) {
-QT += sql network
+QT += widgets sql network
 }
 
 HEADERS += MagicEncoderWav.hpp

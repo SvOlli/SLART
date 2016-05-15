@@ -7,7 +7,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += Creep
-SUBDIRS += Funkytown
+#SUBDIRS += Funkytown
 SUBDIRS += Innuendo
 SUBDIRS += Karmadrome
 SUBDIRS += Notorious

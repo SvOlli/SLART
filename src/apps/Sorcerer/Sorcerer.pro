@@ -6,7 +6,7 @@
 
 TARGET = Sorcerer
 TEMPLATE = app
-QT += sql network
+QT += widgets sql network
 
 include( ../../buildconfig.pri )
 
@@ -15,7 +15,7 @@ LIBS += -lCommon -lTag
 INCLUDEPATH += $${TOPSRC}/libs/Satellite
 LIBS += -lSatellite
 contains( TARGETARCH, debug ) {
-QT += sql network
+QT += widgets sql network
 }
 QMAKE_CXXFLAGS_DEBUG += -DCOREDUMP_SIZE_MB=100
 

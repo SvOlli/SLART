@@ -6,7 +6,7 @@
 
 TARGET = Innuendo
 TEMPLATE = app
-QT += network
+QT += widgets network
 
 include( ../../buildconfig.pri )
 
@@ -15,7 +15,7 @@ LIBS += -lCommon
 INCLUDEPATH += $${TOPSRC}/libs/Satellite
 LIBS += -lSatellite
 contains( TARGETARCH, debug ) {
-QT += sql
+QT += widgets sql
 }
 QMAKE_CXXFLAGS_DEBUG += -DCOREDUMP_SIZE_MB=100
 

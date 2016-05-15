@@ -13,7 +13,12 @@
 #include <iostream>
 
 /* Qt headers */
-#include <QtGui>
+#include <QBoxLayout>
+#include <QDateTime>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QLabel>
+#include <QMimeData>
 #include <QTcpSocket>
 
 /* local library headers */

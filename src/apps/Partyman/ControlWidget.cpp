@@ -13,7 +13,17 @@
 #include <csignal>
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QCommonStyle>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QGridLayout>
+#include <QMenu>
+#include <QMessageBox>
+#include <QMimeData>
+#include <QPushButton>
+#include <QToolButton>
+#include <QUrl>
 
 /* local library headers */
 #include <CrashCleanup.hpp>

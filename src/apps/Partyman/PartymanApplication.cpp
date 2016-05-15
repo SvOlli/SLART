@@ -10,7 +10,7 @@
 #include <cstdlib>
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
 
 /* local library headers */
 #include <CrashCleanup.hpp>

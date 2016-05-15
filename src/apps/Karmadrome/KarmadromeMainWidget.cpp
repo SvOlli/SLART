@@ -326,7 +326,7 @@ void KarmadromeMainWidget::handleExport( QAction *action )
    setButtonsEnabled( false );
    QFileDialog dialog( this, tr("Rubberbandman: Export %1 To:").arg(action->text()) );
    dialog.setFileMode( QFileDialog::AnyFile );
-   dialog.setFilter( tr("Playlist files (*.m3u)") );
+   dialog.setNameFilter( tr("Playlist files (*.m3u)") );
    QString rqdir( Settings::value( Settings::KarmadromeExportDirectory ) );
    if( !QFileInfo( rqdir ).isDir() )
    {
@@ -378,7 +378,7 @@ void KarmadromeMainWidget::handleImport( QAction *action )
    setButtonsEnabled( false );
    QFileDialog dialog( this, tr("Rubberbandman: Import %1 From:").arg(action->text()) );
    dialog.setFileMode( QFileDialog::ExistingFiles );
-   dialog.setFilter( tr("Playlist files (*.m3u)") );
+   dialog.setNameFilter( tr("Playlist files (*.m3u)") );
    QString rqdir( Settings::value( Settings::KarmadromeImportDirectory ) );
    if( !QFileInfo( rqdir ).isDir() )
    {

@@ -10,7 +10,7 @@
 #include <cstdlib>
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
 #include <QTimer>
 
 /* local library headers */

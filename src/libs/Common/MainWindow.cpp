@@ -10,7 +10,9 @@
 #include "PasswordChecker.hpp"
 #include "Settings.hpp"
 
-#include <QtGui>
+#include <QApplication>
+#include <QCloseEvent>
+#include <QDockWidget>
 
 #include "Trace.hpp"
 

@@ -12,7 +12,14 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QAction>
+#include <QCheckBox>
+#include <QCompleter>
+#include <QDirModel>
+#include <QFileDialog>
+#include <QLineEdit>
+#include <QPushButton>
+
 
 /* local library headers */
 #include <ScrollLine.hpp>

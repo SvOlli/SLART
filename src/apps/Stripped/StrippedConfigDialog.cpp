@@ -12,7 +12,20 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QAction>
+#include <QApplication>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QCompleter>
+#include <QDirModel>
+#include <QFileDialog>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QTabWidget>
+#include <QTimer>
 
 /* local library headers */
 #include <AboutWidget.hpp>
@@ -195,10 +208,10 @@ StrippedConfigDialog::~StrippedConfigDialog()
 }
 
 
-void StrippedConfigDialog::exec()
+int StrippedConfigDialog::exec()
 {
    readSettings();
-   QDialog::exec();
+   int retval = QDialog::exec();
 
    int encodersActive = 0;
    foreach( MagicEncoderProxy *encoder, mEncoders )
@@ -213,6 +226,8 @@ void StrippedConfigDialog::exec()
       mpEncoderTabs->setCurrentIndex( 0 );
 //      QTimer::singleShot( 100, this, SLOT(exec()) );
    }
+
+   return retval;
 }
 
 

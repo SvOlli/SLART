@@ -13,7 +13,7 @@
 #include <cstdio>
 
 /* Qt headers */
-#include <QtGui>
+#include <QAction>
 
 /* local library headers */
 #include <ScrollLine.hpp>
@@ -185,6 +185,3 @@ MagicEncoderConfig *MagicEncoderFlac::configWidget( QWidget *parent )
    }
    return mpConfigWidget;
 }
-
-
-Q_EXPORT_PLUGIN2(MagicEncoder, MagicEncoderFlac)

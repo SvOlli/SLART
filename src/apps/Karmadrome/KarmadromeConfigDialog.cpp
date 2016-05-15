@@ -96,10 +96,10 @@ KarmadromeConfigDialog::~KarmadromeConfigDialog()
 }
 
 
-void KarmadromeConfigDialog::exec()
+int KarmadromeConfigDialog::exec()
 {
    readSettings();
-   QDialog::exec();
+   return QDialog::exec();
 }
 
 

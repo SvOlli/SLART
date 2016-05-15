@@ -12,7 +12,17 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QBoxLayout>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QDoubleSpinBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSpinBox>
+#include <QSystemTrayIcon>
 
 /* local library headers */
 #include <AboutWidget.hpp>
@@ -231,14 +241,14 @@ PartymanConfigDialog::~PartymanConfigDialog()
 }
 
 
-void PartymanConfigDialog::exec()
+int PartymanConfigDialog::exec()
 {
    if( !(PasswordChecker::get()->unlock()) )
    {
-      return;
+      return QDialog::Rejected;
    }
    readSettings();
-   QDialog::exec();
+   return QDialog::exec();
 }
 
 

@@ -6,7 +6,7 @@
 
 TARGET = TestAppCodeEditor
 TEMPLATE = app
-QT += sql network
+QT += widgets sql network
 
 include( ../../buildconfig.pri )
 include( $${TOPSRC}/lua-5.1.pri )
@@ -16,7 +16,7 @@ LIBS += -lCommon
 INCLUDEPATH += $${TOPSRC}/libs/Satellite
 LIBS += -lSatellite
 contains( TARGETARCH, debug ) {
-QT += sql network
+QT += widgets sql network
 }
 
 # Input

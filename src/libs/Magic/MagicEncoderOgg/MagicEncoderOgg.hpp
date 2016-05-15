@@ -42,6 +42,7 @@ class MagicEncoderOgg : public MagicEncoder
 {
    Q_OBJECT
    Q_INTERFACES(MagicEncoderInterface)
+   Q_PLUGIN_METADATA(IID "org.svolli.slart.magic.encoder.ogg")
 
    friend class MagicEncoderOggConfig;
 

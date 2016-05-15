@@ -6,7 +6,7 @@
 
 TEMPLATE = app
 TARGET = Notorious
-QT += sql
+QT += widgets sql
 LIBS += -lbz2
 
 include( ../../buildconfig.pri )
@@ -14,7 +14,7 @@ include( ../../buildconfig.pri )
 INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
 contains( TARGETARCH, debug ) {
-QT += network
+QT += widgets network
 }
 QMAKE_CXXFLAGS_DEBUG += -DCOREDUMP_SIZE_MB=100
 

@@ -12,7 +12,11 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QBoxLayout>
+#include <QGridLayout>
+#include <QLabel>
+#include <QScrollArea>
 
 /* local library headers */
 #include <TagMap.hpp>

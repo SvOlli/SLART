@@ -31,6 +31,7 @@ KryptoniteReply::KryptoniteReply( QNetworkAccessManager *manager,
 , mRequest( request )
 , mPayload( payload )
 {
+   setObjectName( request.url().url() );
    connect( this, SIGNAL(complete(QByteArray,QVariant)),
             target, slot );
    connect( target, SIGNAL(destroyed()),

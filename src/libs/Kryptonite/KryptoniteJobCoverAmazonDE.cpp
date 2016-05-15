@@ -13,6 +13,7 @@
 
 /* Qt headers */
 #include <QBuffer>
+#include <QUrlQuery>
 
 /* local library headers */
 
@@ -39,9 +40,11 @@ void KryptoniteJobCoverAmazonDE::requestList( const QString &query )
    emit message( tr( "Searching amazon.de" ) );
    QByteArray amazon( QByteArray::fromHex( "C3854DC3855AC395C391" ) );
    QUrl url( "http://www.amazon.de/s/ref=nb_sb_noss" );
-   url.addQueryItem( "__mk_de_DE", QString::fromUtf8(amazon.constData()) );
-   url.addQueryItem( "url", "search-alias=popular" );
-   url.addQueryItem( "field-keywords", query );
+   QUrlQuery urlQuery;
+   urlQuery.addQueryItem( "__mk_de_DE", QString::fromUtf8(amazon.constData()) );
+   urlQuery.addQueryItem( "url", "search-alias=popular" );
+   urlQuery.addQueryItem( "field-keywords", query );
+   url.setQuery( urlQuery );
    emit requestDownload( this, SLOT(parseListHtml(QByteArray)), url );
 }
 
@@ -87,7 +90,7 @@ void KryptoniteJobCoverAmazonDE::parseItemHtml( const QByteArray &data, const QV
          s.replace( imgRe1, "\\1" );
          while( s.contains('%') )
          {
-            s = QUrl::fromPercentEncoding( s.toAscii() );
+            s = QUrl::fromPercentEncoding( s.toLatin1() );
          }
          QUrl imgUrl( s );
          //QUrl imgUrl( QString(s).replace( imgRe1, "\\1://\\2/\\3/\\4/\\5" ) );

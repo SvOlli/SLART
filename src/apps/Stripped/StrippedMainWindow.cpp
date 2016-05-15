@@ -12,8 +12,16 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QAction>
+#include <QApplication>
+#include <QCloseEvent>
+#include <QCommonStyle>
+#include <QDockWidget>
+#include <QLabel>
+#include <QMessageBox>
 #include <QTimer>
+#include <QToolBar>
+#include <QToolButton>
 
 /* local library headers */
 #include <GenericSatelliteHandler.hpp>

@@ -7,7 +7,7 @@
 TEMPLATE = lib
 TARGET = MagicEncoder
 CONFIG += qt staticlib
-QT += network
+QT += widgets network
 
 TOPSRC = "../../.."
 include( $${TOPSRC}/buildconfig.pri )
@@ -17,7 +17,7 @@ TRANSLATIONS += ../../../resources/translations/$${TARGET}_de.ts
 INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
 contains( TARGETARCH, debug ) {
-QT += sql
+QT += widgets sql
 }
 
 HEADERS += MagicEncoder.hpp

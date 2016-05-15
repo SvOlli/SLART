@@ -16,7 +16,6 @@
 
 /* Qt headers */
 #include <QStringList>
-#include <QHttp>
 
 /* local library headers */
 

@@ -7,7 +7,7 @@
 TARGET = Common
 TEMPLATE = lib
 CONFIG += qt staticlib
-QT += sql network
+QT += widgets sql network
 
 include( ../../buildconfig.pri )
 include( $${TOPSRC}/lua-5.1.pri )

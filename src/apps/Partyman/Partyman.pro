@@ -6,7 +6,7 @@
 
 TEMPLATE = app
 TARGET = Partyman
-QT += sql network
+QT += widgets sql network
 
 include( ../../buildconfig.pri )
 

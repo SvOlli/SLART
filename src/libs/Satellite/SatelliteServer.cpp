@@ -49,7 +49,7 @@ bool SatelliteServer::listen( const QHostAddress &host, quint16 port )
 {
 #if SATELLITESERVER_DEBUG
    emit debug( "s:trying to run server on " +
-               host.toString().toAscii() + ":" + QByteArray::number(port) );
+               host.toString().toLatin1() + ":" + QByteArray::number(port) );
    bool success = mpTcpServer->listen( host, port );
 
    if( success )
@@ -75,7 +75,7 @@ void SatelliteServer::connected()
    mClientConnections.append( socket );
 #if SATELLITESERVER_DEBUG
    emit debug( QString("s:client connected, %1 clients active")
-                  .arg( mClientConnections.count() ).toAscii() );
+                  .arg( mClientConnections.count() ).toLatin1() );
 #endif
 }
 
@@ -93,7 +93,7 @@ void SatelliteServer::disconnected( QObject *client )
    socket->deleteLater();
 #if SATELLITESERVER_DEBUG
    emit debug( QString("s:client disconnected, %1 clients active")
-                  .arg( mClientConnections.count() ).toAscii() );
+                  .arg( mClientConnections.count() ).toLatin1() );
 #endif
 }
 

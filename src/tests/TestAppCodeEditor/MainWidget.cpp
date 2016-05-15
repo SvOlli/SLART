@@ -12,7 +12,10 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QGridLayout>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QPushButton>
 
 /* local library headers */
 #include <CodeEditor.hpp>

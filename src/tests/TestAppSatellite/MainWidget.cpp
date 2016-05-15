@@ -12,7 +12,10 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QBoxLayout>
+#include <QLineEdit>
+#include <QListWidget>
+#include <QString>
 
 /* local library headers */
 #include <Satellite.hpp>

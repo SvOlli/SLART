@@ -120,10 +120,10 @@ InnuendoConfigDialog::InnuendoConfigDialog( QWidget *parent, Qt::WindowFlags fla
 }
 
 
-void InnuendoConfigDialog::exec()
+int InnuendoConfigDialog::exec()
 {
    readSettings();
-   QDialog::exec();
+   return QDialog::exec();
 }
 
 

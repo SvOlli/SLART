@@ -12,7 +12,9 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QBoxLayout>
+#include <QComboBox>
+#include <QLabel>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>

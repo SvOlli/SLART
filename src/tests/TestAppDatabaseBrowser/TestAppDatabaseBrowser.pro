@@ -6,7 +6,7 @@
 
 TARGET = TestAppDatabaseBrowser
 TEMPLATE = app
-QT += sql network
+QT += widgets sql network
 
 include( ../../buildconfig.pri )
 

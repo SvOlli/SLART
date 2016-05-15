@@ -101,10 +101,10 @@ FunkytownConfigDialog::FunkytownConfigDialog( QWidget *parent )
 }
 
 
-void FunkytownConfigDialog::exec()
+int FunkytownConfigDialog::exec()
 {
    readSettings();
-   QDialog::exec();
+   return QDialog::exec();
 }
 
 

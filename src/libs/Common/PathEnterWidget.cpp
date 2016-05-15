@@ -19,6 +19,7 @@
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QLineEdit>
+#include <QMimeData>
 #include <QPushButton>
 #include <QTimer>
 #include <QUrl>
@@ -160,7 +161,7 @@ void PathEnterWidget::browse()
 {
    QFileDialog fileDialog( this, mBrowseMessage );
 
-   fileDialog.setFilters( mpDirModel->nameFilters() );
+   fileDialog.setNameFilters( mpDirModel->nameFilters() );
    fileDialog.setFileMode( mDirOnly ? QFileDialog::DirectoryOnly : QFileDialog::ExistingFile );
    QFileInfo qfi( mpLineEdit->text() );
    if( qfi.isDir() )

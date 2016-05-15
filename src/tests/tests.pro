@@ -15,7 +15,7 @@ SUBDIRS += TestAppFileSysCompleter
 SUBDIRS += TestAppGSettings
 SUBDIRS += TestAppIconView
 SUBDIRS += TestAppSatellite
-SUBDIRS += TestAppWebServer
+#SUBDIRS += TestAppWebServer
 SUBDIRS += TestAppXxtea
 #SUBDIRS += TestBinary
 

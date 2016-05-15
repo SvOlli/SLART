@@ -14,7 +14,7 @@ INCLUDEPATH += $${TOPSRC}/libs/Common
 LIBS += -lCommon
 
 contains( TARGETARCH, debug ) {
-QT += sql network
+QT += widgets sql network
 }
 
 # Input

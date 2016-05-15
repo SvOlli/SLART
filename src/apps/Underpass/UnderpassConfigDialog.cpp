@@ -96,10 +96,10 @@ UnderpassConfigDialog::UnderpassConfigDialog( StationStorage *storage,
 }
 
 
-void UnderpassConfigDialog::exec()
+int UnderpassConfigDialog::exec()
 {
    readSettings();
-   QDialog::exec();
+   return QDialog::exec();
 }
 
 

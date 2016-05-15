@@ -12,10 +12,14 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
-#include <QHttp>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
 #include <QNetworkAccessManager>
 #include <QNetworkProxy>
+#include <QProcess>
+#include <QPushButton>
+#include <QSpinBox>
 #include <QStringList>
 
 /* local library headers */
@@ -154,27 +158,6 @@ void ProxyWidget::updateWidgets( bool disabled )
          mpProxyPasswordInput->setDisabled( true );
       }
    }
-}
-
-
-void ProxyWidget::setProxy( QHttp *http )
-{
-   QString      host;
-   int          port = 0;
-   QString      login;
-   QString      password;
-
-   if( Settings::value( Settings::GlobalHTTPProxyEnable ) )
-   {
-      host = Settings::value( Settings::GlobalHTTPProxyHost );
-      port = Settings::value( Settings::GlobalHTTPProxyPort );
-      if( Settings::value( Settings::GlobalHTTPProxyAuth ) )
-      {
-         login    = Settings::value( Settings::GlobalHTTPProxyLogin );
-         password = Settings::value( Settings::GlobalHTTPProxyPassword );
-      }
-   }
-   http->setProxy( host, port, login, password );
 }
 
 

@@ -6,7 +6,7 @@
 
 TARGET = TestAppSatellite
 TEMPLATE = app
-QT += network
+QT += widgets network
 DEFINES += SATELLITE_DEBUG=1 SATELLITESERVER_DEBUG=1
 
 include( ../../buildconfig.pri )
@@ -14,7 +14,7 @@ include( ../../buildconfig.pri )
 INCLUDEPATH += $${TOPSRC}/libs/Satellite
 LIBS += -lSatellite
 contains( TARGETARCH, debug ) {
-QT += sql network
+QT += widgets sql network
 }
 
 # Input

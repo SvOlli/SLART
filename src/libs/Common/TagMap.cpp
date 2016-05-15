@@ -35,7 +35,7 @@ QString TagMap::fileName( const QString &pattern, bool filterPath )
       switch( part.at(0).unicode() )
       {
       case '$':
-         val = value( part.toUpper().mid(1).toAscii(), empty );
+         val = value( part.toUpper().mid(1).toLatin1(), empty );
          if( val.isNull() && (part.toUpper() == "$YEAR") )
          {
             val = value( "DATE", empty );
@@ -53,7 +53,7 @@ QString TagMap::fileName( const QString &pattern, bool filterPath )
          }
          break;
       case '#':
-         val = value( part.toUpper().mid(2).toAscii(), empty );
+         val = value( part.toUpper().mid(2).toLatin1(), empty );
 
          if( !val.isNull() )
          {
@@ -96,7 +96,7 @@ QString TagMap::normalizeString( const QString &string )
             newString.append(string.at(i).toLower());
          }
 
-         switch( newString.at(i).toAscii() )
+         switch( newString.at(i).toLatin1() )
          {
             case ' ':
             case '.':

@@ -4,9 +4,9 @@
 # released as public domain
 #############################################################################
 
-contains(QT_VERSION, ^4\\.[0-5]\\..*) {
+contains(QT_VERSION, ^5\\.[0-1]\\..*) {
   message("Cannot build this software with Qt version $${QT_VERSION}.")
-  error("Use at least Qt 4.6.")
+  error("Use at least Qt 5.2.")
 }
 
 count( TOPSRC, 0 ) {

@@ -205,7 +205,7 @@ void GlobalConfigWidget::selectFile()
    fileDialog.setFileMode( QFileDialog::ExistingFile );
    QFileInfo qfi( mpStyleSheetFileName->text() );
    fileDialog.setDirectory( qfi.absolutePath() );
-   fileDialog.setFilter("Playlists (*.qss)");
+   fileDialog.setNameFilter("Playlists (*.qss)");
    fileDialog.setReadOnly( true );
    if( fileDialog.exec() )
    {

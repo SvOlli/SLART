@@ -55,7 +55,7 @@ public slots:
     \brief execute the dialog
 
    */
-   void exec();
+   int exec();
    /*!
     \brief read settings from storage
 

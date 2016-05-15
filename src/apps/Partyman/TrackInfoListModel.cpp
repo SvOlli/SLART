@@ -162,8 +162,9 @@ TrackInfoList TrackInfoListModel::list() const
 
 void TrackInfoListModel::setList( const TrackInfoList &list )
 {
+   beginResetModel();
    mList = list;
-   reset();
+   endResetModel();
 }
 
 

@@ -12,7 +12,8 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QAction>
+#include <QtEndian>
 
 /* local library headers */
 #include <ScrollLine.hpp>
@@ -106,6 +107,3 @@ MagicEncoderConfig *MagicEncoderWav::configWidget( QWidget *parent )
    }
    return mpConfigWidget;
 }
-
-
-Q_EXPORT_PLUGIN2(MagicEncoder, MagicEncoderWav)

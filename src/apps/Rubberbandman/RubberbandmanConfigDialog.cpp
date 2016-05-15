@@ -12,7 +12,14 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QBoxLayout>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QTabWidget>
 
 /* local library headers */
 #include <AboutWidget.hpp>
@@ -130,10 +137,10 @@ RubberbandmanConfigDialog::~RubberbandmanConfigDialog()
 }
 
 
-void RubberbandmanConfigDialog::exec()
+int RubberbandmanConfigDialog::exec()
 {
    readSettings();
-   QDialog::exec();
+   return QDialog::exec();
 }
 
 

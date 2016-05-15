@@ -12,7 +12,8 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QBoxLayout>
+#include <QLabel>
 
 /* local library headers */
 #include <Database.hpp>

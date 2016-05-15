@@ -13,7 +13,9 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QBoxLayout>
+#include <QDesktopWidget>
 #include <QString>
 
 /* local library headers */

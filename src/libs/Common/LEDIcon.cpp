@@ -59,14 +59,14 @@ void LEDIcon::setSize( int size )
 
 QImage LEDIcon::toImage() const
 {
-   return QImage::fromData( data( mColor, mSize ).toAscii(), "SVG" );
+   return QImage::fromData( data( mColor, mSize ).toLatin1(), "SVG" );
 }
 
 
 QPixmap LEDIcon::toPixmap() const
 {
    QPixmap pm;
-   pm.loadFromData( data( mColor, mSize ).toAscii(), "SVG" );
+   pm.loadFromData( data( mColor, mSize ).toLatin1(), "SVG" );
    return pm;
 }
 

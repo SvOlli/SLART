@@ -12,7 +12,10 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QBoxLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QTabWidget>
 
 /* local library headers */
 #include <DatabaseInterface.hpp>

@@ -12,8 +12,8 @@
 /* system headers */
 
 /* Qt headers */
-#include <QHttpRequestHeader>
-#include <QHttpResponseHeader>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QTcpServer>
 #include <QTcpSocket>
 
@@ -28,6 +28,7 @@
 #endif
 
 
+#if 0
 WebServer::WebServer( QObject *parent )
 : QObject( parent )
 , mpParent( parent )
@@ -271,3 +272,4 @@ void WebServer::response( QTcpSocket *id,
    id->waitForBytesWritten( -1 );
    id->disconnectFromHost();
 }
+#endif

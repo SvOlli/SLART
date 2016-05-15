@@ -6,11 +6,24 @@
  * available at http://www.gnu.org/licenses/lgpl.html
  */
 
+/* class declaration */
 #include "AboutWidget.hpp"
-#include "Trace.hpp"
+
+/* system headers */
+
+/* Qt headers */
+#include <QApplication>
+#include <QDesktopServices>
+#include <QLabel>
+#include <QMessageBox>
+#include <QUrl>
+#include <QVBoxLayout>
+
+/* local library headers */
 #include "Version.hpp"
 
-#include <QtGui>
+/* local headers */
+
 
 
 AboutWidget::AboutWidget( QWidget *parent, const QString &aboutText )

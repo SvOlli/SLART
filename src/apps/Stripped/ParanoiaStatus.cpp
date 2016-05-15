@@ -14,7 +14,10 @@
 #include <cdio/cdda.h>
 
 /* Qt headers */
-#include <QtGui>
+#include <QGridLayout>
+#include <QLabel>
+#include <QSpinBox>
+#include <QToolBar>
 
 /* local library headers */
 

@@ -10,15 +10,27 @@
 #include "MainWidget.hpp"
 
 /* system headers */
+#include <cmath>
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
 #include <QByteArray>
+#include <QBoxLayout>
+#include <QBuffer>
+#include <QCheckBox>
+#include <QClipboard>
 #include <QFileSystemModel>
 #include <QFileSystemWatcher>
+#include <QGridLayout>
+#include <QHeaderView>
+#include <QImageReader>
+#include <QLineEdit>
 #include <QList>
+#include <QListWidget>
 #include <QModelIndex>
+#include <QPushButton>
 #include <QRegExp>
+#include <QScrollBar>
 #include <QSignalMapper>
 #include <QSplitter>
 #include <QTreeView>

@@ -9,8 +9,7 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
-#include <QtNetwork>
+#include <QApplication>
 
 /* local library headers */
 #include <Satellite.hpp>

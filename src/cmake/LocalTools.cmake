@@ -49,6 +49,76 @@ FUNCTION( ADD_SOURCE _NAME )
 ENDFUNCTION( ADD_SOURCE )
 
 
+FUNCTION( QT )
+
+   SET( options concurrent core dbus gui network opengl openglextentions printsupport sql widgets xml )
+   CMAKE_PARSE_ARGUMENTS( ADD_SOURCE "${options}" "" "" ${ARGN} )
+   
+   SET( QT_DEPENDS "" )
+
+   IF( QT_concurrent )
+      FIND_PACKAGE( Qt5Concurrent )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::Concurrent )
+   ENDIF( QT_concurrent )
+
+   IF( QT_core )
+      FIND_PACKAGE( Qt5Core )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::Core )
+   ENDIF( QT_core )
+
+   IF( QT_dbus )
+      FIND_PACKAGE( Qt5DBus )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::DBus )
+   ENDIF( QT_dbus )
+
+   IF( QT_gui )
+      FIND_PACKAGE( Qt5Gui )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::Gui )
+   ENDIF( QT_gui )
+
+   IF( QT_network )
+      FIND_PACKAGE( Qt5Network )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::Network )
+   ENDIF( QT_network )
+
+   IF( QT_opengl )
+      FIND_PACKAGE( Qt5OpenGL )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::OpenGL )
+   ENDIF( QT_opengl )
+
+   IF( QT_openglextensions )
+      FIND_PACKAGE( Qt5OpenGLExtensions )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::OpenGLExtensions )
+   ENDIF( QT_openglextensions )
+
+   IF( QT_printsupport )
+      FIND_PACKAGE( Qt5PrintSupport )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::PrintSupport )
+   ENDIF( QT_printsupport )
+
+   IF( QT_sql )
+      FIND_PACKAGE( Qt5Sql )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::Sql )
+   ENDIF( QT_sql )
+
+   IF( QT_test )
+      FIND_PACKAGE( Qt5Test )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::Test )
+   ENDIF( QT_test )
+
+   IF( QT_widgets )
+      FIND_PACKAGE( Qt5Widgets )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::Widgets )
+   ENDIF( QT_widgets )
+
+   IF( QT_xml )
+      FIND_PACKAGE( Qt5Xml )
+      SET( QT_DEPENDS ${QT_DEPENDS} Qt5::Xml )
+   ENDIF( QT_xml )
+
+ENDFUNCTION( QT )
+
+
 FUNCTION( PROPAGATE_LIBRARY _NAME )
 
    CMAKE_PARSE_ARGUMENTS( PROPAGATE_LIBRARY "" "LIBNAME" "" ${ARGN} )

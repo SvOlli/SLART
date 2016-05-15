@@ -6,7 +6,7 @@
 
 TEMPLATE = app
 TARGET = Stripped
-QT += network
+QT += widgets network
 CONFIG += link_pkgconfig
 
 include( ../../buildconfig.pri )
@@ -16,7 +16,7 @@ LIBS += -lCommon
 INCLUDEPATH += $${TOPSRC}/libs/Satellite
 LIBS += -lSatellite
 contains( TARGETARCH, debug ) {
-QT += sql
+QT += widgets sql
 }
 PKGCONFIG += libcdio_paranoia libcdio
 QMAKE_CXXFLAGS_DEBUG += -DCOREDUMP_SIZE_MB=100

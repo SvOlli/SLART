@@ -9,7 +9,7 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
 
 /* local library headers */
 #include <MainWindow.hpp>

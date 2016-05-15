@@ -32,6 +32,7 @@ class QFile;
 class QNetworkAccessManager;
 class QNetworkCookieJar;
 class QNetworkReply;
+class QNetworkRequest;
 
 /* forward declaration of local classes */
 
@@ -115,7 +116,44 @@ public slots:
    */
    QObject *download( QIODevice *file, bool autoDelete, const QUrl &url );
 
+   /*!
+    \brief download data from webserver and send it to a slot
+
+    \param target object to send data to
+    \param slot slot to send data to, should be either (QByteArray) or (QByteArray,QVariant)
+    \param request request to get data from
+    \param payload payload to pass on to target object
+   */
+   QObject *download( QObject *target, const char *slot,
+                      const QNetworkRequest &request, const QVariant &payload = QVariant() );
+   /*!
+    \brief download data from a webserver directly to a file
+
+    unused right now
+
+    \param fileName name of file to write data to
+    \param request request to get data from
+   */
+   QObject *download( const QString &fileName, const QNetworkRequest &request );
+   /*!
+    \brief download data from a webserver directly to a QIODevice object
+
+    unused right now
+
+    \param file
+    \param autoDelete delete file when transfer is complete
+    \param request request to get data from
+   */
+   QObject *download( QIODevice *file, bool autoDelete, const QNetworkRequest &request );
+
 signals:
+   /*!
+    \brief notify of a started download to harddisk
+
+    \param id
+    \param url
+   */
+   void downloadStarted( QObject *id, const QNetworkRequest &request );
    /*!
     \brief notify of a started download to harddisk
 

@@ -13,9 +13,9 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
 #include <QDir>
 #include <QTcpSocket>
+#include <QTimer>
 
 /* local library headers */
 
@@ -179,7 +179,7 @@ void Satellite::connectFail( QAbstractSocket::SocketError socketError )
    if( socketError != QAbstractSocket::RemoteHostClosedError )
    {
 #if SATELLITE_DEBUG
-      emit debug( QString("c:connect error %1").arg( socketError ).toAscii() );
+      emit debug( QString("c:connect error %1").arg( socketError ).toLatin1() );
 #endif
       QTimer::singleShot( 1, this, SLOT(runServer()) );
    }

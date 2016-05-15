@@ -12,7 +12,8 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QCompleter>
+#include <QStringListModel>
 
 /* local library headers */
 

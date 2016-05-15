@@ -12,7 +12,13 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QCloseEvent>
+#include <QDockWidget>
+#include <QHeaderView>
+#include <QMessageBox>
+#include <QShortcut>
+#include <QTextBrowser>
 
 /* local library headers */
 #include <Database.hpp>

@@ -13,6 +13,7 @@
 
 /* Qt headers */
 #include <QBuffer>
+#include <QUrlQuery>
 
 /* local library headers */
 
@@ -38,8 +39,10 @@ void KryptoniteJobCoverDiscogs::requestList( const QString &query )
 {
    emit message( tr( "Searching discogs.com" ) );
    QUrl url( "http://www.discogs.com/search" );
-   url.addQueryItem( "q", query );
-   url.addQueryItem( "type", "all" );
+   QUrlQuery urlQuery;
+   urlQuery.addQueryItem( "q", query );
+   urlQuery.addQueryItem( "type", "all" );
+   url.setQuery( urlQuery );
    emit requestDownload( this, SLOT(parseListHtml(QByteArray)), url );
 }
 

@@ -7,7 +7,7 @@
 TARGET = Kryptonite
 TEMPLATE = lib
 CONFIG += qt staticlib
-QT += network
+QT += widgets network
 
 include( ../../buildconfig.pri )
 

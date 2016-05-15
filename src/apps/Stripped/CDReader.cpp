@@ -12,7 +12,11 @@
 /* system headers */
 
 /* Qt headers */
-#include <QtGui>
+#include <QApplication>
+#include <QGridLayout>
+#include <QLabel>
+#include <QMessageBox>
+#include <QProgressBar>
 
 /* local library headers */
 #include <MagicEncoderInterface.hpp>

@@ -64,7 +64,6 @@ ADD_EXECUTABLE( Stripped
 )
 
 ADD_DEPENDENCIES( Stripped
-   MagicInterface
    Satellite
    Common
 )

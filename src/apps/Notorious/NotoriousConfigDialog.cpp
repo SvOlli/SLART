@@ -108,10 +108,10 @@ NotoriousConfigDialog::NotoriousConfigDialog( QWidget *parent )
 }
 
 
-void NotoriousConfigDialog::exec()
+int NotoriousConfigDialog::exec()
 {
    readSettings();
-   QDialog::exec();
+   return QDialog::exec();
 }
 
 

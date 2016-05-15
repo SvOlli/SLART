@@ -26,7 +26,6 @@ FileSysTreeModel::FileSysTreeModel( QObject *parent )
 : QAbstractItemModel( parent )
 , mpRootItem(0)
 {
-   setSupportedDragActions( Qt::CopyAction );
 }
 
 

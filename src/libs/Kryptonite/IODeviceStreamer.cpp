@@ -91,7 +91,7 @@ void IODeviceStreamer::readChunck()
 
 void IODeviceStreamer::updateProgress( qint64 bytesReceived, qint64 bytesTotal )
 {
-   int percent = 100 * bytesReceived / bytesTotal;
+   const int percent = 100 * bytesReceived / bytesTotal;
    if( mPercent != percent )
    {
       mPercent = percent;

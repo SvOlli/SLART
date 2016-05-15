@@ -291,7 +291,7 @@ void UnderpassMainWidget::readProcessOutput()
    QListWidgetItem *item = 0;
    foreach( const QChar &qc, output )
    {
-      char c = qc.toAscii();
+      char c = qc.toLatin1();
       if( (c == '\r') || (c == '\n') )
       {
          if( mDeleteLastLine )

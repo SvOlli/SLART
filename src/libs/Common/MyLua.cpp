@@ -88,7 +88,7 @@ int MyLua::luaCmdStringCamel( lua_State *L )
          string.replace( i, 1, string.at(i).toLower() );
       }
 
-      switch( string.at(i).toAscii() )
+      switch( string.at(i).toLatin1() )
       {
          case ' ':
          case '.':
@@ -179,7 +179,7 @@ void MyLua::runCode( QObject *target, const QString &successMethod, const QStrin
    if( errorcode )
    {
       const QString errmsg( lua_tostring( mpL, -1 ) );
-      if( !QMetaObject::invokeMethod( target, failMethod.toAscii().constData(), Qt::QueuedConnection,
+      if( !QMetaObject::invokeMethod( target, failMethod.toLatin1().constData(), Qt::QueuedConnection,
                                       Q_ARG( QString, errmsg ) ) )
       {
          qFatal( "%s:%d call failed in %s", __FILE__, __LINE__, Q_FUNC_INFO );
@@ -189,7 +189,7 @@ void MyLua::runCode( QObject *target, const QString &successMethod, const QStrin
    else
    {
 
-      if( !QMetaObject::invokeMethod( target, successMethod.toAscii().constData(), Qt::QueuedConnection ) )
+      if( !QMetaObject::invokeMethod( target, successMethod.toLatin1().constData(), Qt::QueuedConnection ) )
       {
          qFatal( "%s:%d call failed in %s", __FILE__, __LINE__, Q_FUNC_INFO );
       }

@@ -14,7 +14,15 @@
 #include <tag.h>
 
 /* Qt headers */
-#include <QtGui>
+#include <QBoxLayout>
+#include <QDateTime>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QIntValidator>
+#include <QLabel>
+#include <QLineEdit>
+#include <QMenu>
+#include <QPushButton>
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
