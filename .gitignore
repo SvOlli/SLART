@@ -5,3 +5,16 @@ build/
 docs/generated
 *.pro.user*
 src-build-desktop
+debian/*.log
+debian/*.substvars
+debian/slart/
+debian/slart-creep/
+debian/slart-doc/
+debian/slart-karmadrome/
+debian/slart-magic/
+debian/slart-notorious/
+debian/slart-partyman/
+debian/slart-rubberbandman/
+debian/slart-stripped/
+debian/slart-underpass/
+debian/tmp/

@@ -7,6 +7,7 @@
 TEMPLATE = lib
 TARGET = $$qtLibraryTarget(MagicEncoderMp3)
 CONFIG += plugin
+QT += widgets
 
 TOPSRC = "../../.."
 include( $${TOPSRC}/buildconfig.pri )

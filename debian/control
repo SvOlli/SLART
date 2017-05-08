@@ -1,0 +1,86 @@
+Source: slart
+Section: unknown
+Priority: optional
+Maintainer: Sven Oliver Moll <svolli@svol.li>
+Build-Depends: debhelper (>= 9), bash, liblircclient-dev, liblua5.1-0-dev, libflac++-dev, libcdio-cdda-dev, libmpg123-dev, libvorbis-dev | libvorbisidec-dev, libglib2.0-dev, libmp3lame-dev, libtag1-dev
+Standards-Version: 3.9.5
+Homepage: https://svolli.de/software/slart
+Vcs-Git: git://git.svolli.org/SLART.git
+
+Package: slart
+Architecture: any
+Depends: slart-partyman, slart-karmadrome, slart-rubberbandman, slart-stripped, slart-notorious, slart-creep, slart-underpass, ${shlibs:Depends}, ${misc:Depends}
+Description: SLART: meta-package installing complete suite
+ SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
+ handle different aspects of audio.
+
+Package: slart-magic
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: SLART: libraries used for encoding
+ SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
+ handle different aspects of audio.
+ These are libraries for encoding various formats.
+
+Package: slart-partyman
+Architecture: any
+Depends: dermixd, ${shlibs:Depends}, ${misc:Depends}
+Description: SLART: audio player
+ SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
+ handle different aspects of audio.
+ This is the audio player.
+
+Package: slart-karmadrome
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: SLART: playlist group editor
+ SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
+ handle different aspects of audio.
+ This is the group/playlist editor.
+
+Package: slart-rubberbandman
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: SLART: tag edtior for mp3, oggvorbis, etc.
+ SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
+ handle different aspects of audio.
+ This is the tag editor and audio database management.
+
+Package: slart-stripped
+Architecture: any
+Depends: slart-magic, ${shlibs:Depends}, ${misc:Depends}
+Description: SLART: audio CD reader
+ SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
+ handle different aspects of audio.
+ This is the audio CD reader.
+
+Package: slart-notorious
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: SLART: freedb browser
+ SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
+ handle different aspects of audio.
+ This is the freedb browser.
+
+Package: slart-creep
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: SLART: remote control interface
+ SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
+ handle different aspects of audio.
+ This is the remote control interface.
+
+Package: slart-underpass
+Architecture: any
+Depends: mpg123, vorbis-tools, ${shlibs:Depends}, ${misc:Depends}
+Description: SLART: simple webradio player
+ SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
+ handle different aspects of audio.
+ This is the webradio player.
+
+Package: slart-doc
+Architecture: all
+Description: SLART: documentation for slart
+ SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
+ handle different aspects of audio.
+ Documentation (depricated package).

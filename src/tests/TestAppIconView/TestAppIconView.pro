@@ -15,8 +15,9 @@ LIBS += -lCommon
 INCLUDEPATH += $${TOPSRC}/libs/Satellite
 LIBS += -lSatellite
 contains( TARGETARCH, debug ) {
-QT += widgets sql network
+QT += sql network
 }
+QT += widgets
 
 # Input
 SOURCES += Application.cpp

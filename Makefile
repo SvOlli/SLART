@@ -1,26 +1,26 @@
 
 QMAKE ?= qmake
+PREFIX ?= /usr
 DOCS = example.lircrc README.GPL README.LGPL README.TagLib SLARTmessages.txt StyleSheet.txt
 
 all: release
 
-cdebug:
-	mkdir -p cbuild/debug
-	+(cd cbuild/debug && cmake ../../src -DCMAKE_BUILD_TYPE=debug && make)
+tar:
+	./configure
+	dpkg-buildpackage -S
 
-crelease:
-	mkdir -p cbuild/release
-	+(cd cbuild/release && cmake ../../src && make)
+deb:
+	dpkg-buildpackage -b
 
 debug release: src/Makefile
-	+(cd src;make $(MAKEFLAGS) $@)
+	+make -C src $@
 
 src/Makefile:
 	(cd src;$(QMAKE) -r CONFIG+=debug_and_release)
 
 clean:
-	(cd src;make distclean)
-	rm -rf build
+	make -C src distclean || true
+	rm -rf build docs/generated
 
 install: release
 	mkdir -p $(DESTDIR)$(PREFIX)/bin

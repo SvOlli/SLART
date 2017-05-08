@@ -12,8 +12,9 @@ include( ../../buildconfig.pri )
 INCLUDEPATH += $${TOPSRC}/libs/Common $${TOPSRC}/libs/CommandLine
 LIBS += -lCommon -lCommandLine
 contains( TARGETARCH, debug ) {
-QT += widgets sql network
+QT += sql network
 }
+QT += widgets
 
 # Input
 #RESOURCES = Resources.qrc

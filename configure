@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ ! -d ".git" ]; then
+   echo "$0 is only needed when building from git sources"
+   exit 0
+fi
+
+slart_version="$(grep "#define SLART_VERSION" <"src/libs/Common/Version.hpp"|cut -f2 -d\")"
+slart_revision="$(git rev-list --count HEAD).$(git show --abbrev-commit HEAD|grep '^commit'|sed -e 's/commit //')"
+
+if [ -f "debian/changelog" ]; then
+   echo "found debian/changelog, updating..."
+   sed -e "1s/slart ([^)]*) .*;/slart (${slart_version}.${slart_revision}) jessie stretch sid trusty xenial;/" \
+      -i debian/changelog
+   EDITOR="/bin/true" dch --release --no-force-save-on-release
+fi
+
