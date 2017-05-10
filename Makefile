@@ -3,6 +3,8 @@ QMAKE ?= qmake
 PREFIX ?= /usr
 DOCS = example.lircrc README.GPL README.LGPL README.TagLib SLARTmessages.txt StyleSheet.txt
 
+.PHONY: release debug clean all tar deb install doc translations
+
 all: release
 
 tar:
@@ -12,15 +14,20 @@ tar:
 deb:
 	dpkg-buildpackage -b
 
-debug release: src/Makefile
-	+make -C src $@
+release: build-release/Makefile
+	+make -C build-release all
 
-src/Makefile:
-	(cd src;$(QMAKE) -r CONFIG+=debug_and_release)
+debug: build-debug/Makefile
+	+make -C build-debug all
+
+build-release/Makefile:
+	(mkdir -p build-release;cd build-release;$(QMAKE) -r CONFIG=release ../src/src.pro)
+
+build-debug/Makefile:
+	(mkdir -p build-debug;cd build-debug;$(QMAKE) -r CONFIG=debug ../src/src.pro)
 
 clean:
-	make -C src distclean || true
-	rm -rf build docs/generated
+	rm -rf build-release build-debug docs/generated
 
 install: release
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -29,8 +36,8 @@ install: release
 	mkdir -p $(DESTDIR)$(PREFIX)/share/slart/stylesheets
 	mkdir -p $(DESTDIR)$(PREFIX)/share/pixmaps
 	mkdir -p $(DESTDIR)$(PREFIX)/share/applications
-	cp -d build/release/bin/* $(DESTDIR)$(PREFIX)/bin
-	cp -d build/release/lib/*.so* $(DESTDIR)$(PREFIX)/lib
+	cp -d build-release/bin/* $(DESTDIR)$(PREFIX)/bin
+	cp -d build-release/lib/*.so* $(DESTDIR)$(PREFIX)/lib
 	#cp -d extra/icons/* $(DESTDIR)$(PREFIX)/share/pixmaps
 	for i in $$(cd $(DESTDIR)$(PREFIX)/bin;ls [D-Z]*) ; do \
 	  convert src/resources/icons/$$i.png \
@@ -38,8 +45,8 @@ install: release
 	cp -d extra/menu/*.desktop $(DESTDIR)$(PREFIX)/share/applications
 	cp -d extra/stylesheets/* \
           $(DESTDIR)$(PREFIX)/share/slart/stylesheets
-	[ ! -f build/release/README.DerMixD ] || \
-	  gzip -9 <build/release/README.DerMixD \
+	[ ! -f build-release/README.DerMixD ] || \
+	  gzip -9 <build-release/README.DerMixD \
 	    >>$(DESTDIR)$(PREFIX)/share/doc/slart/README.DerMixD.gz
 	for f in $(DOCS); do \
 	  gzip -9 <docs/$$f >$(DESTDIR)$(PREFIX)/share/doc/slart/$$f.gz ; done

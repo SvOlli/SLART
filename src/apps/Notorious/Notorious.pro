@@ -6,6 +6,7 @@
 
 TEMPLATE = app
 TARGET = Notorious
+CONFIG += qt
 QT += widgets sql
 LIBS += -lbz2
 

@@ -6,6 +6,7 @@
 
 TEMPLATE = app
 TARGET = Rubberbandman
+CONFIG += qt
 QT += widgets sql network
 
 include( ../../buildconfig.pri )

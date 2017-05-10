@@ -6,8 +6,8 @@
 
 TEMPLATE = app
 TARGET = Stripped
+CONFIG += qt link_pkgconfig
 QT += widgets network
-CONFIG += link_pkgconfig
 
 include( ../../buildconfig.pri )
 

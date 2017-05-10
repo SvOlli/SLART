@@ -6,6 +6,7 @@
 
 TARGET = Underpass
 TEMPLATE = app
+CONFIG += qt
 QT += widgets network
 
 include( ../../buildconfig.pri )

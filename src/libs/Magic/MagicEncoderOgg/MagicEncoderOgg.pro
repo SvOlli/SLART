@@ -6,7 +6,7 @@
 
 TEMPLATE = lib
 TARGET = $$qtLibraryTarget(MagicEncoderOgg)
-CONFIG += plugin
+CONFIG += qt plugin
 QT += widgets
 
 TOPSRC = "../../.."

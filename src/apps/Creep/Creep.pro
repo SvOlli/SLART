@@ -6,6 +6,7 @@
 
 TARGET = Creep
 TEMPLATE = app
+CONFIG += qt
 QT -= gui
 QT += widgets network
 

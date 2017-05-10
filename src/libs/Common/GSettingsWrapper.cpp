@@ -37,7 +37,12 @@ GSettingsWrapper::GSettingsWrapper( const QString &domain )
 #if GLIB_VERSION_2_26
    g_type_init();
    QByteArray domainUtf8( domain.toUtf8() );
+#if 1
    const gchar*const *schemasList = g_settings_list_schemas();
+#else
+   const gchar*const *schemasList;
+   g_settings_schema_source_list_schemas();
+#endif
    for( const gchar*const *entry = schemasList; *entry; ++entry )
    {
       if( !::strcasecmp( domainUtf8.constData(), *entry ) )
