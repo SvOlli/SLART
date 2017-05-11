@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QIODevice>
 #include <QList>
 #include <QMap>
 #include <QMutex>
