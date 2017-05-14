@@ -1,5 +1,7 @@
 #!/bin/sh -x
 
-git push -u github master
-git push -u origin master
+git push --all -u github
+git push --all -u origin
+git push --tags -u github
+git push --tags -u origin
 
