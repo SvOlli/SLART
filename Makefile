@@ -3,7 +3,7 @@ QMAKE ?= qmake
 PREFIX ?= /usr
 DOCS = example.lircrc README.GPL README.LGPL README.TagLib SLARTmessages.txt StyleSheet.txt
 
-.PHONY: release debug clean all tar deb install doc translations
+.PHONY: release debug clean distclean all tar deb install doc translations
 
 all: release
 
@@ -26,8 +26,12 @@ build-release/Makefile:
 build-debug/Makefile:
 	(mkdir -p build-debug;cd build-debug;$(QMAKE) -r CONFIG=debug ../src/src.pro)
 
-clean:
+distclean:
 	rm -rf build-release build-debug docs/generated
+
+clean:
+	[ ! -d build-release ] || { cd build-release; make clean; }
+	[ ! -d build-debug ]   || { cd build-debug; make clean; }
 
 install: release
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
