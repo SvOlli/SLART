@@ -14,7 +14,6 @@ count( TOPSRC, 0 ) {
 }
 count( BUILDDIR, 0 ) {
   BUILDDIR = $${OUT_PWD}/$${TOPSRC}
-  message("BUILDDIR=$${BUILDDIR}")
 }
 #BUILDDIR = $${TOPSRC}/../build
 
@@ -26,7 +25,7 @@ contains( TEMPLATE, app ) {
   is_tool = $$find( OUT_PWD, "/tools/" )
   is_test = $$find( OUT_PWD, "/tests/" )
   count( is_tool, 1 ) {
-    DESTDIR    = $${BUILDDIR}/tools
+    DESTDIR    = $${BUILDDIR}/tool
   } else {
     count( is_test, 1 ) {
       DESTDIR  = $${BUILDDIR}/test
@@ -42,7 +41,6 @@ contains( TEMPLATE, app ) {
   }
 }
 LIBS           += -L$${BUILDDIR}/tmp/lib
-message( "LIBS=$${LIBS}" )
 
 DLLDESTDIR     = $${BUILDDIR}/lib
 #MOC_DIR        = $${BUILDDIR}/tmp/$${TARGET}/moc
