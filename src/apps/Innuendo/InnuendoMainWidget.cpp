@@ -56,7 +56,7 @@ InnuendoMainWidget::InnuendoMainWidget( QWidget *parent, Qt::WindowFlags flags )
       << "Karmadrome"
       << "Rubberbandman"
       << "Stripped"
-      << "Funkytown"
+      //<< "Funkytown"
       << "Notorious"
       << "Creep"
       << "Underpass"
