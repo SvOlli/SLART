@@ -257,6 +257,7 @@ void UnderpassMainWidget::startProcess( bool start )
    mpSatellite->send( start ? "u0p" : "u0s" );
    if( start )
    {
+      mpMessageBuffer->scrollToBottom();
       ProxyWidget::setProxy( mpProcess );
       QStringList args;
 #if 1
