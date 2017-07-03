@@ -15,3 +15,7 @@ apps.depends  = libs
 debug:tests.depends = libs
 debug:libs.depends  = tools
 
+DISTFILES += ../debian/control
+DISTFILES += ../debian/rules
+DISTFILES += ../extra/install-dev-packages.sh
+DISTFILES += ../Makefile
