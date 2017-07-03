@@ -24,7 +24,7 @@ Description: SLART: libraries used for encoding
 
 Package: slart-partyman
 Architecture: any
-Depends: dermixd (>= 2), ${shlibs:Depends}, ${misc:Depends}
+Depends: slart-sorcerer, dermixd (>= 2), ${shlibs:Depends}, ${misc:Depends}
 Description: SLART: audio player
  SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
  handle different aspects of audio.
@@ -32,7 +32,7 @@ Description: SLART: audio player
 
 Package: slart-karmadrome
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: slart-sorcerer, ${shlibs:Depends}, ${misc:Depends}
 Description: SLART: playlist group editor
  SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
  handle different aspects of audio.
@@ -40,11 +40,19 @@ Description: SLART: playlist group editor
 
 Package: slart-rubberbandman
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: slart-sorcerer, ${shlibs:Depends}, ${misc:Depends}
 Description: SLART: tag edtior for mp3, oggvorbis, etc.
  SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
  handle different aspects of audio.
  This is the tag editor and audio database management.
+
+Package: slart-sorcerer
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: SLART: audio CD reader
+ SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
+ handle different aspects of audio.
+ This is the setup wizard.
 
 Package: slart-stripped
 Architecture: any
@@ -56,7 +64,7 @@ Description: SLART: audio CD reader
 
 Package: slart-notorious
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: slart-sorcerer, ${shlibs:Depends}, ${misc:Depends}
 Description: SLART: freedb browser
  SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
  handle different aspects of audio.
@@ -72,7 +80,7 @@ Description: SLART: remote control interface
 
 Package: slart-underpass
 Architecture: any
-Depends: mpg123, vorbis-tools, ${shlibs:Depends}, ${misc:Depends}
+Depends: slart-sorcerer, mpg123, vorbis-tools, ${shlibs:Depends}, ${misc:Depends}
 Description: SLART: simple webradio player
  SLART are SvOlli's Little Audio Related Thingies, a suite of tools to
  handle different aspects of audio.
