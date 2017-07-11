@@ -723,7 +723,8 @@ void ControlWidget::handleDerMixDstartup()
 
    foreach( const QString &line, data )
    {
-      if( line.indexOf( " online on port " ) > 0 )
+      if(( line.indexOf( " online on port " ) > 0 ) ||
+         ( line.indexOf( " listen on port " ) > 0 ) )
       {
          mDerMixDstarted = true;
          mWaitForDerMixD = false;
