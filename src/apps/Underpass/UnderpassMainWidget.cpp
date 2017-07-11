@@ -260,6 +260,7 @@ void UnderpassMainWidget::startProcess( bool start )
       mpMessageBuffer->scrollToBottom();
       ProxyWidget::setProxy( mpProcess );
       QStringList args;
+      mpMessageBuffer->clear();
 #if 1
       args << "-v" << mpUrl->text();
       systemMessage( QString("%1 %2").arg(mpPlayer->currentText(),args.join(" ")) );
