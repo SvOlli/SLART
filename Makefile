@@ -21,10 +21,10 @@ debug: build-debug/Makefile
 	+make -C build-debug all
 
 build-release/Makefile:
-	(mkdir -p build-release;cd build-release;$(QMAKE) -r CONFIG=release ../src/src.pro)
+	(mkdir -p build-release;cd build-release;$(QMAKE) -r CONFIG+=release ../src/src.pro)
 
 build-debug/Makefile:
-	(mkdir -p build-debug;cd build-debug;$(QMAKE) -r CONFIG=debug ../src/src.pro)
+	(mkdir -p build-debug;cd build-debug;$(QMAKE) -r CONFIG+=debug ../src/src.pro)
 
 distclean:
 	rm -rf build-release build-debug docs/generated

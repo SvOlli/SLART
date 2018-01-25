@@ -1,4 +1,4 @@
 #!/bin/sh
 
-echo "$(git rev-list --count HEAD).$(git show --abbrev-commit HEAD|grep '^commit'|sed -e 's/commit //')"
+echo "$(git rev-list --count HEAD).$(git rev-parse --verify --short HEAD)"
 
