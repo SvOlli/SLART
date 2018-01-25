@@ -15,7 +15,11 @@
 /* system headers */
 extern "C" {
 #include <cdio/cdio.h>
+#if CDIO_API_VERSION <= 5
 #include <cdio/paranoia.h>
+#else
+#include <cdio/paranoia/paranoia.h>
+#endif
 }
 
 /* Qt headers */
