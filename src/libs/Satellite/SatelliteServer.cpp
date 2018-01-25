@@ -66,6 +66,8 @@ bool SatelliteServer::listen( const QHostAddress &host, quint16 port )
 void SatelliteServer::connected()
 {
    QTcpSocket *socket = mpTcpServer->nextPendingConnection();
+   socket->setSocketOption( QAbstractSocket::SendBufferSizeSocketOption, 1024 );
+   socket->setSocketOption( QAbstractSocket::ReceiveBufferSizeSocketOption, 1024 );
    connect(socket, SIGNAL(readyRead()),
            mpClientsReadMapper, SLOT(map()));
    mpClientsReadMapper->setMapping(socket, static_cast<QObject*>(socket));

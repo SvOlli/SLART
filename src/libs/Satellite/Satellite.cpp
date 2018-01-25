@@ -31,10 +31,7 @@ Satellite *Satellite::create( const QHostAddress &host, quint16 port )
    if( !cpSatellite )
    {
       cpSatellite = new Satellite( host, port );
-      // make sure that thread gets started once the main exec()-loop is entered
-      // but how? this doesn't work:
-      //QTimer::singleShot( 0, cpSatellite, SLOT(start()) );
-      //QMetaObject::invokeMethod( cpSatellite, "start", Qt::QueuedConnection );
+      // start() needs to be run after whole system has been set up
    }
    return cpSatellite;
 }
@@ -144,13 +141,14 @@ void Satellite::restart()
          mpServer->deleteLater();
       }
 
-      mpServerConnection->connectToHost( mHost, mPort );
+      mpServerConnection->connectToHost( mHost, mPort, QIODevice::ReadWrite | QIODevice::Unbuffered );
    }
 }
 
 
 void Satellite::send( const QByteArray &message )
 {
+   qint64 bytesSent;
 #if SATELLITE_DEBUG
    emit debug( QByteArray("c:to server: ") + message );
 #endif
@@ -160,9 +158,23 @@ void Satellite::send( const QByteArray &message )
    header = qToBigEndian( header );
    SATELLITE_PKGINFO_CHECKSUM_TYPE checksum( qChecksum( message.constData(), message.size() ) );
    checksum = qToBigEndian( checksum );
-   mpServerConnection->write( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
-   mpServerConnection->write( message );
-   mpServerConnection->write( (char*)(&checksum), SATELLITE_PKGINFO_CHECKSUM_SIZE );
+   bytesSent = mpServerConnection->write( (char*)(&header), SATELLITE_PKGINFO_HEADER_SIZE );
+   if( bytesSent < 0 )
+   {
+      qWarning( "bytesSent < 0" );
+   }
+   bytesSent = mpServerConnection->write( message );
+   if( bytesSent < 0 )
+   {
+      qWarning( "bytesSent < 0" );
+   }
+   bytesSent = mpServerConnection->write( (char*)(&checksum), SATELLITE_PKGINFO_CHECKSUM_SIZE );
+   if( bytesSent < 0 )
+   {
+      qWarning( "bytesSent < 0" );
+   }
+   mpServerConnection->flush();
+   mpServerConnection->waitForBytesWritten( 10000 );
 }
 
 

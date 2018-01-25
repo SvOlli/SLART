@@ -45,7 +45,7 @@ SatelliteSingleSend::SatelliteSingleSend( const QHostAddress &host, quint16 port
    connect( mpServerConnection, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(deleteLater()) );
 
-   mpServerConnection->connectToHost( host, port, QIODevice::WriteOnly );
+   mpServerConnection->connectToHost( host, port, QIODevice::WriteOnly | QIODevice::Unbuffered );
 }
 
 
