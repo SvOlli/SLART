@@ -284,6 +284,7 @@ void CDReaderThread::runReadCDText()
    first = cdio_get_first_track_num( mpCdIo );
    last  = cdio_get_last_track_num( mpCdIo );
 
+#if CDIO_API_VERSION <= 5
    cdtext = cdio_get_cdtext( mpCdIo, 0 );
    if( cdtext )
    {
@@ -316,6 +317,33 @@ void CDReaderThread::runReadCDText()
          cdtext_destroy( cdtext );
       }
    }
+#else
+   cdtext = cdio_get_cdtext( mpCdIo );
+   if( cdtext )
+   {
+      if( useLatin1 )
+      {
+         mpCDInfo->setArtist( -1, QString::fromLatin1( cdtext_get_const( cdtext, CDTEXT_FIELD_PERFORMER, 0 ) ) );
+         mpCDInfo->setTitle( -1, QString::fromLatin1( cdtext_get_const( cdtext, CDTEXT_FIELD_TITLE, 0 ) ) );
+         mpCDInfo->setGenre( QString::fromLatin1( cdtext_get_const( cdtext, CDTEXT_FIELD_GENRE, 0 ) ) );
+         for( track = first; track <= last; track++ )
+         {
+            mpCDInfo->setArtist( track, QString::fromLatin1( cdtext_get_const( cdtext, CDTEXT_FIELD_PERFORMER, track ) ) );
+            mpCDInfo->setTitle( track, QString::fromLatin1( cdtext_get_const( cdtext, CDTEXT_FIELD_TITLE, track ) ) );
+         }
+      } else {
+         mpCDInfo->setTitle( -1, QString::fromUtf8( cdtext_get_const( cdtext, CDTEXT_FIELD_TITLE, 0 ) ) );
+         mpCDInfo->setArtist( -1, QString::fromUtf8( cdtext_get_const( cdtext, CDTEXT_FIELD_PERFORMER, 0 ) ) );
+         mpCDInfo->setGenre( QString::fromUtf8( cdtext_get_const( cdtext, CDTEXT_FIELD_GENRE, 0 ) ) );
+         for( track = first; track <= last; track++ )
+         {
+            mpCDInfo->setArtist( track, QString::fromUtf8( cdtext_get_const( cdtext, CDTEXT_FIELD_PERFORMER, track ) ) );
+            mpCDInfo->setTitle( track, QString::fromUtf8( cdtext_get_const( cdtext, CDTEXT_FIELD_TITLE, track ) ) );
+         }
+      }
+      cdtext_destroy( cdtext );
+   }
+#endif
    emit stateDisc();
    emit gotData();
 }

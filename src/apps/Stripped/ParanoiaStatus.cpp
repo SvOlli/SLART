@@ -11,7 +11,12 @@
 
 /* system headers */
 #define NEED_STRERROR_TR
+#include <cdio/cdio.h>
+#if CDIO_API_VERSION <= 5
 #include <cdio/cdda.h>
+#else
+#include <cdio/paranoia/cdda.h>
+#endif
 
 /* Qt headers */
 #include <QGridLayout>
