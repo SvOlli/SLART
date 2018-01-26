@@ -4,6 +4,8 @@
 # distributed as public domain
 ######################################################################
 
+message(CONFIG = $${CONFIG})
+
 TEMPLATE = subdirs
 
 SUBDIRS += libs
