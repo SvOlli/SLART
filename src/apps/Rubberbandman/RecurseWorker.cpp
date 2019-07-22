@@ -316,7 +316,11 @@ void RecurseWorker::updateTrackInfo( const TrackInfo &trackInfo )
       if( qf.copy( tmppath ) )
       {
          TagLib::FileRef f( tmppath.toLocal8Bit().data() );
-         if( !f.isNull() )
+         if( f.isNull() )
+         {
+            QFile( tmppath ).remove();
+         }
+         else
          {
             TagLib::Tag *tag = f.tag();
             if( tag )
