@@ -27,7 +27,6 @@
 #include <ScrollLine.hpp>
 
 /* local headers */
-#include "PartymanConfigDialog.hpp"
 #include "ControlWidget.hpp"
 #include "PlayerFSM.hpp"
 #include "TimeSlider.hpp"
@@ -453,13 +452,13 @@ void PlayerWidget::handleScan( const QString &data )
 {
    QStringList token( data.split(" ", QString::SkipEmptyParts) );
    bool ok;
-   double max = token.at(0).toDouble( &ok );
+   double max = token.at(1).toDouble( &ok );
    if( !ok )
    {
       return;
    }
 
-   if( token.at(1).startsWith( "level" ) )
+   if( token.at(0).startsWith( "power:" ) )
    {
       mTrackInfo.mVolume = max;
       mTrackInfo.setFlag( TrackInfo::ScannedWithPower, true );
@@ -467,7 +466,7 @@ void PlayerWidget::handleScan( const QString &data )
       mTrackInfo.mLastScanned = QDateTime::currentDateTime().toTime_t();
       mpDatabase->updateTrackInfo( &mTrackInfo );
    }
-   else if( token.at(1).startsWith( "peak" ) )
+   else if( token.at(0).startsWith( "peak:" ) )
    {
       mTrackInfo.mVolume = max;
       mTrackInfo.setFlag( TrackInfo::ScannedWithPeak, true );
@@ -475,18 +474,18 @@ void PlayerWidget::handleScan( const QString &data )
       mTrackInfo.mLastScanned = QDateTime::currentDateTime().toTime_t();
       mpDatabase->updateTrackInfo( &mTrackInfo );
    }
-   else if( token.at(1).startsWith( "Hz" ) )
+   else if( token.at(0).startsWith( "format:" ) )
    {
-      mFrequency = token.at(0).toLong();
+      mFrequency = token.at(1).toLong();
       if( !mFrequency )
       {
          /* to avoid division by zero */
          mFrequency = 44100;
       }
    }
-   else if( token.at(1).startsWith( "samples" ) )
+   else if( token.at(0).startsWith( "length:" ) )
    {
-      mSamples = token.at(0).toLong();
+      mSamples = token.at(1).toLong();
    }
    mTotalTime = mSamples / mFrequency;
 
