@@ -22,6 +22,7 @@
 
 /* local headers */
 #include "MagicEncoderFlacConfig.hpp"
+#include "Random.hpp"
 
 
 MagicEncoderFlac::MagicEncoderFlac()
@@ -34,7 +35,6 @@ MagicEncoderFlac::MagicEncoderFlac()
 , mpMetadata( 0 )
 , mpPcm( 0 )
 {
-   qsrand( time((time_t*)0) );
 }
 
 
@@ -79,7 +79,7 @@ bool MagicEncoderFlac::initialize( const QString &fileName )
       {
          return false;
       }
-      ok &= mpEncoder->set_ogg_serial_number( qrand() );
+      ok &= mpEncoder->set_ogg_serial_number( (long)Random::generate() );
    }
    else
    {

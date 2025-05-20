@@ -63,7 +63,7 @@ public:
     \param parent
     \param flags
    */
-   StrippedMainWindow( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   StrippedMainWindow( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
 
    /*!
     \brief destructor

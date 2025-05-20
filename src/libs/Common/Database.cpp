@@ -21,6 +21,7 @@
 
 /* local library headers */
 #include "DatabaseInterface.hpp"
+#include "Random.hpp"
 
 /* local headers */
 
@@ -62,8 +63,6 @@ Database::Database( const QString &fileName )
    {
       qFatal( "Can't use Database and DatabaseInterface at the same time" );
    }
-
-   qsrand( time((time_t*)0) );
 
    if( mpSqlDB->lastError().type() != QSqlError::NoError )
    {
@@ -668,7 +667,7 @@ bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite,
    }
 
    /* QSqlQuery::size() seems not to work with sqlite... :( */
-   int rows;
+   quint32 rows;
    for( rows = 0; mpQuery->next(); rows++ )
       ;
 
@@ -676,8 +675,8 @@ bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite,
    {
       int id = -1;
       QString artist;
-      int row = qrand() % rows;
-      for( int i = row + 1; i != (row + 1); i++ )
+      quint32 row = Random::bounded( rows );
+      for( quint32 i = row + 1; i != (row + 1); i++ )
       {
          if( i >= rows )
          {
@@ -696,7 +695,7 @@ bool Database::getRandomTrack( TrackInfo *trackInfo, bool favorite,
          mpQuery->seek( row );
          id = mpQuery->value(0).toUInt();
       }
-      trackInfo->mID = mpQuery->value(0).toUInt();
+      trackInfo->mID = id /*mpQuery->value(0).toUInt()*/;
       mpQuery->clear();
       getTrackInfo( trackInfo );
 
@@ -725,14 +724,10 @@ void Database::logError( const QString &note )
    {
       msg.append( "\nDriver: " );
       msg.append( mpQuery->lastError().driverText() );
-      msg.append( QString( "\nType: %1; Number: %2" )
+      msg.append( QString( "\nType: %1; Code: %2" )
                   .arg( mpQuery->lastError().type() )
-                  .arg( mpQuery->lastError().number() )
-                       );
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
-      {
-         msg.append( "\nShould implement retry!" );
-      }
+                  .arg( mpQuery->lastError().nativeErrorCode() )
+                 );
       msg.append( "\nQuery: " );
 
       QString query( mpQuery->lastQuery() );

@@ -109,6 +109,9 @@ SOURCES += PathEnterWidget.cpp
 HEADERS += QVariantReply.hpp
 SOURCES += QVariantReply.cpp
 
+HEADERS += Random.hpp
+SOURCES += Random.cpp
+
 HEADERS += ScgiRequest.hpp
 SOURCES += ScgiRequest.cpp
 

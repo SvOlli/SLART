@@ -15,6 +15,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QRandomGenerator>
 #include <QStringList>
 
 /* local library headers */

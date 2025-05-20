@@ -15,6 +15,7 @@
 
 /* Qt headers */
 #include <QPainter>
+#include <QTextBlock>
 
 /* local library headers */
 

@@ -19,6 +19,7 @@
 #include <QtSql>
 
 /* local library headers */
+#include "Random.hpp"
 
 /* local headers */
 
@@ -171,7 +172,6 @@ DatabaseThread::DatabaseThread( const QString &fileName )
 , mNotifyDisabled( false )
 {
    setObjectName( "DatabaseThread" );
-   qsrand( time((time_t*)0) );
    mpSqlDB = new QSqlDatabase( QSqlDatabase::addDatabase( "QSQLITE" ) );
    mpCommitTimer = new QTimer( this );
    mpCommitTimer->setSingleShot( true );
@@ -613,7 +613,7 @@ void DatabaseThread::getRandomTrack( QObject *target, const QByteArray &method,
    }
 
    /* QSqlQuery::size() seems not to work with sqlite... :( */
-   int rows;
+   quint32 rows;
    for( rows = 0; mpQuery->next(); rows++ )
       ;
 
@@ -621,8 +621,8 @@ void DatabaseThread::getRandomTrack( QObject *target, const QByteArray &method,
    {
       int id = -1;
       QString artist;
-      int row = qrand() % rows;
-      for( int i = row + 1; i != row; i++ )
+      quint32 row = Random::bounded( rows );
+      for( quint32 i = row + 1; i != row; i++ )
       {
          if( i >= rows )
          {
