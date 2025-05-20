@@ -579,7 +579,7 @@ void TheMagic::parseMySpaceOldXML()
       }
    }
 
-   QStringList dataList = mBuffer.split( "\n", QString::SkipEmptyParts );
+   QStringList dataList = mBuffer.split( "\n", Qt::SkipEmptyParts );
    QString xmlName;
    QString xmlTitle;
    QString xmlUrl;

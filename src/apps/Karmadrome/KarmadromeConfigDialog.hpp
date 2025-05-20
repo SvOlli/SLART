@@ -55,7 +55,7 @@ public:
     \param parent
     \param flags
    */
-   KarmadromeConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   KarmadromeConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
    /*!
     \brief destructor
 

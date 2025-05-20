@@ -57,7 +57,7 @@ public:
     \param parent
     \param flags
    */
-   NotoriousMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   NotoriousMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
 
 protected:
 

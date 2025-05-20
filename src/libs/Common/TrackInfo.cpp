@@ -199,7 +199,7 @@ QString TrackInfo::filePath() const
 
 void TrackInfo::setGroup( const QString &group, bool add )
 {
-   QStringList groupList( mGroups.split('|', QString::SkipEmptyParts) );
+   QStringList groupList( mGroups.split('|', Qt::SkipEmptyParts) );
    int i = groupList.indexOf( group );
    if( add )
    {
@@ -231,7 +231,7 @@ void TrackInfo::setGroup( const QString &group, bool add )
 
 QStringList TrackInfo::getGroups() const
 {
-   return mGroups.split('|', QString::SkipEmptyParts);
+   return mGroups.split('|', Qt::SkipEmptyParts);
 }
 
 
@@ -301,7 +301,7 @@ QString TrackInfo::displayString( const QString &pattern ) const
       return mFileName;
    }
 
-   QStringList parts( pattern.split( "|", QString::SkipEmptyParts ) );
+   QStringList parts( pattern.split( "|", Qt::SkipEmptyParts ) );
    QString filename;
 
    foreach( const QString &part, parts )

@@ -20,7 +20,7 @@
 
 /* local headers */
 #include "CodeEditorLineNumberArea.hpp"
-#include "SyntaxHighlighterLua.hpp"
+//#include "SyntaxHighlighterLua.hpp"
 
 
 CodeEditor::CodeEditor( QWidget *parent )
@@ -62,7 +62,7 @@ int CodeEditor::lineNumberAreaWidth()
       ++digits;
    }
 
-   return 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+   return 3 + fontMetrics().horizontalAdvance('9') * digits;
 }
 
 

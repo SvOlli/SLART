@@ -55,7 +55,7 @@ void KryptoniteJobCoverAmazonDE::parseListHtml( const QByteArray &data )
    QRegExp imgRe( ".*<img[^>]*src=\"([^\"]*)\".*" );
    QRegExp linkRe( ".*<a[^>]*href=\"([^\"]*)\".*" );
    QString s( QString::fromUtf8(data.constData()) );
-   QStringList l( s.split("\n", QString::SkipEmptyParts) );
+   QStringList l( s.split("\n", Qt::SkipEmptyParts) );
    foreach( s, l )
    {
       if( s.contains("Produkt-Information") )
@@ -82,7 +82,7 @@ void KryptoniteJobCoverAmazonDE::parseItemHtml( const QByteArray &data, const QV
    QRegExp imgRe1( ".*media%3D(.*.jpg)%26.*" );
    //imgRe1.setMinimal( true );
    QString s( QString::fromUtf8(data.constData()) );
-   QStringList l( s.split("\n", QString::SkipEmptyParts) );
+   QStringList l( s.split("\n", Qt::SkipEmptyParts) );
    foreach( s, l )
    {
       if( s.contains( imgRe1 ) )

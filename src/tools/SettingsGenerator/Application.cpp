@@ -52,6 +52,12 @@ int main( int argc, char *argv[] )
    QStringList sourceData;
    QStringList targetData;
    bool useCode = true;
+   if( args.isEmpty() )
+   {
+      qDebug() << "typical usage: SettingsGenerator docs/Registry.ini";
+      return 0;
+   }
+
    foreach( const QString &name, args )
    {
       QFileInfo iniFileInfo( name );

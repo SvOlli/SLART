@@ -50,7 +50,7 @@ public:
     \param flags
    */
    MainWindowCheckClose( bool saveWindow = true,
-                         QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+                         QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
    /*!
     \brief destructor
 

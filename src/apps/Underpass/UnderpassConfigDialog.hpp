@@ -48,7 +48,7 @@ class UnderpassConfigDialog : public QDialog
 
 public:
    UnderpassConfigDialog( StationStorage *storage,
-                          QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+                          QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
 
 public slots:
    /*!

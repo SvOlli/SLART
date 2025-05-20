@@ -8,7 +8,7 @@ TEMPLATE = subdirs
 
 SUBDIRS += TestAppCodeEditor
 SUBDIRS += TestAppCommandLine
-SUBDIRS += TestAppCoverArt
+#SUBDIRS += TestAppCoverArt
 #SUBDIRS += TestAppDatabaseBrowser
 SUBDIRS += TestAppDragAndDrop
 SUBDIRS += TestAppFileSysCompleter

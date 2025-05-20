@@ -52,7 +52,7 @@ public:
     \param flags
    */
    MainWindow( bool saveWindow = true,
-               QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+               QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
 
    /*!
     \brief destructor

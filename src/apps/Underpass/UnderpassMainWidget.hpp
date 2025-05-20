@@ -59,7 +59,7 @@ class UnderpassMainWidget : public QWidget
    Q_OBJECT
 
 public:
-   UnderpassMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   UnderpassMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
    virtual ~UnderpassMainWidget();
 
 public slots:

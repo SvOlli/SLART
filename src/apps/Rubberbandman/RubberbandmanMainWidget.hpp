@@ -60,7 +60,7 @@ public:
     \param parent \todo REPLACE STANDARD
     \param flags \todo REPLACE STANDARD
    */
-   RubberbandmanMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   RubberbandmanMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
    /*!
     \brief destructor
 

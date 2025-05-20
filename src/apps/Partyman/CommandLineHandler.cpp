@@ -22,7 +22,6 @@
 #include <Settings.hpp>
 
 /* local headers */
-#include "PartymanConfigDialog.hpp"
 
 
 CommandLineHandler::CommandLineHandler( const QStringList &list, QObject *parent )

@@ -65,7 +65,7 @@ class PlayerWidget : public QWidget
 
 public:
    PlayerWidget( int index, Database *database,
-                 ControlWidget *controlWidget, Qt::WindowFlags flags = 0 );
+                 ControlWidget *controlWidget, Qt::WindowFlags flags = Qt::WindowFlags() );
    virtual ~PlayerWidget();
 
    /*!

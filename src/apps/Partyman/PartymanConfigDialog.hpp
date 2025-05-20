@@ -57,7 +57,7 @@ public:
     \param parent parent widget
     \param flags window flags
    */
-   PartymanConfigDialog( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   PartymanConfigDialog( Database *database, QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
 
    /*!
     \brief destructor

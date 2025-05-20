@@ -65,7 +65,7 @@ public:
     \param parent
     \param flags
    */
-   PartymanMainWindow( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   PartymanMainWindow( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
 
    /*!
     \brief destructor

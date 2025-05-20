@@ -40,7 +40,7 @@ class MainWidget : public QWidget
    Q_OBJECT
 
 public:
-   MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   MainWidget( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
    virtual ~MainWidget();
 
 public slots:

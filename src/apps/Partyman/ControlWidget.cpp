@@ -525,7 +525,7 @@ void ControlWidget::handlePause( bool reset )
 
 void ControlWidget::handleLoad()
 {
-   mpPlaylist->addEntries( GlobalConfigWidget::getClipboard().split(QRegExp("(\r|\n)"),QString::SkipEmptyParts) );
+   mpPlaylist->addEntries( GlobalConfigWidget::getClipboard().split(QRegExp("(\r|\n)"),Qt::SkipEmptyParts) );
 }
 
 

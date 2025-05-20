@@ -61,7 +61,7 @@ public:
     \param parent
     \param flags
    */
-   StrippedConfigDialog( CDReader *cdreader, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   StrippedConfigDialog( CDReader *cdreader, QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
 
    /*!
     \brief destructor

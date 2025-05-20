@@ -51,7 +51,7 @@ class InnuendoConfigDialog : public QDialog
    Q_OBJECT
 
 public:
-   InnuendoConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   InnuendoConfigDialog( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
 
 public slots:
    /*!

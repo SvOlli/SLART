@@ -56,7 +56,7 @@ public:
     \param parent
     \param flags
    */
-   LuaEditorDialog( const QString &scriptType, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   LuaEditorDialog( const QString &scriptType, QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
    /*!
     \brief destructor
 

@@ -284,5 +284,5 @@ QStringList Satellite::split( const QByteArray &message )
 {
    return QString::fromUtf8( message.constData() )
             .remove('\r')
-            .split('\n', QString::SkipEmptyParts);
+            .split('\n', Qt::SkipEmptyParts);
 }

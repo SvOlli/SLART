@@ -65,7 +65,7 @@ public:
     \param parent
     \param flags
    */
-   KarmadromeMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   KarmadromeMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
    /*!
     \brief
 

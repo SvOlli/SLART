@@ -58,7 +58,7 @@ class InnuendoMainWidget : public QWidget
    Q_OBJECT
 
 public:
-   InnuendoMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   InnuendoMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
    virtual ~InnuendoMainWidget();
 
 public slots:

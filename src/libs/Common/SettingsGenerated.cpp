@@ -1458,6 +1458,15 @@ void Settings::setValue( StrippedString id, const QString &value )
    QSettings *settings = cpSettings->get( "Stripped" );
    switch( id )
    {
+   case StrippedCDDBCache:
+      settings->setValue( "CDDBCache", value );
+      return;
+   case StrippedCDDBURL:
+      settings->setValue( "CDDBURL", value );
+      return;
+   case StrippedCDDBUser:
+      settings->setValue( "CDDBUser", value );
+      return;
    case StrippedCreatePattern:
       settings->setValue( "CreatePattern", value );
       return;
@@ -1478,6 +1487,12 @@ QString Settings::value( StrippedString id )
    QSettings *settings = cpSettings->get( "Stripped" );
    switch( id )
    {
+   case StrippedCDDBCache:
+      return settings->value( "CDDBCache", ".slartdb" ).toString();
+   case StrippedCDDBURL:
+      return settings->value( "CDDBURL", "http://gnudb.gnudb.org/~cddb/cddb.cgi" ).toString();
+   case StrippedCDDBUser:
+      return settings->value( "CDDBUser", "" ).toString();
    case StrippedCreatePattern:
       return settings->value( "CreatePattern", "|$ALBUMARTIST|/|$ALBUM|/(|#2TRACKNUMBER|)|$ARTIST| - |$TITLE|" ).toString();
    case StrippedDevice:

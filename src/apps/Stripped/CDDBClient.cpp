@@ -25,6 +25,7 @@
 /* local library headers */
 #include <Settings.hpp>
 #include <ProxyWidget.hpp>
+#include <Version.hpp>
 
 /* local headers */
 #include "CDInfo.hpp"
@@ -231,7 +232,7 @@ void CDDBClient::handleStateQuery()
 void CDDBClient::handleStateRead()
 {
    emit stateNet();
-   QStringList parameters( mpHits->currentText().split( ' ', QString::SkipEmptyParts ) );
+   QStringList parameters( mpHits->currentText().split( ' ', Qt::SkipEmptyParts ) );
    if( parameters.size() > 2 )
    {
       while( parameters.size() > 2 )
@@ -322,9 +323,14 @@ void CDDBClient::startRequest( RequestType type, const QStringList &parameter )
    mRequestType = type;
    mLastParameter = parameter;
 
-   QString url( "http://freedb.freedb.org/~cddb/cddb.cgi?cmd=cddb %1 %2&hello=svolli localhost Stripped alpha&proto=6" );
-
-   QNetworkRequest request( QUrl( url.arg( cmd, parameter.join(" ") ).replace( ' ', '+' ) ) );
+   QString url( "%1?cmd=cddb %2 %3&hello=%4 Stripped %5&proto=6" );
+   QString CDDBUrl( "http://79t846dy.gnudb.org/~cddb/cddb.cgi" );
+   QString eMail( "svolli@localhost" );
+   QNetworkRequest request( QUrl( url.arg( CDDBUrl,
+                                           cmd,
+                                           parameter.join(" "),
+                                           eMail.replace( '@', ' ' ),
+                                           SLART_VERSION ).replace( ' ', '+' ) ) );
    ProxyWidget::setProxy( mpNAM );
    mpNAM->get( request );
 }
@@ -368,9 +374,9 @@ void CDDBClient::handleQueryData( QNetworkReply *reply )
 {
    QString data( QString::fromUtf8( reply->readAll().constData() ) );
    data.remove( '\r' );
-   QStringList response( data.split( '\n', QString::SkipEmptyParts ) );
+   QStringList response( data.split( '\n', Qt::SkipEmptyParts ) );
 
-   QStringList status( response.at(0).split(' ', QString::SkipEmptyParts) );
+   QStringList status( response.at(0).split(' ', Qt::SkipEmptyParts) );
 
    clear();
    switch( status.at(0).toULong() )
@@ -430,7 +436,7 @@ void CDDBClient::handleReadData( QNetworkReply *reply )
 {
    QString data( QString::fromUtf8( reply->readAll().constData() ) );
    data.remove( '\r' );
-   QStringList response( data.split( '\n', QString::SkipEmptyParts ) );
+   QStringList response( data.split( '\n', Qt::SkipEmptyParts ) );
    QString line;
 
    long currentTrack = -1;

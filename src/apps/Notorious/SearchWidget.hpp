@@ -54,7 +54,7 @@ public:
     \param parent
     \param flags
    */
-   SearchWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   SearchWidget( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
 
    /*!
     \brief \todo

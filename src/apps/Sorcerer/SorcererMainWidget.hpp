@@ -61,7 +61,7 @@ public:
     \param parent parent widget
     \param flags window flags
    */
-   SorcererMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   SorcererMainWidget( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
    /*!
     \brief
 

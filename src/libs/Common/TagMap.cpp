@@ -25,7 +25,7 @@
 
 QString TagMap::fileName( const QString &pattern, bool filterPath )
 {
-   QStringList parts( pattern.split( "|", QString::SkipEmptyParts ) );
+   QStringList parts( pattern.split( "|", Qt::SkipEmptyParts ) );
    QString filename;
    QString val;
    const QString empty;

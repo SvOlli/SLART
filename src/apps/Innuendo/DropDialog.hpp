@@ -51,7 +51,7 @@ class DropDialog : public QDialog
    Q_OBJECT
 
 public:
-   DropDialog( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   DropDialog( QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags() );
 
    /*!
     \brief for implementing dropping

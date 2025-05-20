@@ -27,6 +27,7 @@
 #include <ScrollLine.hpp>
 
 /* local headers */
+//#include "PartymanConfigDialog.hpp"
 #include "ControlWidget.hpp"
 #include "PlayerFSM.hpp"
 #include "TimeSlider.hpp"
@@ -450,7 +451,7 @@ void PlayerWidget::pause()
 
 void PlayerWidget::handleScan( const QString &data )
 {
-   QStringList token( data.split(" ", QString::SkipEmptyParts) );
+   QStringList token( data.split(" ", Qt::SkipEmptyParts) );
    bool ok;
    double max = token.at(1).toDouble( &ok );
    if( !ok )

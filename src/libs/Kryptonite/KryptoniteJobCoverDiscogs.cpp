@@ -53,7 +53,7 @@ void KryptoniteJobCoverDiscogs::parseListHtml( const QByteArray &data )
    QRegExp imgRe( ".*<img[^>]*class=[^>]*search_result_image[^>]*src=\"([^\"]*)\".*" );
    QRegExp linkRe( ".*<a[^>]*class=[^>]*search_result_title[^>]*href=\"([^\"]*)\".*" );
    QString s( QString::fromUtf8(data.constData()) );
-   QStringList l( s.split("\n", QString::SkipEmptyParts) );
+   QStringList l( s.split("\n", Qt::SkipEmptyParts) );
    QUrl imgUrl;
    QUrl linkUrl;
    foreach( s, l )
@@ -88,7 +88,7 @@ void KryptoniteJobCoverDiscogs::parseItemHtml( const QByteArray &data, const QVa
    //QRegExp imgRe( ".*<a href=\"([^\"]*)\">more images</a>.*" );
    QRegExp imgRe( ".*<a href=\"(/viewimages?[^\"]*)\">.*" );
    QString s( QString::fromUtf8(data.constData()) );
-   QStringList l( s.split("\n", QString::SkipEmptyParts) );
+   QStringList l( s.split("\n", Qt::SkipEmptyParts) );
    foreach( s, l )
    {
       if( s.contains( imgRe ) )
@@ -108,7 +108,7 @@ void KryptoniteJobCoverDiscogs::parseImagesHtml( const QByteArray &data, const Q
    QRegExp imgRe1( ".*<img[^>]*class=\"shadow image_frame\"[^>]*src=\"([^\"]*)\".*" );
    QRegExp imgRe2( ".*<div class=\"image\">.*<img[^>]*src=\"([^\"]*)\".*" );
    QString s( QString::fromUtf8(data.constData()) );
-   QStringList l( s.split("\n", QString::SkipEmptyParts) );
+   QStringList l( s.split("\n", Qt::SkipEmptyParts) );
    foreach( s, l )
    {
       if( s.contains( imgRe1 ) )
