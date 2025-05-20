@@ -723,7 +723,17 @@ void ControlWidget::handleDerMixDstartup()
 
    foreach( const QString &line, data )
    {
-      if(( line.indexOf( " online on port " ) > 0 ) ||
+      int version = line.indexOf( " DerMixD v" );
+      if( version > 0 )
+      {
+         const char *expectedVersion = "2.";
+         /* this version of Partyman relies on DerMixD v2.0 or later */
+         if( line.mid( version + 10 /* " DerMixD v" */, 2 ) != expectedVersion )
+         {
+            initDisconnect( ErrorWrongVersion );
+         }
+      }
+      else if(( line.indexOf( " online on port " ) > 0 ) ||
          ( line.indexOf( " listen on port " ) > 0 ) )
       {
          mDerMixDstarted = true;
