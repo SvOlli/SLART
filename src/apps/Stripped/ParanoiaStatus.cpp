@@ -53,7 +53,7 @@ ParanoiaStatus::ParanoiaStatus( QWidget *parent )
    {
       mpHeaders[i] = new QLabel( QString::number(i), this );
       mpHeaders[i]->setAlignment( Qt::AlignCenter );
-      mpHeaders[i]->setMinimumWidth( QFontMetrics( QFont() ).width( "00000 " ) );
+      mpHeaders[i]->setMinimumWidth( QFontMetrics( QFont() ).horizontalAdvance( "00000 " ) );
       mpTrackErrors[i] = new QLabel( this );
       mpTrackErrors[i]->setObjectName( "TrackErrorsLabel" );
       mpTrackErrors[i]->setToolTip( strerror_tr[i] );

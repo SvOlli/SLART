@@ -411,7 +411,7 @@ void ControlWidget::initConnect()
             QMessageBox::critical( this, QApplication::applicationName(),
                                    tr("Could not start DerMixD") );
          }
-         pid = static_cast<qlonglong>( mpDerMixDprocess->pid() );
+         pid = static_cast<qlonglong>( mpDerMixDprocess->processId() );
          Settings::setValue( Settings::PartymanDerMixDpid, pid );
       }
       else

@@ -487,6 +487,9 @@ public:
     */
    enum StrippedString
    {
+      StrippedCDDBCache,
+      StrippedCDDBURL,
+      StrippedCDDBUser,
       StrippedCreatePattern,
       StrippedDevice,
       StrippedDirectory

@@ -15,7 +15,7 @@
 /* system headers */
 
 /* Qt headers */
-#include <QTime>
+#include <QElapsedTimer>
 
 /* local library headers */
 
@@ -106,19 +106,19 @@ private:
    const QChar mQuote; /*!< \brief \todo TODO */
    const QString mDoubleQuote; /*!< \brief \todo TODO */
 
-   QLineEdit   *mpTitle; /*!< \brief \todo TODO */
-   QCheckBox   *mpExact; /*!< \brief \todo TODO */
-   QComboBox   *mpTrack; /*!< \brief \todo TODO */
-   QLineEdit   *mpMinTime; /*!< \brief \todo TODO */
-   QLineEdit   *mpMaxTime; /*!< \brief \todo TODO */
-   QPushButton *mpSearchButton; /*!< \brief \todo TODO */
+   QLineEdit      *mpTitle; /*!< \brief \todo TODO */
+   QCheckBox      *mpExact; /*!< \brief \todo TODO */
+   QComboBox      *mpTrack; /*!< \brief \todo TODO */
+   QLineEdit      *mpMinTime; /*!< \brief \todo TODO */
+   QLineEdit      *mpMaxTime; /*!< \brief \todo TODO */
+   QPushButton    *mpSearchButton; /*!< \brief \todo TODO */
 //   QPushButton *mpSettingsButton; /*!< \brief \todo TODO */
-   QLabel      *mpSQLClause; /*!< \brief \todo TODO */
-   QLabel      *mpQuery1Info; /*!< \brief \todo TODO */
-   QLabel      *mpQuery2Info; /*!< \brief \todo TODO */
-   QTime       mTime1; /*!< \brief \todo TODO */
-   QTime       mTime2; /*!< \brief \todo TODO */
-   QString     mSQL; /*!< \brief \todo TODO */
+   QLabel         *mpSQLClause; /*!< \brief \todo TODO */
+   QLabel         *mpQuery1Info; /*!< \brief \todo TODO */
+   QLabel         *mpQuery2Info; /*!< \brief \todo TODO */
+   QElapsedTimer  mTime1; /*!< \brief \todo TODO */
+   QElapsedTimer  mTime2; /*!< \brief \todo TODO */
+   QString        mSQL; /*!< \brief \todo TODO */
 };
 
 /*! @} */

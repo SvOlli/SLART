@@ -16,6 +16,7 @@ extern "C" {
 
 /* Qt headers */
 #include <QtGui>
+#include <QElapsedTimer>
 
 /* local library headers */
 #include <MagicEncoderProxy.hpp>
@@ -369,8 +370,8 @@ void CDReaderThread::runReadAudioData()
    int year;
    QString createPattern = Settings::value( Settings::StrippedCreatePattern );
    bool autoEnqueue      = Settings::value( Settings::StrippedAutoEnqueue );
-   QTime trackTime;
-   QTime totalTime;
+   QElapsedTimer trackTime;
+   QElapsedTimer totalTime;
 
    if( !mpCdIo || !mpDrive )
    {

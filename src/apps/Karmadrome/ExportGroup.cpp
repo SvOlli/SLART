@@ -19,6 +19,7 @@
 
 /* local library headers */
 #include <DatabaseInterface.hpp>
+#include <Random.hpp>
 
 /* local headers */
 
@@ -30,7 +31,6 @@ ExportGroup::ExportGroup( const QString &folder, const QString &fileName,
 , mRandomize( randomize )
 , mFileName( fileName )
 {
-   qsrand( time((time_t*)0) );
    DatabaseInterface *database = DatabaseInterface::get();
 
    if( folder.startsWith( "|F", Qt::CaseInsensitive ) )
@@ -83,7 +83,7 @@ void ExportGroup::writeData( const QStringList &entries )
       }
       while( ids.count() )
       {
-         randomized << entries.at( ids.takeAt( qrand() % ids.count() ) );
+         randomized << entries.at( ids.takeAt( Random::bounded( ids.count() ) ) );
       }
       e = &randomized;
    }

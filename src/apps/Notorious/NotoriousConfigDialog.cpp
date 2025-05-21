@@ -21,6 +21,7 @@
 #include <QLineEdit>
 #include <QListWidget>
 #include <QPushButton>
+#include <QTime>
 
 /* local library headers */
 #include <AboutWidget.hpp>

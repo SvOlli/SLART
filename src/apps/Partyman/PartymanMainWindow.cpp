@@ -58,7 +58,6 @@ PartymanMainWindow::PartymanMainWindow( QWidget *parent, Qt::WindowFlags flags )
 , mCurrentFile()
 , mNextFile()
 {
-   qsrand( time((time_t*)0) );
    setUnifiedTitleAndToolBarOnMac(true);
    WidgetShot::addWidget( "Main", this );
    if( Satellite::get() )

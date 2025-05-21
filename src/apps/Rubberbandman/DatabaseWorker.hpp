@@ -15,8 +15,8 @@
 /* system headers */
 
 /* Qt headers */
+#include <QElapsedTimer>
 #include <QString>
-#include <QTime>
 
 /* local library headers */
 #include <TrackInfo.hpp>
@@ -143,7 +143,7 @@ private:
    int                  mDepth;  /*!< \brief current depth in directory tree */
    int                  mChecked; /*!< \brief number of items that where checked */
    int                  mProcessed; /*!< \brief number of items that were processed */
-   QTime                mTime; /*!< \brief internal timer to check when to update */
+   QElapsedTimer        mTime; /*!< \brief internal timer to check when to update */
    QString              mPath; /*!< \brief path/file to start with */
 };
 

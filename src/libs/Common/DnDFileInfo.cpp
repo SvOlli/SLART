@@ -135,7 +135,8 @@ QDrag *DnDFileInfo::createDrag()
 
    QDrag *drag = new QDrag( mpParent );
    drag->setMimeData( createMimeData() );
-   drag->setPixmap( QPixmap::grabWidget( &w ) );
+   //drag->setPixmap( QPixmap::grabWidget( &w ) );
+   drag->setPixmap( w.grab() );
    drag->setHotSpot( QPoint( w.width() / 2, w.height() / 2 ) );
 
    return drag;

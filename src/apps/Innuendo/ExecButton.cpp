@@ -54,7 +54,7 @@ void ExecButton::handleClick()
    if( isChecked() )
    {
       /* start */
-      mpProcess->start( mName );
+      mpProcess->start( mName, QStringList() );
    }
    else
    {

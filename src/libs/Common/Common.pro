@@ -64,8 +64,8 @@ SOURCES += GenericSatelliteHandler.cpp
 HEADERS += GlobalConfigWidget.hpp
 SOURCES += GlobalConfigWidget.cpp
 
-HEADERS += GSettingsWrapper.hpp
-SOURCES += GSettingsWrapper.cpp
+#HEADERS += GSettingsWrapper.hpp
+#SOURCES += GSettingsWrapper.cpp
 
 HEADERS += ImageWidget.hpp
 SOURCES += ImageWidget.cpp

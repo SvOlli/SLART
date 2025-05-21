@@ -45,7 +45,8 @@ void WidgetShot::shootWidget( const QString &widgetName, const QString &fileName
    {
       return;
    }
-   QPixmap pixmap( QPixmap::grabWidget( widget ) );
+   //QPixmap pixmap( QPixmap::grabWidget( widget ) );
+   QPixmap pixmap( widget->grab() );
    QFile file( fileName );
    if( file.exists() )
    {

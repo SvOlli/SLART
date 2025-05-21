@@ -15,7 +15,7 @@
 /* system headers */
 
 /* Qt headers */
-#include <QTime>
+#include <QElapsedTimer>
 
 /* local library headers */
 #include <ProxyWidget.hpp>
@@ -104,7 +104,7 @@ private:
    QLabel            *mpFileName;
    QLabel            *mpTimeSpent;
    QPushButton       *mpImportButton;
-   QTime             mTimeSpent;
+   QElapsedTimer     mTimeSpent;
 };
 
 /*! @} */

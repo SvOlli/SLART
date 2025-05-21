@@ -338,7 +338,7 @@ void KarmadromeMainWidget::handleExport( QAction *action )
    }
    dialog.setDirectory( rqdir );
    dialog.setAcceptMode( QFileDialog::AcceptSave );
-   dialog.setConfirmOverwrite( false ); // handled in exportM3u()
+   dialog.setOption( QFileDialog::DontConfirmOverwrite, true );  // handled in exportM3u()
    if( dialog.exec() )
    {
       Settings::setValue( Settings::KarmadromeExportDirectory, dialog.directory().absolutePath() );

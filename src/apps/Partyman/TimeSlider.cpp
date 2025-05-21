@@ -37,7 +37,7 @@ void TimeSlider::mousePressEvent( QMouseEvent *event )
    if( event->button() == Qt::LeftButton )
    {
       MyMouseEvent *myevent = reinterpret_cast<MyMouseEvent*>(event);
-      myevent->setMouseButton( Qt::MidButton );
+      myevent->setMouseButton( Qt::MiddleButton );
    }
    QSlider::mousePressEvent( event );
 }
@@ -48,7 +48,7 @@ void TimeSlider::mouseReleaseEvent( QMouseEvent *event )
    if( event->button() == Qt::LeftButton )
    {
       MyMouseEvent *myevent = reinterpret_cast<MyMouseEvent*>(event);
-      myevent->setMouseButton( Qt::MidButton );
+      myevent->setMouseButton( Qt::MiddleButton );
    }
    QSlider::mouseReleaseEvent( event );
 }

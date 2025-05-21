@@ -16,6 +16,7 @@
 #include <QApplication>
 #include <QBoxLayout>
 #include <QDesktopWidget>
+#include <QScreen>
 #include <QString>
 
 /* local library headers */
@@ -32,7 +33,7 @@ BrowseWidget::BrowseWidget( QWidget *parent )
 , mpInfoEdit( new InfoEdit( this ) )
 {
    QBoxLayout *layout;
-   if( QApplication::desktop()->screenGeometry().height() < 600 )
+   if( QApplication::primaryScreen()->availableSize().height() < 600 )
    {
       layout = new QHBoxLayout( this );
    }

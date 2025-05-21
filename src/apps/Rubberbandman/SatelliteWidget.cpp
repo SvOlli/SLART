@@ -16,6 +16,7 @@
 #include <QBoxLayout>
 #include <QDesktopWidget>
 #include <QPushButton>
+#include <QScreen>
 #include <QString>
 
 /* local library headers */
@@ -46,7 +47,7 @@ SatelliteWidget::SatelliteWidget( QWidget *parent )
    QBoxLayout *mainLayout;
    QBoxLayout *buttonLayout;
 
-   if( QApplication::desktop()->screenGeometry().height() < 600 )
+   if( QApplication::primaryScreen()->availableSize().height() < 600 )
    {
       mainLayout   = new QHBoxLayout( this );
       buttonLayout = new QVBoxLayout;
