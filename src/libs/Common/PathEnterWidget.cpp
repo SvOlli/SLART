@@ -162,7 +162,7 @@ void PathEnterWidget::browse()
    QFileDialog fileDialog( this, mBrowseMessage );
 
    fileDialog.setNameFilters( mpDirModel->nameFilters() );
-   fileDialog.setFileMode( mDirOnly ? QFileDialog::DirectoryOnly : QFileDialog::ExistingFile );
+   fileDialog.setOption( QFileDialog::ShowDirsOnly, mDirOnly );
    QFileInfo qfi( mpLineEdit->text() );
    if( qfi.isDir() )
    {

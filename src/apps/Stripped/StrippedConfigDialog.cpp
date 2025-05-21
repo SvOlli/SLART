@@ -235,7 +235,7 @@ void StrippedConfigDialog::setRippingDir()
 {
    QFileDialog fileDialog( this );
 
-   fileDialog.setFileMode( QFileDialog::DirectoryOnly );
+   fileDialog.setOption( QFileDialog::ShowDirsOnly, true );
    fileDialog.setDirectory( mpDirEdit->text() );
    fileDialog.setReadOnly( false );
 

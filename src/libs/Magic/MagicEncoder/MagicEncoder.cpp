@@ -175,7 +175,7 @@ void MagicEncoder::setDirectory( ScrollLine *dirOverride )
 {
    QFileDialog fileDialog( dirOverride );
 
-   fileDialog.setFileMode( QFileDialog::DirectoryOnly );
+   fileDialog.setOption( QFileDialog::ShowDirsOnly, true );
    fileDialog.setDirectory( dirOverride->text() );
    fileDialog.setReadOnly( false );
 

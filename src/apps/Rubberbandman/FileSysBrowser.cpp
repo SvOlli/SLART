@@ -248,7 +248,7 @@ void FileSysBrowser::handleDotButton()
 {
    QFileDialog fileDialog( this );
 
-   fileDialog.setFileMode( QFileDialog::DirectoryOnly );
+   fileDialog.setOption( QFileDialog::ShowDirsOnly, true );
    fileDialog.setDirectory( mpRootDir->text() );
    fileDialog.setReadOnly( true );
 
@@ -359,7 +359,7 @@ void FileSysBrowser::menuMove( bool contentOnly )
       dialogMessage.append( tr("Move %1 To:") );
    }
    QFileDialog dialog( this, dialogMessage.arg( mFileInfo.fileName()) );
-   dialog.setFileMode( QFileDialog::DirectoryOnly );
+   dialog.setOption( QFileDialog::ShowDirsOnly, true );
    dialog.setDirectory( mpRootDir->text() );
    dialog.setAcceptMode( QFileDialog::AcceptOpen );
    if( dialog.exec() )

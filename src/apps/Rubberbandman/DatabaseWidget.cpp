@@ -208,7 +208,7 @@ void DatabaseWidget::setBaseDir()
 {
    QFileDialog fileDialog( this );
 
-   fileDialog.setFileMode( QFileDialog::DirectoryOnly );
+   fileDialog.setOption( QFileDialog::ShowDirsOnly, true );
    fileDialog.setDirectory( mpBaseDir->text() );
    fileDialog.setReadOnly( true );
 
