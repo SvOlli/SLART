@@ -14,8 +14,8 @@
 /* Qt headers */
 #include <QBoxLayout>
 #include <QCompleter>
-#include <QDirModel>
 #include <QFileDialog>
+#include <QFileSystemModel>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -53,10 +53,9 @@ DatabaseWidget::DatabaseWidget( QWidget *parent )
    browseButton->setMaximumWidth( browseButton->height() );
 
    QCompleter *completer = new QCompleter( this );
-   completer->setModel( new QDirModel( QStringList(),
-                                       QDir::NoDotAndDotDot | QDir::AllDirs,
-                                       QDir::Name,
-                                       completer ) );
+   QFileSystemModel *model = new QFileSystemModel( completer );
+   model->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs );
+   completer->setModel( model );
    mpBaseDir->setCompleter( completer );
 
    mpMessage->setFrameShadow( QFrame::Raised );

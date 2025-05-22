@@ -13,10 +13,10 @@
 
 /* Qt headers */
 #include <QCompleter>
-#include <QDirModel>
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QFileDialog>
+#include <QFileSystemModel>
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QMimeData>
@@ -32,7 +32,7 @@
 PathEnterWidget::PathEnterWidget( QWidget *parent )
 : QWidget( parent )
 , mpLineEdit( new QLineEdit( this ) )
-, mpDirModel( new QDirModel( this ) )
+, mpFileSystemModel( new QFileSystemModel( this ) )
 , mDirOnly( true )
 , mBrowseMessage()
 {
@@ -43,7 +43,7 @@ PathEnterWidget::PathEnterWidget( QWidget *parent )
 PathEnterWidget::PathEnterWidget( const QString &content, QWidget *parent )
 : QWidget( parent )
 , mpLineEdit( new QLineEdit( content, this ) )
-, mpDirModel( new QDirModel( this ) )
+, mpFileSystemModel( new QFileSystemModel( this ) )
 , mDirOnly( true )
 , mBrowseMessage()
 {
@@ -69,9 +69,9 @@ void PathEnterWidget::setup()
             this, SLOT(sendFileName()) );
 
    QCompleter *completer = new QCompleter( this );
-   completer->setModel( mpDirModel );
-   mpDirModel->setFilter( QDir::AllDirs | QDir::NoDotAndDotDot );
-   mpDirModel->setSorting( QDir::Name );
+   completer->setModel( mpFileSystemModel );
+   mpFileSystemModel->setFilter( QDir::AllDirs | QDir::NoDotAndDotDot );
+   //mpFileSystemModel->setSorting( QDir::Name );
    mpLineEdit->setCompleter( completer );
 
    QBoxLayout *layout = new QHBoxLayout( this );
@@ -95,9 +95,9 @@ QLineEdit *PathEnterWidget::lineEdit() const
 }
 
 
-QDirModel *PathEnterWidget::dirModel() const
+QFileSystemModel *PathEnterWidget::fsModel() const
 {
-   return mpDirModel;
+   return mpFileSystemModel;
 }
 
 
@@ -118,11 +118,11 @@ void PathEnterWidget::setDirOnly( bool value )
    mDirOnly = value;
    if( value )
    {
-      mpDirModel->setFilter( mpDirModel->filter() & ~QDir::Files );
+      mpFileSystemModel->setFilter( mpFileSystemModel->filter() & ~QDir::Files );
    }
    else
    {
-      mpDirModel->setFilter( mpDirModel->filter() | QDir::Files );
+      mpFileSystemModel->setFilter( mpFileSystemModel->filter() | QDir::Files );
    }
 }
 
@@ -141,13 +141,13 @@ void PathEnterWidget::setBrowseMessage( const QString &text )
 
 void PathEnterWidget::setNameFilters( const QStringList &filters )
 {
-   mpDirModel->setNameFilters( filters );
+   mpFileSystemModel->setNameFilters( filters );
 }
 
 
 QStringList PathEnterWidget::nameFilters()
 {
-   return mpDirModel->nameFilters();
+   return mpFileSystemModel->nameFilters();
 }
 
 
@@ -161,7 +161,7 @@ void PathEnterWidget::browse()
 {
    QFileDialog fileDialog( this, mBrowseMessage );
 
-   fileDialog.setNameFilters( mpDirModel->nameFilters() );
+   fileDialog.setNameFilters( mpFileSystemModel->nameFilters() );
    fileDialog.setOption( QFileDialog::ShowDirsOnly, mDirOnly );
    QFileInfo qfi( mpLineEdit->text() );
    if( qfi.isDir() )
@@ -208,7 +208,7 @@ void PathEnterWidget::dragEnterEvent( QDragEnterEvent *event )
          }
          else
          {
-            QModelIndex qmi( mpDirModel->index( qfi.absoluteFilePath() ) );
+            QModelIndex qmi( mpFileSystemModel->index( qfi.absoluteFilePath() ) );
             if( qmi.isValid() )
             {
                event->acceptProposedAction();

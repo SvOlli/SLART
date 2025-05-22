@@ -156,26 +156,12 @@ FileSysBrowser::FileSysBrowser( QWidget *parent )
 , mFileInfo()
 {
    const QString rootDir( Settings::value( Settings::RubberbandmanRootDirectory ) );
-   QCompleter *completer = new QCompleter( this );
 
-#if 1
-   // \todo: migrate QDirModel to QFileSystemModel
-   completer->setModel( new QDirModel( QStringList(),
-                                       QDir::NoDotAndDotDot | QDir::AllDirs,
-                                       QDir::Name,
-                                       completer ) );
-#else
-   // this sucks! QFileSystemModel seems not be up to the job
+   QCompleter *completer = new QCompleter( this );
    QFileSystemModel *dirsModel = new QFileSystemModel( completer );
    dirsModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs );
-   for( int i = 1; i >= 0; i = rootDir.indexOf( "/", i + 1 ) )
-   {
-      dirsModel->setRootPath( rootDir.left( i ) );
-   }
    dirsModel->setRootPath( rootDir + "/" );
-   dirsModel->setRootPath( "/" );
    completer->setModel( dirsModel );
-#endif
 
    mpModel->setRootPath( "/" );
    mpModel->setNameFilters( Settings::value( Settings::RubberbandmanFileExtensions ) );

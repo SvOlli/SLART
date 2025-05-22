@@ -291,10 +291,10 @@ void PartymanMainWindow::deleteEntry( const QModelIndex &/*index*/, int key )
 void PartymanMainWindow::addEntries( QStringList *list, const QModelIndex &index )
 {
    QModelIndex qmi;
-   if( index.child(0,0).isValid() )
+   if( mpTreeModel->index(0,0,index).isValid() )
    {
       /* childs exists */
-      for( int i = 0; (qmi=index.child( i, 0 )).isValid(); i++ )
+      for( int i = 0; (qmi = mpTreeModel->index( i, 0, index )).isValid(); i++ )
       {
          addEntries( list, qmi );
       }

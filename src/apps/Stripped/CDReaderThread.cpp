@@ -547,7 +547,7 @@ void CDReaderThread::runEject()
    {
       /* on my system both of the above don't work, so use this a final
        * attempt */
-      if( QProcess::execute("eject") )
+      if( QProcess::execute("eject", QStringList()) )
       {
          emit message( tr("Eject failed.") );
       }

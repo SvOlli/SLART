@@ -254,6 +254,13 @@ private:
    /*!
     \brief \todo complete documentation
 
+    \return
+   */
+   bool isBusy();
+
+   /*!
+    \brief \todo complete documentation
+
    */
    void prepare();
 

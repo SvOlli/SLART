@@ -13,8 +13,8 @@
 
 /* Qt headers */
 #include <QCoreApplication>
-#include <QDirModel>
 #include <QFileDialog>
+#include <QFileSystemModel>
 #include <QGridLayout>
 #include <QIcon>
 #include <QLabel>
@@ -56,7 +56,7 @@ NotoriousConfigDialog::NotoriousConfigDialog( QWidget *parent )
    QPushButton *cancelButton( new QPushButton(tr("Cancel"), this) );
    mpImportFile->setText( "/srv/freedb/" );
    mpImportFile->setDirOnly( false );
-   mpImportFile->dirModel()->setNameFilters( QStringList("freedb-*.tar.bz2") );
+   mpImportFile->fsModel()->setNameFilters( QStringList("freedb-*.tar.bz2") );
 
    QHBoxLayout *buttonLayout = new QHBoxLayout;
    buttonLayout->addWidget( okButton );

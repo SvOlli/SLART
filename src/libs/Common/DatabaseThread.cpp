@@ -376,6 +376,15 @@ void DatabaseThread::commit( bool intermediate )
 }
 
 
+bool DatabaseThread::isBusy()
+{
+   bool ok;
+   int code;
+   code = mpQuery->lastError().nativeErrorCode().toInt( &ok );
+   return ok ? (code == SQLITE_BUSY) : false;
+}
+
+
 void DatabaseThread::getTrackInfo( QObject *target, const QByteArray &method,
                                    int id, const QString &fileName,
                                    const QVariant &payload )
@@ -478,7 +487,7 @@ void DatabaseThread::getTrackInfoList( QObject *target, const QByteArray &method
    if( !mpQuery->exec() )
    {
       logError();
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          QMetaObject::invokeMethod( this, "getTrackInfoList",
                                     Qt::QueuedConnection,
@@ -538,7 +547,7 @@ void DatabaseThread::getPathNameList( QObject *target, const QByteArray &method,
    if( !mpQuery->exec() )
    {
       logError();
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          QMetaObject::invokeMethod( this, "getPathNameList",
                                     Qt::QueuedConnection,
@@ -597,7 +606,7 @@ void DatabaseThread::getRandomTrack( QObject *target, const QByteArray &method,
    if( !mpQuery->exec() )
    {
       logError();
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          QMetaObject::invokeMethod( this, "getRandomTrack",
                                     Qt::QueuedConnection,
@@ -666,7 +675,7 @@ void DatabaseThread::getGroups( QObject *target, const QByteArray &method,
    if( !mpQuery->exec() )
    {
       logError();
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          QMetaObject::invokeMethod( this, "getGroups",
                                     Qt::QueuedConnection,
@@ -719,7 +728,7 @@ void DatabaseThread::getGroup( QObject *target, const QByteArray &method,
       if( !mpQuery->exec() )
       {
          logError();
-         if( mpQuery->lastError().number() == SQLITE_BUSY )
+         if( isBusy() )
          {
             QMetaObject::invokeMethod( this, "getGroup",
                                        Qt::QueuedConnection,
@@ -759,9 +768,9 @@ void DatabaseThread::logError( const QString &note )
       msg.append( mpQuery->lastError().driverText() );
       msg.append( QString( "\nType: %1; Number: %2" )
                   .arg( mpQuery->lastError().type() )
-                  .arg( mpQuery->lastError().number() )
+                  .arg( mpQuery->lastError().nativeErrorCode() )
                        );
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          msg.append( "\nRetrying!" );
       }
@@ -839,7 +848,7 @@ void DatabaseThread::updateTrackInfo( const TrackInfo &trackInfo, bool allowinse
    if( !mpQuery->exec() )
    {
       logError();
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          QMetaObject::invokeMethod( this, "updateTrackInfo",
                                     Qt::QueuedConnection,
@@ -872,7 +881,7 @@ void DatabaseThread::deleteTrackInfo( const TrackInfo &trackInfo )
    if( !mpQuery->exec() )
    {
       logError();
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          QMetaObject::invokeMethod( this, "deleteTrackInfo",
                                     Qt::QueuedConnection,
@@ -899,7 +908,7 @@ void DatabaseThread::insertGroup( const QString &folder )
    if( !mpQuery->exec() )
    {
       logError();
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          QMetaObject::invokeMethod( this, "insertGroup",
                                     Qt::QueuedConnection,
@@ -922,7 +931,7 @@ void DatabaseThread::deleteGroup( const QString &folder )
    if( !mpQuery->exec() )
    {
       logError();
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          QMetaObject::invokeMethod( this, "deleteGroup",
                                     Qt::QueuedConnection,
@@ -951,7 +960,7 @@ void DatabaseThread::deleteGroup( const QString &folder )
       if( !mpQuery->exec() )
       {
          logError();
-         if( mpQuery->lastError().number() == SQLITE_BUSY )
+         if( isBusy() )
          {
             QMetaObject::invokeMethod( this, "deleteGroup",
                                        Qt::QueuedConnection,
@@ -966,7 +975,7 @@ void DatabaseThread::deleteGroup( const QString &folder )
    if( !mpQuery->exec() )
    {
       logError();
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          QMetaObject::invokeMethod( this, "deleteGroup",
                                     Qt::QueuedConnection,
@@ -991,7 +1000,7 @@ TRACESTART(DatabaseThread::rename)
    if( !mpQuery->exec() )
    {
       logError();
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          QMetaObject::invokeMethod( this, "rename",
                                     Qt::QueuedConnection,
@@ -1022,7 +1031,7 @@ TRACEMSG << oldInfo.absoluteFilePath() << "->" << newInfo.absoluteFilePath();
       if( !mpQuery->exec() )
       {
          logError();
-         if( mpQuery->lastError().number() == SQLITE_BUSY )
+         if( isBusy() )
          {
             QMetaObject::invokeMethod( this, "rename",
                                        Qt::QueuedConnection,
@@ -1047,7 +1056,7 @@ TRACEMSG << "rows:" << mpQuery->numRowsAffected();
       if( !mpQuery->exec() )
       {
          logError();
-         if( mpQuery->lastError().number() == SQLITE_BUSY )
+         if( isBusy() )
          {
             QMetaObject::invokeMethod( this, "rename",
                                        Qt::QueuedConnection,
@@ -1081,7 +1090,7 @@ TRACEMSG << directory << "->" << newDirName;
             if( !mpQuery->exec() )
             {
                logError();
-               if( mpQuery->lastError().number() == SQLITE_BUSY )
+               if( isBusy() )
                {
                   QMetaObject::invokeMethod( this, "rename",
                                              Qt::QueuedConnection,
@@ -1114,7 +1123,7 @@ void DatabaseThread::getAllColumnData( QObject *target, const QByteArray &method
    if( !mpQuery->exec() )
    {
       logError();
-      if( mpQuery->lastError().number() == SQLITE_BUSY )
+      if( isBusy() )
       {
          QMetaObject::invokeMethod( this, "getAllColumnData",
                                     Qt::QueuedConnection,

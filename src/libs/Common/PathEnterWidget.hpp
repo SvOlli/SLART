@@ -22,7 +22,7 @@
 /* local headers */
 
 /* forward declaration of Qt classes */
-class QDirModel;
+class QFileSystemModel;
 class QLineEdit;
 
 /* forward declaration of local classes */
@@ -104,11 +104,11 @@ public:
    QLineEdit *lineEdit() const;
 
    /*!
-    \brief for full access to QDirModel of QCompleter
+    \brief for full access to QFileSystemModel of QCompleter
 
-    \return QDirModel
+    \return QFileSystemModel
    */
-   QDirModel *dirModel() const;
+   QFileSystemModel *fsModel() const;
 
    /*!
     \brief passed on to QLineEdit
@@ -232,10 +232,10 @@ private:
    */
    void setup();
 
-   QLineEdit      *mpLineEdit; /*!< \brief \todo TODO */
-   QDirModel      *mpDirModel; /*!< \brief \todo TODO */
-   bool           mDirOnly; /*!< \brief \todo TODO */
-   QString        mBrowseMessage; /*!< \brief \todo TODO */
+   QLineEdit         *mpLineEdit; /*!< \brief \todo TODO */
+   QFileSystemModel  *mpFileSystemModel; /*!< \brief \todo TODO */
+   bool              mDirOnly; /*!< \brief \todo TODO */
+   QString           mBrowseMessage; /*!< \brief \todo TODO */
 };
 
 /*! @} */

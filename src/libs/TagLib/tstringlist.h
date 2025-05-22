@@ -99,6 +99,13 @@ namespace TagLib {
      */
     static StringList split(const String &s, const String &pattern);
 
+    /*!
+     * Make a shallow, implicitly shared, copy of \a l.  Because this is
+     * implicitly shared, this method is lightweight and suitable for
+     * pass-by-value usage.
+     */
+    StringList &operator=(const StringList &l);
+
   private:
     class StringListPrivate;
     StringListPrivate *d;

@@ -59,7 +59,7 @@ Qt::ItemFlags FileSysTreeModel::flags( const QModelIndex &index ) const
    {
       return Qt::ItemIsEnabled;
    }
-   if( index.child(0,0).isValid() )
+   if( this->index(0,0,index).isValid() )
    {
       /* a directory has childs and is not draggable */
       return Qt::ItemIsSelectable | Qt::ItemIsEnabled;

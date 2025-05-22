@@ -23,7 +23,7 @@
 /* local headers */
 
 
-#define USE_DIRMODEL 1
+#define USE_DIRMODEL 0
 
 int main(int argc, char *argv[])
 {

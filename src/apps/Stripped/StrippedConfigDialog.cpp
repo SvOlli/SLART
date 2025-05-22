@@ -17,8 +17,8 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QCompleter>
-#include <QDirModel>
 #include <QFileDialog>
+#include <QFileSystemModel>
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -71,10 +71,9 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
    setWindowIcon( QIcon(":/Stripped/Icon.png") );
 
    QCompleter *completer = new QCompleter( this );
-   completer->setModel( new QDirModel( QStringList(),
-                                       QDir::NoDotAndDotDot | QDir::AllDirs,
-                                       QDir::Name,
-                                       completer ) );
+   QFileSystemModel *dirsModel = new QFileSystemModel( completer );
+   dirsModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs );
+   completer->setModel( dirsModel );
    mpDirEdit->setCompleter( completer );
    /* evil hack */
    mpDirButton->setMaximumWidth( mpDirButton->height() );

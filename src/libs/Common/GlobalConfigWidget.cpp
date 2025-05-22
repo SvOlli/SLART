@@ -18,8 +18,8 @@
 #include <QComboBox>
 #include <QCompleter>
 #include <QCoreApplication>
-#include <QDirModel>
 #include <QFileDialog>
+#include <QFileSystemModel>
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -52,7 +52,7 @@ GlobalConfigWidget::GlobalConfigWidget( QWidget *parent )
    QGridLayout *mainLayout = new QGridLayout( this );
 
    QCompleter *completer = new QCompleter( this );
-   completer->setModel( new QDirModel( completer ) );
+   completer->setModel( new QFileSystemModel( completer ) );
    mpStyleSheetFileName->setCompleter( completer );
 
    showClipboard( false );

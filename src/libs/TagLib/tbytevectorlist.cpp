@@ -70,6 +70,12 @@ ByteVectorList ByteVectorList::split(const ByteVector &v, const ByteVector &patt
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
+ByteVectorList &ByteVectorList::operator=(const ByteVectorList &l)
+{
+  List<ByteVector>::operator=( l );
+  return *this;
+}
+
 ByteVectorList::ByteVectorList() : List<ByteVector>()
 {
 

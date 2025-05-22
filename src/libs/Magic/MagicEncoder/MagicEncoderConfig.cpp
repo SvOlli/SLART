@@ -15,8 +15,8 @@
 #include <QAction>
 #include <QCheckBox>
 #include <QCompleter>
-#include <QDirModel>
 #include <QFileDialog>
+#include <QFileSystemModel>
 #include <QLineEdit>
 #include <QPushButton>
 
@@ -36,10 +36,8 @@ MagicEncoderConfig::MagicEncoderConfig( QWidget *parent, QAction *toggleEnableAc
 , mpDotButton( new QPushButton( "...", this ) )
 {
    QCompleter *completer = new QCompleter( this );
-   completer->setModel( new QDirModel( QStringList(),
-                                       QDir::NoDotAndDotDot | QDir::AllDirs,
-                                       QDir::Name,
-                                       completer ) );
+   QFileSystemModel *dirsModel = new QFileSystemModel( completer );
+   dirsModel->setFilter( QDir::NoDotAndDotDot | QDir::AllDirs );
    mpDirEdit->setCompleter( completer );
 
    /* evil hack */

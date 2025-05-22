@@ -83,6 +83,12 @@ StringList::~StringList()
 
 }
 
+StringList &StringList::operator=(const StringList &l)
+{
+  List<String>::operator=( l );
+  return *this;
+}
+
 String StringList::toString(const String &separator) const
 {
   String s;

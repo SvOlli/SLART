@@ -81,6 +81,13 @@ namespace TagLib {
     // BIC: merge with the function above
     static ByteVectorList split(const ByteVector &v, const ByteVector &pattern,
                                 int byteAlign, int max);
+    /*!
+     * Make a shallow, implicitly shared, copy of \a l.  Because this is
+     * implicitly shared, this method is lightweight and suitable for
+     * pass-by-value usage.
+     */
+    ByteVectorList &operator=(const ByteVectorList &l);
+
   private:
     class ByteVectorListPrivate;
     ByteVectorListPrivate *d;
