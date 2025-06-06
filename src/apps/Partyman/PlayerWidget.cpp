@@ -11,6 +11,7 @@
 
 /* system headers */
 #include <iostream>
+#include <cmath>
 
 /* Qt headers */
 #include <QBoxLayout>
@@ -535,6 +536,10 @@ void PlayerWidget::handleScan( const QString &data )
    updateTime();
 }
 
+static double to_db(double factor)
+{
+	return factor > 2.5e-10 ? std::log(factor)/std::log(10)*20 : -192;
+}
 
 bool PlayerWidget::setVolume()
 {
@@ -551,13 +556,13 @@ bool PlayerWidget::setVolume()
       if( mTrackInfo.isFlagged( TrackInfo::ScannedWithPower ) )
       {
          adjust = mNormalizeValue / mTrackInfo.mVolume;
-         sendCommand( "volume", QString::number(adjust) );
+         sendCommand( "preamp", QString::number(to_db(adjust)) );
          return true;
       }
       if( mTrackInfo.isFlagged( TrackInfo::ScannedWithPeak ) )
       {
          adjust = 1.0 / mTrackInfo.mVolume;
-         sendCommand( "volume", QString::number(adjust) );
+         sendCommand( "preamp", QString::number(to_db(adjust)) );
          return true;
       }
    }
