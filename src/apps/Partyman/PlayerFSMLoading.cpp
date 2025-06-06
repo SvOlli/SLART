@@ -41,6 +41,9 @@ bool PlayerFSMLoading::enter()
    mInScan = false;
    QString fileName( mpPlayerWidget->mpScrollLine->toolTip() );
 
+// ThOr: always rescan, dermixd could be started with options (input.zerscan)
+// that modify the length of tracks
+#if 0
 #if 0
    mpPlayerWidget->mpDatabase->getTrackInfo( &(mpPlayerWidget->mTrackInfo), fileName );
 #endif
@@ -57,6 +60,7 @@ bool PlayerFSMLoading::enter()
       }
    }
    else
+#endif
    {
       needRescan = true;
    }
