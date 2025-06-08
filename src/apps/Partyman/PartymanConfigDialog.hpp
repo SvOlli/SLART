@@ -32,6 +32,7 @@ class QSpinBox;
 class Database;
 class GlobalConfigWidget;
 class MyClipboard;
+class PathEnterWidget;
 
 
 /*!
@@ -130,12 +131,14 @@ private:
    QLineEdit            *mpDerMixDparams; /*!< \brief \todo TODO */
    QCheckBox            *mpAutoConnect; /*!< \brief \todo TODO */
    QSpinBox             *mpCrossfadeTime; /*!< \brief \todo TODO */
+   QCheckBox            *mpCrossfadeOnNext; /*!< \brief \todo TODO */
    QComboBox            *mpNormalizeMode; /*!< \brief \todo TODO */
    QDoubleSpinBox       *mpNormalizeValue; /*!< \brief \todo TODO */
    MyClipboard          *mpClipboard; /*!< \brief \todo TODO */
    QLineEdit            *mpLogCmd; /*!< \brief \todo TODO */
    QCheckBox            *mpCountSkip; /*!< \brief \todo TODO */
    QCheckBox            *mpStopOnUnderpass;  /*!< \brief setting for autostop if Underpass is started */
+   PathEnterWidget      *mpExecuteOnStatusChange; /*!< \brief setting for program to execute when Player status changes */
    QCheckBox            *mpTrayIcon; /*!< \brief \todo TODO */
    QCheckBox            *mpTrayIconBubble; /*!< \brief \todo TODO */
    QDoubleSpinBox       *mpTrayIconBubbleTime; /*!< \brief \todo TODO */

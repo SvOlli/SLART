@@ -35,6 +35,7 @@ bool PlayerFSMLoading::enter()
    bool needRescan = false;
    mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("loading") );
    mpPlayerWidget->mTotalTime = 0;
+   mpPlayerWidget->mEndTime = 0;
    mpPlayerWidget->updateTime();
 
    mInScan = false;

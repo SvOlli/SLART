@@ -52,7 +52,6 @@ TrackInfo::TrackInfo( const QString &directory, const QString &filename,
 , mGroups( groups )
 , mFlags( flags )
 {
-
 }
 
 TrackInfo::TrackInfo( const TrackInfo &that )
@@ -70,7 +69,7 @@ TrackInfo::TrackInfo( const TrackInfo &that )
 , mLastTagsRead( that.mLastTagsRead )
 , mTimesPlayed ( that.mTimesPlayed )
 , mVolume      ( that.mVolume )
-, mGroups     ( that.mGroups )
+, mGroups      ( that.mGroups )
 , mFlags       ( that.mFlags )
 {
 }
@@ -96,7 +95,7 @@ TrackInfo &TrackInfo::operator=( const TrackInfo &that )
    mLastTagsRead = that.mLastTagsRead;
    mTimesPlayed  = that.mTimesPlayed;
    mVolume       = that.mVolume;
-   mGroups      = that.mGroups;
+   mGroups       = that.mGroups;
    mFlags        = that.mFlags;
 
    return *this;
@@ -121,7 +120,7 @@ bool TrackInfo::operator==( const TrackInfo &that ) const
       && (mLastTagsRead == that.mLastTagsRead )
       && (mTimesPlayed  == that.mTimesPlayed )
       && (mVolume       == that.mVolume )
-      && (mGroups      == that.mGroups )
+      && (mGroups       == that.mGroups )
       && (mFlags        == that.mFlags )
    );
 }
@@ -148,7 +147,7 @@ void TrackInfo::clear()
    mLastTagsRead = 0;
    mTimesPlayed  = 0;
    mVolume       = 0.0;
-   mGroups      = QString();
+   mGroups       = QString();
    mFlags        = 0;
 }
 
@@ -355,3 +354,45 @@ QString TrackInfo::displayString( const QString &pattern ) const
 
    return filename;
 }
+
+
+QProcessEnvironment TrackInfo::toProcessEnvironment() const
+{
+   QProcessEnvironment env;
+   QStringList groupList( mGroups.split('|', Qt::SkipEmptyParts) );
+   QStringList flagList;
+
+   if( mFlags & ScannedWithPeak )
+   {
+      flagList.append( "ScannedWithPeak" );
+   }
+   if( mFlags & ScannedWithPower )
+   {
+      flagList.append( "ScannedWithPower" );
+   }
+   if( mFlags & Unwanted )
+   {
+      flagList.append( "Unwanted" );
+   }
+   if( mFlags & Favorite )
+   {
+      flagList.append( "Favorite" );
+   }
+
+   env.insert( "ID",          QString::number( mID ) );
+   env.insert( "DIRECTORY",   mDirectory );
+   env.insert( "FILENAME",    mFileName );
+   env.insert( "ARTIST",      mArtist );
+   env.insert( "TITLE",       mTitle );
+   env.insert( "ALBUM",       mAlbum );
+   env.insert( "TRACKNUMBER", QString::number( mTrackNr ) );
+   env.insert( "DATE",        QString::number( mYear ) );
+   env.insert( "GENRE",       mGenre );
+   env.insert( "PLAYTIME",    sec2minsec( mPlayTime ) );
+   env.insert( "TIMESPLAYED", QString::number( mTimesPlayed ) );
+   env.insert( "FOLDERS",     groupList.join( "\n" ) );
+   env.insert( "FLAGS",       flagList.join( "\n" ) );
+
+   return env;
+}
+

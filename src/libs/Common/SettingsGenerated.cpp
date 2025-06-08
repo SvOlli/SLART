@@ -1032,6 +1032,9 @@ void Settings::setValue( PartymanString id, const QString &value )
    case PartymanDerMixDparams:
       settings->setValue( "DerMixDparams", value );
       return;
+   case PartymanExecuteOnStatusChange:
+      settings->setValue( "ExecuteOnStatusChange", value );
+      return;
    case PartymanListPattern:
       settings->setValue( "ListPattern", value );
       return;
@@ -1070,6 +1073,8 @@ QString Settings::value( PartymanString id )
       return settings->value( "DerMixDhost", "localhost" ).toString();
    case PartymanDerMixDparams:
       return settings->value( "DerMixDparams" ).toString();
+   case PartymanExecuteOnStatusChange:
+      return settings->value( "ExecuteOnStatusChange" ).toString();
    case PartymanListPattern:
       return settings->value( "ListPattern", "(|$PLAYTIME|)|$ARTIST| - |$TITLE|" ).toString();
    case PartymanLogCmd:
@@ -1140,6 +1145,9 @@ void Settings::setValue( PartymanBool id, bool value )
    case PartymanCountSkip:
       settings->setValue( "CountSkip", value );
       return;
+   case PartymanCrossfadeOnNext:
+      settings->setValue( "CrossfadeOnNext", value );
+      return;
    case PartymanDerMixDlog:
       settings->setValue( "DerMixDlog", value );
       return;
@@ -1179,6 +1187,8 @@ bool Settings::value( PartymanBool id )
       return settings->value( "AutoConnect", false ).toBool();
    case PartymanCountSkip:
       return settings->value( "CountSkip", false ).toBool();
+   case PartymanCrossfadeOnNext:
+      return settings->value( "CrossfadeOnNext", false ).toBool();
    case PartymanDerMixDlog:
       return settings->value( "DerMixDlog", false ).toBool();
    case PartymanDerMixDrun:

@@ -19,6 +19,7 @@
 #include <QDropEvent>
 #include <QLabel>
 #include <QMimeData>
+#include <QProcess>
 #include <QTcpSocket>
 
 /* local library headers */
@@ -45,9 +46,11 @@ PlayerWidget::PlayerWidget( int index, Database *database,
 , mpPlayPosition( new TimeSlider( Qt::Horizontal, this ) )
 , mpSocket( new QTcpSocket( this ) )
 , mpFSM( new PlayerFSM( this ) )
+, mpNotifier( new QProcess( this ) )
 , mStartOther( false )
 , mAutoPlay( false )
 , mTotalTime( 0 )
+, mEndTime( 0 )
 , mFrequency( 44100 )
 , mSamples( 0 )
 , mHeadStart( 10 )
@@ -96,6 +99,9 @@ PlayerWidget::PlayerWidget( int index, Database *database,
             this, SLOT(unload()) );
 
    mpFSM->changeState( PlayerFSM::disconnected );
+   QProcessEnvironment env;
+   env.insert( "PLAYER", QString::number( index ) );
+   mpNotifier->setProcessEnvironment( env );
 }
 
 
@@ -122,6 +128,7 @@ void PlayerWidget::getNextTrack( bool armed )
    }
 
    inDatabase = mpDatabase->getTrackInfo( &mTrackInfo, fileName );
+   updateNotifier( mTrackInfo.toProcessEnvironment() );
    if( fileName.isEmpty() )
    {
       mpScrollLine->setText( tr("no file loaded") );
@@ -162,6 +169,16 @@ void PlayerWidget::readConfig()
    mNormalizeMode  = Settings::value( Settings::PartymanNormalizeMode );
    mNormalizeValue = Settings::value( Settings::PartymanNormalizeValue );
    mDisplayPattern = Settings::value( Settings::PartymanPlayerPattern );
+   QProcessEnvironment env( mpNotifier->processEnvironment() );
+   env.insert( "DERMIXD_HOST", Settings::value( Settings::PartymanDerMixDhost ) );
+   env.insert( "DERMIXD_PORT", QString::number( Settings::value( Settings::PartymanDerMixDport ) ) );
+   env.insert( "CROSSFADE_TIME", QString::number( Settings::value( Settings::PartymanCrossfadeTime ) ) );
+   env.insert( "USE_SATELLITE", QString::number( Settings::value( Settings::CommonUseSatellite ) ) );
+   env.insert( "SATELLITE+PORT", QString::number( Settings::value( Settings::GlobalSatellitePort ) ) );
+   env.insert( "LOG_CMD", Settings::value( Settings::PartymanLogCmd ) );
+   mpNotifier->setProcessEnvironment( env );
+   mpNotifier->setProgram( Settings::value( Settings::PartymanExecuteOnStatusChange ) );
+   mpFSM->setNotifier( mpNotifier->program().isEmpty() ? mpNotifier : 0 );
 }
 
 
@@ -181,6 +198,11 @@ void PlayerWidget::seek()
    mUpdateSlider = true;
 }
 
+
+void PlayerWidget::nextTrack()
+{
+   setState( PlayerFSM::searching );
+}
 
 void PlayerWidget::playPosChange( int /*action*/ )
 {
@@ -229,6 +251,10 @@ void PlayerWidget::updateTime( const QString &msg, bool force )
             mpTimeDisplay->setText( TrackInfo::sec2minsec( msg.left(colon-1).toInt() ) + "/" +
                                     TrackInfo::sec2minsec( mTotalTime ) );
             playPosition = msg.left(colon-1).toLong();
+            if( playPosition >= (mEndTime + mHeadStart) )
+            {
+               QTimer::singleShot( 1000, this, SLOT(nextTrack) );
+            }
          }
       }
    }
@@ -239,7 +265,7 @@ void PlayerWidget::updateTime( const QString &msg, bool force )
    }
 
    if( (mpFSM->getState() == PlayerFSM::playing) &&
-       (playPosition >= mTotalTime - mHeadStart) )
+       (playPosition >= mEndTime /*mTotalTime - mHeadStart*/ ) )
    {
       mpFSM->changeState( PlayerFSM::ending );
    }
@@ -276,7 +302,15 @@ bool PlayerWidget::skip()
             ++(mTrackInfo.mTimesPlayed);
             mpDatabase->updateTrackInfo( &mTrackInfo );
          }
-         setState( PlayerFSM::searching );
+         if( Settings::value( Settings::PartymanCrossfadeOnNext ) )
+         {
+            mEndTime = mpPlayPosition->value() + mHeadStart;
+            setState( PlayerFSM::ending );
+         }
+         else
+         {
+            setState( PlayerFSM::searching );
+         }
          break;
       case PlayerFSM::ending:
       case PlayerFSM::searching:
@@ -489,6 +523,7 @@ void PlayerWidget::handleScan( const QString &data )
       mSamples = token.at(1).toLong();
    }
    mTotalTime = mSamples / mFrequency;
+   mEndTime = mTotalTime - mHeadStart;
 
    if( (unsigned int)mTotalTime != mTrackInfo.mPlayTime )
    {
@@ -507,6 +542,7 @@ bool PlayerWidget::setVolume()
    if( mTrackInfo.mPlayTime > 0 )
    {
       mTotalTime = mTrackInfo.mPlayTime;
+      mEndTime = mTotalTime - mHeadStart;
    }
 
    if( mTrackInfo.mVolume > 0.0 )
@@ -585,3 +621,20 @@ void PlayerWidget::dropEvent( QDropEvent *event )
    }
    event->ignore();
 }
+
+
+void PlayerWidget::updateNotifier( const QString &name, const QString &value )
+{
+   QProcessEnvironment env( mpNotifier->processEnvironment() );
+   env.insert( name, value );
+   mpNotifier->setProcessEnvironment( env );
+}
+
+
+void PlayerWidget::updateNotifier( const QProcessEnvironment &environment )
+{
+   QProcessEnvironment env( mpNotifier->processEnvironment() );
+   env.insert( environment );
+   mpNotifier->setProcessEnvironment( env );
+}
+

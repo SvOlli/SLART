@@ -12,6 +12,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QProcess>
 
 /* local library headers */
 
@@ -39,6 +40,7 @@ PlayerFSM::PlayerFSM( PlayerWidget *playerWidget )
 , mpStatePaused( new PlayerFSMPaused(playerWidget) )
 , mpStateEndingPaused( new PlayerFSMEndingPaused(playerWidget) )
 , mpStateClass( 0 )
+, mpNotifier( 0 )
 {
 }
 
@@ -53,6 +55,12 @@ PlayerFSM::~PlayerFSM()
    if( mpStateEnding )       delete mpStateEnding;
    if( mpStatePaused )       delete mpStatePaused;
    if( mpStateEndingPaused ) delete mpStateEndingPaused;
+}
+
+
+void PlayerFSM::setNotifier( QProcess *notifier )
+{
+   mpNotifier = notifier;
 }
 
 
@@ -103,6 +111,25 @@ bool PlayerFSM::changeState( enum eState newState )
       return false;
    }
 
+   if( mpNotifier )
+   {
+      QProcessEnvironment env( mpNotifier->processEnvironment() );
+      const char *stateString = getStateString();
+      if( stateString )
+      {
+         env.insert( "STATE", stateString );
+         mpNotifier->setProcessEnvironment( env );
+         if( mpNotifier->state() != QProcess::NotRunning )
+         {
+            mpNotifier->terminate();
+         }
+         mpNotifier->start();
+         mpNotifier->closeReadChannel( QProcess::StandardError );
+         mpNotifier->closeReadChannel( QProcess::StandardOutput );
+         mpNotifier->closeWriteChannel();
+      }
+   }
+
    return true;
 }
 
@@ -110,6 +137,50 @@ bool PlayerFSM::changeState( enum eState newState )
 enum PlayerFSM::eState PlayerFSM::getState()
 {
    return mState;
+}
+
+
+const char *PlayerFSM::getStateString()
+{
+   const char *states[] =
+   {
+      "disconnected",
+      "searching",
+      "loading",
+      "ready",
+      "playing",
+      "ending",
+      "paused",
+      "endingpaused"
+   };
+   switch( mState )
+   {
+      case disconnected:
+         return states[0];
+         break;
+      case searching:
+         return states[1];
+         break;
+      case loading:
+         return states[2];
+         break;
+      case ready:
+         return states[3];
+         break;
+      case playing:
+         return states[4];
+         break;
+      case ending:
+         return states[5];
+         break;
+      case paused:
+         return states[6];
+         break;
+      case endingpaused:
+         return states[7];
+         break;
+   }
+   return (const char*)0;
 }
 
 

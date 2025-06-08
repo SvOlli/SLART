@@ -32,6 +32,7 @@ bool PlayerFSMDisconnected::enter()
    mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("unloaded") );
    mpPlayerWidget->getNextTrack( false );
    mpPlayerWidget->mTotalTime = 0;
+   mpPlayerWidget->mEndTime = 0;
    mpPlayerWidget->updateTime();
    mpPlayerWidget->mpPlayPosition->setDisabled( true );
 

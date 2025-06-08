@@ -29,6 +29,7 @@
 #include <Database.hpp>
 #include <GlobalConfigWidget.hpp>
 #include <PasswordChecker.hpp>
+#include <PathEnterWidget.hpp>
 #include <Satellite.hpp>
 #include <Settings.hpp>
 #include <Version.hpp>
@@ -52,11 +53,13 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
 , mpDerMixDparams( new QLineEdit( this ) )
 , mpAutoConnect( new QCheckBox( tr("Connect on startup"), this ) )
 , mpCrossfadeTime( new QSpinBox( this ) )
+, mpCrossfadeOnNext( new QCheckBox( tr("Next also crossfades"), this ) )
 , mpNormalizeMode( new QComboBox( this ) )
 , mpNormalizeValue( new QDoubleSpinBox( this ) )
 , mpLogCmd( new QLineEdit( this ) )
 , mpCountSkip( new QCheckBox( tr("Increase track played counter on skip"), this ) )
 , mpStopOnUnderpass( new QCheckBox( tr("Stop playing if Underpass is started"), this ) )
+, mpExecuteOnStatusChange( new PathEnterWidget( this ) )
 , mpTrayIcon( new QCheckBox( tr("Show tray icon"), this ) )
 , mpTrayIconBubble( new QCheckBox( tr("With bubble"), this ) )
 , mpTrayIconBubbleTime( new QDoubleSpinBox( this ) )
@@ -96,6 +99,7 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
    mpTrayIconBubbleTime->setAlignment( Qt::AlignRight );
    mpDerMixDport->setRange( 1, 65535 );
    mpDerMixDport->setAlignment( Qt::AlignRight );
+   mpExecuteOnStatusChange->setDirOnly( false );
    mpCrossfadeTime->setRange( 1, 30 );
    mpCrossfadeTime->setSuffix( "s" );
    mpCrossfadeTime->setAlignment( Qt::AlignRight );
@@ -127,19 +131,22 @@ PartymanConfigDialog::PartymanConfigDialog( Database *database, QWidget *parent,
 
    QWidget     *partymanTab    = new QWidget( this );
    QGridLayout *partymanLayout = new QGridLayout( partymanTab );
-   partymanLayout->addWidget( mpAutoConnect,                        0, 0, 1, 5 );
-   partymanLayout->addWidget( new QLabel( tr("Crossfade time:") ),  1, 0, 1, 2 );
-   partymanLayout->addWidget( mpCrossfadeTime,                      1, 4 );
-   partymanLayout->addWidget( mpTrayIcon,                           2, 0, 1, 2 );
-   partymanLayout->addWidget( mpTrayIconBubble,                     2, 2, 1, 2 );
-   partymanLayout->addWidget( mpTrayIconBubbleTime,                 2, 4 );
-   partymanLayout->addWidget( new QLabel( tr("External logger:") ), 3, 0 );
-   partymanLayout->addWidget( mpLogCmd,                             3, 1, 1, 4 );
-   partymanLayout->addWidget( mpCountSkip,                          4, 0, 1, 5 );
-   partymanLayout->addWidget( mpStopOnUnderpass,                    5, 0, 1, 5 );
+   partymanLayout->addWidget( mpAutoConnect,                          0, 0, 1, 5 );
+   partymanLayout->addWidget( new QLabel( tr("Crossfade time:") ),    1, 0, 1, 2 );
+   partymanLayout->addWidget( mpCrossfadeTime,                        1, 4 );
+   partymanLayout->addWidget( mpCrossfadeOnNext,                      2, 0, 1, 5 );
+   partymanLayout->addWidget( mpTrayIcon,                             3, 0, 1, 2 );
+   partymanLayout->addWidget( mpTrayIconBubble,                       3, 2, 1, 2 );
+   partymanLayout->addWidget( mpTrayIconBubbleTime,                   3, 4 );
+   partymanLayout->addWidget( new QLabel( tr("External logger:") ),   4, 0 );
+   partymanLayout->addWidget( mpLogCmd,                               4, 1, 1, 4 );
+   partymanLayout->addWidget( mpCountSkip,                            5, 0, 1, 5 );
+   partymanLayout->addWidget( mpStopOnUnderpass,                      6, 0, 1, 5 );
+   partymanLayout->addWidget( new QLabel( tr("Status change run:") ), 7, 0 );
+   partymanLayout->addWidget( mpExecuteOnStatusChange,                7, 1, 1, 4 );
    partymanLayout->setColumnStretch( 1, 1 );
    partymanLayout->setColumnStretch( 2, 1 );
-   partymanLayout->setRowStretch( 7, 1 );
+   partymanLayout->setRowStretch( 8, 1 );
    partymanTab->setLayout( partymanLayout );
    connect( mpTrayIcon, SIGNAL(clicked(bool)),
             this, SLOT(handleShowTrayIcon(bool)) );
@@ -266,6 +273,7 @@ void PartymanConfigDialog::readSettings()
    mpDerMixDparams->setText( Settings::value( Settings::PartymanDerMixDparams ) );
    mpAutoConnect->setChecked( Settings::value( Settings::PartymanAutoConnect ) );
    mpCrossfadeTime->setValue( Settings::value( Settings::PartymanCrossfadeTime ) );
+   mpCrossfadeOnNext->setChecked( Settings::value( Settings::PartymanCrossfadeOnNext) );
    mpNormalizeMode->setCurrentIndex( Settings::value( Settings::PartymanNormalizeMode ) );
    mpNormalizeValue->setValue( Settings::value( Settings::PartymanNormalizeValue ) );
    mpLogCmd->setText( Settings::value( Settings::PartymanLogCmd ) );
@@ -309,6 +317,7 @@ void PartymanConfigDialog::writeSettings()
    Settings::setValue( Settings::PartymanDerMixDparams, mpDerMixDparams->text() );
    Settings::setValue( Settings::PartymanAutoConnect, mpAutoConnect->isChecked() );
    Settings::setValue( Settings::PartymanCrossfadeTime, mpCrossfadeTime->value() );
+   Settings::setValue( Settings::PartymanCrossfadeOnNext, mpCrossfadeOnNext->isChecked() );
    Settings::setValue( Settings::PartymanNormalizeMode, mpNormalizeMode->currentIndex() );
    Settings::setValue( Settings::PartymanNormalizeValue, mpNormalizeValue->value() );
    Settings::setValue( Settings::PartymanLogCmd, mpLogCmd->text() );

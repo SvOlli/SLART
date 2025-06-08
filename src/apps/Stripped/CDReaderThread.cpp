@@ -443,7 +443,6 @@ void CDReaderThread::runReadAudioData()
       }
 
       ::cdio_paranoia_seek( mpParanoia, firstSector, SEEK_SET );
-      percent = 0;
       lastPercent = 0;
       trackTime.start();
       trackSectorsRead = 0;

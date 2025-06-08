@@ -15,6 +15,7 @@
 
 /* Qt headers */
 #include <QMutex>
+#include <QProcess>
 #include <QTcpSocket>
 #include <QWidget>
 
@@ -69,10 +70,20 @@ public:
    */
    tState getState();
    /*!
+    \brief get the state of the FSM
+
+   */
+   const char *getStateString();
+   /*!
     \brief handle messages from DerMixD
 
    */
    void handleDerMixD( const QString &msg );
+   /*!
+    \brief specify tool to run to notify of status change
+
+   */
+   void setNotifier( QProcess *notifier );
 
 private:
    PlayerFSM( const PlayerFSM &that );
@@ -88,6 +99,7 @@ private:
    PlayerFSMPaused              *mpStatePaused;
    PlayerFSMEndingPaused        *mpStateEndingPaused;
    PlayerFSMBase                *mpStateClass;
+   QProcess                     *mpNotifier;
 };
 
 /*! @} */

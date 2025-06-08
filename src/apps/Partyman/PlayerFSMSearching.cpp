@@ -33,6 +33,7 @@ bool PlayerFSMSearching::enter()
 {
    mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("loading") );
    mpPlayerWidget->mTotalTime = 0;
+   mpPlayerWidget->mEndTime = 0;
    mpPlayerWidget->updateTime();
    mpPlayerWidget->sendCommand( "unwatch" );
    mpPlayerWidget->disablePlayPosition( true );

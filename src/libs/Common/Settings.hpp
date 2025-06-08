@@ -369,6 +369,7 @@ public:
       PartymanDerMixDcmd,
       PartymanDerMixDhost,
       PartymanDerMixDparams,
+      PartymanExecuteOnStatusChange,
       PartymanListPattern,
       PartymanLogCmd,
       PartymanNamePattern,
@@ -397,6 +398,7 @@ public:
    {
       PartymanAutoConnect,
       PartymanCountSkip,
+      PartymanCrossfadeOnNext,
       PartymanDerMixDlog,
       PartymanDerMixDrun,
       PartymanPlayOnlyFavorite,

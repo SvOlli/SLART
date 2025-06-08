@@ -16,6 +16,7 @@
 
 /* Qt headers */
 #include <QMetaType>
+#include <QProcessEnvironment>
 #include <QString>
 
 /* local library headers */
@@ -221,6 +222,13 @@ public:
     \return QString
    */
    QString displayString( const QString &pattern ) const;
+
+   /*!
+    \brief convert to environment variables
+
+    \return QProcessEnvironment
+   */
+   QProcessEnvironment toProcessEnvironment() const;
 
    /*!
     \brief convert seconds to a 0:00 timecode

@@ -27,6 +27,7 @@
 /* forward declaration of Qt classes */
 class QLabel;
 class QLineEdit;
+class QProcess;
 class QScrollArea;
 class QSlider;
 class QTcpSocket;
@@ -138,6 +139,16 @@ public:
 
    */
    void handleKioskMode( bool enable );
+   /*!
+    \brief update environment for notifier
+
+   */
+   void updateNotifier( const QString &name, const QString &value );
+   /*!
+    \brief update environment for notifier
+
+   */
+   void updateNotifier( const QProcessEnvironment &env );
 
 public slots:
    /*!
@@ -150,6 +161,14 @@ public slots:
 
    */
    void seek();
+   /*!
+    \brief play next track due to special circumstances
+
+    Used either when DerMixD is not reporting "stopped" or when
+    "crossfade on next" is activated
+
+   */
+   void nextTrack();
    /*!
     \brief handle the change of the play position (pre-seek)
 
@@ -236,11 +255,13 @@ private:
    TimeSlider    *mpPlayPosition;
    QTcpSocket    *mpSocket;
    PlayerFSM     *mpFSM;
+   QProcess      *mpNotifier;
    bool          mStartOther;
    bool          mAutoPlay;
    bool          mConsole;
    bool          mPlayPosMoved;
    long          mTotalTime;
+   long          mEndTime;
    long          mFrequency;
    long          mSamples;
    long          mHeadStart;
