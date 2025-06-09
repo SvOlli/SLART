@@ -288,6 +288,7 @@ QString TrackInfo::valueByKey( const QString &key ) const
    if( key.toUpper() == "GENRE" )       return mGenre;
    if( key.toUpper() == "PLAYTIME" )    return sec2minsec( mPlayTime );
    if( key.toUpper() == "TIMESPLAYED" ) return QString::number( mTimesPlayed );
+   if( key.toUpper() == "GROUPS" )      return mGroups;
    if( key.toUpper() == "FOLDERS" )     return mGroups;
    return QString();
 }
@@ -379,19 +380,19 @@ QProcessEnvironment TrackInfo::toProcessEnvironment() const
       flagList.append( "Favorite" );
    }
 
-   env.insert( "ID",          QString::number( mID ) );
-   env.insert( "DIRECTORY",   mDirectory );
-   env.insert( "FILENAME",    mFileName );
-   env.insert( "ARTIST",      mArtist );
-   env.insert( "TITLE",       mTitle );
-   env.insert( "ALBUM",       mAlbum );
-   env.insert( "TRACKNUMBER", QString::number( mTrackNr ) );
-   env.insert( "DATE",        QString::number( mYear ) );
-   env.insert( "GENRE",       mGenre );
-   env.insert( "PLAYTIME",    sec2minsec( mPlayTime ) );
-   env.insert( "TIMESPLAYED", QString::number( mTimesPlayed ) );
-   env.insert( "FOLDERS",     groupList.join( "\n" ) );
-   env.insert( "FLAGS",       flagList.join( "\n" ) );
+   env.insert( "TRACK_ID",          QString::number( mID ) );
+   env.insert( "TRACK_DIRECTORY",   mDirectory );
+   env.insert( "TRACK_FILENAME",    mFileName );
+   env.insert( "TRACK_ARTIST",      mArtist );
+   env.insert( "TRACK_TITLE",       mTitle );
+   env.insert( "TRACK_ALBUM",       mAlbum );
+   env.insert( "TRACK_NUMBER", QString::number( mTrackNr ) );
+   env.insert( "TRACK_DATE",        QString::number( mYear ) );
+   env.insert( "TRACK_GENRE",       mGenre );
+   env.insert( "TRACK_PLAYTIME",    sec2minsec( mPlayTime ) );
+   env.insert( "TRACK_TIMESPLAYED", QString::number( mTimesPlayed ) );
+   env.insert( "TRACK_GROUPS",      groupList.join( "\n" ) );
+   env.insert( "TRACK_FLAGS",       flagList.join( "\n" ) );
 
    return env;
 }

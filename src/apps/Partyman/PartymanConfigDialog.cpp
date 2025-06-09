@@ -282,6 +282,7 @@ void PartymanConfigDialog::readSettings()
    mpTrayIcon->setChecked( Settings::value( Settings::PartymanTrayIcon ) );
    mpTrayIconBubble->setChecked( Settings::value( Settings::PartymanTrayIconBubble ) );
    mpTrayIconBubbleTime->setValue( Settings::value( Settings::PartymanTrayIconBubbleTime ) );
+   mpExecuteOnStatusChange->setText( Settings::value( Settings::PartymanExecuteOnStatusChange ) );
    mpPlayOnlyFavorite->setChecked( Settings::value( Settings::PartymanPlayOnlyFavorite ) );
    mpPlayOnlyLeastPlayed->setChecked( Settings::value( Settings::PartymanPlayOnlyLeastPlayed ) );
    mpPlayNotAgainCount->setValue(Settings::value( Settings::PartymanPlayNotAgainCount ) );
@@ -326,6 +327,7 @@ void PartymanConfigDialog::writeSettings()
    Settings::setValue( Settings::PartymanTrayIcon, mpTrayIcon->isChecked() );
    Settings::setValue( Settings::PartymanTrayIconBubble, mpTrayIconBubble->isChecked() );
    Settings::setValue( Settings::PartymanTrayIconBubbleTime, mpTrayIconBubbleTime->value() );
+   Settings::setValue( Settings::PartymanExecuteOnStatusChange, mpExecuteOnStatusChange->text() );
    Settings::setValue( Settings::PartymanPlayOnlyFavorite, mpPlayOnlyFavorite->isChecked() );
    Settings::setValue( Settings::PartymanPlayOnlyLeastPlayed, mpPlayOnlyLeastPlayed->isChecked() );
    Settings::setValue( Settings::PartymanPlayNotAgainCount, mpPlayNotAgainCount->value() );

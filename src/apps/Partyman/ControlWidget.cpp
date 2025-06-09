@@ -880,11 +880,11 @@ void ControlWidget::dropEvent( QDropEvent *event )
             fileNames.append( fileName );
          }
       }
-      if( (state[0] == PlayerFSM::ready) )
+      if( state[0] == PlayerFSM::ready )
       {
          player = 0;
       }
-      else if( (state[1] == PlayerFSM::ready) )
+      else if( state[1] == PlayerFSM::ready )
       {
          player = 1;
       }

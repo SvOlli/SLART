@@ -12,6 +12,7 @@
 /* system headers */
 
 /* Qt headers */
+#include <QApplication>
 #include <QProcess>
 
 /* local library headers */
@@ -123,10 +124,14 @@ bool PlayerFSM::changeState( enum eState newState )
          {
             mpNotifier->terminate();
          }
-         mpNotifier->start();
+         while( mpNotifier->state() != QProcess::NotRunning )
+         {
+            QApplication::processEvents();
+         }
          mpNotifier->closeReadChannel( QProcess::StandardError );
          mpNotifier->closeReadChannel( QProcess::StandardOutput );
          mpNotifier->closeWriteChannel();
+         mpNotifier->start();
       }
    }
 

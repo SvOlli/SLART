@@ -178,7 +178,7 @@ void PlayerWidget::readConfig()
    env.insert( "LOG_CMD", Settings::value( Settings::PartymanLogCmd ) );
    mpNotifier->setProcessEnvironment( env );
    mpNotifier->setProgram( Settings::value( Settings::PartymanExecuteOnStatusChange ) );
-   mpFSM->setNotifier( mpNotifier->program().isEmpty() ? mpNotifier : 0 );
+   mpFSM->setNotifier( mpNotifier->program().isEmpty() ? 0 : mpNotifier );
 }
 
 
@@ -203,6 +203,7 @@ void PlayerWidget::nextTrack()
 {
    setState( PlayerFSM::searching );
 }
+
 
 void PlayerWidget::playPosChange( int /*action*/ )
 {
@@ -253,7 +254,7 @@ void PlayerWidget::updateTime( const QString &msg, bool force )
             playPosition = msg.left(colon-1).toLong();
             if( playPosition >= (mEndTime + mHeadStart) )
             {
-               QTimer::singleShot( 1000, this, SLOT(nextTrack) );
+               QTimer::singleShot( 1000, this, SLOT(nextTrack()) );
             }
          }
       }
