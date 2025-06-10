@@ -17,6 +17,7 @@
 /* Qt headers */
 #include <QMutex>
 #include <QString>
+#include <QProcess>
 
 /* local library headers */
 #include "TrackInfo.hpp"
@@ -27,7 +28,6 @@
 /* forward declaration of Qt classes */
 class QLabel;
 class QLineEdit;
-class QProcess;
 class QScrollArea;
 class QSlider;
 class QTcpSocket;
@@ -194,6 +194,11 @@ public slots:
 
    */
    void handleResponse();
+   /*!
+    \brief handle notifier process
+
+   */
+   void handleNotifierDone( int exitCode, QProcess::ExitStatus exitStatus );
    /*!
     \brief handle DerMixD connection errors
 

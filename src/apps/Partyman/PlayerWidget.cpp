@@ -97,6 +97,8 @@ PlayerWidget::PlayerWidget( int index, Database *database,
             this, SLOT(playPosChange(int)) );
    connect( mpStatusDisplay, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(unload()) );
+   connect( mpNotifier, SIGNAL(finished(int,QProcess::ExitStatus)),
+            this, SLOT(handleNotifierClose(int,QProcess::ExitStatus)) );
 
    mpFSM->changeState( PlayerFSM::disconnected );
    QProcessEnvironment env;
@@ -114,6 +116,16 @@ PlayerWidget::~PlayerWidget()
 PlayerFSM::tState PlayerWidget::getState()
 {
    return mpFSM->getState();
+}
+
+
+void PlayerWidget::handleNotifierDone( int exitCode, QProcess::ExitStatus exitStatus )
+{
+   mpNotifier->close();
+   if( exitStatus != QProcess::NormalExit )
+   {
+      qDebug() << mpNotifier->program() << "return with exit code:" << exitCode;
+   }
 }
 
 
