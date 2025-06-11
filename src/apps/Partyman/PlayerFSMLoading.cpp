@@ -41,47 +41,20 @@ bool PlayerFSMLoading::enter()
    mInScan = false;
    QString fileName( mpPlayerWidget->mpScrollLine->toolTip() );
 
-#if 0
-   mpPlayerWidget->mpDatabase->getTrackInfo( &(mpPlayerWidget->mTrackInfo), fileName );
-#endif
-   if( mpPlayerWidget->setVolume() )
+   /* request normalization volume */
+   switch( mpPlayerWidget->mNormalizeMode )
    {
-      QFileInfo qfi( fileName );
-      if( qfi.lastModified().toTime_t() > mpPlayerWidget->mTrackInfo.mLastScanned )
-      {
-         needRescan = true;
-      }
-      else
-      {
-         mpPlayerWidget->mpPlayPosition->setRange( 0, mpPlayerWidget->mTrackInfo.mPlayTime );
-      }
-   }
-   else
-   {
-      needRescan = true;
-   }
-
-   if( needRescan )
-   {
-      /* request normalization volume */
-      switch( mpPlayerWidget->mNormalizeMode )
-      {
-         case 0:
-            mpPlayerWidget->sendCommand( "scan", "format length" );
-            break;
-         case 1:
-            mpPlayerWidget->sendCommand( "scan", "format length peak" );
-            break;
-         case 2:
-            mpPlayerWidget->sendCommand( "scan", "format length power" );
-            break;
-         default:
-            break;
-      }
-   }
-   else
-   {
-      mpPlayerWidget->mpFSM->changeState( PlayerFSM::ready );
+      case 0:
+         mpPlayerWidget->sendCommand( "scan", "format length" );
+         break;
+      case 1:
+         mpPlayerWidget->sendCommand( "scan", "format length peak" );
+         break;
+      case 2:
+         mpPlayerWidget->sendCommand( "scan", "format length power" );
+         break;
+      default:
+         break;
    }
 
    return true;

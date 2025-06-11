@@ -33,7 +33,6 @@ bool PlayerFSMPlaying::enter()
 {
    mpPlayerWidget->mpStatusDisplay->setText( QWidget::tr("playing") );
    mpPlayerWidget->sendCommand( "start" );
-   mpPlayerWidget->sendCommand( "seek", QString::number(mpPlayerWidget->mpPlayPosition->value()) );
    mpPlayerWidget->mpControlWidget->log( "p0p", "play", mpPlayerWidget->mpScrollLine->toolTip() );
    mpPlayerWidget->sendCommand( "watch" );
    mpPlayerWidget->disablePlayPosition( mpPlayerWidget->mKioskMode );

@@ -10,6 +10,7 @@
 #include "PlayerWidget.hpp"
 
 /* system headers */
+#include <cmath>
 #include <iostream>
 
 /* Qt headers */
@@ -32,6 +33,12 @@
 #include "ControlWidget.hpp"
 #include "PlayerFSM.hpp"
 #include "TimeSlider.hpp"
+
+
+static inline double to_db( double factor )
+{
+   return factor > 2.5e-10 ? std::log(factor) / std::log(10) * 20 : -192;
+}
 
 
 PlayerWidget::PlayerWidget( int index, Database *database,
@@ -306,7 +313,8 @@ void PlayerWidget::setState( PlayerFSM::tState state )
 
 bool PlayerWidget::skip()
 {
-   switch( mpFSM->getState() )
+   PlayerFSM::tState currentState = mpFSM->getState();
+   switch( currentState )
    {
       case PlayerFSM::playing:
       case PlayerFSM::paused:
@@ -563,13 +571,13 @@ bool PlayerWidget::setVolume()
       if( mTrackInfo.isFlagged( TrackInfo::ScannedWithPower ) )
       {
          adjust = mNormalizeValue / mTrackInfo.mVolume;
-         sendCommand( "volume", QString::number(adjust) );
+         sendCommand( "preamp", QString::number(to_db(adjust)) );
          return true;
       }
       if( mTrackInfo.isFlagged( TrackInfo::ScannedWithPeak ) )
       {
          adjust = 1.0 / mTrackInfo.mVolume;
-         sendCommand( "volume", QString::number(adjust) );
+         sendCommand( "preamp", QString::number(to_db(adjust)) );
          return true;
       }
    }
