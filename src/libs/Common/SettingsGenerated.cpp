@@ -1145,9 +1145,6 @@ void Settings::setValue( PartymanBool id, bool value )
    case PartymanCountSkip:
       settings->setValue( "CountSkip", value );
       return;
-   case PartymanCrossfadeOnNext:
-      settings->setValue( "CrossfadeOnNext", value );
-      return;
    case PartymanDerMixDlog:
       settings->setValue( "DerMixDlog", value );
       return;
@@ -1187,8 +1184,6 @@ bool Settings::value( PartymanBool id )
       return settings->value( "AutoConnect", false ).toBool();
    case PartymanCountSkip:
       return settings->value( "CountSkip", false ).toBool();
-   case PartymanCrossfadeOnNext:
-      return settings->value( "CrossfadeOnNext", false ).toBool();
    case PartymanDerMixDlog:
       return settings->value( "DerMixDlog", false ).toBool();
    case PartymanDerMixDrun:

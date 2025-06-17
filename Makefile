@@ -1,6 +1,8 @@
 
 QMAKE ?= qmake
 PREFIX ?= /usr
+TESTBUILD_DIR ?= ../SLART_testbuild
+
 DOCS = example.lircrc README.GPL README.LGPL README.TagLib SLARTmessages.txt StyleSheet.txt
 
 .PHONY: release debug clean distclean all tar deb install doc translations
@@ -32,6 +34,12 @@ distclean:
 clean:
 	[ ! -d build-release ] || { cd build-release; make clean; }
 	[ ! -d build-debug ]   || { cd build-debug; make clean; }
+
+testbuild:
+	rm -rf $(TESTBUILD_DIR)
+	git clone . $(TESTBUILD_DIR)
+	make -C $(TESTBUILD_DIR) debug release -j$(shell nproc)
+	rm -rf $(TESTBUILD_DIR)
 
 install: release
 	mkdir -p $(DESTDIR)$(PREFIX)/bin

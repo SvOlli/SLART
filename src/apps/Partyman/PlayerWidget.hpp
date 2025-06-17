@@ -162,14 +162,6 @@ public slots:
    */
    void seek();
    /*!
-    \brief play next track due to special circumstances
-
-    Used either when DerMixD is not reporting "stopped" or when
-    "crossfade on next" is activated
-
-   */
-   void nextTrack();
-   /*!
     \brief handle the change of the play position (pre-seek)
 
    */

@@ -131,7 +131,6 @@ private:
    QLineEdit            *mpDerMixDparams; /*!< \brief \todo TODO */
    QCheckBox            *mpAutoConnect; /*!< \brief \todo TODO */
    QSpinBox             *mpCrossfadeTime; /*!< \brief \todo TODO */
-   QCheckBox            *mpCrossfadeOnNext; /*!< \brief \todo TODO */
    QComboBox            *mpNormalizeMode; /*!< \brief \todo TODO */
    QDoubleSpinBox       *mpNormalizeValue; /*!< \brief \todo TODO */
    MyClipboard          *mpClipboard; /*!< \brief \todo TODO */

@@ -218,12 +218,6 @@ void PlayerWidget::seek()
 }
 
 
-void PlayerWidget::nextTrack()
-{
-   setState( PlayerFSM::searching );
-}
-
-
 void PlayerWidget::playPosChange( int /*action*/ )
 {
    mPlayPosMoved = true;
@@ -271,10 +265,6 @@ void PlayerWidget::updateTime( const QString &msg, bool force )
             mpTimeDisplay->setText( TrackInfo::sec2minsec( msg.left(colon-1).toInt() ) + "/" +
                                     TrackInfo::sec2minsec( mTotalTime ) );
             playPosition = msg.left(colon-1).toLong();
-            if( playPosition >= (mEndTime + mHeadStart) )
-            {
-               QTimer::singleShot( 1000, this, SLOT(nextTrack()) );
-            }
          }
       }
    }
@@ -323,15 +313,7 @@ bool PlayerWidget::skip()
             ++(mTrackInfo.mTimesPlayed);
             mpDatabase->updateTrackInfo( &mTrackInfo );
          }
-         if( Settings::value( Settings::PartymanCrossfadeOnNext ) )
-         {
-            mEndTime = mpPlayPosition->value() + mHeadStart;
-            setState( PlayerFSM::ending );
-         }
-         else
-         {
-            setState( PlayerFSM::searching );
-         }
+         setState( PlayerFSM::searching );
          break;
       case PlayerFSM::ending:
       case PlayerFSM::searching:

@@ -398,7 +398,6 @@ public:
    {
       PartymanAutoConnect,
       PartymanCountSkip,
-      PartymanCrossfadeOnNext,
       PartymanDerMixDlog,
       PartymanDerMixDrun,
       PartymanPlayOnlyFavorite,
