@@ -62,6 +62,10 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
 , mpPattern( new QLineEdit( this ) )
 , mpPatternExample( new QLabel( tr(""), this ) )
 , mpEncoderTabs( new QTabWidget( this ) )
+, mpCDDBUrlLabel( new QLabel( tr("CDDB URL:"), this ) )
+, mpCDDBUrl( new QLineEdit( this ) )
+, mpCDDBEmailLabel( new QLabel( tr("CDDB EMail:"), this ) )
+, mpCDDBEmail( new QLineEdit( this ) )
 , mTagMap()
 , mEncoders()
 {
@@ -151,6 +155,17 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
    strLayout->setRowStretch( 8, 1 );
    strTab->setLayout( strLayout );
 
+   QWidget     *cddbTab    = new QWidget( this );
+   QGridLayout *cddbLayout = new QGridLayout( cddbTab );
+   cddbLayout->addWidget( mpCDDBUrlLabel,  0, 0 );
+   cddbLayout->addWidget( mpCDDBUrl,       0, 1 );
+   cddbLayout->addWidget( mpCDDBEmailLabel,1, 0 );
+   cddbLayout->addWidget( mpCDDBEmail,     1, 1 );
+   cddbLayout->addWidget( new QLabel( this ), 2, 0, 1, 2 );
+   strLayout->setColumnStretch( 1, 1 );
+   strLayout->setRowStretch( 2, 1 );
+   cddbTab->setLayout( cddbLayout );
+
    QPushButton *okButton     = new QPushButton( tr("OK"), this );
    QPushButton *cancelButton = new QPushButton( tr("Cancel"), this );
 
@@ -161,6 +176,7 @@ StrippedConfigDialog::StrippedConfigDialog( CDReader *cdreader, QWidget *parent,
    QBoxLayout *mainLayout = new QVBoxLayout( this );
    QTabWidget *tabs       = new QTabWidget( this );
    tabs->addTab( strTab,               tr("Stripped") );
+   tabs->addTab( cddbTab,              tr("CDDB") );
    tabs->addTab( mpProxyWidget,        tr("Proxy") );
    tabs->addTab( mpGlobalConfigWidget, tr("Global") );
 
@@ -264,6 +280,8 @@ void StrippedConfigDialog::readSettings()
    }
    mpDirEdit->setText( Settings::value( Settings::StrippedDirectory ).replace( '/', QDir::separator() ) );
    mpPattern->setText( Settings::value( Settings::StrippedCreatePattern ) );
+   mpCDDBUrl->setText( Settings::value( Settings::StrippedCDDBURL ) );
+   mpCDDBEmail->setText( Settings::value( Settings::StrippedCDDBUser ) );
 
    mpGlobalConfigWidget->readSettings();
    mpProxyWidget->readSettings();
@@ -289,6 +307,8 @@ void StrippedConfigDialog::writeSettings()
    Settings::setValue( Settings::StrippedCDTextLatin1, mpCDTextLatin1->isChecked() );
    Settings::setValue( Settings::StrippedCreatePattern, mpPattern->text() );
    Settings::setValue( Settings::StrippedDirectory, mpDirEdit->text().replace('\\','/') );
+   Settings::setValue( Settings::StrippedCDDBURL, mpCDDBUrl->text() );
+   Settings::setValue( Settings::StrippedCDDBUser, mpCDDBEmail->text() );
 
    mpGlobalConfigWidget->writeSettings();
    mpProxyWidget->writeSettings();

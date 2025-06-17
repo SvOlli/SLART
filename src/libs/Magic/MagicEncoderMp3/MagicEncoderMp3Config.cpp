@@ -79,6 +79,7 @@ void MagicEncoderMp3Config::readSettings()
    mpDirEdit->setText( mpEncoder->mDirectory );
    mpQuality->setValue( mpEncoder->mQuality );
    mpUseLatin1->setChecked( mpEncoder->mUseLatin1 );
+   enableOverride( mpDirOverride->checkState() );
 }
 
 

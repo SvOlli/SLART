@@ -44,7 +44,6 @@ MagicEncoderWavConfig::MagicEncoderWavConfig( MagicEncoderWav *encoder,
    mainLayout->setRowStretch( 3, 1 );
 
    setLayout( mainLayout );
-
    readSettings();
 }
 
@@ -63,6 +62,7 @@ void MagicEncoderWavConfig::readSettings()
    mpUseEncoder->setChecked( enabled );
    mpDirOverride->setChecked( mpEncoder->mDirOverride );
    mpDirEdit->setText( mpEncoder->mDirectory );
+   enableOverride( mpDirOverride->checkState() );
 }
 
 

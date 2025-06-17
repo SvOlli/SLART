@@ -77,6 +77,11 @@ public slots:
 
    */
    void selectDirectory();
+   /*!
+    \brief override directory is only configurable when override enabled
+
+   */
+   void enableOverride( int state );
 
 signals:
    /*!

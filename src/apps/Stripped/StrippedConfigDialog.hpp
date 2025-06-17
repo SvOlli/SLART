@@ -155,6 +155,10 @@ private:
    QLineEdit            *mpPattern;/*!< \brief \todo complete documentation */
    QLabel               *mpPatternExample;/*!< \brief \todo complete documentation */
    QTabWidget           *mpEncoderTabs;/*!< \brief \todo complete documentation */
+   QLabel               *mpCDDBUrlLabel;/*!< \brief \todo complete documentation */
+   QLineEdit            *mpCDDBUrl;/*!< \brief \todo complete documentation */
+   QLabel               *mpCDDBEmailLabel;/*!< \brief \todo complete documentation */
+   QLineEdit            *mpCDDBEmail;/*!< \brief \todo complete documentation */
    TagMap               mTagMap; /*!< \brief contains dummy parameter as an example */
    MagicEncoderList     mEncoders;/*!< \brief \todo complete documentation */
 };

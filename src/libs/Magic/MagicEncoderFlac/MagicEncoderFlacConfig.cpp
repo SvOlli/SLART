@@ -77,6 +77,7 @@ void MagicEncoderFlacConfig::readSettings()
    mpDirEdit->setText( mpEncoder->mDirectory );
    mpQuality->setValue( mpEncoder->mQuality );
    mpUseOga->setChecked( mpEncoder->mUseOga );
+   enableOverride( mpDirOverride->checkState() );
 }
 
 

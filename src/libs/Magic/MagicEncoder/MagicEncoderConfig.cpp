@@ -50,6 +50,8 @@ MagicEncoderConfig::MagicEncoderConfig( QWidget *parent, QAction *toggleEnableAc
             mpUseEncoder, SLOT(setChecked(bool)) );
    connect( mpDotButton, SIGNAL(clicked()),
             this, SLOT(selectDirectory()) );
+   connect( mpDirOverride, SIGNAL(stateChanged(int)),
+            this, SLOT(enableOverride(int)) );
 }
 
 
@@ -72,4 +74,11 @@ void MagicEncoderConfig::selectDirectory()
       QString result( fileDialog.selectedFiles().at(0) );
       mpDirEdit->setText( result );
    }
+}
+
+
+void MagicEncoderConfig::enableOverride( int state )
+{
+   mpDirEdit->setDisabled( state == Qt::Unchecked );
+   mpDotButton->setDisabled( state == Qt::Unchecked );
 }

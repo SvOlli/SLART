@@ -75,6 +75,7 @@ void MagicEncoderOggConfig::readSettings()
    mpDirOverride->setChecked( mpEncoder->mDirOverride );
    mpDirEdit->setText( mpEncoder->mDirectory );
    mpQuality->setValue( mpEncoder->mQuality );
+   enableOverride( mpDirOverride->checkState() );
 }
 
 

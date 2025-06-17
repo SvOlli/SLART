@@ -324,15 +324,16 @@ void CDDBClient::startRequest( RequestType type, const QStringList &parameter )
    mLastParameter = parameter;
 
    QString url( "%1?cmd=cddb %2 %3&hello=%4 Stripped %5&proto=6" );
-   QString CDDBUrl( "http://79t846dy.gnudb.org/~cddb/cddb.cgi" );
-   QString eMail( "svolli@localhost" );
-   QNetworkRequest request( QUrl( url.arg( CDDBUrl,
+   QNetworkRequest request( QUrl( url.arg( Settings::value( Settings::StrippedCDDBURL ),
                                            cmd,
                                            parameter.join(" "),
-                                           eMail.replace( '@', ' ' ),
+                                           Settings::value( Settings::StrippedCDDBUser ).replace( '@', ' ' ),
                                            SLART_VERSION ).replace( ' ', '+' ) ) );
    ProxyWidget::setProxy( mpNAM );
-   mpNAM->get( request );
+   if( Settings::value( Settings::StrippedCDDBUser ).contains("@") )
+   {
+      mpNAM->get( request );
+   }
 }
 
 
